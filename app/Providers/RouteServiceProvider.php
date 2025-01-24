@@ -17,7 +17,9 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/principal';
+    public const HOME = '/dashboard';
+    // public const HOME = '/portal360';
+
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.
@@ -35,15 +37,12 @@ class RouteServiceProvider extends ServiceProvider
 
             // Aquí definimos las rutas web principales.
             Route::middleware('web')
-                ->group(function () {
-                    // Si deseas redirigir automáticamente la raíz al recurso `/principal`
-                    Route::get('/', function () {
-                        return redirect()->to('/principal');
-                    });
+                ->group(base_path('routes/web.php'));
 
-                    // Archivo de rutas personalizadas
-                    Route::group([], base_path('routes/activofijo.php'));
-                });
+                Route::middleware(['web', 'auth'])
+                ->prefix('portal360')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/portal360.php'));
         });
     }
 }
