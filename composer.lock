@@ -7,6 +7,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     "content-hash": "1ff7d76b71cb76f979341340b61224b4",
 =======
     "content-hash": "b2606902d2f912dd9e377d98f803aba6",
@@ -17,6 +18,9 @@
 =======
     "content-hash": "271e6c0efc1cef552f46977f600472ce",
 >>>>>>> f4659866b5c415e45bbdfb332c0fa35a8fa3fe87
+=======
+    "content-hash": "b2606902d2f912dd9e377d98f803aba6",
+>>>>>>> 6b939cd0a82565df41f2941e6eb07f8a2d328c37
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -74,6 +78,7 @@
         },
         {
             "name": "barryvdh/laravel-dompdf",
+<<<<<<< HEAD
             "version": "v3.0.1",
             "source": {
                 "type": "git",
@@ -84,6 +89,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/barryvdh/laravel-dompdf/zipball/d2b3a158ba6e6c0fbb97208aa37dc764642ce5d5",
                 "reference": "d2b3a158ba6e6c0fbb97208aa37dc764642ce5d5",
+=======
+            "version": "v3.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/barryvdh/laravel-dompdf.git",
+                "reference": "8d698b4aec2be91fe1e47ba71ba258acbf23357d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/barryvdh/laravel-dompdf/zipball/8d698b4aec2be91fe1e47ba71ba258acbf23357d",
+                "reference": "8d698b4aec2be91fe1e47ba71ba258acbf23357d",
+>>>>>>> 6b939cd0a82565df41f2941e6eb07f8a2d328c37
                 "shasum": ""
             },
             "require": {
@@ -135,7 +152,11 @@
             ],
             "support": {
                 "issues": "https://github.com/barryvdh/laravel-dompdf/issues",
+<<<<<<< HEAD
                 "source": "https://github.com/barryvdh/laravel-dompdf/tree/v3.0.1"
+=======
+                "source": "https://github.com/barryvdh/laravel-dompdf/tree/v3.1.0"
+>>>>>>> 6b939cd0a82565df41f2941e6eb07f8a2d328c37
             },
             "funding": [
                 {
@@ -147,7 +168,11 @@
                     "type": "github"
                 }
             ],
+<<<<<<< HEAD
             "time": "2024-10-30T10:10:17+00:00"
+=======
+            "time": "2025-01-21T20:24:00+00:00"
+>>>>>>> 6b939cd0a82565df41f2941e6eb07f8a2d328c37
         },
         {
             "name": "brick/math",
@@ -1546,6 +1571,7 @@
         },
         {
             "name": "laravel/fortify",
+<<<<<<< HEAD
             "version": "v1.25.2",
             "source": {
                 "type": "git",
@@ -1556,6 +1582,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/laravel/fortify/zipball/a20e8033e7329b05820007c398f06065a38ae188",
                 "reference": "a20e8033e7329b05820007c398f06065a38ae188",
+=======
+            "version": "v1.25.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/fortify.git",
+                "reference": "ee35e5b8ea25cc51f8323e27a839283becd44160"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/fortify/zipball/ee35e5b8ea25cc51f8323e27a839283becd44160",
+                "reference": "ee35e5b8ea25cc51f8323e27a839283becd44160",
+>>>>>>> 6b939cd0a82565df41f2941e6eb07f8a2d328c37
                 "shasum": ""
             },
             "require": {
@@ -1607,6 +1645,7 @@
                 "issues": "https://github.com/laravel/fortify/issues",
                 "source": "https://github.com/laravel/fortify"
             },
+<<<<<<< HEAD
             "time": "2025-01-10T20:33:47+00:00"
         },
         {
@@ -1621,6 +1660,22 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/laravel/framework/zipball/f132b23b13909cc22c615c01b0c5640541c3da0c",
                 "reference": "f132b23b13909cc22c615c01b0c5640541c3da0c",
+=======
+            "time": "2025-01-17T15:17:57+00:00"
+        },
+        {
+            "name": "laravel/framework",
+            "version": "v10.48.26",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/framework.git",
+                "reference": "4c04a91442cad2433cddb1d376e40d0a43ec9571"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/4c04a91442cad2433cddb1d376e40d0a43ec9571",
+                "reference": "4c04a91442cad2433cddb1d376e40d0a43ec9571",
+>>>>>>> 6b939cd0a82565df41f2941e6eb07f8a2d328c37
                 "shasum": ""
             },
             "require": {
@@ -1814,7 +1869,11 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
+<<<<<<< HEAD
             "time": "2024-11-26T15:32:57+00:00"
+=======
+            "time": "2025-01-21T16:07:37+00:00"
+>>>>>>> 6b939cd0a82565df41f2941e6eb07f8a2d328c37
         },
         {
             "name": "laravel/jetstream",

@@ -5,11 +5,11 @@
 </style>
 <x-app-layout>
     <div>
-        <div class="bannerFondo bg-green-800	bg-left-top bg-auto bg-repeat-x"
+        <div class="bannerFondo bg-blue-950 bg-left-top bg-auto bg-repeat-x"
             style="background-image: url(./img/continuartl_4.png)">
         </div>
 
-        <div class="-mt-64 ">
+        <div class="-mt-64">
             <div class="w-full text-center">
                 <p class="text-sm tracking-widest text-white">Sistema</p>
                 <h1 class="font-bold text-5xl text-white">
@@ -17,22 +17,18 @@
                 </h1>
             </div>
 
-            <div class="grid grid-cols-1 gap-4 sm:grid-cols-3 ">
+            <!-- Primer grupo de módulos -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
-                <div class="p-2 sm:p-10 text-center cursor-pointer">
-                    {{-- poner nombre de la ruta --}}
+                <div class="p-2 sm:p-6 text-center cursor-pointer">
                     <a href="{{ route('inicio') }}">
-                        <div
-                            class="py-16 max-w-sm rounded overflow-hidden shadow-lg hover:bg-white transition duration-500  bg-white">
+                        <div class="py-16 max-w-sm rounded overflow-hidden shadow-lg hover:bg-white transition duration-500 bg-white">
                             <div class="space-y-10">
-                                <i class="fa fa-spa" style="font-size:48px;"></i>
-
+                                <i class="fas fa-user-circle" style="font-size:48px;"></i>
                                 <div class="px-6 py-4">
                                     <div class="space-y-5">
                                         <div class="font-bold text-xl mb-2">Módulo Recursos Humanos</div>
-                                        <p class="text-gray-700 text-base">
-                                            Todo tipo de masajes y técnicas
-                                        </p>
+                                        <p class="text-gray-700 text-base">Todo tipo de masajes y técnicas</p>
                                     </div>
                                 </div>
                             </div>
@@ -40,19 +36,15 @@
                     </a>
                 </div>
 
-                <div class="p-2 sm:p-10 text-center cursor-pointer text-white">
-                    {{-- poner nombre de la ruta --}}
+                <div class="p-2 sm:p-6 text-center cursor-pointer">
                     <a href="{{ route('dashboardaf') }}">
-                        <div
-                            class="py-16 max-w-sm rounded overflow-hidden shadow-lg bg-orange-500 hover:bg-orange-600 transition duration-500">
+                        <div class="py-16 max-w-sm rounded overflow-hidden shadow-lg bg-blue-500 hover:bg-blue-600 transition duration-500">
                             <div class="space-y-10">
-                                <i class="fa fa-head-side-mask" style="font-size:48px;"></i>
+                                <i class="fas fa-user-circle" style="font-size:48px;"></i>
                                 <div class="px-6 py-4">
                                     <div class="space-y-5">
                                         <div class="font-bold text-xl mb-2">Módulo Activo Fijo</div>
-                                        <p class="text-base">
-                                            Altos estandares de bioseguridad
-                                        </p>
+                                        <p class="text-base">Altos estandares de bioseguridad</p>
                                     </div>
                                 </div>
                             </div>
@@ -60,20 +52,15 @@
                     </a>
                 </div>
 
-                <div class="p-2 sm:p-10 text-center cursor-pointer translate-x-2">
-                    {{-- poner nombre de la ruta --}}
+                <div class="p-2 sm:p-6 text-center cursor-pointer">
                     <a href="{{ route('inicio-capacitacion') }}">
-                        <div
-                            class="py-16 max-w-sm rounded overflow-hidden shadow-lg hover:bg-white transition duration-500 bg-white ">
+                        <div class="py-16 max-w-sm rounded overflow-hidden shadow-lg hover:bg-white transition duration-500 bg-white">
                             <div class="space-y-10">
-                                <i class="fa fa-swimmer" style="font-size:48px;"></i>
-
+                                <i class="fas fa-user-circle" style="font-size:48px;"></i>
                                 <div class="px-6 py-4">
                                     <div class="space-y-5">
                                         <div class="font-bold text-xl mb-2">Módulo Portal Capacitacion</div>
-                                        <p class="text-gray-700 text-base">
-                                            Piscina temperada
-                                        </p>
+                                        <p class="text-gray-700 text-base">Piscina temperada</p>
                                     </div>
                                 </div>
                             </div>
@@ -83,22 +70,18 @@
 
             </div>
 
-            <div class="grid grid-cols-1 gap-4 sm:grid-cols-3 ">
+            <!-- Segundo grupo de módulos -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
 
-                <div class="p-2 sm:p-10 text-center cursor-pointer">
-                    {{-- poner nombre de la ruta --}}
-                    <a href="">
-                        <div
-                            class="py-16 max-w-sm rounded overflow-hidden shadow-lg hover:bg-white transition duration-500  bg-white">
+                <div class="p-2 sm:p-6 text-center cursor-pointer">
+                    <a href="{{ route('home') }}">
+                        <div class="py-16 max-w-sm rounded overflow-hidden shadow-lg hover:bg-white transition duration-500 bg-white">
                             <div class="space-y-10">
-                                <i class="fa fa-spa" style="font-size:48px;"></i>
-
+                                <i class="fas fa-user-circle" style="font-size:48px;"></i>
                                 <div class="px-6 py-4">
                                     <div class="space-y-5">
                                         <div class="font-bold text-xl mb-2">Módulo Dx035</div>
-                                        <p class="text-gray-700 text-base">
-                                            Todo tipo de masajes y técnicas
-                                        </p>
+                                        <p class="text-gray-700 text-base">Todo tipo de masajes y técnicas</p>
                                     </div>
                                 </div>
                             </div>
@@ -106,19 +89,15 @@
                     </a>
                 </div>
 
-                <div class="p-2 sm:p-10 text-center cursor-pointer text-white">
-                    {{-- poner nombre de la ruta --}}
+                <div class="p-2 sm:p-6 text-center cursor-pointer">
                     <a href="">
-                        <div
-                            class="py-16 max-w-sm rounded overflow-hidden shadow-lg bg-orange-500 hover:bg-orange-600 transition duration-500">
+                        <div class="py-16 max-w-sm rounded overflow-hidden shadow-lg bg-blue-500 hover:bg-blue-600 transition duration-500">
                             <div class="space-y-10">
-                                <i class="fa fa-head-side-mask" style="font-size:48px;"></i>
+                                <i class="fas fa-user-circle" style="font-size:48px;"></i>
                                 <div class="px-6 py-4">
                                     <div class="space-y-5">
                                         <div class="font-bold text-xl mb-2">Módulo Encuesta 360</div>
-                                        <p class="text-base">
-                                            Altos estandares de bioseguridad
-                                        </p>
+                                        <p class="text-base">Altos estandares de bioseguridad</p>
                                     </div>
                                 </div>
                             </div>
@@ -126,20 +105,15 @@
                     </a>
                 </div>
 
-                <div class="p-2 sm:p-10 text-center cursor-pointer translate-x-2">
-                    {{-- poner nombre de la ruta --}}
+                <div class="p-2 sm:p-6 text-center cursor-pointer">
                     <a href="">
-                        <div
-                            class="py-16 max-w-sm rounded overflow-hidden shadow-lg hover:bg-white transition duration-500 bg-white ">
+                        <div class="py-16 max-w-sm rounded overflow-hidden shadow-lg hover:bg-white transition duration-500 bg-white">
                             <div class="space-y-10">
-                                <i class="fa fa-swimmer" style="font-size:48px;"></i>
-
+                                <i class="fas fa-user-circle" style="font-size:48px;"></i>
                                 <div class="px-6 py-4">
                                     <div class="space-y-5">
                                         <div class="font-bold text-xl mb-2">Módulo CRM</div>
-                                        <p class="text-gray-700 text-base">
-                                            Piscina temperada
-                                        </p>
+                                        <p class="text-gray-700 text-base">Piscina temperada</p>
                                     </div>
                                 </div>
                             </div>
@@ -149,6 +123,5 @@
 
             </div>
         </div>
-
     </div>
 </x-app-layout>
