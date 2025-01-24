@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/principal', function () {
     return view('principal');
-});
+})->name('dashboardaf');
 
 Route::get('/agregartipoactivo', Agregartipoactivo::class)->name('agregartipoactivo');
 Route::get('/mostrartipoactivo', Mostrartipoactivo::class)->name('mostrartipoactivo');

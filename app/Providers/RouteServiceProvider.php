@@ -39,7 +39,27 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
 
-                Route::middleware(['web', 'auth'])
+            Route::middleware('web', 'auth')
+                ->prefix('rh')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/rh.php'));
+
+            Route::middleware('web', 'auth')
+                ->prefix('activofijo')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/activofijo.php'));
+            
+            Route::middleware('web', 'auth')
+                ->prefix('portal')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/portal.php'));
+
+            Route::middleware('web', 'auth')
+                ->prefix('dx035')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/dx035.php'));
+            
+            Route::middleware(['web', 'auth'])
                 ->prefix('portal360')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/portal360.php'));
