@@ -53,11 +53,13 @@
                             <td class="p-3 text-center">{{ $sucursal->estado }}</td>
                             <td class="p-3 text-center">{{ $sucursal->cuenta_contable }}</td>
                             <td class="p-3 text-center">{{ $sucursal->rfc }}</td> 
+                            <td class="p-3 text-center">{{ $sucursal->correo }}</td> 
                             <td class="p-3 text-center">{{ $sucursal->telefono }}</td>
                             <td class="p-3 text-center">{{ $sucursal->status }}</td>
                             <td class="p-3 text-center">{{ $sucursal->registro_patronal_id }}</td>
+                            
                             <td class="p-3 text-center">
-
+                                
                                 <a href="{{ route('editarsucursal', Crypt::encrypt($sucursal->id)) }}"
                                     class="text-blue-600 hover:underline">Editar</a>
 
@@ -82,4 +84,8 @@
             </div>
         @endif
     </div>
+
+
+    <livewire:portalrh.sucursal.sucursal-table/>
+    
 </div>

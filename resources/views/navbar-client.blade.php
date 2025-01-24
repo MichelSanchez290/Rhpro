@@ -144,7 +144,11 @@
                     <i class="fas fa-chevron-down"></i>
                 </a>
                 <ul class="dropdown-content">
-                    <li><a href="#">Opción 1</a></li>
+                    <li>
+                        <x-nav-link class="fas fa-building" href="{{ route('mostrarregpatronal') }}" :active="request()->routeIs('mostrarregpatronal')">
+                            {{ __('Mostrar Registros Patronales') }}
+                        </x-nav-link>
+                    </li>
                     <li><a href="#">Opción 2</a></li>
                 </ul>
             </li>

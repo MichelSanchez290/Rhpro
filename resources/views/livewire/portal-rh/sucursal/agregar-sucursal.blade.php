@@ -93,7 +93,7 @@
         <div class="flex flex-wrap -mx-2 mb-6">
             <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="status">
-                    Estado
+                    Status
                 </label>
                 <div class="relative">
                     <select
@@ -107,22 +107,18 @@
                 <x-input-error for="sucursal.status" />
             </div>
 
-            <div class="w-full md:w-1/2 px-3">
-                <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="registro_patronal_id">
-                        Registro Patronal
-                    </label>
-                    <div class="relative">
-                        <select
-                            class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="sucursal.registro_patronal_id">
-                            <option value="" selected>-- Selecciona una opción --</option>
-                            <option value="1">20000001234</option>
-                            <option value="2">300660001234</option>
-                        </select>
-                    </div>
-                    <x-input-error for="sucursal.registro_patronal_id" />
-                </div>
+            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="registro_patronal_id">
+                    Registro Patronal
+                </label>
+                <select id="registro_patronal_id" wire:model.defer="sucursal.registro_patronal_id" 
+                    class="appearance-none block w-full bg-gray-200 border rounded py-3 px-4 mb-3">
+                    <option value="">Seleccione un usuario</option>
+                    @foreach ($regpatronales as $regpatronal)
+                        <option value="{{ $regpatronal->id }}">{{ $regpatronal->registro_patronal }}</option>
+                    @endforeach
+                </select>
+                <x-input-error for="sucursal.registro_patronal_id" />
             </div>
         </div>
 
