@@ -42,7 +42,7 @@
 
                 <div class="p-2 sm:p-10 text-center cursor-pointer text-white">
                     {{-- poner nombre de la ruta --}}
-                    <a href="">
+                    <a href="{{ route('dashboardaf') }}">
                         <div
                             class="py-16 max-w-sm rounded overflow-hidden shadow-lg bg-orange-500 hover:bg-orange-600 transition duration-500">
                             <div class="space-y-10">

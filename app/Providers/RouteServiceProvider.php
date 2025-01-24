@@ -17,7 +17,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/dashboard';
+    public const HOME = '/principal';
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.
@@ -33,31 +33,19 @@ class RouteServiceProvider extends ServiceProvider
                 ->prefix('api')
                 ->group(base_path('routes/api.php'));
 
+            // Aquí definimos las rutas web principales.
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
-
-                Route::middleware('web', 'auth')
-                ->prefix('rh')
-                ->namespace($this->namespace)
-                ->group(base_path('routes/rh.php'));
-
-            // Yo agregue esta ruta para que me funcione el rh.php
-            /*
-            Route::middleware('web')
-                ->group(base_path('routes/web.php'));
-
-            Route::middleware('web')
-            ->namespace($this->namespace)
-                ->group(function(){
-                    require base_path('routes/rh.php');
-                });
-
 
             Route::middleware('web', 'auth')
                 ->prefix('rh')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/rh.php'));
-            */
+
+            Route::middleware('web', 'auth')
+                ->prefix('activofijo')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/activofijo.php'));
             
         });
     }
