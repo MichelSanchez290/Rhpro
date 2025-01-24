@@ -18,6 +18,8 @@ class RouteServiceProvider extends ServiceProvider
      * @var string
      */
     public const HOME = '/dashboard';
+    // public const HOME = '/portal360';
+
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.
@@ -35,6 +37,11 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
+
+                Route::middleware(['web', 'auth'])
+                ->prefix('portal360')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/portal360.php'));
         });
     }
 }
