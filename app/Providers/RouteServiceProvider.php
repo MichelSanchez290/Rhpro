@@ -47,6 +47,10 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace($this->namespace)
                 ->group(base_path('routes/activofijo.php'));
             
+            Route::middleware('web', 'auth')
+                ->prefix('portal')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/portal.php'));
         });
     }
 }

@@ -6,6 +6,7 @@
     ],
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     "content-hash": "1ff7d76b71cb76f979341340b61224b4",
 =======
     "content-hash": "b2606902d2f912dd9e377d98f803aba6",
@@ -13,6 +14,9 @@
 =======
     "content-hash": "b2606902d2f912dd9e377d98f803aba6",
 >>>>>>> 6c589e6602ead59c06b8c60e7149d1fe2346f028
+=======
+    "content-hash": "271e6c0efc1cef552f46977f600472ce",
+>>>>>>> f4659866b5c415e45bbdfb332c0fa35a8fa3fe87
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
