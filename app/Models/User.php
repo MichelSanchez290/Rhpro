@@ -58,4 +58,85 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+
+    
+    /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public function cambioSalario()
+    {
+        //un user peertence a un becario
+        return $this->belongsToMany(Becari::class);
+    }
+
+    public function incidencias()
+    {
+        //un becario pertenece a un user
+        return $this->belongsToMany(Incidenci::class);
+    }
+
+    public function documentos()
+    {
+        //un user peertence a un becario
+        return $this->belongsToMany(Document::class);
+    }
+
+    public function bajas()
+    {
+        //un user tiene una baja
+        return $this->hasMany(Baja::class);
+    }
+
+    public function infonavitCreditos()
+    {
+        //un user peertence a un becario
+        return $this->hasMany(Practicant::class);
+    }
+
+    public function retardos()
+    {
+        //un becario pertenece a un user
+        return $this->belongsToMany(Retard::class);
+    }
+
+    public function incapacidades()
+    {
+        //un becario pertenece a un user
+        return $this->belongsToMany(Incapacidad::class);
+    }
+
+    public function regPatronales()
+    {
+        //cada trabajador pertenece a 
+        return $this->hasMany(RegisPatronal::class);
+    }
+
+    public function departamentos()
+    {
+        return $this->belongsTo(Departament::class);
+    }
+
+    public function puesto()
+    {
+        return $this->belongsTo(Puest::class);
+    }
+
+    public function trabajador()
+    {
+        //un user peertence a un becario
+        return $this->hasMany(Trabajador::class);
+    }
+
+    public function becario()
+    {
+        //un user peertence a un becario
+        return $this->hasMany(Becari::class);
+    }
+
+    public function practicantes()
+    {
+        //un user peertence a un becario
+        return $this->hasMany(Practicant::class);
+    }
+
+    */
 }

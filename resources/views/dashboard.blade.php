@@ -21,7 +21,7 @@
 
                 <div class="p-2 sm:p-10 text-center cursor-pointer">
                     {{-- poner nombre de la ruta --}}
-                    <a href="">
+                    <a href="{{ route('inicio') }}">
                         <div
                             class="py-16 max-w-sm rounded overflow-hidden shadow-lg hover:bg-white transition duration-500  bg-white">
                             <div class="space-y-10">

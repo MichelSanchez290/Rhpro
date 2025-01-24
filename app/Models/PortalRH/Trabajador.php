@@ -1,0 +1,80 @@
+<?php
+
+namespace App\Models\PortalRH;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use App\Models\User; // Importa el modelo User
+
+class Trabajador extends Model
+{
+    use HasFactory;
+
+    use HasFactory;
+    //define que este modelo corresponde a la tabla xxx en la base de datos.
+    protected $table = 'trabajadores';
+
+    //Define la clave primaria
+    protected $primaryKey = 'id';
+
+    //especifica las columnas
+    protected $fillable = [
+        'id', 
+        'clave_trabajador', 
+        'numero_seguridad_social',
+        'fecha_nacimiento',
+        'lugar_nacimiento',
+        'estado',
+        'codigo_postal',
+        'sexo',
+        'curp',
+        'rfc',
+        'numero_celular',
+        'fecha_ingreso',
+        'edad',
+        'estado_civil',
+        'estudios',
+        'ocupacion',
+        'tipo_puest',
+        'contratacion',
+        'tipo_personal',
+        'jornada_trabajo',
+        'rotacion',
+        'experiencia',
+        'tiempo_puesto',
+        'calle',
+        'colonia',
+        'numero',
+        'status',
+
+        'user_id',
+        'sucursal_id',
+        'departamento_id',
+    ];
+
+    //alcanze con el modelo 
+    public function usuarios()
+    {
+        //cada trabajador pertenece a 
+        return $this->belongsTo(User::class);
+    }
+
+    public function sucursales()
+    {
+        //cada trabajador pertenece a 
+        return $this->belongsTo(Sucursal::class);
+    }
+
+    public function departamentos()
+    {
+        //cada trabajador pertenece a 
+        return $this->belongsTo(Departament::class);
+    }
+    
+
+    public function salarios()
+    {
+        return $this->belongsToMany(Salari::class);
+    }
+
+}

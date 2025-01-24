@@ -1,0 +1,29 @@
+<?php
+
+namespace App\Models\PortalRH;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Salari extends Model
+{
+    use HasFactory;
+
+    //define que este modelo corresponde a la tabla xxx en la base de datos.
+    protected $table = 'salarios';
+
+    //Define la clave primaria
+    protected $primaryKey = 'id';
+
+    //especifica las columnas
+    protected $fillable = [
+        'id', 
+        'salario'
+    ];
+
+
+    public function trabajadores()
+    {
+        return $this->belongsToMany(Trabajador::class);
+    }
+}
