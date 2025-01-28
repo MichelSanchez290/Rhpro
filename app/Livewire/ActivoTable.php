@@ -11,9 +11,13 @@ use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
+//ocupar estos use para exportacion
+use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
+use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 
 final class ActivoTable extends PowerGridComponent
 {
+    use WithExport;
     public string $tableName = 'activo-table-ydaods-table';
 
     public function setUp(): array
@@ -21,6 +25,9 @@ final class ActivoTable extends PowerGridComponent
         $this->showCheckBox();
 
         return [
+            PowerGrid::exportable('export')
+                ->striped()
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             PowerGrid::header()
                 ->showSearchInput(),
             PowerGrid::footer()
@@ -83,10 +90,10 @@ final class ActivoTable extends PowerGridComponent
     public function actions(Tipoactivo $row): array
     {
         return [
-            Button::add('edit')
-                ->slot('Editar')
-                ->class('btn btn-primary')
-                //->route('encuestas.edit', ['Clave' => $row->Clave]),
+            Button::add('delete-dish')  
+    ->icon('default-trash') // 'default' => 'resources/views/components/icons/trash.blade.php',
+  //->icon('solid-trash') // 'solid' => 'resources/views/components/icons/solid/trash.blade.php',
+    ->class(' text-white'),
         ];
     }
 
