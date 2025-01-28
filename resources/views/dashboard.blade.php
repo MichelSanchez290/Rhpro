@@ -37,7 +37,7 @@
                 </div>
 
                 <div class="p-2 sm:p-6 text-center cursor-pointer">
-                    <a href="{{ route('dashboardaf') }}">
+                    <a href="{{ route('mostrartipoactivo') }}">
                         <div class="py-16 max-w-sm rounded overflow-hidden shadow-lg bg-blue-500 hover:bg-blue-600 transition duration-500">
                             <div class="space-y-10">
                                 <i class="fas fa-user-circle" style="font-size:48px;"></i>

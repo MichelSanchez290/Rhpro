@@ -16,16 +16,16 @@ class Editartipoactivo extends Component
         $this->nombreactivo = $item->nombre_activo;
     }
 
-    public function editar(){
+    public function editaract(){
         $this->validate([
-            'nombre_activo' =>'required',
+            'nombreactivo' =>'required',
         ]);
 
         Tipoactivo::find($this->tipoactivo_id)->update([
-            'nombre_activo' => $this->nombre_activo,
+            'nombre_activo' => $this->nombreactivo,
         ]);
 
-        return redirect()->to('/mostrartipoactivo');
+        return redirect()->route('mostrartipoactivo');
     }
 
 
