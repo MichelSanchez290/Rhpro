@@ -4,10 +4,17 @@ namespace App\Livewire\PortalRh\Sucursal;
 
 use Livewire\Component;
 use App\Models\PortalRH\Sucursal;
+use App\Models\PortalRH\RegistPatronal;
 
 class AgregarSucursal extends Component
 {
     public $sucursal = [];
+    public $regpatronales;
+
+    public function mount()
+    {
+        $this->regpatronales = RegistPatronal::all();
+    }
 
     // REGLAS DE VALIDACIÓN
     protected $rules = [
@@ -16,7 +23,7 @@ class AgregarSucursal extends Component
         'sucursal.zona_economica' => 'required',
         'sucursal.estado' => 'required',
         'sucursal.cuenta_contable' => 'required',
-        'sucursal.rfc' => 'required',
+        'sucursal.rfc' => 'required|size:13',
         'sucursal.correo' => 'required|email',
         'sucursal.telefono' => 'required',
         'sucursal.status' => 'required',
@@ -31,6 +38,7 @@ class AgregarSucursal extends Component
         'sucursal.estado.required' => 'El estado es requerido',
         'sucursal.cuenta_contable.required' => 'La cuenta contable es requerida',
         'sucursal.rfc.required' => 'El RFC es requerido',
+        'registro.rfc.size' => 'El RFC debe tener exactamente 13 caracteres.',
         'sucursal.correo.required' => 'El correo es requerido',
         'sucursal.correo.email' => 'El correo debe ser válido',
         'sucursal.telefono.required' => 'El teléfono es requerido',
@@ -47,8 +55,13 @@ class AgregarSucursal extends Component
         $AgregarSucursal->save();
 
         $this->sucursal = [];
-        $this->emit('showAnimatedToast', 'Sucursal guardada correctamente');
-        return redirect()->route('mostrar-sucursal');
+        //$this->emit('showAnimatedToast', 'Sucursal guardada correctamente');
+        return redirect()->route('mostrarsucursal');
+    }
+
+    public function redirigirSuc()
+    {
+        return redirect()->route('mostrarsucursal');
     }
 
     public function render()

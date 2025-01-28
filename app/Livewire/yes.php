@@ -96,9 +96,9 @@ final class yes extends PowerGridComponent
     {
         return [
             Button::add('delete-dish')  
-    ->icon('default-trash') // 'default' => 'resources/views/components/icons/trash.blade.php',
-  //->icon('solid-trash') // 'solid' => 'resources/views/components/icons/solid/trash.blade.php',
-    ->class(' text-white'),
+                ->icon('default-trash') // 'default' => 'resources/views/components/icons/trash.blade.php',
+                //->icon('solid-trash') // 'solid' => 'resources/views/components/icons/solid/trash.blade.php',
+                ->class(' text-white'),
         ];
     }
 

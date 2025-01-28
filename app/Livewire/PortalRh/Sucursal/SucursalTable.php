@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Livewire\PortalRh\Empres;
+namespace App\Livewire\PortalRh\Sucursal;
 
-use App\Models\PortalRh\Empres;
+use App\Models\PortalRh\Sucursal;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
@@ -14,14 +14,9 @@ use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 
 use Illuminate\Support\Facades\Crypt;
 
-use PowerComponents\LivewirePowerGrid\Traits\WithExport; 
-use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable; 
-
-final class EmpresTable extends PowerGridComponent
+final class SucursalTable extends PowerGridComponent
 {
-    use WithExport;
-
-    public string $tableName = 'empres-table-u4eqeo-table';
+    public string $tableName = 'sucursal-table-qre6er-table';
 
     public function setUp(): array
     {
@@ -30,17 +25,32 @@ final class EmpresTable extends PowerGridComponent
         return [
             PowerGrid::header()
                 ->showSearchInput(),
+            
             PowerGrid::footer()
                 ->showPerPage()
                 ->showRecordCount(),
-            PowerGrid::exportable(fileName: 'empresas-export-file') 
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV), 
         ];
     }
 
+    /*
+    public function setUp(): array
+    {
+        $this->showCheckBox();
+
+        return [
+            Exportable::make('export')
+                ->striped()
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+            Header::make()->showSearchInput(),
+            Footer::make()
+                ->showPerPage()
+                ->showRecordCount(),
+        ];
+    } */
+
     public function datasource(): Builder
     {
-        return Empres::query();
+        return Sucursal::query();
     }
 
     public function relationSearch(): array
@@ -53,13 +63,16 @@ final class EmpresTable extends PowerGridComponent
         return PowerGrid::fields()
             ->add('id')
             ->add('id')
-            ->add('nombre')
-            ->add('razon_social')
+            ->add('clave_sucursal')
+            ->add('nombre_sucursal')
+            ->add('zona_economica')
+            ->add('estado')
+            ->add('cuenta_contable')
             ->add('rfc')
-            ->add('nombre_comercial')
-            ->add('pais_origen')
-            ->add('representante_legal')
-            ->add('url_constancia_situacion_fiscal')
+            ->add('correo')
+            ->add('telefono')
+            ->add('status')
+            ->add('registro_patronal_id')
             ->add('created_at');
     }
 
@@ -67,12 +80,23 @@ final class EmpresTable extends PowerGridComponent
     {
         return [
             Column::make('Id', 'id'),
-
-            Column::make('Nombre', 'nombre')
+            Column::make('Clave sucursal', 'clave_sucursal')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Razon social', 'razon_social')
+            Column::make('Nombre sucursal', 'nombre_sucursal')
+                ->sortable()
+                ->searchable(),
+
+            Column::make('Zona economica', 'zona_economica')
+                ->sortable()
+                ->searchable(),
+
+            Column::make('Estado', 'estado')
+                ->sortable()
+                ->searchable(),
+
+            Column::make('Cuenta contable', 'cuenta_contable')
                 ->sortable()
                 ->searchable(),
 
@@ -80,28 +104,28 @@ final class EmpresTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Nombre comercial', 'nombre_comercial')
+            Column::make('Correo', 'correo')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Pais origen', 'pais_origen')
+            Column::make('Telefono', 'telefono')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Representante legal', 'representante_legal')
+            Column::make('Status', 'status')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Url constancia situacion fiscal', 'url_constancia_situacion_fiscal')
-                ->sortable()
-                ->searchable(),
+            Column::make('Registro patronal id', 'registro_patronal_id'),
+            
+            Column::make('Created at', 'created_at')
+                ->sortable(),
 
             Column::make('Created at', 'created_at')
                 ->sortable()
                 ->searchable(),
 
             Column::action('Action')
-            
         ];
     }
 
@@ -112,29 +136,24 @@ final class EmpresTable extends PowerGridComponent
     }
 
     #[\Livewire\Attributes\On('edit')]
-    
     public function edit($rowId): void
     {
         $this->js('alert('.$rowId.')');
     }
 
-    public function actions(Empres $row): array
+    public function actions(Sucursal $row): array
     {
         return [
             Button::add('edit')
                 ->slot('Editar')
                 ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
-                ->route('editarempresa', ['id' => Crypt::encrypt($row->id)]),
-
-
+                ->route('editarsucursal', ['id' => Crypt::encrypt($row->id)]),
+            
             Button::add('delete')
                 ->slot('Eliminar')
                 ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
-                ->dispatch('confirmDelete', ['id' => $row->id]), // Emitir evento Livewire
+                ->dispatch('confirmDelete', ['id' => $row->id]),
         ];
-
-        
-        
     }
 
     /*

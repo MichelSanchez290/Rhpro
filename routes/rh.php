@@ -11,6 +11,10 @@ use App\Livewire\PortalRh\Sucursal\MostrarSucursal;
 use App\Livewire\PortalRh\Sucursal\AgregarSucursal;
 use App\Livewire\PortalRh\Sucursal\EditarSucursal;
 
+use App\Livewire\PortalRh\RegistPatronal\MostrarRegPatronal;
+use App\Livewire\PortalRh\RegistPatronal\AgregarRegPatronal;
+use App\Livewire\PortalRh\RegistPatronal\EditarRegPatronal;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -59,3 +63,21 @@ Route::get(
         '/create-sucursal',
             AgregarSucursal::class
     )->name('agregarsucursal');
+
+
+    // Reg Patronal
+    Route::get( 
+        '/reg-patronal',
+            MostrarRegPatronal::class
+    )->name('mostrarregpatronal');
+
+    Route::get( 
+        '/create-regpatronal',
+            AgregarRegPatronal::class
+    )->name('agregarregpatronal');
+
+
+    Route::get( 
+        '/edit-sucursal/{id}',
+            EditarSucursal::class
+    )->name('editarsucursal');
