@@ -6,86 +6,44 @@
         </button>
     </div>
 
-    <div class="bg-white shadow-md rounded-lg p-4">
-        <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
-            <div class="flex-1">
-                <label for="search" class="sr-only">Buscar</label>
-                <input type="text" wire:model="search" id="search"
-                    class="w-full bg-gray-50 border border-gray-300 text-gray-800 text-sm rounded-lg p-2.5"
-                    placeholder="Buscar por clave o nombre...">
+    
+
+    <!-- Modal de confirmación -->
+    <div id="modalConfirm"
+        class="{{ $showModal ? '' : 'hidden' }} fixed z-50 inset-0 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full px-4">
+        <div class="relative top-40 mx-auto shadow-xl rounded-md bg-white max-w-md">
+            <div class="flex justify-end p-2">
+                <button wire:click="$set('showModal', false)" type="button"
+                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                </button>
             </div>
-            <div>
-                <label for="porpagina" class="sr-only">Resultados por página</label>
-                <select wire:model="porpagina" id="porpagina"
-                    class="bg-gray-50 border border-gray-300 text-gray-800 text-sm rounded-lg p-2.5">
-                    <option value="5">5 por página</option>
-                    <option value="10">10 por página</option>
-                    <option value="15">15 por página</option>
-                    <option value="20">20 por página</option>
-                    <option value="25">25 por página</option>
-                </select>
+            <div class="p-6 pt-0 text-center">
+                <svg class="w-20 h-20 text-red-600 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <h3 class="text-xl font-normal text-gray-500 mt-5 mb-6">¿Estás seguro de que deseas eliminar esta
+                    sucursal?</h3>
+                <button wire:click="deleteSucursal"
+                    class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-base inline-flex items-center px-3 py-2.5 text-center mr-2">
+                    Sí, estoy seguro
+                </button>
+                <button wire:click="$set('showModal', false)"
+                    class="text-gray-900 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-cyan-200 border border-gray-200 font-medium inline-flex items-center rounded-lg text-base px-3 py-2.5 text-center"
+                    data-modal-toggle="delete-user-modal">
+                    No, cancelar
+                </button>
             </div>
         </div>
-
-        <div class="overflow-x-auto">
-            <table class="table-auto w-full border-collapse">
-                <thead class="bg-gray-50 text-gray-600 text-sm font-medium uppercase border-b border-gray-200">
-                    <tr>
-                        <th class="p-3 text-left">Clave</th>
-                        <th class="p-3 text-left">Nombre</th>
-                        <th class="p-3 text-center">Zona Económica</th>
-                        <th class="p-3 text-center">Estado</th>
-                        <th class="p-3 text-center">Cuenta contable</th>
-                        <th class="p-3 text-center">RFC</th>
-                        <th class="p-3 text-center">Correo</th>
-                        <th class="p-3 text-center">Teléfono</th>
-                        <th class="p-3 text-center">Estatus</th>
-                        <th class="p-3 text-center">Reg Patronal</th>
-                        <th class="p-3 text-center">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-200 text-sm">
-                    @forelse ($sucursales as $sucursal)
-                        <tr>
-                            <td class="p-3">{{ $sucursal->clave_sucursal }}</td>
-                            <td class="p-3">{{ $sucursal->nombre_sucursal }}</td>
-                            <td class="p-3 text-center">{{ $sucursal->zona_economica }}</td>
-                            <td class="p-3 text-center">{{ $sucursal->estado }}</td>
-                            <td class="p-3 text-center">{{ $sucursal->cuenta_contable }}</td>
-                            <td class="p-3 text-center">{{ $sucursal->rfc }}</td> 
-                            <td class="p-3 text-center">{{ $sucursal->correo }}</td> 
-                            <td class="p-3 text-center">{{ $sucursal->telefono }}</td>
-                            <td class="p-3 text-center">{{ $sucursal->status }}</td>
-                            <td class="p-3 text-center">{{ $sucursal->registro_patronal_id }}</td>
-                            
-                            <td class="p-3 text-center">
-                                
-                                <a href="{{ route('editarsucursal', Crypt::encrypt($sucursal->id)) }}"
-                                    class="text-blue-600 hover:underline">Editar</a>
-
-                                <button wire:click="eliminar({{ $sucursal->id }})"
-                                    class="text-red-600 hover:text-red-800 ml-4">Eliminar</button>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="6" class="p-4 text-center text-gray-500">
-                                Sin resultados para la búsqueda "{{ $this->search }}"
-                            </td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
-
-        @if ($sucursales->count())
-            <div class="mt-4">
-                {{ $sucursales->links() }}
-            </div>
-        @endif
     </div>
 
 
-    <livewire:portalrh.sucursal.sucursal-table/>
-    
+    <livewire:portalrh.sucursal.sucursal-table />
+
 </div>

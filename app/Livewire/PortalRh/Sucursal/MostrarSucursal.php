@@ -33,15 +33,48 @@ class MostrarSucursal extends Component
         return redirect()->route('agregarsucursal');
     }
 
-    // Método para eliminar una sucursal
-    public function eliminar($id)
+    
+    
+    protected $listeners = [
+        'confirmDelete' => 'confirmDelete', // Captura el evento
+    ]; 
+    
+    public function confirmDelete($id)
     {
         $this->sucursalToDelete = $id;
+        $this->showModal = true;
+    }
+    
+    public function deleteSucursal()
+    {
+        /*
+        if ($this->sucursalToDelete) {
+            $sucursal = Sucursal::find($this->sucursalToDelete);
 
+            if ($sucursal) {
+                $sucursal->delete();
+                session()->flash('message', 'Sucursal eliminada exitosamente.');
+            } else {
+                session()->flash('message', 'La sucursal no existe o ya fue eliminada.');
+            }
+        } else {
+            session()->flash('message', 'No se proporcionó ninguna sucursal para eliminar.');
+        }
+
+        $this->sucursalToDelete = null;
+        $this->showModal = false; */
+
+
+        
         if ($this->sucursalToDelete) {
             Sucursal::find($this->sucursalToDelete)->delete();
             session()->flash('message', 'Sucursal eliminada exitosamente.');
         }
+
+        $this->sucursalToDelete = null;
+        $this->showModal = false;
+
+        return redirect()->route('mostrarsucursal');
     }
 
     public function render()

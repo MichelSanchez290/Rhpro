@@ -59,6 +59,11 @@ class AgregarSucursal extends Component
         return redirect()->route('mostrarsucursal');
     }
 
+    public function redirigirSuc()
+    {
+        return redirect()->route('mostrarsucursal');
+    }
+
     public function render()
     {
         return view('livewire.portal-rh.sucursal.agregar-sucursal')->layout('layouts.client');

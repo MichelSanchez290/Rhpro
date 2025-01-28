@@ -12,6 +12,8 @@ use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 
+use Illuminate\Support\Facades\Crypt;
+
 final class SucursalTable extends PowerGridComponent
 {
     public string $tableName = 'sucursal-table-qre6er-table';
@@ -23,11 +25,28 @@ final class SucursalTable extends PowerGridComponent
         return [
             PowerGrid::header()
                 ->showSearchInput(),
+            
             PowerGrid::footer()
                 ->showPerPage()
                 ->showRecordCount(),
         ];
     }
+
+    /*
+    public function setUp(): array
+    {
+        $this->showCheckBox();
+
+        return [
+            Exportable::make('export')
+                ->striped()
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+            Header::make()->showSearchInput(),
+            Footer::make()
+                ->showPerPage()
+                ->showRecordCount(),
+        ];
+    } */
 
     public function datasource(): Builder
     {
@@ -126,10 +145,14 @@ final class SucursalTable extends PowerGridComponent
     {
         return [
             Button::add('edit')
-                ->slot('Edit: '.$row->id)
-                ->id()
-                ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-                ->dispatch('edit', ['rowId' => $row->id])
+                ->slot('Editar')
+                ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
+                ->route('editarsucursal', ['id' => Crypt::encrypt($row->id)]),
+            
+            Button::add('delete')
+                ->slot('Eliminar')
+                ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
+                ->dispatch('confirmDelete', ['id' => $row->id]),
         ];
     }
 
