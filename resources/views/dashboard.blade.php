@@ -106,7 +106,7 @@
                 </div>
 
                 <div class="p-2 sm:p-6 text-center cursor-pointer">
-                    <a href="">
+                    <a href="{{ route('InicioCrm') }}">
                         <div class="py-16 max-w-sm rounded overflow-hidden shadow-lg hover:bg-white transition duration-500 bg-white">
                             <div class="space-y-10">
                                 <i class="fas fa-user-circle" style="font-size:48px;"></i>
