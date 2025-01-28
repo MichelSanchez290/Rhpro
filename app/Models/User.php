@@ -3,6 +3,13 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Models\ActivoFijo\Activos\ActivoMobiliario;
+use App\Models\ActivoFijo\Activos\ActivoOficina;
+use App\Models\ActivoFijo\Activos\ActivoPapeleria;
+use App\Models\ActivoFijo\Activos\ActivoSouvenir;
+use App\Models\ActivoFijo\Activos\ActivoTecnologia;
+use App\Models\ActivoFijo\Activos\ActivoUniforme;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -58,4 +65,109 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+
+    
+    /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public function cambioSalario()
+    {
+        //un user peertence a un becario
+        return $this->belongsToMany(Becari::class);
+    }
+
+    public function incidencias()
+    {
+        //un becario pertenece a un user
+        return $this->belongsToMany(Incidenci::class);
+    }
+
+    public function documentos()
+    {
+        //un user peertence a un becario
+        return $this->belongsToMany(Document::class);
+    }
+
+    public function bajas()
+    {
+        //un user tiene una baja
+        return $this->hasMany(Baja::class);
+    }
+
+    public function infonavitCreditos()
+    {
+        //un user peertence a un becario
+        return $this->hasMany(Practicant::class);
+    }
+
+    public function retardos()
+    {
+        //un becario pertenece a un user
+        return $this->belongsToMany(Retard::class);
+    }
+
+    public function incapacidades()
+    {
+        //un becario pertenece a un user
+        return $this->belongsToMany(Incapacidad::class);
+    }
+
+    public function regPatronales()
+    {
+        //cada trabajador pertenece a 
+        return $this->hasMany(RegisPatronal::class);
+    }
+
+    public function departamentos()
+    {
+        return $this->belongsTo(Departament::class);
+    }
+
+    public function puesto()
+    {
+        return $this->belongsTo(Puest::class);
+    }
+
+    public function trabajador()
+    {
+        //un user peertence a un becario
+        return $this->hasMany(Trabajador::class);
+    }
+
+    public function becario()
+    {
+        //un user peertence a un becario
+        return $this->hasMany(Becari::class);
+    }
+
+    public function practicantes()
+    {
+        //un user peertence a un becario
+        return $this->hasMany(Practicant::class);
+    }
+
+    */
+    public function activomoviliario()
+    {
+        return $this->belongsToMany(ActivoMobiliario::class);
+    }
+    public function activooficina()
+    {
+        return $this->belongsToMany(ActivoOficina::class);
+    }
+    public function activopapeleria()
+    {
+        return $this->belongsToMany(ActivoPapeleria::class);
+    }
+    public function activosouvenir()
+    {
+        return $this->belongsToMany(ActivoSouvenir::class);
+    }
+    public function activotecnologias()
+    {
+        return $this->belongsToMany(ActivoTecnologia::class);
+    }
+    public function activouniformes()
+    {
+        return $this->belongsToMany(ActivoUniforme::class);
+    }
 }

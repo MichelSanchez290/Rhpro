@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('encuestas_id');
             $table->unsignedBigInteger('preguntas_id');
-            $table->foreign('encuestas_id')->references('id')->on('encuestas')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('encuestas_id')->references('id')->on('360_encuestas')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('preguntas_id')->references('id')->on('preguntas')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
