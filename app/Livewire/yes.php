@@ -11,9 +11,12 @@ use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
+use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
+use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 
 final class yes extends PowerGridComponent
 {
+    use WithExport;
     public string $tableName = 'yes-anvrvt-table';
 
     public function setUp(): array
@@ -21,6 +24,12 @@ final class yes extends PowerGridComponent
         $this->showCheckBox();
 
         return [
+            PowerGrid::exportable('export')
+                ->striped()
+                ->columnWidth([
+                    2 => 30,
+                ])
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             PowerGrid::header()
                 ->showSearchInput(),
             PowerGrid::footer()
