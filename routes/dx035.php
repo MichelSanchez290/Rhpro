@@ -19,14 +19,15 @@ use App\Livewire\Dx035\Encuestas\EncuestaController; // Asegúrate de que esté 
 // Página principal
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('encuesta.index'); // Redirige a MostrarEncuestas
 });
 
-Route::get('/home', function () {
-    return view('home');
-})->name('home');
 
 Route::get('/encuestas/agregar', AgregarEncuesta::class)->name('encuesta.create');
 Route::get('/encuestas', MostrarEncuestas::class)->name('encuesta.index');
 Route::get('/encuestas/editar/{id}', EncuestaController::class)->name('encuesta.edit');
 Route::delete('/encuestas/eliminar/{id}', [EncuestaController::class, 'delete'])->name('encuesta.delete');
+
+Route::get('/home<', function () {
+    return view('home');
+})->name('home');

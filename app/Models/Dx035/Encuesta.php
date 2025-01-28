@@ -24,4 +24,10 @@ class Encuesta extends Model
     {
         return $this->hasMany(TrabajadorEncuesta::class, 'Clave', 'Clave');
     }
+
+    // Relación con Departament
+    public function departamento()
+    {
+        return $this->belongsTo(Departament::class, 'Dep', 'id'); // 'Dep' es la clave foránea en Encuesta
+    }
 }

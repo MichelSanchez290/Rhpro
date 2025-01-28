@@ -17,8 +17,10 @@ return new class extends Migration
             $table->tinyInteger('puntuacion');
             $table->unsignedBigInteger('preguntas_id');
             $table->foreign('preguntas_id')->references('id')->on('preguntas')->onUpdate('cascade')->onDelete('cascade');
-            $table->timestamps();   
+            $table->timestamps();
         });
+        
+
         //
     }
 
@@ -31,5 +33,6 @@ return new class extends Migration
             $table->dropForeign(['preguntas_id']);
         });
         Schema::dropIfExists('360_respuestas');
+
     }
 };

@@ -3,43 +3,52 @@
 namespace App\Livewire\Dx035\Encuestas;
 
 use Livewire\Component;
-
+use Livewire\WithFileUploads;
 use App\Models\Dx035\Encuesta;
-use App\Models\Dx035\GiaReferencia; // Si necesitas seleccionar un GIA en la encuesta
+use App\Models\Dx035\GiaReferencia;
+use App\Models\PortalRH\Departament;
 
 class AgregarEncuesta extends Component
 {
+    use WithFileUploads;
+
     public $Clave, $Empresa, $RutaLogo, $FechaInicio, $Caducidad, $Estado, $NumeroEncuestas;
     public $Formato, $EncuestasContestadas, $Actividades, $Numero, $Dep, $Cerrable, $usuariosdx035_CorreoElectronico;
-    public $FechaFinal, $giasreferencia_id;
-    // $departamentosSeleccionados = []; // Para departamentos
-    public $GiaActivo = false; // Control para GIA
-    public $logo; // Para cargar la imagen del logo
+    public $FechaFinal, $giasreferencia_id, $departamentosSeleccionados = [];
+    public $GiaActivo = false;
+    public $logo;
 
     protected $rules = [
-        'Clave' => 'required|string',
+        'Clave' => 'required|string|unique:encuestas,Clave',
         'Empresa' => 'required|string',
         'FechaInicio' => 'required|date',
-        'Caducidad' => 'required|date',
+        'Caducidad' => 'required|date|after_or_equal:FechaInicio',
         'Estado' => 'required|integer',
-        'NumeroEncuestas' => 'required|integer',
+        'NumeroEncuestas' => 'required|integer|min:1',
         'Formato' => 'required|string',
-        'EncuestasContestadas' => 'required|string',
-        'Actividades' => 'required|string',
-        'Numero' => 'required|integer',
-        'Dep' => 'required|string',
+        'EncuestasContestadas' => 'nullable|string',
+        'Actividades' => 'nullable|string',
+        'Numero' => 'nullable|integer',
+        'Dep' => 'nullable|string',
         'Cerrable' => 'required|boolean',
-        'usuariosdx035_CorreoElectronico' => 'required|string',
-        'FechaFinal' => 'nullable|date',
+        'usuariosdx035_CorreoElectronico' => 'required|email',
+        'FechaFinal' => 'nullable|date|after_or_equal:FechaInicio',
         'giasreferencia_id' => 'nullable|exists:gias_referencias,id',
-        'logo' => 'nullable|image|max:1024', // Validación de logo
+        'departamentosSeleccionados' => 'required|array|min:1',
+        'departamentosSeleccionados.*' => 'exists:departamentos,id',
+        'logo' => 'nullable|image|max:1024',
+    ];
+
+    public $cuestionariosSeleccionados = [
+        1 => true,  // El primer cuestionario está activado por defecto
+        2 => false,
+        3 => false
     ];
 
     public function submit()
     {
         $this->validate();
 
-        // Subir logo
         if ($this->logo) {
             $this->RutaLogo = $this->logo->store('logos', 'public');
         }
@@ -56,7 +65,7 @@ class AgregarEncuesta extends Component
             'EncuestasContestadas' => $this->EncuestasContestadas,
             'Actividades' => $this->Actividades,
             'Numero' => $this->Numero,
-            'Dep' => $this->Dep,
+            'Dep' => implode(',', $this->departamentosSeleccionados),
             'Cerrable' => $this->Cerrable,
             'usuariosdx035_CorreoElectronico' => $this->usuariosdx035_CorreoElectronico,
             'FechaFinal' => $this->FechaFinal,
@@ -70,9 +79,9 @@ class AgregarEncuesta extends Component
     public function render()
     {
         $giasReferencias = GiaReferencia::all();
-       // $departamentos = Departamento::all(); // Suponiendo que tienes una tabla de departamentos
+        $departamentos = Departament::all();
 
-        return view('livewire.dx035.encuestas.agregar-encuesta', compact('giasReferencias'))
+        return view('livewire.dx035.encuestas.agregar-encuesta', compact('giasReferencias', 'departamentos'))
             ->layout('layouts.dx035');
     }
 }

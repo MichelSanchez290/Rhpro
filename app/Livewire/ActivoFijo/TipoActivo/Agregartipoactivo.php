@@ -30,7 +30,7 @@ class Agregartipoactivo extends Component
         $tipo = Tipoactivo::create([
             'nombre_activo' => $this->nombretipo
         ]);
-        return redirect()->to('/mostrartipoactivo');
+        return redirect()->route('mostrartipoactivo');
     }
 
     public function render()
