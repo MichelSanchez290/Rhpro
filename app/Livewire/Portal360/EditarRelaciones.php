@@ -37,7 +37,7 @@ class EditarRelaciones extends Component
             ]);
 
             $this->dispatch('showAnimatedToast', 'Relaciones editado');
-            return redirect()->route('portal360.mostrarUser')
+            return redirect()->route('portal360.mostrarUser');
         }
     }
     public function render()

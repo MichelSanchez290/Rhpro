@@ -5,6 +5,7 @@ import typography from '@tailwindcss/typography';
 /** @type {import('tailwindcss').Config} */
 export default {
     presets: [
+        
     require("./vendor/power-components/livewire-powergrid/tailwind.config"),
     ],
     content: [

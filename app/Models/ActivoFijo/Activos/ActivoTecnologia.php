@@ -33,14 +33,14 @@ class ActivoTecnologia extends Model
         'aniosestimado_id'
     ];
 
-    public function tipoactivo()
+    public function tipoActivo()
     {
-        return $this->belongsTo(Tipoactivo::class);
+        return $this->belongsTo(Tipoactivo::class,'tipo_activo_id');
     }
 
-    public function anioestimado()
+    public function anioEstimado()
     {
-        return $this->belongsTo(Anioestimado::class);
+        return $this->belongsTo(Anioestimado::class,'aniosestimado_id');
     }
 
     //Relacion muchos a muchos
