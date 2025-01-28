@@ -2,10 +2,12 @@
 
 namespace App\Livewire\Portal360;
 
+use App\Exports\ExportRelacionesDev;
 use App\Models\Encuestas360\Relacion;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
-
+use Maatwebsite\Excel\Excel;
 
 
 class MostrarRelaciones extends Component
@@ -50,9 +52,20 @@ class MostrarRelaciones extends Component
 
     public function deleteRelaciones($id)
     {
-        Relacion::find($id)?->delete(); 
-        $this->dispatch('eliminarRelaciones', 'Relaciones eliminado correctamente');
+        //Relacion::find($id)?->delete(); 
+        $this->dispatch('eliminarRelaciones', id: $id);
     }
+
+    #[On('delete')]
+    public function delete($id){
+        info("here");
+        Relacion::find($id)->delete();
+    }
+
+    // public function export(){
+        
+    //     return Excel::download(new ExportRelacionesDev, 'Users.xlsx');
+    // }
 
 
 

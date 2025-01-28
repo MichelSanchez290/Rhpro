@@ -23,6 +23,9 @@ export default {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            colors: {
+                'azul-marino': '#1A237E', // Color personalizado azul marino
+            },
         },
     },
 
