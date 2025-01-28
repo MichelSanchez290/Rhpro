@@ -63,6 +63,11 @@ class RouteServiceProvider extends ServiceProvider
                 ->prefix('portal360')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/portal360.php'));
+
+            Route::middleware(['web', 'auth'])
+                ->prefix('crm')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/crm.php'));
         });
     }
 }

@@ -31,7 +31,7 @@ class EditarFunEspecificas extends Component
         [
             'nombre' => $this->nombre,
         ]);
-        $this->emit('edithSale', 'Actualización con exito');
+        //$this->emit('edithSale', 'Actualización con exito');
         return redirect()->route('mostrarFuncionesEspecificas');
     }
 

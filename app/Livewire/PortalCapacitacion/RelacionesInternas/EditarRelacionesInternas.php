@@ -38,9 +38,15 @@ class EditarRelacionesInternas extends Component
             'frecuencia' => $this->frecuencia,
         ]);
 
-        $this->emit('message', 'Relación Interna actualizada correctamente');
+        $this->dispatch('alertSuccess', 'Relación Interna actualizada correctamente');
         return redirect()->route('mostrarRelacionesInternas');
     }
+
+    public function cancelarAccion()
+    {
+        return redirect()->route('mostrarRelacionesInternas');
+    }
+
 
     public function render()
     {

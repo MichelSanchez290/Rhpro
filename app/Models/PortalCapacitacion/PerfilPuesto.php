@@ -31,6 +31,7 @@ class PerfilPuesto extends Model
             'escolaridad',
             'idioma_requerido',
             'experiencia_requerida',
+            'disponibilidad',
             'nivel_riesgo_fisico',
             'elaboro_nombre',
             'elaboro_puesto',

@@ -1,88 +1,60 @@
 <div>
-
     <div class="w-full mt-1 flex justify-end mr-5">
-        <button wire:click="redirigirRelaciones()" class="bg-blue-700 text-white font-bold py-2 px-4 w-auto rounded hover:bg-gray-600">
-            Agregar Nuevo Usuario
+        <button wire:click="redirigirRelaciones()"
+            class="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-gray-600 mr-4 mt-2">
+            Agregar Relaciones 
         </button>
     </div>
-    <section class="antialiased bg-gray-100 text-gray-600 mt-6  px-4">
+    <section class="antialiased bg-gray-100 text-gray-600 mt-6 px-4">
         <div class="flex flex-col justify-center h-full">
-            <!-- Table -->
-            <div class="w-full mx-auto bg-white shadow-lg rounded-sm border border-gray-200">
-                <header class="px-5 py-4 border-b border-gray-100">
-                    <h2 class="font-semibold text-gray-800">Usuarios</h2>
-                    <div class="relative">
-                        <input class="appearance-none border-2 pl-10 border-gray-300 hover:border-gray-400 transition-colors rounded-md w-full py-2 px-3 text-gray-800 leading-tight focus:outline-none focus:ring-purple-600 focus:border-purple-600 focus:shadow-outline" id="id"
+            <div class="w-full mx-auto bg-white shadow-lg rounded-lg border border-gray-200">
+                <header class="px-5 py-4 border-b border-gray-100 flex justify-between items-center">
+                    <h2 class="font-semibold text-gray-800 text-xl">Relaciones Laborales</h2>
+                    <div class="relative w-64">
+                        <input class="border border-gray-300 pl-10 pr-3 py-2 rounded-md w-full text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
                             wire:model.live="search"
                             type="text"
-                            placeholder="Search..." />
-                        <div class="absolute right-0 inset-y-0 flex items-center">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="-ml-1 mr-3 h-5 w-5 text-gray-400 hover:text-gray-500"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </div>
-
-                        <div class="absolute left-0 inset-y-0 flex items-center">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="h-6 w-6 ml-3 text-gray-400 hover:text-gray-500"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            placeholder="Buscar..." />
+                        <div class="absolute left-3 inset-y-0 flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                             </svg>
                         </div>
                     </div>
                 </header>
                 <div class="p-3">
                     <div class="overflow-x-auto">
-                        <table class="table-auto w-full">
-                            <thead class="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
+                        <table class="table-auto w-full border-collapse">
+                            <thead class="text-xs font-semibold uppercase text-gray-500 bg-gray-50">
                                 <tr>
-                                    <th class="p-2 whitespace-nowrap">
-                                        <div class="font-semibold text-left">Nombre</div>
-                                    </th>
-                                    <th class="p-2 whitespace-nowrap">
-                                        <div class="font-semibold text-center">Acciones</div>
-                                    </th>
-
+                                    <th class="p-3 text-left">Nombre</th>
+                                    <th class="p-3 text-center">Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody class="text-sm divide-y divide-gray-100">
+                            <tbody class="text-sm divide-y divide-gray-200">
                                 @forelse($relacionesuser as $user)
-                                <tr>
-                                    <td class="p-2 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div class="font-medium text-gray-800">{{ $user->nombre }}</div>
-                                        </div>
-                                    </td>
-                                    <td class="p-2 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <button wire:click="deleteRelaciones({{$user->id}})" class="text-blue-600 hover:text-blue-800"> Eliminar</button>
+                                <tr class="hover:bg-gray-200">
+                                    <td class="p-3 text-black">{{ $user->nombre }}</td>
+                                    <td class="p-3 text-center">
+                                        <div class="flex justify-center gap-3">
+                                            <a href="{{ route('editRelaciones', Crypt::encrypt($user->id)) }}"
+                                                class="bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-700">
+                                                Editar
+                                            </a>
+                                            <button wire:click="deleteRelaciones({{ $user->id }})"
+                                                class="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-700">
+                                                Eliminar
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>
                                 @empty
-                                <div class="lg:col-span-5 sm:col-span-4 col-span-1 text-center">
-                                    <span class="ml-6  text-gray-400 text-4xl font-extrabold">
-                                        Sin resultados para la busqueda "{{ $this->search }}"
-                                    </span>
-                                </div>
+                                <tr>
+                                    <td colspan="2" class="p-4 text-center text-gray-500">
+                                        Sin resultados para "{{ $this->search }}"
+                                    </td>
+                                </tr>
                                 @endforelse
-
                             </tbody>
                         </table>
                         @if ($relacionesuser->count())
@@ -96,3 +68,24 @@
         </div>
     </section>
 </div>
+
+@script
+<script>
+    $wire.on('eliminarRelaciones', (event) => {
+        //alert(event.id);
+        Swal.fire({
+            title: "¿Está seguro?",
+            text: "¡No podrás revertir esto!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "¡Si, bórralo!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $wire.dispatch('delete', {id: event.id});
+            }
+        });
+    });
+</script>
+@endscript
