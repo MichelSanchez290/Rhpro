@@ -11,6 +11,7 @@ class Agregaracttec extends Component
 {
     public $consulta;
     public $activo=[],$tipos=[],$anios=[];
+    public $subirfoto;
 
     protected $rules = [
         'activo.nombre'=>'required',
@@ -23,6 +24,7 @@ class Agregaracttec extends Component
         'activo.tipo'=>'required',
         'activo.precio_adquisicion'=>'required',
         'activo.anio'=>'required',
+        'subirfoto'=>'required'
     ];
 
     protected $messages = [
@@ -36,6 +38,7 @@ class Agregaracttec extends Component
         'activo.tipo.required'=>'Tipo es requerido',
         'activo.precio_adquisicion.required'=>'Precio es requerido',
         'activo.anio.required'=>'Año es requerido',
+        'subirfoto.required'=>'La foto es requerida'
     ];
 
     public function mount()

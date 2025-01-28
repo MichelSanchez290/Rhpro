@@ -6,6 +6,7 @@ use App\Livewire\ActivoFijo\Activos\ActivoTecnologias\Mostraracttec;
 use App\Livewire\ActivoFijo\TipoActivo\Agregartipoactivo;
 use App\Livewire\ActivoFijo\TipoActivo\Editartipoactivo;
 use App\Livewire\ActivoFijo\TipoActivo\Mostrartipoactivo;
+use App\Livewire\ActivoFijo\Notas\Agregarnotas;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/principal', function () {
@@ -19,6 +20,10 @@ Route::get('af/editartipoactivo/{id}', Editartipoactivo::class)->name('editartip
 Route::get('af/mostraractivotec', Mostraracttec::class)->name('mostraracttec');
 Route::get('af/agregaractivotec', Agregaracttec::class)->name('agregaracttec');
 Route::get('af/editaractivotec/{id}', Editaracttec::class)->name('editaracttec');
+
+Route::get('af/agregarnotatec', Agregarnotas::class)->name('agregarnotas');
+
+
 
 
 

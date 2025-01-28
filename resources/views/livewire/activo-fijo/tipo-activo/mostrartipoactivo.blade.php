@@ -21,7 +21,7 @@
     </div>
     
     <!-- Tabla de datos -->
-    <div class="overflow-x-auto dark:bg-dark rounded-lg p-4">
+    <div class="mt-2">
         <livewire:activo-table />
     </div>
 </div>

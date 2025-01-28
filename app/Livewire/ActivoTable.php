@@ -12,6 +12,7 @@ use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 
+
 final class ActivoTable extends PowerGridComponent
 {
     public string $tableName = 'activo-table-ydaods-table';
