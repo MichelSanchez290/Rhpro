@@ -9,6 +9,8 @@ use App\Models\PortalCapacitacion\RelacionExterna;
 use App\Models\PortalCapacitacion\ResponsabilidadUniversal;
 use App\Models\PortalCapacitacion\FormacionHabilidadHumana;
 use App\Models\PortalCapacitacion\FormacionHabilidadTecnica;
+use App\Models\PortalCapacitacion\PerfilPuesto;
+use Illuminate\Support\Facades\DB;
 
 class AgregarPerfilPuesto extends Component
 {
@@ -60,7 +62,7 @@ class AgregarPerfilPuesto extends Component
         'perfil.escolaridad' => 'required',
         'perfil.idioma_requerido' => 'required',
         'perfil.experiencia_requerida' => 'required',
-        'perfil.disponibilidad' => 'required',
+        //'perfil.disponibilidad' => 'required',
         'perfil.nivel_riesgo_fisico' => 'required',
         'perfil.elaboro_nombre' => 'required',
         'perfil.elaboro_puesto' => 'required',
@@ -263,6 +265,80 @@ class AgregarPerfilPuesto extends Component
         $this->tecnicas = array_values($this->tecnicas);
         $this->numerotecnica--;
     }
+
+    public function savePerfil()
+{
+    // Validar los datos ingresados
+    $this->validate();
+
+    // Guardar el perfil principal
+    $perfil = new PerfilPuesto($this->perfil);
+    $perfil->save();
+
+    // Guardar las funciones específicas asociadas al perfil
+    foreach ($this->funciones as $funcion) {
+        if (!empty($funcion['id'])) {
+            DB::table('funcion_perfil')->insert([
+                'id_funcion' => $funcion['id'],
+                'id_perfil_puesto' => $perfil->id,
+            ]);
+        }
+    }
+
+    // Guardar relaciones internas asociadas al perfil
+    foreach ($this->internas as $interna) {
+        if (!empty($interna['id'])) {
+            DB::table('relacion_interna_perfil')->insert([
+                'id_relacion_interna' => $interna['id'],
+                'id_perfil_puesto' => $perfil->id,
+            ]);
+        }
+    }
+
+    // Guardar relaciones externas asociadas al perfil
+    foreach ($this->externas as $externa) {
+        if (!empty($externa['id'])) {
+            DB::table('relacion_externa_perfil')->insert([
+                'id_relacion_externa' => $externa['id'],
+                'id_perfil_puesto' => $perfil->id,
+            ]);
+        }
+    }
+
+    // Guardar responsabilidades universales asociadas al perfil
+    foreach ($this->responsabilidades as $responsabilidad) {
+        if (!empty($responsabilidad['id'])) {
+            DB::table('responsabilidad_universal_perfil')->insert([
+                'id_responsabilidad_universal' => $responsabilidad['id'],
+                'id_perfil_puesto' => $perfil->id,
+            ]);
+        }
+    }
+
+    // Guardar habilidades humanas asociadas al perfil
+    foreach ($this->humanas as $humana) {
+        if (!empty($humana['id'])) {
+            DB::table('formacion_habilidad_humana_perfil')->insert([
+                'id_formacion_habilidad_humana' => $humana['id'],
+                'id_perfil_puesto' => $perfil->id,
+            ]);
+        }
+    }
+
+    // Guardar habilidades técnicas asociadas al perfil
+    foreach ($this->tecnicas as $tecnica) {
+        if (!empty($tecnica['id'])) {
+            DB::table('formacion_habilidad_tecnica_perfil')->insert([
+                'id_formacion_habilidad_tecnica' => $tecnica['id'],
+                'id_perfil_puesto' => $perfil->id,
+            ]);
+        }
+    }
+
+    // Reiniciar los valores del formulario después de guardar
+    $this->reset(['perfil', 'funciones', 'internas', 'externas', 'responsabilidades', 'humanas', 'tecnicas']);
+}
+
 
 
     public function render()

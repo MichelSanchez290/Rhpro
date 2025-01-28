@@ -21,7 +21,7 @@ class FuncionEspecifica extends Model
     // Relación muchos a muchos con perfiles_puestos
     public function perfiles_puestos()
     {
-        return $this->belongsToMany(PerfilPuesto::class); // Modelo relacionado
+        return $this->belongsToMany(PerfilPuesto::class, 'funcion_esp_perfil_puesto'); // Modelo relacionado
     }
 
 }
