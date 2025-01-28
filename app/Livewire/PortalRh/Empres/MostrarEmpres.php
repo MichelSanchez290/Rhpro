@@ -11,34 +11,53 @@ use Illuminate\Support\Facades\Response;
 
 class MostrarEmpres extends Component
 {
+    public $showModal = false; // Control para ventana emergente
+    public $empresToDelete; // ID a eliminar
+
     public function redirigir()
     {
         return redirect()->route('agregarempresa');
     }
 
     //Eliminar
-    protected $listeners = ['deleteEmpres'];
-
-    public function confirmDeleteEmpres($id)
+    protected $listeners = [
+        'confirmDelete' => 'confirmDelete', // Captura el evento
+    ]; 
+    
+    public function confirmDelete($id)
     {
-        $this->emit('confirmDeleteEmpres',$id);
+        $this->empresToDelete = $id;
+        $this->showModal = true;
     }
-
-    public function deleteEmpres($data)
+    
+    public function deleteSucursal()
     {
-        $id = $data['id'];
+        /*
+        if ($this->sucursalToDelete) {
+            $sucursal = Sucursal::find($this->sucursalToDelete);
 
-        $empres = Empres::find($id);
+            if ($sucursal) {
+                $sucursal->delete();
+                session()->flash('message', 'Sucursal eliminada exitosamente.');
+            } else {
+                session()->flash('message', 'La sucursal no existe o ya fue eliminada.');
+            }
+        } else {
+            session()->flash('message', 'No se proporcionó ninguna sucursal para eliminar.');
+        }
 
-        if($empres)
-        {
-            $empres->delete();
-            $this->emit('eliminar','Empresa eliminada korrektamenthe');
+        $this->sucursalToDelete = null;
+        $this->showModal = false; */
+
+
+        
+        if ($this->empresToDelete) {
+            Empres::find($this->empresToDelete)->delete();
+            session()->flash('message', 'Empresa eliminada exitosamente.');
         }
-        else
-        {
-            $this->emit('eliminar','Empresa no encontrada');
-        }
+
+        $this->empresToDelete = null;
+        $this->showModal = false;
 
         return redirect()->route('mostrarempresas');
     }

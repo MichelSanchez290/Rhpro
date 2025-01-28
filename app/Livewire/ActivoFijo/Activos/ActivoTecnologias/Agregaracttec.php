@@ -67,7 +67,7 @@ class Agregaracttec extends Component
         // Limpiar los datos de la venta después de guardar
         $this->activo = []; 
         
-        return redirect()->to('/mostraractivotec');
+        return redirect()->route('mostraracttec');
     }
 
 

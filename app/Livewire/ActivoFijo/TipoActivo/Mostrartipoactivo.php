@@ -13,6 +13,11 @@ class Mostrartipoactivo extends Component
     //     $this->emit('notification', 'El registro ha sido eliminado con éxito.');
     // }
 
+    public function redirigir()
+    {
+        return redirect()->route('agregartipoactivo');
+    }
+
     public function render()
     {
         return view('livewire.activo-fijo.tipo-activo.mostrartipoactivo')->layout('layouts.navactivos');

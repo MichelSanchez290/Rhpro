@@ -1,141 +1,140 @@
-<div class="container mx-auto px-4">
-    <div class="mt-6">
-        <!-- Primera fila -->
-        <div class="flex flex-wrap -mx-2 mb-6">
-            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="clave-sucursal">
-                    Clave Sucursal
-                </label>
-                <input
-                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                    wire:model.defer="sucursal.clave_sucursal" type="text" placeholder="">
-                <x-input-error for="sucursal.clave_sucursal" />
-            </div>
-            <div class="w-full md:w-1/2 px-3">
-                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="nombre-sucursal">
-                    Nombre Sucursal
-                </label>
-                <input
-                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    wire:model.defer="sucursal.nombre_sucursal" type="text" placeholder="">
-                <x-input-error for="sucursal.nombre_sucursal" />
-            </div>
-        </div>
-
-        <!-- Segunda fila -->
-        <div class="flex flex-wrap -mx-2 mb-6">
-            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="zona-economica">
-                    Zona Económica
-                </label>
-                <input
-                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                    wire:model.defer="sucursal.zona_economica" type="text" placeholder="">
-                <x-input-error for="sucursal.zona_economica" />
-            </div>
-            <div class="w-full md:w-1/2 px-3">
-                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="estado">
-                    Estado
-                </label>
-                <input
-                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    wire:model.defer="sucursal.estado" type="text" placeholder="">
-                <x-input-error for="sucursal.estado" />
-            </div>
-        </div>
-
-        <!-- Tercera fila -->
-        <div class="flex flex-wrap -mx-2 mb-6">
-            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="cuenta-contable">
-                    Cuenta Contable
-                </label>
-                <input
-                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                    wire:model.defer="sucursal.cuenta_contable" type="text" placeholder="">
-                <x-input-error for="sucursal.cuenta_contable" />
-            </div>
-            <div class="w-full md:w-1/2 px-3">
-                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="rfc">
-                    RFC
-                </label>
-                <input
-                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    wire:model.defer="sucursal.rfc" type="text" placeholder="">
-                <x-input-error for="sucursal.rfc" />
-            </div>
-        </div>
-
-        <!-- Cuarta fila -->
-        <div class="flex flex-wrap -mx-2 mb-6">
-            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="correo">
-                    Correo
-                </label>
-                <input
-                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                    wire:model.defer="sucursal.correo" type="email" placeholder="">
-                <x-input-error for="sucursal.correo" />
-            </div>
-
-            <div class="w-full md:w-1/2 px-3">
-                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="telefono">
-                    Teléfono
-                </label>
-                <input
-                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    wire:model.defer="sucursal.telefono" type="text" placeholder="">
-                <x-input-error for="sucursal.telefono" />
-            </div>
-        </div>
-
-        <!-- Sexta fila -->
-        <div class="flex flex-wrap -mx-2 mb-6">
-            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="status">
-                    Estado
-                </label>
-                <div class="relative">
-                    <select
-                        class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        wire:model.defer="sucursal.status">
-                        <option value="" selected>-- Selecciona una opción --</option>
-                        <option value="Activo">Activo</option>
-                        <option value="Inactivo">Inactivo</option>
-                    </select>
+<body class="bg-gray-200">
+    <div class="flex h-screen items-center justify-center">
+        <div class="grid bg-white rounded-lg shadow-xl w-full">
+            <div class="flex justify-center py-4">
+                <div class="flex bg-blue-200 rounded-full md:p-4 p-2 border-2 border-blue-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="w-8 h-8 text-white">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+                    </svg>
                 </div>
-                <x-input-error for="sucursal.status" />
             </div>
 
-            <div class="w-full md:w-1/2 px-3">
-                <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="registro_patronal_id">
-                        Registro Patronal
-                    </label>
-                    <div class="relative">
-                        <select
-                            class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="sucursal.registro_patronal_id">
+            <div class="flex justify-center">
+                <div class="flex">
+                    <h1 class="text-gray-600 font-bold md:text-2xl text-xl">Agregar Sucursal</h1>
+                </div>
+            </div>
+
+            <form class="mt-5 mx-7">
+                <!-- Clave Sucursal -->
+                <div class="grid grid-cols-1">
+                    <label for="clave_sucursal"
+                        class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Clave
+                        Sucursal</label>
+                    <input wire:model.defer="sucursal.clave_sucursal" type="text" id="clave_sucursal"
+                        placeholder="Clave de la sucursal"
+                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                </div>
+
+                <!-- Nombre Sucursal y Zona Económica -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
+                    <div class="grid grid-cols-1">
+                        <label for="nombre_sucursal"
+                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Nombre
+                            Sucursal</label>
+                        <input wire:model.defer="sucursal.nombre_sucursal" type="text" id="nombre_sucursal"
+                            placeholder="Nombre de la sucursal"
+                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                    </div>
+
+                    <div class="grid grid-cols-1">
+                        <label for="zona_economica"
+                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Zona
+                            Económica</label>
+                        <input wire:model.defer="sucursal.zona_economica" type="text" id="zona_economica"
+                            placeholder="Zona económica"
+                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                    </div>
+                </div>
+
+                <!-- Estado y Cuenta Contable -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
+                    <div class="grid grid-cols-1">
+                        <label for="estado"
+                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Estado</label>
+                        <input wire:model.defer="sucursal.estado" type="text" id="estado" placeholder="Estado"
+                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                    </div>
+
+                    <div class="grid grid-cols-1">
+                        <label for="cuenta_contable"
+                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Cuenta
+                            Contable</label>
+                        <input wire:model.defer="sucursal.cuenta_contable" type="text" id="cuenta_contable"
+                            placeholder="Cuenta contable"
+                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                    </div>
+                </div>
+
+                <!-- RFC y Correo -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
+                    <div class="grid grid-cols-1">
+                        <label for="rfc"
+                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">RFC</label>
+                        <input wire:model.defer="sucursal.rfc" type="text" id="rfc" placeholder="RFC"
+                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                    </div>
+
+                    <div class="grid grid-cols-1">
+                        <label for="correo"
+                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Correo</label>
+                        <input wire:model.defer="sucursal.correo" type="email" id="correo"
+                            placeholder="Correo electrónico"
+                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                    </div>
+                </div>
+
+                <!-- Teléfono y Status -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
+                    <div class="grid grid-cols-1">
+                        <label for="telefono"
+                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Teléfono</label>
+                        <input wire:model.defer="sucursal.telefono" type="text" id="telefono" placeholder="Teléfono"
+                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                    </div>
+
+                    <div class="grid grid-cols-1">
+                        <label for="status"
+                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Status</label>
+                        <select wire:model.defer="sucursal.status" id="status"
+                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
                             <option value="" selected>-- Selecciona una opción --</option>
-                            <option value="1">20000001234</option>
-                            <option value="2">300660001234</option>
+                            <option value="Activo">Activo</option>
+                            <option value="Inactivo">Inactivo</option>
                         </select>
                     </div>
-                    <x-input-error for="sucursal.registro_patronal_id" />
                 </div>
-            </div>
-        </div>
 
-        
-        <!-- Sexta fila -->
-        
-        
+                <!-- Registro Patronal -->
+                <div class="grid grid-cols-1 mt-5">
+                    <label for="registro_patronal_id"
+                        class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Registro
+                        Patronal</label>
+                    <select wire:model.defer="sucursal.registro_patronal_id" id="registro_patronal_id"
+                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                        <option value="">Seleccione un usuario</option>
+                        @foreach ($regpatronales as $regpatronal)
+                            <option value="{{ $regpatronal->id }}">{{ $regpatronal->registro_patronal }}</option>
+                        @endforeach
+                    </select>
+                </div>
 
-        <!-- Botón -->
-        <div class="flex items-center justify-center">
-            <button wire:click="saveSucursal()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                Agregar
-            </button>
+                <!-- Botones -->
+                <div class='flex items-center justify-center md:gap-8 gap-4 pt-5 pb-5'>
+
+                    <button type="button" wire:click="saveSucursal()"
+                        class='w-auto bg-blue-500 hover:bg-blue-700 rounded-lg shadow-xl font-medium text-white px-4 py-2'>
+                        Agregar
+                    </button>
+
+                    <button type="button" wire:click="redirigirSuc"
+                        class='w-auto bg-red-500 hover:bg-red-700 rounded-lg shadow-xl font-medium text-white px-4 py-2'>
+                        Cancelar
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
-</div>
+</body>
