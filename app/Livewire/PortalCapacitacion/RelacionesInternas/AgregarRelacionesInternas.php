@@ -36,7 +36,7 @@ class AgregarRelacionesInternas extends Component
         $Agregarinterna->save();
 
         $this->interna=[];
-        $this->emit('showAnimatedToast', 'Producto guardado correctamente');
+        //$this->emit('showAnimatedToast', 'Producto guardado correctamente');
         return redirect()->route('mostrarRelacionesInternas');
         
     }

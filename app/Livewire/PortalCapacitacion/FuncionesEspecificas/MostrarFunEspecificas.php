@@ -10,8 +10,9 @@ class MostrarFunEspecificas extends Component
 {
     use WithPagination;
     public $porpagina=5; //numero de productos a  mostrar por pagina
-    public $search; //buscar
-    public $funcion;
+    public $search = ''; //buscar
+    public $showModal = false; // Control para ventana emergente
+    public $sucursalToDelete;
 
     //metodo para redirreccion a una vista
     public function redirigir()
@@ -19,15 +20,27 @@ class MostrarFunEspecificas extends Component
         return redirect()->route('agregarFuncionesEspecificas');
     }
 
-    public function delete($id)
+    protected $listeners = [
+        'confirmDelete' => 'confirmDelete', // Captura el evento
+    ]; 
+    
+    public function confirmDelete($id)
     {
-        FuncionEspecifica::find($id)->delete();
-        //$this->emit('eliminar','funcion-eliminada');
+        $this->sucursalToDelete = $id;
+        $this->showModal = true;
     }
-
-    public function mount()
+    
+    public function deleteSucursal()
     {
-        $this->search="";
+        if ($this->sucursalToDelete) {
+            FuncionEspecifica::find($this->sucursalToDelete)->delete();
+            session()->flash('message', 'Sucursal eliminada exitosamente.');
+        }
+
+        $this->sucursalToDelete = null;
+        $this->showModal = false;
+
+        return redirect()->route('mostrarFuncionesEspecificas');
     }
 
     public function updatedSearch()
