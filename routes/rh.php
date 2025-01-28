@@ -15,6 +15,12 @@ use App\Livewire\PortalRh\RegistPatronal\MostrarRegPatronal;
 use App\Livewire\PortalRh\RegistPatronal\AgregarRegPatronal;
 use App\Livewire\PortalRh\RegistPatronal\EditarRegPatronal;
 
+use App\Livewire\PortalRh\Departament\MostarDepartament;
+use App\Livewire\PortalRh\Departament\AgregarDepartament;
+use App\Livewire\PortalRh\Departament\EditarDepartament;
+
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -81,3 +87,19 @@ Route::get(
         '/edit-sucursal/{id}',
             EditarSucursal::class
     )->name('editarsucursal');
+
+    // DEPARTAMENTOS
+    Route::get( 
+        '/departamentos',
+            MostarDepartament::class
+    )->name('mostrardepa');
+
+    Route::get( 
+        '/create-departament',
+            AgregarDepartament::class
+    )->name('agregardepa');
+
+    Route::get( 
+        '/edit-departament/{id}',
+            EditarDepartament::class
+    )->name('editardepa');

@@ -111,6 +111,21 @@
                         </li>
                     </ul>
                 </li>
+                <!-- Departamentos -->
+                <li class="opcion-con-desplegable">
+                    <div class="flex items-center justify-between px-2 py-2 hover:bg-gray-700 cursor-pointer">
+                        <i class="fas fa-home mr-2"></i> <!-- Icono -->
+                        <span class="flex-1">Departamentos</span>
+                        <i class="fas fa-chevron-down text-xs"></i>
+                    </div>
+                    <ul class="desplegable ml-8 hidden">
+                        <li>
+                            <a href="{{ route('mostrardepa') }}" class="p-2 hover:bg-gray-700 flex items-center">
+                                <i class="mr-2 text-xs"></i> Mostrar Departamentos
+                            </a>
+                        </li>
+                    </ul>
+                </li>
                 
             </ul>
         </nav>

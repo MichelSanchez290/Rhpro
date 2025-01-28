@@ -32,25 +32,6 @@ class MostrarEmpres extends Component
     
     public function deleteSucursal()
     {
-        /*
-        if ($this->sucursalToDelete) {
-            $sucursal = Sucursal::find($this->sucursalToDelete);
-
-            if ($sucursal) {
-                $sucursal->delete();
-                session()->flash('message', 'Sucursal eliminada exitosamente.');
-            } else {
-                session()->flash('message', 'La sucursal no existe o ya fue eliminada.');
-            }
-        } else {
-            session()->flash('message', 'No se proporcionó ninguna sucursal para eliminar.');
-        }
-
-        $this->sucursalToDelete = null;
-        $this->showModal = false; */
-
-
-        
         if ($this->empresToDelete) {
             Empres::find($this->empresToDelete)->delete();
             session()->flash('message', 'Empresa eliminada exitosamente.');

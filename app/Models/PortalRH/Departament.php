@@ -17,7 +17,7 @@ class Departament extends Model
     protected $primaryKey = 'id';
 
     //especifica las columnas
-    protected $fillable = ['id', 'nombre_departamento', 'user_id'];
+    protected $fillable = ['id', 'nombre_departamento'];
 
 
 
