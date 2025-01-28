@@ -1,15 +1,15 @@
 <div>
     <div class="w-full mt-1 flex justify-end mr-5">
-        <button wire:click="redirigirRelaciones()"
+        <button wire:click="redirigirRoles()"
             class="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-gray-600 mr-4 mt-2">
-            Agregar Relaciones 
+            Agregar Rol 
         </button>
     </div>
     <section class="antialiased bg-gray-100 text-gray-600 mt-6 px-4">
         <div class="flex flex-col justify-center h-full">
             <div class="w-full mx-auto bg-white shadow-lg rounded-lg border border-gray-200">
                 <header class="px-5 py-4 border-b border-gray-100 flex justify-between items-center">
-                    <h2 class="font-semibold text-gray-800 text-xl">Relaciones Laborales</h2>
+                    <h2 class="font-semibold text-gray-800 text-xl">Rol</h2>
                     <div class="relative w-64">
                         <input class="border border-gray-300 pl-10 pr-3 py-2 rounded-md w-full text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
                             wire:model.live="search"
@@ -27,21 +27,21 @@
                         <table class="table-auto w-full border-collapse">
                             <thead class="text-xs font-semibold uppercase text-gray-500 bg-gray-50">
                                 <tr>
-                                    <th class="p-3 text-left">Nombre</th>
+                                    <th class="p-3 text-left">Rol</th>
                                     <th class="p-3 text-center">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody class="text-sm divide-y divide-gray-200">
-                                @forelse($relacionesuser as $user)
+                                @forelse($rolUser as $roluserdev)
                                 <tr class="hover:bg-gray-200">
-                                    <td class="p-3 text-black">{{ $user->nombre }}</td>
+                                    <td class="p-3 text-black">{{ $roluserdev->name }}</td>
                                     <td class="p-3 text-center">
                                         <div class="flex justify-center gap-3">
-                                            <a href="{{ route('editRelaciones', Crypt::encrypt($user->id)) }}"
+                                            <a href="{{ route('editRolesdev', Crypt::encrypt($roluserdev->id)) }}"
                                                 class="bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-700">
                                                 Editar
                                             </a>
-                                            <button wire:click="deleteRelaciones({{ $user->id }})"
+                                            <button wire:click="deleteRoles({{ $roluserdev->id }})"
                                                 class="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-700">
                                                 Eliminar
                                             </button>
@@ -57,9 +57,9 @@
                                 @endforelse
                             </tbody>
                         </table>
-                        @if ($relacionesuser->count())
+                        @if ($rolUser->count())
                         <div class="bg-white px-4 py-3 border-t border-gray-200 sm:px-6">
-                            {{ $relacionesuser->links() }}
+                            {{$rolUser->links() }}
                         </div>
                         @endif
                     </div>
@@ -71,7 +71,7 @@
 
 @script
 <script>
-    $wire.on('eliminarRelaciones', (event) => {
+    $wire.on('eliminarRoles', (event) => {
         //alert(event.id);
         Swal.fire({
             title: "¿Está seguro?",

@@ -13,7 +13,7 @@ class RelacionesSeeder extends Seeder
     public function run(): void
     {
         $Relaciones = Relacion::create([
-            'nombre' => 'Miguel Angel Potrero Iletl'
+            'nombre' => 'Jefe'
         ]);
 
         //
