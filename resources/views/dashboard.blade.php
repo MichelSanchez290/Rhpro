@@ -74,7 +74,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
 
                 <div class="p-2 sm:p-6 text-center cursor-pointer">
-                    <a href="{{ route('home') }}">
+                    <a href="{{ route('encuesta.index') }}">
                         <div class="py-16 max-w-sm rounded overflow-hidden shadow-lg hover:bg-white transition duration-500 bg-white">
                             <div class="space-y-10">
                                 <i class="fas fa-user-circle" style="font-size:48px;"></i>
