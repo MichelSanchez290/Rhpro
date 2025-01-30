@@ -33,7 +33,6 @@ return [
         'subirDocs' => [
             'driver' => 'local',
             'root' => public_path(),
-
         ],
 
         'local' => [

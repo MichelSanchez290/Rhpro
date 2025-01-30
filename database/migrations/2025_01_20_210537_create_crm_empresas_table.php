@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('nombre');
             $table->string('tamano_empresa');
-            $table->string('logotipo', 255);
             $table->string('pagina_web');
+            $table->string('logotipo', 255);
             $table->timestamps();
         });
     }
