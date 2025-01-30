@@ -47,6 +47,20 @@ final class EmpresaTable extends PowerGridComponent
                 'sucursales.clave_sucursal'
             ]);
     }
+
+    // public function datasource(): Builder
+    // {
+    //     return EmpresaSucursal::query()
+    //         ->join('empresas', 'empresas.id', '=', 'empresa_sucursal.empresa_id')
+    //         ->join('sucursales', 'sucursales.id', '=', 'empresa_sucursal.sucursal_id')
+    //         ->select([
+    //             'empresa_sucursal.id',
+    //             'empresas.nombre as nombre_empresa',
+    //             'sucursales.clave',
+    //             'sucursales.nombre'
+    //         ]);
+    // }
+
     public function relationSearch(): array
     {
         return [];
@@ -59,7 +73,6 @@ final class EmpresaTable extends PowerGridComponent
             ->add('id')
             ->add('empresas.nombre')
             ->add('sucursales.clave_sucursal');
-            
     }
 
     public function columns(): array
@@ -108,8 +121,8 @@ final class EmpresaTable extends PowerGridComponent
             //     ->sortable(),
 
             //Column::make('Created at', 'created_at')
-               // ->sortable()
-               // ->searchable(),
+            // ->sortable()
+            // ->searchable(),
 
             Column::action('Action')
         ];
@@ -136,5 +149,4 @@ final class EmpresaTable extends PowerGridComponent
                 ->dispatch('edit', ['rowId' => $row->id])
         ];
     }
-
 }

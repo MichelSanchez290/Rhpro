@@ -22,5 +22,6 @@ class DatabaseSeeder extends Seeder
         // ]);
         $this->call([RelacionesSeeder::class]);
         $this->call([UserRolDevSeeder::class]);
+        // $this->call([EncuestaSeeder::class]);
     }
 }
