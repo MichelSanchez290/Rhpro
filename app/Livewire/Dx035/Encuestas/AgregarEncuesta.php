@@ -5,6 +5,7 @@ namespace App\Livewire\Dx035\Encuestas;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\Dx035\Encuesta;
+use App\Models\Dx035\Cuestionario;
 use App\Models\Dx035\GiaReferencia;
 use App\Models\PortalRH\Departament;
 
@@ -17,6 +18,8 @@ class AgregarEncuesta extends Component
     public $FechaFinal, $giasreferencia_id, $departamentosSeleccionados = [];
     public $GiaActivo = false;
     public $logo;
+
+    public $cuestionariosSeleccionados = [];
 
     protected $rules = [
         'Clave' => 'required|string|unique:encuestas,Clave',
@@ -39,11 +42,15 @@ class AgregarEncuesta extends Component
         'logo' => 'nullable|image|max:1024',
     ];
 
-    public $cuestionariosSeleccionados = [
-        1 => true,  // El primer cuestionario está activado por defecto
-        2 => false,
-        3 => false
-    ];
+    public function mount()
+    {
+        // Inicializar el array de cuestionarios seleccionados
+        $cuestionarios = Cuestionario::all();
+        foreach ($cuestionarios as $cuestionario) {
+            $this->cuestionariosSeleccionados[$cuestionario->id] = false; // Por defecto, todos desactivados
+        }
+        $this->cuestionariosSeleccionados[1] = true; // Activar el primer cuestionario por defecto
+    }
 
     public function submit()
     {
@@ -53,7 +60,16 @@ class AgregarEncuesta extends Component
             $this->RutaLogo = $this->logo->store('logos', 'public');
         }
 
-        Encuesta::create([
+        // Obtener los IDs de los cuestionarios seleccionados
+        $cuestionariosSeleccionadosIds = [];
+        foreach ($this->cuestionariosSeleccionados as $cuestionarioId => $seleccionado) {
+            if ($seleccionado) {
+                $cuestionariosSeleccionadosIds[] = $cuestionarioId;
+            }
+        }
+
+        // Crear la encuesta
+        $encuesta = Encuesta::create([
             'Clave' => $this->Clave,
             'Empresa' => $this->Empresa,
             'RutaLogo' => $this->RutaLogo,
@@ -61,7 +77,7 @@ class AgregarEncuesta extends Component
             'Caducidad' => $this->Caducidad,
             'Estado' => $this->Estado,
             'NumeroEncuestas' => $this->NumeroEncuestas,
-            'Formato' => $this->Formato,
+            'Formato' => implode(',', $cuestionariosSeleccionadosIds), // Almacenar los IDs de los cuestionarios seleccionados
             'EncuestasContestadas' => $this->EncuestasContestadas,
             'Actividades' => $this->Actividades,
             'Numero' => $this->Numero,
@@ -72,6 +88,11 @@ class AgregarEncuesta extends Component
             'giasreferencia_id' => $this->GiaActivo ? $this->giasreferencia_id : null,
         ]);
 
+        // Guardar los cuestionarios seleccionados en la tabla pivote
+        foreach ($cuestionariosSeleccionadosIds as $cuestionarioId) {
+            $encuesta->cuestionarios()->attach($cuestionarioId);
+        }
+
         session()->flash('message', 'Encuesta agregada correctamente.');
         return redirect()->route('encuesta.index');
     }
@@ -80,8 +101,9 @@ class AgregarEncuesta extends Component
     {
         $giasReferencias = GiaReferencia::all();
         $departamentos = Departament::all();
+        $cuestionarios = Cuestionario::all(); // Obtener todos los cuestionarios
 
-        return view('livewire.dx035.encuestas.agregar-encuesta', compact('giasReferencias', 'departamentos'))
+        return view('livewire.dx035.encuestas.agregar-encuesta', compact('giasReferencias', 'departamentos', 'cuestionarios'))
             ->layout('layouts.dx035');
     }
 }
