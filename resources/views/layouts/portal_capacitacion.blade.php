@@ -6,14 +6,19 @@
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+  @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+        <!-- Styles -->
+  @livewireStyles
 </head>
 <body class="flex">
   <!-- Sidebar -->
-  <aside class="w-64 bg-gray-800 text-white h-screen fixed top-0 left-0">
+  <aside class="w-64 bg-gray-800 text-white h-screen fixed top-0 left-0 z-50">
     <div class="p-4 text-center border-b border-gray-700">
       <img src="{{ asset('img/CESRH.png') }}" alt="Logo" class="h-12 mx-auto">
     </div>
-    <nav class="mt-4">
+    <nav class="mt-4 z-50">
       <ul class="space-y-2">
         <li class="opcion-con-desplegable">
           <button class="w-full text-left px-4 py-2 hover:bg-gray-700 flex items-center">
@@ -30,16 +35,10 @@
             <a href="{{route('mostrarHabilidadesTecnicas')}}" class="block px-4 py-2">Formación y habilidades técnicas</a>
           </ul>
         </li>
-        <li class="opcion-con-desplegable">
-          <button class="w-full text-left px-4 py-2 hover:bg-gray-700 flex items-center">
-            <i class="fa-solid fa-code-compare mr-2"></i> Comparar Perfiles
-            <i class="fas fa-chevron-down ml-auto"></i>
-          </button>
-          <ul class="desplegable hidden pl-8 space-y-2">
-            <li><a href="#" class="block px-4 py-2 hover:bg-gray-700">Tratamientos</a></li>
-            <li><a href="#" class="block px-4 py-2 hover:bg-gray-700">Gastos</a></li>
-            <li><a href="#" class="block px-4 py-2 hover:bg-gray-700">Facturas</a></li>
-          </ul>
+        <li>
+          <button class="w-full text-left px-4 py-2 hover:bg-gray-700 flex items-center" onclick="window.location.href='{{ route('mostrarUsuarios') }}'">
+            <i class="fa-solid fa-users mr-2"></i> Trabajadores
+          </button>        
         </li>
         <li class="opcion-con-desplegable">
           <button class="w-full text-left px-4 py-2 hover:bg-gray-700 flex items-center">
@@ -96,6 +95,10 @@
       {{ $slot }}
     </main>
   </div>
+
+  @stack('modals')
+
+  @livewireScripts
 
   <script>
     document.addEventListener("DOMContentLoaded", function () {

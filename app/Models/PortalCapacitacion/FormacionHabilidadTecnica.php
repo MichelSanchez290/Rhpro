@@ -20,6 +20,6 @@ class FormacionHabilidadTecnica extends Model
     // Relación muchos a muchos con perfiles_puestos
     public function perfiles_puestos()
     {
-        return $this->belongsToMany(PerfilPuesto::class, 'formacion_tecnica_perfil_puesto'); // Modelo relacionado
+        return $this->belongsToMany(PerfilPuesto::class, 'formacion_tecnica_perfil_puesto', 'perfiles_puestos_id', 'formaciones_tecnicas_id'); // Modelo relacionado
     }
 }

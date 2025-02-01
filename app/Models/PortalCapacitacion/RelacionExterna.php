@@ -20,6 +20,6 @@ class RelacionExterna extends Model
     // Relación muchos a muchos con perfiles_puestos
     public function perfiles_puestos()
     {
-        return $this->belongsToMany(PerfilPuesto::class, 'relacion_interna_perfil_puesto'); // Modelo relacionado
+        return $this->belongsToMany(PerfilPuesto::class, 'relacion_interna_perfil_puesto', 'relaciones_externas_id', 'perfiles_puestos_id'); // Modelo relacionado
     }
 }

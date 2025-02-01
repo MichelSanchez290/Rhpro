@@ -111,6 +111,11 @@ class AgregarPerfilPuesto extends Component
         
     ];
 
+    public function cerrar()
+    {
+        return redirect()->route('mostrarPerfilPuesto');
+    }
+
     public function mount(){
         $this -> selectFuncion = FuncionEspecifica::get();
         $this -> selectInterna = RelacionInterna::get();
@@ -268,73 +273,74 @@ class AgregarPerfilPuesto extends Component
 
     public function savePerfil()
 {
-    // Validar los datos ingresados
     $this->validate();
 
     // Guardar el perfil principal
-    $perfil = new PerfilPuesto($this->perfil);
-    $perfil->save();
+    $guardar = new PerfilPuesto($this->perfil);
+    $guardar->save();
 
     // Guardar las funciones específicas asociadas al perfil
     foreach ($this->funciones as $funcion) {
-        if (!empty($funcion['id'])) {
-            DB::table('funcion_perfil')->insert([
-                'id_funcion' => $funcion['id'],
-                'id_perfil_puesto' => $perfil->id,
+        if (!empty($funcion['id']) && $funcion['id']) {
+            DB::table('funcion_esp_perfil_puesto')->insert([
+                'funciones_esp_id' => $funcion['id'],
+                'perfiles_puestos_id' => $guardar->id,
             ]);
         }
     }
 
     // Guardar relaciones internas asociadas al perfil
     foreach ($this->internas as $interna) {
-        if (!empty($interna['id'])) {
-            DB::table('relacion_interna_perfil')->insert([
-                'id_relacion_interna' => $interna['id'],
-                'id_perfil_puesto' => $perfil->id,
+        if (!empty($interna['id']) && $interna['id']) {
+            DB::table('relacion_interna_perfil_puesto')->insert([
+                'relaciones_internas_id' => $interna['id'],
+                'perfiles_puestos_id' => $guardar->id,
             ]);
         }
     }
 
     // Guardar relaciones externas asociadas al perfil
     foreach ($this->externas as $externa) {
-        if (!empty($externa['id'])) {
-            DB::table('relacion_externa_perfil')->insert([
-                'id_relacion_externa' => $externa['id'],
-                'id_perfil_puesto' => $perfil->id,
+        if (!empty($externa['id']) && $externa['id']) {
+            DB::table('relacion_externa_perfil_puesto')->insert([
+                'relaciones_externas_id' => $externa['id'],
+                'perfiles_puestos_id' => $guardar->id,
             ]);
         }
     }
 
     // Guardar responsabilidades universales asociadas al perfil
     foreach ($this->responsabilidades as $responsabilidad) {
-        if (!empty($responsabilidad['id'])) {
-            DB::table('responsabilidad_universal_perfil')->insert([
-                'id_responsabilidad_universal' => $responsabilidad['id'],
-                'id_perfil_puesto' => $perfil->id,
+        if (!empty($responsabilidad['id']) && $responsabilidad['id']) {
+            DB::table('respon_univ_perfil_puesto')->insert([
+                'respons_univ_id' => $responsabilidad['id'],
+                'perfiles_puestos_id' => $guardar->id,
             ]);
         }
     }
 
     // Guardar habilidades humanas asociadas al perfil
     foreach ($this->humanas as $humana) {
-        if (!empty($humana['id'])) {
-            DB::table('formacion_habilidad_humana_perfil')->insert([
-                'id_formacion_habilidad_humana' => $humana['id'],
-                'id_perfil_puesto' => $perfil->id,
+        if (!empty($humana['id']) && $humana['id']) {
+            DB::table('formacion_humana_perfil_puesto')->insert([
+                'formaciones_humanas_id' => $humana['id'],
+                'perfiles_puestos_id' => $guardar->id,
             ]);
         }
     }
 
     // Guardar habilidades técnicas asociadas al perfil
     foreach ($this->tecnicas as $tecnica) {
-        if (!empty($tecnica['id'])) {
-            DB::table('formacion_habilidad_tecnica_perfil')->insert([
-                'id_formacion_habilidad_tecnica' => $tecnica['id'],
-                'id_perfil_puesto' => $perfil->id,
+        if (!empty($tecnica['id']) && $tecnica['id']) {
+            DB::table('formacion_tecnica_perfil_puesto')->insert([
+                'formaciones_tecnicas_id' => $tecnica['id'],
+                'perfiles_puestos_id' => $guardar->id,
             ]);
         }
     }
 
+    $this->banner('Paquete guardado correctamente');
+    $this->pack = [];
     // Reiniciar los valores del formulario después de guardar
     $this->reset(['perfil', 'funciones', 'internas', 'externas', 'responsabilidades', 'humanas', 'tecnicas']);
 }

@@ -40,4 +40,35 @@ class PerfilPuesto extends Model
             'autorizo_puesto',
             'status',
     ];
+
+    public function funcionesEspecificas()
+    {
+        return $this->belongsToMany(FuncionEspecifica::class, 'funcion_esp_perfil_puesto', 'perfiles_puestos_id', 'funciones_esp_id');
+    }
+
+    public function relacionesInternas(){
+        return $this->belongsToMany(RelacionInterna::class, 'relacion_interna_perfil_puesto', 'perfiles_puestos_id', 'relaciones_internas_id');
+    }
+
+    public function relacionesExternas(){
+        return $this->belongsToMany(RelacionExterna::class, 'relacion_externa_perfil_puesto', 'perfiles_puestos_id', 'relaciones_externas_id');
+    }
+
+    public function responsabilidadesUniversales(){
+        return $this->belongsToMany(ResponsabilidadUniversal::class, 'respon_univ_perfil_puesto', 'perfiles_puestos_id', 'respons_univ_id');
+    }
+
+    public function habilidadesHumanas(){
+        return $this->belongsToMany(FormacionHabilidadHumana::class, 'formacion_humana_perfil_puesto', 'perfiles_puestos_id', 'formaciones_humanas_id');
+    }
+
+    public function habilidadesTecnicas(){
+        return $this->belongsToMany(FormacionHabilidadTecnica::class, 'formacion_tecnica_perfil_puesto', 'perfiles_puestos_id', 'formaciones_tecnicas_id');
+    }
+
+    public function users(){
+        return $this->belongsToMany(User::class, 'perfi_puesto_user', 'perfiles_puestos_id', 'users_id');
+    }
+
+
 }

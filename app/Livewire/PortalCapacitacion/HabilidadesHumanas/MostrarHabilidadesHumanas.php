@@ -5,44 +5,43 @@ namespace App\Livewire\PortalCapacitacion\HabilidadesHumanas;
 use Livewire\Component;
 use App\Models\PortalCapacitacion\FormacionHabilidadHumana;
 use Livewire\WithPagination;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Response;
 
 class MostrarHabilidadesHumanas extends Component
 {
-
-    use WithPagination;
-    public $porpagina=5; //numero de productos a  mostrar por pagina
-    public $search='';
+    public $showModal = false; // Control para ventana emergente
+    public $funcionToDelete;
 
     public function redirigir(){
         return redirect()->route('agregarHabilidadesHumanas');
     }
 
-    public function delete($id)
+    protected $listeners = [
+        'confirmDelete' => 'confirmDelete', // Captura el evento
+    ]; 
+    
+    public function confirmDelete($id)
     {
-        FormacionHabilidadHumana::find($id)->delete();
-        //$this->emit('eliminar','funcion-eliminada');
+        $this->funcionToDelete = $id;
+        $this->showModal = true;
     }
+    
+    public function deleteFuncion()
+    {
+        if ($this->funcionToDelete) {
+            FormacionHabilidadHumana::find($this->funcionToDelete)->delete();
+            session()->flash('message', 'Habilidad humana eliminada exitosamente.');
+        }
 
-    public function mount()
-    {
-        $this->search="";
-    }
+        $this->funcionToDelete = null;
+        $this->showModal = false;
 
-    public function updatedSearch()
-    {
-        $this->resetPage();
+        return redirect()->route('mostrarFuncionesEspecificas');
     }
-    public function updatedPorpagina()
-    {
-        $this->resetPage();
-    }
-
 
     public function render()
     {
-        return view('livewire.portal-capacitacion.habilidades-humanas.mostrar-habilidades-humanas',[
-            'humanas'=> FormacionHabilidadHumana::where('descripcion','LIKE',"%{$this->search}%")
-            ->paginate($this->porpagina),
-        ])->layout("layouts.portal_capacitacion");
+        return view('livewire.portal-capacitacion.habilidades-humanas.mostrar-habilidades-humanas')->layout("layouts.portal_capacitacion");
     }
 }

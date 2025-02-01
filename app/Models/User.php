@@ -170,4 +170,10 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(ActivoUniforme::class);
     }
+
+    public function perfiles_puestos()
+    {
+        return $this->belongsToMany(PerfilPuesto::class, 'perfil_puesto_user', 'users_id', 'perfiles_puestos_id'); // Modelo relacionado
+    }
+
 }
