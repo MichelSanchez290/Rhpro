@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('user_incapacidad', function (Blueprint $table) {
-            //donde almacenara el id de la relacion
+            $table->id();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id') //Declara que id es una clave foránea.
                     ->references('id') //Indica que esta columna hace referencia a la columna id
@@ -21,14 +21,13 @@ return new class extends Migration
                     ->onDelete('cascade');
 
             //donde almacenara el id de la relacion
-            $table->unsignedBigInteger('incapacidades_id');
-            $table->foreign('incapacidades_id') //Declara que id es una clave foránea.
+            $table->unsignedBigInteger('incapacidad_id');
+            $table->foreign('incapacidad_id') //Declara que id es una clave foránea.
                     ->references('id') //Indica que esta columna hace referencia a la columna id
                     ->on( 'incapacidades')  // Define que la relación es con la tabla xxx
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
-
-
+    
             $table->timestamps();
         });
     }

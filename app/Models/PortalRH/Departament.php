@@ -24,7 +24,7 @@ class Departament extends Model
 
     public function sucursal()
     {
-        return $this->belongsToMany(Sucursal::class);
+        return $this->belongsToMany(Sucursal::class, 'sucursal_departament', 'departamento_id', 'sucursal_id');
     }
 
 

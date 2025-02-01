@@ -19,7 +19,25 @@ use App\Livewire\PortalRh\Departament\MostarDepartament;
 use App\Livewire\PortalRh\Departament\AgregarDepartament;
 use App\Livewire\PortalRh\Departament\EditarDepartament;
 
+// --- Pivote Sucursal con Depa --------------------
+use App\Livewire\PortalRh\SucursalDepa\AgregarSucursalDepa;
+use App\Livewire\PortalRh\SucursalDepa\MostarSucursalDepa;
+use App\Livewire\PortalRh\SucursalDepa\EditarSucursalDepa;
+// --------------------------------------------
 
+use App\Livewire\PortalRh\Puest\MostarPuest;
+use App\Livewire\PortalRh\Puest\AgregarPuest;
+use App\Livewire\PortalRh\Puest\EditarPuest;
+
+// --- Pivote Depa con Puesto --------------------
+use App\Livewire\PortalRh\DepartamentPuesto\MostrarDepartamentPuesto;
+use App\Livewire\PortalRh\DepartamentPuesto\AgregarDepartamentPuesto;
+use App\Livewire\PortalRh\DepartamentPuesto\EditarDepartamentPuesto;
+// --------------------------------------------
+
+use App\Livewire\PortalRh\Trabajador\MostrarTrabajador;
+use App\Livewire\PortalRh\Trabajador\AgregarTrabajador;
+use App\Livewire\PortalRh\Trabajador\EditarTrabajador;
 
 
 /*
@@ -40,7 +58,7 @@ Route::get(
     )->name('inicio');
 
 
-    // EMPRESAS
+    // EMPRESAS ---------------------------------------------------------------
     Route::get( 
         '/empresas',
             MostrarEmpres::class
@@ -58,7 +76,7 @@ Route::get(
     )->name('editarempresa');
 
 
-    // Sucursales
+    // Sucursales ---------------------------------------------------------------
     Route::get( 
         '/sucursales',
             MostrarSucursal::class
@@ -71,7 +89,7 @@ Route::get(
     )->name('agregarsucursal');
 
 
-    // Reg Patronal
+    // Reg Patronal ---------------------------------------------------------------
     Route::get( 
         '/reg-patronal',
             MostrarRegPatronal::class
@@ -88,7 +106,7 @@ Route::get(
             EditarSucursal::class
     )->name('editarsucursal');
 
-    // DEPARTAMENTOS
+    // DEPARTAMENTOS  ---------------------------------------------------------------
     Route::get( 
         '/departamentos',
             MostarDepartament::class
@@ -103,3 +121,69 @@ Route::get(
         '/edit-departament/{id}',
             EditarDepartament::class
     )->name('editardepa');
+
+    // Relacion Sucursal con Depa - PIVOTE *******************************
+    Route::get( 
+        '/mostrar-sucursaldepa',
+            MostarSucursalDepa::class
+    )->name('mostrarsucursaldepa');
+
+    Route::get( 
+        '/agregar-sucursaldepa',
+            AgregarSucursalDepa::class
+    )->name('agregarsucursaldepa');
+
+    Route::get( 
+        '/edit-sucursaldepa/{id}',
+            EditarSucursalDepa::class
+    )->name('editarsucursaldepa');
+
+
+    // PUESTOS ---------------------------------------------------------------
+    Route::get( 
+        '/puestos',
+            MostarPuest::class
+    )->name('mostrarpuesto');
+
+    Route::get( 
+        '/create-puest',
+            AgregarPuest::class
+    )->name('agregarpuesto');
+
+    Route::get( 
+        '/edit-puest/{id}',
+            EditarPuest::class
+    )->name('editarpuesto');
+
+    // Relacion Depa con Puesto - PIVOTE *******************************
+    Route::get( 
+        '/mostrar-depapuesto',
+            MostrarDepartamentPuesto::class
+    )->name('mostrardepapuesto');
+
+    Route::get( 
+        '/agregar-depapuesto',
+            AgregarDepartamentPuesto::class
+    )->name('agregardepapuesto');
+
+    Route::get( 
+        '/edit-depapuesto/{id}',
+            EditarDepartamentPuesto::class
+    )->name('editardepapuesto');
+
+
+    // Trabajador ---------------------------------------------------------------
+    Route::get( 
+        '/trabajadores',
+            MostrarTrabajador::class
+    )->name('mostrartrabajador');
+
+    Route::get( 
+        '/create-trabajador',
+            AgregarTrabajador::class
+    )->name('agregartrabajador');
+
+    Route::get( 
+        '/edit-trabajador/{id}',
+            EditarTrabajador::class
+    )->name('editartrabajador');

@@ -13,14 +13,12 @@ use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 
 use Illuminate\Support\Facades\Crypt;
-
 use PowerComponents\LivewirePowerGrid\Traits\WithExport; 
 use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable; 
 
 final class EmpresTable extends PowerGridComponent
 {
     use WithExport;
-
     public string $tableName = 'empres-table-u4eqeo-table';
 
     public function setUp(): array
