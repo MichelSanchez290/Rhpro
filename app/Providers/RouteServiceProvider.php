@@ -18,6 +18,8 @@ class RouteServiceProvider extends ServiceProvider
      * @var string
      */
     public const HOME = '/dashboard';
+    // public const HOME = '/portal360';
+
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.
@@ -33,8 +35,35 @@ class RouteServiceProvider extends ServiceProvider
                 ->prefix('api')
                 ->group(base_path('routes/api.php'));
 
+            // Aquí definimos las rutas web principales.
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
+
+            Route::middleware('web', 'auth')
+                ->prefix('rh')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/rh.php'));
+
+            Route::middleware('web', 'auth')
+                ->prefix('activofijo')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/activofijo.php'));
+            
+            Route::middleware('web', 'auth')
+                ->prefix('portal')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/portal.php'));
+
+            Route::middleware('web', 'auth')
+                ->prefix('dx035')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/dx035.php'));
+            
+            Route::middleware(['web', 'auth'])
+                ->prefix('portal360')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/portal360.php'));
+
             Route::middleware(['web', 'auth'])
                 ->prefix('crm')
                 ->namespace($this->namespace)
