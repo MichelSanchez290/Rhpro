@@ -1,7 +1,9 @@
 <?php
 
+use App\Livewire\Portal360\AgregarPregunta;
 use App\Livewire\Portal360\AgregarRelaciones;
 use App\Livewire\Portal360\AgregarRolesDev;
+use App\Livewire\Portal360\EditarPregunta;
 use App\Livewire\Portal360\EditarRelaciones;
 use App\Livewire\Portal360\EditarRolesDev;
 use App\Livewire\Portal360\EliminarRelaciones;
@@ -26,6 +28,10 @@ Route::get('/editar-roles-dev{id}', EditarRolesDev::class)->name('editRolesdev')
 Route::get('/empresa-dev', EmpresaDev::class)->name('portal360.mostrarEmpresa');
 Route::get('/encuesta-dev', EncuestaDev::class)->name('portal360.mostrarEncuestaDev');
 Route::get('/mostrar-pregunta', MostrarPregunta::class)->name('portal360.mostrarPregunta');
+Route::get('/agregar-pregunta', AgregarPregunta::class)->name('agregarPregunta');
+Route::get('/editar-pregunta{id}', EditarPregunta::class)->name('editpregunta');
+
+// Route::get('/agregar-pregunta', AgregarPregunta::class)->name('portal360.agregarPregunta');
 
 
 

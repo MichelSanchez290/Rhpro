@@ -14,7 +14,7 @@ class Encpre extends Model
     protected $fillable = ['id', 'encuestas_id', 'preguntas_id'];
     public function encuesta()
     {
-        return $this->belongsTo(Encuesta::class, 'encuestas_id');
+        return $this->belongsTo(Encuesta360::class, 'encuestas_id');
     }
     public function pregunta()
     {

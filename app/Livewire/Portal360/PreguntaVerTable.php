@@ -1,31 +1,26 @@
 <?php
 
-namespace App\Livewire\portal360;
+namespace App\Livewire\Portal360;
 
 use App\Models\Encuestas360\Pregunta;
+use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Crypt;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
+use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
-use PowerComponents\LivewirePowerGrid\Traits\WithExport; 
-use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable; 
 
-
-final class PreguntaTable extends PowerGridComponent
+final class PreguntaVerTable extends PowerGridComponent
 {
-    use WithExport; 
-    public string $tableName = 'pregunta-table-ft5cob-table';
+    public string $tableName = 'pregunta-ver-table-qursjm-table';
 
     public function setUp(): array
     {
         $this->showCheckBox();
 
         return [
-            PowerGRid::exportable(fileName: 'preguntas') 
-            ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             PowerGrid::header()
                 ->showSearchInput(),
             PowerGrid::footer()
@@ -48,19 +43,29 @@ final class PreguntaTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('id')
+            ->add('id')
             ->add('texto')
-            ->add('descripcion');
+            ->add('descripcion')
+            ->add('created_at');
     }
 
     public function columns(): array
     {
         return [
             Column::make('Id', 'id'),
+            Column::make('Id', 'id'),
             Column::make('Texto', 'texto')
                 ->sortable()
                 ->searchable(),
 
             Column::make('Descripcion', 'descripcion')
+                ->sortable()
+                ->searchable(),
+
+            Column::make('Created at', 'created_at_formatted', 'created_at')
+                ->sortable(),
+
+            Column::make('Created at', 'created_at')
                 ->sortable()
                 ->searchable(),
 
@@ -84,10 +89,22 @@ final class PreguntaTable extends PowerGridComponent
     {
         return [
             Button::add('edit')
-                ->slot('Editar')
-                ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
-                ->route('editpregunta', ['id' => Crypt::encrypt($row->id)]),
+                ->slot('Edit: '.$row->id)
+                ->id()
+                ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
+                ->dispatch('edit', ['rowId' => $row->id])
         ];
     }
 
+    /*
+    public function actionRules($row): array
+    {
+       return [
+            // Hide button edit for ID 1
+            Rule::button('edit')
+                ->when(fn($row) => $row->id === 1)
+                ->hide(),
+        ];
+    }
+    */
 }
