@@ -22,11 +22,14 @@ export default {
 
     theme: {
         extend: {
-            colors:{
-                "pg-primary": colors.indigo, // Color primario
-                "pg-secondary": colors.gray, // Color secundario
-                "pg-success": colors.green, // Color de éxito
-                "pg-danger": colors.red, // Color de peligro
+            extend: {
+                colors: {
+                    "pg-primary": "#4f46e5", // Color primario
+                    "pg-secondary": colors.indigo, // Color secundario
+                    "pg-success": colors.green, // Color de éxito
+                    "pg-danger": colors.red, // Color de peligro
+                },
+                // ...
             },
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],

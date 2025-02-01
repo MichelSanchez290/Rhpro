@@ -29,17 +29,21 @@ class ActivoMobiliario extends Model
         'fecha_baja',
         'tipo_activo_id',
         'precio_adquisicion',
-        'aniosestimado_id'
+        'aniosestimado_id',
+        'foto1',
+        'foto2',
+        'foto3',
+        'foto4'
     ];
 
     public function tipoactivo()
     {
-        return $this->belongsTo(Tipoactivo::class);
+        return $this->belongsTo(Tipoactivo::class,'tipo_activo_id','id');
     }
 
-    public function anioestimado()
+    public function anioEstimado()
     {
-        return $this->belongsTo(Anioestimado::class);
+        return $this->belongsTo(AnioEstimado::class, 'aniosestimado_id', 'id');
     }
 
     //Relaciones muchos a muchos
