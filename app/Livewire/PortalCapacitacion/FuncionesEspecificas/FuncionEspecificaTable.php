@@ -11,15 +11,18 @@ use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
+
 use Illuminate\Support\Facades\Crypt;
+
+use PowerComponents\LivewirePowerGrid\Traits\WithExport; 
+use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable; 
 
 final class FuncionEspecificaTable extends PowerGridComponent
 {
+    use WithExport;
+
     public string $tableName = 'funcion-especifica-table';
 
-    /**
-     * Configuración inicial de la tabla
-     */
     public function setUp(): array
     {
         $this->showCheckBox();
@@ -27,10 +30,11 @@ final class FuncionEspecificaTable extends PowerGridComponent
         return [
             PowerGrid::header()
                 ->showSearchInput(),
-
             PowerGrid::footer()
                 ->showPerPage()
                 ->showRecordCount(),
+            PowerGrid::exportable(fileName: 'funcionesEspecificas-export-file') 
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV), 
         ];
     }
 
@@ -56,6 +60,7 @@ final class FuncionEspecificaTable extends PowerGridComponent
     public function fields(): PowerGridFields
     {
         return PowerGrid::fields()
+            ->add('id')
             ->add('nombre');
     }
 
@@ -65,6 +70,8 @@ final class FuncionEspecificaTable extends PowerGridComponent
     public function columns(): array
     {
         return [
+            Column::make('Id', 'id'),
+
             Column::make('Nombre', 'nombre')
                 ->sortable()
                 ->searchable(),
@@ -92,8 +99,10 @@ final class FuncionEspecificaTable extends PowerGridComponent
     {
         return [
             Button::add('edit')
-                ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'),
-                
+                ->slot('Editar')
+                ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
+                ->route('editarFuncionesEspecificas', ['id' => Crypt::encrypt($row->id)]),
+
             Button::add('delete')
                 ->slot('Eliminar')
                 ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')

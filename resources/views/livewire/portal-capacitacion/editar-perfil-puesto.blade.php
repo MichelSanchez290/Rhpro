@@ -1,32 +1,27 @@
 <div class="w-full">
-    <!-- Background Gradient -->
     <div class="bg-gradient-to-b from-blue-800 to-blue-600 h-96"></div>
-    
-    <!-- Container -->
     <div class="max-w-5xl mx-auto px-6 sm:px-6 lg:px-8 mb-12">
-        <!-- Form Card -->
         <div class="bg-white w-full shadow rounded p-8 sm:p-12 -mt-72">
-            <!-- Title -->
             <p class="text-3xl font-bold leading-7 text-center">Perfil de Puestos</p>
             
                 <div class="md:flex items-center mt-12">
                     <div class="w-full md:w-1/2 flex flex-col">
                         <label class="font-semibold leading-none">Nombre de puesto</label>
-                        <input type="text" wire:model="perfil.nombre_puesto" class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200" />
+                        <input type="text" wire:model="nombre_puesto" class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200" />
                     </div>
                     <div class="w-full md:w-1/2 flex flex-col md:ml-6 md:mt-0 mt-4">
                         <label class="font-semibold leading-none">Área al que pertenece</label>
-                        <input type="text" wire:model="perfil.area" class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200"/>
+                        <input type="text" wire:model="area" class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200"/>
                     </div>
                     <div class="w-full md:w-1/2 flex flex-col md:ml-6 md:mt-0 mt-4">
                         <label class="font-semibold leading-none">Proceso al que pertenece</label>
-                        <input type="text" wire:model="perfil.proceso" class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200"/>
+                        <input type="text" wire:model="proceso" class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200"/>
                     </div>
                 </div>
 
                 <div class="w-full flex flex-col mt-8">
                     <label class="font-semibold leading-none">Misión del Puesto</label>
-                    <textarea type="text" wire:model="perfil.mision" class="h-40 text-base leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200"></textarea>
+                    <textarea type="text" wire:model="mision" class="h-40 text-base leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200"></textarea>
                 </div>
 
                 <div class="w-full flex flex-col mt-8">
@@ -69,15 +64,15 @@
                 <div class="md:flex items-center mt-12">
                     <div class="w-full md:w-1/2 flex flex-col">
                         <label class="font-semibold leading-none">Puesto al que reporta</label>
-                        <input type="text" wire:model="perfil.puesto_reporta" class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200" />
+                        <input type="text" wire:model="puesto_reporta" class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200" />
                     </div>
                     <div class="w-full md:w-1/2 flex flex-col md:ml-6 md:mt-0 mt-4">
                         <label class="font-semibold leading-none">Puestos que le reportan</label>
-                        <input type="text" wire:model="perfil.puestos_que_le_reportan" class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200"/>
+                        <input type="text" wire:model="puestos_que_le_reportan" class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200"/>
                     </div>
                     <div class="w-full md:w-1/2 flex flex-col md:ml-6 md:mt-0 mt-4">
                         <label class="font-semibold leading-none">Suplencia</label>
-                        <input type="text" wire:model="perfil.suplencia" class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200"/>
+                        <input type="text" wire:model="suplencia" class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200"/>
                     </div>
                 </div>
 
@@ -156,7 +151,7 @@
                 <div class="md:flex items-center mt-12"> 
                     <div class="w-full md:w-1/2 flex flex-col">
                         <label class="font-semibold leading-none">Rango de toma de decisiones</label>
-                        <select wire:model="perfil.rango_toma_desicones" class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200">
+                        <select wire:model="rango_toma_desicones" class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200">
                             <option value="">Seleccionar</option>
                             <option value="alta">Alta</option>
                             <option value="media">Media</option>
@@ -165,7 +160,7 @@
                     </div>
                     <div class="w-full md:w-1/2 flex flex-col md:ml-6 md:mt-0 mt-4">
                         <label class="font-semibold leading-none">Decisiones directas</label>
-                        <textarea wire:model="perfil.desiciones_directas" class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200"></textarea>
+                        <textarea wire:model="desiciones_directas" class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200"></textarea>
                     </div>
                 </div>
                 
@@ -212,11 +207,11 @@
                     <div class="grid md:grid-cols-2 gap-6">
                         <div class="flex flex-col">
                             <label class="font-semibold leading-none">Rango de edad deseable</label>
-                            <input type="text" wire:model="perfil.rango_edad_desable" class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-2 bg-gray-100 border rounded border-gray-300 shadow-sm"/>
+                            <input type="text" wire:model="rango_edad_desable" class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-2 bg-gray-100 border rounded border-gray-300 shadow-sm"/>
                         </div>
                         <div class="flex flex-col">
                             <label class="font-semibold leading-none">Sexo</label>
-                            <select wire:model="perfil.sexo_preferente" class="p-3 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-2">
+                            <select wire:model="sexo_preferente" class="p-3 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-2">
                                 <option value="">Seleccionar</option>
                                 <option value="Indistinto">Indistinto</option>
                                 <option value="Mujer">Mujer</option>
@@ -228,7 +223,7 @@
                     <div class="grid md:grid-cols-2 gap-6">
                         <div class="flex flex-col">
                             <label class="font-semibold leading-none">Estado civil deseable</label>
-                            <select wire:model="perfil.estado_civil_deseable" class="p-3 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-2">
+                            <select wire:model="estado_civil_deseable" class="p-3 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-2">
                                 <option value="">Seleccionar</option>
                                 <option value="Indistinto">Indistinto</option>
                                 <option value="Soltero">Soltero</option>
@@ -237,7 +232,7 @@
                         </div>
                         <div class="flex flex-col">
                             <label class="font-semibold leading-none">Escolaridad</label>
-                            <select wire:model="perfil.escolaridad" class="p-3 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-2">
+                            <select wire:model="escolaridad" class="p-3 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-2">
                                 <option value="">Seleccionar</option>
                                 <option value="Primaria">Primaria</option>
                                 <option value="Secundaria">Secundaria</option>
@@ -255,7 +250,7 @@
                     <div class="grid md:grid-cols-2 gap-6">
                         <div class="flex flex-col">
                             <label class="font-semibold leading-none">Idioma requerido</label>
-                            <select wire:model="perfil.idioma_requerido" class="p-3 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-2">
+                            <select wire:model="idioma_requerido" class="p-3 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-2">
                                 <option value="">Seleccionar</option>
                                 <option value="Ingles B1">Ingles B1</option>
                                 <option value="Aleman (deseable)">Aleman (deseable)</option>
@@ -264,14 +259,14 @@
                         </div>
                         <div class="flex flex-col">
                             <label class="font-semibold leading-none">Experiencia requerida</label>
-                            <input type="text" wire:model="perfil.experiencia_requerida" class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-2 bg-gray-100 border rounded border-gray-300 shadow-sm"/>
+                            <input type="text" wire:model="experiencia_requerida" class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-2 bg-gray-100 border rounded border-gray-300 shadow-sm"/>
                         </div>
-                    </div>
+                    </div>  
                     
                     <div class="grid md:grid-cols-2 gap-6">
                         <div class="flex flex-col">
                             <label class="font-semibold leading-none">Nivel de riesgo físico</label>
-                            <select wire:model="perfil.nivel_riesgo_fisico" class="p-3 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-2">
+                            <select wire:model="nivel_riesgo_fisico" class="p-3 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-2">
                                 <option value="">Seleccionar</option>
                                 <option value="Alto">Alto</option>
                                 <option value="Moderado">Moderado</option>
@@ -357,11 +352,11 @@
                     <div class="grid md:grid-cols-2 gap-6">
                         <div class="flex flex-col">
                             <label class="font-semibold leading-none">Elaboro Nombre</label>
-                            <input type="text" wire:model="perfil.elaboro_nombre" class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200"/>
+                            <input type="text" wire:model="elaboro_nombre" class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200"/>
                         </div>
                         <div class="flex flex-col">
                             <label class="font-semibold leading-none">Elaboro Puesto</label>
-                            <input type="text" wire:model="perfil.elaboro_puesto" class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200"/>
+                            <input type="text" wire:model="elaboro_puesto" class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200"/>
                         </div>
                     </div>
                 </div>
@@ -370,11 +365,11 @@
                     <div class="grid md:grid-cols-2 gap-6">
                         <div class="flex flex-col">
                             <label class="font-semibold leading-none">Reviso Nombre</label>
-                            <input type="text" wire:model="perfil.reviso_nombre" class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200"/>
+                            <input type="text" wire:model="reviso_nombre" class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200"/>
                         </div>
                         <div class="flex flex-col">
                             <label class="font-semibold leading-none">Reviso Puesto</label>
-                            <input type="text" wire:model="perfil.reviso_puesto" class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200"/>
+                            <input type="text" wire:model="reviso_puesto" class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200"/>
                         </div>
                     </div>
                 </div>
@@ -383,39 +378,36 @@
                     <div class="grid md:grid-cols-2 gap-6">
                         <div class="flex flex-col">
                             <label class="font-semibold leading-none">Autorizo Nombre</label>
-                            <input type="text" wire:model="perfil.autorizo_nombre" class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200"/>
+                            <input type="text" wire:model="autorizo_nombre" class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200"/>
                         </div>
                         <div class="flex flex-col">
                             <label class="font-semibold leading-none">Autorizo Puesto</label>
-                            <input type="text" wire:model="perfil.autorizo_puesto" class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200"/>
+                            <input type="text" wire:model="autorizo_puesto" class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200"/>
                         </div>
                     </div>
                 </div>
-                
-                <!-- Subject -->
+
                 <div class="md:flex items-center mt-8">
                     <div class="w-full flex flex-col">
                         <label class="font-semibold leading-none">Status</label>
-                        <!-- Aquí puedes cambiar el campo 'Status' a un 'select' o un 'radio' según lo necesites -->
-                        <select wire:model="perfil.status" class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200">
+                        <select wire:model="status" class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200">
                             <option value="">Seleccione un estado</option>
                             <option value="Aprobado">Aprovado</option>
-                            <option value="Corregir">Corrección</option>
+                            <option value="Corregir">Corregir</option>
                             <option value="Rechazado">Rechazado</option>
                         </select>
                     </div>
                 </div>
  
                 <div class="flex items-center justify-center w-full space-x-4">
-                    <button wire:click='savePerfil()' class="mt-9 font-semibold leading-none text-white py-4 px-10 bg-blue-700 rounded hover:bg-blue-600 focus:ring-2 focus:ring-offset-2 focus:ring-blue-700 focus:outline-none">
-                        Guardar
+                    <button wire:click='save()' class="mt-9 font-semibold leading-none text-white py-4 px-10 bg-green-700 rounded hover:bg-green-600 focus:ring-2 focus:ring-offset-2 focus:ring-blue-700 focus:outline-none">
+                        Actualizar
                     </button>
 
                     <button wire:click="cerrar" class="mt-9 font-semibold leading-none text-gray-700 py-4 px-10 bg-gray-300 rounded hover:bg-gray-200 focus:ring-2 focus:ring-offset-2 focus:ring-gray-700 focus:outline-none">
                         Cancelar
                     </button>
                 </div>
-                
         </div>
     </div>
 </div>

@@ -10,6 +10,7 @@ use App\Models\ActivoFijo\Activos\ActivoPapeleria;
 use App\Models\ActivoFijo\Activos\ActivoSouvenir;
 use App\Models\ActivoFijo\Activos\ActivoTecnologia;
 use App\Models\ActivoFijo\Activos\ActivoUniforme;
+use App\Models\PortalCapacitacion\PerfilPuesto;
 use App\Models\PortalRH\Empres;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -176,4 +177,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Empres::class); // Una venta pertenece a un cliente
     }
+    public function perfiles_puestos()
+    {
+        return $this->belongsToMany(PerfilPuesto::class, 'perfil_puesto_user', 'users_id', 'perfiles_puestos_id'); // Modelo relacionado
+    }
+
 }

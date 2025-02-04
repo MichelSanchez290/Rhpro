@@ -20,6 +20,6 @@ class ResponsabilidadUniversal extends Model
     // Relación muchos a muchos con perfiles_puestos
     public function perfiles_puestos()
     {
-        return $this->belongsToMany(PerfilPuesto::class); // Modelo relacionado
+        return $this->belongsToMany(PerfilPuesto::class, 'respon_univ_perfil_puesto', 'respons_univ_id', 'perfiles_puestos_id'); // Modelo relacionado
     }
 }
