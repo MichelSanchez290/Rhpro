@@ -10,80 +10,39 @@
             </div>
         @endif
 
-        <form wire:submit.prevent="submit" class="space-y-6">
-            <!-- Clave -->
-            <div>
-                <label for="Clave" class="block text-sm font-semibold text-gray-700">Clave</label>
-                <input type="text" id="Clave" wire:model="Clave" required
-                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                @error('Clave') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-            </div>
+        <!-- Contenedor del formulario sin etiqueta <form> -->
+        <div class="space-y-6">
+            <!-- Sección de Información Básica -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Clave -->
+                <div>
+                    <label for="Clave" class="block text-sm font-semibold text-gray-700">Clave</label>
+                    <input type="text" id="Clave" wire:model="Clave" required
+                           class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                    @error('Clave') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                </div>
 
-            <!-- Empresa -->
-            <div>
-                <label for="Empresa" class="block text-sm font-semibold text-gray-700">Empresa</label>
-                <input type="text" id="Empresa" wire:model="Empresa" required
-                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                @error('Empresa') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-            </div>
-
-            <!-- Selección de Cuestionarios -->
-            <div>
-                <label class="block text-sm font-semibold text-gray-700">Seleccionar Cuestionarios</label>
-                <div class="space-y-4">
-                    <!-- Cuestionario 1 -->
-                    <div class="flex items-center space-x-3">
-                        <label for="cuestionario1" class="flex items-center cursor-pointer">
-                            <input type="checkbox" id="cuestionario1" wire:model="cuestionariosSeleccionados.1"
-                                   class="peer hidden" value="1">
-                            <div class="switch-bg w-12 h-6 bg-gray-300 rounded-full relative">
-                                <div class="switch-circle w-6 h-6 bg-blue-500 rounded-full absolute left-0
-                                    {{ $cuestionariosSeleccionados[1] ? 'left-6' : 'left-0' }}
-                                    transition-all duration-300 ease-in-out"></div>
-                            </div>
-                            <span class="ml-2 text-gray-700">Cuestionario 1</span>
-                        </label>
-                    </div>
-
-                    <!-- Cuestionario 2 -->
-                    <div class="flex items-center space-x-3">
-                        <label for="cuestionario2" class="flex items-center cursor-pointer">
-                            <input type="checkbox" id="cuestionario2" wire:model="cuestionariosSeleccionados.2"
-                                   class="peer hidden" value="2">
-                            <div class="switch-bg w-12 h-6 bg-gray-300 rounded-full relative">
-                                <div class="switch-circle w-6 h-6 bg-blue-500 rounded-full absolute left-0
-                                    {{ $cuestionariosSeleccionados[2] ? 'left-6' : 'left-0' }}
-                                    transition-all duration-300 ease-in-out"></div>
-                            </div>
-                            <span class="ml-2 text-gray-700">Cuestionario 2</span>
-                        </label>
-                    </div>
-
-                    <!-- Cuestionario 3 -->
-                    <div class="flex items-center space-x-3">
-                        <label for="cuestionario3" class="flex items-center cursor-pointer">
-                            <input type="checkbox" id="cuestionario3" wire:model="cuestionariosSeleccionados.3"
-                                   class="peer hidden" value="3">
-                            <div class="switch-bg w-12 h-6 bg-gray-300 rounded-full relative">
-                                <div class="switch-circle w-6 h-6 bg-blue-500 rounded-full absolute left-0
-                                    {{ $cuestionariosSeleccionados[3] ? 'left-6' : 'left-0' }}
-                                    transition-all duration-300 ease-in-out"></div>
-                            </div>
-                            <span class="ml-2 text-gray-700">Cuestionario 3</span>
-                        </label>
-                    </div>
+                <!-- Empresa -->
+                <div>
+                    <label for="Empresa" class="block text-sm font-semibold text-gray-700">Empresa</label>
+                    <input type="text" id="Empresa" wire:model="Empresa" required
+                           class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                    @error('Empresa') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
             </div>
 
-            <!-- Fecha Inicio y Fecha Final en una línea -->
-            <div class="flex space-x-4">
-                <div class="w-1/2">
+            <!-- Sección de Fechas -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Fecha de Inicio -->
+                <div>
                     <label for="FechaInicio" class="block text-sm font-semibold text-gray-700">Fecha de Inicio</label>
                     <input type="date" id="FechaInicio" wire:model="FechaInicio" required
                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                     @error('FechaInicio') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
-                <div class="w-1/2">
+
+                <!-- Fecha de Cierre -->
+                <div>
                     <label for="FechaFinal" class="block text-sm font-semibold text-gray-700">Fecha de Cierre</label>
                     <input type="date" id="FechaFinal" wire:model="FechaFinal"
                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
@@ -98,6 +57,30 @@
                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                        min="0">
                 @error('NumeroEncuestas') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+            </div>
+
+            <!-- Encuestas Contestadas -->
+            <div>
+                <label for="EncuestasContestadas" class="block text-sm font-semibold text-gray-700">Encuestas Contestadas</label>
+                <input type="text" id="EncuestasContestadas" wire:model="EncuestasContestadas"
+                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                @error('EncuestasContestadas') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+            </div>
+
+            <!-- Actividades -->
+            <div>
+                <label for="Actividades" class="block text-sm font-semibold text-gray-700">Actividades</label>
+                <textarea id="Actividades" wire:model="Actividades"
+                          class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"></textarea>
+                @error('Actividades') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+            </div>
+
+            <!-- Número -->
+            <div>
+                <label for="Numero" class="block text-sm font-semibold text-gray-700">Número</label>
+                <input type="number" id="Numero" wire:model="Numero"
+                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                @error('Numero') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
 
             <!-- Departamentos -->
@@ -116,6 +99,25 @@
                 @endif
             </div>
 
+            <!-- Cerrable -->
+            <div>
+                <label for="Cerrable" class="block text-sm font-semibold text-gray-700">Cerrable</label>
+                <select id="Cerrable" wire:model="Cerrable" required
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                    <option value="1">Sí</option>
+                    <option value="0">No</option>
+                </select>
+                @error('Cerrable') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+            </div>
+
+            <!-- Correo Electrónico -->
+            <div>
+                <label for="usuariosdx035_CorreoElectronico" class="block text-sm font-semibold text-gray-700">Correo Electrónico</label>
+                <input type="email" id="usuariosdx035_CorreoElectronico" wire:model="usuariosdx035_CorreoElectronico" required
+                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                @error('usuariosdx035_CorreoElectronico') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+            </div>
+
             <!-- Logo de la Empresa -->
             <div>
                 <label for="logo" class="block text-sm font-semibold text-gray-700">Logo de la Empresa</label>
@@ -132,12 +134,33 @@
                 @endif
             </div>
 
-            <!-- Botón de Activar Encuesta -->
+            <!-- Selección de Cuestionarios -->
+            <div>
+                <label class="block text-sm font-semibold text-gray-700">Seleccionar Cuestionarios</label>
+                <div class="space-y-4">
+                    @foreach($cuestionarios as $cuestionario)
+                        <div class="flex items-center space-x-3">
+                            <label for="cuestionario{{ $cuestionario->id }}" class="flex items-center cursor-pointer">
+                                <input
+                                    type="checkbox"
+                                    id="cuestionario{{ $cuestionario->id }}"
+                                    wire:model="cuestionariosSeleccionados.{{ $cuestionario->id }}"
+                                    class="form-checkbox h-5 w-5 text-blue-600 rounded focus:ring-blue-500"
+                                >
+                                <span class="ml-2 text-gray-700">{{ $cuestionario->Nombre }}</span>
+                            </label>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+
+            <!-- Botón de Guardar Encuesta -->
             <div class="mt-6 flex justify-center">
-                <button type="submit" class="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none">
+                <button type="button" wire:click="submit"
+                        class="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none">
                     Guardar Encuesta
                 </button>
             </div>
-        </form>
+        </div>
     </div>
 </div>

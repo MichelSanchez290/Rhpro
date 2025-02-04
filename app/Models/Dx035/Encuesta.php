@@ -5,14 +5,13 @@ namespace App\Models\Dx035;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-
 class Encuesta extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'Clave';
-    public $incrementing = false;
-    protected $keyType = 'string';
+    protected $primaryKey = 'Clave'; // Especificar que la clave primaria es 'Clave'
+    public $incrementing = false;   // Indicar que no es autoincremental
+    protected $keyType = 'string';  // Especificar el tipo de la clave primaria
 
     protected $fillable = [
         'Clave', 'Empresa', 'RutaLogo', 'FechaInicio', 'Caducidad',
@@ -20,14 +19,21 @@ class Encuesta extends Model
         'Actividades', 'Numero', 'Dep', 'Cerrable', 'usuariosdx035_CorreoElectronico', 'FechaFinal'
     ];
 
-    public function trabajadoresEncuestas()
+    // Relación con la tabla pivote encuesta_cuestionario
+    public function cuestionarios()
     {
-        return $this->hasMany(TrabajadorEncuesta::class, 'Clave', 'Clave');
+        return $this->belongsToMany(Cuestionario::class, 'encuesta_cuestionario', 'encuesta_clave', 'cuestionario_id');
     }
 
     // Relación con Departament
     public function departamento()
     {
-        return $this->belongsTo(Departament::class, 'Dep', 'id'); // 'Dep' es la clave foránea en Encuesta
+        return $this->belongsTo(Departament::class, 'Dep', 'id');
+    }
+
+    // Relación con TrabajadorEncuesta
+    public function trabajadoresEncuestas()
+    {
+        return $this->hasMany(TrabajadorEncuesta::class, 'Clave', 'Clave');
     }
 }
