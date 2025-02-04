@@ -1,0 +1,13 @@
+/* public/css/custom.css */
+.table {
+    font-size: 11px; /* Reduce el tamaño de la fuente */
+    padding: 6px; /* Reduce el padding */
+}
+
+.table th, .table td {
+    padding: 5px; /* Reduce el padding de las celdas */
+}
+
+.table th {
+    font-weight: bold; /* Mantén el texto en negrita para los encabezados */
+}

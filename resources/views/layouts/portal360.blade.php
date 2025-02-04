@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" />
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <!-- <link rel="stylesheet" href="{{ asset('resources\css\custom.css') }}"> -->
     @livewireStyles
 </head>
 <body class="font-sans antialiased bg-blue-50">
