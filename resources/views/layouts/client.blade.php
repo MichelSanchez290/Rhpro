@@ -5,7 +5,7 @@
         /* Contenido principal */
         .content {
             margin-left: 250px; /* Espacio igual al ancho de la barra lateral */
-            margin-top: 50px; /* Espacio bajo la barra superior */
+            margin-top: 100px; /* Espacio bajo la barra superior */
             padding: 20px;
             flex: 1; /* Se expande automáticamente para ocupar el espacio restante */
             overflow-x: auto;

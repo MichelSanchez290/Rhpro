@@ -38,11 +38,11 @@ class AgregarSucursal extends Component
         'sucursal.estado.required' => 'El estado es requerido',
         'sucursal.cuenta_contable.required' => 'La cuenta contable es requerida',
         'sucursal.rfc.required' => 'El RFC es requerido',
-        'registro.rfc.size' => 'El RFC debe tener exactamente 13 caracteres.',
+        'sucursal.rfc.size' => 'El RFC debe tener exactamente 13 caracteres.',
         'sucursal.correo.required' => 'El correo es requerido',
         'sucursal.correo.email' => 'El correo debe ser válido',
         'sucursal.telefono.required' => 'El teléfono es requerido',
-        'sucursal.status.required' => 'El estado es requerido',
+        'sucursal.status.required' => 'El status es requerido',
         'sucursal.registro_patronal_id' => 'El reg patronal es requerido',
     ];
 

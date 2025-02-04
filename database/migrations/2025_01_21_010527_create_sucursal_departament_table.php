@@ -12,8 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('sucursal_departament', function (Blueprint $table) {
-            
-            //donde almacenara el id de la relacion
+            $table->id();
             $table->unsignedBigInteger('sucursal_id');
             $table->foreign('sucursal_id') //Declara que id es una clave foránea.
                     ->references('id') //Indica que esta columna hace referencia a la columna id
@@ -30,6 +29,7 @@ return new class extends Migration
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
 
+            $table->string('status', 45);
             $table->timestamps();
         });
     }

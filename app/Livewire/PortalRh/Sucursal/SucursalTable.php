@@ -13,9 +13,12 @@ use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 
 use Illuminate\Support\Facades\Crypt;
+use PowerComponents\LivewirePowerGrid\Traits\WithExport; 
+use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
 
 final class SucursalTable extends PowerGridComponent
 {
+    use WithExport;
     public string $tableName = 'sucursal-table-qre6er-table';
 
     public function setUp(): array
@@ -25,32 +28,39 @@ final class SucursalTable extends PowerGridComponent
         return [
             PowerGrid::header()
                 ->showSearchInput(),
-            
             PowerGrid::footer()
                 ->showPerPage()
                 ->showRecordCount(),
+            PowerGrid::exportable(fileName: 'sucursales-export-file') 
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
         ];
     }
 
-    /*
-    public function setUp(): array
-    {
-        $this->showCheckBox();
-
-        return [
-            Exportable::make('export')
-                ->striped()
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-            Header::make()->showSearchInput(),
-            Footer::make()
-                ->showPerPage()
-                ->showRecordCount(),
-        ];
-    } */
-
     public function datasource(): Builder
     {
-        return Sucursal::query();
+        return Sucursal::query()
+        ->leftJoin('registros_patronales', 'sucursales.registro_patronal_id', '=', 'registros_patronales.id')
+        ->select([
+            'sucursales.*',
+            'registros_patronales.registro_patronal as nombre_registro_patronal'
+        ]);
+
+        /*
+        ->leftJoin('registros_patronales', 'sucursales.registro_patronal_id', '=', 'registros_patronales.id')
+        ->select([
+            'sucursales.*',
+            'registros_patronales.registro_patronal as nombre_registro_patronal'
+        ]);
+
+
+        $sucursaldepartament = DB::table('sucursal_departament')
+            ->join('sucursales', 'sucursal_departament.sucursal_id', '=', 'sucursales.id')
+            ->join('departamentos', 'sucursal_departament.departamento_id', '=', 'departamentos.id')
+            ->select(
+                'sucursales.nombre_sucursal as sucursal_nombre',
+                'departamentos.nombre_departamento as departamento_nombre'
+            );
+        */
     }
 
     public function relationSearch(): array
@@ -73,6 +83,7 @@ final class SucursalTable extends PowerGridComponent
             ->add('telefono')
             ->add('status')
             ->add('registro_patronal_id')
+            ->add('nombre_registro_patronal')
             ->add('created_at');
     }
 
@@ -116,7 +127,9 @@ final class SucursalTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Registro patronal id', 'registro_patronal_id'),
+            Column::make('Registro patronal', 'nombre_registro_patronal')
+                ->sortable()
+                ->searchable(),
             
             Column::make('Created at', 'created_at')
                 ->sortable(),

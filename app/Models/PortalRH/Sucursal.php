@@ -30,6 +30,10 @@ class Sucursal extends Model
         'registro_patronal_id'
     ];
 
+    public function departamentos()
+    {
+        return $this->belongsToMany(Departament::class, 'sucursal_departament', 'sucursal_id', 'departamento_id');
+    }
     
     public function RepresentLeSucursal()
     {
@@ -53,10 +57,7 @@ class Sucursal extends Model
 
     
 
-    public function departamentos()
-    {
-        return $this->belongsToMany(Departament::class);
-    }
+    
 
     public function trabajador()
     {
