@@ -14,7 +14,6 @@ class CrmEmpresaTableSeeder extends Seeder
     public function run(): void
     {
         $crmEmpresa = CrmEmpresa::create([
-            'id' => 1,
             'nombre' => 'Coca Cola',
             'tamano_empresa' => 'Grande',
             'pagina_web' => 'www.cocacola.com.mx',

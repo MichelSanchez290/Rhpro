@@ -1,4 +1,7 @@
 <div>
+    <div>
+        <h2 class="font-semibold text-gray-800">Editar Empresa</h2>
+    </div>
     <div class="container px-4 mx-auto mt-6">
         <!-- Primera fila -->
         <div class="flex flex-wrap mb-6 -mx-2">
@@ -8,41 +11,33 @@
                 </label>
                 <input
                     class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                    wire:model.defer="empresa.nombre" type="text" placeholder="">
-                <x-input-error for="empresa.nombre" />
+                    wire:model.defer="nombre" type="text" placeholder="">
+                <x-input-error for="nombre" />
             </div>
         </div>
         <!-- Tercera fila -->
         <div class="flex flex-wrap mb-6 -mx-2">
             <div class="w-full px-3 mb-6 md:w-1/2 md:mb-0">
-                <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase" for="tamano_empresa">
-                    Tamaño de empresa
-                </label>
-                <select
-                        class="block w-full px-4 py-3 pr-8 leading-tight text-gray-700 bg-gray-200 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                        wire:model.defer="empresa.tamano_empresa">
-                        <option value="" disabled>Seleccione un valor</option>
-                        <option value="" disabled>------</option>
-                        <option value="Micro">Micro</option>
-                        <option value="Pequeña">Pequeña</option>
-                        <option value="Mediana">Mediana</option>
-                        <option value="Grande">Grande</option>
-                    </select>
-            </div>
-            <div class="w-full px-3 md:w-1/2">
-                <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase" for="logotipo">
-                    Sitio Web
+                <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase" for="color">
+                    Tamaño de Empresa
                 </label>
                 <input
                     class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                    wire:model.defer="empresa.pagina_web" type="text" placeholder="">
-                <x-input-error for="empresa.pagina_web" />
+                    wire:model.defer="tamano_empresa" type="text" placeholder="">
+                <x-input-error for="tamano_empresa" />
+            </div>
+            <div class="w-full px-3 md:w-1/2">
+                <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase" for="precio">
+                    Pagina web
+                </label>
+                <input
+                    class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                    wire:model.defer="pagina_web" type="text" placeholder="">
+                <x-input-error for="pagina_web" />
             </div>
         </div>
-
         <!-- Cuarta fila -->
         <div class="grid gap-6 mb-6 md:grid-cols-2">
-
             <div class="image-container">
                 <label
                     class="flex flex-col items-center w-full max-w-lg p-6 mx-auto text-center bg-white border-2 border-blue-400 border-dashed cursor-pointer rounded-xl">
@@ -51,28 +46,26 @@
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                     </svg>
-                    <h2 class="mt-4 text-xl font-medium tracking-wide text-gray-700">Logo</h2>
-                    <p class="mt-2 tracking-wide text-gray-500">Carge su archivo PNG o JPG</p>
-                    <input type="file" class="hidden" wire:model="imgagen" accept="image/png, image/jpeg" />
+                    <h2 class="mt-4 text-xl font-medium tracking-wide text-gray-700">Portada</h2>
+                    <p class="mt-2 tracking-wide text-gray-500">Cargue su archivo PNG o JPG</p>
+                    <input type="file" class="hidden" wire:model.defer="subirPortada" />
                     <br>
-                    @if (empty($imgagen))
-                    @else
-                        <img src="{{ $imgagen->temporaryUrl() }}" width="100" height="100" alt="Logo" />
+                    @if ($subirPortada)
+                        <!-- mostrar la previsualizacion si se sube una nueva portada -->
+                        <img src="{{ $subirPortada->temporaryUrl() }}" width="100" height="100" alt="Portada" />
+                    @elseif ($imagen)
+                        <!-- mostrar la imagen actual si no se sube ninguna -->
+                        <img src="{{ asset($imagen) }}" width="100" height="100" alt="Portada existente" />
                     @endif
-                    <x-input-error for="imgagen" />
+                    <x-input-error for="subirPortada" />
                 </label>
             </div>
         </div>
-        <!-- Botón -->
         <div class="flex items-center justify-center">
-            <button wire:click="saveEmpresa()"
+            <button wire:click="editEmpresa()"
                 class="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
-                Agregar
+                Editar
             </button>
-            <a href="{{ url('/crm/crm-inicio') }}"
-                class="px-4 py-2 font-bold text-white bg-red-500 rounded btn hover:bg-red-700">
-                Cancelar
-            </a>
         </div>
     </div>
 </div>
@@ -81,7 +74,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         document.addEventListener('livewire:load', function() {
-            Livewire.on('showAnimatedToast', function(message) {
+            Livewire.on('editBann', function(message) {
                 var toastMixin = Swal.mixin({
                     toast: true,
                     icon: 'success',
