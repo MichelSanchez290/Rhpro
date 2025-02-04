@@ -124,7 +124,7 @@
             </div>
         </div>
     </div>
-    <div class=" bg-red-500/20">
+    {{-- <div class=" bg-red-500/20">
         <livewire:yes/> 
-    </div>
+    </div> --}}
 </x-app-layout>

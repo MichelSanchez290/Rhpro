@@ -15,6 +15,7 @@ use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 
+
 final class ActivoTable extends PowerGridComponent
 {
     use WithExport;
@@ -49,7 +50,7 @@ final class ActivoTable extends PowerGridComponent
     public function fields(): PowerGridFields
     {
         return PowerGrid::fields()
-         
+
             ->add('id')
             ->add('nombre_activo')
             ->add('created_at');
@@ -58,14 +59,11 @@ final class ActivoTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-    
+
             Column::make('Id', 'id'),
             Column::make('Nombre activo', 'nombre_activo')
                 ->sortable()
                 ->searchable(),
-
-            Column::make('Created at', 'created_at_formatted', 'created_at')
-                ->sortable(),
 
             Column::make('Created at', 'created_at')
                 ->sortable()
@@ -77,23 +75,26 @@ final class ActivoTable extends PowerGridComponent
 
     public function filters(): array
     {
-        return [
-        ];
+        return [];
     }
 
     #[\Livewire\Attributes\On('edit')]
     public function edit($rowId): void
     {
-        $this->js('alert('.$rowId.')');
+        $this->js('alert(' . $rowId . ')');
     }
 
     public function actions(Tipoactivo $row): array
     {
         return [
-            Button::add('delete-dish')  
-    ->icon('default-trash') // 'default' => 'resources/views/components/icons/trash.blade.php',
-  //->icon('solid-trash') // 'solid' => 'resources/views/components/icons/solid/trash.blade.php',
-    ->class(' text-white'),
+            Button::add('edit')
+                ->slot('Editar')
+                ->class('btn btn-primary')
+                ->route('editartipoactivo', ['id' => $row->id]),
+            Button::add('delete')
+                ->slot('Eliminar')
+                ->class('btn btn-primary')
+                ->dispatch('confirmDeleteModal', ['id'=> $row->id]),
         ];
     }
 

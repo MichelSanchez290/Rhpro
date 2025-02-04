@@ -7,15 +7,31 @@ use Livewire\Component;
 
 class Mostrartipoactivo extends Component
 {
-    // public function deleteTipoActivo($id)
-    // {
-    //     Tipoactivo::findOrFail($id)->delete();
-    //     $this->emit('notification', 'El registro ha sido eliminado con éxito.');
-    // }
+    public $tipoActivoId;
+    public $showConfirmModal = false;
 
-    public function redirigir()
+    protected $listeners = ['confirmDeleteModal'];
+
+    public function confirmDeleteModal($id)
     {
-        return redirect()->route('agregartipoactivo');
+        $this->tipoActivoId = $id;
+        $this->showConfirmModal = true; // Mostrar el modal
+    }
+
+    public function deleteTipoActivo()
+    {
+        $tipoActivo = Tipoactivo::find($this->tipoActivoId);
+        if ($tipoActivo) {
+            $tipoActivo->delete();
+            session()->flash('message', 'El activo ha sido eliminado.');
+
+            $this->dispatch('tipoActivoEliminado', message: 'El activo ha sido eliminado correctamente.');
+        } else {
+            $this->dispatch('errorEliminacion', message: 'No se pudo eliminar el activo.');
+        }
+
+        $this->showConfirmModal = false; // Ocultar el modal
+        return redirect()->to(request()->header('Referer'));
     }
 
     public function render()
