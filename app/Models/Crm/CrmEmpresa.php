@@ -15,10 +15,10 @@ class CrmEmpresa extends Model
     protected $primaryKey = 'id';
 
     //especifica las columnas
-    protected $fillable = ['id', 'nombre', 'tamano_empresa', 'logotipo', 'pagina_web'];
+    protected $fillable = ['id', 'nombre', 'tamano_empresa', 'pagina_web', 'logotipo'];
 
-    public function leadcliente()
+    public function leadscliente()
     {
-        return $this->hasMany(leadcliente::class);
+        return $this->hasMany(leadscliente::class);
     }
 }

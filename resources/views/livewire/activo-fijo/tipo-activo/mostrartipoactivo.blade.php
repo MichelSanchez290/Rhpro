@@ -24,4 +24,6 @@
     <div class="overflow-x-auto dark:bg-dark rounded-lg p-4">
         <livewire:activo-table />
     </div>
+
+    <livewire:yes/> 
 </div>
