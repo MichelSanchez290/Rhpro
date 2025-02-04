@@ -12,8 +12,16 @@ use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 
+use Illuminate\Support\Facades\Crypt;
+
+use PowerComponents\LivewirePowerGrid\Traits\WithExport; 
+use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable; 
+
+
 final class HabilidadHumanaTable extends PowerGridComponent
 {
+    use WithExport;
+
     public string $tableName = 'habilidad-humana-table-pnq5pk-table';
 
     public function setUp(): array
@@ -26,6 +34,8 @@ final class HabilidadHumanaTable extends PowerGridComponent
             PowerGrid::footer()
                 ->showPerPage()
                 ->showRecordCount(),
+            PowerGrid::exportable(fileName: 'habilidadesHumanas-export-file') 
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV), 
         ];
     }
 
@@ -43,29 +53,19 @@ final class HabilidadHumanaTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('id')
-            ->add('id')
             ->add('descripcion')
-            ->add('nivel')
-            ->add('created_at');
+            ->add('nivel');
     }
 
     public function columns(): array
     {
         return [
             Column::make('Id', 'id'),
-            Column::make('Id', 'id'),
             Column::make('Descripcion', 'descripcion')
                 ->sortable()
                 ->searchable(),
 
             Column::make('Nivel', 'nivel')
-                ->sortable()
-                ->searchable(),
-
-            Column::make('Created at', 'created_at_formatted', 'created_at')
-                ->sortable(),
-
-            Column::make('Created at', 'created_at')
                 ->sortable()
                 ->searchable(),
 
@@ -89,10 +89,14 @@ final class HabilidadHumanaTable extends PowerGridComponent
     {
         return [
             Button::add('edit')
-                ->slot('Edit: '.$row->id)
-                ->id()
-                ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-                ->dispatch('edit', ['rowId' => $row->id])
+                ->slot('Editar')
+                ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
+                ->route('editarHabilidadesHumanas', ['id' => Crypt::encrypt($row->id)]),
+
+            Button::add('delete')
+                ->slot('Eliminar')
+                ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
+                ->dispatch('confirmDelete', ['id' => $row->id]),
         ];
     }
 

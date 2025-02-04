@@ -42,6 +42,11 @@ class AgregarEmpres extends Component
         return redirect()->route('mostrarempresas');
     }
 
+    public function redirigir()
+    {
+        return redirect()->route('mostrarempresas');
+    }
+
     public function render()
     {
         return view('livewire.portal-rh.empres.agregar-empres')->layout('layouts.client');

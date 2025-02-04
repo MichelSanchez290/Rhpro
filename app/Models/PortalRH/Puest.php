@@ -19,19 +19,19 @@ class Puest extends Model
     //especifica las columnas
     protected $fillable = [
         'id', 
-        'nombre_puesto', 
-        'user_id'
+        'nombre_puesto'
     ];
-
-
-    //alcanze con el modelo User
-    public function usuarios()
-    {
-        return $this->hasMany(User::class);
-    }
 
     public function departamentos()
     {
         return $this->belongsToMany(Departament::class, 'departament_puest');
     }
+
+    //alcanze con el modelo User
+    /* public function usuarios()
+    {
+        return $this->hasMany(User::class);
+    } */
+
+    
 }

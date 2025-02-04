@@ -13,10 +13,12 @@ use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 
 use Illuminate\Support\Facades\Crypt;
-
+use PowerComponents\LivewirePowerGrid\Traits\WithExport; 
+use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable; 
 
 final class EmpresTable extends PowerGridComponent
 {
+    use WithExport;
     public string $tableName = 'empres-table-u4eqeo-table';
 
     public function setUp(): array
@@ -29,6 +31,8 @@ final class EmpresTable extends PowerGridComponent
             PowerGrid::footer()
                 ->showPerPage()
                 ->showRecordCount(),
+            PowerGrid::exportable(fileName: 'empresas-export-file') 
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV), 
         ];
     }
 
@@ -124,7 +128,7 @@ final class EmpresTable extends PowerGridComponent
             Button::add('delete')
                 ->slot('Eliminar')
                 ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
-                ->dispatch('confirmDeleteEmpres', ['id' => $row->id]), // Emitir evento Livewire
+                ->dispatch('confirmDelete', ['id' => $row->id]), // Emitir evento Livewire
         ];
 
         

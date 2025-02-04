@@ -5,42 +5,43 @@ namespace App\Livewire\PortalCapacitacion\HabilidadesTecnicas;
 use Livewire\Component;
 use App\Models\PortalCapacitacion\FormacionHabilidadTecnica;
 use Livewire\WithPagination;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Response;
 
 class MostrarHabilidadesTecnicas extends Component
 {
-    use WithPagination;
-    public $porpagina=5; //numero de productos a  mostrar por pagina
-    public $search='';
+    public $showModal = false;
+    public $funcionToDelete;
 
     public function redirigir(){
         return redirect()->route('agregarHabilidadesHumanas');
     }
 
-    public function delete($id)
+    protected $listeners = [
+        'confirmDelete' => 'confirmDelete', // Captura el evento
+    ]; 
+    
+    public function confirmDelete($id)
     {
-        FormacionHabilidadTecnica::find($id)->delete();
-        //$this->emit('eliminar','funcion-eliminada');
+        $this->funcionToDelete = $id;
+        $this->showModal = true;
     }
+    
+    public function deleteFuncion()
+    {
+        if ($this->funcionToDelete) {
+            FormacionHabilidadTecnica::find($this->funcionToDelete)->delete();
+            session()->flash('message', 'Habilidad tecnica eliminada exitosamente.');
+        }
 
-    public function mount()
-    {
-        $this->search="";
-    }
+        $this->funcionToDelete = null;
+        $this->showModal = false;
 
-    public function updatedSearch()
-    {
-        $this->resetPage();
-    }
-    public function updatedPorpagina()
-    {
-        $this->resetPage();
+        return redirect()->route('mostrarFuncionesEspecificas');
     }
 
     public function render()
     {
-        return view('livewire.portal-capacitacion.habilidades-tecnicas.mostrar-habilidades-tecnicas',[
-            'tecnicas'=> FormacionHabilidadTecnica::where('descripcion','LIKE',"%{$this->search}%")
-            ->paginate($this->porpagina),
-        ])->layout("layouts.portal_capacitacion");
+        return view('livewire.portal-capacitacion.habilidades-tecnicas.mostrar-habilidades-tecnicas')->layout("layouts.portal_capacitacion");
     }
 }

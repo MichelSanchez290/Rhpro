@@ -30,29 +30,28 @@ class ActivoTecnologia extends Model
         'fecha_baja',
         'tipo_activo_id',
         'precio_adquisicion',
-        'aniosestimado_id'
+        'aniosestimado_id',
+        'foto1',
+        'foto2',
+        'foto3'
     ];
 
     public function tipoactivo()
     {
-        return $this->belongsTo(Tipoactivo::class);
+        return $this->belongsTo(Tipoactivo::class,'tipo_activo_id','id');
     }
 
-    public function anioestimado()
+    public function anioEstimado()
     {
-        return $this->belongsTo(Anioestimado::class);
+        return $this->belongsTo(AnioEstimado::class, 'aniosestimado_id', 'id');
     }
 
     //Relacion muchos a muchos
-    public function notatecno()
+    public function notastecnologia()
     {
-        return $this->belongsToMany(Notatecno::class);
+        return $this->belongsToMany(Notatecno::class, 'notastecnologia_activos_tecnologia', 'activos_t_id', 'notast_id');
     }
 
-    public function fotos()
-    {
-        return $this->belongsToMany(Foto::class);
-    }
     public function usuarios()
     {
         return $this->belongsToMany(User::class);
