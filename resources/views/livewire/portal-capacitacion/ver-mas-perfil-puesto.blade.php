@@ -89,41 +89,93 @@
     <p class="text-gray-600"><strong>Experiencia Requerida:</strong> {{ $puestoSeleccionado->experiencia_requerida }}</p>
     <p class="text-gray-600"><strong>Nivel riesgo fisico:</strong> {{ $puestoSeleccionado->nivel_riesgo_fisico }}</p>
     
-    <!-- Formación Habilidad Humana -->
-    <div class="mt-4">
-        <h3 class="text-lg font-semibold text-indigo-600">Formación Habilidad Humana</h3>
-        @if($puestoSeleccionado->habilidadesHumanas->isNotEmpty())
-            <ul class="list-disc list-inside text-gray-600 ml-4">
-                @foreach($puestoSeleccionado->habilidadesHumanas as $habilidad)
-                    <li><strong>Descripción:</strong> {{ $habilidad->descripcion }}</li>
-                    <li><strong>Nivel:</strong> {{ $habilidad->nivel }}</li>
-                    <hr class="my-2 border-gray-300">
-                @endforeach
-            </ul>
-        @else
-            <p class="text-gray-500">No se han asignado habilidades humanas a este puesto.</p>
-        @endif
-    </div>
+<!-- Formación Habilidad Humana -->
+<div class="mt-8">
+    <h3 class="text-2xl font-bold text-indigo-700 mb-4">Formación Habilidad Humana</h3>
+    @if($puestoSeleccionado->habilidadesHumanas->isNotEmpty())
+        <div class="overflow-x-auto rounded-lg shadow-lg">
+            <table class="w-full bg-white border-collapse">
+                <thead>
+                    <tr class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
+                        <th class="px-6 py-4 text-left text-sm font-semibold uppercase">Descripción</th>
+                        <th class="px-4 py-4 text-center text-sm font-semibold uppercase" colspan="5">Nivel</th>
+                    </tr>
+                    <tr class="bg-blue-50">
+                        <th class="px-4 py-2 text-left text-xs text-gray-600 font-medium"></th>
+                        @for($i = 1; $i <= 5; $i++)
+                            <th class="px-3 py-2 text-center text-xs text-gray-600 font-medium">{{ $i }}</th>
+                        @endfor
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    @foreach($puestoSeleccionado->habilidadesHumanas as $habilidad)
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 text-gray-800 font-medium flex items-center">
+                                <span class="text-green-500 text-xl mr-2">✓</span> 
+                                {{ $habilidad->descripcion }}
+                            </td>
+                            @for($i = 1; $i <= 5; $i++)
+                                <td class="px-4 py-4 text-center">
+                                    @if($habilidad->nivel == $i)
+                                        <span class="text-red-500 font-bold text-xl">×</span>
+                                    @endif
+                                </td>
+                            @endfor
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    @else
+        <p class="text-gray-500 italic text-sm">No se han asignado habilidades humanas a este puesto.</p>
+    @endif
+</div>
 
-    <!-- Formación Habilidad Técnica -->
-    <div class="mt-4">
-        <h3 class="text-lg font-semibold text-indigo-600">Formación Habilidad Técnica</h3>
-        @if($puestoSeleccionado->habilidadesTecnicas->isNotEmpty())
-            <ul class="list-disc list-inside text-gray-600 ml-4">
-                @foreach($puestoSeleccionado->habilidadesTecnicas as $habilidad)
-                    <li><strong>Descripción:</strong> {{ $habilidad->descripcion }}</li>
-                    <li><strong>Nivel:</strong> {{ $habilidad->nivel }}</li>
-                    <hr class="my-2 border-gray-300">
-                @endforeach
-            </ul>
-        @else
-            <p class="text-gray-500">No se han asignado habilidades técnicas a este puesto.</p>
-        @endif
-    </div>
+<!-- Formación Habilidad Técnica -->
+<div class="mt-8">
+    <h3 class="text-2xl font-bold text-indigo-700 mb-4">Formación Habilidad Técnica</h3>
+    @if($puestoSeleccionado->habilidadesTecnicas->isNotEmpty())
+        <div class="overflow-x-auto rounded-lg shadow-lg">
+            <table class="w-full bg-white border-collapse">
+                <thead>
+                    <tr class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
+                        <th class="px-6 py-4 text-left text-sm font-semibold uppercase">Descripción</th>
+                        <th class="px-4 py-4 text-center text-sm font-semibold uppercase" colspan="5">Nivel</th>
+                    </tr>
+                    <tr class="bg-blue-50">
+                        <th class="px-4 py-2 text-left text-xs text-gray-600 font-medium"></th>
+                        @for($i = 1; $i <= 5; $i++)
+                            <th class="px-3 py-2 text-center text-xs text-gray-600 font-medium">{{ $i }}</th>
+                        @endfor
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    @foreach($puestoSeleccionado->habilidadesTecnicas as $habilidad)
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 text-gray-800 font-medium flex items-center">
+                                <span class="text-green-500 text-xl mr-2">✓</span> 
+                                {{ $habilidad->descripcion }}
+                            </td>
+                            @for($i = 1; $i <= 5; $i++)
+                                <td class="px-4 py-4 text-center">
+                                    @if($habilidad->nivel == $i)
+                                        <span class="text-red-500 font-bold text-xl">×</span>
+                                    @endif
+                                </td>
+                            @endfor
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    @else
+        <p class="text-gray-500 italic text-sm">No se han asignado habilidades técnicas a este puesto.</p>
+    @endif
+</div>
 
-    <p class="text-gray-600">
+    <p class="text-gray-600 mt-6">
         <strong>Estado:</strong> 
-        <span class="px-2 py-1 rounded-md text-white 
+        <span class="px-2 py-1 rounded-md text-white mt-6
             {{ $puestoSeleccionado->status == 'Aprobado' ? 'bg-green-500' : ($puestoSeleccionado->status == 'Corregir' ? 'bg-yellow-500' : ($puestoSeleccionado->status == 'Rechazado' ? 'bg-red-500' : 'bg-gray-500')) }}">
             {{ $puestoSeleccionado->status }}
         </span>

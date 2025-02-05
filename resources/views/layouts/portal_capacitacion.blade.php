@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -9,7 +10,6 @@
 
   @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-        <!-- Styles -->
   @livewireStyles
 </head>
 <body class="flex">
@@ -99,6 +99,8 @@
   @stack('modals')
 
   @livewireScripts
+
+  @stack('js')
 
   <script>
     document.addEventListener("DOMContentLoaded", function () {

@@ -26,6 +26,7 @@ use App\Livewire\PortalCapacitacion\HabilidadesTecnicas\AgregarHabilidadesTecnic
 use App\Livewire\PortalCapacitacion\HabilidadesTecnicas\EditarHabilidadesTecnicas;
 use App\Livewire\PortalCapacitacion\Usuarios\MostrarUsuario;
 use App\Livewire\PortalCapacitacion\Usuarios\VerMasUsuario;
+use App\Livewire\PortalCapacitacion\Usuarios\CompararPerfilPuesto;
 
 Route::get('/inicio', Inicio::class)->name('inicio-capacitacion');
 
@@ -68,3 +69,4 @@ Route::get('/editar-habilidades-tecnicas/{id}', EditarHabilidadesTecnicas::class
 //users
 Route::get('/users', MostrarUsuario::class)->name('mostrarUsuarios');
 Route::get('/users/{id}', VerMasUsuario::class)->name('vermasUsuarios');
+Route::get('/user/comparar', CompararPerfilPuesto::class)->name('compararPerfilPuesto');

@@ -10,16 +10,23 @@ use App\Models\PortalCapacitacion\RelacionExterna;
 use App\Models\PortalCapacitacion\ResponsabilidadUniversal;
 use App\Models\PortalCapacitacion\FormacionHabilidadHumana;
 use App\Models\PortalCapacitacion\FormacionHabilidadTecnica;
+use App\Models\User;
 use Illuminate\Support\Facades\Crypt;
 
 class VerMasUsuario extends Component
 {
-    public $puestoSeleccionado;
-    public $perfil_puesto_id;
+    public $userSeleccionado;
+    public $users_id;
 
-   
+    public function comparar()
+    {
+        return redirect()->route('compararPerfilPuesto');
+    }
+    
     public function mount($id){
         $id = Crypt::decrypt($id);
+        $this->userSeleccionado = User::findOrFail($id);
+        $this->users_id = $id;
     }
 
     public function render()
