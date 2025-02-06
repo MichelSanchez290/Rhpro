@@ -8448,10 +8448,14 @@
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
 <<<<<<< HEAD
+<<<<<<< HEAD
                 "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.45"
 =======
                 "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.44"
 >>>>>>> b238c19b0ac77fbfa87d5e066249d8cac939f2ef
+=======
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.44"
+>>>>>>> edc8458c7e08194ace406ed74f59d0648dacdc32
             },
             "funding": [
                 {
@@ -8468,10 +8472,14 @@
                 }
             ],
 <<<<<<< HEAD
+<<<<<<< HEAD
             "time": "2025-02-06T16:08:12+00:00"
 =======
             "time": "2025-01-31T07:00:38+00:00"
 >>>>>>> b238c19b0ac77fbfa87d5e066249d8cac939f2ef
+=======
+            "time": "2025-01-31T07:00:38+00:00"
+>>>>>>> edc8458c7e08194ace406ed74f59d0648dacdc32
         },
         {
             "name": "sebastian/cli-parser",

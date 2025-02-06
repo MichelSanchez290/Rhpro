@@ -40,7 +40,8 @@ class EditarTrabajador extends Component
         $status, 
         $user_id, 
         $sucursal_id, 
-        $departamento_id;
+        $departamento_id
+    ;
     
 
     public $usuarios, $sucursales, $departamentos;
@@ -155,7 +156,7 @@ class EditarTrabajador extends Component
             'departamento_id' => $this->departamento_id,
         ]);
 
-        return redirect()->route('mostrartrabajador')->with('message', 'Sucursal actualizada correctamente.');
+        return redirect()->route('mostrartrabajador')->with('message', 'Trabajador actualizado correctamente.');
     }
 
     public function render()

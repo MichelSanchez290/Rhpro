@@ -9,62 +9,59 @@
 
             <div class="flex justify-center">
                 <div class="flex">
-                    <h1 class="text-gray-600 font-bold md:text-2xl text-xl">Relacionar Departamento con Puesto </h1>
+                    <h1 class="text-gray-600 font-bold md:text-2xl text-xl">Relacionar Sucursal a una Empresa</h1>
                 </div>
             </div>
 
             <form class="mt-5 mx-7">
 
-                <!-- departamentos -->
+                <!--  -->
                 <div class="grid grid-cols-1 mt-5">
-                    <label for="departamento_id"
-                        class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Departamentos</label>
-                    <select wire:model.defer="depaPuest.departamento_id" id="departamento_id"
+                    <label for="empresa_id"
+                        class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Empresas</label>
+                    <select wire:model.defer="empressucursal.empresa_id" id="empresa_id"
                         class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-                        <option value="">Seleccione un Departamento</option>
-                        @foreach ($departamentos as $departamento)
-                            <option value="{{ $departamento->id }}">{{ $departamento->nombre_departamento }}</option>
+                        <option value="">Seleccione un Empresa</option>
+                        @foreach ($empresas as $empresa)
+                            <option value="{{ $empresa->id }}">{{ $empresa->nombre }}</option>
                         @endforeach
                     </select>
                 </div>
 
-                <!-- puesto -->
+                <!--  -->
                 <div class="grid grid-cols-1 mt-5">
-                    <label for="puesto_id"
-                        class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Puestos</label>
-                    <select wire:model.defer="depaPuest.puesto_id" id="puesto_id"
+
+                    <label for="sucursal_id"
+                        class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Sucursales</label>
+                    <select wire:model.defer="empressucursal.sucursal_id" id="sucursal_id"
                         class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-                        <option value="">Seleccione un Puesto</option>
-                        @foreach ($puestos as $puest)
-                            <option value="{{ $puest->id }}">{{ $puest->nombre_puesto }}</option>
+                        <option value="">Seleccione una Sucursal</option>
+                        @foreach ($sucursales as $sucursal)
+                            <option value="{{ $sucursal->id }}">{{ $sucursal->nombre_sucursal }}</option>
                         @endforeach
                     </select>
-                </div>
-
-                <!-- Teléfono y Status -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
-                    
-                    <div class="grid grid-cols-1">
-                        <label for="status"
-                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Status</label>
-                        <select wire:model.defer="depaPuest.status" id="status"
-                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-                            <option value="" selected>-- Selecciona una opción --</option>
-                            <option value="Activo">Activo</option>
-                            <option value="Inactivo">Inactivo</option>
-                        </select>
-                    </div>
+                </div> 
+                
+                <div class="grid grid-cols-1 mt-5">
+                    <label for="status"
+                        class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Status</label>
+                    <select wire:model.defer="empressucursal.status" id="status"
+                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                        <option value="" selected>-- Selecciona una opción --</option>
+                        <option value="Activo">Activo</option>
+                        <option value="Inactivo">Inactivo</option>
+                    </select>
                 </div>
 
                 <!-- Botones -->
                 <div class='flex items-center justify-center md:gap-8 gap-4 pt-5 pb-5'>
 
-                    <button type="button" wire:click="saveDepaPuest()"
+                    <button type="button" wire:click="saveEmpresSucursal"
                         class='w-auto bg-blue-500 hover:bg-blue-700 rounded-lg shadow-xl font-medium text-white px-4 py-2'>
                         Agregar
                     </button>
 
-                    <button type="button" wire:click="redirigirDepaPuest"
+                    <button type="button" wire:click="redirigirEmpresSuc"
                         class='w-auto bg-red-500 hover:bg-red-700 rounded-lg shadow-xl font-medium text-white px-4 py-2'>
                         Cancelar
                     </button>
