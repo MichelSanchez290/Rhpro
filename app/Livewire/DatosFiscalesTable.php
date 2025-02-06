@@ -43,7 +43,7 @@ final class DatosFiscalesTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('id')
-            ->add('id')
+            ->add('razonSocial')
             ->add('rfc')
             ->add('calle')
             ->add('colonia')
@@ -58,12 +58,20 @@ final class DatosFiscalesTable extends PowerGridComponent
     {
         return [
             Column::make('Id', 'id'),
-            Column::make('Id', 'id'),
+            Column::make('Razon Social', 'razonSocial'),
             Column::make('Rfc', 'rfc')
                 ->sortable()
                 ->searchable(),
 
             Column::make('Calle', 'calle')
+                ->sortable()
+                ->searchable(),
+
+            Column::make('Numero Exterior', 'numeroExterior')
+                ->sortable()
+                ->searchable(),
+
+            Column::make('Numero Interior', 'numeroInterior')
                 ->sortable()
                 ->searchable(),
 
@@ -84,6 +92,14 @@ final class DatosFiscalesTable extends PowerGridComponent
                 ->searchable(),
 
             Column::make('Pais', 'pais')
+                ->sortable()
+                ->searchable(),
+
+            Column::make('Codigo Postal', 'codigoPostal')
+                ->sortable()
+                ->searchable(),
+
+            Column::make('Empresa', 'crmEmpresas_id')
                 ->sortable()
                 ->searchable(),
 
@@ -113,11 +129,13 @@ final class DatosFiscalesTable extends PowerGridComponent
     public function actions(DatosFiscale $row): array
     {
         return [
-            Button::add('edit')
-                ->slot('Edit: '.$row->id)
-                ->id()
-                ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-                ->dispatch('edit', ['rowId' => $row->id])
+            Button::make('edit', 'Editar')
+                ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
+                ->route('editDato', ['id' => $row->id]),
+            Button::add('delete')
+                ->slot('Eliminar')
+                ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
+                ->dispatch('confirmDelete', ['id' => $row->id]),
         ];
     }
 
