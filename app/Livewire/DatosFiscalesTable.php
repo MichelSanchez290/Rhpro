@@ -2,7 +2,7 @@
 
 namespace App\Livewire;
 
-use App\Models\Crm\CrmEmpresa;
+use App\Models\Crm\DatosFiscale;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
@@ -11,25 +11,16 @@ use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
-use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
-use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 
-
-
-final class CrmEmpresas extends PowerGridComponent
+final class DatosFiscalesTable extends PowerGridComponent
 {
-
-    use WithExport;
-
-    public string $tableName = 'crm-empresas-oik5xr-table';
+    public string $tableName = 'datos-fiscales-table-wlnx6o-table';
 
     public function setUp(): array
     {
         $this->showCheckBox();
 
         return [
-            PowerGrid::exportable('export')
-            ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             PowerGrid::header()
                 ->showSearchInput(),
             PowerGrid::footer()
@@ -40,7 +31,7 @@ final class CrmEmpresas extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return CrmEmpresa::query();
+        return DatosFiscale::query();
     }
 
     public function relationSearch(): array
@@ -52,13 +43,14 @@ final class CrmEmpresas extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('id')
-            ->add('nombre')
-            ->add('tamano_empresa')
-            ->add('clasificacion')
-            ->add('pagina_web')
-            ->add('imgagen', function(CrmEmpresa $model){
-                return '<img src="'.e($model->imgagen).'" />';
-            })
+            ->add('id')
+            ->add('rfc')
+            ->add('calle')
+            ->add('colonia')
+            ->add('municipio')
+            ->add('localidad')
+            ->add('estado')
+            ->add('pais')
             ->add('created_at');
     }
 
@@ -66,25 +58,37 @@ final class CrmEmpresas extends PowerGridComponent
     {
         return [
             Column::make('Id', 'id'),
-            Column::make('Nombre', 'nombre')
+            Column::make('Id', 'id'),
+            Column::make('Rfc', 'rfc')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Tamano empresa', 'tamano_empresa')
+            Column::make('Calle', 'calle')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Pagina web', 'pagina_web')
+            Column::make('Colonia', 'colonia')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Clasificacion', 'clasificacion')
+            Column::make('Municipio', 'municipio')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Logotipo', 'logotipo')
+            Column::make('Localidad', 'localidad')
                 ->sortable()
                 ->searchable(),
+
+            Column::make('Estado', 'estado')
+                ->sortable()
+                ->searchable(),
+
+            Column::make('Pais', 'pais')
+                ->sortable()
+                ->searchable(),
+
+            Column::make('Created at', 'created_at_formatted', 'created_at')
+                ->sortable(),
 
             Column::make('Created at', 'created_at')
                 ->sortable()
@@ -106,22 +110,26 @@ final class CrmEmpresas extends PowerGridComponent
         $this->js('alert('.$rowId.')');
     }
 
-    public function actions(CrmEmpresa $row): array
+    public function actions(DatosFiscale $row): array
     {
         return [
-            Button::make('edit', 'Editar')
-                ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
-                ->route('EditEmpresa', ['id' => $row->id]),
-            Button::add('delete')
-                ->slot('Eliminar')
-                ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
-                ->dispatch('confirmDelete', ['id' => $row->id]),
-
-
-            // Button::make('destroy', 'Delete')
-            //     ->class('text-red-500 font-medium hover:underline')
-            //     ->emit('DeleteEmpresa', ['id' => 'id']),
+            Button::add('edit')
+                ->slot('Edit: '.$row->id)
+                ->id()
+                ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
+                ->dispatch('edit', ['rowId' => $row->id])
         ];
+    }
 
-   }
+    /*
+    public function actionRules($row): array
+    {
+       return [
+            // Hide button edit for ID 1
+            Rule::button('edit')
+                ->when(fn($row) => $row->id === 1)
+                ->hide(),
+        ];
+    }
+    */
 }

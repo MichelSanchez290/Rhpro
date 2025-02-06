@@ -15,30 +15,25 @@ class LeadsCliente extends Model
     protected $primaryKey = 'id';
 
     //especifica las columnas
-    protected $fillable = ['id', 'nombre_contacto', 'numero_cliente', 'fecha', 'hora', 'datos_id', 'puesto', 'correo','telefono','crmEmpresas_id','tipo'];
+    protected $fillable = ['id', 'nombre_contacto', 'numero_cliente', 'fecha', 'hora', 'datos_id', 'puesto', 'correo','telefono','tipo'];
 
     public function datosfiscales()
     {
         return $this->belongsTo(DatosFiscale::class);
     }
 
-    public function crmempresas()
+    public function headlevantamientospedido()
     {
-        return $this->belongsTo(CrmEmpresa::class);
-    }
-
-    public function headlevantamientopedido()
-    {
-        return $this->hasMany(headlevantamientopedido::class);
+        return $this->hasMany(HeadLevantamientosPedido::class);
     }
 
     public function serviciosespecializado()
     {
-        return $this->hasMany(serviciosespecializado::class);
+        return $this->hasMany(ServiciosEspecializado::class);
     }
 
     public function traininglevantamiento()
     {
-        return $this->hasMany(traininglevantamiento::class);
+        return $this->hasMany(TrainingLevantamiento::class);
     }
 }

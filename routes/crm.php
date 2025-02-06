@@ -1,12 +1,14 @@
 <?php
 
 use App\Livewire\Crm\Inicio;
-use App\Livewire\Crm\AgregarCrmEmpresa;
 use App\Livewire\Crm\CrmEmpresa\Agregar\AgregarEmpresa;
 use App\Livewire\Crm\CrmEmpresa\Editar\EditarEmpresa;
 use App\Livewire\Crm\CrmEmpresa\Eliminar\EliminarEmpresa;
-use App\Livewire\Crm\SubirImagenes;
-use App\Models\Crm\DatosFiscale;
+use App\Livewire\Crm\CrmEmpresa\Mostrar\MostrarEmpre;
+use App\Livewire\Crm\DatosFiscale\Agregar\AgregarDatosFiscale;
+use App\Livewire\Crm\DatosFiscale\Mostrar\MostrarDatosFisc;
+use App\Livewire\LeadsCliente;
+use App\Livewire\PortalRh\Empres\MostrarEmpres;
 use Illuminate\Support\Facades\Route;
 
 Route::get(
@@ -14,15 +16,10 @@ Route::get(
         Inicio::class
 )->name('InicioCrm');
 
-// Route::get(
-//     '/crm-createCrm',
-//     AgregarCrmEmpresa::class
-// )->name('Createcrm');
-
-// Route::get(
-//     '/crm-subirimg',
-//     SubirImagenes::class
-// )->name('imgsubir');
+Route::get(
+    '/crm-mostrarEmpresa',
+        MostrarEmpre::class
+)->name('mostrarEmpresaCrm');
 
 Route::get(
     '/crm-createempresa',
@@ -40,6 +37,18 @@ Route::post(
 )->name('EliminarEmpresa');
 
 // Route::get(
-//     '/crm-datosFiscale',
-//     DatosFiscale::class
-// )->name('datosfisc');
+//     '/leads-inicio',
+//     // InicioLeadsCliente::class
+// )->name('Leads');
+
+Route::get(
+    '/crm-registrarDatosFiscales',
+    AgregarDatosFiscale::class
+)->name('registra_datos_fiscales');
+
+Route::get(
+    '/crm-mostrarDatosFiscales',
+    MostrarDatosFisc::class
+)->name('muestra_datos_fiscales');
+
+// Route::get('select', 'AgregarDatosFiscale@select');
