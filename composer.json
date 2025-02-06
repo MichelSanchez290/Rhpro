@@ -18,6 +18,7 @@
         "phpoffice/phpspreadsheet": "*",
         "power-components/livewire-powergrid": "^6.1",
         "spatie/laravel-permission": "^6.10",
+        "wire-elements/modal": "^2.0",
         "wireui/wireui": "^2.2"
     },
     "require-dev": {

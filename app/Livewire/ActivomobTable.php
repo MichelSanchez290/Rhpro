@@ -11,16 +11,23 @@ use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
+use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
+use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 
 final class ActivomobTable extends PowerGridComponent
 {
+    use WithExport;
     public string $tableName = 'activomob-table-2eapml-table';
+    protected $listeners = ['refreshPowerGrid' => '$refresh'];
 
     public function setUp(): array
     {
         $this->showCheckBox();
 
         return [
+            PowerGrid::exportable('export')
+                ->striped()
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             PowerGrid::header()
                 ->showSearchInput(),
             PowerGrid::footer()
@@ -51,10 +58,10 @@ final class ActivomobTable extends PowerGridComponent
             ->add('ubicacion_fisica')
             ->add('fecha_adquisicion_formatted', fn(ActivoMobiliario $model) => Carbon::parse($model->fecha_adquisicion)->format('d/m/Y'))
             ->add('fecha_baja_formatted', fn(ActivoMobiliario $model) => Carbon::parse($model->fecha_baja)->format('d/m/Y'))
-            ->add('tipo_activo_nombre', fn (ActivoMobiliario $model) => $model->tipoActivo->nombre_activo ?? 'N/A')
+            ->add('tipo_activo_nombre', fn(ActivoMobiliario $model) => $model->tipoActivo->nombre_activo ?? 'N/A')
 
             ->add('precio_adquisicion')
-            ->add('anioEstimado', fn (ActivoMobiliario $model) => $model->anioEstimado->vida_util_año ?? 'No asignado');
+            ->add('anioEstimado', fn(ActivoMobiliario $model) => $model->anioEstimado->vida_util_año ?? 'No asignado');
     }
 
     public function columns(): array
@@ -82,7 +89,7 @@ final class ActivomobTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-                Column::make('Fecha adquisicion', 'fecha_adquisicion_formatted', 'fecha_adquisicion')
+            Column::make('Fecha adquisicion', 'fecha_adquisicion_formatted', 'fecha_adquisicion')
                 ->sortable(),
 
             Column::make('Fecha baja', 'fecha_baja_formatted', 'fecha_baja')
@@ -90,8 +97,8 @@ final class ActivomobTable extends PowerGridComponent
 
             //Column::make('Tipo activo id', 'tipo_activo_id'),
             Column::make('Tipo Activo', 'tipo_activo_nombre')
-            ->sortable()
-            ->searchable(),
+                ->sortable()
+                ->searchable(),
 
             Column::make('Precio adquisicion', 'precio_adquisicion')
                 ->sortable()
@@ -115,7 +122,7 @@ final class ActivomobTable extends PowerGridComponent
     #[\Livewire\Attributes\On('edit')]
     public function edit($rowId): void
     {
-        $this->js('alert('.$rowId.')');
+        $this->js('alert(' . $rowId . ')');
     }
 
     public function actions(ActivoMobiliario $row): array
@@ -126,10 +133,12 @@ final class ActivomobTable extends PowerGridComponent
                 ->class('btn btn-primary')
                 ->route('editaractmob', ['id' => $row->id]),
             Button::add('delete')
-                ->slot('Eliminar')
+                ->icon('default-trash')
                 ->class('btn btn-primary')
-                
-                ->dispatch('confirmDelete', ['id' => $row->id]),
+                ->dispatch('openModal', [
+                    'component' => 'borrar-activo',
+                    'arguments' => ['activo_id' => $row->id] // Aquí cambiamos el nombre del parámetro
+                ]),
         ];
     }
 

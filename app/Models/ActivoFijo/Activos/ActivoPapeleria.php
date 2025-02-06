@@ -2,6 +2,7 @@
 
 namespace App\Models\ActivoFijo\Activos;
 
+use App\Models\ActivoFijo\Anioestimado;
 use App\Models\ActivoFijo\Tipoactivo;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -26,15 +27,24 @@ class ActivoPapeleria extends Model
         'estado',
         'disponible',
         'fecha_adquisicion',
+        'fecha_baja',
         'tipo_activo_id',
+        'aniosestimado_id',
         'color',
         'precio_unitario',
-        'foto'
+        'foto1',
+        'foto2',
+        'foto3',
     ];
 
     public function tipoactivo()
     {
-        return $this->belongsTo(Tipoactivo::class);
+        return $this->belongsTo(Tipoactivo::class,'tipo_activo_id','id');
+    }
+
+    public function anioEstimado()
+    {
+        return $this->belongsTo(Anioestimado::class, 'aniosestimado_id', 'id');
     }
     public function usuarios()
     {

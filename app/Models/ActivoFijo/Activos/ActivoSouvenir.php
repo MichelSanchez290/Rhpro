@@ -3,6 +3,7 @@
 namespace App\Models\ActivoFijo\Activos;
 
 use App\Models\ActivoFijo\Anioestimado;
+use App\Models\ActivoFijo\Tipoactivo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -27,12 +28,20 @@ class ActivoSouvenir extends Model
         'estado',
         'disponible',
         'fecha_adquisicion',
+        'tipo_activo_id',
         'aniosestimado_id',
-        'foto'
+        'foto1',
+        'foto2',
+        'foto3',
     ];
 
-    public function anioestimado()
+    public function tipoactivo()
     {
-        return $this->belongsTo(Anioestimado::class);
+        return $this->belongsTo(Tipoactivo::class,'tipo_activo_id','id');
+    }
+
+    public function anioEstimado()
+    {
+        return $this->belongsTo(AnioEstimado::class, 'aniosestimado_id', 'id');
     }
 }

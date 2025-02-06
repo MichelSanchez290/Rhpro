@@ -24,7 +24,7 @@ export default {
         extend: {
             extend: {
                 colors: {
-                    "pg-primary": "#4f46e5", // Color primario
+                    "pg-primary": colors.red, // Color primario
                     "pg-secondary": colors.indigo, // Color secundario
                     "pg-success": colors.green, // Color de éxito
                     "pg-danger": colors.red, // Color de peligro

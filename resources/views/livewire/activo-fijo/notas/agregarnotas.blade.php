@@ -1,11 +1,11 @@
-<div class="my-5">
+<div>
     <!-- Título con fondo degradado -->
-    <div class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold text-xl py-4 px-6 rounded-t-lg shadow-lg">
+    <div class="bg-gradient-to-r from-[#1763A6] to-[#1EA4D9] text-white font-bold text-xl py-4 px-6 rounded-t-lg">
         <h1 class="text-center text-2xl sm:text-3xl font-bold text-white">Nota</h1>
     </div>
 
     <!-- Formulario con fondo blanco y sombras -->
-    <div class="bg-white rounded-b-lg shadow-2xl p-6">
+    <div class="bg-white rounded-b-lg">
         <form wire:submit.prevent="agregarNotatec">
             <!-- Campo para la descripción de la nota -->
             <div class="my-2">
