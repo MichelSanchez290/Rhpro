@@ -44,7 +44,7 @@ class Becari extends Model
     public function usuarios()
     {
         //un becario pertenece a un user
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function sucursales()

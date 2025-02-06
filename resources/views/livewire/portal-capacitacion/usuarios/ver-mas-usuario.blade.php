@@ -89,6 +89,15 @@
                         <h3 class="text-lg font-semibold text-indigo-600">Formación Habilidad Técnica</h3>    
                     </div>
 
+                    <p class="text-gray-600">Elaboro Nombre:</p>
+                    <p class="text-gray-600">Elaboro Puesto:</p>
+                    
+                    <p class="text-gray-600">Reviso Nombre:</p>
+                    <p class="text-gray-600">Reviso Puesto:</p>
+                    
+                    <p class="text-gray-600">Autorizo Nombre:</p>
+                    <p class="text-gray-600">Autorizo Puesto:</p>
+
                     <p class="text-gray-600">
                         Estado:    
                     </p>

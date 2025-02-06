@@ -41,9 +41,8 @@
           </button>        
         </li>
         <li class="opcion-con-desplegable">
-          <button class="w-full text-left px-4 py-2 hover:bg-gray-700 flex items-center">
+          <button class="w-full text-left px-4 py-2 hover:bg-gray-700 flex items-center" onclick="window.location.href='{{ route('asociarPuestoTrabajador') }}'">
             <i class="fa-solid fa-id-card-clip mr-2"></i> Asociar Perfil de Puesto a trabajador
-            <i class="fas fa-chevron-down ml-auto"></i>
           </button>
           <ul class="desplegable hidden pl-8 space-y-2">
             <li><a href="#" class="block px-4 py-2 hover:bg-gray-700">Presupuestos</a></li>

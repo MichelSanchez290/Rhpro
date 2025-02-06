@@ -5,26 +5,3 @@
 [x-cloak] {
     display: none;
 }
-
-.overflow-y-auto {
-    scrollbar-width: thin;
-    scrollbar-color: #E2E8F0 #F7FAFC;
-}
-
-.overflow-y-auto::-webkit-scrollbar {
-    width: 4px;
-}
-
-.overflow-y-auto::-webkit-scrollbar-track {
-    background: #F7FAFC;
-}
-
-.overflow-y-auto::-webkit-scrollbar-thumb {
-    background: #E2E8F0;
-    border-radius: 2px;
-}
-
-.overflow-y-auto::-webkit-scrollbar-thumb:hover {
-    background: #CBD5E0;
-}
-

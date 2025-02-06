@@ -4,11 +4,16 @@ namespace App\Livewire\PortalCapacitacion\Usuarios;
 
 use Livewire\Component;
 use App\Models\PortalCapacitacion\PerfilPuesto;
+use App\Models\PortalCapacitacion\FuncionEspecifica;
+use App\Models\PortalCapacitacion\RelacionInterna;
+use App\Models\PortalCapacitacion\RelacionExterna;
+use App\Models\PortalCapacitacion\ResponsabilidadUniversal;
+use App\Models\PortalCapacitacion\FormacionHabilidadHumana;
+use App\Models\PortalCapacitacion\FormacionHabilidadTecnica;
 
 class CompararPerfilPuesto extends Component
 {
     public $puestos; // Lista de puestos disponibles
-    public $puestoSeleccionado; // ID del puesto seleccionado
     public $detallePuesto; // Datos del puesto seleccionado
     public $perfil;
 
@@ -18,22 +23,17 @@ class CompararPerfilPuesto extends Component
         $this->detallePuesto = null; // Inicialmente vacío
     }
 
-    public function guardar(){
-        
-    }
-
-    /*public function updatedPuestoSeleccionado($puestoId)
+    public function updatedPerfil($puestoId)
     {
-        $this->detallePuesto = PerfilPuesto::find($puestoId);
+        $this->detallePuesto = PerfilPuesto::with([
+            'funcionesEspecificas',
+            'relacionesInternas',
+            'relacionesExternas',
+            'responsabilidadesUniversales',
+            'habilidadesHumanas',
+            'habilidadesTecnicas'
+        ])->find($puestoId);
     }
-
-    public function updatedPerfil()
-    {
-        dd();
-        $this->detallePuesto = PerfilPuesto::find($perfil_puesto_id);
-    }*/
-
-    
 
     public function render()
     {

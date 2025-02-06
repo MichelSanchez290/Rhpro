@@ -31,7 +31,7 @@
 
             <!-- Botón de Guardar -->
             <div class="flex justify-center mt-4">
-                <button type="submit" class="bg-[#752174] dark:bg-indigo-600 text-white px-6 py-2 rounded-lg shadow-lg font-bold hover:bg-[#913b8f] dark:hover:bg-indigo-500">Guardar</button>
+                <button type="submit" class="bg-[#752174] text-white px-6 py-2 rounded-lg shadow-lg font-bold hover:bg-[#913b8f]">Guardar</button>
             </div>
         </form>
     </div>

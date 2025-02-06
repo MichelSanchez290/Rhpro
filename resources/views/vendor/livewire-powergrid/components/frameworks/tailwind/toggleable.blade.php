@@ -23,7 +23,7 @@
             x-data="pgToggleable(@js($params))"
             :class="{
                 'relative rounded-full w-8 h-4 transition duration-200 ease-linear': true,
-                'bg-pg-secondary-600 dark:pg-secondary-500': toggle,
+                'bg-pg-secondary-600': toggle,
                 'bg-pg-primary-200': !toggle
             }"
         >

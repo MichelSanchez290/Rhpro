@@ -173,6 +173,16 @@
     @endif
 </div>
 
+    <p class="text-gray-600 mt-5"><strong>Elaboro nombre:</strong> {{ $puestoSeleccionado->elaboro_nombre }}</p>
+    <p class="text-gray-600"><strong>Elaboro puesto:</strong> {{ $puestoSeleccionado->elaboro_puesto }}</p>
+    
+    <p class="text-gray-600"><strong>Reviso nombre:</strong> {{ $puestoSeleccionado->reviso_nombre}}</p>
+    <p class="text-gray-600"><strong>Reviso puesto:</strong> {{ $puestoSeleccionado->reviso_puesto }}</p>
+    
+    <p class="text-gray-600"><strong>Autorizo nombre:</strong> {{ $puestoSeleccionado->autorizo_nombre }}</p>
+    <p class="text-gray-600"><strong>Autorizo puesto:</strong> {{ $puestoSeleccionado->autorizo_puesto }}</p>
+
+
     <p class="text-gray-600 mt-6">
         <strong>Estado:</strong> 
         <span class="px-2 py-1 rounded-md text-white mt-6

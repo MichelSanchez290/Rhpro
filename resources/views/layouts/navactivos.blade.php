@@ -93,7 +93,7 @@
 <body>
     <div x-data="setup()" x-init="$refs.loading.classList.add('hidden');" :class="{ 'dark': isDark }" @resize.window="watchScreen()">
         <!-- Fondo con degradado en modo oscuro -->
-        <div class="flex h-screen antialiased text-gray-900 bg-gray-100 dark:bg-white dark:text-gray-900">
+        <div class="flex h-screen antialiased text-gray-900 bg-gray-100">
             <!-- Loading screen -->
             <div x-ref="loading"
                 class="fixed inset-0 z-50 flex items-center justify-center text-2xl font-semibold text-white bg-gray-800">
@@ -112,7 +112,7 @@
                 x-transition:leave-start="translate-x-0 opacity-100"
                 x-transition:leave-end="-translate-x-full opacity-0" x-ref="sidebar"
                 @keydown.escape="window.innerWidth <= 1024 ? isSidebarOpen = false : ''" tabindex="-1"
-                class="fixed inset-y-0 z-10 flex-shrink-0 w-64 bg-white border-r lg:static dark:border-gray-200 dark:bg-white focus:outline-none">
+                class="fixed inset-y-0 z-10 flex-shrink-0 w-64 bg-white border-r lg:static focus:outline-none">
                 <div class="flex flex-col h-full">
                     <!-- Sidebar links -->
                     <nav aria-label="Main" class="flex-1 px-2 py-4 space-y-2 overflow-y-hidden hover:overflow-y-auto">
@@ -153,7 +153,7 @@
                             <!-- Submenú -->
                             <div role="menu" x-show="open" class="mt-2 space-y-2 px-7" aria-label="Dashboards">
                                 <a href="#" role="menuitem"
-                                   class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:text-gray-400 dark:hover:text-gray-900 hover:text-gray-700"
+                                   class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md hover:text-gray-700"
                                    onclick="window.location.href='{{ route('mostrartipoactivo') }}'">
                                     Activos Existentes
                                 </a>
@@ -188,17 +188,17 @@
                             <!-- Submenú -->
                             <div x-show="open" class="mt-2 space-y-2 px-7" role="menu" arial-label="Components">
                                 <a href="#" role="menuitem"
-                                   class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:text-gray-400 dark:hover:text-gray-900 hover:text-gray-700"
+                                   class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md hover:text-gray-700"
                                    onclick="window.location.href='{{ route('mostraracttec') }}'">
                                     Activo de Tecnologias
                                 </a>
                                 <a href="#" role="menuitem"
-                                   class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:text-gray-400 dark:hover:text-gray-900 hover:text-gray-700"
+                                   class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md hover:text-gray-700"
                                    onclick="window.location.href='{{ route('mostraractof') }}'"> 
                                    Activo de Oficina
                                 </a>
                                 <a href="#" role="menuitem"
-                                   class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:text-gray-400 dark:hover:text-gray-900 hover:text-gray-700"
+                                   class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md hover:text-gray-700"
                                    onclick="window.location.href='{{ route('mostraractmob') }}'"> 
                                    Activo de Mobiliario
                                 </a>
@@ -228,18 +228,18 @@
                                 x-transition:leave-start="translate-y-0 opacity-100"
                                 x-transition:leave-end="-translate-y-1/2 opacity-0" @click.away="open = false"
                                 @keydown.escape="open = false"
-                                class="absolute max-w-xs py-1 bg-white rounded-md shadow-lg min-w-max left-5 right-5 bottom-full ring-1 ring-black ring-opacity-5 dark:bg-white focus:outline-none"
+                                class="absolute max-w-xs py-1 bg-white rounded-md shadow-lg min-w-max left-5 right-5 bottom-full ring-1 ring-black ring-opacity-5 focus:outline-none"
                                 tabindex="-1" role="menu" aria-orientation="vertical" aria-label="User menu">
                                 <a href="#" role="menuitem"
-                                    class="block px-4 py-2 text-sm text-gray-700 transition-colors hover:from-indigo-700 hover:to-purple-700 dark:text-gray-900 dark:hover:bg-gray-200">
+                                    class="block px-4 py-2 text-sm text-gray-700 transition-colors hover:from-indigo-700 hover:to-purple-700">
                                     Tu perfil
                                 </a>
                                 <a href="#" role="menuitem"
-                                    class="block px-4 py-2 text-sm text-gray-700 transition-colors hover:from-indigo-700 hover:to-purple-700 dark:hover:bg-gray-200">
+                                    class="block px-4 py-2 text-sm text-gray-700 transition-colors hover:from-indigo-700 hover:to-purple-700">
                                     Configuraciones
                                 </a>
                                 <a href="#" role="menuitem"
-                                    class="block px-4 py-2 text-sm text-gray-700 transition-colors hover:from-indigo-700 hover:to-purple-700 dark:text-gray-900 dark:hover:bg-gray-200">
+                                    class="block px-4 py-2 text-sm text-gray-700 transition-colors hover:from-indigo-700 hover:to-purple-700">
                                     Cerrar Sesion
                                 </a>
                             </div>
