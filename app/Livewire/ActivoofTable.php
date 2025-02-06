@@ -11,16 +11,23 @@ use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
+use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
+use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 
 final class ActivoofTable extends PowerGridComponent
 {
+    use WithExport;
     public string $tableName = 'activoof-table';
+    protected $listeners = ['refreshPowerGrid' => '$refresh'];
 
     public function setUp(): array
     {
         $this->showCheckBox();
 
         return [
+            PowerGrid::exportable('export')
+                ->striped()
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             PowerGrid::header()->showSearchInput(),
             PowerGrid::footer()->showPerPage()->showRecordCount(),
         ];
@@ -45,12 +52,12 @@ final class ActivoofTable extends PowerGridComponent
             ->add('descripcion')
             ->add('numero_activo')
             ->add('ubicacion_fisica')
-            ->add('tipo_activo_nombre', fn (ActivoOficina $model) => $model->tipoActivo->nombre_activo ?? 'N/A')
-            ->add('fecha_adquisicion_formatted', fn (ActivoOficina $model) => $model->fecha_adquisicion ? Carbon::parse($model->fecha_adquisicion)->format('d/m/Y') : null)
-            ->add('fecha_baja', fn (ActivoOficina $model) => $model->fecha_baja ? Carbon::parse($model->fecha_baja)->format('d/m/Y') : 'No disponible')
+            ->add('tipo_activo_nombre', fn(ActivoOficina $model) => $model->tipoActivo->nombre_activo ?? 'N/A')
+            ->add('fecha_adquisicion_formatted', fn(ActivoOficina $model) => $model->fecha_adquisicion ? Carbon::parse($model->fecha_adquisicion)->format('d/m/Y') : null)
+            ->add('fecha_baja', fn(ActivoOficina $model) => $model->fecha_baja ? Carbon::parse($model->fecha_baja)->format('d/m/Y') : 'No disponible')
             ->add('precio_adquisicion')
-            ->add('anioEstimado', fn (ActivoOficina $model) => $model->anioEstimado->vida_util_año ?? 'No asignado')
-            ->add('created_at_formatted', fn (ActivoOficina $model) => $model->created_at->format('d/m/Y H:i'));
+            ->add('anioEstimado', fn(ActivoOficina $model) => $model->anioEstimado->vida_util_año ?? 'No asignado')
+            ->add('created_at_formatted', fn(ActivoOficina $model) => $model->created_at->format('d/m/Y H:i'));
     }
 
     public function columns(): array
@@ -62,8 +69,8 @@ final class ActivoofTable extends PowerGridComponent
             Column::make('Número Activo', 'numero_activo')->sortable()->searchable(),
             Column::make('Ubicación Física', 'ubicacion_fisica')->sortable()->searchable(),
             Column::make('Tipo Activo', 'tipo_activo_nombre')
-            ->sortable()
-            ->searchable(),
+                ->sortable()
+                ->searchable(),
             Column::make('Fecha Adquisición', 'fecha_adquisicion_formatted', 'fecha_adquisicion')->sortable(),
             Column::make('Fecha Baja', 'fecha_baja')->sortable(),
             Column::make('Precio Adquisición', 'precio_adquisicion')->sortable()->searchable(),
@@ -84,7 +91,7 @@ final class ActivoofTable extends PowerGridComponent
     #[\Livewire\Attributes\On('edit')]
     public function edit($rowId): void
     {
-        $this->js('alert("Editando ID: '.$rowId.'")');
+        $this->js('alert("Editando ID: ' . $rowId . '")');
     }
 
     public function actions(ActivoOficina $row): array
@@ -95,9 +102,12 @@ final class ActivoofTable extends PowerGridComponent
                 ->class('btn btn-primary')
                 ->route('editaractof', ['id' => $row->id]),
             Button::add('delete')
-                ->slot('Eliminar')
+                ->icon('default-trash')
                 ->class('btn btn-primary')
-                ->dispatch('confirmDelete', ['id' => $row->id]),
+                ->dispatch('openModal', [
+                    'component' => 'borrar-activo',
+                    'arguments' => ['activo_id' => $row->id] // Aquí cambiamos el nombre del parámetro
+                ]),
         ];
     }
 }

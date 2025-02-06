@@ -27,12 +27,14 @@ class ActivoUniforme extends Model
         'observaciones',
         'tipo_activo_id',
         'color',
-        'foto'
+        'foto1',
+        'foto2',
+        'foto3',
     ];
 
     public function tipoactivo()
     {
-        return $this->belongsTo(Tipoactivo::class);
+        return $this->belongsTo(Tipoactivo::class,'tipo_activo_id','id');
     }
     public function usuarios()
     {

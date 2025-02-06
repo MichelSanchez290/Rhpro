@@ -21,10 +21,16 @@
                 <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase" for="color">
                     Tamaño de Empresa
                 </label>
-                <input
-                    class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                    wire:model.defer="tamano_empresa" type="text" placeholder="">
-                <x-input-error for="tamano_empresa" />
+                <select
+                        class="block w-full px-4 py-3 pr-8 leading-tight text-gray-700 bg-gray-200 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                        wire:model.defer="empresa.tamano_empresa">
+                        <option value="" disabled>Seleccione un valor</option>
+                        <option value="" disabled>------</option>
+                        <option value="Micro">Micro</option>
+                        <option value="Pequeña">Pequeña</option>
+                        <option value="Mediana">Mediana</option>
+                        <option value="Grande">Grande</option>
+                    </select>
             </div>
             <div class="w-full px-3 md:w-1/2">
                 <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase" for="precio">
@@ -34,6 +40,21 @@
                     class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
                     wire:model.defer="pagina_web" type="text" placeholder="">
                 <x-input-error for="pagina_web" />
+            </div>
+            <div class="w-full px-3 md:w-1/2">
+                <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase" for="logotipo">
+                    Clasificacion
+                </label>
+                <select
+                        class="block w-full px-4 py-3 pr-8 leading-tight text-gray-700 bg-gray-200 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                        wire:model.defer="empresa.clasificacion">
+                        <option value="" disabled>Seleccione un valor</option>
+                        <option value="" disabled>------</option>
+                        <option value="A+++">A+++</option>
+                        <option value="A++">A++</option>
+                        <option value="A+">A+</option>
+                    </select>
+                <x-input-error for="empresa.clasificacion" />
             </div>
         </div>
         <!-- Cuarta fila -->
@@ -66,6 +87,10 @@
                 class="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
                 Editar
             </button>
+            <a href="{{ url('/crm/crm-mostrarEmpresa') }}"
+                class="px-4 py-2 font-bold text-white bg-red-500 rounded btn hover:bg-red-700">
+                Cancelar
+            </a>
         </div>
     </div>
 </div>

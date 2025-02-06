@@ -12,6 +12,10 @@ class Mostrartipoactivo extends Component
 
     protected $listeners = ['confirmDeleteModal'];
 
+    public function mount(){
+        $this->showConfirmModal = false;
+    }
+
     public function confirmDeleteModal($id)
     {
         $this->tipoActivoId = $id;
@@ -23,9 +27,9 @@ class Mostrartipoactivo extends Component
         $tipoActivo = Tipoactivo::find($this->tipoActivoId);
         if ($tipoActivo) {
             $tipoActivo->delete();
-            session()->flash('message', 'El activo ha sido eliminado.');
+            //session()->flash('message', 'El activo ha sido eliminado.');
 
-            $this->dispatch('tipoActivoEliminado', message: 'El activo ha sido eliminado correctamente.');
+            $this->dispatch('tipoActivoEliminado');
         } else {
             $this->dispatch('errorEliminacion', message: 'No se pudo eliminar el activo.');
         }

@@ -14,12 +14,15 @@ use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 //ocupar estos use para exportacion
 use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport;
+use LivewireUI\Modal\Contracts\ModalComponent;
 
 
 final class ActivoTable extends PowerGridComponent
 {
     use WithExport;
     public string $tableName = 'activo-table-ydaods-table';
+    protected $listeners = ['refreshPowerGrid' => '$refresh'];
+
 
     public function setUp(): array
     {
@@ -83,7 +86,6 @@ final class ActivoTable extends PowerGridComponent
     {
         $this->js('alert(' . $rowId . ')');
     }
-
     public function actions(Tipoactivo $row): array
     {
         return [
@@ -91,10 +93,13 @@ final class ActivoTable extends PowerGridComponent
                 ->slot('Editar')
                 ->class('btn btn-primary')
                 ->route('editartipoactivo', ['id' => $row->id]),
-            Button::add('delete')
-                ->slot('Eliminar')
+                Button::add('delete')
+                ->icon('default-trash')
                 ->class('btn btn-primary')
-                ->dispatch('confirmDeleteModal', ['id'=> $row->id]),
+                ->dispatch('openModal', [
+                    'component' => 'borrar-activo',
+                    'arguments' => ['activo_id' => $row->id] // Aquí cambiamos el nombre del parámetro
+                ]),
         ];
     }
 

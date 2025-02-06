@@ -1,9 +1,9 @@
-<div class="bg-white py-4 sm:py-6 min-h-screen">
-    <div class="mx-auto max-w-7xl px-6 lg:px-8">
-        <div class="mx-auto w-full lg:mx-0 text-center">
-            <h2 class="text-3xl font-bold tracking-tight text-blue-900 sm:text-4xl">Usuarios Registrados</h2>
-        </div>
+<div class="flex flex-col items-center min-h-screen bg-gradient-to-br from-[#F9F5F3] via-[#F9F5F3] to-[#EAE7E5] py-10 px-4">
+    <div class="text-center mb-8">
+        <h2 class="text-3xl font-bold text-blue-900 sm:text-4xl">Usuarios Registrados</h2>
+    </div>
 
+<<<<<<< HEAD
         <div class="flex justify-center my-6">
             <div class="relative w-2/3 max-w-lg">
                 <input 
@@ -24,7 +24,7 @@
                 <div class="m-2 space-y-2">
                     <div class="group flex flex-col gap-1 rounded-lg p-5 text-gray" tabindex="1">
                         <div class="group relative m-0 flex h-72 w-72 rounded-xl ring-gray-900/5 sm:mx-auto sm:max-w-lg">
-                            <div class="z-10 h-full w-full overflow-hidden rounded-xl border border-gray-200 opacity-80 transition duration-300 ease-in-out group-hover:opacity-100 dark:border-gray-700 dark:opacity-70">
+                            <div class="z-10 h-full w-full overflow-hidden rounded-xl border border-gray-200 opacity-80 transition duration-300 ease-in-out group-hover:opacity-100">
                                 <img class="animate-fade-in block h-full w-full scale-100 transform object-cover object-center opacity-100 transition duration-300 group-hover:scale-110" src="https://images.pexels.com/photos/163097/twitter-social-media-communication-internet-network-163097.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="">
                             </div>
                             <div class="p-3 rounded-xl opacity-60 absolute bottom-0 z-20 m-0 pb-4 ps-4 transition duration-300 ease-in-out group-hover:-translate-y-1 group-hover:translate-x-3 group-hover:scale-110 group-hover:opacity-100" style="background-color: Gray; width:70%;">
@@ -42,13 +42,30 @@
                             </a>
                         </p>                      
                     </div>
+=======
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl">
+        @forelse($users as $user) 
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden transition-transform transform hover:scale-105">
+                <!-- Imagen de portada -->
+                <div class="h-[180px] bg-cover bg-center" 
+                    style="background-image: url(https://media.istockphoto.com/id/945061408/es/foto/retrato-de-la-hermosa-joven-empresaria.jpg?s=612x612&w=0&k=20&c=Bpym7PmiZIV5-8x5pJycHvON5GOsfb3-9-gRiFufmwI=);">
                 </div>
-            </li>
-            @empty
-            <div class="text-center text-gray-500 col-span-3 mt-6">
-                <p class="text-lg">😕 No se encontraron resultados para "<strong>{{ $search }}</strong>"</p>
+
+                <!-- Contenido de la tarjeta -->
+                <div class="p-6 text-center">
+                    <p class="text-xl font-semibold text-gray-800">{{ $user->name }}</p>
+                    <p class="text-sm text-blue-700 font-medium mt-1">{{ $user->puesto }} - Ingeniero de sistemas</p>
+                    <p class="text-gray-600 text-sm mt-3">{{ $user->email }}</p>
+
+                    <a href="{{ route('vermasUsuarios', Crypt::encrypt($user->id)) }}" 
+                        class="block mt-6 px-4 py-2 bg-blue-900 text-white text-sm rounded-lg hover:bg-blue-700 transition">
+                        Ver más
+                    </a>
+>>>>>>> a4317df6425c1541d5d82d1f8b63f07d16cd25e1
+                </div>
             </div>
-            @endforelse
-        </ul>
+        @empty
+            <p class="text-gray-500 text-lg col-span-full text-center">No hay usuarios registrados.</p>
+        @endforelse
     </div>
 </div>

@@ -38,6 +38,18 @@ use App\Livewire\PortalRh\DepartamentPuesto\EditarDepartamentPuesto;
 use App\Livewire\PortalRh\Trabajador\MostrarTrabajador;
 use App\Livewire\PortalRh\Trabajador\AgregarTrabajador;
 use App\Livewire\PortalRh\Trabajador\EditarTrabajador;
+use App\Livewire\PortalRh\Trabajador\MostrarCardTrabajador;
+use App\Livewire\PortalRh\Trabajador\CardTrabajador;
+
+use App\Livewire\PortalRh\Instructor\MostrarInstructor;
+use App\Livewire\PortalRh\Instructor\AgregarInstructor;
+use App\Livewire\PortalRh\Instructor\EditarInstructor;
+
+// --- Pivote Depa con Puesto --------------------
+use App\Livewire\PortalRh\EmpresSucursal\MostrarEmpresSucursal;
+use App\Livewire\PortalRh\EmpresSucursal\AgregarEmpresSucursal;
+use App\Livewire\PortalRh\EmpresSucursal\EditarEmpresSucursal;
+// --------------------------------------------
 
 
 /*
@@ -187,3 +199,46 @@ Route::get(
         '/edit-trabajador/{id}',
             EditarTrabajador::class
     )->name('editartrabajador');
+
+    Route::get( 
+        '/cards-trabajadores',
+            MostrarCardTrabajador::class
+    )->name('mostrarcardtrabajador');
+
+    Route::get( 
+        '/card-trabajador/{id}',
+            CardTrabajador::class
+    )->name('cardtrabajador');
+
+    // INSTRUCTOR ---------------------------------------------------------------
+    Route::get( 
+        '/instructores',
+            MostrarInstructor::class
+    )->name('mostrarinstructor');
+
+    Route::get( 
+        '/create-instructor',
+            AgregarInstructor::class
+    )->name('agregarinstructor');
+
+    Route::get( 
+        '/edit-instructor/{id}',
+            EditarInstructor::class
+    )->name('editarinstructor');
+
+
+    // Relacion Empresa con Sucursal - PIVOTE *******************************
+    Route::get( 
+        '/mostrar-empressucursal',
+            MostrarEmpresSucursal::class
+    )->name('mostrarempressucursal');
+
+    Route::get( 
+        '/agregar-empressucursal',
+            AgregarEmpresSucursal::class
+    )->name('agregarempressucursal');
+
+    Route::get( 
+        '/edit-empressucursal/{id}',
+            EditarEmpresSucursal::class
+    )->name('editarempressucursal');

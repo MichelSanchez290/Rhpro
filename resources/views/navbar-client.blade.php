@@ -10,49 +10,46 @@
             <img src="{{ asset('img/cesrh.jpeg') }}" alt="Logo CESRH" class="h-12 rounded-lg">
         </div>
 
-        <!-- Settings Dropdown -->
-        <div class="ms-3 relative">
-            <x-dropdown align="right" width="48">
-                <x-slot name="trigger">
-                    @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
-                        <button class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition">
-                            <img class="h-8 w-8 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
-                        </button>
-                    @else
-                        <span class="inline-flex rounded-md">
-                            <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
-                                {{ Auth::user()->name }}
-                                <svg class="ms-2 -me-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                                </svg>
-                            </button>
+        <!-- Settings Dropdown con Alpine.js -->
+        <div class="relative" x-data="{ open: false }">
+            <!-- Botón de usuario -->
+            <button @click="open = !open" class="flex text-sm border-2 border-transparent rounded-full focus:outline-none transition">
+                @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
+                    <img class="h-8 w-8 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
+                @else
+                    <span class="inline-flex rounded-md">
+                        <span class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
+                            {{ Auth::user()->name }}
+                            <svg class="ms-2 -me-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                            </svg>
                         </span>
-                    @endif
-                </x-slot>
-                <x-slot name="content">
-                    <!-- Account Management -->
-                    <div class="block px-4 py-2 text-xs text-gray-400">
-                        {{ __('Manage Account') }}
-                    </div>
-                    <x-dropdown-link href="{{ route('profile.show') }}">
-                        {{ __('Profile') }}
-                    </x-dropdown-link>
-                    @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
-                        <x-dropdown-link href="{{ route('api-tokens.index') }}">
-                            {{ __('API Tokens') }}
-                        </x-dropdown-link>
-                    @endif
-                    <div class="border-t border-gray-200"></div>
-                    <!-- Authentication -->
-                    <form method="POST" action="{{ route('logout') }}" x-data>
-                        @csrf
-                        <x-dropdown-link href="{{ route('logout') }}"
-                                @click.prevent="$root.submit();">
-                            {{ __('Log Out') }}
-                        </x-dropdown-link>
-                    </form>
-                </x-slot>
-            </x-dropdown>
+                    </span>
+                @endif
+            </button>
+
+            <!-- Contenido del Dropdown -->
+            <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-48 bg-white border border-gray-300 shadow-lg rounded-md">
+                <div class="block px-4 py-2 text-xs text-gray-400">
+                    {{ __('Administrar Cuenta') }}
+                </div>
+                <a href="{{ route('profile.show') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                    {{ __('Perfil') }}
+                </a>
+                @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
+                    <a href="{{ route('api-tokens.index') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                        {{ __('API Tokens') }}
+                    </a>
+                @endif
+                <div class="border-t border-gray-200"></div>
+                <!-- Logout -->
+                <form method="POST" action="{{ route('logout') }}" x-data>
+                    @csrf
+                    <button type="submit" class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100">
+                        {{ __('Cerrar Sesión') }}
+                    </button>
+                </form>
+            </div>
         </div>
     </nav>
 
@@ -163,8 +160,31 @@
                                 <i class="mr-2 text-xs"></i> Mostrar Trabajadores
                             </a>
                         </li>
+                        <li>
+                            <a href="{{ route('mostrarcardtrabajador') }}" class="p-2 hover:bg-gray-700 flex items-center">
+                                <i class="mr-2 text-xs"></i> Card Trabajadores
+                            </a>
+                        </li>
                     </ul>
                 </li>
+
+                <!-- instructores -->
+                <li class="opcion-con-desplegable">
+                    <div class="flex items-center justify-between px-2 py-2 hover:bg-gray-700 cursor-pointer">
+                        <!-- Icono -->
+                        <svg class="mr-2" xmlns="http://www.w3.org/2000/svg" height="14" width="12.25" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="#ffffff" d="M96 128a128 128 0 1 0 256 0A128 128 0 1 0 96 128zm94.5 200.2l18.6 31L175.8 483.1l-36-146.9c-2-8.1-9.8-13.4-17.9-11.3C51.9 342.4 0 405.8 0 481.3c0 17 13.8 30.7 30.7 30.7l131.7 0c0 0 0 0 .1 0l5.5 0 112 0 5.5 0c0 0 0 0 .1 0l131.7 0c17 0 30.7-13.8 30.7-30.7c0-75.5-51.9-138.9-121.9-156.4c-8.1-2-15.9 3.3-17.9 11.3l-36 146.9L238.9 359.2l18.6-31c6.4-10.7-1.3-24.2-13.7-24.2L224 304l-19.7 0c-12.4 0-20.1 13.6-13.7 24.2z"/></svg>
+                        <span class="flex-1">Instructores</span>
+                        <i class="fas fa-chevron-down text-xs"></i>
+                    </div>
+                    <ul class="desplegable ml-8 hidden">
+                        <li>
+                            <a href="{{ route('mostrarinstructor') }}" class="p-2 hover:bg-gray-700 flex items-center">
+                                <i class="mr-2 text-xs"></i> Mostrar Instructores
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
                 <!-- Relaciones -->
                 <li class="opcion-con-desplegable">
                     <div class="flex items-center justify-between px-2 py-2 hover:bg-gray-700 cursor-pointer">
@@ -173,6 +193,11 @@
                         <i class="fas fa-chevron-down text-xs"></i>
                     </div>
                     <ul class="desplegable ml-8 hidden">
+                        <li>
+                            <a href="{{ route('mostrarempressucursal') }}" class="p-2 hover:bg-gray-700 flex items-center">
+                                <i class="mr-2 text-xs"></i> Empresa con Sucursales 
+                            </a>
+                        </li>
                         <li>
                             <a href="{{ route('mostrarsucursaldepa') }}" class="p-2 hover:bg-gray-700 flex items-center">
                                 <i class="mr-2 text-xs"></i> Sucursales con Departamentos
