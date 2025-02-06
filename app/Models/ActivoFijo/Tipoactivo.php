@@ -5,6 +5,7 @@ namespace App\Models\ActivoFijo;
 use App\Models\ActivoFijo\Activos\ActivoMobiliario;
 use App\Models\ActivoFijo\Activos\ActivoOficina;
 use App\Models\ActivoFijo\Activos\ActivoPapeleria;
+use App\Models\ActivoFijo\Activos\ActivoSouvenir;
 use App\Models\ActivoFijo\Activos\ActivoTecnologia;
 use App\Models\ActivoFijo\Activos\ActivoUniforme;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -47,5 +48,9 @@ class Tipoactivo extends Model
     public function activomobiliario()
     {
         return $this->hasMany(ActivoMobiliario::class);
+    }
+    public function activosouvenir()
+    {
+        return $this->hasMany(ActivoSouvenir::class);
     }
 }
