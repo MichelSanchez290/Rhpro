@@ -5,43 +5,42 @@ namespace App\Livewire\PortalCapacitacion\RelacionesInternas;
 use Livewire\Component;
 use App\Models\PortalCapacitacion\RelacionInterna;
 use Livewire\WithPagination;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Response;
 
 class MostrarRelacionesInternas extends Component
 {
-    use WithPagination;
-    public $porpagina=5; //numero de productos a  mostrar por pagina
-    public $search='';
-    public $interna;
+    public $showModal = false; // Control para ventana emergente
+    public $funcionToDelete;
 
     public function redirigir(){
         return redirect()->route('agregarRelacionesInternas');
     }
 
-    public function delete($id)
+    protected $listeners = [
+        'confirmDelete' => 'confirmDelete', // Captura el evento
+    ]; 
+    
+    public function confirmDelete($id)
     {
-        RelacionInterna::find($id)->delete();
-        //$this->emit('eliminar','funcion-eliminada');
+        $this->funcionToDelete = $id;
+        $this->showModal = true;
     }
+    
+    public function deleteFuncion()
+    {
+        if ($this->funcionToDelete) {
+            RelacionInterna::find($this->funcionToDelete)->delete();
+            session()->flash('message', 'Relacion Interna eliminada exitosamente.');
+        }
 
-    public function mount()
-    {
-        $this->search="";
-    }
+        $this->funcionToDelete = null;
+        $this->showModal = false;
 
-    public function updatedSearch()
-    {
-        $this->resetPage();
+        return redirect()->route('mostrarRelacionesInternas');
     }
-    public function updatedPorpagina()
-    {
-        $this->resetPage();
-    }
-
     public function render()
     {
-        return view('livewire.portal-capacitacion.relaciones-internas.mostrar-relaciones-internas',[
-            'internas'=> RelacionInterna::where('puesto','LIKE',"%{$this->search}%")
-            ->paginate($this->porpagina),
-        ])->layout("layouts.portal_capacitacion");
+        return view('livewire.portal-capacitacion.relaciones-internas.mostrar-relaciones-internas')->layout("layouts.portal_capacitacion");
     }
 }

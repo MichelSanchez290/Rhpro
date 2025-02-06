@@ -12,4 +12,14 @@ class EmpresaSucursal extends Model
     protected $table = 'empresa_sucursal';
     protected $primaryKey = 'id';
     protected $fillable = ['id', 'sucursal_id', 'empresa_id'];
+
+    public function empresa()
+    {
+        return $this->belongsTo(Empres::class, 'empresa_id');
+    }
+
+    public function sucursal()
+    {
+        return $this->belongsTo(Sucursal::class, 'sucursal_id');
+    }
 }

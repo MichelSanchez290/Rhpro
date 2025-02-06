@@ -5,13 +5,14 @@ namespace App\Livewire\PortalCapacitacion\FuncionesEspecificas;
 use Livewire\Component;
 use App\Models\PortalCapacitacion\FuncionEspecifica;
 use Livewire\WithPagination;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Response;
 
 class MostrarFunEspecificas extends Component
 {
-    use WithPagination;
-    public $porpagina=5; //numero de productos a  mostrar por pagina
-    public $search; //buscar
-    public $funcion;
+
+    public $showModal = false; // Control para ventana emergente
+    public $funcionToDelete;
 
     //metodo para redirreccion a una vista
     public function redirigir()
@@ -19,31 +20,31 @@ class MostrarFunEspecificas extends Component
         return redirect()->route('agregarFuncionesEspecificas');
     }
 
-    public function delete($id)
+    protected $listeners = [
+        'confirmDelete' => 'confirmDelete', // Captura el evento
+    ]; 
+    
+    public function confirmDelete($id)
     {
-        FuncionEspecifica::find($id)->delete();
-        //$this->emit('eliminar','funcion-eliminada');
+        $this->funcionToDelete = $id;
+        $this->showModal = true;
     }
+    
+    public function deleteFuncion()
+    {
+        if ($this->funcionToDelete) {
+            FuncionEspecifica::find($this->funcionToDelete)->delete();
+            session()->flash('message', 'funcion eliminada exitosamente.');
+        }
 
-    public function mount()
-    {
-        $this->search="";
-    }
+        $this->funcionToDelete = null;
+        $this->showModal = false;
 
-    public function updatedSearch()
-    {
-        $this->resetPage();
-    }
-    public function updatedPorpagina()
-    {
-        $this->resetPage();
+        return redirect()->route('mostrarFuncionesEspecificas');
     }
 
     public function render()
     {
-        return view('livewire.portal-capacitacion.funciones-especificas.mostrar-fun-especificas',[
-            'funciones'=> FuncionEspecifica::where('nombre','LIKE',"%{$this->search}%")
-            ->paginate($this->porpagina),
-        ])->layout("layouts.portal_capacitacion");
+        return view('livewire.portal-capacitacion.funciones-especificas.mostrar-fun-especificas')->layout("layouts.portal_capacitacion");
     }
 }

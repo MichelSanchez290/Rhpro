@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Dx035\Encuestas;
 
-use App\Models\Dx035\Encuesta;
+use App\Models\Dx035\EncuestaCuestionario;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
@@ -38,7 +38,8 @@ final class EncuestaTable extends PowerGridComponent
      */
     public function datasource(): Builder
     {
-        return Encuesta::query();
+        return EncuestaCuestionario::query()
+            ->with(['encuesta', 'cuestionario']);
     }
 
     /**
@@ -47,21 +48,22 @@ final class EncuestaTable extends PowerGridComponent
     public function fields(): PowerGridFields
     {
         return PowerGrid::fields([
-            'Clave',
-            'Empresa',
-            'RutaLogo',
-            'FechaInicio',
-            'Caducidad',
-            'Estado',
-            'NumeroEncuestas',
-            'Formato',
-            'EncuestasContestadas',
-            'Actividades',
-            'Numero',
-            'Dep',
-            'Cerrable',
-            'usuariosdx035_CorreoElectronico',
-            'FechaFinal',
+            'encuesta.Clave' => 'Clave',
+            'encuesta.Empresa' => 'Empresa',
+            'encuesta.RutaLogo' => 'RutaLogo',
+            'encuesta.FechaInicio' => 'FechaInicio',
+            'encuesta.Caducidad' => 'Caducidad',
+            'encuesta.Estado' => 'Estado',
+            'encuesta.NumeroEncuestas' => 'NumeroEncuestas',
+            'encuesta.Formato' => 'Formato',
+            'encuesta.EncuestasContestadas' => 'EncuestasContestadas',
+            'encuesta.Actividades' => 'Actividades',
+            'encuesta.Numero' => 'Numero',
+            'encuesta.Dep' => 'Dep',
+            'encuesta.Cerrable' => 'Cerrable',
+            'encuesta.usuariosdx035_CorreoElectronico' => 'usuariosdx035_CorreoElectronico',
+            'encuesta.FechaFinal' => 'FechaFinal',
+            'cuestionario.Nombre' => 'Cuestionario',
             'created_at',
             'updated_at',
         ]);
@@ -73,42 +75,45 @@ final class EncuestaTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('Clave', 'Clave')
+            Column::make('Clave', 'encuesta.Clave')
                 ->searchable()
                 ->sortable(),
 
-            Column::make('Empresa', 'Empresa')
+            Column::make('Empresa', 'encuesta.Empresa')
                 ->searchable()
                 ->sortable(),
 
-            Column::make('Ruta Logo', 'RutaLogo')
+            Column::make('Ruta Logo', 'encuesta.RutaLogo')
                 ->hidden(),
 
-            Column::make('Fecha de Inicio', 'FechaInicio')
+            Column::make('Fecha de Inicio', 'encuesta.FechaInicio')
                 ->sortable(),
 
-            Column::make('Caducidad', 'Caducidad')
+            Column::make('Caducidad', 'encuesta.Caducidad')
                 ->sortable(),
 
-            Column::make('Estado', 'Estado')
+            Column::make('Estado', 'encuesta.Estado')
                 ->sortable(),
 
-            Column::make('Número de Encuestas', 'NumeroEncuestas')
+            Column::make('Número de Encuestas', 'encuesta.NumeroEncuestas')
                 ->sortable(),
 
-            Column::make('Formato', 'Formato'),
+            Column::make('Formato', 'encuesta.Formato'),
 
-            Column::make('Encuestas Contestadas', 'EncuestasContestadas'),
+            Column::make('Encuestas Contestadas', 'encuesta.EncuestasContestadas'),
 
-            Column::make('Departamento', 'Dep')
+            Column::make('Departamento', 'encuesta.Dep')
                 ->searchable(),
 
-            Column::make('Cerrable', 'Cerrable'),
+            Column::make('Cerrable', 'encuesta.Cerrable'),
 
-            Column::make('Correo Electrónico', 'usuariosdx035_CorreoElectronico')
+            Column::make('Correo Electrónico', 'encuesta.usuariosdx035_CorreoElectronico')
                 ->searchable(),
 
-            Column::make('Fecha Final', 'FechaFinal'),
+            Column::make('Fecha Final', 'encuesta.FechaFinal'),
+
+            Column::make('Cuestionario', 'cuestionario.Nombre')
+                ->searchable(),
 
             Column::action('Acciones')
         ];
@@ -120,11 +125,11 @@ final class EncuestaTable extends PowerGridComponent
     public function filters(): array
     {
         return [
-            Filter::inputText('Clave'), // Sin placeholder
-            Filter::inputText('Empresa'), // Sin placeholder
-            Filter::datepicker('FechaInicio'),
-            Filter::datepicker('Caducidad'),
-            Filter::select('Estado', 'Estado', [
+            Filter::inputText('encuesta.Clave'), // Sin placeholder
+            Filter::inputText('encuesta.Empresa'), // Sin placeholder
+            Filter::datepicker('encuesta.FechaInicio'),
+            Filter::datepicker('encuesta.Caducidad'),
+            Filter::select('encuesta.Estado', 'Estado', [
                 1 => 'Activo',
                 0 => 'Inactivo',
             ]), // Sin placeholder
@@ -134,18 +139,18 @@ final class EncuestaTable extends PowerGridComponent
     /**
      * Acciones por fila
      */
-    public function actions(Encuesta $row): array
+    public function actions(EncuestaCuestionario $row): array
     {
         return [
             Button::add('edit')
                 ->caption('Editar')
                 ->class('btn btn-primary')
-                ->route('encuestas.edit', ['Clave' => $row->Clave]),
+                ->route('encuestas.edit', ['Clave' => $row->encuesta->Clave]),
 
             Button::add('delete')
                 ->caption('Eliminar')
                 ->class('btn btn-danger')
-                ->route('encuestas.destroy', ['Clave' => $row->Clave])
+                ->route('encuestas.destroy', ['Clave' => $row->encuesta->Clave])
                 ->method('delete'),
         ];
     }

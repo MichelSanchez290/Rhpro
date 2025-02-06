@@ -110,6 +110,12 @@ final class PreguntaTable extends PowerGridComponent
                 ->slot('Editar')
                 ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
                 ->route('editpregunta', ['id' => Crypt::encrypt($row->id)]),
+
+
+            Button::add('delete')
+                ->slot('Eliminar')
+                ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
+                ->dispatch('eliminarPregunta', ['id' => Crypt::encrypt($row->id)]),
         ];
     }
 }

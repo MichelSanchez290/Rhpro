@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('document_user', function (Blueprint $table) {
-            //donde almacenara el id de la relacion
+            $table->id();
             $table->unsignedBigInteger('documento_id');
             $table->foreign('documento_id') //Declara que id es una clave foránea.
                     ->references('id') //Indica que esta columna hace referencia a la columna id

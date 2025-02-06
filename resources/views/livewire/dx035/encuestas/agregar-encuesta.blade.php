@@ -1,78 +1,166 @@
-<div>
-    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Agregar Encuesta</h2>
+<div class="bg-white shadow-lg rounded-lg p-8 max-w-5xl mx-auto">
+    <div>
+        <!-- Título centrado y con color personalizado -->
+        <h2 class="text-4xl font-bold text-blue-600 mb-8 text-center">Agregar Encuesta</h2>
 
-    @if (session()->has('message'))
-        <div class="alert alert-success">
-            {{ session('message') }}
-        </div>
-    @endif
+        <!-- Mensaje de éxito -->
+        @if (session()->has('message'))
+            <div class="bg-green-100 text-green-700 px-4 py-3 rounded mb-6">
+                {{ session('message') }}
+            </div>
+        @endif
 
-    <form wire:submit.prevent="submit">
-        <!-- Clave -->
-        <div class="form-group mb-4">
-            <label for="Clave" class="block text-sm font-medium text-gray-700">Clave</label>
-            <input type="text" class="form-control mt-1 block w-full" id="Clave" wire:model="Clave" required>
-        </div>
+        <!-- Contenedor del formulario sin etiqueta <form> -->
+        <div class="space-y-6">
+            <!-- Sección de Información Básica -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Clave -->
+                <div>
+                    <label for="Clave" class="block text-sm font-semibold text-gray-700">Clave</label>
+                    <input type="text" id="Clave" wire:model="Clave" required
+                           class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                    @error('Clave') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                </div>
 
-        <!-- Empresa -->
-        <div class="form-group mb-4">
-            <label for="Empresa" class="block text-sm font-medium text-gray-700">Empresa</label>
-            <input type="text" class="form-control mt-1 block w-full" id="Empresa" wire:model="Empresa" required>
-        </div>
+                <!-- Empresa -->
+                <div>
+                    <label for="Empresa" class="block text-sm font-semibold text-gray-700">Empresa</label>
+                    <input type="text" id="Empresa" wire:model="Empresa" required
+                           class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                    @error('Empresa') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                </div>
+            </div>
 
-        <!-- GIA Referencia (Botón Activar/Desactivar) -->
-        <div class="form-group mb-4">
-            <label for="GiaActivo" class="block text-sm font-medium text-gray-700">Activar GIA</label>
-            <label class="switch">
-                <input type="checkbox" wire:model="GiaActivo">
-                <span class="slider round"></span>
-            </label>
-            @if($GiaActivo)
-                <div class="mt-2">
-                    <label for="giasreferencia_id" class="block text-sm font-medium text-gray-700">Seleccionar GIA Referencia</label>
-                    <select class="form-control mt-1 block w-full" wire:model="giasreferencia_id">
-                        <option value="">Seleccionar GIA</option>
-                        @foreach($giasReferencias as $gia)
-                            <option value="{{ $gia->id }}">{{ $gia->numero_gia }}</option>
+            <!-- Sección de Fechas -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Fecha de Inicio -->
+                <div>
+                    <label for="FechaInicio" class="block text-sm font-semibold text-gray-700">Fecha de Inicio</label>
+                    <input type="date" id="FechaInicio" wire:model="FechaInicio" required
+                           class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                    @error('FechaInicio') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                </div>
+
+                <!-- Fecha de Cierre -->
+                <div>
+                    <label for="FechaFinal" class="block text-sm font-semibold text-gray-700">Fecha de Cierre</label>
+                    <input type="date" id="FechaFinal" wire:model="FechaFinal"
+                           class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                    @error('FechaFinal') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                </div>
+            </div>
+
+            <!-- Número de Encuestas -->
+            <div>
+                <label for="NumeroEncuestas" class="block text-sm font-semibold text-gray-700">Número de Encuestas</label>
+                <input type="number" id="NumeroEncuestas" wire:model="NumeroEncuestas" required
+                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                       min="0">
+                @error('NumeroEncuestas') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+            </div>
+
+            <!-- Encuestas Contestadas -->
+            <div>
+                <label for="EncuestasContestadas" class="block text-sm font-semibold text-gray-700">Encuestas Contestadas</label>
+                <input type="text" id="EncuestasContestadas" wire:model="EncuestasContestadas"
+                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                @error('EncuestasContestadas') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+            </div>
+
+            <!-- Actividades -->
+            <div>
+                <label for="Actividades" class="block text-sm font-semibold text-gray-700">Actividades</label>
+                <textarea id="Actividades" wire:model="Actividades"
+                          class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"></textarea>
+                @error('Actividades') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+            </div>
+
+            <!-- Número -->
+            <div>
+                <label for="Numero" class="block text-sm font-semibold text-gray-700">Número</label>
+                <input type="number" id="Numero" wire:model="Numero"
+                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                @error('Numero') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+            </div>
+
+            <!-- Departamentos -->
+            <div>
+                <label for="departamentosSeleccionados" class="block text-sm font-semibold text-gray-700">Departamentos</label>
+                @if($departamentos->isEmpty())
+                    <p class="mt-1 text-gray-500">No hay departamentos disponibles.</p>
+                @else
+                    <select multiple id="departamentosSeleccionados" wire:model="departamentosSeleccionados"
+                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                        @foreach($departamentos as $departamento)
+                            <option value="{{ $departamento->id }}">{{ $departamento->nombre_departamento }}</option>
                         @endforeach
                     </select>
+                    @error('departamentosSeleccionados') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                @endif
+            </div>
+
+            <!-- Cerrable -->
+            <div>
+                <label for="Cerrable" class="block text-sm font-semibold text-gray-700">Cerrable</label>
+                <select id="Cerrable" wire:model="Cerrable" required
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                    <option value="1">Sí</option>
+                    <option value="0">No</option>
+                </select>
+                @error('Cerrable') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+            </div>
+
+            <!-- Correo Electrónico -->
+            <div>
+                <label for="usuariosdx035_CorreoElectronico" class="block text-sm font-semibold text-gray-700">Correo Electrónico</label>
+                <input type="email" id="usuariosdx035_CorreoElectronico" wire:model="usuariosdx035_CorreoElectronico" required
+                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                @error('usuariosdx035_CorreoElectronico') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+            </div>
+
+            <!-- Logo de la Empresa -->
+            <div>
+                <label for="logo" class="block text-sm font-semibold text-gray-700">Logo de la Empresa</label>
+                <input type="file" id="logo" wire:model="logo"
+                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                @error('logo') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+
+                <!-- Vista previa del logo -->
+                @if ($logo)
+                    <div class="mt-4">
+                        <img src="{{ $logo->temporaryUrl() }}" alt="Vista previa del logo"
+                             class="max-h-32 rounded border">
+                    </div>
+                @endif
+            </div>
+
+            <!-- Selección de Cuestionarios -->
+            <div>
+                <label class="block text-sm font-semibold text-gray-700">Seleccionar Cuestionarios</label>
+                <div class="space-y-4">
+                    @foreach($cuestionarios as $cuestionario)
+                        <div class="flex items-center space-x-3">
+                            <label for="cuestionario{{ $cuestionario->id }}" class="flex items-center cursor-pointer">
+                                <input
+                                    type="checkbox"
+                                    id="cuestionario{{ $cuestionario->id }}"
+                                    wire:model="cuestionariosSeleccionados.{{ $cuestionario->id }}"
+                                    class="form-checkbox h-5 w-5 text-blue-600 rounded focus:ring-blue-500"
+                                >
+                                <span class="ml-2 text-gray-700">{{ $cuestionario->Nombre }}</span>
+                            </label>
+                        </div>
+                    @endforeach
                 </div>
-            @endif
-        </div>
+            </div>
 
-        <!-- Fecha Inicio -->
-        <div class="form-group mb-4">
-            <label for="FechaInicio" class="block text-sm font-medium text-gray-700">Fecha de Inicio</label>
-            <input type="date" class="form-control mt-1 block w-full" id="FechaInicio" wire:model="FechaInicio" required>
+            <!-- Botón de Guardar Encuesta -->
+            <div class="mt-6 flex justify-center">
+                <button type="button" wire:click="submit"
+                        class="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none">
+                    Guardar Encuesta
+                </button>
+            </div>
         </div>
-
-        <!-- Fecha Final -->
-        <div class="form-group mb-4">
-            <label for="FechaFinal" class="block text-sm font-medium text-gray-700">Fecha de Cierre</label>
-            <input type="date" class="form-control mt-1 block w-full" id="FechaFinal" wire:model="FechaFinal">
-        </div>
-
-        <!-- Número de Encuestas -->
-        <div class="form-group mb-4">
-            <label for="NumeroEncuestas" class="block text-sm font-medium text-gray-700">Número de Encuestas</label>
-            <input type="number" class="form-control mt-1 block w-full" id="NumeroEncuestas" wire:model="NumeroEncuestas" required>
-        </div>
-
-        <!-- Departamentos (comentado por ahora) -->
-        <div class="form-group mb-4">
-        <label for="Dep" class="block text-sm font-medium text-gray-700">Departamentos</label>
-        <input type="text" class="form-control mt-1 block w-full" readonly value="Selecciona los departamentos más tarde">
     </div>
-
-        <!-- Logo de la Empresa -->
-        <div class="form-group mb-4">
-            <label for="logo" class="block text-sm font-medium text-gray-700">Logo de la Empresa</label>
-            <input type="file" class="form-control mt-1 block w-full" id="logo" wire:model="logo">
-        </div>
-
-        <!-- Botón de Activar Encuesta -->
-        <div class="form-group mb-4">
-            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Agregar Encuesta</button>
-        </div>
-    </form>
 </div>

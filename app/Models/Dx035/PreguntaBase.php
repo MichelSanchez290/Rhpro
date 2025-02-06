@@ -9,8 +9,11 @@ class PreguntaBase extends Model
 {
     use HasFactory;
 
+    // Especifica el nombre de la tabla
+    protected $table = 'preguntas_bases';
+
     protected $fillable = [
-        'Pregunta', 'Categoria', 'Dominio', 'Dimension',
+        'Pregunta','Seccion','Categoria', 'Dominio', 'Dimension',
         'Puntuacion', 'cuestionarios_id'
     ];
 

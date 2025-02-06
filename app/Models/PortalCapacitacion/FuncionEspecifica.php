@@ -4,6 +4,7 @@ namespace App\Models\PortalCapacitacion;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\PortalCapacitacion\PerfilPuesto;
 
 class FuncionEspecifica extends Model
 {
@@ -21,7 +22,7 @@ class FuncionEspecifica extends Model
     // Relación muchos a muchos con perfiles_puestos
     public function perfiles_puestos()
     {
-        return $this->belongsToMany(PerfilPuesto::class); // Modelo relacionado
+        return $this->belongsToMany(PerfilPuesto::class, 'funcion_esp_perfil_puesto', 'funciones_esp_id', 'perfiles_puestos_id'); // Modelo relacionado
     }
 
 }

@@ -31,7 +31,8 @@ final class ActivotecTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return ActivoTecnologia::query();
+        return ActivoTecnologia::query()
+            ->with(['tipoActivo', 'anioEstimado']);
     }
 
     public function relationSearch(): array
@@ -48,12 +49,14 @@ final class ActivotecTable extends PowerGridComponent
             ->add('num_serie')
             ->add('num_activo')
             ->add('ubicacion_fisica')
-            ->add('fecha_adquisicion_formatted', fn (ActivoTecnologia $model) => Carbon::parse($model->fecha_adquisicion)->format('d/m/Y'))
-            ->add('fecha_baja_formatted', fn (ActivoTecnologia $model) => Carbon::parse($model->fecha_baja)->format('d/m/Y'))
-            ->add('tipo_activo_id')
+            ->add('fecha_adquisicion_formatted', fn(ActivoTecnologia $model) => Carbon::parse($model->fecha_adquisicion)->format('d/m/Y'))
+            ->add('fecha_baja_formatted', fn(ActivoTecnologia $model) => Carbon::parse($model->fecha_baja)->format('d/m/Y'))
+            ->add('tipo_activo_nombre', fn (ActivoTecnologia $model) => $model->tipoActivo->nombre_activo ?? 'N/A')
+
             ->add('precio_adquisicion')
-            ->add('aniosestimado_id')
-            ->add('created_at');
+            ->add('anioEstimado', fn (ActivoTecnologia $model) => $model->anioEstimado->vida_util_año ?? 'No asignado');
+        
+
     }
 
     public function columns(): array
@@ -86,16 +89,17 @@ final class ActivotecTable extends PowerGridComponent
             Column::make('Fecha baja', 'fecha_baja_formatted', 'fecha_baja')
                 ->sortable(),
 
-            Column::make('Tipo activo id', 'tipo_activo_id'),
+            //Column::make('Tipo activo id', 'tipo_activo_id'),
+            Column::make('Tipo Activo', 'tipo_activo_nombre')
+            ->sortable()
+            ->searchable(),
+
             Column::make('Precio adquisicion', 'precio_adquisicion')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Aniosestimado id', 'aniosestimado_id'),
+            Column::make('Año Estimado', 'anioEstimado')->sortable()->searchable(),
 
-            Column::make('Created at', 'created_at')
-                ->sortable()
-                ->searchable(),
 
             Column::action('Action')
         ];
@@ -112,17 +116,21 @@ final class ActivotecTable extends PowerGridComponent
     #[\Livewire\Attributes\On('edit')]
     public function edit($rowId): void
     {
-        $this->js('alert('.$rowId.')');
+        $this->js('alert(' . $rowId . ')');
     }
 
     public function actions(ActivoTecnologia $row): array
     {
         return [
             Button::add('edit')
-                ->slot('Edit: '.$row->id)
-                ->id()
-                ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-                ->dispatch('edit', ['rowId' => $row->id])
+                ->slot('Editar')
+                ->class('btn btn-primary')
+                ->route('editaracttec', ['id' => $row->id]),
+            Button::add('delete')
+                ->slot('Eliminar')
+                ->class('btn btn-primary')
+                
+                ->dispatch('confirmDelete', ['id' => $row->id]),
         ];
     }
 

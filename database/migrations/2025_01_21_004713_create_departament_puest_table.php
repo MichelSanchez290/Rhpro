@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('departament_puest', function (Blueprint $table) {
+            $table->id();
             
             //donde almacenara el id de la relacion
             $table->unsignedBigInteger('departamento_id');
@@ -31,8 +32,7 @@ return new class extends Migration
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
 
-            
-            $table->tinyInteger('status');
+            $table->string('status', 45);
             $table->timestamps();
         });
     }

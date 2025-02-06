@@ -14,14 +14,6 @@ return new class extends Migration
         Schema::create('departamentos', function (Blueprint $table) {
             $table->id();
             $table->string('nombre_departamento', 45);
-            
-            //donde almacenara el id de la relacion
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id') //Declara que id es una clave foránea.
-                    ->references('id') //Indica que esta columna hace referencia a la columna id
-                    ->on( 'users')  // Define que la relación es con la tabla xxx
-                    ->onUpdate('cascade')
-                    ->onDelete('cascade');
 
             $table->timestamps();
         });
@@ -32,10 +24,17 @@ return new class extends Migration
      */
     public function down(): void
     {
+        /*
+        Schema::table('departamentos', function (Blueprint $table) {
+            $table->dropForeign(['sucursal_id']);
+        });
+        
         // Eliminar las claves foráneas explícitamente
         Schema::table('departamentos', function (Blueprint $table) {
             $table->dropForeign(['user_id']);
-        });
+        }); */
+
+        
 
         Schema::dropIfExists('departamentos');
     }

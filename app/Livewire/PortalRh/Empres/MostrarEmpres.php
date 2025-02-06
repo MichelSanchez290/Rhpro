@@ -11,34 +11,34 @@ use Illuminate\Support\Facades\Response;
 
 class MostrarEmpres extends Component
 {
+    public $showModal = false; // Control para ventana emergente
+    public $empresToDelete; // ID a eliminar
+
     public function redirigir()
     {
         return redirect()->route('agregarempresa');
     }
 
     //Eliminar
-    protected $listeners = ['deleteEmpres'];
-
-    public function confirmDeleteEmpres($id)
+    protected $listeners = [
+        'confirmDelete' => 'confirmDelete', // Captura el evento
+    ]; 
+    
+    public function confirmDelete($id)
     {
-        $this->emit('confirmDeleteEmpres',$id);
+        $this->empresToDelete = $id;
+        $this->showModal = true;
     }
-
-    public function deleteEmpres($data)
+    
+    public function deleteSucursal()
     {
-        $id = $data['id'];
-
-        $empres = Empres::find($id);
-
-        if($empres)
-        {
-            $empres->delete();
-            $this->emit('eliminar','Empresa eliminada korrektamenthe');
+        if ($this->empresToDelete) {
+            Empres::find($this->empresToDelete)->delete();
+            session()->flash('message', 'Empresa eliminada exitosamente.');
         }
-        else
-        {
-            $this->emit('eliminar','Empresa no encontrada');
-        }
+
+        $this->empresToDelete = null;
+        $this->showModal = false;
 
         return redirect()->route('mostrarempresas');
     }

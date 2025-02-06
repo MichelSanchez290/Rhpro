@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('escolaridad');
             $table->string('idioma_requerido');
             $table->string('experiencia_requerida');
+            $table->string('disponibilidad');
             $table->string('nivel_riesgo_fisico', 45);
             $table->string('elaboro_nombre');
             $table->string('elaboro_puesto');

@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('salari_trabajador', function (Blueprint $table) {
-            //donde almacenara el id de la relacion
+            $table->id();
             $table->unsignedBigInteger('salario_id');
             $table->foreign('salario_id') //Declara que id es una clave foránea.
                     ->references('id') //Indica que esta columna hace referencia a la columna id
@@ -28,6 +28,8 @@ return new class extends Migration
                     ->on( 'trabajadores')  // Define que la relación es con la tabla xxx
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
+            
+            $table->string('status', 45);
             $table->timestamps();
         });
     }

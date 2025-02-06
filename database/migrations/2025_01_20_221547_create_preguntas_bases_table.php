@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('preguntas_bases', function (Blueprint $table) {
             $table->id();
-            $table->string('Pregunta');
-            $table->string('Categoria');
-            $table->string('Dominio');
-            $table->string('Dimension');
+            $table->string('Pregunta'); // Campo obligatorio
+            $table->string('Seccion')->nullable(); // Campo agregado y nullable
+            $table->string('Categoria')->nullable(); // Campo nullable
+            $table->string('Dominio')->nullable(); // Campo nullable
+            $table->string('Dimension')->nullable(); // Campo nullable
             $table->tinyInteger('Puntuacion');
             $table->unsignedBigInteger('cuestionarios_id');
             $table->foreign('cuestionarios_id')
