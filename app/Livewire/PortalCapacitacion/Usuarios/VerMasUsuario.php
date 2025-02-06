@@ -25,7 +25,7 @@ class VerMasUsuario extends Component
     
     public function mount($id){
         $id = Crypt::decrypt($id);
-        $this->userSeleccionado = User::findOrFail($id);
+        $this->userSeleccionado = User::with('perfilesPuestos')->find($id);
         $this->users_id = $id;
     }
 

@@ -9,6 +9,8 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\Models\PortalCapacitacion\PerfilPuesto;
 
 class User extends Authenticatable
 {
@@ -58,4 +60,18 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function perfilesPuestos(): BelongsToMany
+    {
+        return $this->belongsToMany(PerfilPuesto::class, 'perfil_puesto_user', 'users_id', 'perfiles_puestos_id')
+            ->withPivot(['status', 'fecha_inicio', 'fecha_final', 'motivo_cambio']);
+    }
+
+    public function perfilActual()
+    {
+        return $this->perfilesPuestos()->latest()->first();
+    }
 }
+
+
+

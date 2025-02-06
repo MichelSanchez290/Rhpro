@@ -14,7 +14,8 @@
                             </svg>
                         </span>
                     </div>
-                    <p class="text-gray-700">Puesto: {{ $userSeleccionado->puesto }} Ingeniero de sistemas</p>
+                    <p class="text-gray-700">Puesto: {{ $userSeleccionado->perfilActual()?->nombre_puesto ?? 'Sin asignar' }}</p>
+
                     <p class="text-sm text-gray-500">Correo electronico: {{ $userSeleccionado->email }}</p>
             </div>
             <div class="flex-1 flex flex-col items-center lg:items-end justify-end px-8 mt-2">

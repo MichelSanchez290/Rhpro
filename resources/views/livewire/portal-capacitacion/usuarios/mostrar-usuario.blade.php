@@ -14,7 +14,7 @@
                 <!-- Contenido de la tarjeta -->
                 <div class="p-6 text-center">
                     <p class="text-xl font-semibold text-gray-800">{{ $user->name }}</p>
-                    <p class="text-sm text-blue-700 font-medium mt-1">{{ $user->puesto }} - Ingeniero de sistemas</p>
+                    <p class="text-sm text-blue-700 font-medium mt-1">{{ $user->puesto }}</p>
                     <p class="text-gray-600 text-sm mt-3">{{ $user->email }}</p>
 
                     <a href="{{ route('vermasUsuarios', Crypt::encrypt($user->id)) }}" 

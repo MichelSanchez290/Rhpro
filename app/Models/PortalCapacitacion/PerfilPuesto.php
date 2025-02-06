@@ -66,8 +66,9 @@ class PerfilPuesto extends Model
         return $this->belongsToMany(FormacionHabilidadTecnica::class, 'formacion_tecnica_perfil_puesto', 'perfiles_puestos_id', 'formaciones_tecnicas_id');
     }
 
-    public function users(){
-        return $this->belongsToMany(User::class, 'perfi_puesto_user', 'perfiles_puestos_id', 'users_id');
+    public function usuarios(){
+        return $this->belongsToMany(User::class, 'perfil_puesto_user', 'perfiles_puestos_id', 'users_id')
+            ->withPivot(['status', 'fecha_inicio', 'fecha_final', 'motivo_cambio']);
     }
 
 
