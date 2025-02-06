@@ -1356,9 +1356,9 @@
         </main>
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
-
         <!-- Styles -->
         @livewireStyles
+        @livewire('crm\crm-empresa\eliminar.eliminar-empresa', ["showModal" => false, "empresaToDelete" => false]);
 
         <script src="https://unpkg.com/@popperjs/core@2"></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

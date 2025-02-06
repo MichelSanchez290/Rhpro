@@ -11,44 +11,33 @@ class EliminarEmpresa extends Component
 {
     use WithFileUploads;
 
-    public $empresa_id,
-    $nombre,
-    $tamano_empresa,
-    $pagina_web,
-    $imagen;
+    public $showModal = false;
+    public $empresaToDelete = false;
 
-    public $subirPortada;
+    protected $listeners = [
+        'confirmDelete'=> 'confirmDelete',
+    ];
 
-    public function mount($id)
+    public function confirmDelete($id)
     {
-        $tem = CrmEmpresa::findOrFail($id);
-
-        $this->empresa_id = $id;
-        $this->nombre = $tem->nombre;
-        $this->tamano_empresa = $tem->tamano_empresa;
-        $this->pagina_web = $tem->pagina_web;
-        $this->imagen = $tem->imagen;
+        $this -> empresaToDelete = $id;
+        $this -> showModal = true;
     }
 
-    public function editEmpresa()
+    public function deleteEmpresa()
     {
-        $this->validate([
-            'nombre' => 'required',
-            'tamano_empresa' => 'required',
-            'pagina_web' => 'required',
-            'subirPortada' => 'required|image',
-        ]);
-
-        CrmEmpresa::deleted(['id'=>$this->empresa_id], [
-            'nombre' => $this->nombre,
-            'tamano_empresa' => $this->tamano_empresa,
-            'pagina_web' => $this->pagina_web,
-            'imagen' => $this->imagen,
-        ]);
+        if($this->empresaToDelete)
+        {
+            CrmEmpresa::find($this->empresaToDelete)->delete();
+            session()->flash('message', 'Empresa eliminada exitosamente');
+        }
+        $this->empresaToDelete = null;
+        $this->showModal = false;
+        return redirect()->route('InicioCrm');
     }
 
     public function render()
     {
-        return view('livewire.crm.crm-empresa.eliminar.eliminar-empresa');
+        return view('livewire.crm.crm-empresa.eliminar.eliminar-empresa')->layout('layouts.crm');
     }
 }
