@@ -10,13 +10,13 @@ use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
-use PowerComponents\LivewirePowerGrid\Traits\WithExport; 
-use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable; 
+use PowerComponents\LivewirePowerGrid\Traits\WithExport;
+use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
 
 
 final class PreguntaTable extends PowerGridComponent
 {
-    use WithExport; 
+    use WithExport;
     public string $tableName = 'pregunta-table-ft5cob-table';
 
     public function setUp(): array
@@ -24,8 +24,8 @@ final class PreguntaTable extends PowerGridComponent
         $this->showCheckBox();
 
         return [
-            PowerGRid::exportable(fileName: 'preguntas') 
-            ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+            PowerGRid::exportable(fileName: 'preguntas')
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             PowerGrid::header()
                 ->showSearchInput(),
             PowerGrid::footer()
@@ -36,7 +36,21 @@ final class PreguntaTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Pregunta::query();
+        return Pregunta::query()->with('respuestas');
+
+
+        //  return EmpresaSucursal::query()
+        //     ->join('empresas', function ($empresa){
+        //         $empresa->on('empresas.id' , '=','empresa_id');
+        //     })
+        //     ->join('sucursales', function ($sucursal){
+        //         $sucursal->on('sucursales.id' , '=','sucursal_id');
+        //     })
+        //     ->select([
+        //         'empresas.id',
+        //         'empresas.nombre',
+        //         'sucursales.clave_sucursal'
+        //     ]);
     }
 
     public function relationSearch(): array
@@ -49,7 +63,9 @@ final class PreguntaTable extends PowerGridComponent
         return PowerGrid::fields()
             ->add('id')
             ->add('texto')
-            ->add('descripcion');
+            ->add('descripcion')
+            ->add('respuestas_texto', fn(Pregunta $model) => $model->respuestas->pluck('texto')->join(', '))
+            ->add('respuestas_puntuacion', fn(Pregunta $model) => $model->respuestas->pluck('puntuacion')->join(', '));
     }
 
     public function columns(): array
@@ -64,20 +80,27 @@ final class PreguntaTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
+            Column::make('Respuestas', 'respuestas_texto')
+                ->sortable()
+                ->searchable(),
+
+            Column::make('Puntuación', 'respuestas_puntuacion')
+                ->sortable()
+                ->searchable(),
+
             Column::action('Action')
         ];
     }
 
     public function filters(): array
     {
-        return [
-        ];
+        return [];
     }
 
     #[\Livewire\Attributes\On('edit')]
     public function edit($rowId): void
     {
-        $this->js('alert('.$rowId.')');
+        $this->js('alert(' . $rowId . ')');
     }
 
     public function actions(Pregunta $row): array
@@ -87,7 +110,12 @@ final class PreguntaTable extends PowerGridComponent
                 ->slot('Editar')
                 ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
                 ->route('editpregunta', ['id' => Crypt::encrypt($row->id)]),
+
+
+            Button::add('delete')
+                ->slot('Eliminar')
+                ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
+                ->dispatch('eliminarPregunta', ['id' => Crypt::encrypt($row->id)]),
         ];
     }
-
 }

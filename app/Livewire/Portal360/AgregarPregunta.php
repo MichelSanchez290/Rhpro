@@ -7,18 +7,42 @@ use Livewire\Component;
 
 class AgregarPregunta extends Component
 {
-    public $pregunta = []; // Inicializar con valores vacíos
-    public $respuestas = [];
+    public $pregunta = [
+        'texto' => '',
+        'descripcion' => ''
+    ];
 
-    // Reglas de validación
+    
+    public $respuestas = [];
+    
+    // Inicializar las 4 respuestas
+    public function mount()
+    {
+        $this->respuestas = [
+            [
+                'texto' => '',
+                'puntuacion' => ''
+            ],
+            [
+                'texto' => '',
+                'puntuacion' => ''
+            ],
+            [
+                'texto' => '',
+                'puntuacion' => ''
+            ],
+            [
+                'texto' => '',
+                'puntuacion' => ''
+            ]
+        ];
+    }
+
     protected $rules = [
-        'pregunta.texto' => 'required|min:10', // Agregar validación de longitud mínima
-        'pregunta.descripcion' => 'required|max:500', // Agregar validación de longitud máxima
+        'pregunta.texto' => 'required|min:10',
+        'pregunta.descripcion' => 'required|max:500',
         'respuestas.*.texto' => 'required|min:5',
         'respuestas.*.puntuacion' => 'required|integer|min:1|max:4',
-        // 'respuestas.' =>,
-        // 'respuestas.'
-
     ];
 
     protected $messages = [
@@ -36,7 +60,7 @@ class AgregarPregunta extends Component
 
     public function updated($propertyName)
     {
-        $this->validateOnly($propertyName); // Validación en tiempo real
+        $this->validateOnly($propertyName);
     }
 
     public function savePregunta()
@@ -44,18 +68,29 @@ class AgregarPregunta extends Component
         $this->validate();
 
         try {
-            $nuevaPregunta = new Pregunta($this->pregunta);
-            $nuevaPregunta->save();
+            $nuevaPregunta = Pregunta::create([
+                'texto' => $this->pregunta['texto'],
+                'descripcion' => $this->pregunta['descripcion']
+            ]);
 
-            foreach ($this->respuestas as $respuestaData) {
-                $nuevaPregunta->respuestas()->create($respuestaData);
+            foreach ($this->respuestas as $respuesta) {
+                $nuevaPregunta->respuestas()->create([
+                    'texto' => $respuesta['texto'],
+                    'puntuacion' => $respuesta['puntuacion']
+                ]);
             }
 
-            $this->pregunta = [];
-            $this->respuestas = [];
+            // Limpiar los campos después de guardar
+            $this->pregunta = [
+                'texto' => '',
+                'descripcion' => ''
+            ];
+            
+            $this->mount(); // Reinicializar las respuestas
 
             $this->dispatch('toastr-success', message: 'Pregunta y respuestas guardadas correctamente.');
             return redirect()->route('portal360.mostrarPregunta');
+
         } catch (\Exception $e) {
             logger($e->getMessage());
             $this->dispatch('toastr-error', message: 'Error al guardar la pregunta: ' . $e->getMessage());

@@ -11,3 +11,21 @@
 
 </div>
 
+
+<script>
+    $wire.on('eliminarPregunta', (event) => {
+        Swal.fire({
+            title: "¿Está seguro?",
+            text: "¡No podrás revertir esto!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "¡Sí, bórralo!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $wire.confirmarEliminacion(event.id);
+            }
+        });
+    });
+</script>

@@ -2,6 +2,7 @@
 
 namespace App\Models\PortalRH;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -35,5 +36,9 @@ class Empres extends Model
     public function sucursales()
     {
         return $this->belongsToMany(Sucursal::class);
+    }
+    public function usuarios()
+    {
+        return $this->hasMany(User::class, 'empresa_id', 'id');
     }
 }

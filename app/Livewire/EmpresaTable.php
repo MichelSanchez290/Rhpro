@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\PortalRH\Empres;
 use App\Models\PortalRH\EmpresaSucursal;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -10,7 +11,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Application;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
-use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
@@ -34,32 +34,10 @@ final class EmpresaTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return EmpresaSucursal::query()
-            ->join('empresas', function ($empresa){
-                $empresa->on('empresas.id' , '=','empresa_id');
-            })
-            ->join('sucursales', function ($sucursal){
-                $sucursal->on('sucursales.id' , '=','sucursal_id');
-            })
-            ->select([
-                'empresas.id',
-                'empresas.nombre',
-                'sucursales.clave_sucursal'
-            ]);
+
+        return EmpresaSucursal::query()->with(['empresa', 'sucursal']);
     }
 
-    // public function datasource(): Builder
-    // {
-    //     return EmpresaSucursal::query()
-    //         ->join('empresas', 'empresas.id', '=', 'empresa_sucursal.empresa_id')
-    //         ->join('sucursales', 'sucursales.id', '=', 'empresa_sucursal.sucursal_id')
-    //         ->select([
-    //             'empresa_sucursal.id',
-    //             'empresas.nombre as nombre_empresa',
-    //             'sucursales.clave',
-    //             'sucursales.nombre'
-    //         ]);
-    // }
 
     public function relationSearch(): array
     {
@@ -71,60 +49,26 @@ final class EmpresaTable extends PowerGridComponent
         return PowerGrid::fields()
             ->add('id')
             ->add('id')
-            ->add('empresas.nombre')
-            ->add('sucursales.clave_sucursal');
+            ->add('empresa_nombre', fn(EmpresaSucursal $model) => $model->empresa->nombre)
+            ->add('sucursal_clave', fn(EmpresaSucursal $model) => $model->sucursal->clave_sucursal);
     }
+
 
     public function columns(): array
     {
         return [
             Column::make('Id', 'id'),
             Column::make('Id', 'id'),
-            Column::make('Clave sucursal', 'empresas.nombre')
+            Column::make('Nombre Empresa', 'empresa_nombre')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Nombre sucursal', 'sucursales.clave_sucursal')
+            Column::make('Clave Sucursal', 'sucursal_clave')
                 ->sortable()
                 ->searchable(),
 
-            // Column::make('Zona economica', 'zona_economica')
-            //     ->sortable()
-            //     ->searchable(),
 
-            // Column::make('Estado', 'estado')
-            //     ->sortable()
-            //     ->searchable(),
-
-            // Column::make('Cuenta contable', 'cuenta_contable')
-            //     ->sortable()
-            //     ->searchable(),
-
-            // Column::make('Rfc', 'rfc')
-            //     ->sortable()
-            //     ->searchable(),
-
-            // Column::make('Correo', 'correo')
-            //     ->sortable()
-            //     ->searchable(),
-
-            // Column::make('Telefono', 'telefono')
-            //     ->sortable()
-            //     ->searchable(),
-
-            // Column::make('Status', 'status')
-            //     ->sortable()
-            //     ->searchable(),
-
-            // Column::make('Registro patronal id', 'registro_patronal_id'),
-            // Column::make('Created at', 'created_at_formatted', 'created_at')
-            //     ->sortable(),
-
-            //Column::make('Created at', 'created_at')
-            // ->sortable()
-            // ->searchable(),
-
-            Column::action('Action')
+            // Column::action('Action')
         ];
     }
 
@@ -139,14 +83,14 @@ final class EmpresaTable extends PowerGridComponent
         $this->js('alert(' . $rowId . ')');
     }
 
-    public function actions(EmpresaSucursal $row): array
-    {
-        return [
-            Button::add('edit')
-                ->slot('Edit: ' . $row->id)
-                ->id()
-                ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-                ->dispatch('edit', ['rowId' => $row->id])
-        ];
-    }
+    // public function actions(EmpresaSucursal $row): array
+    // {
+    //     return [
+    //         Button::add('edit')
+    //             ->slot('Edit: ' . $row->id)
+    //             ->id()
+    //             ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
+    //             ->dispatch('edit', ['rowId' => $row->id])
+    //     ];
+    // }
 }

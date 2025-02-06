@@ -3,6 +3,17 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Models\ActivoFijo\Activos\ActivoMobiliario;
+use App\Models\ActivoFijo\Activos\ActivoOficina;
+use App\Models\ActivoFijo\Activos\ActivoPapeleria;
+use App\Models\ActivoFijo\Activos\ActivoSouvenir;
+use App\Models\ActivoFijo\Activos\ActivoTecnologia;
+use App\Models\ActivoFijo\Activos\ActivoUniforme;
+use App\Models\PortalCapacitacion\PerfilPuesto;
+use App\Models\PortalRH\Becari;
+use App\Models\PortalRH\Empres;
+use App\Models\PortalRH\Sucursal;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -27,6 +38,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'empresas_id',  // Actualizado para coincidir con el nombre de la columna
+        'sucursal_id',
+
     ];
 
     /**
@@ -58,4 +72,138 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+
+    public function becarios()
+    {
+        return $this->hasMany(Becari::class);
+    }
+
+    
+
+
+
+    /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public function cambioSalario()
+    {
+        //un user peertence a un becario
+        return $this->belongsToMany(Becari::class);
+    }
+
+    public function incidencias()
+    {
+        //un becario pertenece a un user
+        return $this->belongsToMany(Incidenci::class);
+    }
+
+    public function documentos()
+    {
+        //un user peertence a un becario
+        return $this->belongsToMany(Document::class);
+    }
+
+    public function bajas()
+    {
+        //un user tiene una baja
+        return $this->hasMany(Baja::class);
+    }
+
+    public function infonavitCreditos()
+    {
+        //un user peertence a un becario
+        return $this->hasMany(Practicant::class);
+    }
+
+    public function retardos()
+    {
+        //un becario pertenece a un user
+        return $this->belongsToMany(Retard::class);
+    }
+
+    public function incapacidades()
+    {
+        //un becario pertenece a un user
+        return $this->belongsToMany(Incapacidad::class);
+    }
+
+    public function regPatronales()
+    {
+        //cada trabajador pertenece a 
+        return $this->hasMany(RegisPatronal::class);
+    }
+
+    public function departamentos()
+    {
+        return $this->belongsTo(Departament::class);
+    }
+
+    public function puesto()
+    {
+        return $this->belongsTo(Puest::class);
+    }
+
+    public function trabajador()
+    {
+        //un user peertence a un becario
+        return $this->hasMany(Trabajador::class);
+    }
+
+    public function becario()
+    {
+        //un user peertence a un becario
+        return $this->hasMany(Becari::class);
+    }
+
+    public function practicantes()
+    {
+        //un user peertence a un becario
+        return $this->hasMany(Practicant::class);
+    }
+
+    */
+    public function activomoviliario()
+    {
+        return $this->belongsToMany(ActivoMobiliario::class);
+    }
+    public function activooficina()
+    {
+        return $this->belongsToMany(ActivoOficina::class);
+    }
+    public function activopapeleria()
+    {
+        return $this->belongsToMany(ActivoPapeleria::class);
+    }
+    public function activosouvenir()
+    {
+        return $this->belongsToMany(ActivoSouvenir::class);
+    }
+    public function activotecnologias()
+    {
+        return $this->belongsToMany(ActivoTecnologia::class);
+    }
+    public function activouniformes()
+    {
+        return $this->belongsToMany(ActivoUniforme::class);
+    }
+
+    public function empresa()
+    {
+        return $this->hasMany(Empres::class); // Una venta pertenece a un cliente
+    }
+    public function perfiles_puestos()
+    {
+        return $this->belongsToMany(PerfilPuesto::class, 'perfil_puesto_user', 'users_id', 'perfiles_puestos_id'); // Modelo relacionado
+    }
+
+   // Actualizada la relación para usar el nombre correcto de la columna
+   public function empresadev()
+   {
+       return $this->belongsTo(Empres::class, 'empresas_id', 'id');
+   }
+
+   public function sucursal()
+   {
+       return $this->belongsTo(Sucursal::class, 'sucursal_id', 'id');
+   }
+
 }
