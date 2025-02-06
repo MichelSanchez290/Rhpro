@@ -26,6 +26,9 @@ use App\Livewire\PortalCapacitacion\HabilidadesTecnicas\AgregarHabilidadesTecnic
 use App\Livewire\PortalCapacitacion\HabilidadesTecnicas\EditarHabilidadesTecnicas;
 use App\Livewire\PortalCapacitacion\Usuarios\MostrarUsuario;
 use App\Livewire\PortalCapacitacion\Usuarios\VerMasUsuario;
+use App\Livewire\PortalCapacitacion\Usuarios\CompararPerfilPuesto;
+use App\Livewire\PortalCapacitacion\AsociarPuestoTrabajador\AsociarPuestoTrabajador;
+use App\Livewire\PortalCapacitacion\AsociarPuestoTrabajador\AsignarPerfilPuesto;
 
 Route::get('/inicio', Inicio::class)->name('inicio-capacitacion');
 
@@ -65,6 +68,11 @@ Route::get('/mostrar-habilidades-tecnicas', MostrarHabilidadesTecnicas::class)->
 Route::get('/agregar-habilidades-tecnicas', AgregarHabilidadesTecnicas::class)->name('agregarHabilidadesTecnicas');
 Route::get('/editar-habilidades-tecnicas/{id}', EditarHabilidadesTecnicas::class)->name('editarHabilidadesTecnicas');
 
-//users
+//trabajadores
 Route::get('/users', MostrarUsuario::class)->name('mostrarUsuarios');
 Route::get('/users/{id}', VerMasUsuario::class)->name('vermasUsuarios');
+Route::get('/user/comparar', CompararPerfilPuesto::class)->name('compararPerfilPuesto');
+
+//asociar puesto para trabajadores
+Route::get('/asociar-perfil-puesto', AsociarPuestoTrabajador::class)->name('asociarPuestoTrabajador');
+Route::get('/asignar-perfil-puesto/{id}', AsignarPerfilPuesto::class)->name('asignarPerfilPuesto');

@@ -1,4 +1,5 @@
 <div>
+
     <!-- Título con fondo degradado y sombra -->
     <div class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold text-xl py-4 px-6 rounded-t-lg shadow-lg flex items-center justify-between">
         <span>Activo de Mobiliario</span>
