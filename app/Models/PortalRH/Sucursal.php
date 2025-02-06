@@ -17,8 +17,8 @@ class Sucursal extends Model
 
     //especifica las columnas
     protected $fillable = [
-        'id', 
-        'clave_sucursal', 
+        'id',
+        'clave_sucursal',
         'nombre_sucursal',
         'zona_economica',
         'estado',
@@ -34,7 +34,7 @@ class Sucursal extends Model
     {
         return $this->belongsToMany(Departament::class, 'sucursal_departament', 'sucursal_id', 'departamento_id');
     }
-    
+
     public function RepresentLeSucursal()
     {
         return $this->hasOne(RepresentLeSucursal::class);
@@ -55,9 +55,9 @@ class Sucursal extends Model
         return $this->belongsToMany(Empres::class);
     }
 
-    
 
-    
+
+
 
     public function trabajador()
     {

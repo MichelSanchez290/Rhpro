@@ -18,7 +18,8 @@ class AgregarEmpresa extends Component
         'empresa.nombre' => 'required',
         'empresa.tamano_empresa' => 'required',
         'empresa.pagina_web' => 'required',
-        'imgagen' => 'required'
+        'imgagen' => 'required',
+        'empresa.clasificacion' => 'required'
     ];
 
     protected $messages = [
@@ -26,6 +27,7 @@ class AgregarEmpresa extends Component
         'empresa.tamano_empresa.required' => 'empresa requerido',
         'empresa.pagina_web.required' => 'pagina web requerida',
         'imgagen.required' => 'logotipo requerido',
+        'empresa.clasificacion.required' => 'clasificacion requerida',
     ];
 
     public function mount()
@@ -44,11 +46,10 @@ class AgregarEmpresa extends Component
 
         $this->empresa=[];
         $this->imgagen=NULL;
-        // $this->emit('showAnimatedToast', 'Producto guardado correctamente');
-        // return redirect()->route('Inicio');
+        return redirect()->route('mostrarEmpresaCrm');
     }
     public function render()
     {
-        return view('livewire.crm.crm-empresa.agregar.agregar-empresa')->layout('layouts.prueba');
+        return view('livewire.crm.crm-empresa.agregar.agregar-empresa')->layout('layouts.crm');
     }
 }

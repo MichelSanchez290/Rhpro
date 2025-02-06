@@ -3,6 +3,17 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Models\ActivoFijo\Activos\ActivoMobiliario;
+use App\Models\ActivoFijo\Activos\ActivoOficina;
+use App\Models\ActivoFijo\Activos\ActivoPapeleria;
+use App\Models\ActivoFijo\Activos\ActivoSouvenir;
+use App\Models\ActivoFijo\Activos\ActivoTecnologia;
+use App\Models\ActivoFijo\Activos\ActivoUniforme;
+use App\Models\PortalCapacitacion\PerfilPuesto;
+use App\Models\PortalRH\Becari;
+use App\Models\PortalRH\Empres;
+use App\Models\PortalRH\Sucursal;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -29,6 +40,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'empresas_id',  // Actualizado para coincidir con el nombre de la columna
+        'sucursal_id',
+
     ];
 
     /**

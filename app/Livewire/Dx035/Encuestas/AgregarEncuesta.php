@@ -4,41 +4,33 @@ namespace App\Livewire\Dx035\Encuestas;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
+
 use App\Models\Dx035\Encuesta;
 use App\Models\Dx035\Cuestionario;
-use App\Models\Dx035\GiaReferencia;
+
 use App\Models\PortalRH\Departament;
+use App\Models\PortalRH\Sucursal;
+use App\Models\PortalRH\SucursalDepartament;
+
+use Illuminate\Support\Str;
 
 class AgregarEncuesta extends Component
 {
     use WithFileUploads;
 
-    public $Clave, $Empresa, $RutaLogo, $FechaInicio, $Caducidad, $Estado, $NumeroEncuestas;
-    public $Formato, $EncuestasContestadas, $Actividades, $Numero, $Dep, $Cerrable, $usuariosdx035_CorreoElectronico;
-    public $FechaFinal, $giasreferencia_id, $departamentosSeleccionados = [];
-    public $GiaActivo = false;
+    public $Empresa, $Actividades, $sucursalDepartamentId;
+    public $FechaInicio, $FechaFinal, $NumeroEncuestas;
+    public $cuestionariosSeleccionados = [];
     public $logo;
 
-    public $cuestionariosSeleccionados = [];
-
     protected $rules = [
-        'Clave' => 'required|string|unique:encuestas,Clave',
         'Empresa' => 'required|string',
+        'Actividades' => 'required|string',
+        'sucursalDepartamentId' => 'required|exists:sucursal_departament,id',
         'FechaInicio' => 'required|date',
-        'Caducidad' => 'required|date|after_or_equal:FechaInicio',
-        'Estado' => 'required|integer',
+        'FechaFinal' => 'required|date|after_or_equal:FechaInicio',
         'NumeroEncuestas' => 'required|integer|min:1',
-        'Formato' => 'required|string',
-        'EncuestasContestadas' => 'nullable|string',
-        'Actividades' => 'nullable|string',
-        'Numero' => 'nullable|integer',
-        'Dep' => 'nullable|string',
-        'Cerrable' => 'required|boolean',
-        'usuariosdx035_CorreoElectronico' => 'required|email',
-        'FechaFinal' => 'nullable|date|after_or_equal:FechaInicio',
-        'giasreferencia_id' => 'nullable|exists:gias_referencias,id',
-        'departamentosSeleccionados' => 'required|array|min:1',
-        'departamentosSeleccionados.*' => 'exists:departamentos,id',
+        'cuestionariosSeleccionados' => 'required|array|min:1',
         'logo' => 'nullable|image|max:1024',
     ];
 
@@ -47,17 +39,21 @@ class AgregarEncuesta extends Component
         // Inicializar el array de cuestionarios seleccionados
         $cuestionarios = Cuestionario::all();
         foreach ($cuestionarios as $cuestionario) {
-            $this->cuestionariosSeleccionados[$cuestionario->id] = false; // Por defecto, todos desactivados
+            $this->cuestionariosSeleccionados[$cuestionario->id] = false;
         }
-        $this->cuestionariosSeleccionados[1] = true; // Activar el primer cuestionario por defecto
     }
 
     public function submit()
     {
         $this->validate();
 
+        // Generar la clave automáticamente
+        $clave = Str::uuid()->toString();
+
+        // Guardar el logo si se proporciona
+        $rutaLogo = null;
         if ($this->logo) {
-            $this->RutaLogo = $this->logo->store('logos', 'public');
+            $rutaLogo = $this->logo->store('logos', 'public');
         }
 
         // Obtener los IDs de los cuestionarios seleccionados
@@ -70,40 +66,50 @@ class AgregarEncuesta extends Component
 
         // Crear la encuesta
         $encuesta = Encuesta::create([
-            'Clave' => $this->Clave,
+            'Clave' => $clave,
             'Empresa' => $this->Empresa,
-            'RutaLogo' => $this->RutaLogo,
-            'FechaInicio' => $this->FechaInicio,
-            'Caducidad' => $this->Caducidad,
-            'Estado' => $this->Estado,
-            'NumeroEncuestas' => $this->NumeroEncuestas,
-            'Formato' => implode(',', $cuestionariosSeleccionadosIds), // Almacenar los IDs de los cuestionarios seleccionados
-            'EncuestasContestadas' => $this->EncuestasContestadas,
             'Actividades' => $this->Actividades,
-            'Numero' => $this->Numero,
-            'Dep' => implode(',', $this->departamentosSeleccionados),
-            'Cerrable' => $this->Cerrable,
-            'usuariosdx035_CorreoElectronico' => $this->usuariosdx035_CorreoElectronico,
+            'sucursal_departament_id' => $this->sucursalDepartamentId,
+            'FechaInicio' => $this->FechaInicio,
             'FechaFinal' => $this->FechaFinal,
-            'giasreferencia_id' => $this->GiaActivo ? $this->giasreferencia_id : null,
+            'NumeroEncuestas' => $this->NumeroEncuestas,
+            'Formato' => implode(',', $cuestionariosSeleccionadosIds),
+            'RutaLogo' => $rutaLogo,
+            'Estado' => 0, // Por defecto, la encuesta está cerrada
         ]);
 
         // Guardar los cuestionarios seleccionados en la tabla pivote
-        foreach ($cuestionariosSeleccionadosIds as $cuestionarioId) {
-            $encuesta->cuestionarios()->attach($cuestionarioId);
-        }
+        $encuesta->cuestionarios()->attach($cuestionariosSeleccionadosIds);
 
-        session()->flash('message', 'Encuesta agregada correctamente.');
+        session()->flash('message', 'Encuesta creada correctamente.');
         return redirect()->route('encuesta.index');
     }
 
     public function render()
     {
-        $giasReferencias = GiaReferencia::all();
-        $departamentos = Departament::all();
-        $cuestionarios = Cuestionario::all(); // Obtener todos los cuestionarios
+        // Obtener todas las relaciones sucursal-departamento
+        $sucursalDepartamentos = SucursalDepartament::all();
 
-        return view('livewire.dx035.encuestas.agregar-encuesta', compact('giasReferencias', 'departamentos', 'cuestionarios'))
+        // Obtener las sucursales y departamentos relacionados 
+        $sucursales = [];
+        $departamentos = [];
+
+        foreach ($sucursalDepartamentos as $sucursalDepartamento) {
+            $sucursal = \App\Models\PortalRH\Sucursal::find($sucursalDepartamento->sucursal_id);
+            $departamento = \App\Models\PortalRH\Departament::find($sucursalDepartamento->departamento_id);
+
+            if ($sucursal && $departamento) {
+                $sucursalDepartamento->sucursal_nombre = $sucursal->nombre_sucursal;
+                $sucursalDepartamento->departamento_nombre = $departamento->nombre_departamento;
+            } else {
+                $sucursalDepartamento->sucursal_nombre = 'Desconocido';
+                $sucursalDepartamento->departamento_nombre = 'Desconocido';
+            }
+        }
+
+        $cuestionarios = Cuestionario::all();
+
+        return view('livewire.dx035.encuestas.agregar-encuesta', compact('sucursalDepartamentos', 'cuestionarios'))
             ->layout('layouts.dx035');
     }
 }
