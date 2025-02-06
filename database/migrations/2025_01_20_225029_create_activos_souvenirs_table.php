@@ -23,6 +23,14 @@ return new class extends Migration
             $table->string('estado');
             $table->tinyInteger('disponible');
             $table->date('fecha_adquisicion');
+            $table->unsignedBigInteger('tipo_activo_id');
+            $table->foreign('tipo_activo_id')
+                //Indica que esta columna hace referencia a la columna id
+                ->references('id')
+                // Define que la relación es con la tabla clients
+                ->on('tipo_activos')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->unsignedBigInteger('aniosestimado_id');
             $table->foreign('aniosestimado_id')
                     //Indica que esta columna hace referencia a la columna id
@@ -31,7 +39,9 @@ return new class extends Migration
                     ->on( 'aniosestimados')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
-            $table->string('foto');
+            $table->string('foto1')->nullable();
+            $table->string('foto2')->nullable();
+            $table->string('foto3')->nullable();
             $table->timestamps();
         });
     }
@@ -41,6 +51,10 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('tipo_activos', function (Blueprint $table) {
+            //Elimina la relación foránea entre cliente_id y la tabla clients.
+            $table->dropForeign(['tipo_activo_id']);
+        });
         Schema::table('aniosestimados', function (Blueprint $table) {
             //Elimina la relación foránea entre cliente_id y la tabla clients.
             $table->dropForeign(['aniosestimado_id']);

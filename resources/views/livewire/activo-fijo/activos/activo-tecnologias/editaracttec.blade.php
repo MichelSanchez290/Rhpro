@@ -1,6 +1,6 @@
 <div class="h-screen overflow-y-auto">
     <div class="my-5">
-        <div class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold text-xl py-4 px-6 rounded-t-lg shadow-lg">
+        <div class="bg-gradient-to-r from-[#1763A6] to-[#1EA4D9] text-white font-bold text-xl py-4 px-6 rounded-t-lg shadow-lg">
             <h1 class="text-center text-2xl sm:text-3xl font-bold text-white">Editar Tecnología</h1>
         </div>
 
@@ -119,7 +119,7 @@
                 </div>
             </div>
             <div class="flex justify-center mt-5">
-                <button wire:click="editar" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg shadow-lg">Actualizar</button>
+                <button wire:click="editar" class="bg-gradient-to-r from-[#1763A6] to-[#1EA4D9] hover:bg-[#1763A6] text-white font-bold py-2 px-4 rounded-lg shadow-lg">Actualizar</button>
             </div>
         </div>
     </div>

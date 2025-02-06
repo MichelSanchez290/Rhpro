@@ -30,9 +30,7 @@ return new class extends Migration
             $table->decimal('precio_adquisicion');
             $table->unsignedBigInteger('aniosestimado_id');
             $table->foreign('aniosestimado_id')
-                //Indica que esta columna hace referencia a la columna id
                 ->references('id')
-                // Define que la relación es con la tabla clients
                 ->on('aniosestimados')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');

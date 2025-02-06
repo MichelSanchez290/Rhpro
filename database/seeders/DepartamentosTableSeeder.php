@@ -11,12 +11,12 @@ class DepartamentosTableSeeder extends Seeder
     public function run()
     {
         $departamentos = [
-            ['nombre_departamento' => 'Recursos Humanos', 'user_id' => 1],
-            ['nombre_departamento' => 'Tecnología', 'user_id' => 1],
-            ['nombre_departamento' => 'Ventas', 'user_id' => 1],
-            ['nombre_departamento' => 'Marketing', 'user_id' => 1],
-            ['nombre_departamento' => 'Finanzas', 'user_id' => 1],
-            ['nombre_departamento' => 'Operaciones', 'user_id' => 1],
+            ['nombre_departamento' => 'Recursos Humanos'],
+            ['nombre_departamento' => 'Tecnología'],
+            ['nombre_departamento' => 'Ventas'],
+            ['nombre_departamento' => 'Marketing'],
+            ['nombre_departamento' => 'Finanzas'],
+            ['nombre_departamento' => 'Operaciones'],
         ];
 
         foreach ($departamentos as $departamento) {

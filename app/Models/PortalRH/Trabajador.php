@@ -56,7 +56,7 @@ class Trabajador extends Model
     public function usuarios()
     {
         //cada trabajador pertenece a 
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function sucursales()

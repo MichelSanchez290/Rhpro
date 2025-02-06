@@ -38,7 +38,7 @@ class Practicant extends Model
     //alcanze con el modelo 
     public function usuarios()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function sucursales()
