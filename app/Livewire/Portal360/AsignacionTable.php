@@ -2,7 +2,10 @@
 
 namespace App\Livewire\Portal360;
 
+use App\Livewire\PortalRh\Empres\EmpresTable;
 use App\Models\Encuestas360\Asignacion;
+use App\Models\PortalRH\EmpresaSucursal;
+use App\Models\PortalRH\EmpresSucursal;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
@@ -32,7 +35,9 @@ final class AsignacionTable extends PowerGridComponent
     public function datasource(): Builder
     {
         return Asignacion::query()
-            ->with(['calificador', 'calificado', 'relacion', 'encuesta']);
+        ->with(['calificador', 'calificado', 'relacion', 'encuesta', 'empresaSucursal.empresa', 'empresaSucursal.sucursal']);
+        
+        
     }
 
     public function relationSearch(): array
@@ -50,7 +55,10 @@ final class AsignacionTable extends PowerGridComponent
             ->add('calificador.nombre', fn($asignacion) => $asignacion->calificador->name ?? 'N/A')
             ->add('calificado.nombre', fn($asignacion) => $asignacion->calificado->name ?? 'N/A')
             ->add('relacion.nombre', fn($asignacion) => $asignacion->relacion->nombre ?? 'N/A')
-            ->add('encuesta.nombre', fn($asignacion) => $asignacion->encuesta->nombre ?? 'N/A');
+            ->add('encuesta.nombre', fn($asignacion) => $asignacion->encuesta->nombre ?? 'N/A')
+            ->add('empresa_nombre', fn($asignacion) => $asignacion->empresaSucursal->empresa->nombre ?? 'N/A')
+            ->add('sucursal_clave', fn($asignacion) => $asignacion->empresaSucursal->sucursal->clave_sucursal ?? 'N/A');
+                
     }
 
     public function columns(): array
@@ -64,6 +72,15 @@ final class AsignacionTable extends PowerGridComponent
 
             Column::make('Fecha',  'fecha')
                 ->sortable(),
+
+                Column::make('Nombre Empresa', 'empresa_nombre')
+                ->sortable()
+                ->searchable(),
+
+            Column::make('Clave Sucursal', 'sucursal_clave')
+                ->sortable()
+                ->searchable(),
+
 
             Column::make('Calificador', 'calificador.nombre')
                 ->sortable()

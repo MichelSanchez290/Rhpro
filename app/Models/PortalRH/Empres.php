@@ -37,8 +37,10 @@ class Empres extends Model
     {
         return $this->belongsToMany(Sucursal::class);
     }
+   
+
     public function usuarios()
     {
-        return $this->hasMany(User::class, 'empresa_id', 'id');
+        return $this->hasMany(User::class, 'empresas_id', 'id');
     }
 }

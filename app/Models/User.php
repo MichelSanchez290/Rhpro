@@ -38,8 +38,6 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'empresas_id',  // Actualizado para coincidir con el nombre de la columna
-        'sucursal_id',
 
     ];
 
@@ -205,5 +203,7 @@ class User extends Authenticatable
    {
        return $this->belongsTo(Sucursal::class, 'sucursal_id', 'id');
    }
+
+   
 
 }

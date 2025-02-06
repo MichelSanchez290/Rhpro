@@ -64,4 +64,6 @@ class RegistPatronal extends Model
     {
         return $this->belongsToMany(Empres::class);
     }
+
+   
 }
