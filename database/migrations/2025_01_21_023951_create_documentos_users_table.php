@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('document_user', function (Blueprint $table) {
+        Schema::create('documentos_users', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('documento_id');
             $table->foreign('documento_id') //Declara que id es una clave foránea.
@@ -40,12 +40,12 @@ return new class extends Migration
     public function down(): void
     {
         // Eliminar las claves foráneas explícitamente
-        Schema::table('document_user', function (Blueprint $table) {
+        Schema::table('documentos_users', function (Blueprint $table) {
             $table->dropForeign(['documento_id']);
             $table->dropForeign(['user_id']);
         });
 
         
-        Schema::dropIfExists('document_user');
+        Schema::dropIfExists('documentos_users');
     }
 };

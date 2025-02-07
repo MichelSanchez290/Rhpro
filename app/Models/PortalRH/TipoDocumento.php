@@ -5,11 +5,12 @@ namespace App\Models\PortalRH;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class DocumentUser extends Model
+class TipoDocumento extends Model
 {
     use HasFactory;
 
-    protected $table = 'document_user';
+    //define que este modelo corresponde a la tabla xxx en la base de datos.
+    protected $table = 'tiposdocumentos';
 
     //Define la clave primaria
     protected $primaryKey = 'id';
@@ -17,8 +18,12 @@ class DocumentUser extends Model
     //especifica las columnas
     protected $fillable = [
         'id', 
-        'documento_id',
-        'user_id',
-        'status',
+        'tipo'
     ];
+
+    public function documentos()
+    {
+        //un user peertence a un becario
+        return $this->hasMany(Documento::class);
+    }
 }

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User; // Importa el modelo User
 
-class Departament extends Model
+class Departamento extends Model
 {
     use HasFactory;
 
@@ -33,7 +33,7 @@ class Departament extends Model
 
     public function becario()
     {
-        return $this->hasMany(Becari::class);
+        return $this->hasMany(Becario::class);
     }
 
     public function trabajador()
@@ -43,18 +43,18 @@ class Departament extends Model
 
     public function practicantes()
     {
-        return $this->hasMany(Practicant::class);
+        return $this->hasMany(Practicante::class);
     }
 
     public function instructor()
     {
-        return $this->hasMany(Instruct::class);
+        return $this->hasMany(Instructor::class);
     }
 
 
     public function puestos()
     {
-        return $this->belongsToMany(Puest::class, 'departament_puest');
+        return $this->belongsToMany(Puesto::class, 'departament_puest');
     }
 
 }

@@ -73,12 +73,6 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-
-    public function becarios()
-    {
-        return $this->hasMany(Becari::class);
-    }
-
     
 
 
@@ -186,19 +180,15 @@ class User extends Authenticatable
         return $this->belongsToMany(ActivoUniforme::class);
     }
 
-    public function empresa()
-    {
-        return $this->hasMany(Empres::class); // Una venta pertenece a un cliente
-    }
     public function perfiles_puestos()
     {
         return $this->belongsToMany(PerfilPuesto::class, 'perfil_puesto_user', 'users_id', 'perfiles_puestos_id'); // Modelo relacionado
     }
 
    // Actualizada la relación para usar el nombre correcto de la columna
-   public function empresadev()
+   public function empresas()
    {
-       return $this->belongsTo(Empres::class, 'empresas_id', 'id');
+       return $this->belongsTo(Empresa::class, 'empresas_id', 'id');
    }
 
    public function sucursal()

@@ -10,16 +10,15 @@ class EmpresaSucursal extends Model
     use HasFactory;
 
     protected $table = 'empresa_sucursal';
+
+    //Define la clave primaria
     protected $primaryKey = 'id';
-    protected $fillable = ['id', 'sucursal_id', 'empresa_id'];
 
-    public function empresa()
-    {
-        return $this->belongsTo(Empres::class, 'empresa_id');
-    }
-
-    public function sucursal()
-    {
-        return $this->belongsTo(Sucursal::class, 'sucursal_id');
-    }
+    //especifica las columnas
+    protected $fillable = [
+        'id', 
+        'empresa_id',
+        'sucursal_id',
+        'status',
+    ];
 }

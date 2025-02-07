@@ -5,11 +5,11 @@ namespace App\Models\PortalRH;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SalariTrabajador extends Model
+class DocumentoUser extends Model
 {
     use HasFactory;
 
-    protected $table = 'salari_trabajador';
+    protected $table = 'document_user';
 
     //Define la clave primaria
     protected $primaryKey = 'id';
@@ -17,8 +17,8 @@ class SalariTrabajador extends Model
     //especifica las columnas
     protected $fillable = [
         'id', 
-        'salario_id',
-        'trabajador_id',
+        'documento_id',
+        'user_id',
         'status',
     ];
 }

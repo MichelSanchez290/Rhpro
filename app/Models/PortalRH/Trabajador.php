@@ -48,8 +48,9 @@ class Trabajador extends Model
         'status',
 
         'user_id',
-        'sucursal_id',
         'departamento_id',
+        'puesto_id',
+        'registro_patronal_id',
     ];
 
     //alcanze con el modelo 
@@ -59,22 +60,28 @@ class Trabajador extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function sucursales()
-    {
-        //cada trabajador pertenece a 
-        return $this->belongsTo(Sucursal::class);
-    }
-
     public function departamentos()
     {
         //cada trabajador pertenece a 
-        return $this->belongsTo(Departament::class);
+        return $this->belongsTo(Departamento::class);
+    }
+
+    public function puestos()
+    {
+        //cada trabajador pertenece a 
+        return $this->belongsTo(Puesto::class);
     }
     
 
+    public function registrosPatronales()
+    {
+        //cada trabajador pertenece a 
+        return $this->belongsTo(RegistroPatronal::class);
+    }
+
     public function salarios()
     {
-        return $this->belongsToMany(Salari::class);
+        return $this->belongsToMany(Salario::class);
     }
 
 }

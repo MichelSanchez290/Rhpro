@@ -5,12 +5,12 @@ namespace App\Models\PortalRH;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class RepresentLeSucursal extends Model
+class ContactoSucursal extends Model
 {
     use HasFactory;
 
     //define que este modelo corresponde a la tabla xxx en la base de datos.
-    protected $table = 'representante_le_sucursal';
+    protected $table = 'contactos_sucursales';
 
     //Define la clave primaria
     protected $primaryKey = 'id';
@@ -18,16 +18,17 @@ class RepresentLeSucursal extends Model
     //especifica las columnas
     protected $fillable = [
         'id', 
-        'RTnombre', 
-        'RTapePaterno',
-        'RTapeMaterno',
-        'sucursal_id'
+        'nomCont', 
+        'apePCont',
+        'apeMCont',
+        'telefonoCont',
+        'telefonoCont2',
+        'correoCont',
+        'correoCont2'
     ];
 
-
-    //alcanze con el modelo User
-    public function sucursales()
+    public function sucursal()
     {
-        return $this->belongsTo(Sucursal::class);
+        return $this->belongsToMany(Sucursal::class);
     }
 }

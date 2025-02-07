@@ -4,14 +4,13 @@ namespace App\Models\PortalRH;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Tipodocument; // Importa el modelo
 
-class Document extends Model
+class CambioSalario extends Model
 {
     use HasFactory;
 
     //define que este modelo corresponde a la tabla xxx en la base de datos.
-    protected $table = 'becarios';
+    protected $table = 'cambio_salarios';
 
     //Define la clave primaria
     protected $primaryKey = 'id';
@@ -19,23 +18,17 @@ class Document extends Model
     //especifica las columnas
     protected $fillable = [
         'id', 
-        'archivo', 
-        'fecha_subida',
-        'status',
-        'numero',
-        'original',
-        'comentarios',
-        'tipodocumento_id'
+        'fecha_cambio', 
+        'salario_anterior',
+        'salario_nuevo',
+        'motivo',
+        'documento',
+        'observaciones'
     ];
-
-    //alcanze con el modelo User
-    public function tipoDoc()
-    {
-        return $this->belongsTo(Tipodocument::class);
-    }
 
     public function usuarios()
     {
+        //un becario pertenece a un user
         return $this->belongsToMany(User::class);
     }
 }

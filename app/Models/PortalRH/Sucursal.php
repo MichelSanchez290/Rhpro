@@ -32,56 +32,56 @@ class Sucursal extends Model
 
     public function departamentos()
     {
-        return $this->belongsToMany(Departament::class, 'sucursal_departament', 'sucursal_id', 'departamento_id');
+        return $this->belongsToMany(Departamento::class, 'sucursal_departament', 'sucursal_id', 'departamento_id');
     }
 
     public function RepresentLeSucursal()
     {
-        return $this->hasOne(RepresentLeSucursal::class);
+        return $this->hasOne(RepresentanteLeSucursal::class);
     }
 
     public function RepresentTraSucursal()
     {
-        return $this->hasOne(RepresentTraSucursal::class);
+        return $this->hasOne(RepresentanteTraSucursal::class);
     }
 
     public function RegistrosPatronales()
     {
-        return $this->belongsTo(RegistPatronal::class);
+        return $this->belongsTo(RegistroPatronal::class);
     }
 
     public function empresas()
     {
-        return $this->belongsToMany(Empres::class);
+        return $this->belongsToMany(Empresa::class);
     }
 
 
 
 
 
-    public function trabajador()
+    public function trabajadores()
     {
         return $this->hasMany(Trabajador::class);
     }
 
-    public function becario()
+    public function becarios()
     {
-        return $this->hasMany(Becari::class);
+        return $this->hasMany(Becario::class);
     }
 
     public function practicantes()
     {
-        return $this->hasMany(Practicant::class);
+        return $this->hasMany(Practicante::class);
     }
 
     public function instructor()
     {
-        return $this->hasMany(Instruct::class);
+        return $this->hasMany(Instructor::class);
     }
 
 
     public function contactosSucursal()
     {
-        return $this->belongsToMany(ContactSucursal::class);
+        return $this->belongsToMany(ContactoSucursal::class);
     }
 }

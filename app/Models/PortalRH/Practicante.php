@@ -6,13 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User; // Importa el modelo User
 
-class Becari extends Model
+class Practicante extends Model
 {
     use HasFactory;
 
-    use HasFactory;
     //define que este modelo corresponde a la tabla xxx en la base de datos.
-    protected $table = 'becarios';
+    protected $table = 'practicantes';
 
     //Define la clave primaria
     protected $primaryKey = 'id';
@@ -20,7 +19,7 @@ class Becari extends Model
     //especifica las columnas
     protected $fillable = [
         'id', 
-        'clave_becario', 
+        'clave_practicante', 
         'numero_seguridad_social',
         'fecha_nacimiento',
         'lugar_nacimiento',
@@ -31,31 +30,34 @@ class Becari extends Model
         'curp',
         'rfc',
         'numero_celular',
-        'fecha_ingreso',
-        'status',
-        'calle',
-        'colonia',
+
         'user_id',
-        'sucursal_id',
-        'departamento_id'
+        'departamento_id',
+        'puesto_id',
+        'registro_patronal_id',
     ];
 
     //alcanze con el modelo 
     public function usuarios()
     {
-        //un becario pertenece a un user
         return $this->belongsTo(User::class, 'user_id');
-    }
-
-    public function sucursales()
-    {
-        //cada trabajador pertenece a 
-        return $this->belongsTo(Sucursal::class);
     }
 
     public function departamentos()
     {
         //cada trabajador pertenece a 
-        return $this->belongsTo(Departament::class);
+        return $this->belongsTo(Departamento::class);
+    }
+
+    public function puestos()
+    {
+        //cada trabajador pertenece a 
+        return $this->belongsTo(Puesto::class);
+    }
+
+    public function registrosPatronales()
+    {
+        //cada trabajador pertenece a 
+        return $this->belongsTo(RegistroPatronal::class);
     }
 }

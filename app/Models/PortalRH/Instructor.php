@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User; // Importa el modelo User
 
-class Instruct extends Model
+class Instructor extends Model
 {
     use HasFactory;
 
@@ -48,9 +48,11 @@ class Instruct extends Model
         'estado_empre',
         'postal_empre',
         'regimen_empre',
+
         'user_id',
-        'sucursal_id',
         'departamento_id',
+        'puesto_id',
+        'registro_patronal_id',
     ];
 
     //alcanze con el modelo 
@@ -60,15 +62,21 @@ class Instruct extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function sucursales()
-    {
-        //cada trabajador pertenece a 
-        return $this->belongsTo(Sucursal::class);
-    }
-
     public function departamentos()
     {
         //cada trabajador pertenece a 
-        return $this->belongsTo(Departament::class);
+        return $this->belongsTo(Departamento::class);
+    }
+
+    public function puestos()
+    {
+        //cada trabajador pertenece a 
+        return $this->belongsTo(Puesto::class);
+    }
+
+    public function registrosPatronales()
+    {
+        //cada trabajador pertenece a 
+        return $this->belongsTo(RegistroPatronal::class);
     }
 }

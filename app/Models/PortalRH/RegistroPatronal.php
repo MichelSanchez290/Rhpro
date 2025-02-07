@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User; // Importa el modelo User
 
-class RegistPatronal extends Model
+class RegistroPatronal extends Model
 {
     use HasFactory;
 
@@ -45,23 +45,40 @@ class RegistPatronal extends Model
         'acreditacion_stps',
         'representante_legal',
         'puesto_representante',
-        'cuenta_contable',
-        'user_id',
+        'cuenta_contable'
     ];
 
-    //alcanze con el modelo User
-    public function usuario()
-    {
-        return $this->hasMany(User::class);
-    }
+    
 
     public function sucursales()
     {
         return $this->belongsTo(Sucursal::class);
     }
 
+
     public function empresas()
     {
-        return $this->belongsToMany(Empres::class);
+        return $this->belongsToMany(Empresa::class);
     }
+
+    public function becarios()
+    {
+        return $this->hasMany(Becario::class);
+    }
+
+    public function trabajadores()
+    {
+        return $this->hasMany(Trabajador::class);
+    }
+
+    public function practicantes()
+    {
+        return $this->hasMany(Practicante::class);
+    }
+
+    public function instructores()
+    {
+        return $this->hasMany(Instructor::class);
+    }
+
 }

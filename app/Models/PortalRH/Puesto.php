@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User; // Importa el modelo User
 
-class Puest extends Model
+class Puesto extends Model
 {
     use HasFactory;
 
@@ -24,14 +24,27 @@ class Puest extends Model
 
     public function departamentos()
     {
-        return $this->belongsToMany(Departament::class, 'departament_puest');
+        return $this->belongsToMany(Departamento::class, 'departament_puest');
     }
 
-    //alcanze con el modelo User
-    /* public function usuarios()
+    public function becarios()
     {
-        return $this->hasMany(User::class);
-    } */
+        return $this->hasMany(Becario::class);
+    }
 
+    public function trabajadores()
+    {
+        return $this->hasMany(Trabajador::class);
+    }
+
+    public function practicantes()
+    {
+        return $this->hasMany(Practicante::class);
+    }
+
+    public function instructores()
+    {
+        return $this->hasMany(Instructor::class);
+    }
     
 }

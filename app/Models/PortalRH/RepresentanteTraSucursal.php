@@ -4,14 +4,13 @@ namespace App\Models\PortalRH;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User; // Importa el modelo
 
-class InfonavCredit extends Model
+class RepresentanteTraSucursal extends Model
 {
     use HasFactory;
 
     //define que este modelo corresponde a la tabla xxx en la base de datos.
-    protected $table = 'infonavit_creditos';
+    protected $table = 'representante_tra_sucursal';
 
     //Define la clave primaria
     protected $primaryKey = 'id';
@@ -19,17 +18,16 @@ class InfonavCredit extends Model
     //especifica las columnas
     protected $fillable = [
         'id', 
-        'tipo_movimiento', 
-        'numero_credito',
-        'fecha_movimiento',
-        'tipo_descuento',
-        'valor_descuento',
-        'user_id'
+        'RTnombre', 
+        'RTapePaterno',
+        'RTapeMaterno',
+        'sucursal_id'
     ];
 
+
     //alcanze con el modelo User
-    public function usuario()
+    public function sucursales()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Sucursal::class);
     }
 }

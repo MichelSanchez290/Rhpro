@@ -5,20 +5,20 @@ namespace App\Models\PortalRH;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class EmpresSucursal extends Model
+class SucursalDepartamento extends Model
 {
     use HasFactory;
 
-    protected $table = 'empresa_sucursal';
+    protected $table = 'sucursal_departament';
 
     //Define la clave primaria
     protected $primaryKey = 'id';
 
     //especifica las columnas
     protected $fillable = [
-        'id', 
-        'empresa_id',
-        'sucursal_id',
+        'id',
+        'sucursal_id', 
+        'departamento_id',
         'status',
     ];
 }

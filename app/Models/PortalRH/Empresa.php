@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Empres extends Model
+class Empresa extends Model
 {
     use HasFactory;
 
@@ -30,7 +30,7 @@ class Empres extends Model
 
     public function RegistrosPatronales()
     {
-        return $this->belongsToMany(RegistPatronal::class);
+        return $this->belongsToMany(RegistroPatronal::class);
     }
 
     public function sucursales()

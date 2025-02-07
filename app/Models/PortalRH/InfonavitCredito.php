@@ -4,13 +4,14 @@ namespace App\Models\PortalRH;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User; // Importa el modelo
 
-class Retard extends Model
+class InfonavitCredito extends Model
 {
     use HasFactory;
 
     //define que este modelo corresponde a la tabla xxx en la base de datos.
-    protected $table = 'retardos';
+    protected $table = 'infonavit_creditos';
 
     //Define la clave primaria
     protected $primaryKey = 'id';
@@ -18,18 +19,17 @@ class Retard extends Model
     //especifica las columnas
     protected $fillable = [
         'id', 
-        'fecha', 
-        'hora_entrada_programada',
-        'hora_entrada_real',
-        'minutos_retardo',
-        'motivo',
-        'status'
+        'tipo_movimiento', 
+        'numero_credito',
+        'fecha_movimiento',
+        'tipo_descuento',
+        'valor_descuento',
+        'user_id'
     ];
 
-
-    public function usuarios()
+    //alcanze con el modelo User
+    public function usuario()
     {
-        //un becario pertenece a un user
-        return $this->belongsToMany(User::class);
+        return $this->belongsTo(User::class);
     }
 }
