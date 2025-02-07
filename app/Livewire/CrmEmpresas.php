@@ -54,6 +54,7 @@ final class CrmEmpresas extends PowerGridComponent
             ->add('id')
             ->add('nombre')
             ->add('tamano_empresa')
+            ->add('clasificacion')
             ->add('pagina_web')
             ->add('imgagen', function(CrmEmpresa $model){
                 return '<img src="'.e($model->imgagen).'" />';
@@ -73,7 +74,11 @@ final class CrmEmpresas extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-                Column::make('Pagina web', 'pagina_web')
+            Column::make('Pagina web', 'pagina_web')
+                ->sortable()
+                ->searchable(),
+
+            Column::make('Clasificacion', 'clasificacion')
                 ->sortable()
                 ->searchable(),
 
@@ -106,11 +111,17 @@ final class CrmEmpresas extends PowerGridComponent
         return [
             Button::make('edit', 'Editar')
                 ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
-                ->route('EditEmpresa', ['id' => $row->id])
+                ->route('EditEmpresa', ['id' => $row->id]),
+            Button::add('delete')
+                ->slot('Eliminar')
+                ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
+                ->dispatch('confirmDelete', ['id' => $row->id]),
+
 
             // Button::make('destroy', 'Delete')
             //     ->class('text-red-500 font-medium hover:underline')
             //     ->emit('DeleteEmpresa', ['id' => 'id']),
         ];
-    }
+
+   }
 }

@@ -41,13 +41,13 @@ return new class extends Migration
             $table->string('puesto_representante', 255);
             $table->string('cuenta_contable', 255);
 
-            //donde almacenara el id de la relacion
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id') //Declara que id es una clave foránea.
-                    ->references('id') //Indica que esta columna hace referencia a la columna id
-                    ->on( 'users')  // Define que la relación es con la tabla xxx
-                    ->onUpdate('cascade')
-                    ->onDelete('cascade');
+            //Borrar relacion por que no es correcta,
+            // $table->unsignedBigInteger('user_id');
+            // $table->foreign('user_id') //Declara que id es una clave foránea.
+            //         ->references('id') //Indica que esta columna hace referencia a la columna id
+            //         ->on( 'users')  // Define que la relación es con la tabla xxx
+            //         ->onUpdate('cascade')
+            //         ->onDelete('cascade');
 
 
             $table->timestamps();
@@ -59,11 +59,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        // Eliminar las claves foráneas explícitamente
-        Schema::table('registros_patronales', function (Blueprint $table) {
-            $table->dropForeign(['user_id']);
-        });
-
         Schema::dropIfExists('registros_patronales');
     }
 };

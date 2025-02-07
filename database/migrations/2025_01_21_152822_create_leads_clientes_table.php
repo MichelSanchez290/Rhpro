@@ -28,12 +28,6 @@ return new class extends Migration
             $table->string('puesto');
             $table->string('correo');
             $table->string('telefono');
-            $table->unsignedBigInteger('crmEmpresas_id');
-            $table->foreign('crmEmpresas_id')
-                ->references('id')
-                ->on('crm_empresas')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
             $table->string('tipo');
             $table->timestamps();
         });
@@ -46,7 +40,6 @@ return new class extends Migration
     {
         Schema::table('leads_clientes', function (Blueprint $table) {
             $table->dropForeign(['datos_id']);
-            $table->dropForeign(['crmEmpresas_id']);
         });
         Schema::dropIfExists('leads_clientes');
     }

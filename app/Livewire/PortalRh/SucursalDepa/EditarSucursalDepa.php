@@ -40,7 +40,7 @@ class EditarSucursalDepa extends Component
             'departamento_id' => $this->departamento_id,
         ]);
 
-        return redirect()->route('mostrarsucursaldepa')->with('message', 'Sucursal actualizada correctamente.');
+        return redirect()->route('mostrarsucursaldepa')->with('message', 'Asignación actualizada correctamente.');
     }
 
     public function render()

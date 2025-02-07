@@ -2,6 +2,7 @@
 
 namespace App\Models\PortalRH;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -35,6 +36,11 @@ class Sucursal extends Model
         return $this->belongsToMany(Departament::class, 'sucursal_departament', 'sucursal_id', 'departamento_id');
     }
 
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
+
     public function RepresentLeSucursal()
     {
         return $this->hasOne(RepresentLeSucursal::class);
@@ -52,7 +58,7 @@ class Sucursal extends Model
 
     public function empresas()
     {
-        return $this->belongsToMany(Empres::class);
+        return $this->belongsToMany(Empresa::class);
     }
 
 
@@ -64,9 +70,9 @@ class Sucursal extends Model
         return $this->hasMany(Trabajador::class);
     }
 
-    public function becario()
+    public function becarios()
     {
-        return $this->hasMany(Becari::class);
+        return $this->hasMany(Becario::class);
     }
 
     public function practicantes()

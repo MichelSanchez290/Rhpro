@@ -10,9 +10,12 @@ use App\Models\ActivoFijo\Activos\ActivoPapeleria;
 use App\Models\ActivoFijo\Activos\ActivoSouvenir;
 use App\Models\ActivoFijo\Activos\ActivoTecnologia;
 use App\Models\ActivoFijo\Activos\ActivoUniforme;
+use App\Models\Encuestas360\Asignacion;
 use App\Models\PortalCapacitacion\PerfilPuesto;
 use App\Models\PortalRH\Becari;
+use App\Models\PortalRH\Becario;
 use App\Models\PortalRH\Empres;
+use App\Models\PortalRH\Empresa;
 use App\Models\PortalRH\Sucursal;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -38,7 +41,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-
+        'password',
+        'empresa_id',
+        'sucursal_id',
+        'tipo_user'
     ];
 
     /**
@@ -74,7 +80,7 @@ class User extends Authenticatable
 
     public function becarios()
     {
-        return $this->hasMany(Becari::class);
+        return $this->hasMany(Becario::class);
     }
 
     
@@ -186,24 +192,24 @@ class User extends Authenticatable
 
     public function empresa()
     {
-        return $this->hasMany(Empres::class); // Una venta pertenece a un cliente
+        return $this->belongsTo(Empresa::class); // Una venta pertenece a un cliente
     }
+
+    public function sucursal()
+    {
+        return $this->belongsTo(Sucursal::class); // Una venta pertenece a un cliente
+    }
+
     public function perfiles_puestos()
     {
         return $this->belongsToMany(PerfilPuesto::class, 'perfil_puesto_user', 'users_id', 'perfiles_puestos_id'); // Modelo relacionado
     }
 
-   // Actualizada la relación para usar el nombre correcto de la columna
-   public function empresadev()
-   {
-       return $this->belongsTo(Empres::class, 'empresas_id', 'id');
-   }
 
-   public function sucursal()
-   {
-       return $this->belongsTo(Sucursal::class, 'sucursal_id', 'id');
-   }
-
-   
+    public function asignacion()
+    {
+        //un user peertence a un becario
+        return $this->hasMany(Asignacion::class);
+    }
 
 }

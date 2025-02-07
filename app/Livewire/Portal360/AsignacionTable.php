@@ -35,7 +35,7 @@ final class AsignacionTable extends PowerGridComponent
     public function datasource(): Builder
     {
         return Asignacion::query()
-        ->with(['calificador', 'calificado', 'relacion', 'encuesta', 'empresaSucursal.empresa', 'empresaSucursal.sucursal']);
+        ->with(['calificador','users', 'calificado', 'relacion', 'encuesta']);
         
         
     }
@@ -56,8 +56,8 @@ final class AsignacionTable extends PowerGridComponent
             ->add('calificado.nombre', fn($asignacion) => $asignacion->calificado->name ?? 'N/A')
             ->add('relacion.nombre', fn($asignacion) => $asignacion->relacion->nombre ?? 'N/A')
             ->add('encuesta.nombre', fn($asignacion) => $asignacion->encuesta->nombre ?? 'N/A')
-            ->add('empresa_nombre', fn($asignacion) => $asignacion->empresaSucursal->empresa->nombre ?? 'N/A')
-            ->add('sucursal_clave', fn($asignacion) => $asignacion->empresaSucursal->sucursal->clave_sucursal ?? 'N/A');
+            ->add('empresa_nombre', fn($asignacion) => $asignacion->calificador->empresa->nombre ?? 'N/A')
+            ->add('sucursal_nombre', fn($asignacion) => $asignacion->calificado->sucursal->nombre_sucursal ?? 'N/A');
                 
     }
 
@@ -77,7 +77,7 @@ final class AsignacionTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Clave Sucursal', 'sucursal_clave')
+            Column::make('Nombre Sucursal', 'sucursal_nombre')
                 ->sortable()
                 ->searchable(),
 

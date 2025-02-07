@@ -1,7 +1,7 @@
 <div class="h-screen overflow-y-auto">
     <div class="my-5">
         <!-- Título con degradado y sombra más pronunciada -->
-        <div class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold text-xl py-4 px-6 rounded-t-lg shadow-lg">
+        <div class="bg-gradient-to-r from-[#1763A6] to-[#1EA4D9] text-white font-bold text-xl py-4 px-6 rounded-t-lg shadow-lg">
             <h1 class="text-center text-2xl sm:text-3xl font-bold text-white">Registrar Activo de Oficina</h1>
         </div>
 
@@ -133,7 +133,7 @@
             
             <!-- Botón de Guardar -->
             <div class="flex justify-center mt-4">
-                <button wire:click="saveActivoOf()" class="bg-[#752174] dark:bg-[#752174] text-white px-6 py-2 rounded-lg shadow-lg font-bold hover:bg-[#913b8f] dark:hover:bg-[#913b8f]">Guardar</button>
+                <button wire:click="saveActivoOf()" class="bg-gradient-to-r from-[#1763A6] to-[#1EA4D9] text-white px-6 py-2 rounded-lg shadow-lg font-bold hover:bg-[#1763A6]">Guardar</button>
             </div>
         </div>
     </div>

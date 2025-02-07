@@ -54,11 +54,11 @@ class EditarEmpresa extends Component
             'pagina_web' => $this->pagina_web,
             'imagen' => $this->imagen,
         ]);
-        return redirect()->route('InicioCrm');
+        return redirect()->route('mostrarEmpresaCrm');
     }
 
     public function render()
     {
-        return view('livewire.crm.crm-empresa.editar.editar-empresa')->layout('layouts.prueba');
+        return view('livewire.crm.crm-empresa.editar.editar-empresa')->layout('layouts.crm');
     }
 }
