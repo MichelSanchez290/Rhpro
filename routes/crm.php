@@ -8,6 +8,7 @@ use App\Livewire\Crm\CrmEmpresa\Mostrar\MostrarEmpre;
 use App\Livewire\Crm\DatosFiscale\Agregar\AgregarDatosFiscale;
 use App\Livewire\Crm\DatosFiscale\Mostrar\MostrarDatosFisc;
 use App\Livewire\Crm\DatosFiscale\Editar\EditarDatosFisc;
+use App\Livewire\Crm\DatosFiscale\Eliminar\EliminarDatosFisc;
 use App\Livewire\LeadsCliente;
 use App\Livewire\PortalRh\Empres\MostrarEmpres;
 use Illuminate\Support\Facades\Route;
@@ -56,5 +57,10 @@ Route::get(
     '/crm-editarDatosFiscales/{id}',
     EditarDatosFisc::class
 )->name('editDato');
+
+Route::post(
+    '/crm-deleteDato/{id}',
+    EliminarDatosFisc::class
+)->name('EliminarDato');
 
 // Route::get('select', 'AgregarDatosFiscale@select');

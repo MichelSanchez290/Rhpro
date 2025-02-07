@@ -152,18 +152,18 @@
                 </div>
                 <div class="w-full px-3 mb-6 md:w-1/2 md:mb-0">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase" for="empresa_id">Empresa:</label>
-                        {{-- <input
+                        <input
                             class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
                             wire:model.defer="empresa_id" type="text" placeholder="">
-                        <x-input-error for="empresa_id" /> --}}
-                        <select id="estados" name="estados" class="block w-full px-4 py-3 pr-8 leading-tight text-gray-700 bg-gray-200 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                        <x-input-error for="empresa_id" />
+                        {{-- <select id="estados" name="estados" class="block w-full px-4 py-3 pr-8 leading-tight text-gray-700 bg-gray-200 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
                         wire:model.defer="empresa_id">>
                             <option value="0" disabled></option>
                             <option value="0">------</option>
-                            @foreach ($empresa as $empresas)
+                            //@foreach ($empresa as $empresas)
                                 <option value="{{ $empresas->id }}">{{ $empresas->nombre }}</option>
-                            @endforeach
-                        </select>
+                            //@endforeach
+                        </select> --}}
                 </div>
             </div>
         </div>

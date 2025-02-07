@@ -33,7 +33,7 @@ class EliminarEmpresa extends Component
         }
         $this->empresaToDelete = null;
         $this->showModal = false;
-        return redirect()->route('InicioCrm');
+        return redirect()->route('mostrarEmpresaCrm');
     }
 
     public function render()

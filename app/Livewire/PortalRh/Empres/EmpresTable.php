@@ -14,8 +14,8 @@ use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 
 use Illuminate\Support\Facades\Crypt;
 
-use PowerComponents\LivewirePowerGrid\Traits\WithExport; 
-use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable; 
+use PowerComponents\LivewirePowerGrid\Traits\WithExport;
+use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
 
 final class EmpresTable extends PowerGridComponent
 {
@@ -33,8 +33,8 @@ final class EmpresTable extends PowerGridComponent
             PowerGrid::footer()
                 ->showPerPage()
                 ->showRecordCount(),
-            PowerGrid::exportable(fileName: 'empresas-export-file') 
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV), 
+            PowerGrid::exportable(fileName: 'empresas-export-file')
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
         ];
     }
 
@@ -101,7 +101,7 @@ final class EmpresTable extends PowerGridComponent
                 ->searchable(),
 
             Column::action('Action')
-            
+
         ];
     }
 
@@ -112,7 +112,7 @@ final class EmpresTable extends PowerGridComponent
     }
 
     #[\Livewire\Attributes\On('edit')]
-    
+
     public function edit($rowId): void
     {
         $this->js('alert('.$rowId.')');
@@ -130,11 +130,12 @@ final class EmpresTable extends PowerGridComponent
             Button::add('delete')
                 ->slot('Eliminar')
                 ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
+                // ->confirm('Are you sure you want to edit?'),
                 ->dispatch('confirmDelete', ['id' => $row->id]), // Emitir evento Livewire
         ];
 
-        
-        
+
+
     }
 
     /*

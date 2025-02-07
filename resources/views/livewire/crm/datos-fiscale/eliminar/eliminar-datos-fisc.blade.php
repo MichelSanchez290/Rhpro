@@ -18,8 +18,8 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M12 8v4m 0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
-                <h3 class="mt-5 mb-6 text-xl font-normal text-gray-500">¿Estás seguro de que deseas eliminar esta
-                    empresa?</h3>
+                <h3 class="mt-5 mb-6 text-xl font-normal text-gray-500">¿Estás seguro de que deseas eliminar este
+                    registro?</h3>
                 <button wire:click="deleteEmpresa"
                     class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-base inline-flex items-center px-3 py-2.5 text-center mr-2">
                     Sí, estoy seguro
