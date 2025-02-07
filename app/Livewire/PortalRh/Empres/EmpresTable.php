@@ -3,6 +3,7 @@
 namespace App\Livewire\PortalRh\Empres;
 
 use App\Models\PortalRh\Empres;
+use App\Models\PortalRH\Empresa;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
@@ -38,7 +39,7 @@ final class EmpresTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Empres::query();
+        return Empresa::query();
     }
 
     public function relationSearch(): array
@@ -116,7 +117,7 @@ final class EmpresTable extends PowerGridComponent
         $this->js('alert('.$rowId.')');
     }
 
-    public function actions(Empres $row): array
+    public function actions(Empresa $row): array
     {
         return [
             Button::add('edit')

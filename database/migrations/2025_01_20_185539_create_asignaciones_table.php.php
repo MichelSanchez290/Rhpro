@@ -39,6 +39,11 @@ return new class extends Migration
                   ->on('360_encuestas')
                   ->onUpdate('cascade')
                   ->onDelete('cascade');
+            // $table->unsignedBigInteger('empresa_sucursal_id')
+            //         ->nullable()->after('360_encuestas_id'); // Agrega la columna
+            // $table->foreign('empresa_sucursal_id')
+            //         ->references('id')->on('empresa_sucursals')
+            //         ->onDelete('set null');
             $table->timestamps();
         });
     }
@@ -53,6 +58,8 @@ return new class extends Migration
             $table->dropForeign(['calificado_id']);
             $table->dropForeign(['relaciones_id']);
             $table->dropForeign(['360_encuestas_id']);
+            $table->dropForeign(['empresa_sucursal_id']);
+            $table->dropColumn('empresa_sucursal_id');
         });
         Schema::dropIfExists('asignaciones');
     }

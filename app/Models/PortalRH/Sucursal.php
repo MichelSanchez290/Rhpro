@@ -2,6 +2,7 @@
 
 namespace App\Models\PortalRH;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -33,6 +34,11 @@ class Sucursal extends Model
     public function departamentos()
     {
         return $this->belongsToMany(Departamento::class, 'sucursal_departament', 'sucursal_id', 'departamento_id');
+    }
+
+    public function users()
+    {
+        return $this->hasMany(User::class);
     }
 
     public function RepresentLeSucursal()
