@@ -23,19 +23,21 @@ class Asignacion extends Model
         '360_encuestas_id',
         'realizada',
         'fecha',
-        'empresa_id',   // Agregar si tienes esta columna en la tabla
-        'sucursal_id',   // Agregar si tienes esta columna en la tabla
-
     ];
 
     public function calificador()
     {
-        return $this->belongsTo(User::class, 'calificador_id');
+        return $this->belongsTo(User::class);
     }
 
     public function calificado()
     {
-        return $this->belongsTo(User::class, 'calificado_id');
+        return $this->belongsTo(User::class);
+    }
+
+    public function users()
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function relacion()
@@ -49,9 +51,9 @@ class Asignacion extends Model
     }
 
     public function empresaSucursal()
-{
-    return $this->belongsTo(EmpresSucursal::class, 'empresa_sucursal_id');
-}
+    {
+        return $this->belongsTo(EmpresSucursal::class, 'empresa_sucursal_id');
+    }
 
 
 

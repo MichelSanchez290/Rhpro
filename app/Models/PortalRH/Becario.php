@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User; // Importa el modelo User
 
-class Becari extends Model
+class Becario extends Model
 {
     use HasFactory;
 
