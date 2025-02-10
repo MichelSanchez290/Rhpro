@@ -12,8 +12,15 @@ use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 
+use Illuminate\Support\Facades\Crypt;
+
+use PowerComponents\LivewirePowerGrid\Traits\WithExport; 
+use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable; 
+
 final class RelacionInternaTable extends PowerGridComponent
 {
+    use WithExport;
+
     public string $tableName = 'relacion-interna-table-sfcaij-table';
 
     public function setUp(): array
@@ -26,6 +33,8 @@ final class RelacionInternaTable extends PowerGridComponent
             PowerGrid::footer()
                 ->showPerPage()
                 ->showRecordCount(),
+            PowerGrid::exportable(fileName: 'relacionesInternas-export-file') 
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
         ];
     }
 
@@ -100,4 +109,19 @@ final class RelacionInternaTable extends PowerGridComponent
         ];
     }
     */
+
+    public function actions(RelacionInterna $row): array
+    {
+        return [
+            Button::add('edit')
+                ->slot('Editar')
+                ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
+                ->route('editarRelacionesInternas', ['id' => Crypt::encrypt($row->id)]),
+
+            Button::add('delete')
+                ->slot('Eliminar')
+                ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
+                ->dispatch('confirmDelete', ['id' => $row->id]),
+        ];
+    }
 }

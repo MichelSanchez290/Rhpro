@@ -12,25 +12,23 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('encuestas', function (Blueprint $table) {
-            $table->string('Clave')->primary(); // Definir 'Clave' como clave primaria
-            $table->string('Empresa');
-            $table->string('RutaLogo')->nullable();
-            $table->date('FechaInicio');
-            $table->date('Caducidad');
-            $table->tinyInteger('Estado');
-            $table->integer('NumeroEncuestas');
-            $table->string('Formato');
-            $table->string('EncuestasContestadas');
-            $table->text('Actividades');
-            $table->integer('Numero');
-            $table->string('Dep');
-            $table->tinyInteger('Cerrable');
-            $table->string('usuariosdx035_CorreoElectronico');
-            $table->date('FechaFinal')->nullable();
+            $table->string('Clave')->primary(); // Clave primaria generada automáticamente
+            $table->string('Empresa'); // Empresa siempre requerida
+            $table->string('RutaLogo')->nullable(); // El logo es opcional
+            $table->date('FechaInicio'); // Fecha de inicio obligatoria
+            $table->date('FechaFinal')->nullable(); // Fecha de finalización puede ser opcional
+            $table->date('Caducidad')->nullable(); // Si la encuesta puede caducar, puede ser opcional
+            $table->tinyInteger('Estado')->default(0); // Estado por defecto en 0 (abierta/cerrada)
+            $table->integer('NumeroEncuestas'); // Número de encuestados es obligatorio
+            $table->string('Formato')->nullable(); // Formato puede ser opcional
+            $table->integer('EncuestasContestadas')->default(0); // Inicialmente 0
+            $table->text('Actividades')->nullable(); // Actividades opcionales
+            $table->integer('Numero')->nullable(); // Número de encuesta puede generarse
+            $table->string('Dep')->nullable(); // Departamento opcional (siempre que pueda no seleccionarse)
+            $table->tinyInteger('Cerrable')->default(1); // Si se puede cerrar la encuesta
+            $table->string('usuariosdx035_CorreoElectronico')->nullable(); // Usuario creador opcional
             $table->timestamps();
         });
-
-
     }
 
     /**

@@ -63,7 +63,7 @@
             class="{{ theme_style($theme, 'filterSelect.base') }}"
         >
             @if (!$inline)
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-400">
+                <label class="block text-sm font-medium text-gray-700">
                     {{ $title }}
                 </label>
             @endif

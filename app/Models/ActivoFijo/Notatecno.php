@@ -21,8 +21,8 @@ class Notatecno extends Model
     ];
 
     //Relacion muchos a muchos
-    public function activotecnologias()
+    public function activosTecnologia()
     {
-        return $this->belongsToMany(ActivoTecnologia::class);
+        return $this->belongsToMany(ActivoTecnologia::class, 'notastecnologia_activos_tecnologia', 'notast_id', 'activos_t_id');
     }
 }

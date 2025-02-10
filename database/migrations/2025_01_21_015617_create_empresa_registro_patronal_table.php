@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('empresa_registro_patronal', function (Blueprint $table) {
-            //donde almacenara el id de la relacion
+            $table->id();
             $table->unsignedBigInteger('empresa_id');
             $table->foreign('empresa_id') //Declara que id es una clave foránea.
                     ->references('id') //Indica que esta columna hace referencia a la columna id
@@ -28,7 +28,7 @@ return new class extends Migration
                     ->onDelete('cascade')
                     ->onUpdate('cascade');
 
-
+            $table->string('status', 45);
             $table->timestamps();
         });
     }

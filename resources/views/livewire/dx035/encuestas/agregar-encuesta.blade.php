@@ -10,15 +10,7 @@
             </div>
         @endif
 
-        <form wire:submit.prevent="submit" class="space-y-6">
-            <!-- Clave -->
-            <div>
-                <label for="Clave" class="block text-sm font-semibold text-gray-700">Clave</label>
-                <input type="text" id="Clave" wire:model="Clave" required
-                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                @error('Clave') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-            </div>
-
+        <div class="space-y-6">
             <!-- Empresa -->
             <div>
                 <label for="Empresa" class="block text-sm font-semibold text-gray-700">Empresa</label>
@@ -27,93 +19,77 @@
                 @error('Empresa') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
 
-            <!-- Selección de Cuestionarios -->
+            <!-- Actividades -->
             <div>
-                <label class="block text-sm font-semibold text-gray-700">Seleccionar Cuestionarios</label>
-                <div class="space-y-4">
-                    <!-- Cuestionario 1 -->
-                    <div class="flex items-center space-x-3">
-                        <label for="cuestionario1" class="flex items-center cursor-pointer">
-                            <input type="checkbox" id="cuestionario1" wire:model="cuestionariosSeleccionados.1"
-                                   class="peer hidden" value="1">
-                            <div class="switch-bg w-12 h-6 bg-gray-300 rounded-full relative">
-                                <div class="switch-circle w-6 h-6 bg-blue-500 rounded-full absolute left-0
-                                    {{ $cuestionariosSeleccionados[1] ? 'left-6' : 'left-0' }}
-                                    transition-all duration-300 ease-in-out"></div>
-                            </div>
-                            <span class="ml-2 text-gray-700">Cuestionario 1</span>
-                        </label>
-                    </div>
-
-                    <!-- Cuestionario 2 -->
-                    <div class="flex items-center space-x-3">
-                        <label for="cuestionario2" class="flex items-center cursor-pointer">
-                            <input type="checkbox" id="cuestionario2" wire:model="cuestionariosSeleccionados.2"
-                                   class="peer hidden" value="2">
-                            <div class="switch-bg w-12 h-6 bg-gray-300 rounded-full relative">
-                                <div class="switch-circle w-6 h-6 bg-blue-500 rounded-full absolute left-0
-                                    {{ $cuestionariosSeleccionados[2] ? 'left-6' : 'left-0' }}
-                                    transition-all duration-300 ease-in-out"></div>
-                            </div>
-                            <span class="ml-2 text-gray-700">Cuestionario 2</span>
-                        </label>
-                    </div>
-
-                    <!-- Cuestionario 3 -->
-                    <div class="flex items-center space-x-3">
-                        <label for="cuestionario3" class="flex items-center cursor-pointer">
-                            <input type="checkbox" id="cuestionario3" wire:model="cuestionariosSeleccionados.3"
-                                   class="peer hidden" value="3">
-                            <div class="switch-bg w-12 h-6 bg-gray-300 rounded-full relative">
-                                <div class="switch-circle w-6 h-6 bg-blue-500 rounded-full absolute left-0
-                                    {{ $cuestionariosSeleccionados[3] ? 'left-6' : 'left-0' }}
-                                    transition-all duration-300 ease-in-out"></div>
-                            </div>
-                            <span class="ml-2 text-gray-700">Cuestionario 3</span>
-                        </label>
-                    </div>
-                </div>
+                <label for="Actividades" class="block text-sm font-semibold text-gray-700">Actividades</label>
+                <textarea id="Actividades" wire:model="Actividades" required
+                          class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"></textarea>
+                @error('Actividades') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
 
-            <!-- Fecha Inicio y Fecha Final en una línea -->
-            <div class="flex space-x-4">
-                <div class="w-1/2">
+            <!-- Sucursal y Departamento -->
+    
+            <div>
+                <label for="sucursalDepartamentId" class="block text-sm font-semibold text-gray-700">Sucursal y Departamento</label>
+                <select id="sucursalDepartamentId" wire:model="sucursalDepartamentId" required
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                    <option value="">Seleccione una sucursal y departamento</option>
+                    @foreach($sucursalDepartamentos as $sucursalDepartamento)
+                        <option value="{{ $sucursalDepartamento->id }}">
+                            {{ $sucursalDepartamento->sucursal_nombre }} - {{ $sucursalDepartamento->departamento_nombre }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('sucursalDepartamentId') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+            </div>
+
+            <!-- Fechas -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Fecha de Inicio -->
+                <div>
                     <label for="FechaInicio" class="block text-sm font-semibold text-gray-700">Fecha de Inicio</label>
                     <input type="date" id="FechaInicio" wire:model="FechaInicio" required
                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                     @error('FechaInicio') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
-                <div class="w-1/2">
+
+                <!-- Fecha de Cierre -->
+                <div>
                     <label for="FechaFinal" class="block text-sm font-semibold text-gray-700">Fecha de Cierre</label>
-                    <input type="date" id="FechaFinal" wire:model="FechaFinal"
+                    <input type="date" id="FechaFinal" wire:model="FechaFinal" required
                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                     @error('FechaFinal') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
             </div>
 
-            <!-- Número de Encuestas -->
+            <!-- Número de Trabajadores -->
             <div>
-                <label for="NumeroEncuestas" class="block text-sm font-semibold text-gray-700">Número de Encuestas</label>
+                <label for="NumeroEncuestas" class="block text-sm font-semibold text-gray-700">Número de Trabajadores</label>
                 <input type="number" id="NumeroEncuestas" wire:model="NumeroEncuestas" required
                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                       min="0">
+                       min="1">
                 @error('NumeroEncuestas') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
 
-            <!-- Departamentos -->
+            <!-- Cuestionarios -->
             <div>
-                <label for="departamentosSeleccionados" class="block text-sm font-semibold text-gray-700">Departamentos</label>
-                @if($departamentos->isEmpty())
-                    <p class="mt-1 text-gray-500">No hay departamentos disponibles.</p>
-                @else
-                    <select multiple id="departamentosSeleccionados" wire:model="departamentosSeleccionados"
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                        @foreach($departamentos as $departamento)
-                            <option value="{{ $departamento->id }}">{{ $departamento->nombre_departamento }}</option>
-                        @endforeach
-                    </select>
-                    @error('departamentosSeleccionados') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                @endif
+                <label class="block text-sm font-semibold text-gray-700">Seleccionar Cuestionarios</label>
+                <div class="space-y-4">
+                    @foreach($cuestionarios as $cuestionario)
+                        <div class="flex items-center space-x-3">
+                            <label for="cuestionario{{ $cuestionario->id }}" class="flex items-center cursor-pointer">
+                                <input
+                                    type="checkbox"
+                                    id="cuestionario{{ $cuestionario->id }}"
+                                    wire:model="cuestionariosSeleccionados.{{ $cuestionario->id }}"
+                                    class="form-checkbox h-5 w-5 text-blue-600 rounded focus:ring-blue-500"
+                                >
+                                <span class="ml-2 text-gray-700">{{ $cuestionario->Nombre }}</span>
+                            </label>
+                        </div>
+                    @endforeach
+                </div>
+                @error('cuestionariosSeleccionados') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
 
             <!-- Logo de la Empresa -->
@@ -132,12 +108,13 @@
                 @endif
             </div>
 
-            <!-- Botón de Activar Encuesta -->
+            <!-- Botón de Guardar Encuesta -->
             <div class="mt-6 flex justify-center">
-                <button type="submit" class="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none">
+                <button type="button" wire:click="submit"
+                        class="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none">
                     Guardar Encuesta
                 </button>
             </div>
-        </form>
+        </div>
     </div>
 </div>

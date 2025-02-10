@@ -5,11 +5,9 @@ namespace App\Livewire\PortalCapacitacion\FuncionesEspecificas;
 use App\Models\PortalCapacitacion\FuncionEspecifica;
 use Livewire\Component;
 use Illuminate\Support\Facades\Crypt;
-use Livewire\WithFileUploads;
 
 class EditarFunEspecificas extends Component
 {
-    use WithFileUploads;
     public $nombre, $funcion_esp_id;
 
     public function mount($id)
@@ -32,6 +30,11 @@ class EditarFunEspecificas extends Component
             'nombre' => $this->nombre,
         ]);
         //$this->emit('edithSale', 'Actualización con exito');
+        return redirect()->route('mostrarFuncionesEspecificas');
+    }
+
+    public function redirigir()
+    {
         return redirect()->route('mostrarFuncionesEspecificas');
     }
 

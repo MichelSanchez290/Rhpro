@@ -60,7 +60,7 @@ class EditarDatosFisc extends Component
             'estado' => $this->estado,
             'pais' => $this->pais,
             'codigoPostal' => $this->codigoPostal,
-            'crmEmpresa_id' => $this->empresa_id
+            'empresa_id' => $this->empresa_id
         ]);
         return redirect()->route('mostrarDatosFiscales');
     }

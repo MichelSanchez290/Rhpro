@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Livewire\PortalCapacitacion\Inicio;
 use App\Livewire\PortalCapacitacion\MostrarPerfilPuesto;
 use App\Livewire\PortalCapacitacion\AgregarPerfilPuesto;
+use App\Livewire\PortalCapacitacion\EditarPerfilPuesto;
+use App\Livewire\PortalCapacitacion\VerMasPerfilPuesto;
 use App\Livewire\PortalCapacitacion\FuncionesEspecificas\MostrarFunEspecificas;
 use App\Livewire\PortalCapacitacion\FuncionesEspecificas\AgregarFunEspecificas;
 use App\Livewire\PortalCapacitacion\FuncionesEspecificas\EditarFunEspecificas;
@@ -22,12 +24,19 @@ use App\Livewire\PortalCapacitacion\HabilidadesHumanas\EditarHabilidadesHumanas;
 use App\Livewire\PortalCapacitacion\HabilidadesTecnicas\MostrarHabilidadesTecnicas;
 use App\Livewire\PortalCapacitacion\HabilidadesTecnicas\AgregarHabilidadesTecnicas;
 use App\Livewire\PortalCapacitacion\HabilidadesTecnicas\EditarHabilidadesTecnicas;
+use App\Livewire\PortalCapacitacion\Usuarios\MostrarUsuario;
+use App\Livewire\PortalCapacitacion\Usuarios\VerMasUsuario;
+use App\Livewire\PortalCapacitacion\Usuarios\CompararPerfilPuesto;
+use App\Livewire\PortalCapacitacion\AsociarPuestoTrabajador\AsociarPuestoTrabajador;
+use App\Livewire\PortalCapacitacion\AsociarPuestoTrabajador\AsignarPerfilPuesto;
 
 Route::get('/inicio', Inicio::class)->name('inicio-capacitacion');
 
  //perfiles de puesto
 Route::get('/mostrar-perfil-puesto', MostrarPerfilPuesto::class)->name('mostrarPerfilPuesto');
 Route::get('/agregar-perfil-puesto', AgregarPerfilPuesto::class)->name('agregarPerfilPuesto');
+Route::get('/editar-perfil-puesto/{id}', EditarPerfilPuesto::class)->name('editarPerfilPuesto');
+Route::get('/ver-mas/{id}', VerMasPerfilPuesto::class)->name('vermasPerfilPuesto');
 
 //funciones especificas
 Route::get('/mostrar-funciones-especificas', MostrarFunEspecificas::class)->name('mostrarFuncionesEspecificas');
@@ -58,3 +67,12 @@ Route::get('/editar-habilidades-humanas/{id}', EditarHabilidadesHumanas::class)-
 Route::get('/mostrar-habilidades-tecnicas', MostrarHabilidadesTecnicas::class)->name('mostrarHabilidadesTecnicas');
 Route::get('/agregar-habilidades-tecnicas', AgregarHabilidadesTecnicas::class)->name('agregarHabilidadesTecnicas');
 Route::get('/editar-habilidades-tecnicas/{id}', EditarHabilidadesTecnicas::class)->name('editarHabilidadesTecnicas');
+
+//trabajadores
+Route::get('/users', MostrarUsuario::class)->name('mostrarUsuarios');
+Route::get('/users/{id}', VerMasUsuario::class)->name('vermasUsuarios');
+Route::get('/user/comparar', CompararPerfilPuesto::class)->name('compararPerfilPuesto');
+
+//asociar puesto para trabajadores
+Route::get('/asociar-perfil-puesto', AsociarPuestoTrabajador::class)->name('asociarPuestoTrabajador');
+Route::get('/asignar-perfil-puesto/{id}', AsignarPerfilPuesto::class)->name('asignarPerfilPuesto');

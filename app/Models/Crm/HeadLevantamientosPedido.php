@@ -22,8 +22,8 @@ class HeadLevantamientosPedido extends Model
         return $this->belongsTo(leadscliente::class);
     }
 
-    public function levantamientospedido()
-    {
-        return $this->hasMany(levantamientospedido::class)
-    }
+    // public function levantamientospedido()
+    // {
+    //     return $this->hasMany(levantamientospedido::class);
+    // }
 }

@@ -104,13 +104,6 @@ final class DatosFiscalesTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Created at', 'created_at_formatted', 'created_at')
-                ->sortable(),
-
-            Column::make('Created at', 'created_at')
-                ->sortable()
-                ->searchable(),
-
             Column::action('Action')
         ];
     }
@@ -136,7 +129,7 @@ final class DatosFiscalesTable extends PowerGridComponent
             Button::add('delete')
                 ->slot('Eliminar')
                 ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
-                ->dispatch('confirmDelete', ['id' => $row->id]),
+                ->dispatch('datoconfirmDelete', ['id' => $row->id]),
         ];
     }
 

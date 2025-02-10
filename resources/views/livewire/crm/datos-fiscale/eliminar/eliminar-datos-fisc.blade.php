@@ -1,6 +1,6 @@
 <div>
     <div id="modalConfirm"
-    class="{{ $showModal ? '' : 'hidden' }} fixed z-50 inset-0 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full px-4">
+        class="{{ $showModal ? '' : 'hidden' }} fixed z-50 inset-0 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full px-4">
         <div class="relative max-w-md mx-auto bg-white rounded-md shadow-xl top-40">
             <div class="flex justify-end p-2">
                 <button wire:click="$set('showModal', false)" type="button"
@@ -20,7 +20,7 @@
                 </svg>
                 <h3 class="mt-5 mb-6 text-xl font-normal text-gray-500">¿Estás seguro de que deseas eliminar este
                     registro?</h3>
-                <button wire:click="deleteEmpresa"
+                <button wire:click="deleteDato"
                     class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-base inline-flex items-center px-3 py-2.5 text-center mr-2">
                     Sí, estoy seguro
                 </button>

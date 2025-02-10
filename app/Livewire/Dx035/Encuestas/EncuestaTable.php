@@ -2,151 +2,99 @@
 
 namespace App\Livewire\Dx035\Encuestas;
 
-use App\Models\Dx035\Encuesta;
-use Illuminate\Support\Carbon;
-use Illuminate\Database\Eloquent\Builder;
+use App\Models\Dx035\EncuestaCuestionario;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
-use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
-use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
+use PowerComponents\LivewirePowerGrid\PowerGridColumns;
+use Illuminate\Database\Eloquent\Builder;
 
 final class EncuestaTable extends PowerGridComponent
 {
-    public string $tableName = 'encuesta-table';
+    public string $tableName = 'encuestas_table'; // Nombre único para la tabla
+    public string $primaryKey = 'id';            // Especificar que la clave primaria es 'id'
+    public string $keyType = 'int';              // Especificar que la clave primaria es de tipo int
 
-    /**
-     * Configuración general de la tabla
-     */
     public function setUp(): array
     {
-        $this->showCheckBox();
-
         return [
             PowerGrid::header()
-                ->showSearchInput()
-                ->includeViewOnTop('encuestas.header'), // Si tienes una vista personalizada para el header
+                ->showSearchInput(), // Habilitar la barra de búsqueda
+
             PowerGrid::footer()
-                ->showPerPage()
-                ->showRecordCount(),
+                ->showPerPage() // Mostrar selector de elementos por página
+                ->showRecordCount(), // Mostrar contador de registros
         ];
     }
 
-    /**
-     * Fuente de datos para la tabla
-     */
     public function datasource(): Builder
     {
-        return Encuesta::query();
+        return EncuestaCuestionario::query()
+            ->join('encuestas', 'encuesta_cuestionario.encuesta_clave', '=', 'encuestas.Clave')
+            ->select('encuesta_cuestionario.*', 'encuestas.Empresa', 'encuestas.Formato', 'encuestas.FechaInicio', 'encuestas.FechaFinal', 'encuestas.Estado', 'encuestas.EncuestasContestadas')
+            ->orderBy('encuesta_cuestionario.id', 'asc'); // Ordenar por el 'id' de la tabla pivote
     }
 
-    /**
-     * Campos adicionales (debe devolver un PowerGridFields)
-     */
-    public function fields(): PowerGridFields
+    public function addColumns(): PowerGridColumns
     {
-        return PowerGrid::fields([
-            'Clave',
-            'Empresa',
-            'RutaLogo',
-            'FechaInicio',
-            'Caducidad',
-            'Estado',
-            'NumeroEncuestas',
-            'Formato',
-            'EncuestasContestadas',
-            'Actividades',
-            'Numero',
-            'Dep',
-            'Cerrable',
-            'usuariosdx035_CorreoElectronico',
-            'FechaFinal',
-            'created_at',
-            'updated_at',
-        ]);
+        return PowerGrid::columns()
+            ->addColumn('id')
+            ->addColumn('Empresa')
+            ->addColumn('Formato')
+            ->addColumn('encuesta_clave')
+            ->addColumn('FechaInicio')
+            ->addColumn('FechaFinal')
+            ->addColumn('Estado')
+            ->addColumn('EncuestasContestadas');
     }
 
-    /**
-     * Columnas visibles en la tabla
-     */
     public function columns(): array
     {
         return [
-            Column::make('Clave', 'Clave')
-                ->searchable()
-                ->sortable(),
+            Column::make('ID', 'id')
+                ->sortable(), // Permitir ordenamiento
 
             Column::make('Empresa', 'Empresa')
-                ->searchable()
-                ->sortable(),
+                ->searchable() // Permitir búsqueda
+                ->sortable(), // Permitir ordenamiento
 
-            Column::make('Ruta Logo', 'RutaLogo')
-                ->hidden(),
+            Column::make('Cuestionarios', 'Formato')
+                ->bodyAttribute('text-center'),
 
-            Column::make('Fecha de Inicio', 'FechaInicio')
-                ->sortable(),
+            Column::make('Compartir', 'encuesta_clave')
+                ->bodyAttribute('text-center'),
 
-            Column::make('Caducidad', 'Caducidad')
-                ->sortable(),
+            Column::make('Inicio', 'FechaInicio')
+                ->sortable(), // Permitir ordenamiento
+
+            Column::make('Cierre', 'FechaFinal')
+                ->sortable(), // Permitir ordenamiento
 
             Column::make('Estado', 'Estado')
-                ->sortable(),
+                ->bodyAttribute('text-center'),
 
-            Column::make('Número de Encuestas', 'NumeroEncuestas')
-                ->sortable(),
+            Column::make('Avance', 'EncuestasContestadas')
+                ->bodyAttribute('text-center'),
 
-            Column::make('Formato', 'Formato'),
-
-            Column::make('Encuestas Contestadas', 'EncuestasContestadas'),
-
-            Column::make('Departamento', 'Dep')
-                ->searchable(),
-
-            Column::make('Cerrable', 'Cerrable'),
-
-            Column::make('Correo Electrónico', 'usuariosdx035_CorreoElectronico')
-                ->searchable(),
-
-            Column::make('Fecha Final', 'FechaFinal'),
-
-            Column::action('Acciones')
+            Column::action('Acciones'), // Columna de acciones
         ];
     }
 
-    /**
-     * Filtros de la tabla
-     */
-    public function filters(): array
+    public function actions(EncuestaCuestionario $row): array
     {
         return [
-            Filter::inputText('Clave'), // Sin placeholder
-            Filter::inputText('Empresa'), // Sin placeholder
-            Filter::datepicker('FechaInicio'),
-            Filter::datepicker('Caducidad'),
-            Filter::select('Estado', 'Estado', [
-                1 => 'Activo',
-                0 => 'Inactivo',
-            ]), // Sin placeholder
-        ];
-    }
-
-    /**
-     * Acciones por fila
-     */
-    public function actions(Encuesta $row): array
-    {
-        return [
+            // Botón: Editar
             Button::add('edit')
-                ->caption('Editar')
+                ->slot('Editar')
                 ->class('btn btn-primary')
-                ->route('encuestas.edit', ['Clave' => $row->Clave]),
+                ->route('encuestas.edit', ['Clave' => $row->encuesta_clave]),
 
+            // Botón: Eliminar
             Button::add('delete')
-                ->caption('Eliminar')
+                ->slot('Eliminar')
                 ->class('btn btn-danger')
-                ->route('encuestas.destroy', ['Clave' => $row->Clave])
-                ->method('delete'),
+                ->dispatch('confirmDelete', ['clave' => $row->encuesta_clave]), // Emitir evento para eliminar
         ];
     }
 }

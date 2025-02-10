@@ -11,16 +11,23 @@ use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
+use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
+use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 
 final class ActivotecTable extends PowerGridComponent
 {
+    use WithExport;
     public string $tableName = 'activotec-table-cjbv9q-table';
+    protected $listeners = ['refreshPowerGrid' => '$refresh'];
 
     public function setUp(): array
     {
         $this->showCheckBox();
 
         return [
+            PowerGrid::exportable('export')
+                ->striped()
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             PowerGrid::header()
                 ->showSearchInput(),
             PowerGrid::footer()
@@ -51,12 +58,10 @@ final class ActivotecTable extends PowerGridComponent
             ->add('ubicacion_fisica')
             ->add('fecha_adquisicion_formatted', fn(ActivoTecnologia $model) => Carbon::parse($model->fecha_adquisicion)->format('d/m/Y'))
             ->add('fecha_baja_formatted', fn(ActivoTecnologia $model) => Carbon::parse($model->fecha_baja)->format('d/m/Y'))
-            //->add('tipo_activo_id')
-            ->add('tipo_activo_nombre', fn (ActivoTecnologia $model) => $model->tipoActivo->nombre_activo ?? 'N/A')
+            ->add('tipo_activo_nombre', fn(ActivoTecnologia $model) => $model->tipoActivo->nombre_activo ?? 'N/A')
 
             ->add('precio_adquisicion')
-            ->add('vida_util_anio', fn (ActivoTecnologia $model) => $model->anioEstimado->vida_util_anio ?? 'N/A');
-            //->add('aniosestimado_id')
+            ->add('anioEstimado', fn(ActivoTecnologia $model) => $model->anioEstimado->vida_util_año ?? 'No asignado');
     }
 
     public function columns(): array
@@ -91,8 +96,8 @@ final class ActivotecTable extends PowerGridComponent
 
             //Column::make('Tipo activo id', 'tipo_activo_id'),
             Column::make('Tipo Activo', 'tipo_activo_nombre')
-            ->sortable()
-            ->searchable(),
+                ->sortable()
+                ->searchable(),
 
             Column::make('Precio adquisicion', 'precio_adquisicion')
                 ->sortable()
@@ -127,7 +132,15 @@ final class ActivotecTable extends PowerGridComponent
         return [
             Button::add('edit')
                 ->slot('Editar')
-                ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
+                ->class('btn btn-primary')
+                ->route('editaracttec', ['id' => $row->id]),
+                Button::add('delete')
+                ->icon('default-trash')
+                ->class('btn btn-primary')
+                ->dispatch('openModal', [
+                    'component' => 'borrar-activo',
+                    'arguments' => ['activo_id' => $row->id] // Aquí cambiamos el nombre del parámetro
+                ]),
         ];
     }
 

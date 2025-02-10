@@ -34,6 +34,7 @@ class EliminarEmpresa extends Component
         $this->empresaToDelete = null;
         $this->showModal = false;
         return redirect()->route('mostrarEmpresaCrm');
+        // return redirect()->route('mostrarDatosFiscales');
     }
 
     public function render()

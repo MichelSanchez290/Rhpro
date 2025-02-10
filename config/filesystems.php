@@ -29,6 +29,11 @@ return [
     */
 
     'disks' => [
+        'subirDocs' => [
+            'driver' => 'local',
+            'root' => public_path(),
+
+        ],
 
         'subirDocs' => [
             'driver' => 'local',

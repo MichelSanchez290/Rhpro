@@ -17,14 +17,12 @@ class Departament extends Model
     protected $primaryKey = 'id';
 
     //especifica las columnas
-    protected $fillable = ['id', 'nombre_departamento', 'user_id'];
-
-
+    protected $fillable = ['id', 'nombre_departamento'];
 
 
     public function sucursal()
     {
-        return $this->belongsToMany(Sucursal::class);
+        return $this->belongsToMany(Sucursal::class, 'sucursal_departament', 'departamento_id', 'sucursal_id');
     }
 
 
@@ -58,5 +56,5 @@ class Departament extends Model
     {
         return $this->belongsToMany(Puest::class, 'departament_puest');
     }
-    
+
 }

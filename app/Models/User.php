@@ -10,6 +10,10 @@ use App\Models\ActivoFijo\Activos\ActivoPapeleria;
 use App\Models\ActivoFijo\Activos\ActivoSouvenir;
 use App\Models\ActivoFijo\Activos\ActivoTecnologia;
 use App\Models\ActivoFijo\Activos\ActivoUniforme;
+use App\Models\PortalCapacitacion\PerfilPuesto;
+use App\Models\PortalRH\Becari;
+use App\Models\PortalRH\Empres;
+use App\Models\PortalRH\Sucursal;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -34,6 +38,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'empresas_id',  // Actualizado para coincidir con el nombre de la columna
+        'sucursal_id',
+
     ];
 
     /**
@@ -67,7 +74,15 @@ class User extends Authenticatable
     ];
 
 
+    public function becarios()
+    {
+        return $this->hasMany(Becari::class);
+    }
+
     
+
+
+
     /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public function cambioSalario()
     {
@@ -170,4 +185,25 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(ActivoUniforme::class);
     }
+
+    public function empresa()
+    {
+        return $this->hasMany(Empres::class); // Una venta pertenece a un cliente
+    }
+    public function perfiles_puestos()
+    {
+        return $this->belongsToMany(PerfilPuesto::class, 'perfil_puesto_user', 'users_id', 'perfiles_puestos_id'); // Modelo relacionado
+    }
+
+   // Actualizada la relación para usar el nombre correcto de la columna
+   public function empresadev()
+   {
+       return $this->belongsTo(Empres::class, 'empresas_id', 'id');
+   }
+
+   public function sucursal()
+   {
+       return $this->belongsTo(Sucursal::class, 'sucursal_id', 'id');
+   }
+
 }

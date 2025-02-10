@@ -9,6 +9,8 @@ use App\Models\PortalCapacitacion\RelacionExterna;
 use App\Models\PortalCapacitacion\ResponsabilidadUniversal;
 use App\Models\PortalCapacitacion\FormacionHabilidadHumana;
 use App\Models\PortalCapacitacion\FormacionHabilidadTecnica;
+use App\Models\PortalCapacitacion\PerfilPuesto;
+use Illuminate\Support\Facades\DB;
 
 class AgregarPerfilPuesto extends Component
 {
@@ -60,7 +62,7 @@ class AgregarPerfilPuesto extends Component
         'perfil.escolaridad' => 'required',
         'perfil.idioma_requerido' => 'required',
         'perfil.experiencia_requerida' => 'required',
-        'perfil.disponibilidad' => 'required',
+        //'perfil.disponibilidad' => 'required',
         'perfil.nivel_riesgo_fisico' => 'required',
         'perfil.elaboro_nombre' => 'required',
         'perfil.elaboro_puesto' => 'required',
@@ -108,6 +110,11 @@ class AgregarPerfilPuesto extends Component
         'perfil.autorizo_puesto.required' => 'El puesto del autorizador es obligatorio.',
         
     ];
+
+    public function cerrar()
+    {
+        return redirect()->route('mostrarPerfilPuesto');
+    }
 
     public function mount(){
         $this -> selectFuncion = FuncionEspecifica::get();
@@ -263,6 +270,81 @@ class AgregarPerfilPuesto extends Component
         $this->tecnicas = array_values($this->tecnicas);
         $this->numerotecnica--;
     }
+
+    public function savePerfil()
+{
+    $this->validate();
+
+    // Guardar el perfil principal
+    $guardar = new PerfilPuesto($this->perfil);
+    $guardar->save();
+
+    // Guardar las funciones específicas asociadas al perfil
+    foreach ($this->funciones as $funcion) {
+        if (!empty($funcion['id']) && $funcion['id']) {
+            DB::table('funcion_esp_perfil_puesto')->insert([
+                'funciones_esp_id' => $funcion['id'],
+                'perfiles_puestos_id' => $guardar->id,
+            ]);
+        }
+    }
+
+    // Guardar relaciones internas asociadas al perfil
+    foreach ($this->internas as $interna) {
+        if (!empty($interna['id']) && $interna['id']) {
+            DB::table('relacion_interna_perfil_puesto')->insert([
+                'relaciones_internas_id' => $interna['id'],
+                'perfiles_puestos_id' => $guardar->id,
+            ]);
+        }
+    }
+
+    // Guardar relaciones externas asociadas al perfil
+    foreach ($this->externas as $externa) {
+        if (!empty($externa['id']) && $externa['id']) {
+            DB::table('relacion_externa_perfil_puesto')->insert([
+                'relaciones_externas_id' => $externa['id'],
+                'perfiles_puestos_id' => $guardar->id,
+            ]);
+        }
+    }
+
+    // Guardar responsabilidades universales asociadas al perfil
+    foreach ($this->responsabilidades as $responsabilidad) {
+        if (!empty($responsabilidad['id']) && $responsabilidad['id']) {
+            DB::table('respon_univ_perfil_puesto')->insert([
+                'respons_univ_id' => $responsabilidad['id'],
+                'perfiles_puestos_id' => $guardar->id,
+            ]);
+        }
+    }
+
+    // Guardar habilidades humanas asociadas al perfil
+    foreach ($this->humanas as $humana) {
+        if (!empty($humana['id']) && $humana['id']) {
+            DB::table('formacion_humana_perfil_puesto')->insert([
+                'formaciones_humanas_id' => $humana['id'],
+                'perfiles_puestos_id' => $guardar->id,
+            ]);
+        }
+    }
+
+    // Guardar habilidades técnicas asociadas al perfil
+    foreach ($this->tecnicas as $tecnica) {
+        if (!empty($tecnica['id']) && $tecnica['id']) {
+            DB::table('formacion_tecnica_perfil_puesto')->insert([
+                'formaciones_tecnicas_id' => $tecnica['id'],
+                'perfiles_puestos_id' => $guardar->id,
+            ]);
+        }
+    }
+
+    $this->banner('Paquete guardado correctamente');
+    $this->pack = [];
+    // Reiniciar los valores del formulario después de guardar
+    $this->reset(['perfil', 'funciones', 'internas', 'externas', 'responsabilidades', 'humanas', 'tecnicas']);
+}
+
 
 
     public function render()

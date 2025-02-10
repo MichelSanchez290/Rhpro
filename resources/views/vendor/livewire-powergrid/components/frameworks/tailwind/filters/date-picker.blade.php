@@ -38,7 +38,7 @@
         @class([theme_style($theme, 'filterDatePicker.base'), 'space-y-1' => !$inline])
     >
         @if (!$inline)
-            <label class="block text-sm font-semibold text-pg-primary-700 dark:text-pg-primary-300">
+            <label class="block text-sm font-semibold text-pg-primary-700">
                 {{ $title }}
             </label>
         @endif

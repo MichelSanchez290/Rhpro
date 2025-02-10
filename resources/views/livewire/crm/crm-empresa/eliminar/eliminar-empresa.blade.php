@@ -33,3 +33,35 @@
         </div>
     </div>
 </div>
+
+@push('js')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Livewire.on('confirmDeleteDato', (id)=>{
+                Swal.fire({
+                    title:  "¿Estas Seguro?",
+                    text: "No podrás revertir esta acción.",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButton: "#3080d6",
+                    cancelButton: "#d33",
+                    confirmButtonText: "Aceptar",
+                    cancelButtonText: "Cancelar",
+                }).then($result) => {
+                    if(result.isConfirmed){
+                        Livewire.emit('deleteDato', id);
+                        Swal.fire(
+                            "Eliminado",
+                            "El dato ha sido eliminado correctamente",
+                            "success",
+                        );
+                    }
+                }
+            });
+
+                toastMixin.fire();
+            });
+        });
+    </script>
+@endpush
