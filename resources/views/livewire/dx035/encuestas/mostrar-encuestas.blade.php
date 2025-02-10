@@ -18,10 +18,14 @@
     @endif
 </div>
 
+<!-- Scripts al final del archivo -->
 <script>
-    Livewire.on('copiarClave', function(clave) {
+    // Función para copiar la clave al portapapeles
+    function copiarClave(clave) {
         navigator.clipboard.writeText(clave).then(() => {
             alert('Clave copiada: ' + clave);
+        }).catch((error) => {
+            alert('Error al copiar la clave: ' + error);
         });
-    });
+    }
 </script>

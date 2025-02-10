@@ -2,7 +2,7 @@
 
 namespace App\Livewire\PortalRh\DepartamentPuesto;
 
-use App\Models\PortalRh\DepartamentPuest;
+use App\Models\PortalRh\DepartamentoPuesto;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
@@ -38,7 +38,7 @@ final class DepartamentPuestoTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return DepartamentPuest::query()
+        return DepartamentoPuesto::query()
         ->leftJoin('departamentos', 'departament_puest.departamento_id', '=', 'departamentos.id')
         ->leftJoin('puestos', 'departament_puest.puesto_id', '=', 'puestos.id')
         ->select([
@@ -100,7 +100,7 @@ final class DepartamentPuestoTable extends PowerGridComponent
         $this->js('alert('.$rowId.')');
     }
 
-    public function actions(DepartamentPuest $row): array
+    public function actions(DepartamentoPuesto $row): array
     {
         return [
             Button::add('edit')

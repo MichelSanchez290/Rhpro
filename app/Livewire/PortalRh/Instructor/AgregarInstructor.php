@@ -3,9 +3,9 @@
 namespace App\Livewire\PortalRh\Instructor;
 
 use Livewire\Component;
-use App\Models\PortalRH\Instruct;
+use App\Models\PortalRH\Instructor;
 use App\Models\PortalRH\Sucursal;
-use App\Models\PortalRH\Departament;
+use App\Models\PortalRH\Departamento;
 use App\Models\User;
 
 class AgregarInstructor extends Component
@@ -17,7 +17,7 @@ class AgregarInstructor extends Component
     {
         $this->usuarios = User::all();
         $this->sucursales = Sucursal::all();
-        $this->departamentos = Departament::all();
+        $this->departamentos = Departamento::all();
     }
 
     protected $rules = [
@@ -77,7 +77,7 @@ class AgregarInstructor extends Component
     {
         $this->validate();
 
-        Instruct::create($this->instructor);
+        Instructor::create($this->instructor);
 
         $this->instructor = [];
         //$this->emit('showAnimatedToast', 'Registro patronal guardado correctamente.');

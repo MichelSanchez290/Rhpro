@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\PortalRH\Becari;
+use App\Models\PortalRH\Becario;
 use App\Models\PortalRH\Departament;
 use App\Models\PortalRH\Sucursal;
 use App\Models\User;
@@ -22,7 +23,7 @@ class BecarioSeeder extends Seeder
         $departamento = Departament::first(); // Obtén el primer departamento de la tabla departamentos
 
         // Crea un nuevo becario y asigna los IDs relacionados
-        $becario = Becari::create([
+        $becario = Becario::create([
             'clave_becario' => 'BEC001',
             'numero_seguridad_social' => '123456789',
             'fecha_nacimiento' => '1990-01-01',

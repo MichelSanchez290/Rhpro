@@ -3,9 +3,9 @@
 namespace App\Livewire\PortalRh\DepartamentPuesto;
 
 use Livewire\Component;
-use App\Models\PortalRH\Puest;
-use App\Models\PortalRH\Departament;
-use App\Models\PortalRH\DepartamentPuest;
+use App\Models\PortalRH\Puesto;
+use App\Models\PortalRH\Departamento;
+use App\Models\PortalRH\DepartamentoPuesto;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 
@@ -18,7 +18,7 @@ class EditarDepartamentPuesto extends Component
     public function mount($id)
     {
         $id = Crypt::decrypt($id);
-        $depaPuesto = DepartamentPuest::findOrFail($id);
+        $depaPuesto = DepartamentoPuesto::findOrFail($id);
         
         $this->depaPuesto_id = $id;
         $this->departamento_id = $depaPuesto->departamento_id;
@@ -26,8 +26,8 @@ class EditarDepartamentPuesto extends Component
         $this->status = $depaPuesto->status;
 
 
-        $this->departamentos = Departament::all();
-        $this->puestos = Puest::all();
+        $this->departamentos = Departamento::all();
+        $this->puestos = Puesto::all();
     }
 
     public function actualizarDepaPuest()
@@ -38,7 +38,7 @@ class EditarDepartamentPuesto extends Component
             'status' => 'required',
         ]);
 
-        DepartamentPuest::updateOrCreate(['id' => $this->depaPuesto_id], [            
+        DepartamentoPuesto::updateOrCreate(['id' => $this->depaPuesto_id], [            
             'departamento_id' => $this->departamento_id,
             'puesto_id' => $this->puesto_id,
             'status' => $this->status,

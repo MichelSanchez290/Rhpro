@@ -15,43 +15,43 @@ class AniosSeeder extends Seeder
     {
         $anio = Anioestimado::create([
             'vida_util_año' => '1',
-            'tipo_activo_id'=>null
+            'tipo_activo_id'=>'1'
         ]);
         $anio = Anioestimado::create([
             'vida_util_año' => '2',
-            'tipo_activo_id'=>null
+            'tipo_activo_id'=>'1'
         ]);
         $anio = Anioestimado::create([
             'vida_util_año' => '3',
-            'tipo_activo_id'=>null
+            'tipo_activo_id'=>'1'
         ]);
         $anio = Anioestimado::create([
             'vida_util_año' => '4',
-            'tipo_activo_id'=>null
+            'tipo_activo_id'=>'1'
         ]);
         $anio = Anioestimado::create([
             'vida_util_año' => '5',
-            'tipo_activo_id'=>null
+            'tipo_activo_id'=>'1'
         ]);
         $anio = Anioestimado::create([
             'vida_util_año' => '6',
-            'tipo_activo_id'=>null
+            'tipo_activo_id'=>'1'
         ]);
         $anio = Anioestimado::create([
             'vida_util_año' => '7',
-            'tipo_activo_id'=>null
+            'tipo_activo_id'=>'1'
         ]);
         $anio = Anioestimado::create([
             'vida_util_año' => '8',
-            'tipo_activo_id'=>null
+            'tipo_activo_id'=>'1'
         ]);
         $anio = Anioestimado::create([
             'vida_util_año' => '9',
-            'tipo_activo_id'=>null
+            'tipo_activo_id'=>'1'
         ]);
         $anio = Anioestimado::create([
             'vida_util_año' => '10',
-            'tipo_activo_id'=>null
+            'tipo_activo_id'=>'1'
         ]);
     }
 }

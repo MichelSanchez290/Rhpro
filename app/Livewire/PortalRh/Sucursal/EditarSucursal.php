@@ -5,7 +5,7 @@ namespace App\Livewire\PortalRh\Sucursal;
 use Livewire\Component;
 use App\Models\PortalRH\Sucursal;
 use Illuminate\Support\Facades\Crypt;
-use App\Models\PortalRH\RegistPatronal;
+use App\Models\PortalRH\RegistroPatronal;
 
 
 
@@ -32,7 +32,7 @@ class EditarSucursal extends Component
         $this->status = $sucursal->status;
         $this->registro_patronal_id = $sucursal->registro_patronal_id;
 
-        $this->regpatronales = RegistPatronal::all();
+        $this->regpatronales = RegistroPatronal::all();
     }
 
     public function actualizarSucursal()

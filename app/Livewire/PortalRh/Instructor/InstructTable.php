@@ -2,7 +2,7 @@
 
 namespace App\Livewire\PortalRh\Instructor;
 
-use App\Models\PortalRh\Instruct;
+use App\Models\PortalRh\Instructor;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
@@ -38,7 +38,7 @@ final class InstructTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Instruct::query()
+        return Instructor::query()
         ->leftJoin('users', 'instructores.user_id', '=', 'users.id')
         ->leftJoin('sucursales', 'instructores.sucursal_id', '=', 'sucursales.id')
         ->leftJoin('departamentos', 'instructores.departamento_id', '=', 'departamentos.id')
@@ -245,7 +245,7 @@ final class InstructTable extends PowerGridComponent
         $this->js('alert('.$rowId.')');
     }
 
-    public function actions(Instruct $row): array
+    public function actions(Instructor $row): array
     {
         return [
             Button::add('edit')

@@ -2,7 +2,7 @@
 
 namespace App\Livewire\PortalRh\Puest;
 
-use App\Models\PortalRh\Puest;
+use App\Models\PortalRh\Puesto;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
@@ -39,7 +39,7 @@ final class PuestTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Puest::query();
+        return Puesto::query();
     }
 
     public function relationSearch(): array
@@ -84,7 +84,7 @@ final class PuestTable extends PowerGridComponent
         $this->js('alert('.$rowId.')');
     }
 
-    public function actions(Puest $row): array
+    public function actions(Puesto $row): array
     {
         return [
             Button::add('edit')

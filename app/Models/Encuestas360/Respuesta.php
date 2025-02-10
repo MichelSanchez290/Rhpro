@@ -12,6 +12,7 @@ class Respuesta extends Model
     protected $table = '360_respuestas';
     protected $primaryKey = 'id';
     protected $fillable = ['id', 'texto', 'puntuacion', 'preguntas_id'];
+    
     public function pregunta()
     {
         return $this->belongsTo(Pregunta::class, 'preguntas_id');

@@ -3,18 +3,13 @@
 namespace App\Livewire\PortalRh\RegistPatronal;
 
 use Livewire\Component;
-use App\Models\PortalRH\RegistPatronal;
-use App\Models\User;
+use App\Models\PortalRH\RegistroPatronal;
 
 class AgregarRegPatronal extends Component
 {
     public $registro = [];
-    public $usuarios;
 
-    public function mount()
-    {
-        $this->usuarios = User::all();
-    }
+    
 
     protected $rules = [
         'registro.registro_patronal' => 'required',
@@ -44,7 +39,6 @@ class AgregarRegPatronal extends Component
         'registro.representante_legal' => 'required',
         'registro.puesto_representante' => 'required',
         'registro.cuenta_contable' => 'required',
-        'registro.user_id' => 'required|exists:users,id',
     ];
 
     // MENSAJES DE VALIDACIÓN
@@ -56,7 +50,7 @@ class AgregarRegPatronal extends Component
         //'registro.prima_año.digits' => 'El año de prima debe tener 4 dígitos.',
         //'registro.prima_mes.digits' => 'El mes de prima debe tener 2 dígitos.',
         'registro.porcentaje_prima_rt.numeric' => 'El porcentaje de prima debe ser un número.',
-        'registro.user_id.exists' => 'El usuario seleccionado no existe.',
+        
     ];
 
 
@@ -66,7 +60,7 @@ class AgregarRegPatronal extends Component
     {
         $this->validate();
 
-        RegistPatronal::create($this->registro);
+        RegistroPatronal::create($this->registro);
 
         $this->registro = [];
         //$this->emit('showAnimatedToast', 'Registro patronal guardado correctamente.');

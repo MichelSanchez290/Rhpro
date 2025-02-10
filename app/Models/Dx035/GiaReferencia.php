@@ -21,7 +21,7 @@ class GiaReferencia extends Model
         return $this->hasMany(Cuestionario::class, 'giasreferencias_id');
     }
 
-    // Relación con el modelo EncuestaGiaReferencia (si existe esta relación)
+    // Relación con el modelo EncuestaGiaReferencia
     public function encuestasGiasReferencias()
     {
         return $this->hasMany(EncuestaGiaReferencia::class, 'giasreferencias_id');

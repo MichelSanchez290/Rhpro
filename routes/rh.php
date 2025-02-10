@@ -44,6 +44,8 @@ use App\Livewire\PortalRh\Trabajador\CardTrabajador;
 use App\Livewire\PortalRh\Instructor\MostrarInstructor;
 use App\Livewire\PortalRh\Instructor\AgregarInstructor;
 use App\Livewire\PortalRh\Instructor\EditarInstructor;
+use App\Livewire\PortalRh\Instructor\MostrarCardInstructor;
+use App\Livewire\PortalRh\Instructor\CardInstructor;
 
 // --- Pivote Depa con Puesto --------------------
 use App\Livewire\PortalRh\EmpresSucursal\MostrarEmpresSucursal;
@@ -226,6 +228,16 @@ Route::get(
             EditarInstructor::class
     )->name('editarinstructor');
 
+    Route::get( 
+        '/cards-instructores',
+            MostrarCardInstructor::class
+    )->name('mostrarcardinstructor');
+
+    Route::get( 
+        '/card-instructor/{id}',
+            CardInstructor::class
+    )->name('cardinstructor');
+
 
     // Relacion Empresa con Sucursal - PIVOTE *******************************
     Route::get( 
@@ -239,6 +251,6 @@ Route::get(
     )->name('agregarempressucursal');
 
     Route::get( 
-        '/edit-empressucursal/{id}',
+        '/edit-empressucursal/{empresa_sucursal_id}',
             EditarEmpresSucursal::class
     )->name('editarempressucursal');

@@ -3,6 +3,8 @@
 namespace App\Models\Encuestas360;
 
 use App\Models\PortalRH\Empres;
+use App\Models\PortalRH\EmpresSucursal;
+use App\Models\PortalRH\RegistPatronal;
 use App\Models\PortalRH\Sucursal;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -21,19 +23,21 @@ class Asignacion extends Model
         '360_encuestas_id',
         'realizada',
         'fecha',
-        'empresa_id',   // Agregar si tienes esta columna en la tabla
-        'sucursal_id',   // Agregar si tienes esta columna en la tabla
-
     ];
 
     public function calificador()
     {
-        return $this->belongsTo(User::class, 'calificador_id');
+        return $this->belongsTo(User::class);
     }
 
     public function calificado()
     {
-        return $this->belongsTo(User::class, 'calificado_id');
+        return $this->belongsTo(User::class);
+    }
+
+    public function users()
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function relacion()
@@ -46,43 +50,19 @@ class Asignacion extends Model
         return $this->belongsTo(Encuesta360::class, '360_encuestas_id');
     }
 
-     // Nueva relación directa con Empresa
-     public function empresa()
-     {
-         return $this->belongsTo(Empres::class, 'empresa_id');
-     }
- 
-     // Nueva relación directa con Sucursal
-     public function sucursal()
-     {
-         return $this->belongsTo(Sucursal::class, 'sucursal_id');
-     }
- 
-     // Relación con Empresa a través del calificador
-     public function empresaCalificador()
-     {
-         return $this->hasOneThrough(
-             Empres::class,
-             User::class,
-             'id',
-             'id',
-             'calificador_id',
-             'empresa_id'
-         );
-     }
- 
-     // Relación con Sucursal a través del calificador
-     public function sucursalCalificador()
-     {
-         return $this->hasOneThrough(
-             Sucursal::class,
-             User::class,
-             'id',
-             'id',
-             'calificador_id',
-             'sucursal_id'
-         );
-     }
+    public function empresaSucursal()
+    {
+        return $this->belongsTo(EmpresSucursal::class, 'empresa_sucursal_id');
+    }
+
+    // public function sucursal()
+    // {
+    //     return $this->belongsTo()
+    // } 
+
+
+
+   
  
     
 }

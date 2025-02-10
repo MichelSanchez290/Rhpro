@@ -2,7 +2,7 @@
 
 namespace App\Livewire\PortalRh\Departament;
 
-use App\Models\PortalRh\Departament;
+use App\Models\PortalRh\Departamento;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
@@ -38,7 +38,7 @@ final class DepartamentTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Departament::query();
+        return Departamento::query();
     }
 
     public function relationSearch(): array
@@ -83,7 +83,7 @@ final class DepartamentTable extends PowerGridComponent
         $this->js('alert('.$rowId.')');
     }
 
-    public function actions(Departament $row): array
+    public function actions(Departamento $row): array
     {
         return [
             Button::add('edit')

@@ -37,20 +37,6 @@ final class PreguntaTable extends PowerGridComponent
     public function datasource(): Builder
     {
         return Pregunta::query()->with('respuestas');
-
-
-        //  return EmpresaSucursal::query()
-        //     ->join('empresas', function ($empresa){
-        //         $empresa->on('empresas.id' , '=','empresa_id');
-        //     })
-        //     ->join('sucursales', function ($sucursal){
-        //         $sucursal->on('sucursales.id' , '=','sucursal_id');
-        //     })
-        //     ->select([
-        //         'empresas.id',
-        //         'empresas.nombre',
-        //         'sucursales.clave_sucursal'
-        //     ]);
     }
 
     public function relationSearch(): array
@@ -64,8 +50,12 @@ final class PreguntaTable extends PowerGridComponent
             ->add('id')
             ->add('texto')
             ->add('descripcion')
-            ->add('respuestas_texto', fn(Pregunta $model) => $model->respuestas->pluck('texto')->join(', '))
-            ->add('respuestas_puntuacion', fn(Pregunta $model) => $model->respuestas->pluck('puntuacion')->join(', '));
+            ->add('respuestas_texto', fn(Pregunta $model) => $model->respuestas->map(function ($respuesta) {
+                return $respuesta->texto;
+            })->join('<br>'))
+            ->add('respuestas_puntuacion', fn(Pregunta $model) => $model->respuestas->map(function ($respuesta) {
+                return $respuesta->puntuacion;
+            })->join('<br>'));
     }
 
     public function columns(): array
@@ -80,13 +70,15 @@ final class PreguntaTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Respuestas', 'respuestas_texto')
+                Column::make('Respuestas', 'respuestas_texto')
                 ->sortable()
-                ->searchable(),
-
+                ->searchable()
+                ->bodyAttribute('raw-html'),
+    
             Column::make('Puntuación', 'respuestas_puntuacion')
                 ->sortable()
-                ->searchable(),
+                ->searchable()
+                ->bodyAttribute('raw-html'),
 
             Column::action('Action')
         ];

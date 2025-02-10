@@ -2,7 +2,11 @@
 
 namespace App\Livewire\Portal360;
 
+use App\Livewire\PortalRh\Empres\EmpresTable;
 use App\Models\Encuestas360\Asignacion;
+use App\Models\PortalRH\EmpresaSucursal;
+use App\Models\PortalRH\EmpresSucursal;
+
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
@@ -32,7 +36,9 @@ final class AsignacionTable extends PowerGridComponent
     public function datasource(): Builder
     {
         return Asignacion::query()
-            ->with(['calificador', 'calificado', 'relacion', 'encuesta']);
+        ->with(['calificador','users', 'calificado', 'relacion', 'encuesta']);
+        
+        
     }
 
     public function relationSearch(): array
@@ -50,7 +56,10 @@ final class AsignacionTable extends PowerGridComponent
             ->add('calificador.nombre', fn($asignacion) => $asignacion->calificador->name ?? 'N/A')
             ->add('calificado.nombre', fn($asignacion) => $asignacion->calificado->name ?? 'N/A')
             ->add('relacion.nombre', fn($asignacion) => $asignacion->relacion->nombre ?? 'N/A')
-            ->add('encuesta.nombre', fn($asignacion) => $asignacion->encuesta->nombre ?? 'N/A');
+            ->add('encuesta.nombre', fn($asignacion) => $asignacion->encuesta->nombre ?? 'N/A')
+            ->add('empresa_nombre', fn($asignacion) => $asignacion->calificador->empresa->nombre ?? 'N/A')
+            ->add('sucursal_nombre', fn($asignacion) => $asignacion->calificado->sucursal->nombre_sucursal ?? 'N/A');
+                
     }
 
     public function columns(): array
@@ -65,6 +74,15 @@ final class AsignacionTable extends PowerGridComponent
             Column::make('Fecha',  'fecha')
                 ->sortable(),
 
+                Column::make('Nombre Empresa', 'empresa_nombre')
+                ->sortable()
+                ->searchable(),
+
+            Column::make('Nombre Sucursal', 'sucursal_nombre')
+                ->sortable()
+                ->searchable(),
+
+
             Column::make('Calificador', 'calificador.nombre')
                 ->sortable()
                 ->searchable(),
@@ -78,25 +96,10 @@ final class AsignacionTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            // Column::make('Calificador id', 'calificador_id'),
-            // Column::make('Calificado id', 'calificado_id'),
-            // Column::make('Created at', 'created_at_formatted', 'created_at')
-            //     ->sortable(),
-
-            // Column::make('Created at', 'created_at')
-            //     ->sortable()
-            //     ->searchable(),
-
             Column::action('Action')
         ];
     }
 
-    // public function filters(): array
-    // {
-    //     return [
-    //         Filter::datepicker('fecha'),
-    //     ];
-    // }
 
     #[\Livewire\Attributes\On('edit')]
     public function edit($rowId): void
@@ -108,10 +111,15 @@ final class AsignacionTable extends PowerGridComponent
     {
         return [
             Button::add('edit')
-                ->slot('Edit: ' . $row->id)
-                ->id()
-                ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-                ->dispatch('edit', ['rowId' => $row->id])
+            ->slot('Editar')
+            ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'),
+            // ->route('', ['id' => Crypt::encrypt($row->id)]),
+
+
+        Button::add('delete')
+            ->slot('Eliminar')
+            ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'),
+            // ->dispatch('', ['id' => Crypt::encrypt($row->id)]),
         ];
     }
 }

@@ -8,9 +8,10 @@ use Livewire\WithFileUploads;
 use App\Models\Dx035\Encuesta;
 use App\Models\Dx035\Cuestionario;
 
-use App\Models\PortalRH\Departament;
+use App\Models\PortalRH\Empres;
 use App\Models\PortalRH\Sucursal;
 use App\Models\PortalRH\SucursalDepartament;
+use App\Models\PortalRH\EmpresSucursal;
 
 use Illuminate\Support\Str;
 
@@ -18,15 +19,27 @@ class AgregarEncuesta extends Component
 {
     use WithFileUploads;
 
-    public $Empresa, $Actividades, $sucursalDepartamentId;
+    // Propiedades para empresa, sucursal y departamento
+    public $empresa; // Declarar la propiedad empresa
+    public $sucursal; // Declarar la propiedad sucursal
+    public $departamento; // Declarar la propiedad departamento
+    public $sucursales=[];
+    public $empresas=[];
+    public $departamentos=[];
+    public $cuestionarios;
+
+
+    public $Actividades, $sucursalDepartamentId;
     public $FechaInicio, $FechaFinal, $NumeroEncuestas;
     public $cuestionariosSeleccionados = [];
     public $logo;
 
+    // Reglas de validación
     protected $rules = [
-        'Empresa' => 'required|string',
+        'empresa' => 'required|exists:empresas,id',
+        'sucursal' => 'required|exists:sucursales,id',
+        'departamento' => 'required|exists:departamentos,id',
         'Actividades' => 'required|string',
-        'sucursalDepartamentId' => 'required|exists:sucursal_departament,id',
         'FechaInicio' => 'required|date',
         'FechaFinal' => 'required|date|after_or_equal:FechaInicio',
         'NumeroEncuestas' => 'required|integer|min:1',
@@ -37,15 +50,28 @@ class AgregarEncuesta extends Component
     public function mount()
     {
         // Inicializar el array de cuestionarios seleccionados
-        $cuestionarios = Cuestionario::all();
-        foreach ($cuestionarios as $cuestionario) {
+        $this->cuestionarios = Cuestionario::get();
+        foreach ($this->cuestionarios as $cuestionario) {
             $this->cuestionariosSeleccionados[$cuestionario->id] = false;
         }
+
+        $this->empresas = Empres::get();
+
     }
 
     public function submit()
     {
         $this->validate();
+
+        // Obtener la relación sucursal-departamento
+        $sucursalDepartament = SucursalDepartament::where('sucursal', $this->sucursal)
+            ->where('departamento', $this->departamento)
+            ->first();
+
+        if (!$sucursalDepartament) {
+            session()->flash('error', 'No se encontró la relación sucursal-departamento.');
+            return;
+        }
 
         // Generar la clave automáticamente
         $clave = Str::uuid()->toString();
@@ -67,9 +93,9 @@ class AgregarEncuesta extends Component
         // Crear la encuesta
         $encuesta = Encuesta::create([
             'Clave' => $clave,
-            'Empresa' => $this->Empresa,
+            'Empresa' => Empres::find($this->empresa)->nombre, // Obtener el nombre de la empresa
             'Actividades' => $this->Actividades,
-            'sucursal_departament_id' => $this->sucursalDepartamentId,
+            'sucursal_departament_id' => $sucursalDepartament->id,
             'FechaInicio' => $this->FechaInicio,
             'FechaFinal' => $this->FechaFinal,
             'NumeroEncuestas' => $this->NumeroEncuestas,
@@ -85,31 +111,51 @@ class AgregarEncuesta extends Component
         return redirect()->route('encuesta.index');
     }
 
+    public function updatedEmpresa()
+    {
+
+        $this->sucursales=Empres::with('sucursales')->where('id',$this->empresa)->get();
+    }
+
     public function render()
     {
-        // Obtener todas las relaciones sucursal-departamento
-        $sucursalDepartamentos = SucursalDepartament::all();
+        // // Obtener todas las empresas
+        // $empresas = \App\Models\PortalRH\Empres::all();
 
-        // Obtener las sucursales y departamentos relacionados 
-        $sucursales = [];
-        $departamentos = [];
+        // // Obtener las sucursales relacionadas con la empresa seleccionada
+        // $sucursales = [];
+        // if ($this->empresa) {
+        //     // Obtener las relaciones empresa-sucursal para la empresa seleccionada
+        //     $empresasSucursales = \App\Models\PortalRH\EmpresSucursal::where('empresa', $this->empresa)->get();
 
-        foreach ($sucursalDepartamentos as $sucursalDepartamento) {
-            $sucursal = \App\Models\PortalRH\Sucursal::find($sucursalDepartamento->sucursal_id);
-            $departamento = \App\Models\PortalRH\Departament::find($sucursalDepartamento->departamento_id);
+        //     // Obtener las sucursales relacionadas
+        //     foreach ($empresasSucursales as $empresaSucursal) {
+        //         $sucursal = \App\Models\PortalRH\Sucursal::find($empresaSucursal->sucursal);
+        //         if ($sucursal) {
+        //             $sucursales[] = $sucursal;
+        //         }
+        //     }
+        // }
 
-            if ($sucursal && $departamento) {
-                $sucursalDepartamento->sucursal_nombre = $sucursal->nombre_sucursal;
-                $sucursalDepartamento->departamento_nombre = $departamento->nombre_departamento;
-            } else {
-                $sucursalDepartamento->sucursal_nombre = 'Desconocido';
-                $sucursalDepartamento->departamento_nombre = 'Desconocido';
-            }
-        }
+        // // Obtener los departamentos relacionados con la sucursal seleccionada
+        // $departamentos = [];
+        // if ($this->sucursal) {
+        //     // Obtener las relaciones sucursal-departamento para la sucursal seleccionada
+        //     $sucursalesDepartamentos = \App\Models\PortalRH\SucursalDepartament::where('sucursal', $this->sucursal)->get();
 
-        $cuestionarios = Cuestionario::all();
+        //     // Obtener los departamentos relacionados
+        //     foreach ($sucursalesDepartamentos as $sucursalDepartamento) {
+        //         $departamento = \App\Models\PortalRH\Departament::find($sucursalDepartamento->departamento);
+        //         if ($departamento) {
+        //             $departamentos[] = $departamento;
+        //         }
+        //     }
+        // }
 
-        return view('livewire.dx035.encuestas.agregar-encuesta', compact('sucursalDepartamentos', 'cuestionarios'))
+        // Obtener todos los cuestionarios
+        // $cuestionarios = Cuestionario::all();
+
+        return view('livewire.dx035.encuestas.agregar-encuesta')
             ->layout('layouts.dx035');
     }
 }

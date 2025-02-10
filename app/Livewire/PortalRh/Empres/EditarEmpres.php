@@ -3,7 +3,7 @@
 namespace App\Livewire\PortalRh\Empres;
 
 use Livewire\Component;
-use App\Models\PortalRH\Empres;
+use App\Models\PortalRH\Empresa;
 use Illuminate\Support\Facades\Crypt;
 
 class EditarEmpres extends Component
@@ -13,7 +13,7 @@ class EditarEmpres extends Component
     public function mount($id)
     {
         $id = Crypt::decrypt($id);
-        $tem = Empres::findOrFail($id);
+        $tem = Empresa::findOrFail($id);
         
         $this->empres_id = $id;
         $this->nombre = $tem->nombre;
@@ -37,7 +37,7 @@ class EditarEmpres extends Component
             'url_constancia_situacion_fiscal' => 'required',
         ]);
 
-        Empres::updateOrCreate(['id' => $this->empres_id], [
+        Empresa::updateOrCreate(['id' => $this->empres_id], [
             'nombre' => $this->nombre,
             'razon_social' => $this->razon_social,
             'rfc' => $this->rfc,

@@ -3,7 +3,7 @@
 namespace App\Livewire\PortalRh\Departament;
 
 use Livewire\Component;
-use App\Models\PortalRH\Departament;
+use App\Models\PortalRH\Departamento;
 
 class AgregarDepartament extends Component
 {
@@ -22,7 +22,7 @@ class AgregarDepartament extends Component
     {
         $this->validate();
 
-        $nuevoDepartamento = new Departament($this->departamento);
+        $nuevoDepartamento = new Departamento($this->departamento);
         $nuevoDepartamento->save();
 
         $this->departamento = [];

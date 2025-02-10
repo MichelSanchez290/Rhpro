@@ -2,6 +2,7 @@
 
 namespace App\Models\PortalRH;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -30,34 +31,37 @@ class Sucursal extends Model
         'registro_patronal_id'
     ];
 
-    public function departamentos()
-    {
-        return $this->belongsToMany(Departament::class, 'sucursal_departament', 'sucursal_id', 'departamento_id');
-    }
-
-    public function RepresentLeSucursal()
-    {
-        return $this->hasOne(RepresentLeSucursal::class);
-    }
-
-    public function RepresentTraSucursal()
-    {
-        return $this->hasOne(RepresentTraSucursal::class);
-    }
-
-    public function RegistrosPatronales()
-    {
-        return $this->belongsTo(RegistPatronal::class);
-    }
-
     public function empresas()
     {
-        return $this->belongsToMany(Empres::class);
+        return $this->belongsToMany(Empresa::class)->withPivot('empresa_id', 'sucursal_id', 'status');
     }
 
+    public function departamentos() //, 'sucursal_departament', 'sucursal_id', 'departamento_id'
+    {
+        return $this->belongsToMany(Departamento::class)->withPivot('sucursal_id', 'departamento_id', 'status');
+    }
 
+    public function user()
+    {
+        return $this->hasMany(User::class);
+    }
 
+    public function representeLeSucursal()
+    {
+        return $this->hasOne(RepresentanteLeSucursal::class);
+    }
 
+    public function representeTraSucursal()
+    {
+        return $this->hasOne(RepresentanteTraSucursal::class);
+    }
+
+    public function RegistroPatronal()
+    {
+        return $this->belongsTo(RegistroPatronal::class);
+    }
+
+    
 
     public function trabajador()
     {
@@ -66,22 +70,22 @@ class Sucursal extends Model
 
     public function becario()
     {
-        return $this->hasMany(Becari::class);
+        return $this->hasMany(Becario::class);
     }
 
-    public function practicantes()
+    public function practicante()
     {
-        return $this->hasMany(Practicant::class);
+        return $this->hasMany(Practicante::class);
     }
 
     public function instructor()
     {
-        return $this->hasMany(Instruct::class);
+        return $this->hasMany(Instructor::class);
     }
 
 
-    public function contactosSucursal()
+    public function contactoSucursal()
     {
-        return $this->belongsToMany(ContactSucursal::class);
+        return $this->belongsToMany(ContactoSucursal::class);
     }
 }

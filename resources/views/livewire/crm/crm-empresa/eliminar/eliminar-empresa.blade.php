@@ -19,7 +19,7 @@
                         d="M12 8v4m 0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
                 <h3 class="mt-5 mb-6 text-xl font-normal text-gray-500">¿Estás seguro de que deseas eliminar esta
-                    sucursal?</h3>
+                    empresa?</h3>
                 <button wire:click="deleteEmpresa"
                     class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-base inline-flex items-center px-3 py-2.5 text-center mr-2">
                     Sí, estoy seguro
@@ -33,3 +33,35 @@
         </div>
     </div>
 </div>
+
+@push('js')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Livewire.on('confirmDeleteDato', (id)=>{
+                Swal.fire({
+                    title:  "¿Estas Seguro?",
+                    text: "No podrás revertir esta acción.",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButton: "#3080d6",
+                    cancelButton: "#d33",
+                    confirmButtonText: "Aceptar",
+                    cancelButtonText: "Cancelar",
+                }).then($result) => {
+                    if(result.isConfirmed){
+                        Livewire.emit('deleteDato', id);
+                        Swal.fire(
+                            "Eliminado",
+                            "El dato ha sido eliminado correctamente",
+                            "success",
+                        );
+                    }
+                }
+            });
+
+                toastMixin.fire();
+            });
+        });
+    </script>
+@endpush

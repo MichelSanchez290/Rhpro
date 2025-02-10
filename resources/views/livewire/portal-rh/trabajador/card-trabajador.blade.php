@@ -171,8 +171,8 @@
                             <span class="bg-green-500 py-1 px-2 rounded text-white text-sm">{{ $trabajador->status }}</span>
                         </li>
                         <li class="flex border-b py-2">
-                            <span class="font-bold w-44">Sucursal:</span>
-                            <span class="text-gray-700">{{ $sucursal->nombre_sucursal ?? 'Sin Sucursal' }}</span>
+                            <span class="font-bold w-44">Puesto:</span>
+                            <span class="text-gray-700">{{ $puesto->nombre_puesto ?? 'Sin Sucursal' }}</span>
                         </li>
                         <li class="flex border-b py-2">
                             <span class="font-bold w-44">Departamento:</span>
