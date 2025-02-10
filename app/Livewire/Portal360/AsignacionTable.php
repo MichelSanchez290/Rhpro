@@ -95,25 +95,10 @@ final class AsignacionTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            // Column::make('Calificador id', 'calificador_id'),
-            // Column::make('Calificado id', 'calificado_id'),
-            // Column::make('Created at', 'created_at_formatted', 'created_at')
-            //     ->sortable(),
-
-            // Column::make('Created at', 'created_at')
-            //     ->sortable()
-            //     ->searchable(),
-
             Column::action('Action')
         ];
     }
 
-    // public function filters(): array
-    // {
-    //     return [
-    //         Filter::datepicker('fecha'),
-    //     ];
-    // }
 
     #[\Livewire\Attributes\On('edit')]
     public function edit($rowId): void
@@ -125,10 +110,15 @@ final class AsignacionTable extends PowerGridComponent
     {
         return [
             Button::add('edit')
-                ->slot('Edit: ' . $row->id)
-                ->id()
-                ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-                ->dispatch('edit', ['rowId' => $row->id])
+            ->slot('Editar')
+            ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'),
+            // ->route('', ['id' => Crypt::encrypt($row->id)]),
+
+
+        Button::add('delete')
+            ->slot('Eliminar')
+            ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'),
+            // ->dispatch('', ['id' => Crypt::encrypt($row->id)]),
         ];
     }
 }

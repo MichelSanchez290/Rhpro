@@ -18,8 +18,8 @@ class Empresa extends Model
 
     //especifica las columnas
     protected $fillable = [
-        'id', 
-        'nombre', 
+        'id',
+        'nombre',
         'razon_social',
         'rfc',
         'nombre_comercial',
@@ -33,11 +33,14 @@ class Empresa extends Model
         return $this->belongsToMany(RegistPatronal::class);
     }
 
+
+
+    // In App\Models\PortalRH\Empresa
     public function sucursales()
     {
-        return $this->belongsToMany(Sucursal::class);
+        return $this->belongsToMany(Sucursal::class, 'empresa_sucursal', 'empresa_id', 'sucursal_id');
     }
-   
+
 
     public function usuarios()
     {

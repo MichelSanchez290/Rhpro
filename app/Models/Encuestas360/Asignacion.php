@@ -55,6 +55,11 @@ class Asignacion extends Model
         return $this->belongsTo(EmpresSucursal::class, 'empresa_sucursal_id');
     }
 
+    // public function sucursal()
+    // {
+    //     return $this->belongsTo()
+    // } 
+
 
 
    
