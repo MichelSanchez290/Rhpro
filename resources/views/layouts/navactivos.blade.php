@@ -264,6 +264,7 @@
                                 class="absolute max-w-xs py-1 bg-white rounded-md shadow-lg min-w-max left-5 right-5 bottom-full ring-1 ring-black ring-opacity-5 focus:outline-none"
                                 tabindex="-1" role="menu" aria-orientation="vertical" aria-label="User menu">
                                 <a href="#" role="menuitem"
+                                    onclick="Livewire.dispatch('openModal', { component: 'card' })"
                                     class="block px-4 py-2 text-sm hover:bg-[#1EA4D9]  text-gray-900 hover:text-white">
                                     Tu perfil
                                 </a>

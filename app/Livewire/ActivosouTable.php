@@ -11,16 +11,21 @@ use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
+use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
+use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 
 final class ActivosouTable extends PowerGridComponent
 {
     public string $tableName = 'activosou-table-ue4bsu-table';
-
+    protected $listeners = ['refreshPowerGrid' => '$refresh'];
     public function setUp(): array
     {
         $this->showCheckBox();
 
         return [
+            PowerGrid::exportable('export')
+                ->striped()
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             PowerGrid::header()
                 ->showSearchInput(),
             PowerGrid::footer()
@@ -31,7 +36,8 @@ final class ActivosouTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return ActivoSouvenir::query();
+        return ActivoSouvenir::query()
+            ->with(['tipoActivo', 'anioEstimado']);
     }
 
     public function relationSearch(): array
@@ -43,7 +49,6 @@ final class ActivosouTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('id')
-            ->add('id')
             ->add('codigo')
             ->add('productos')
             ->add('descripcion')
@@ -53,19 +58,14 @@ final class ActivosouTable extends PowerGridComponent
             ->add('precio')
             ->add('estado')
             ->add('disponible')
-            ->add('fecha_adquisicion_formatted', fn (ActivoSouvenir $model) => Carbon::parse($model->fecha_adquisicion)->format('d/m/Y'))
-            ->add('tipo_activo_id')
-            ->add('aniosestimado_id')
-            ->add('foto1')
-            ->add('foto2')
-            ->add('foto3')
-            ->add('created_at');
+            ->add('fecha_adquisicion_formatted', fn(ActivoSouvenir $model) => Carbon::parse($model->fecha_adquisicion)->format('d/m/Y'))
+            ->add('tipo_activo_nombre', fn(ActivoSouvenir $model) => $model->tipoActivo->nombre_activo ?? 'N/A')
+            ->add('anioEstimado', fn(ActivoSouvenir $model) => $model->anioEstimado->vida_util_año ?? 'No asignado');
     }
 
     public function columns(): array
     {
         return [
-            Column::make('Id', 'id'),
             Column::make('Id', 'id'),
             Column::make('Codigo', 'codigo')
                 ->sortable()
@@ -103,27 +103,14 @@ final class ActivosouTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Fecha adquisicion', 'fecha_adquisicion_formatted', 'fecha_adquisicion')
+                Column::make('Fecha adquisicion', 'fecha_adquisicion_formatted', 'fecha_adquisicion')
                 ->sortable(),
 
-            Column::make('Tipo activo id', 'tipo_activo_id'),
-            Column::make('Aniosestimado id', 'aniosestimado_id'),
-            Column::make('Foto1', 'foto1')
+                Column::make('Tipo Activo', 'tipo_activo_nombre')
                 ->sortable()
                 ->searchable(),
-
-            Column::make('Foto2', 'foto2')
-                ->sortable()
-                ->searchable(),
-
-            Column::make('Foto3', 'foto3')
-                ->sortable()
-                ->searchable(),
-
-            Column::make('Created at', 'created_at_formatted', 'created_at')
-                ->sortable(),
-
-            Column::make('Created at', 'created_at')
+            Column::make('Año Estimado', 'anioEstimado')->sortable()->searchable(),
+            Column::make('Color', 'color')
                 ->sortable()
                 ->searchable(),
 
@@ -148,10 +135,19 @@ final class ActivosouTable extends PowerGridComponent
     {
         return [
             Button::add('edit')
-                ->slot('Edit: '.$row->id)
-                ->id()
-                ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-                ->dispatch('edit', ['rowId' => $row->id])
+                ->slot('Editar')
+                ->class('btn btn-primary')
+                ->route('editaractsou', ['id' => $row->id]),
+                Button::add('delete')
+                ->icon('default-trash')
+                ->class('btn btn-danger')
+                ->dispatch('openModal', [
+                    'component' => 'borrar-activo',
+                    'arguments' => [
+                        'vista' => 'mostraractsou', // Nombre de la vista actual
+                        'activo_id' => $row->id
+                    ]
+                ]),
         ];
     }
 
