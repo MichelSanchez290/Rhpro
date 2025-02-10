@@ -19,6 +19,117 @@
 
         <div class="w-full md:w-1/2 p-4 flex flex-col">
             <div class="bg-white rounded-lg shadow-xl p-8 flex-1">
+                <h2 class="text-3xl font-bold text-center text-indigo-700">{{ $perfilactual->nombre_puesto ?? 'Sin asignar' }}</h2>
+                <p class="text-gray-600 mt-2"><strong class="text-black">Area:</strong> {{ $perfilactual?->area ?? 'No definido' }}</p>
+                <p class="text-gray-600"><strong class="text-black">Proceso:</strong> {{ $perfilactual?->proceso ?? 'No definido' }}</p>
+                <p class="text-gray-600"><strong class="text-black">Misión:</strong> {{ $perfilactual?->mision ?? 'No definido' }}</p>
+
+                <div class="mt-4">
+                    <h3 class="text-xl font-bold text-indigo-700 mb-3">Funciones Específicas</h3>
+                    @forelse($funcionesEspecificas as $funcion)
+                        <div class="bg-white shadow-md rounded-lg p-4 mb-3 border-l-4 border-indigo-500">
+                            <p class="text-gray-800"><strong class="text-indigo-600">Nombre:</strong> {{ $funcion->nombre }}</p>
+                        </div>
+                    @empty
+                        <div class="text-gray-500 italic">No hay funciones específicas registradas</div>
+                    @endforelse
+                </div>
+
+                <p class="text-gray-600"><strong class="text-black">Puesto Reporta:</strong> {{ $perfilactual?->puesto_reporta ?? 'No definido' }}</p>
+                <p class="text-gray-600"><strong class="text-black">Puestos que le reportan: </strong> {{ $perfilactual?->puestos_que_le_reportan ?? 'No definido' }}</p>
+                <p class="text-gray-600"><strong class="text-black">Suplencia: </strong> {{ $perfilactual?->suplencia ?? 'No definido' }}</p>
+
+                <div class="mt-4">
+                    <h3 class="text-xl font-bold text-indigo-700 mb-3">Relaciones Internas</h3>
+                    @forelse($relacionesInternas as $interna)
+                        <div class="bg-white shadow-md rounded-lg p-4 mb-3 border-l-4 border-indigo-500">
+                            <p class="text-gray-800"><strong class="text-indigo-600">Puesto:</strong>{{ $interna->puesto }}</p>
+                            <p class="text-gray-800"><strong class="text-indigo-600">Razón o motivo: </strong>{{ $interna->razon_motivo }}</p>
+                            <p class="text-gray-800"><strong class="text-indigo-600">Frecuencia:</strong>{{ $interna->frecuencia }}</p>
+                        </div>
+                    @empty
+                        <div class="text-gray-500 italic">No hay relaciones internas registradas</div>
+                    @endforelse
+                </div>
+
+                <div class="mt-4">
+                    <h3 class="text-xl font-bold text-indigo-700 mb-3">Relaciones Externas</h3>
+                    @forelse($relacionesExternas as $interna)
+                        <div class="bg-white shadow-md rounded-lg p-4 mb-3 border-l-4 border-indigo-500">
+                            <p class="text-gray-800"><strong class="text-indigo-600">Nombre:</strong>{{ $interna->nombre }}</p>
+                            <p class="text-gray-800"><strong class="text-indigo-600">Razón o motivo: </strong>{{ $interna->razon_motivo }}</p>
+                            <p class="text-gray-800"><strong class="text-indigo-600">Frecuencia:</strong>{{ $interna->frecuencia }}</p>
+                        </div>
+                    @empty
+                        <div class="text-gray-500 italic">No hay relaciones externas registradas</div>
+                    @endforelse
+                </div>
+
+
+                <p class="text-gray-600"><strong class="text-black">Rango toma de decisiones:</strong> {{ $perfilactual?->rango_toma_desicones ?? 'No definido' }}</p>
+                <p class="text-gray-600"><strong class="text-black">Decisiones directas:</strong> {{ $perfilactual?->desiciones_directas ?? 'No definido' }}</p>
+
+                <div class="mt-4">
+                    <h3 class="text-xl font-bold text-indigo-700 mb-3">Responsabilidades Universales</h3>
+                    @forelse($responsabilidadesUniversales as $universal)
+                        <div class="bg-white shadow-md rounded-lg p-4 mb-3 border-l-4 border-indigo-500">
+                            <p class="text-gray-800"><strong class="text-indigo-600">Sistema:</strong>{{ $universal->sistema }}</p>
+                            <p class="text-gray-800"><strong class="text-indigo-600">Responsabilidad: </strong>{{ $universal->responsalidad }}</p>
+                        </div>
+                    @empty
+                        <div class="text-gray-500 italic">No hay relaciones externas asignadas</div>
+                    @endforelse
+                </div>
+
+                <p class="text-gray-600"><strong class="text-black">Edad deseable:</strong> {{ $perfilactual?->rango_edad_desable ?? 'No definido' }}</p>
+                <p class="text-gray-600"><strong class="text-black">Sexo preferente:</strong> {{ $perfilactual?->sexo_preferente ?? 'No definido' }}</p>
+                <p class="text-gray-600"><strong class="text-black">Estado civil deseable:</strong> {{ $perfilactual?->estado_civil_deseable ?? 'No definido' }}</p>
+                <p class="text-gray-600"><strong class="text-black">Escolaridad:</strong> {{ $perfilactual?->escolaridad ?? 'No definido' }}</p>
+                <p class="text-gray-600"><strong class="text-black">Idioma requerido:</strong> {{ $perfilactual?->idioma_requerido ?? 'No definido' }}</p>
+                <p class="text-gray-600"><strong class="text-black">Experiencia Requerida:</strong> {{ $perfilactual?->experiencia_requerida ?? 'No definido' }}</p>
+                <p class="text-gray-600"><strong class="text-black">Nivel riesgo físico:</strong> {{ $perfilactual?->nivel_riesgo_fisico ?? 'No definido' }}</p>
+
+                <div class="mt-4">
+                    <h3 class="text-xl font-bold text-indigo-700 mb-3">Formación y Habilidades Humanas</h3>
+                    @forelse($habilidadesHumanas as $humana)
+                        <div class="bg-white shadow-md rounded-lg p-4 mb-3 border-l-4 border-indigo-500">
+                            <p class="text-gray-800"><strong class="text-indigo-600">Descripción:</strong>{{ $humana->descripcion }}</p>
+                            <p class="text-gray-800"><strong class="text-indigo-600">Nivel: </strong>{{ $humana->nivel }}</p>
+                        </div>
+                    @empty
+                        <div class="text-gray-500 italic">No hay relaciones externas asignadas</div>
+                    @endforelse
+                </div>
+
+                <div class="mt-4">
+                    <h3 class="text-xl font-bold text-indigo-700 mb-3">Formación y Habilidades Técnicas</h3>
+                    @forelse($habilidadesTecnicas as $tecnica)
+                        <div class="bg-white shadow-md rounded-lg p-4 mb-3 border-l-4 border-indigo-500">
+                            <p class="text-gray-800"><strong class="text-indigo-600">Descripción:</strong>{{ $tecnica->descripcion }}</p>
+                            <p class="text-gray-800"><strong class="text-indigo-600">Nivel: </strong>{{ $tecnica->nivel }}</p>
+                        </div>
+                    @empty
+                        <div class="text-gray-500 italic">No hay relaciones externas asignadas</div>
+                    @endforelse
+                </div>
+
+                <p class="text-gray-600"><strong class="text-black">Elaboro Nombre:</strong> {{ $perfilactual?->elaboro_nombre ?? 'No definido' }}</p>
+                <p class="text-gray-600"><strong class="text-black">Elaboro Puesto:</strong> {{ $perfilactual?->elaboro_puesto ?? 'No definido' }}</p>
+                    
+                <p class="text-gray-600"><strong class="text-black">Reviso Nombre:</strong> {{ $perfilactual?->reviso_nombre ?? 'No definido' }}</p>
+                <p class="text-gray-600"><strong class="text-black">Reviso Puesto:</strong> {{ $perfilactual?->reviso_puesto ?? 'No definido' }}</p>
+                    
+                <p class="text-gray-600"><strong class="text-black">Autorizo Nombre:</strong> {{ $perfilactual?->autorizo_nombre ?? 'No definido' }}</p>
+                <p class="text-gray-600"><strong class="text-black">Autorizo Puesto:</strong> {{ $perfilactual?->autorizo_puesto ?? 'No definido' }}</p>
+
+                <p class="text-gray-600 mt-4"><strong class="text-black">Estado:</strong> {{ $perfilactual?->status ?? 'No definido' }}</p>
+            </div>
+        </div>
+
+
+        <div class="w-full md:w-1/2 p-4 flex flex-col">
+
+            <div class="bg-white rounded-lg shadow-xl p-8 flex-1">
                 <h2 class="text-3xl font-bold text-center text-indigo-700">{{ $detallePuesto->nombre_puesto ?? '---' }}
                 </h2>
                 <p class="text-gray-600 mt-2"><strong class="text-black">Area:</strong> {{ $detallePuesto->area ?? '---' }}</p>
@@ -132,79 +243,51 @@
                 <p class="text-gray-600 mt-4"><strong class="text-black">Estatus:</strong> {{ $detallePuesto->status ?? '---' }}</p>
             </div>
         </div>
-
-
-        <div class="w-full md:w-1/2 p-4 flex flex-col">
-
-            <div class="bg-white rounded-lg shadow-xl p-8 flex-1">
-                <h2 class="text-3xl font-bold text-center text-indigo-700">Nombre del puesto: </h2>
-                <p class="text-gray-600 mt-2">Área:</p>
-                <p class="text-gray-600">Proceso:</p>
-                <p class="text-gray-600">Misión:</p>
-
-                <div class="mt-4">
-                    <h3 class="text-lg font-semibold text-indigo-600">Funciones Específicas</h3>
-                </div>
-
-                <p class="text-gray-600">Puesto Reporta:</p>
-                <p class="text-gray-600">Puestos que le reportan:</p>
-                <p class="text-gray-600">Suplencia:</p>
-
-                <div class="mt-4">
-                    <h3 class="text-lg font-semibold text-indigo-600">Relaciones Internas</h3>
-                </div>
-
-                <div class="mt-4">
-                    <h3 class="text-lg font-semibold text-indigo-600">Relaciones Externas</h3>
-                </div>
-
-                <p class="text-gray-600">Rango toma de decisiones:</p>
-                <p class="text-gray-600">Decisiones directas:</p>
-
-                <div class="mt-4">
-                    <h3 class="text-lg font-semibold text-indigo-600">Responsabilidades Universales</h3>
-                </div>
-
-                <p class="text-gray-600">Rango edad deseable:</p>
-                <p class="text-gray-600">Sexo preferente:</p>
-                <p class="text-gray-600">Estado civil deseable:</p>
-                <p class="text-gray-600">Escolaridad:</p>
-                <p class="text-gray-600">Idioma requerido:</p>
-                <p class="text-gray-600">Experiencia Requerida:</p>
-                <p class="text-gray-600">Nivel riesgo físico:</p>
-
-                <div class="mt-4">
-                    <h3 class="text-lg font-semibold text-indigo-600">Formación Habilidad Humana</h3>
-                </div>
-
-                <div class="mt-4">
-                    <h3 class="text-lg font-semibold text-indigo-600">Formación Habilidad Técnica</h3>
-                </div>
-
-                <p class="text-gray-600">Elaboro Nombre:</p>
-                <p class="text-gray-600">Elaboro Puesto:</p>
-                    
-                <p class="text-gray-600">Reviso Nombre:</p>
-                <p class="text-gray-600">Reviso Puesto:</p>
-                    
-                <p class="text-gray-600">Autorizo Nombre:</p>
-                <p class="text-gray-600">Autorizo Puesto:</p>
-
-                <p class="text-gray-600 mt-4">Estado:</p>
-            </div>
-        </div>
     </div>
 
-    <div class="mt-10 bg-blue-100 text-center py-8 px-6 rounded-lg shadow-lg w-full max-w-5xl mx-auto">
+    <div class="mt-10 bg-white text-center py-8 px-6 rounded-lg shadow-lg w-full max-w-5xl mx-auto">
         <h2 class="text-2xl font-bold text-blue-900">Conclusión Generada</h2>
-        <p class="text-gray-700 mt-4 text-lg">
-            {{ $conclusion ?? 'Aún no hay una conclusión generada por el sistema.' }}
-        </p>
 
-        <button class="mt-6 px-5 py-2 bg-blue-900 text-white text-sm rounded-lg hover:bg-blue-700 transition">
-            Regenerar Conclusión
+        @if ($mostrarTabla)
+            <!-- Tabla de comparación estilizada -->
+            <div class="overflow-x-auto mt-4">
+                <table class="min-w-full bg-white border border-gray-300 shadow-md rounded-lg">
+                    <thead class="bg-blue-900 text-white">
+                        <tr>
+                            <th class="px-4 py-3 text-left">Competencia Evaluada</th>
+                            <th class="px-4 py-3 text-center">Nivel de Puesto Actual</th>
+                            <th class="px-4 py-3 text-center">Nivel de Puesto a Comparar</th>
+                            <th class="px-4 py-3 text-center">Diferencia</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        @foreach ($habilidadesComparadas as $habilidad)
+                            <tr class="hover:bg-gray-100 transition">
+                                <td class="px-4 py-3 text-gray-800 text-left">{{ $habilidad['nombre'] }}</td>
+                                <td class="px-4 py-3 text-center text-gray-900 font-semibold">{{ $habilidad['nivel_usuario'] }}</td>
+                                <td class="px-4 py-3 text-center text-gray-900 font-semibold">{{ $habilidad['nivel_puesto'] }}</td>
+                                <td class="px-4 py-3 text-center font-bold 
+                                    {{ $habilidad['diferencia'] < 0 ? 'text-red-600' : ($habilidad['diferencia'] > 0 ? 'text-green-600' : 'text-gray-600') }}">
+                                    {{ $habilidad['diferencia'] }}
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>                
+            </div>
+        @else
+            <!-- Mensaje predeterminado cuando no se ha generado la conclusión -->
+            <p class="text-gray-700 mt-4 text-lg italic">
+                Aún no hay una conclusión generada por el sistema.
+            </p>
+        @endif
+
+        <!-- Botón estilizado -->
+        <button wire:click="generarConclusion" class="mt-6 px-6 py-2 bg-blue-900 text-white text-lg font-semibold rounded-lg shadow-md hover:bg-blue-700 transition">
+            Generar Conclusión
         </button>
     </div>
+
 
     <div class="flex justify-center gap-4 mt-6">
         <button class="px-6 py-2 text-white bg-red-600 rounded-lg shadow-md hover:bg-red-700 transition">

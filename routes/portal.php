@@ -71,7 +71,7 @@ Route::get('/editar-habilidades-tecnicas/{id}', EditarHabilidadesTecnicas::class
 //trabajadores
 Route::get('/users', MostrarUsuario::class)->name('mostrarUsuarios');
 Route::get('/users/{id}', VerMasUsuario::class)->name('vermasUsuarios');
-Route::get('/user/comparar', CompararPerfilPuesto::class)->name('compararPerfilPuesto');
+Route::get('/user/comparar/{id}', CompararPerfilPuesto::class)->name('compararPerfilPuesto');
 
 //asociar puesto para trabajadores
 Route::get('/asociar-perfil-puesto', AsociarPuestoTrabajador::class)->name('asociarPuestoTrabajador');

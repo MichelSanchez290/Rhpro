@@ -26,11 +26,6 @@ class VerMasUsuario extends Component
             $habilidadesHumanas, 
             $habilidadesTecnicas,
             $perfilactual;
-
-    public function comparar()
-    {
-        return redirect()->route('compararPerfilPuesto');
-    }
     
     public function mount($id){
         $id = Crypt::decrypt($id);

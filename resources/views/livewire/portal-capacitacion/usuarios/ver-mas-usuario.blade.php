@@ -20,7 +20,8 @@
             </div>
             <div class="flex-1 flex flex-col items-center lg:items-end justify-end px-8 mt-2">
                 <div class="flex items-center space-x-4 mt-2">
-                    <button wire:click="comparar()" class="flex items-center bg-blue-600 hover:bg-blue-700 text-gray-100 px-4 py-2 rounded text-sm space-x-2 transition duration-100">
+                    <button onclick="window.location.href='{{ route('compararPerfilPuesto', Crypt::encrypt($userSeleccionado->id)) }}'" 
+                        class="flex items-center bg-blue-600 hover:bg-blue-700 text-gray-100 px-4 py-2 rounded text-sm space-x-2 transition duration-100">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
                         </svg>                          
@@ -86,8 +87,8 @@
                     @endforelse
                 </div>
 
-                <p class="text-gray-600">Rango toma de decisiones: {{ $perfilactual?->rango_decisiones ?? 'No definido' }}</p>
-                <p class="text-gray-600">Decisiones directas: {{ $perfilactual?->decisiones_directas ?? 'No definido' }}</p>
+                <p class="text-gray-600">Rango toma de decisiones: {{ $perfilactual?->rango_toma_desicones ?? 'No definido' }}</p>
+                <p class="text-gray-600">Decisiones directas: {{ $perfilactual?->desiciones_directas ?? 'No definido' }}</p>
 
                 <div class="mt-4">
                     <h3 class="text-xl font-bold text-indigo-700 mb-3">Responsabilidades Universales</h3>
@@ -101,13 +102,13 @@
                     @endforelse
                 </div>
 
-                <p class="text-gray-600">Edad deseable: {{ $perfilactual?->edad_deseable ?? 'No definido' }}</p>
+                <p class="text-gray-600">Edad deseable: {{ $perfilactual?->rango_edad_deseable ?? 'No definido' }}</p>
                 <p class="text-gray-600">Sexo preferente: {{ $perfilactual?->sexo_preferente ?? 'No definido' }}</p>
-                <p class="text-gray-600">Estado civil deseable: {{ $perfilactual?->estado_civil ?? 'No definido' }}</p>
+                <p class="text-gray-600">Estado civil deseable: {{ $perfilactual?->estado_civil_deseable ?? 'No definido' }}</p>
                 <p class="text-gray-600">Escolaridad: {{ $perfilactual?->escolaridad ?? 'No definido' }}</p>
-                <p class="text-gray-600">Idioma requerido: {{ $perfilactual?->idioma ?? 'No definido' }}</p>
-                <p class="text-gray-600">Experiencia Requerida: {{ $perfilactual?->experiencia ?? 'No definido' }}</p>
-                <p class="text-gray-600">Nivel riesgo físico: {{ $perfilactual?->nivel_riesgo ?? 'No definido' }}</p>
+                <p class="text-gray-600">Idioma requerido: {{ $perfilactual?->idioma_requerido ?? 'No definido' }}</p>
+                <p class="text-gray-600">Experiencia Requerida: {{ $perfilactual?->experiencia_requerida ?? 'No definido' }}</p>
+                <p class="text-gray-600">Nivel riesgo físico: {{ $perfilactual?->nivel_riesgo_fisico ?? 'No definido' }}</p>
 
                 <div class="mt-4">
                     <h3 class="text-xl font-bold text-indigo-700 mb-3">Formación y Habilidades Humanas</h3>
