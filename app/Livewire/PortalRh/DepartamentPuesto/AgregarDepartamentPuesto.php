@@ -39,8 +39,14 @@ class AgregarDepartamentPuesto extends Component
     {
         $this->validate();
 
-        $AgregarDepaPuesto = new DepartamentoPuesto($this->depaPuest);
-        $AgregarDepaPuesto->save();
+        // Insertar en la tabla pivote directamente con DB::table()
+        DB::table('departament_puest')->insert([
+            'departamento_id' => $this->depaPuest['departamento_id'],
+            'puesto_id' => $this->depaPuest['puesto_id'],
+            'status' => $this->depaPuest['status'],
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
 
         $this->depaPuest = [];
         //$this->emit('showAnimatedToast', 'Sucursal guardada correctamente');

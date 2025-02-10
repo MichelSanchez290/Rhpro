@@ -5,7 +5,6 @@ namespace App\Livewire\PortalRh\EmpresSucursal;
 use Livewire\Component;
 use App\Models\PortalRH\Empresa;
 use App\Models\PortalRH\Sucursal;
-use App\Models\PortalRH\EmpresaSucursal;
 use Illuminate\Support\Facades\DB;
 
 class AgregarEmpresSucursal extends Component
@@ -38,7 +37,7 @@ class AgregarEmpresSucursal extends Component
     {
         $this->validate();
 
-        // Insertar en la tabla intermedia directamente con DB::table()
+        // Insertar en la tabla pivote directamente con DB::table()
         DB::table('empresa_sucursal')->insert([
             'empresa_id' => $this->empressucursal['empresa_id'],
             'sucursal_id' => $this->empressucursal['sucursal_id'],

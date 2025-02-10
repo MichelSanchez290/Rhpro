@@ -11,6 +11,7 @@ class AgregarEmpres extends Component
     public $empresa = []; //almacenar 
 
 
+    /*
     public function mount(){
         $prueba = Empresa::with('sucursales')->get();
         //dd($prueba);
@@ -24,7 +25,7 @@ class AgregarEmpres extends Component
             }
             
         }
-    }
+    } */
 
     // Reglas de validación
     protected $rules = [

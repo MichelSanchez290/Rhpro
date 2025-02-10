@@ -38,8 +38,14 @@ class AgregarSucursalDepa extends Component
     {
         $this->validate();
 
-        $AgregarSucursalDepa = new SucursalDepartamento($this->sucursaldepa);
-        $AgregarSucursalDepa->save();
+        // Insertar en la tabla pivote directamente con DB::table()
+        DB::table('sucursal_departament')->insert([
+            'sucursal_id' => $this->sucursaldepa['sucursal_id'],
+            'departamento_id' => $this->sucursaldepa['departamento_id'],
+            'status' => $this->sucursaldepa['status'],
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
 
         $this->sucursaldepa = [];
         //$this->emit('showAnimatedToast', 'Sucursal guardada correctamente');
