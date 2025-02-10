@@ -128,4 +128,3 @@
         <livewire:yes/> 
     </div> --}}
 </x-app-layout>
-
