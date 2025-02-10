@@ -4,6 +4,7 @@ namespace App\Models\PortalRH;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 
 class DocumentoUser extends Model
 {
@@ -21,4 +22,14 @@ class DocumentoUser extends Model
         'user_id',
         'status',
     ];
+
+    public function documento()
+    {
+        return $this->belongsTo(Documento::class, 'documento_id');
+    }
+
+    public function usuario()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

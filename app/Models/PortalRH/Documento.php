@@ -36,6 +36,6 @@ class Documento extends Model
 
     public function usuarios()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class)->withPivot('documento_id', 'user_id', 'status');
     }
 }

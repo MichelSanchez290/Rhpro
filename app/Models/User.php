@@ -83,28 +83,36 @@ class User extends Authenticatable
         return $this->hasMany(Becario::class);
     }
 
-    
-
-
-
-    /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public function cambioSalario()
     {
-        //un user peertence a un becario
-        return $this->belongsToMany(Becari::class);
-    }
-
-    public function incidencias()
-    {
-        //un becario pertenece a un user
-        return $this->belongsToMany(Incidenci::class);
+        return $this->belongsToMany(CambioSalario::class)->withPivot('user_id', 'cambio_salario_id', 'fecha');
     }
 
     public function documentos()
     {
-        //un user peertence a un becario
-        return $this->belongsToMany(Document::class);
+        return $this->belongsToMany(Documento::class)->withPivot('documento_id', 'user_id', 'status');
     }
+
+    public function incapacidades()
+    {
+        //un becario pertenece a un user
+        return $this->belongsToMany(Incapacidad::class)->withPivot('user_id', 'incapacidad_id');
+    }
+
+    public function incidencias()
+    {
+        return $this->belongsToMany(Incidencia::class)->withPivot('user_id', 'incidencia_id');
+    }
+
+    public function retardos()
+    {
+        return $this->belongsToMany(Retardo::class)->withPivot('user_id', 'retardo_id');
+    }
+
+    /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+
+    
 
     public function bajas()
     {
@@ -118,17 +126,9 @@ class User extends Authenticatable
         return $this->hasMany(Practicant::class);
     }
 
-    public function retardos()
-    {
-        //un becario pertenece a un user
-        return $this->belongsToMany(Retard::class);
-    }
+    
 
-    public function incapacidades()
-    {
-        //un becario pertenece a un user
-        return $this->belongsToMany(Incapacidad::class);
-    }
+    
 
     public function regPatronales()
     {

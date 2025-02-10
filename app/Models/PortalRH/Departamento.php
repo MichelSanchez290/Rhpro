@@ -19,10 +19,16 @@ class Departamento extends Model
     //especifica las columnas
     protected $fillable = ['id', 'nombre_departamento'];
 
-
-    public function sucursal()
+    //->withPivot('sucursal_id', 'departamento_id', 'status');
+    //, 'sucursal_departament', 'departamento_id', 'sucursal_id')
+    public function sucursales()
     {
-        return $this->belongsToMany(Sucursal::class, 'sucursal_departament', 'departamento_id', 'sucursal_id');
+        return $this->belongsToMany(Sucursal::class)->withPivot('sucursal_id', 'departamento_id', 'status');
+    }
+
+    public function puestos()
+    {
+        return $this->belongsToMany(Puesto::class)->withPivot('departamento_id', 'puesto_id', 'status');
     }
 
 
@@ -41,7 +47,7 @@ class Departamento extends Model
         return $this->hasMany(Trabajador::class);
     }
 
-    public function practicantes()
+    public function practicante()
     {
         return $this->hasMany(Practicante::class);
     }
@@ -52,9 +58,6 @@ class Departamento extends Model
     }
 
 
-    public function puestos()
-    {
-        return $this->belongsToMany(Puesto::class, 'departament_puest');
-    }
+    
 
 }

@@ -251,6 +251,6 @@ Route::get(
     )->name('agregarempressucursal');
 
     Route::get( 
-        '/edit-empressucursal/{id}',
+        '/edit-empressucursal/{empresa_sucursal_id}',
             EditarEmpresSucursal::class
     )->name('editarempressucursal');

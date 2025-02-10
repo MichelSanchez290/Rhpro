@@ -4,7 +4,7 @@ namespace App\Livewire\PortalRh\Sucursal;
 
 use Livewire\Component;
 use App\Models\PortalRH\Sucursal;
-use App\Models\PortalRH\RegistPatronal;
+use App\Models\PortalRH\RegistroPatronal;
 
 class AgregarSucursal extends Component
 {
@@ -13,7 +13,7 @@ class AgregarSucursal extends Component
 
     public function mount()
     {
-        $this->regpatronales = RegistPatronal::all();
+        $this->regpatronales = RegistroPatronal::all();
     }
 
     // REGLAS DE VALIDACIÓN
@@ -53,6 +53,7 @@ class AgregarSucursal extends Component
 
         $AgregarSucursal = new Sucursal($this->sucursal);
         $AgregarSucursal->save();
+        //$AgregarSucursal->empresas()->attach();
 
         $this->sucursal = [];
         //$this->emit('showAnimatedToast', 'Sucursal guardada correctamente');

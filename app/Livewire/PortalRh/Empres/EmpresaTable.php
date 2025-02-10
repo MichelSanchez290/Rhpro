@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Livewire\PortalRh\Puest;
+namespace App\Livewire\PortalRh\Empres;
 
-use App\Models\PortalRh\Puesto;
+use App\Models\PortalRh\Empresa;
+use App\Models\PortalRh\Sucursal;
+
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
@@ -12,15 +14,9 @@ use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 
-use Illuminate\Support\Facades\Crypt;
-use PowerComponents\LivewirePowerGrid\Traits\WithExport; 
-use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable; 
-
-
-final class PuestTable extends PowerGridComponent
+final class EmpresaTable extends PowerGridComponent
 {
-    use WithExport;
-    public string $tableName = 'puest-table-ajm43f-table';
+    public string $tableName = 'empresa-table-khizo5-table';
 
     public function setUp(): array
     {
@@ -32,14 +28,15 @@ final class PuestTable extends PowerGridComponent
             PowerGrid::footer()
                 ->showPerPage()
                 ->showRecordCount(),
-            PowerGrid::exportable(fileName: 'puestos-export-file') 
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV), 
         ];
     }
 
     public function datasource(): Builder
     {
-        return Puesto::query();
+        return Empresa::query()->with('sucursales')
+        ->join('empresa_sucursal', 'empresas.id', '=', 'empresa_sucursal.empresa_id')
+        ->join('sucursales', 'empresa_sucursal.sucursal_id', '=', 'sucursales.id')
+        ->select('empresas.id', 'empresas.nombre', 'sucursales.nombre_sucursal as sucursal_nombre');
     }
 
     public function relationSearch(): array
@@ -52,21 +49,25 @@ final class PuestTable extends PowerGridComponent
         return PowerGrid::fields()
             ->add('id')
             ->add('id')
-            ->add('nombre_puesto')
-            ->add('created_at');
+            ->add('nombre')
+            ->add('sucursal_nombre');
+            
+            //->add('sucursal_nombre', fn(Empresa $model) => $model->sucursales->pluck('nombre_sucursal')->join(', ') ?? 'N/A');
     }
 
     public function columns(): array
     {
         return [
             Column::make('Id', 'id'),
-            Column::make('Nombre puesto', 'nombre_puesto')
+            Column::make('Nombre', 'nombre')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Created at', 'created_at')
+            Column::make('Sucursal', 'sucursal_nombre')
                 ->sortable()
                 ->searchable(),
+
+            
 
             Column::action('Action')
         ];
@@ -84,19 +85,14 @@ final class PuestTable extends PowerGridComponent
         $this->js('alert('.$rowId.')');
     }
 
-    public function actions(Puesto $row): array
+    public function actions(Empresa $row): array
     {
         return [
             Button::add('edit')
-                ->slot('Editar')
-                ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
-                ->route('editarpuesto', ['id' => Crypt::encrypt($row->id)]),
-
-
-            Button::add('delete')
-                ->slot('Eliminar')
-                ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
-                ->dispatch('confirmDelete', ['id' => $row->id]), // Emitir evento Livewire
+                ->slot('Edit: '.$row->id)
+                ->id()
+                ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
+                ->dispatch('edit', ['rowId' => $row->id])
         ];
     }
 

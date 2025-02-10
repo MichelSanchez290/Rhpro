@@ -2,7 +2,7 @@
 
 namespace App\Livewire\PortalRh\Empres;
 
-use App\Models\PortalRh\Empres;
+//use App\Models\PortalRh\Empres;
 use App\Models\PortalRH\Empresa;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;

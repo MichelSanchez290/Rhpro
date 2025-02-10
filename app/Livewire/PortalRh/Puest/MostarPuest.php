@@ -3,7 +3,7 @@
 namespace App\Livewire\PortalRh\Puest;
 
 use Livewire\Component;
-use App\Models\PortalRH\Puest;
+use App\Models\PortalRH\Puesto;
 
 class MostarPuest extends Component
 {
@@ -29,7 +29,7 @@ class MostarPuest extends Component
     public function deletePuesto()
     {
         if ($this->puestoToDelete) {
-            Puest::find($this->puestoToDelete)->delete();
+            Puesto::find($this->puestoToDelete)->delete();
             session()->flash('message', 'Departamento eliminado exitosamente.');
         }
 

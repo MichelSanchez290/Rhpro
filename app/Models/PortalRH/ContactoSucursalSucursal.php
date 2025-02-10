@@ -21,4 +21,14 @@ class ContactoSucursalSucursal extends Model
         'sucursal_id',
         'status',
     ];
+
+    public function contactoSucursal()
+    {
+        return $this->belongsTo(ContactoSucursal::class, 'contacto_sucursal_id');
+    }
+
+    public function sucursal()
+    {
+        return $this->belongsTo(Sucursal::class, 'sucursal_id');
+    }
 }

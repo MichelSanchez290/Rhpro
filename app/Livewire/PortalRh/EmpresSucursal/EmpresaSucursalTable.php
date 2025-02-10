@@ -2,7 +2,7 @@
 
 namespace App\Livewire\PortalRh\EmpresSucursal;
 
-use App\Models\PortalRh\EmpresaSucursal;
+use App\Models\PortalRh\Empresa;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
@@ -16,10 +16,9 @@ use Illuminate\Support\Facades\Crypt;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport; 
 use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable; 
 
-final class EmpresSucursalTable extends PowerGridComponent
+final class EmpresaSucursalTable extends PowerGridComponent
 {
-    public string $tableName = 'empres-sucursal-table-mrx2ky-table';
-    use WithExport;
+    public string $tableName = 'empresa-sucursal-table-zcd6vq-table';
 
     public function setUp(): array
     {
@@ -31,26 +30,26 @@ final class EmpresSucursalTable extends PowerGridComponent
             PowerGrid::footer()
                 ->showPerPage()
                 ->showRecordCount(),
-            PowerGrid::exportable(fileName: 'empresa-sucursal-export-file') 
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
         ];
     }
 
     public function datasource(): Builder
     {
-        return EmpresaSucursal::query()
-        ->leftJoin('empresas', 'empresa_sucursal.empresa_id', '=', 'empresas.id')
-        ->leftJoin('sucursales', 'empresa_sucursal.sucursal_id', '=', 'sucursales.id')
-        
-        ->select([
-            'empresa_sucursal.id', // Incluir el ID de la tabla pivote
-            'empresa_sucursal.empresa_id',
-            'empresa_sucursal.sucursal_id',
-            'empresas.nombre as empresa_nombre',
+        return Empresa::query() //->with('sucursales')
+        ->join('empresa_sucursal', 'empresas.id', '=', 'empresa_sucursal.empresa_id')
+        ->join('sucursales', 'empresa_sucursal.sucursal_id', '=', 'sucursales.id')
+        ->select(
+            'empresas.id', 
+            'empresas.nombre', 
             'sucursales.nombre_sucursal as sucursal_nombre',
-            'empresa_sucursal.created_at', // created_at también hya que seleccionarlo
+            'empresa_sucursal.id as empresa_sucursal_id', // id
+            'empresa_sucursal.created_at', 
+            'empresa_sucursal.status',
             'empresa_sucursal.updated_at'
-        ]);
+        );
+
+        //dd($query->get()); // Verifica qué valores se están obteniendo
+        //return $query;
     }
 
     public function relationSearch(): array
@@ -62,31 +61,29 @@ final class EmpresSucursalTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('id')
-            ->add('id')
-            ->add('empresa_id')
-            ->add('empresa_nombre')
-            ->add('sucursal_id')
+            ->add('empresa_sucursal_id')
+            ->add('nombre')
             ->add('sucursal_nombre')
-            ->add('status')
-            ->add('created_at')
-            ->add('updated_at');
+            ->add('created_at');
     }
 
     public function columns(): array
     {
         return [
-            Column::make('Id', 'id'),
-            Column::make('Empresa', 'empresa_nombre'),
-            Column::make('Sucursal', 'sucursal_nombre'),
+            Column::make('Id', 'empresa_sucursal_id'),
+            Column::make('Empresa', 'nombre')
+                ->sortable()
+                ->searchable(),
+            
+            Column::make('Sucursal', 'sucursal_nombre')
+                ->sortable()
+                ->searchable(),
+
             Column::make('Status', 'status')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Fecha creación', 'created_at')
-                ->sortable()
-                ->searchable(),
-
-            Column::make('Fecha actualización', 'updated_at')
+            Column::make('Created at', 'created_at')
                 ->sortable()
                 ->searchable(),
 
@@ -106,18 +103,24 @@ final class EmpresSucursalTable extends PowerGridComponent
         $this->js('alert('.$rowId.')');
     }
 
-    public function actions(EmpresaSucursal $row): array
+    public function actions(Empresa $row): array
     {
+        //dd($row->empresa_sucursal_id);
+
+        // Agrega este dd() temporalmente para verificar la encriptación
+        //dd($row->empresa_sucursal_id, Crypt::encrypt($row->empresa_sucursal_id));
+        
         return [
             Button::add('edit')
                 ->slot('Editar')
                 ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
-                ->route('editarempressucursal', ['id' => Crypt::encrypt($row->id)]),
+                //->route('editarempressucursal', ['empresa_sucursal_id' => base64_encode($row->empresa_sucursal_id)]),
+                ->route('editarempressucursal', ['empresa_sucursal_id' => Crypt::encrypt($row->empresa_sucursal_id)]),
             
             Button::add('delete')
                 ->slot('Eliminar')
                 ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
-                ->dispatch('confirmDelete', ['id' => $row->id]),
+                ->dispatch('confirmDelete', ['id' => $row->empresa_sucursal_id]),
         ];
     }
 

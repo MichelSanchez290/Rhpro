@@ -53,6 +53,11 @@ class Trabajador extends Model
         'registro_patronal_id',
     ];
 
+    public function salarios()
+    {
+        return $this->belongsToMany(Salario::class)->withPivot('salario_id', 'trabajador_id', 'status');
+    }
+
     //alcanze con el modelo 
     public function usuarios()
     {
@@ -79,9 +84,6 @@ class Trabajador extends Model
         return $this->belongsTo(RegistroPatronal::class);
     }
 
-    public function salarios()
-    {
-        return $this->belongsToMany(Salario::class);
-    }
+    
 
 }

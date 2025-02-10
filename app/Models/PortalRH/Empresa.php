@@ -28,18 +28,21 @@ class Empresa extends Model
         'url_constancia_situacion_fiscal'
     ];
 
-    public function RegistrosPatronales()
-    {
-        return $this->belongsToMany(RegistroPatronal::class);
-    }
-
     public function sucursales()
     {
-        return $this->belongsToMany(Sucursal::class);
+        return $this->belongsToMany(Sucursal::class)->withPivot('empresa_id', 'sucursal_id', 'status');
     }
-   
 
-    public function usuarios()
+    public function RegistroPatronal()
+    {
+        return $this->belongsToMany(RegistroPatronal::class)->withPivot('empresa_id', 'registro_patronal_id', 'status');
+    }
+
+    //************************************************************** 
+
+    
+
+    public function usuario()
     {
         return $this->hasMany(User::class, 'empresas_id', 'id');
     }

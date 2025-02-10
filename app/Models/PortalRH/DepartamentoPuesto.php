@@ -21,4 +21,15 @@ class DepartamentoPuesto extends Model
         'puesto_id',
         'status',
     ];
+
+
+    public function departamento()
+    {
+        return $this->belongsTo(Departamento::class, 'departamento_id');
+    }
+
+    public function puesto()
+    {
+        return $this->belongsTo(Puesto::class, 'puesto_id');
+    }
 }

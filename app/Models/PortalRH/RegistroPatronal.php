@@ -58,7 +58,7 @@ class RegistroPatronal extends Model
 
     public function empresas()
     {
-        return $this->belongsToMany(Empresa::class);
+        return $this->belongsToMany(Empresa::class)->withPivot('empresa_id', 'registro_patronal_id', 'status');
     }
 
     public function becarios()

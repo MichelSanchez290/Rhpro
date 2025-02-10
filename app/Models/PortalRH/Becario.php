@@ -43,25 +43,25 @@ class Becario extends Model
     ];
 
     //alcanze con el modelo 
-    public function usuarios()
+    public function usuario()
     {
         //un becario pertenece a un user
         return $this->belongsTo(User::class, 'user_id');
     } 
 
-    public function departamentos()
+    public function departamento()
     {
         //cada trabajador pertenece a 
         return $this->belongsTo(Departamento::class);
     }
 
-    public function puestos()
+    public function puesto()
     {
         //cada trabajador pertenece a 
         return $this->belongsTo(Puesto::class);
     }
 
-    public function registrosPatronales()
+    public function registroPatronal()
     {
         //cada trabajador pertenece a 
         return $this->belongsTo(RegistroPatronal::class);

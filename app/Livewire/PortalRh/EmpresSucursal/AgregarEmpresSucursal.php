@@ -3,9 +3,9 @@
 namespace App\Livewire\PortalRh\EmpresSucursal;
 
 use Livewire\Component;
-use App\Models\PortalRH\Empres;
+use App\Models\PortalRH\Empresa;
 use App\Models\PortalRH\Sucursal;
-use App\Models\PortalRH\EmpresSucursal;
+use App\Models\PortalRH\EmpresaSucursal;
 use Illuminate\Support\Facades\DB;
 
 class AgregarEmpresSucursal extends Component
@@ -17,7 +17,7 @@ class AgregarEmpresSucursal extends Component
     public function mount()
     {
         $this->sucursales = Sucursal::all();
-        $this->empresas = Empres::all();
+        $this->empresas = Empresa::all();
     }
 
     // REGLAS DE VALIDACIÓN
@@ -38,8 +38,14 @@ class AgregarEmpresSucursal extends Component
     {
         $this->validate();
 
-        $AgregarEmpresSucursal = new EmpresSucursal($this->empressucursal);
-        $AgregarEmpresSucursal->save();
+        // Insertar en la tabla intermedia directamente con DB::table()
+        DB::table('empresa_sucursal')->insert([
+            'empresa_id' => $this->empressucursal['empresa_id'],
+            'sucursal_id' => $this->empressucursal['sucursal_id'],
+            'status' => $this->empressucursal['status'],
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
 
         $this->empressucursal = [];
         //$this->emit('showAnimatedToast', 'Sucursal guardada correctamente');

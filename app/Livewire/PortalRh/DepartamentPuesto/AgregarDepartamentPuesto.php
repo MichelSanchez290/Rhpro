@@ -3,9 +3,9 @@
 namespace App\Livewire\PortalRh\DepartamentPuesto;
 
 use Livewire\Component;
-use App\Models\PortalRH\Departament;
-use App\Models\PortalRH\Puest;
-use App\Models\PortalRH\DepartamentPuest;
+use App\Models\PortalRH\Departamento;
+use App\Models\PortalRH\Puesto;
+use App\Models\PortalRH\DepartamentoPuesto;
 use Illuminate\Support\Facades\DB;
 
 class AgregarDepartamentPuesto extends Component
@@ -16,8 +16,8 @@ class AgregarDepartamentPuesto extends Component
 
     public function mount()
     { 
-        $this->departamentos = Departament::all();
-        $this->puestos = Puest::all();
+        $this->departamentos = Departamento::all();
+        $this->puestos = Puesto::all();
     }
 
     // REGLAS DE VALIDACIÓN
@@ -39,7 +39,7 @@ class AgregarDepartamentPuesto extends Component
     {
         $this->validate();
 
-        $AgregarDepaPuesto = new DepartamentPuest($this->depaPuest);
+        $AgregarDepaPuesto = new DepartamentoPuesto($this->depaPuest);
         $AgregarDepaPuesto->save();
 
         $this->depaPuest = [];

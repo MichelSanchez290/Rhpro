@@ -288,21 +288,21 @@
 
                     <!-- Usuario -->
                     <div class="grid grid-cols-1 mt-5">
-                        <label for="sucursal_id"
+                        <label for="puesto_id"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
-                            Sucursales</label>
-                        <select wire:model.defer="trabajador.sucursal_id" id="sucursal_id"
+                            Puestos</label>
+                        <select wire:model.defer="trabajador.puesto_id" id="puesto_id"
                             class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-                            <option value=""> --- Seleccione una Sucursal --- </option>
-                            @foreach ($sucursales as $sucursal)
-                                <option value="{{ $sucursal->id }}">{{ $sucursal->nombre_sucursal }}</option>
+                            <option value=""> --- Seleccione un puesto --- </option>
+                            @foreach ($puestos as $puesto)
+                                <option value="{{ $puesto->id }}">{{ $puesto->nombre_puesto }}</option>
                             @endforeach
                         </select>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
-                    <!-- Usuario -->
+                    <!--  -->
                     <div class="grid grid-cols-1 mt-5">
                         <label for="departamento_id"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
@@ -316,6 +316,18 @@
                         </select>
                     </div>
 
+                    <div class="grid grid-cols-1 mt-5">
+                        <label for="registro_patronal_id"
+                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
+                            Registros Patronales</label>
+                        <select wire:model.defer="trabajador.registro_patronal_id" id="registro_patronal_id"
+                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                            <option value=""> ---  Seleccione un Registro Patronal --- </option>
+                            @foreach ($registros_patronales as $registro_patronal)
+                                <option value="{{ $registro_patronal->id }}">{{ $registro_patronal->registro_patronal }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
 
                 <!-- Botones -->

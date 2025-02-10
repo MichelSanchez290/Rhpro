@@ -26,6 +26,6 @@ class Incidencia extends Model
     public function usuarios()
     {
         //un becario pertenece a un user
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class)->withPivot('user_id', 'incidencia_id');
     }
 }

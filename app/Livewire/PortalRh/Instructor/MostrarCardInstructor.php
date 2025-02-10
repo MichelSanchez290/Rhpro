@@ -3,9 +3,9 @@
 namespace App\Livewire\PortalRh\Instructor;
 
 use Livewire\Component;
-use App\Models\PortalRH\Instruct;
+use App\Models\PortalRH\Instructor;
 use App\Models\PortalRH\Sucursal;
-use App\Models\PortalRH\Departament;
+use App\Models\PortalRH\Departamento;
 use App\Models\User;
 use Illuminate\Support\Facades\Crypt;
 
@@ -16,10 +16,10 @@ class MostrarCardInstructor extends Component
     public function mount()
     {
         // Obtener todos los registros de las tablas relacionadas
-        $this->instructores = Instruct::all();
+        $this->instructores = Instructor::all();
         $this->usuarios = User::all()->keyBy('id'); // Indexamos por ID para acceso rápido
         $this->sucursales = Sucursal::all()->keyBy('id');
-        $this->departamentos = Departament::all()->keyBy('id');
+        $this->departamentos = Departamento::all()->keyBy('id');
     }
 
     public function redirigir($id)

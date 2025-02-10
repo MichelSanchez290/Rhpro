@@ -24,6 +24,6 @@ class Salario extends Model
 
     public function trabajadores()
     {
-        return $this->belongsToMany(Trabajador::class);
+        return $this->belongsToMany(Trabajador::class)->withPivot('salario_id', 'trabajador_id', 'status');
     }
 }

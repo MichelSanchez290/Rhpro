@@ -24,7 +24,7 @@ class Puesto extends Model
 
     public function departamentos()
     {
-        return $this->belongsToMany(Departamento::class, 'departament_puest');
+        return $this->belongsToMany(Departamento::class)->withPivot('departamento_id', 'puesto_id', 'status');
     }
 
     public function becarios()
@@ -32,7 +32,7 @@ class Puesto extends Model
         return $this->hasMany(Becario::class);
     }
 
-    public function trabajadores()
+    public function trabajador()
     {
         return $this->hasMany(Trabajador::class);
     }

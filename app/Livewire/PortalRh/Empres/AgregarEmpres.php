@@ -3,11 +3,28 @@
 namespace App\Livewire\PortalRh\Empres;
 
 use Livewire\Component;
-use App\Models\PortalRH\Empres;
+use App\Models\PortalRH\Empresa;
 
 class AgregarEmpres extends Component
 {
+    
     public $empresa = []; //almacenar 
+
+
+    public function mount(){
+        $prueba = Empresa::with('sucursales')->get();
+        //dd($prueba);
+
+
+
+        foreach($prueba as $p){
+
+            foreach($p->sucursales as $sucursales){
+                dd($sucursales->nombre_sucursal);
+            }
+            
+        }
+    }
 
     // Reglas de validación
     protected $rules = [
@@ -19,6 +36,8 @@ class AgregarEmpres extends Component
         'empresa.representante_legal' => 'required',
         'empresa.url_constancia_situacion_fiscal' => 'nullable|url',
     ];
+
+
     
     protected $messages = [
         'empresa.nombre.required' => 'El nombre es obligatorio.',
@@ -30,11 +49,13 @@ class AgregarEmpres extends Component
         'empresa.url_constancia_situacion_fiscal.url' => 'Debe proporcionar una URL válida.',
     ];
     
+
     public function saveEmpres()
     {
+
         $this->validate();
 
-        $nuevaEmpresa = new Empres($this->empresa);
+        $nuevaEmpresa = new Empresa($this->empresa);
         $nuevaEmpresa->save();
 
         $this->empresa = [];

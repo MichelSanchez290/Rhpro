@@ -3,9 +3,9 @@
 namespace App\Livewire\PortalRh\SucursalDepa;
 
 use Livewire\Component;
-use App\Models\PortalRH\Departament;
+use App\Models\PortalRH\Departamento;
 use App\Models\PortalRH\Sucursal;
-use App\Models\PortalRH\SucursalDepartament;
+use App\Models\PortalRH\SucursalDepartamento;
 use Illuminate\Support\Facades\DB;
 
 class AgregarSucursalDepa extends Component
@@ -17,7 +17,7 @@ class AgregarSucursalDepa extends Component
     public function mount()
     {
         $this->sucursales = Sucursal::all();
-        $this->departamentos = Departament::all();
+        $this->departamentos = Departamento::all();
     }
 
     // REGLAS DE VALIDACIÓN
@@ -38,7 +38,7 @@ class AgregarSucursalDepa extends Component
     {
         $this->validate();
 
-        $AgregarSucursalDepa = new SucursalDepartament($this->sucursaldepa);
+        $AgregarSucursalDepa = new SucursalDepartamento($this->sucursaldepa);
         $AgregarSucursalDepa->save();
 
         $this->sucursaldepa = [];

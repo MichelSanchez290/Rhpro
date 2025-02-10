@@ -3,9 +3,9 @@
 namespace App\Livewire\PortalRh\SucursalDepa;
 
 use Livewire\Component;
-use App\Models\PortalRH\Departament;
+use App\Models\PortalRH\Departamento;
 use App\Models\PortalRH\Sucursal;
-use App\Models\PortalRH\SucursalDepartament;
+use App\Models\PortalRH\SucursalDepartamento;
 
 use Illuminate\Support\Facades\DB;
 
@@ -33,7 +33,7 @@ class MostarSucursalDepa extends Component
     public function deleteSucursalDepa()
     {
         if ($this->sucursalToDelete) {
-            SucursalDepartament::find($this->sucursalToDelete)->delete();
+            SucursalDepartamento::find($this->sucursalToDelete)->delete();
             session()->flash('message', 'Dato eliminado exitosamente.');
         }
 

@@ -27,7 +27,7 @@ class Baja extends Model
     ];
 
     //alcanze con el modelo User
-    public function usuarios()
+    public function usuario()
     {
         //una baja pertenece a user
         return $this->belongsTo(User::class);

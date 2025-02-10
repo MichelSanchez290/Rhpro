@@ -3,7 +3,7 @@
 namespace App\Livewire\PortalRh\Departament;
 
 use Livewire\Component;
-use App\Models\PortalRH\Departament;
+use App\Models\PortalRH\Departamento;
 
 class MostarDepartament extends Component
 {
@@ -29,7 +29,7 @@ class MostarDepartament extends Component
     public function deleteDepa()
     {
         if ($this->depaToDelete) {
-            Departament::find($this->depaToDelete)->delete();
+            Departamento::find($this->depaToDelete)->delete();
             session()->flash('message', 'Departamento eliminado exitosamente.');
         }
 
