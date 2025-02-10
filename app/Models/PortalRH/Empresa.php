@@ -18,8 +18,8 @@ class Empresa extends Model
 
     //especifica las columnas
     protected $fillable = [
-        'id', 
-        'nombre', 
+        'id',
+        'nombre',
         'razon_social',
         'rfc',
         'nombre_comercial',

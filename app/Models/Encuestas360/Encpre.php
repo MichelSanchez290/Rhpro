@@ -9,7 +9,7 @@ class Encpre extends Model
 {
     use HasFactory;
 
-    protected $table = 'encpre';
+    protected $table = 'encpres';
     protected $primaryKey = 'id';
     protected $fillable = ['id', 'encuestas_id', 'preguntas_id'];
 

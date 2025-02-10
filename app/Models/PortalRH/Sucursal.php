@@ -63,10 +63,6 @@ class Sucursal extends Model
 
     
 
-
-
-
-
     public function trabajador()
     {
         return $this->hasMany(Trabajador::class);
