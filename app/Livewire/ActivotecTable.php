@@ -103,8 +103,11 @@ final class ActivotecTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Año Estimado', 'anioEstimado')->sortable()->searchable(),
+            Column::make('Vida Útil (años)', 'vida_util_anio')
+                ->sortable()
+                ->searchable(),
 
+            //Column::make('Aniosestimado id', 'aniosestimado_id'),
 
             Column::action('Action')
         ];
@@ -133,10 +136,13 @@ final class ActivotecTable extends PowerGridComponent
                 ->route('editaracttec', ['id' => $row->id]),
                 Button::add('delete')
                 ->icon('default-trash')
-                ->class('btn btn-primary')
+                ->class('btn btn-danger')
                 ->dispatch('openModal', [
                     'component' => 'borrar-activo',
-                    'arguments' => ['activo_id' => $row->id] // Aquí cambiamos el nombre del parámetro
+                    'arguments' => [
+                        'vista' => 'mostraracttec', // Nombre de la vista actual
+                        'activo_id' => $row->id
+                    ]
                 ]),
         ];
     }

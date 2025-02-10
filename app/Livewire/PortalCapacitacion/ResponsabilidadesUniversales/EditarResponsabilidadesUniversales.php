@@ -10,7 +10,7 @@ use Livewire\WithFileUploads;
 class EditarResponsabilidadesUniversales extends Component
 {
     use WithFileUploads;
-    public $sistema, $responsabilidad, $universal_id;
+    public $sistema, $responsalidad, $universal_id;
 
     public function mount($id)
     {
@@ -18,7 +18,7 @@ class EditarResponsabilidadesUniversales extends Component
         $tem = ResponsabilidadUniversal::findOrFail($id);
 
         $this->sistema = $tem->sistema;
-        $this->responsabilidad = $tem->responsabilidad;
+        $this->responsalidad = $tem->responsalidad;
         $this->universal_id = $tem->id;
     }
 
@@ -26,13 +26,13 @@ class EditarResponsabilidadesUniversales extends Component
     {
         $this->validate([
            'sistema' =>'required',
-           'responsabilidad' =>'required',
+           'responsalidad' =>'required',
         ]);
 
         ResponsabilidadUniversal::updateOrCreate(['id' => $this->universal_id],
         [   
            'sistema' => $this->sistema,
-           'responsabilidad' => $this->responsabilidad,
+           'responsalidad' => $this->responsalidad,
         ]);
 
         $this->emit('actualizar','responsabilidad-actualizada');

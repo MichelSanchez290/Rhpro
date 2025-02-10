@@ -13,12 +13,12 @@ class AgregarResponsabilidadesUniversales extends Component
 
     protected $rules = [
         'universal.sistema' => 'required',
-        'universal.responsabilidad' => 'required',
+        'universal.responsalidad' => 'required',
     ];
 
     protected $messages = [
         'universal.sistema' => 'El campo sistema es obligatorio',
-        'universal.responsabilidad' => 'El campo responsabilidad es obligatorio',
+        'universal.responsalidad' => 'El campo responsabilidad es obligatorio',
     ];
 
     public function mount()

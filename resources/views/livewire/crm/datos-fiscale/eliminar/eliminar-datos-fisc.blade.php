@@ -1,6 +1,6 @@
 <div>
     <div id="modalConfirm"
-    class="{{ $showModal ? '' : 'hidden' }} fixed z-50 inset-0 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full px-4">
+        class="{{ $showModal ? '' : 'hidden' }} fixed z-50 inset-0 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full px-4">
         <div class="relative max-w-md mx-auto bg-white rounded-md shadow-xl top-40">
             <div class="flex justify-end p-2">
                 <button wire:click="$set('showModal', false)" type="button"
@@ -18,9 +18,9 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M12 8v4m 0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
-                <h3 class="mt-5 mb-6 text-xl font-normal text-gray-500">¿Estás seguro de que deseas eliminar esta
-                    empresa?</h3>
-                <button wire:click="deleteEmpresa"
+                <h3 class="mt-5 mb-6 text-xl font-normal text-gray-500">¿Estás seguro de que deseas eliminar este
+                    registro?</h3>
+                <button wire:click="deleteDato"
                     class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-base inline-flex items-center px-3 py-2.5 text-center mr-2">
                     Sí, estoy seguro
                 </button>
@@ -33,35 +33,3 @@
         </div>
     </div>
 </div>
-
-@push('js')
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            Livewire.on('confirmDeleteDato', (id)=>{
-                Swal.fire({
-                    title:  "¿Estas Seguro?",
-                    text: "No podrás revertir esta acción.",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButton: "#3080d6",
-                    cancelButton: "#d33",
-                    confirmButtonText: "Aceptar",
-                    cancelButtonText: "Cancelar",
-                }).then($result) => {
-                    if(result.isConfirmed){
-                        Livewire.emit('deleteDato', id);
-                        Swal.fire(
-                            "Eliminado",
-                            "El dato ha sido eliminado correctamente",
-                            "success",
-                        );
-                    }
-                }
-            });
-
-                toastMixin.fire();
-            });
-        });
-    </script>
-@endpush

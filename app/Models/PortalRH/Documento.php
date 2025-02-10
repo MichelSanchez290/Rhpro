@@ -5,6 +5,7 @@ namespace App\Models\PortalRH;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Tipodocument; // Importa el modelo
+use App\Models\User;
 
 class Documento extends Model
 {

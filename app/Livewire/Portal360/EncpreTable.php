@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Portal360;
 
-use App\Models\ActivoFijo\Tipoactivo;
+use App\Models\Encuestas360\Encpre;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
@@ -11,27 +11,16 @@ use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
-//ocupar estos use para exportacion
-use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
-use PowerComponents\LivewirePowerGrid\Traits\WithExport;
-use LivewireUI\Modal\Contracts\ModalComponent;
 
-
-final class ActivoTable extends PowerGridComponent
+final class EncpreTable extends PowerGridComponent
 {
-    use WithExport;
-    public string $tableName = 'activo-table-ydaods-table';
-    protected $listeners = ['refreshPowerGrid' => '$refresh'];
-
+    public string $tableName = 'encpre-table-dcemkw-table';
 
     public function setUp(): array
     {
         $this->showCheckBox();
 
         return [
-            PowerGrid::exportable('export')
-                ->striped()
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             PowerGrid::header()
                 ->showSearchInput(),
             PowerGrid::footer()
@@ -42,7 +31,7 @@ final class ActivoTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Tipoactivo::query();
+        return Encpre::query();
     }
 
     public function relationSearch(): array
@@ -53,20 +42,22 @@ final class ActivoTable extends PowerGridComponent
     public function fields(): PowerGridFields
     {
         return PowerGrid::fields()
-
             ->add('id')
-            ->add('nombre_activo')
+            ->add('id')
+            ->add('encuestas_id')
+            ->add('preguntas_id')
             ->add('created_at');
     }
 
     public function columns(): array
     {
         return [
-
             Column::make('Id', 'id'),
-            Column::make('Nombre activo', 'nombre_activo')
-                ->sortable()
-                ->searchable(),
+            Column::make('Id', 'id'),
+            Column::make('Encuestas id', 'encuestas_id'),
+            Column::make('Preguntas id', 'preguntas_id'),
+            Column::make('Created at', 'created_at_formatted', 'created_at')
+                ->sortable(),
 
             Column::make('Created at', 'created_at')
                 ->sortable()
@@ -78,31 +69,24 @@ final class ActivoTable extends PowerGridComponent
 
     public function filters(): array
     {
-        return [];
+        return [
+        ];
     }
 
     #[\Livewire\Attributes\On('edit')]
     public function edit($rowId): void
     {
-        $this->js('alert(' . $rowId . ')');
+        $this->js('alert('.$rowId.')');
     }
-    public function actions(Tipoactivo $row): array
+
+    public function actions(Encpre $row): array
     {
         return [
             Button::add('edit')
-                ->slot('Editar')
-                ->class('btn btn-primary')
-                ->route('editartipoactivo', ['id' => $row->id]),
-            Button::add('delete')
-                ->icon('default-trash')
-                ->class('btn btn-danger')
-                ->dispatch('openModal', [
-                    'component' => 'borrar-activo',
-                    'arguments' => [
-                        'vista' => 'mostrartipoactivo', // Nombre de la vista actual
-                        'activo_id' => $row->id
-                    ]
-                ]),
+                ->slot('Edit: '.$row->id)
+                ->id()
+                ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
+                ->dispatch('edit', ['rowId' => $row->id])
         ];
     }
 

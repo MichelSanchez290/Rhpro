@@ -9,20 +9,14 @@
     <link href="https://fonts.bunny.net/css?family=inter:400,500,700&display=swap" rel="stylesheet">
     <!-- Toastr CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" />
-
+    <!-- Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <!-- <link rel="stylesheet" href="{{ asset('resources\css\custom.css') }}"> -->
     @livewireStyles
 </head>
 <body class="font-sans antialiased bg-blue-50">
-    <!-- <header class="bg-blue-600 text-white shadow">
-        <div class="container mx-auto p-4">
-            <h1 class="text-lg font-bold">Portal 360 - Encuesta</h1>
-        </div>
-    </header> -->
-
     @include('navigation-menudev')
-    <main class="w-full md:w-[calc(100%-256px)] md:ml-64   transition-all main">
+    <main class="w-full md:w-[calc(100%-256px)] md:ml-64 transition-all main">
         @include('searchbar')
         <!-- Content -->
         <div class="pt-5">
@@ -32,17 +26,14 @@
         </div>
         <!-- End Content -->
     </main>
-    <!-- <footer class="bg-gray-800 text-white py-4 text-center">
-        <p>&copy; {{ date('Y') }} Portal 360. Todos los derechos reservados.</p>
-    </footer> -->
 
     @livewireScripts
-    <!-- jQuery (requerido por Toastr) -->
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    
+    <!-- jQuery (requerido por Toastr y Select2) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Toastr JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
+    <!-- Select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <!-- Script para manejar notificaciones -->
     <script>
@@ -65,9 +56,8 @@
             toastr.error(event.detail.message);
         });
     </script>
-    
 
-    @yield('content')
+    @stack('scripts') <!-- Aquí se incluirán los scripts push -->
 </body>
 </html>
 
