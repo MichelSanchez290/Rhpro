@@ -53,6 +53,12 @@ use App\Livewire\PortalRh\EmpresSucursal\AgregarEmpresSucursal;
 use App\Livewire\PortalRh\EmpresSucursal\EditarEmpresSucursal;
 // --------------------------------------------
 
+use App\Livewire\PortalRh\Becario\MostrarBecario;
+use App\Livewire\PortalRh\Becario\AgregarBecario;
+use App\Livewire\PortalRh\Becario\EditarBecario;
+use App\Livewire\PortalRh\Becario\MostrarCardBecario;
+use App\Livewire\PortalRh\Becario\CardBecario;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -254,3 +260,29 @@ Route::get(
         '/edit-empressucursal/{empresa_sucursal_id}',
             EditarEmpresSucursal::class
     )->name('editarempressucursal');
+
+    // INSTRUCTOR ---------------------------------------------------------------
+    Route::get( 
+        '/becarios',
+            MostrarBecario::class
+    )->name('mostrarbecario');
+
+    Route::get( 
+        '/create-becario',
+            AgregarBecario::class
+    )->name('agregarbecario');
+
+    Route::get( 
+        '/edit-becario/{id}',
+            EditarBecario::class
+    )->name('editarbecario');
+
+    Route::get( 
+        '/cards-becarios',
+            MostrarCardBecario::class
+    )->name('mostrarcardbecario');
+
+    Route::get( 
+        '/card-becario/{id}',
+            CardBecario::class
+    )->name('cardbecario');
