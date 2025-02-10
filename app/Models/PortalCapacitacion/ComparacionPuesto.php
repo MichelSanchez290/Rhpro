@@ -27,6 +27,6 @@ class ComparacionPuesto extends Model
     // Relación con la tabla perfiles_puestos (muchos a uno)
     public function perfilPuesto()
     {
-        return $this->belongsTo(PerfilPuesto::class, 'perfiles_puestos_id');
+        return $this->belongsToMany(PerfilPuesto::class, 'perfiles_puestos_id');
     }
 }

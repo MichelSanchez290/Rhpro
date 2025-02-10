@@ -14,8 +14,13 @@ use App\Models\Encuestas360\Asignacion;
 use App\Models\PortalCapacitacion\PerfilPuesto;
 use App\Models\PortalRH\Becari;
 use App\Models\PortalRH\Becario;
+use App\Models\PortalRH\CambioSalario;
+use App\Models\PortalRH\Documento;
 use App\Models\PortalRH\Empres;
 use App\Models\PortalRH\Empresa;
+use App\Models\PortalRH\Incapacidad;
+use App\Models\PortalRH\Incidencia;
+use App\Models\PortalRH\Retardo;
 use App\Models\PortalRH\Sucursal;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -23,6 +28,8 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use PHPUnit\Framework\MockObject\Stub\ReturnArgument;
 
 class User extends Authenticatable
 {
@@ -37,27 +44,14 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'password',
-        'empresa_id',
-        'sucursal_id',
-        'tipo_user'
-    ];
+    protected $fillable = ['name', 'email', 'password', 'password', 'empresa_id', 'sucursal_id', 'tipo_user'];
 
     /**
      * The attributes that should be hidden for serialization.
      *
      * @var array<int, string>
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-        'two_factor_recovery_codes',
-        'two_factor_secret',
-    ];
+    protected $hidden = ['password', 'remember_token', 'two_factor_recovery_codes', 'two_factor_secret'];
 
     /**
      * The attributes that should be cast.
@@ -73,10 +67,9 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $appends = [
-        'profile_photo_url',
-    ];
+    protected $appends = ['profile_photo_url'];
 
+     /* RELACIONES MODULO RH */
 
     public function becarios()
     {
@@ -110,10 +103,6 @@ class User extends Authenticatable
     }
 
     /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    
-
-    
-
     public function bajas()
     {
         //un user tiene una baja
@@ -126,13 +115,10 @@ class User extends Authenticatable
         return $this->hasMany(Practicant::class);
     }
 
-    
-
-    
 
     public function regPatronales()
     {
-        //cada trabajador pertenece a 
+        //cada trabajador pertenece a
         return $this->hasMany(RegisPatronal::class);
     }
 
@@ -163,8 +149,9 @@ class User extends Authenticatable
         //un user peertence a un becario
         return $this->hasMany(Practicant::class);
     }
+    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 
-    */
+    /* RELACIONES MODULO ACTIVO FIJO */
     public function activomoviliario()
     {
         return $this->belongsToMany(ActivoMobiliario::class);
@@ -190,16 +177,15 @@ class User extends Authenticatable
         return $this->belongsToMany(ActivoUniforme::class);
     }
 
+    //  /* RELACIONES MODULO CAPACITACION */
     public function perfiles_puestos()
     {
         return $this->belongsToMany(PerfilPuesto::class, 'perfil_puesto_user', 'users_id', 'perfiles_puestos_id'); // Modelo relacionado
     }
-
-   // Actualizada la relación para usar el nombre correcto de la columna
-   public function empresas()
-   {
-       return $this->belongsTo(Empresa::class, 'empresas_id', 'id');
-   }
+    public function empresas()
+    {
+        return $this->belongsTo(Empresa::class, 'empresas_id', 'id');
+    }
 
     public function asignacion()
     {
@@ -207,4 +193,13 @@ class User extends Authenticatable
         return $this->hasMany(Asignacion::class);
     }
 
+    public function perfilesPuestos(): BelongsToMany
+    {
+        return $this->belongsToMany(PerfilPuesto::class, 'perfil_puesto_user', 'users_id', 'perfiles_puestos_id')->withPivot(['status', 'fecha_inicio', 'fecha_final', 'motivo_cambio']);
+    }
+
+    public function perfilActual()
+    {
+        return $this->perfilesPuestos()->latest()->first();
+    }
 }
