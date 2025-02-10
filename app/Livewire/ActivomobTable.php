@@ -129,15 +129,18 @@ final class ActivomobTable extends PowerGridComponent
     {
         return [
             Button::add('edit')
-                ->slot('Editar')
+                ->icon('default-copy')
                 ->class('btn btn-primary')
                 ->route('editaractmob', ['id' => $row->id]),
-            Button::add('delete')
+                Button::add('delete')
                 ->icon('default-trash')
-                ->class('btn btn-primary')
+                ->class('btn btn-danger')
                 ->dispatch('openModal', [
                     'component' => 'borrar-activo',
-                    'arguments' => ['activo_id' => $row->id] // Aquí cambiamos el nombre del parámetro
+                    'arguments' => [
+                        'vista' => 'mostraractofi', // Nombre de la vista actual
+                        'activo_id' => $row->id
+                    ]
                 ]),
         ];
     }

@@ -56,13 +56,13 @@ class Editaractuni extends Component
     {
         if ($this->subirfoto1) {
             // eliminar la  anterior si existe
-            if ($this->foto1 && Storage::disk('subirDocs')->exists($this->foto1)) {
-                Storage::disk('subirDocs')->delete($this->foto1);
+            if ($this->foto1 && Storage::disk('subirDocs')->exists($this->descripcion)) {
+                Storage::disk('subirDocs')->delete($this->descripcion);
             }
 
             // guardar la nueva 
-            $this->subirfoto1->storeAs('ImagenUniforme1', $this->nombre . "-imagen.png", 'subirDocs');
-            $this->foto1 = "ImagenUniforme1/" . $this->nombre . "-imagen.png";
+            $this->subirfoto1->storeAs('ImagenUniforme1', $this->descripcion . "-imagen.png", 'subirDocs');
+            $this->foto1 = "ImagenUniforme1/" . $this->descripcion . "-imagen.png";
         }
 
         if ($this->subirfoto2) {
@@ -72,8 +72,8 @@ class Editaractuni extends Component
             }
 
             // guardar la nueva 
-            $this->subirfoto2->storeAs('ImagenUniforme2', $this->nombre . "-imagen.png", 'subirDocs');
-            $this->foto2 = "ImagenUniforme2/" . $this->nombre . "-imagen.png";
+            $this->subirfoto2->storeAs('ImagenUniforme2', $this->descripcion . "-imagen.png", 'subirDocs');
+            $this->foto2 = "ImagenUniforme2/" . $this->descripcion . "-imagen.png";
         }
 
         if ($this->subirfoto3) {
@@ -83,20 +83,20 @@ class Editaractuni extends Component
             }
 
             // guardar la nueva 
-            $this->subirfoto3->storeAs('ImagenUniforme3', $this->nombre . "-imagen.png", 'subirDocs');
-            $this->foto3 = "ImagenUniforme3/" . $this->nombre . "-imagen.png";
+            $this->subirfoto3->storeAs('ImagenUniforme3', $this->descripcion . "-imagen.png", 'subirDocs');
+            $this->foto3 = "ImagenUniforme3/" . $this->descripcion . "-imagen.png";
         }
 
 
         // Actualizar la venta con los nuevos datos
         $activotec = ActivoUniforme::findOrFail($this->activotec_id); 
         $activotec->update([
-            'descripcion' => $this->nombre,
-            'talla' => $this->descripcion,
-            'cantidad' => $this->numact,
-            'estado' => $this->ubicacion,
-            'disponible' => $this->fechaad,
-            'fecha_adquisicion' => $this->fechaba,
+            'descripcion' => $this->descripcion,
+            'talla' => $this->talla,
+            'cantidad' => $this->cantidad,
+            'estado' => $this->estado,
+            'disponible' => $this->disponible,
+            'fecha_adquisicion' => $this->fechaad,
             'observaciones' => $this->obser,
             'tipo_activo_id' => $this->tipo,
             'color' => $this->color,
