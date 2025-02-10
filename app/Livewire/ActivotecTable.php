@@ -103,8 +103,11 @@ final class ActivotecTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Año Estimado', 'anioEstimado')->sortable()->searchable(),
+            Column::make('Vida Útil (años)', 'vida_util_anio')
+                ->sortable()
+                ->searchable(),
 
+            //Column::make('Aniosestimado id', 'aniosestimado_id'),
 
             Column::action('Action')
         ];

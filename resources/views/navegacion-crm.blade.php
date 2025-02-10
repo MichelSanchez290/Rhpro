@@ -6,7 +6,7 @@
             <ul class="mt-4">
                 <span class="font-bold text-gray-400">ADMIN</span>
                 <li class="mb-1 group">
-                    <a href="" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+                    <a href="{{ 'dashboard' }}" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
                         <i class="mr-3 text-lg ri-home-2-line"></i>
                         <span class="text-sm">Dashboard</span>
                     </a>
@@ -19,7 +19,7 @@
                     </a>
                     <ul class="pl-7 mt-2 hidden group-[.selected]:block">
                         <li class="mb-4">
-                            <a href="{{ route('muestra_datos_fiscales') }}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Mostrar datos fiscales</a>
+                            <a href="{{ route('mostrarDatosFiscales') }}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Mostrar datos fiscales</a>
                         </li>
                         <li class="mb-4">
                             <a href="{{ route('registra_datos_fiscales') }}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Registrar datos fiscales</a>
