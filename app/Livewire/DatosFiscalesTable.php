@@ -12,9 +12,13 @@ use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
+use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
+use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 
 final class DatosFiscalesTable extends PowerGridComponent
 {
+    use WithExport;
+
     public string $tableName = 'datos-fiscales-table-wlnx6o-table';
 
     public function setUp(): array
@@ -22,6 +26,8 @@ final class DatosFiscalesTable extends PowerGridComponent
         $this->showCheckBox();
 
         return [
+            PowerGrid::exportable('export')
+            ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             PowerGrid::header()
                 ->showSearchInput(),
             PowerGrid::footer()
@@ -129,7 +135,7 @@ final class DatosFiscalesTable extends PowerGridComponent
             Button::add('delete')
                 ->slot('Eliminar')
                 ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
-                ->dispatch('datoconfirmDelete', ['id' => $row->id]),
+                ->dispatch('confirmDelete', ['id' => $row->id, 'table' => 'datos_fiscales']),
         ];
     }
 

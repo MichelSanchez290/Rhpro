@@ -115,7 +115,7 @@ final class CrmEmpresas extends PowerGridComponent
             Button::add('delete')
                 ->slot('Eliminar')
                 ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
-                ->dispatch('confirmDeleteDato', ['id' => $row->id]),
+                ->dispatch('confirmDelete', ['id' => $row->id, 'table' => 'crm_empresas']),
 
 
             // Button::make('destroy', 'Delete')

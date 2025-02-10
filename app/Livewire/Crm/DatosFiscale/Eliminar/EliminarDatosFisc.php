@@ -7,9 +7,9 @@ class EliminarDatosFisc extends Component
     public $showModal = false;
     public $datoToDelete = false;
     protected $listeners = [
-        'datoconfirmDelete'=> 'datoconfirmDelete',
+        'confirmDelete'=> 'confirmDelete',
     ];
-    public function datoconfirmDelete($id)
+    public function confirmDelete($id)
     {
         $this -> datoToDelete = $id;
         $this -> showModal = true;
