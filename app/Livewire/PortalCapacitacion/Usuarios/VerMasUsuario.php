@@ -12,11 +12,20 @@ use App\Models\PortalCapacitacion\FormacionHabilidadHumana;
 use App\Models\PortalCapacitacion\FormacionHabilidadTecnica;
 use App\Models\User;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 
 class VerMasUsuario extends Component
 {
     public $userSeleccionado;
     public $users_id;
+    public $perfilPuesto;
+    public $funcionesEspecificas, 
+            $relacionesInternas, 
+            $relacionesExternas, 
+            $responsabilidadesUniversales,
+            $habilidadesHumanas, 
+            $habilidadesTecnicas,
+            $perfilactual;
 
     public function comparar()
     {
@@ -26,6 +35,28 @@ class VerMasUsuario extends Component
     public function mount($id){
         $id = Crypt::decrypt($id);
         $this->userSeleccionado = User::with('perfilesPuestos')->find($id);
+        foreach($this->userSeleccionado->perfilesPuestos as $perfiles)
+        {
+            
+            if($perfiles->pivot->status === "1")
+            {
+                $this->perfilactual= $perfiles;
+                break;
+            }
+            else
+            {
+                $perfilactual="No existe";
+                
+            }
+        }
+        
+        $this->funcionesEspecificas=$this->perfilactual->funcionesEspecificas()->get();
+        $this->relacionesInternas=$this->perfilactual->relacionesInternas()->get();
+        $this->relacionesExternas=$this->perfilactual->relacionesExternas()->get();
+        $this->responsabilidadesUniversales=$this->perfilactual->responsabilidadesUniversales()->get();
+        $this->habilidadesHumanas=$this->perfilactual->habilidadesHumanas()->get();
+        $this->habilidadesTecnicas=$this->perfilactual->habilidadesTecnicas()->get();
+
         $this->users_id = $id;
     }
 
@@ -36,3 +67,13 @@ class VerMasUsuario extends Component
     
 }
  
+
+        
+        /*
+        $this->userSeleccionado=User::with(['perfilesPuestos' => function (Builder $query) {
+            $query->where('perfilesPuestos.pivot.status', 1);
+        }])->find($id);*/
+        
+        //$this->perfilPuesto = $this->userSeleccionado->perfilActual();
+        
+        

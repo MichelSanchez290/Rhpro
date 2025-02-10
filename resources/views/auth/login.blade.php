@@ -43,7 +43,6 @@
                     {{ __('Log in') }}
                 </x-button>
                 <button type="submit">
-                    hd
                 </button>
             </div>
         </form>

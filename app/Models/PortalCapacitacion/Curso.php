@@ -19,9 +19,9 @@ class Curso extends Model
     protected $fillable = ['id','CNombre', 'CHoras', 'CPrecio', 'Ctipoestatus', 'tematicas_id', 'Modalidad'];
 
     // Relación inversa (pertenece a una temática)
-    public function tematica()
+    public function tematicas()
     {
-        return $this->belongsTo(Tematica::class, 'tematicas_id');
+        return $this->belongsToMany(Tematica::class, 'tematicas_id');
     }
 }
 
