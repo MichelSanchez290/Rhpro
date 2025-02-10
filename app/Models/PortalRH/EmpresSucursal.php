@@ -16,9 +16,20 @@ class EmpresSucursal extends Model
 
     //especifica las columnas
     protected $fillable = [
-        'id', 
+        'id',
         'empresa_id',
         'sucursal_id',
         'status',
     ];
+
+    public function empresa()
+    {
+        return $this->belongsTo(Empresa::class, 'empresa_id');
+    }
+
+    public function sucursal()
+    {
+        return $this->belongsTo(Sucursal::class, 'sucursal_id');
+    }
+
 }
