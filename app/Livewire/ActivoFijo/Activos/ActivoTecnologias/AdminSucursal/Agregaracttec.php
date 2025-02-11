@@ -1,17 +1,18 @@
 <?php
 
-namespace App\Livewire\ActivoFijo\Activos\ActivoTecnologias;
+namespace App\Livewire\ActivoFijo\Activos\ActivoTecnologias\AdminSucursal;
 
 use Livewire\Component;
 use App\Models\ActivoFijo\Activos\ActivoTecnologia;
 use App\Models\ActivoFijo\Tipoactivo;
 use App\Models\ActivoFijo\Anioestimado;
 use Livewire\WithFileUploads;
-
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 class Agregaracttec extends Component
 {
     use WithFileUploads;
-    public $consulta;
+    public $consulta,$empresa;
     public $activo=[],$tipos=[],$anios=[];
     public $subirfoto1,$subirfoto2,$subirfoto3;
 
@@ -45,8 +46,14 @@ class Agregaracttec extends Component
     {
         //ejemplo de consulta
         $this->consulta = ActivoTecnologia::get();
-        $this->tipos = Tipoactivo::pluck('nombre_activo', 'id')->toArray();
+        $this->activo['tipo_activo_id'] = Tipoactivo::where('nombre_activo','Activo Tecnologias')->value('id');
+        //dd($this->activo['tipo_activo_id']);
         $this->anios = Anioestimado::pluck('vida_util_año', 'id')->toArray();
+        $this->activo['empresa_id']=Auth::user()->empresa_id;
+        $this->activo['sucursal_id']=Auth::user()->sucursal_id;
+        
+        
+        
     }
 
     public function saveActivoTec()
@@ -82,6 +89,6 @@ class Agregaracttec extends Component
 
     public function render()
     {
-        return view('livewire.activo-fijo.activos.activo-tecnologias.agregaracttec')->layout('layouts.navactivos');
+        return view('livewire.activo-fijo.activos.activo-tecnologias.admin-sucursal.agregaracttec')->layout('layouts.navactivos');
     }
 }

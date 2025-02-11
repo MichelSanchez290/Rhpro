@@ -37,7 +37,7 @@ class AgregarNota extends ModalComponent
         ]);
 
         // Asociar los activos de tecnología seleccionados
-        $nota->activosTecnologia()->attach($this->activosTecnologiaSeleccionados);
+        $nota->activosTecnologias()->attach($this->activosTecnologiaSeleccionados);
 
         // Redireccionar o limpiar el formulario
         $this->reset(['notadescripcion', 'activosTecnologiaSeleccionados']);

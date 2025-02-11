@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-class UserRolDevSeeder extends Seeder
+class RolDevSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -23,5 +23,11 @@ class UserRolDevSeeder extends Seeder
         Permission::create(['name'=>'Administrador Principal'])->syncRoles([$role2]);
         Permission::create(['name'=>'Administrador Secundario'])->syncRoles([$role3]);
         Permission::create(['name'=>'Usuario Principal'])->syncRoles([$role4]);
+
+
+        // Permisos para activos
+        Permission::create(['name'=>'Activo tecnologia Admin'])->syncRoles([$role1]);
+        Permission::create(['name'=>'Activo tecnologia Empresa'])->syncRoles([$role2]);
+        Permission::create(['name'=>'Activo tecnologia Sucursal'])->syncRoles([$role3]);
     }
 }

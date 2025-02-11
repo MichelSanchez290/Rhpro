@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\ActivoFijo\Activos\ActivoTecnologias;
+namespace App\Livewire\ActivoFijo\Activos\ActivoTecnologias\AdminSucursal;
 
 use App\Models\ActivoFijo\Activos\ActivoTecnologia;
 use Livewire\Component;
@@ -26,6 +26,6 @@ class Mostraracttec extends Component
     
     public function render()
     {
-        return view('livewire.activo-fijo.activos.activo-tecnologias.mostraracttec')->layout('layouts.navactivos');
+        return view('livewire.activo-fijo.activos.activo-tecnologias.admin-sucursal.mostraracttec')->layout('layouts.navactivos');
     }
 }

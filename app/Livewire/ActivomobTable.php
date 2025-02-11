@@ -129,7 +129,7 @@ final class ActivomobTable extends PowerGridComponent
     {
         return [
             Button::add('edit')
-                ->icon('default-copy')
+                ->icon('default-edit')
                 ->class('btn btn-primary')
                 ->route('editaractmob', ['id' => $row->id]),
                 Button::add('delete')

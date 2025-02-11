@@ -33,7 +33,10 @@ class ActivoMobiliario extends Model
         'foto1',
         'foto2',
         'foto3',
-        'foto4'
+        'foto4',
+        'empresa_id',
+        'sucursal_id'
+
     ];
 
     public function tipoactivo()

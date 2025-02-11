@@ -12,9 +12,11 @@ use App\Livewire\ActivoFijo\Activos\ActivoPapeleria\Mostraractpape;
 use App\Livewire\ActivoFijo\Activos\ActivoSouvenir\Agregaractsou;
 use App\Livewire\ActivoFijo\Activos\ActivoSouvenir\Editaractsou;
 use App\Livewire\ActivoFijo\Activos\ActivoSouvenir\Mostraractsou;
-use App\Livewire\ActivoFijo\Activos\ActivoTecnologias\Agregaracttec;
-use App\Livewire\ActivoFijo\Activos\ActivoTecnologias\Editaracttec;
-use App\Livewire\ActivoFijo\Activos\ActivoTecnologias\Mostraracttec;
+use App\Livewire\ActivoFijo\Activos\ActivoTecnologias\AdminEmpresa\AgregarTecnologia;
+use App\Livewire\ActivoFijo\Activos\ActivoTecnologias\AdminSucursal\Agregaracttec;
+use App\Livewire\ActivoFijo\Activos\ActivoTecnologias\AdminSucursal\Editaracttec;
+use App\Livewire\ActivoFijo\Activos\ActivoTecnologias\AdminSucursal\Mostraracttec;
+
 use App\Livewire\ActivoFijo\Activos\ActivoUniforme\Agregaractuni;
 use App\Livewire\ActivoFijo\Activos\ActivoUniforme\Editaractuni;
 use App\Livewire\ActivoFijo\Activos\ActivoUniforme\Mostraractuni;
@@ -35,13 +37,17 @@ Route::get('af/agregartipoactivo', Agregartipoactivo::class)->name('agregartipoa
 Route::get('af/mostrartipoactivo', Mostrartipoactivo::class)->name('mostrartipoactivo');
 Route::get('af/editartipoactivo/{id}', Editartipoactivo::class)->name('editartipoactivo');
 
-Route::get('af/mostraractivotec', Mostraracttec::class)->name('mostraracttec');
-Route::get('af/agregaractivotec', Agregaracttec::class)->name('agregaracttec');
-Route::get('af/editaractivotec/{id}', Editaracttec::class)->name('editaracttec');
+Route::get('af/mostraractivotec', Mostraracttec::class)->middleware('can:Activo tecnologia Sucursal')->name('mostraracttec');
+Route::get('af/agregaractivotec', Agregaracttec::class)->middleware('can:Activo tecnologia Sucursal')->name('agregaracttec');
+Route::get('af/editaractivotec/{id}', Editaracttec::class)->middleware('can:Activo tecnologia Sucursal')->name('editaracttec');
 
-Route::get('af/agregarnotatec', Agregarnotas::class)->name('agregarnotas');
+// Route::get('af/agregarnotatec', Agregarnotas::class)->name('agregarnotas');
 Route::get('af/mostrarnotatec', Mostrarnotas::class)->name('mostrarnotas');
 Route::get('af/editarnotatec', Editarnotas::class)->name('editarnotas');
+
+//AdminEmpresa
+Route::get('af/agregaractivoae', AgregarTecnologia::class)->middleware('can:Activo tecnologia Empresa')->name('agregartec');
+
 
 Route::get('af/mostraractivoofi', Mostraractofi::class)->name('mostraractof');
 Route::get('af/agregaractivoofi', Agregaractofi::class)->name('agregaractof');

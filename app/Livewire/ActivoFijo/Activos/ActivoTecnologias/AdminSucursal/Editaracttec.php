@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\ActivoFijo\Activos\ActivoTecnologias;
+namespace App\Livewire\ActivoFijo\Activos\ActivoTecnologias\AdminSucursal;
 
 use App\Models\ActivoFijo\Activos\ActivoTecnologia;
 use App\Models\ActivoFijo\Anioestimado;
@@ -114,6 +114,6 @@ class Editaracttec extends Component
 
     public function render()
     {
-        return view('livewire.activo-fijo.activos.activo-tecnologias.editaracttec')->layout('layouts.navactivos');
+        return view('livewire.activo-fijo.activos.activo-tecnologias.admin-sucursal.editaracttec')->layout('layouts.navactivos');
     }
 }

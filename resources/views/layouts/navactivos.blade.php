@@ -4,14 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Organized Layout</title>
+    <title>Activo Fijo</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    {{-- <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"> --}}
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> --}}
+    <!-- Styles -->
+    {{-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> --}}
+    @livewireStyles
+    @yield('css')
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    <!-- Styles -->
-    @livewireStyles
-
+    
     <style>
         :root {
             --light: #ffffff;
@@ -110,10 +113,7 @@
         <!-- Fondo con degradado en modo oscuro -->
         <div class="flex h-screen antialiased text-gray-900 bg-gray-100">
             <!-- Loading screen -->
-            <div x-ref="loading"
-                class="fixed inset-0 z-50 flex items-center justify-center text-2xl font-semibold text-white bg-gray-800">
-                Loading.....
-            </div>
+           
 
             <!-- Sidebar first column -->
             <!-- Backdrop -->
@@ -144,9 +144,7 @@
                             <!-- Botón del menú con degradado normal y transición al seleccionar -->
                             <a href="#" @click="$event.preventDefault(); open = !open"
                                 class="flex items-center p-2 text-white transition-colors duration-200 rounded-md bg-gradient-to-r from-[#1763A6] to-[#1EA4D9] hover:from-[#1763A6] hover:to-[#1763A6]"
-                                :class="{ 
-                                    'from-blue-700 to-sky-500
-                                    ': isActive || open }" role="button"
+                                :class="{'from-blue-700 to-sky-500': isActive || open }" role="button"
                                 aria-haspopup="true" :aria-expanded="(open || isActive) ? 'true' : 'false'">
                                 <span aria-hidden="true">
                                     <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -181,9 +179,7 @@
                             <!-- Botón del menú con degradado normal y transición al seleccionar -->
                             <a href="#" @click="$event.preventDefault(); open = !open"
                                 class="flex items-center p-2 text-white transition-all duration-300 rounded-md bg-gradient-to-r from-[#1763A6] to-[#1EA4D9] hover:from-[#1763A6] hover:to-[#1763A6]"
-                                :class="{
-                                    'from-blue-700 to-sky-500
-                                    ': isActive || open }" role="button"
+                                :class="{'from-blue-700 to-sky-500': isActive || open }" role="button"
                                 aria-haspopup="true" :aria-expanded="(open || isActive) ? 'true' : 'false'">
                                 <span aria-hidden="true">
                                     <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -205,11 +201,20 @@
                             </a>
                             <!-- Submenú -->
                             <div x-show="open" class="mt-2 space-y-2 px-7" role="menu" arial-label="Components">
+                                @can('Activo tecnologia Sucursal')
                                 <a href="#" role="menuitem"
                                     class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:text-gray-400 dark:hover:text-gray-900 hover:text-gray-700"
                                     onclick="window.location.href='{{ route('mostraracttec') }}'">
                                     Activo de Tecnologias
                                 </a>
+                                @endcan
+                                @can('Activo tecnologia Empresa')
+                                <a href="#" role="menuitem"
+                                    class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:text-gray-400 dark:hover:text-gray-900 hover:text-gray-700"
+                                    onclick="window.location.href='{{ route('agregartec') }}'">
+                                    Activo de Tecnologias
+                                </a>
+                                @endcan
                                 <a href="#" role="menuitem"
                                     class="block p-2 text-sm text-gray-400 transition-colors duration-200 rounded-md dark:text-gray-400 dark:hover:text-gray-900 hover:text-gray-700"
                                     onclick="window.location.href='{{ route('mostraractof') }}'">
@@ -295,8 +300,8 @@
                 </div>
             </aside>
             <!-- Main content -->
-            <div class="flex-1 max-w-full w-full overflow-hidden">
-                <div class="w-full p-4">
+            <div>
+                <div>
                     {{ $slot }}
                 </div>
             </div>
@@ -304,45 +309,11 @@
         </div>
     </div>
     @stack('modals')
-    @stack('js')
     @livewireScripts
+    @yield('js')
     @livewire('wire-elements-modal')
 </body>
-{{-- <footer class="text-gray-600 body-font">
-    <div class="container px-5 py-8 mx-auto flex items-center sm:flex-row flex-col">
-      <a class="flex title-font font-medium items-center md:justify-start justify-center text-gray-900">
-        <img src="https://scontent.fpbc1-1.fna.fbcdn.net/v/t1.6435-9/124244679_1482274165295614_6537949627170046701_n.png?_nc_cat=100&ccb=1-7&_nc_sid=a5f93a&_nc_eui2=AeEG534Ps7skCtflT-Hmxsr_ScJFrC86w35JwkWsLzrDfmiA6FuV67meMlKtPi8cboyE9R7BRqXjArsV8FDIfERa&_nc_ohc=MfGzOI1soa0Q7kNvgEaz5ex&_nc_oc=AdhSqPxIDjo2G8KKtXHSMa5pPNoXQAlAFeegtqSzI9pHGWgJsHOm6NcAwprDpqBoXR0c9ZZ3cuoy2CqRc_7XTMLf&_nc_zt=23&_nc_ht=scontent.fpbc1-1.fna&_nc_gid=AsE5ZBomoptp3sPrCtPrcVl&oh=00_AYB59PEVss7hBTz0WJYaQR0KTK1jXsVVdRNZwC3T7H-0yg&oe=67C23A43"
-        alt="Inventario" class="w-20 h-20 object-scale-down">
-      </a>
-      <p class="text-sm text-gray-500 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-gray-200 sm:py-2 sm:mt-0 mt-4">© 2025 CESRH
-        <a href="https://twitter.com/knyttneve" class="text-gray-600 ml-1" rel="noopener noreferrer" target="_blank">@knyttneve</a>
-      </p>
-      <span class="inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start">
-        <a class="text-gray-500">
-          <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
-            <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
-          </svg>
-        </a>
-        <a class="ml-3 text-gray-500">
-          <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
-            <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>
-          </svg>
-        </a>
-        <a class="ml-3 text-gray-500">
-          <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
-            <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
-            <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01"></path>
-          </svg>
-        </a>
-        <a class="ml-3 text-gray-500">
-          <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="0" class="w-5 h-5" viewBox="0 0 24 24">
-            <path stroke="none" d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"></path>
-            <circle cx="4" cy="4" r="2" stroke="none"></circle>
-          </svg>
-        </a>
-      </span>
-    </div>
-  </footer> --}}
+
 <script>
     const setup = () => {
         const getTheme = () => {
@@ -405,5 +376,6 @@
         }
     }
 </script>
+{{-- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> --}}
 
 </html>
