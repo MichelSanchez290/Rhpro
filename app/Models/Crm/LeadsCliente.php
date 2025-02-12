@@ -22,6 +22,16 @@ class LeadsCliente extends Model
         return $this->belongsTo(DatosFiscale::class);
     }
 
+    public function crmempresa()
+    {
+        return $this->belongsTo(CrmEmpresa::class);
+    }
+
+    // public function user()
+    // {
+    //     return $this->belongsTo(User::class);
+    // }
+
     public function headlevantamientospedido()
     {
         return $this->hasMany(HeadLevantamientosPedido::class);

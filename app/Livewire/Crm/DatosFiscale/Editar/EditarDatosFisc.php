@@ -8,59 +8,59 @@ use App\Models\Crm\CrmEmpresa;
 
 class EditarDatosFisc extends Component
 {
-    public $dato_id, $razonSocial, $rfc;
-    public $calle, $numeroExterior, $numeroInterior, $colonia, $municipio, $localidad, $estado, $pais, $codigoPostal;
-    public $empresa_id;
+    public $dato_id, $razon_social, $rfc;
+    public $calle, $numero_exterior, $numero_interior, $colonia, $municipio, $localidad, $estado, $pais, $codigo_postal;
+    public $crm_empresaid;
 
     public function mount($id)
     {
         $tem = DatosFiscale::findOrFail($id);
 
         $this->dato_id = $id;
-        $this->razonSocial = $tem->razonSocial;
+        $this->razon_social = $tem->razon_social;
         $this->rfc = $tem->rfc;
         $this->calle = $tem->calle;
-        $this->numeroExterior = $tem->numeroExterior;
-        $this->numeroInterior = $tem->numeroInterior;
+        $this->numero_exterior = $tem->numero_exterior;
+        $this->numero_interior = $tem->numero_interior;
         $this->colonia = $tem->colonia;
         $this->municipio = $tem->municipio;
         $this->localidad= $tem->localidad;
         $this->estado = $tem->estado;
         $this->pais = $tem->pais;
-        $this->codigoPostal = $tem->codigoPostal;
-        $this->empresa_id = $tem->empresa_id;
+        $this->codigo_postal = $tem->codigo_postal;
+        $this->crm_empresaid = $tem->crm_empresaid;
     }
 
     public function editDato()
     {
         $this->validate([
-            'razonSocial' => 'required',
+            'razon_social' => 'required',
             'rfc' => 'required',
             'calle' => 'required',
-            'numeroExterior' => 'required',
-            'numeroInterior' => '',
+            'numero_exterior' => 'required',
+            'numero_interior' => '',
             'colonia' => 'required',
             'municipio' => 'required',
             'localidad' => 'required',
             'estado' => 'required',
             'pais' => 'required',
-            'codigoPostal' => 'required',
-            'empresa_id' => 'required',
+            'codigo_postal' => 'required',
+            'crm_empresaid' => 'required',
         ]);
 
         DatosFiscale::updateOrCreate(['id'=>$this->dato_id], [
-            'razonSocial' => $this->razonSocial,
+            'razon_social' => $this->razon_social,
             'rfc' => $this->rfc,
             'calle' => $this->calle,
-            'numeroExterior' => $this->numeroExterior,
-            'numeroInterior' => $this->numeroInterior,
+            'numero_exterior' => $this->numero_exterior,
+            'numero_interior' => $this->numero_interior,
             'colonia' => $this->colonia,
             'municipio' => $this->municipio,
             'localidad' => $this->localidad,
             'estado' => $this->estado,
             'pais' => $this->pais,
-            'codigoPostal' => $this->codigoPostal,
-            'empresa_id' => $this->empresa_id
+            'codigo_postal' => $this->codigo_postal,
+            'crm_empresaid' => $this->crm_empresaid
         ]);
         return redirect()->route('mostrarDatosFiscales');
     }
