@@ -112,10 +112,11 @@ final class CrmEmpresas extends PowerGridComponent
             Button::make('edit', 'Editar')
                 ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
                 ->route('EditEmpresa', ['id' => $row->id]),
+
             Button::add('delete')
                 ->slot('Eliminar')
                 ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
-                ->dispatch('confirmDelete', ['id' => $row->id, 'table' => 'crm_empresas']),
+                ->dispatchTo('crm.crm-empresa.eliminar.eliminar-empresa','confirmDelete', ['id' => $row->id]),
 
 
             // Button::make('destroy', 'Delete')

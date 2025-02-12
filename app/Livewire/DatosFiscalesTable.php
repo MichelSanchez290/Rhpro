@@ -19,7 +19,7 @@ final class DatosFiscalesTable extends PowerGridComponent
 {
     use WithExport;
 
-    public string $tableName = 'datos-fiscales-table-wlnx6o-table';
+    public string $tableName = 'datos-fiscales-table-ijkcvz-table';
 
     public function setUp(): array
     {
@@ -27,7 +27,7 @@ final class DatosFiscalesTable extends PowerGridComponent
 
         return [
             PowerGrid::exportable('export')
-            ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             PowerGrid::header()
                 ->showSearchInput(),
             PowerGrid::footer()
@@ -50,14 +50,19 @@ final class DatosFiscalesTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('id')
-            ->add('razonSocial')
+            ->add('id')
+            ->add('razon_social')
             ->add('rfc')
             ->add('calle')
+            ->add('numero_exterior')
+            ->add('numero_interior')
             ->add('colonia')
             ->add('municipio')
             ->add('localidad')
             ->add('estado')
             ->add('pais')
+            ->add('codigo_postal')
+            ->add('crm_empresasid')
             ->add('created_at');
     }
 
@@ -65,7 +70,11 @@ final class DatosFiscalesTable extends PowerGridComponent
     {
         return [
             Column::make('Id', 'id'),
-            Column::make('Razon Social', 'razonSocial'),
+
+            Column::make('Razon social', 'razon_social')
+                ->sortable()
+                ->searchable(),
+
             Column::make('Rfc', 'rfc')
                 ->sortable()
                 ->searchable(),
@@ -74,11 +83,11 @@ final class DatosFiscalesTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Numero Exterior', 'numeroExterior')
+            Column::make('Numero exterior', 'numero_exterior')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Numero Interior', 'numeroInterior')
+            Column::make('Numero interior', 'numero_interior')
                 ->sortable()
                 ->searchable(),
 
@@ -102,13 +111,13 @@ final class DatosFiscalesTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Codigo Postal', 'codigoPostal')
+            Column::make('Codigo postal', 'codigo_postal')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Empresa', 'crmEmpresas_id')
-                ->sortable()
-                ->searchable(),
+            // Column::make('Crm empresasid', 'crm_empresasid'),
+            // Column::make('Created at', 'created_at_formatted', 'created_at')
+            //     ->sortable(),
 
             Column::action('Action')
         ];
@@ -130,12 +139,30 @@ final class DatosFiscalesTable extends PowerGridComponent
     {
         return [
             Button::make('edit', 'Editar')
-                ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
+                ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 px-4 rounded text-sm')
                 ->route('editDato', ['id' => $row->id]),
+
+
+            // Button::add('delete')
+            //     ->slot('Eliminar')
+            //     ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded text-sm')
+            //     ->dispatch('openModal', [
+            //         'component' => 'borra-archivo',
+            //         'arguments' => [
+            //             'vista' => 'eliminar-datos-fisc', // Nombre de la vista actual
+            //             'id' => $row->id
+            //         ]
+            //     ]),
+
             Button::add('delete')
-                ->slot('Eliminar')
-                ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
-                ->dispatch('confirmDelete', ['id' => $row->id, 'table' => 'datos_fiscales']),
+            ->slot('Eliminar')
+            ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
+            ->dispatch('MostrarDatosFisc', ['id' => Crypt::encrypt($row->id)]),
+
+            // Button::add('delete')
+            //     ->slot('Eliminar')
+            //     ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded text-sm')
+            //     ->dispatchTo('crm.datos-fiscale.eliminar.eliminar-datos-fisc','deleteDf', ['id' => $row->id]),
         ];
     }
 

@@ -4,8 +4,8 @@ namespace App\Livewire\Crm\CrmEmpresa\Eliminar;
 
 use App\Models\Crm\CrmEmpresa;
 use Livewire\Component;
+use Livewire\Attributes\On;
 use Livewire\WithFileUploads;
-use Illuminate\Support\Facades\Storage;
 
 class EliminarEmpresa extends Component
 {
@@ -14,15 +14,16 @@ class EliminarEmpresa extends Component
     public $showModal = false;
     public $empresaToDelete = false;
 
-    protected $listeners = [
-        'confirmDelete'=> 'confirmDelete',
-    ];
-
+    // protected $listeners = [
+    //     'confirmDelete'=> 'confirmDelete',
+    // ];
+    #[On('confirmDelete')]
     public function confirmDelete($id)
     {
         $this -> empresaToDelete = $id;
         $this -> showModal = true;
     }
+
 
     public function deleteEmpresa()
     {
