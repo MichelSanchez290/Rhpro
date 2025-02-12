@@ -3,7 +3,7 @@
 namespace App\Livewire\PortalRh\Puest;
 
 use Livewire\Component;
-use App\Models\PortalRH\Puest;
+use App\Models\PortalRH\Puesto;
 
 class AgregarPuest extends Component
 {
@@ -24,7 +24,7 @@ class AgregarPuest extends Component
     {
         $this->validate();
 
-        $AgregarPuesto = new Puest($this->puest);
+        $AgregarPuesto = new Puesto($this->puest);
         $AgregarPuesto->save();
 
         $this->puest = [];

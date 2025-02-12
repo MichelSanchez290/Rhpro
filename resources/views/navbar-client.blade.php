@@ -162,7 +162,7 @@
                         </li>
                         <li>
                             <a href="{{ route('mostrarcardtrabajador') }}" class="p-2 hover:bg-gray-700 flex items-center">
-                                <i class="mr-2 text-xs"></i> Card Trabajadores
+                                <i class="mr-2 text-xs"></i> Cards Trabajadores
                             </a>
                         </li>
                     </ul>
@@ -180,6 +180,11 @@
                         <li>
                             <a href="{{ route('mostrarinstructor') }}" class="p-2 hover:bg-gray-700 flex items-center">
                                 <i class="mr-2 text-xs"></i> Mostrar Instructores
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('mostrarcardinstructor') }}" class="p-2 hover:bg-gray-700 flex items-center">
+                                <i class="mr-2 text-xs"></i> Cards Instructores
                             </a>
                         </li>
                     </ul>

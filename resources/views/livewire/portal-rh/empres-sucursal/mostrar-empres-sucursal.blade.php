@@ -44,7 +44,9 @@
         </div>
     </div>
 
-    <!--   -->
-    <livewire:portalrh.empressucursal.empres-sucursal-table/>
+    
+
+    <livewire:portalrh.empressucursal.empresa-sucursal-table/>
+    
 
 </div>

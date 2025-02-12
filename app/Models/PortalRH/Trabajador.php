@@ -48,9 +48,15 @@ class Trabajador extends Model
         'status',
 
         'user_id',
-        'sucursal_id',
         'departamento_id',
+        'puesto_id',
+        'registro_patronal_id',
     ];
+
+    public function salarios()
+    {
+        return $this->belongsToMany(Salario::class)->withPivot('salario_id', 'trabajador_id', 'status');
+    }
 
     //alcanze con el modelo 
     public function usuarios()
@@ -59,22 +65,25 @@ class Trabajador extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function sucursales()
-    {
-        //cada trabajador pertenece a 
-        return $this->belongsTo(Sucursal::class);
-    }
-
     public function departamentos()
     {
         //cada trabajador pertenece a 
-        return $this->belongsTo(Departament::class);
+        return $this->belongsTo(Departamento::class);
+    }
+
+    public function puestos()
+    {
+        //cada trabajador pertenece a 
+        return $this->belongsTo(Puesto::class);
     }
     
 
-    public function salarios()
+    public function registrosPatronales()
     {
-        return $this->belongsToMany(Salari::class);
+        //cada trabajador pertenece a 
+        return $this->belongsTo(RegistroPatronal::class);
     }
+
+    
 
 }

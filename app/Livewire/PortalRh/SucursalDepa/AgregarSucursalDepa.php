@@ -3,9 +3,9 @@
 namespace App\Livewire\PortalRh\SucursalDepa;
 
 use Livewire\Component;
-use App\Models\PortalRH\Departament;
+use App\Models\PortalRH\Departamento;
 use App\Models\PortalRH\Sucursal;
-use App\Models\PortalRH\SucursalDepartament;
+use App\Models\PortalRH\SucursalDepartamento;
 use Illuminate\Support\Facades\DB;
 
 class AgregarSucursalDepa extends Component
@@ -17,7 +17,7 @@ class AgregarSucursalDepa extends Component
     public function mount()
     {
         $this->sucursales = Sucursal::all();
-        $this->departamentos = Departament::all();
+        $this->departamentos = Departamento::all();
     }
 
     // REGLAS DE VALIDACIÓN
@@ -38,8 +38,14 @@ class AgregarSucursalDepa extends Component
     {
         $this->validate();
 
-        $AgregarSucursalDepa = new SucursalDepartament($this->sucursaldepa);
-        $AgregarSucursalDepa->save();
+        // Insertar en la tabla pivote directamente con DB::table()
+        DB::table('sucursal_departament')->insert([
+            'sucursal_id' => $this->sucursaldepa['sucursal_id'],
+            'departamento_id' => $this->sucursaldepa['departamento_id'],
+            'status' => $this->sucursaldepa['status'],
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
 
         $this->sucursaldepa = [];
         //$this->emit('showAnimatedToast', 'Sucursal guardada correctamente');

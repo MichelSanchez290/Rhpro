@@ -124,12 +124,15 @@ final class ActivouniTable extends PowerGridComponent
                 ->icon('default-copy')
                 ->class('btn btn-primary')
                 ->route('editaractuni', ['id' => $row->id]),
-            Button::add('delete')
+                Button::add('delete')
                 ->icon('default-trash')
-                ->class('btn btn-primary')
+                ->class('btn btn-danger')
                 ->dispatch('openModal', [
                     'component' => 'borrar-activo',
-                    'arguments' => ['activo_id' => $row->id] // Aquí cambiamos el nombre del parámetro
+                    'arguments' => [
+                        'vista' => 'mostraractuni', // Nombre de la vista actual
+                        'activo_id' => $row->id
+                    ]
                 ]),
         ];
     }

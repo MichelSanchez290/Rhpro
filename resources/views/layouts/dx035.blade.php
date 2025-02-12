@@ -8,6 +8,9 @@
     <!-- Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
+    <!-- FontAwesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <!-- Tailwind CSS -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
@@ -124,5 +127,15 @@
     </footer>
 
     @livewireScripts
+    <script>
+        // Función para copiar la clave al portapapeles
+        function copiarClave(clave) {
+            navigator.clipboard.writeText(clave).then(() => {
+                alert('Clave copiada: ' + clave);
+            }).catch((error) => {
+                alert('Error al copiar la clave: ' + error);
+            });
+        }
+    </script>
 </body>
 </html>

@@ -4,22 +4,24 @@ namespace App\Livewire\PortalRh\Trabajador;
 
 use Livewire\Component;
 use App\Models\PortalRH\Trabajador;
-use App\Models\PortalRH\Sucursal;
-use App\Models\PortalRH\Departament;
+use App\Models\PortalRH\Puesto;
+use App\Models\PortalRH\Departamento;
+use App\Models\PortalRH\RegistroPatronal;
 use App\Models\User;
 use Illuminate\Support\Facades\Crypt;
 
 class MostrarCardTrabajador extends Component
 {
-    public $trabajadores, $usuarios, $sucursales, $departamentos;
+    public $trabajadores, $usuarios, $puestos, $departamentos, $registros_patronales;
 
     public function mount()
     {
         // Obtener todos los registros de las tablas relacionadas
         $this->trabajadores = Trabajador::all();
         $this->usuarios = User::all()->keyBy('id'); // Indexamos por ID para acceso rápido
-        $this->sucursales = Sucursal::all()->keyBy('id');
-        $this->departamentos = Departament::all()->keyBy('id');
+        $this->puestos = Puesto::all()->keyBy('id');
+        $this->departamentos = Departamento::all()->keyBy('id');
+        $this->registros_patronales = RegistroPatronal::all()->keyBy('id');
     }
 
     public function redirigir($id)
@@ -33,8 +35,9 @@ class MostrarCardTrabajador extends Component
         return view('livewire.portal-rh.trabajador.mostrar-card-trabajador', [
             'trabajadores' => $this->trabajadores,
             'usuarios' => $this->usuarios,
-            'sucursales' => $this->sucursales,
-            'departamentos' => $this->departamentos
+            'puestos' => $this->puestos,
+            'departamentos' => $this->departamentos,
+            'registros_patronales' => $this->registros_patronales
         ])->layout('layouts.client');
     }
 }

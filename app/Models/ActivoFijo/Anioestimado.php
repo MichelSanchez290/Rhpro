@@ -24,7 +24,7 @@ class Anioestimado extends Model
         'tipo_activo_id'
     ];
 
-    public function tipoactivo()
+    public function tipoactivos()
     {
         return $this->belongsTo(Tipoactivo::class);
     }
@@ -32,15 +32,15 @@ class Anioestimado extends Model
     {
         return $this->hasMany(ActivoSouvenir::class);
     }
-    public function activooficina()
+    public function activooficinas()
     {
         return $this->hasMany(ActivoOficina::class);
     }
-    public function activotecnologia()
+    public function activotecnologias()
     {
         return $this->hasMany(ActivoTecnologia::class);
     }
-    public function activomobiliario()
+    public function activomobiliarios()
     {
         return $this->hasMany(ActivoMobiliario::class);
     }

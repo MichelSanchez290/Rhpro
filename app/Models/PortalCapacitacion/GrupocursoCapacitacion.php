@@ -28,7 +28,7 @@ class GrupocursoCapacitacion extends Model
     // Relación con la tabla Cursos (muchos a uno)
     public function curso()
     {
-        return $this->belongsTo(Curso::class, 'cursos_id');
+        return $this->belongsToMnay(Curso::class, 'cursos_id');
     }
 
     // Relación con la tabla Participantes (uno a muchos)

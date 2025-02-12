@@ -2,7 +2,7 @@
 
 namespace App\Livewire\PortalRh\SucursalDepa;
 
-use App\Models\PortalRh\SucursalDepartament;
+use App\Models\PortalRh\SucursalDepartamento;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
@@ -38,7 +38,7 @@ final class SucursalDepaTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return SucursalDepartament::query()
+        return SucursalDepartamento::query()
         ->leftJoin('sucursales', 'sucursal_departament.sucursal_id', '=', 'sucursales.id')
         ->leftJoin('departamentos', 'sucursal_departament.departamento_id', '=', 'departamentos.id')
         ->select([
@@ -101,7 +101,7 @@ final class SucursalDepaTable extends PowerGridComponent
         $this->js('alert('.$rowId.')');
     }
 
-    public function actions(SucursalDepartament $row): array
+    public function actions(SucursalDepartamento $row): array
     {
         return [
             Button::add('edit')

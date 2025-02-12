@@ -2,7 +2,7 @@
 
 namespace App\Livewire\PortalRh\Empres;
 
-use App\Models\PortalRH\Empres;
+use App\Models\PortalRH\Empresa;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -33,7 +33,7 @@ class MostrarEmpres extends Component
     public function deleteSucursal()
     {
         if ($this->empresToDelete) {
-            Empres::find($this->empresToDelete)->delete();
+            Empresa::find($this->empresToDelete)->delete();
             session()->flash('message', 'Empresa eliminada exitosamente.');
         }
 

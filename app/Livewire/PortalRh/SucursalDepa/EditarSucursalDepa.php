@@ -4,8 +4,8 @@ namespace App\Livewire\PortalRh\SucursalDepa;
 
 use Livewire\Component;
 use App\Models\PortalRH\Sucursal;
-use App\Models\PortalRH\Departament;
-use App\Models\PortalRH\SucursalDepartament;
+use App\Models\PortalRH\Departamento;
+use App\Models\PortalRH\SucursalDepartamento;
 use Illuminate\Support\Facades\Crypt;
 
 use Illuminate\Support\Facades\DB;
@@ -18,14 +18,14 @@ class EditarSucursalDepa extends Component
     public function mount($id)
     {
         $id = Crypt::decrypt($id);
-        $sucursalDepa = SucursalDepartament::findOrFail($id);
+        $sucursalDepa = SucursalDepartamento::findOrFail($id);
         
         $this->sucursalDepa_id = $id;
         $this->sucursal_id = $sucursalDepa->sucursal_id;
         $this->departamento_id = $sucursalDepa->departamento_id;
 
         $this->sucursales = Sucursal::all();
-        $this->departamentos = Departament::all();
+        $this->departamentos = Departamento::all();
     }
 
     public function actualizarSucursalDepa()
@@ -35,7 +35,7 @@ class EditarSucursalDepa extends Component
             'departamento_id' => 'nullable|integer',
         ]);
 
-        SucursalDepartament::updateOrCreate(['id' => $this->sucursalDepa_id], [
+        SucursalDepartamento::updateOrCreate(['id' => $this->sucursalDepa_id], [
             'sucursal_id' => $this->sucursal_id,
             'departamento_id' => $this->departamento_id,
         ]);

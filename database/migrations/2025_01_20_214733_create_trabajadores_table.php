@@ -49,18 +49,26 @@ return new class extends Migration
                     ->onDelete('cascade');
 
             //donde almacenara el id de la relacion
-            $table->unsignedBigInteger('sucursal_id');
-            $table->foreign('sucursal_id') //Declara que id es una clave foránea.
-                    ->references('id') //Indica que esta columna hace referencia a la columna id
-                    ->on( 'sucursales')  // Define que la relación es con la tabla xxx
-                    ->onUpdate('cascade')
-                    ->onDelete('cascade');
-
-            //donde almacenara el id de la relacion
             $table->unsignedBigInteger('departamento_id');
             $table->foreign('departamento_id') //Declara que id es una clave foránea.
                     ->references('id') //Indica que esta columna hace referencia a la columna id
                     ->on( 'departamentos')  // Define que la relación es con la tabla xxx
+                    ->onUpdate('cascade')
+                    ->onDelete('cascade');
+
+            //donde almacenara el id de la relacion
+            $table->unsignedBigInteger('puesto_id');
+            $table->foreign('puesto_id') //Declara que id es una clave foránea.
+                    ->references('id') //Indica que esta columna hace referencia a la columna id
+                    ->on( 'puestos')  // Define que la relación es con la tabla xxx
+                    ->onUpdate('cascade')
+                    ->onDelete('cascade');
+
+            //donde almacenara el id de la relacion
+            $table->unsignedBigInteger('registro_patronal_id');
+            $table->foreign('registro_patronal_id') //Declara que id es una clave foránea.
+                    ->references('id') //Indica que esta columna hace referencia a la columna id
+                    ->on( 'registros_patronales')  // Define que la relación es con la tabla xxx
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
 

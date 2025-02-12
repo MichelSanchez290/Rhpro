@@ -93,12 +93,15 @@ final class ActivoTable extends PowerGridComponent
                 ->slot('Editar')
                 ->class('btn btn-primary')
                 ->route('editartipoactivo', ['id' => $row->id]),
-                Button::add('delete')
+            Button::add('delete')
                 ->icon('default-trash')
-                ->class('btn btn-primary')
+                ->class('btn btn-danger')
                 ->dispatch('openModal', [
                     'component' => 'borrar-activo',
-                    'arguments' => ['activo_id' => $row->id] // Aquí cambiamos el nombre del parámetro
+                    'arguments' => [
+                        'vista' => 'mostrartipoactivo', // Nombre de la vista actual
+                        'activo_id' => $row->id
+                    ]
                 ]),
         ];
     }

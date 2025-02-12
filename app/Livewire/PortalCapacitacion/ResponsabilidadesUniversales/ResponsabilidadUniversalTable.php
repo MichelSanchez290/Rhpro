@@ -49,13 +49,18 @@ final class ResponsabilidadUniversalTable extends PowerGridComponent
     public function fields(): PowerGridFields
     {
         return PowerGrid::fields()
-            ->add('sistema');
+            ->add('sistema')
+            ->add('responsalidad');
     }
 
     public function columns(): array
     {
         return [
             Column::make('Sistema', 'sistema')
+                ->sortable()
+                ->searchable(),
+
+            Column::make('Responsabilidad', 'responsalidad')
                 ->sortable()
                 ->searchable(),
 

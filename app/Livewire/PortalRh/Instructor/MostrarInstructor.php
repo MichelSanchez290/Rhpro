@@ -3,7 +3,7 @@
 namespace App\Livewire\PortalRh\Instructor;
 
 use Livewire\Component;
-use App\Models\PortalRH\Instruct;
+use App\Models\PortalRH\Instructor;
 
 class MostrarInstructor extends Component
 {
@@ -31,7 +31,7 @@ class MostrarInstructor extends Component
     public function deleteInstructor()
     {
         if ($this->instructorToDelete) {
-            Instruct::find($this->instructorToDelete)->delete();
+            Instructor::find($this->instructorToDelete)->delete();
             session()->flash('message', 'Instructor eliminado exitosamente.');
         }
 
