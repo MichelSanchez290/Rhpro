@@ -12,32 +12,33 @@ class AgregarDatosFiscale extends Component
     public $consulta;
 
     protected $rules = [
-        'dato.razonSocial' => 'required',
+        'dato.razon_social' => 'required',
         'dato.rfc' => 'required',
         'dato.calle' => 'required',
-        'dato.numeroExterior' => 'required',
-        'dato.numeroInterior' => '',
+        'dato.numero_exterior' => 'required',
+        'dato.numero_interior' => '',
         'dato.colonia' => 'required',
         'dato.municipio' => 'required',
         'dato.localidad' => 'required',
         'dato.estado' => 'required',
         'dato.pais' => 'required',
-        'dato.codigoPostal' => 'required',
-        'dato.crmEmpresas_id' => 'required',
+        'dato.codigo_postal' => 'required',
+        'dato.crm_empresasid' => 'required',
     ];
 
     protected $messages = [
-        'dato.razonSocial.required' => 'Razon social requerida',
+        'dato.razon_social.required' => 'Razon social requerida',
         'dato.rfc.required' => 'RFC requerido',
         'dato.calle.required' => 'Calle requerida',
-        'dato.numeroExterior.required' => 'Numero Exterior requerido',
+        'dato.numero_exterior.required' => 'Numero Exterior requerido',
+        // 'dato.numero_interior.required' => 'Numero Interior requerido',
         'dato.colonia.required' => 'Colonia requerida',
         'dato.municipio.required' => 'Municipio requerido',
         'dato.localidad.required' => 'Localidad requerida',
         'dato.estado.required' => 'Estado requerido',
         'dato.pais.required' => 'Pais requerido',
-        'dato.codigoPostal.required' => 'Codigo Postal requerida',
-        'dato.crmEmpresas_id.required' => 'Empresa requerida',
+        'dato.codigo_postal.required' => 'Codigo Postal requerida',
+        'dato.crm_empresasid.required' => 'Empresa requerida',
     ];
 
     public function mount()

@@ -9,6 +9,7 @@ use App\Livewire\Crm\DatosFiscale\Agregar\AgregarDatosFiscale;
 use App\Livewire\Crm\DatosFiscale\Mostrar\MostrarDatosFisc;
 use App\Livewire\Crm\DatosFiscale\Editar\EditarDatosFisc;
 use App\Livewire\Crm\DatosFiscale\Eliminar\EliminarDatosFisc;
+use App\Livewire\DatosFiscalesTable;
 use App\Livewire\LeadsCliente;
 use App\Livewire\Portal360\EliminarRolesDev;
 use App\Livewire\PortalRh\Empres\MostrarEmpres;
@@ -64,5 +65,7 @@ Route::post(
     '/crm-deleteDato/{id}',
     EliminarDatosFisc::class,
 )->name('EliminarDato');
+
+Route::get('/crm-deleteDato', [MostrarDatosFisc::class, 'deleteDato'])->name('confirmDeleteDato');
 
 // Route::get('select', 'AgregarDatosFiscale@select');
