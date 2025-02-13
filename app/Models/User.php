@@ -10,6 +10,7 @@ use App\Models\ActivoFijo\Activos\ActivoPapeleria;
 use App\Models\ActivoFijo\Activos\ActivoSouvenir;
 use App\Models\ActivoFijo\Activos\ActivoTecnologia;
 use App\Models\ActivoFijo\Activos\ActivoUniforme;
+use App\Models\Crm\LeadsCliente;
 use App\Models\PortalCapacitacion\PerfilPuesto;
 use App\Models\PortalRH\Becari;
 use App\Models\PortalRH\Empres;
@@ -79,7 +80,7 @@ class User extends Authenticatable
         return $this->hasMany(Becari::class);
     }
 
-    
+
 
 
 
@@ -128,7 +129,7 @@ class User extends Authenticatable
 
     public function regPatronales()
     {
-        //cada trabajador pertenece a 
+        //cada trabajador pertenece a
         return $this->hasMany(RegisPatronal::class);
     }
 
@@ -205,5 +206,10 @@ class User extends Authenticatable
    {
        return $this->belongsTo(Sucursal::class, 'sucursal_id', 'id');
    }
+
+   public function leadscliente()
+    {
+        return $this->hasMany(LeadsCliente::class);
+    }
 
 }

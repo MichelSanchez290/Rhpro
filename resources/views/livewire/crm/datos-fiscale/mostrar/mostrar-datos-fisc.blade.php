@@ -1,32 +1,7 @@
 <div>
     <livewire:datos-fiscales-table />
-    {{-- @livewire('datos-fiscales-table') --}}
-    {{-- If you look to others for fulfillment, you will never truly be fulfilled. --}}
 </div>
 <script>
-    // #[On('confirmDeleteDato')]
-    // public function deleteDato($id)
-    // {
-    //     try {
-    //         $decryptedId = Crypt::decrypt($id);
-
-    //         $dato = DatosFiscale::findOrFail($decryptedId);
-    //         $dato->delete();
-
-    //         // Mostrar mensaje de éxito con SweetAlert2
-    //         $this->dispatch('swal-success', message: 'Encuesta eliminada correctamente.');
-
-    //         return redirect()->route('mostrarDatosFiscales');
-    //     } catch (\Exception $e) {
-    //         $this->dispatch('swal-error', message: 'Error al eliminar la encuesta.');
-    //     }
-    // }
-    // Button::add('delete')
-    //         ->slot('Eliminar')
-    //         ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
-    //         ->dispatch('MostrarDatosFisc', ['id' => Crypt::encrypt($row->id)]),
-
-    // Route::get('/crm-deleteDato', [MostrarDatosFisc::class, 'deleteDato'])->name('eliminarDato');
     document.addEventListener("DOMContentLoaded", function() {
         Livewire.on('MostrarDatosFisc', (data) => {
             Swal.fire({
