@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Crm\CrmEmpresa\Mostrar;
 
 use App\Models\Crm\CrmEmpresa;
 use Illuminate\Support\Carbon;
