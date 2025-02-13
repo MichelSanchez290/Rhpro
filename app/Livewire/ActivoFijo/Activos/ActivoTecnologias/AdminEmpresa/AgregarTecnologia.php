@@ -86,7 +86,7 @@ class AgregarTecnologia extends Component
         $this->subirfoto2 = NULL;
         $this->subirfoto3 = NULL;
 
-        return redirect()->route('mostraracttec');
+        return redirect()->route('mostrartec');
     }
 
     // public function hydrate()

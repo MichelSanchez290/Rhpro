@@ -131,7 +131,7 @@ final class ActivotecTable extends PowerGridComponent
     {
         return [
             Button::add('edit')
-                ->slot('Editar')
+                ->icon('default-edit')
                 ->class('btn btn-primary')
                 ->route('editaracttec', ['id' => $row->id]),
             Button::add('delete')
@@ -142,15 +142,6 @@ final class ActivotecTable extends PowerGridComponent
                     'arguments' => [
                         'vista' => 'mostraracttec', // Nombre de la vista actual
                         'activo_id' => $row->id
-                    ]
-                ]),
-            Button::add('assign')
-                ->slot('Asignar')
-                ->class('btn btn-success')
-                ->dispatch('openModal', [
-                    'component' => 'asignar-activo',
-                    'arguments' => [
-                        'activoId' => $row->id
                     ]
                 ]),
         ];

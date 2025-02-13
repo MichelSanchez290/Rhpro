@@ -45,10 +45,10 @@ class ActivoOficina extends Model
         return $this->belongsTo(AnioEstimado::class, 'aniosestimado_id', 'id');
     }
 
-
-
     public function usuarios()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class, 'activos_tecnologia_user')
+            ->withPivot('fecha_asignacion', 'fecha_devolucion', 'observaciones', 'status', 'foto1', 'foto2', 'foto3')
+            ->withTimestamps();
     }
 }

@@ -1,4 +1,4 @@
-{{-- @section('css')
+ @section('css')
     <!--Select2-->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <style>
@@ -21,8 +21,12 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            $('#sucursall').select2();
-        });
+            $('.select2').select2();
+        
+        $('#sucursall').on('change', function() {
+                @this.set('activo.sucursal_id', this.value);
+            });
+        })
     </script>
 @endsection
 <div>
@@ -36,21 +40,24 @@
 
             <!-- Formulario con fondo blanco y sombra más pronunciada -->
             <div class="bg-white rounded-b-lg shadow-2xl p-6 ">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="">
-                        <div wire:ignore>
-                            <select id="sucursall" class="select2"  wire:model="activo.sucursal_id" >
-
-                                <option>Selecciona</option>
-
-                                @foreach ($sucursales as $su)
-                                    <option value="{{ $su->id }}">{{ $su->nombre_sucursal }}</option>
-                                @endforeach
-                            </select>
-
-                        </div>
-                        <x-input-error for="curso.category_id" />
+                <div class="my-2">
+                    <div class="py-2 my-2">
+                        <label for="nombre" class="text-gray-700 font-bold text-xl">Sucursal</label>
                     </div>
+                    <div wire:ignore>
+                        <select id="sucursall" class="select2"  wire:model="activo.sucursal_id" >
+
+                            <option>Selecciona la sucursal</option>
+
+                            @foreach ($sucursales as $su)
+                                <option value="{{ $su->id }}">{{ $su->nombre_sucursal }}</option>
+                            @endforeach
+                        </select>
+
+                    </div>
+                    <x-input-error for="curso.category_id" />
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <!-- Nombre del Producto -->
                     <div class="my-2">
                         <label for="nombre" class="text-gray-700 font-bold text-xl">Nombre del Producto</label>
@@ -225,40 +232,4 @@
             </div>
         </div>
     </div>
-</div> --}}
-@section('css')
-    <!--Select2-->
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <style>
-        .select2-container--default .select2-selection--single {
-            border: 4px solid rgb(3, 168, 221);
-            height: 47px;
-            line-height: 28px;
-            border-radius: 10px; /* Mejor ajuste */
-        }
-
-        .select2 {
-            width: 100%;
-        }
-    </style>
-@endsection
-
-@section('js')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            $('#mySelect2').select2();
-        });
-    </script>
-@endsection
-<div wire:ignore>
-    <select id="mySelect2" class="select2">
-        <option value="">Hi</option>
-        <option value="">Hi2</option>
-        <option value="">Hi3</option>
-    </select>
-    <h1>probando</h1>
 </div>
-
