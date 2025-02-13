@@ -17,8 +17,8 @@ class AgregarLeadsCliente extends Component
 
     protected $rules = [
         'leadcliente.nombre_contacto' => 'required',
-        // 'leadcliente.users_id' => 'required|exists:users,id',
-        'leadcliente.users_id' => 'exists:users_id',
+        'leadcliente.users_id' => 'required|exists:users,id',
+        // 'leadcliente.users_id' => 'exists:users_id',
         'leadcliente.numero_cliente' => 'required',
         'leadcliente.fecha' => 'required',
         'leadcliente.hora' => 'required',
@@ -31,8 +31,8 @@ class AgregarLeadsCliente extends Component
 
     protected $messages = [
         'leadcliente.nombre_contacto.required' => 'Este campo no puede ser nulo',
-        // 'leadcliente.user_id.required' => 'Este campo no puede ser nulo',
-        'leadcliente.user_id.exists' => 'El usuario seleccionado no es válido',
+        'leadcliente.user_id.required' => 'Este campo no puede ser nulo',
+        // 'leadcliente.user_id.exists' => 'El usuario seleccionado no es válido',
         'leadcliente.numero_cliente.required' => 'Este campo no puede ser nulo',
         'leadcliente.fecha.required' => 'Este campo no puede ser nulo',
         'leadcliente.hora.required' => 'Este campo no puede ser nulo',
@@ -46,8 +46,6 @@ class AgregarLeadsCliente extends Component
     public function mount()
     {
         $this->query = LeadsCliente::get();
-        $leadcliente['user_id'] = Auth::user()->id;
-        $leadcliente['tipo'] = 'lead';
     }
 
     public function saveLeadCliente()
