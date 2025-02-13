@@ -13,15 +13,19 @@ class UserRolDevSeeder extends Seeder
      */
     public function run(): void
     {
-        //
-        $role1=Role::create(['name'=>'GoldenAdmin']);
+        //ROLES
+        $role1=Role::create(['name'=>'Admin']);
         $role2=Role::create(['name'=>'EmpresaAdmin']);
         $role3=Role::create(['name'=>'SusursalAdmin']);
-        $role4=Role::create(['name'=>'Trabajador']);
 
-        Permission::create(['name'=>'Administrador General'])->syncRoles([$role1]);
-        Permission::create(['name'=>'Administrador Principal'])->syncRoles([$role2]);
-        Permission::create(['name'=>'Administrador Secundario'])->syncRoles([$role3]);
-        Permission::create(['name'=>'Usuario Principal'])->syncRoles([$role4]);
+        $role4=Role::create(['name'=>'Trabajador CRM']);
+        $role5=Role::create(['name'=>'Trabajador ACTIVO FIJO']);
+        $role6=Role::create(['name'=>'Trabajador ENCUESTA 360']);
+        $role7=Role::create(['name'=>'Trabajador NOM035']);
+        $role8=Role::create(['name'=>'Trabajador PORTAL RH']);
+        $role9=Role::create(['name'=>'Trabajador PORTAL CAPACITACION']);
+        //CONTEMPLA TODOS LOS MODULOS
+        $role10=Role::create(['name'=>'Trabajador GLOBAL']);
+        //FIN DE ROLES
     }
 }

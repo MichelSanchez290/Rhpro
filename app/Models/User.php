@@ -182,7 +182,7 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(PerfilPuesto::class, 'perfil_puesto_user', 'users_id', 'perfiles_puestos_id'); // Modelo relacionado
     }
-    public function empresas()
+    public function empresa()
     {
         return $this->belongsTo(Empresa::class, 'empresas_id', 'id');
     }
@@ -201,5 +201,11 @@ class User extends Authenticatable
     public function perfilActual()
     {
         return $this->perfilesPuestos()->latest()->first();
+    }
+
+    //Por favor no tocar porque aqui son de mi asignaciones para que mueste el nombre de la empresa y sucursal 
+    public function sucursal()
+    {
+        return $this->belongsTo(Sucursal::class, 'sucursal_id');
     }
 }
