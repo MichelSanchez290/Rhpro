@@ -40,6 +40,7 @@ return new class extends Migration
     {
         Schema::table('leads_clientes', function (Blueprint $table) {
             $table->dropForeign(['datos_id']);
+            $table->dropForeign(['users_id']);
         });
         Schema::dropIfExists('leads_clientes');
     }
