@@ -5,6 +5,7 @@ namespace App\Livewire\Crm\Leads;
 use Livewire\Component;
 use App\Models\Crm\LeadsCliente;
 use App\Models\Crm\DatosFiscale;
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
 class Vistaprincipal extends Component
@@ -41,6 +42,7 @@ class Vistaprincipal extends Component
     public function mount()
     {
         $this->consulta = LeadsCliente::get();
+        $lead['user_id']= Auth::user()->id;
     }
 
     public function saveLead()
