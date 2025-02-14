@@ -1,14 +1,15 @@
 <?php
 
-use App\Livewire\Crm\Inicio;
 use App\Livewire\Crm\CrmEmpresa\Agregar\AgregarEmpresa;
 use App\Livewire\Crm\CrmEmpresa\Editar\EditarEmpresa;
 use App\Livewire\Crm\CrmEmpresa\Eliminar\EliminarEmpresa;
 use App\Livewire\Crm\CrmEmpresa\Mostrar\MostrarEmpre;
 use App\Livewire\Crm\DatosFiscale\Agregar\AgregarDatosFiscale;
-use App\Livewire\Crm\DatosFiscale\Mostrar\MostrarDatosFisc;
 use App\Livewire\Crm\DatosFiscale\Editar\EditarDatosFisc;
 use App\Livewire\Crm\DatosFiscale\Eliminar\EliminarDatosFisc;
+use App\Livewire\Crm\DatosFiscale\Mostrar\MostrarDatosFisc;
+use App\Livewire\Crm\Inicio;
+use App\Livewire\Crm\Leads\Vistaprincipal;
 use App\Livewire\DatosFiscalesTable;
 use App\Livewire\LeadsCliente;
 use App\Livewire\Portal360\EliminarRolesDev;
@@ -60,6 +61,11 @@ Route::get(
     '/crm-editarDatosFiscales/{id}',
     EditarDatosFisc::class
 )->name('editDato');
+
+Route::get(
+    '/crm-leads',
+    Vistaprincipal::class
+)->name('Leads');
 
 Route::post(
     '/crm-deleteDato/{id}',
