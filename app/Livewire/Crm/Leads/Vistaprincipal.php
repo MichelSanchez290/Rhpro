@@ -51,7 +51,7 @@ class Vistaprincipal extends Component
         //dd($lead['users_id']);
         $this->lead['users_id'] = Auth::user()->id;
         $this->lead['tipo']= 'Lead';
-        $this->paginacion = 0;
+        $this->paginacion = 1;
     }
 
     public function uno()

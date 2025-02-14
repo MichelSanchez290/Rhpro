@@ -8,53 +8,52 @@
         <div class="flex justify-center w-full px-2 py-4 bg-white rounded-lg shadow-lg">
             {{-- Nombre del lead --}}
             <div class="mx-2">
-                <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase " for="razonsocial">
+                <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase ">
                     Nombre del lead
                 </label>
                 <input
                     class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                    wire:model.defer="lead.nombre_contacto" type="text" placeholder="">
+                    wire:model.defer="lead.nombre_contacto" type="text">
                 <x-input-error for="lead.nombre_contacto" />
             </div>
             {{-- Numero del cliente --}}
             <div class="mx-2">
-                <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase" for="razonsocial">
+                <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
                     Numero de cliente
                 </label>
                 <input
                     class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                    wire:model.defer="lead.numero_cliente" type="number" min="0" max="99999999" step="10"
-                    placeholder="">
+                    wire:model.defer="lead.numero_cliente" type="number">
                 <x-input-error for="lead.numero_cliente" />
             </div>
             {{-- Fecha --}}
             <div class="mx-2">
-                <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase" for="razonsocial">
+                <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
                     Fecha
                 </label>
                 <input
                     class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                    wire:model.defer="lead.fecha" type="date" placeholder="">
+                    wire:model.defer="lead.fecha" type="date">
                 <x-input-error for="lead.fecha" />
             </div>
         </div>
         <div class="flex justify-center w-full px-2 py-4 bg-white rounded-lg shadow-lg">
             {{-- Hora --}}
             {{-- <div class="mx-2">
-                <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase" for="razonsocial">
+                <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
                     Hora
                 </label>
                 <input
                     class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                    wire:model.defer="lead.hora" type="time" placeholder="" step="1">
+                    wire:model.defer="lead.hora" type="time" step="1">
                 <x-input-error for="lead.hora" />
             </div> --}}
             {{-- Nombre de empresa --}}
             <div class="mx-2">
-                <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase" for="razonsocial">
+                <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
                     Nombre de empresa
                 </label>
-                <select wire:model='lead.datos_id'
+                <select wire:model=''
                     class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500">
                     <option value="">Selecciona</option>
                     @foreach ($datosfis as $d)
@@ -63,39 +62,39 @@
                 </select>
                 {{-- <input
                     class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                    wire:model.defer="" type="text" placeholder=""> --}}
-                <x-input-error for="lead.datos_id" />
+                    wire:model.defer="" type="text"> --}}
+                <x-input-error for="" />
             </div>
             {{-- Puesto --}}
             <div class="mx-2">
-                <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase" for="razonsocial">
+                <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
                     Puesto
                 </label>
                 <input
                     class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                    wire:model.defer="lead.puesto" type="text" placeholder="">
+                    wire:model.defer="lead.puesto" type="text">
                 <x-input-error for="lead.puesto" />
             </div>
         </div>
         <div class="flex justify-center w-full px-2 py-4 bg-white rounded-lg shadow-lg">
             {{-- Correo --}}
             <div class="mx-2">
-                <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase" for="razonsocial">
+                <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
                     Correo
                 </label>
                 <input
                     class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                    wire:model.defer="lead.correo" type="email" placeholder="">
+                    wire:model.defer="lead.correo" type="email">
                 <x-input-error for="lead.correo" />
             </div>
             {{-- Telefono --}}
             <div class="mx-2 mb-4">
-                <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase" for="razonsocial">
+                <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
                     Telefono
                 </label>
                 <input
                     class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                    wire:model.defer="lead.telefono" type="number" placeholder=""min="0" max="99999999" step="10">
+                    wire:model.defer="lead.telefono" type="number">
                 <x-input-error for="lead.telefono" />
             </div>
         </div>
@@ -125,100 +124,122 @@
 
     @if ($paginacion == 1)
         <div id="form1">
-            <div class="m-4 rounded-lg shadow-md shadow-gray-300">
-                <div class="flex justify-center w-full px-2 py-4 bg-white rounded-lg shadow-lg">
+            <div class="m-4 rounded-lg bg-white shadow-md shadow-gray-300">
+                <div class="text-center">
+                    <h1 class="text-3xl font-bold p-10">
+                        Formulario de E-Smart
+                    </h1>
+                </div>
+                <div class="flex justify-center w-full px-2 py-4">
                     {{-- Tiene que mandar a llamar el nombre del lead, del formato de arriba --}}
                     <div class="mx-2">
-                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
-                            for="razonsocial">
+                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
                             Nombre del Lead
                         </label>
-                        <input
+                        <input disabled
                             class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="lead.nombre_contacto" type="text" placeholder="">
+                            wire:model.defer="lead.nombre_contacto" type="text">
                         <x-input-error for="lead.nombre_contacto" />
                     </div>
                     {{-- Tiene que mandar a llamar el nombre de la empresa del formato de arriba --}}
                     <div class="mx-2">
-                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
-                            for="razonsocial">
-                            Numero de la empresa
+                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                            Nombre de empresa
                         </label>
-                        <input
+                        <input disabled
                             class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="lead.numero_cliente" type="text" placeholder="">
-                        <x-input-error for="lead.numero_cliente" />
+                            wire:model.defer="" type="text">
+                        <x-input-error for="" />
                     </div>
                     {{-- Giro de la empresa --}}
                     <div class="mx-2">
-                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
-                            for="razonsocial">
+                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
                             Giro de la empresa
                         </label>
                         <input
                             class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="lead.fecha" type="text" placeholder="">
+                            wire:model.defer="lead.fecha" type="text">
                         <x-input-error for="lead.fecha" />
                     </div>
                 </div>
-                <div class="flex justify-center w-full px-2 py-4 bg-white rounded-lg shadow-lg">
-                    {{-- Hora --}}
+                <div class="flex justify-center w-full px-2 py-4">
+                    {{-- Tamaño de la empresa --}}
                     <div class="mx-2">
-                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
-                            for="razonsocial">
-                            Hora
+                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                            Tamaño de la empresa
                         </label>
-                        <input
-                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="lead.hora" type="text" placeholder="">
-                        <x-input-error for="lead.hora" />
+                        <select wire:model='lead.datos_id'
+                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500">
+                            <option value="">Selecciona</option>
+                            <option value="">Chica</option>
+                            <option value="">Mediana</option>
+                            <option value="">Grande</option>
+                        </select>
                     </div>
-                    {{-- Razon Social --}}
+                    {{-- Primera vez aplicando --}}
                     <div class="mx-2">
-                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
-                            for="razonsocial">
-                            Razon social
+                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                            ¿Es la primera vez aplicando?
                         </label>
-                        <input
-                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="lead.datos_id" type="text" placeholder="">
-                        <x-input-error for="lead.datos_id" />
+                        <select wire:model='lead.datos_id'
+                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500">
+                            <option value="">Selecciona</option>
+                            <option value="">Si</option>
+                            <option value="">No</option>
+                        </select>
                     </div>
-                    {{-- Puesto --}}
+                    {{-- Responsable Comercial --}}
                     <div class="mx-2">
-                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
-                            for="razonsocial">
-                            Puesto
+                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                            Responsable comercial
                         </label>
                         <input
                             class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="lead.puesto" type="text" placeholder="">
-                        <x-input-error for="lead.puesto" />
+                            wire:model.defer="" type="text">
+                        <x-input-error for="" />
                     </div>
                 </div>
-                <div class="flex justify-center w-full px-2 py-4 bg-white rounded-lg shadow-lg">
-                    {{-- Correo --}}
+                <div class="flex justify-center w-full px-2 py-4">
+                    {{-- Fecha --}}
                     <div class="mx-2">
-                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
-                            for="razonsocial">
+                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                            Fecha
+                        </label>
+                        <input
+                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                            wire:model.defer="" type="date">
+                        <x-input-error for="" />
+                    </div>
+                    {{-- Tiene que mandar a llamar el correo del lead del formato de arriba --}}
+                    <div class="mx-2">
+                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
                             Correo
                         </label>
-                        <input
+                        <input disabled
                             class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="lead.correo" type="text" placeholder="">
+                            wire:model.defer="lead.correo" type="text">
                         <x-input-error for="lead.correo" />
                     </div>
-                    {{-- Telefono --}}
+                    {{-- Tiene que mandar a llamar el telefono del lead del formato de arriba --}}
                     <div class="mx-2">
-                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
-                            for="razonsocial">
+                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
                             Telefono
                         </label>
-                        <input
+                        <input disabled
                             class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="lead.telefono" type="text" placeholder="">
+                            wire:model.defer="lead.telefono" type="number">
                         <x-input-error for="lead.telefono" />
                     </div>
+                </div>
+                <div class="flex justify-end">
+                    <button
+                        class="text-white font-semibold bg-blue-600 shadow-md shadow-gray-500 p-2 my-6 mr-4 hover:shadow-none hover:bg-blue-800 rounded-md">
+                        Guardar y Agregar otro
+                    </button>
+                    <button
+                        class="text-white font-semibold bg-green-600 shadow-md shadow-gray-500 p-2 my-6 mr-6 hovehover:shadow-none hover:bg-green-800 rounded-md ">
+                        Guardar y Salir
+                    </button>
                 </div>
             </div>
         </div>
