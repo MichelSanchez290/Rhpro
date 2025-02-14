@@ -8,7 +8,7 @@
         <div class="flex justify-center w-full px-2 py-4 bg-white rounded-lg shadow-lg">
             {{-- Nombre del lead --}}
             <div class="mx-2">
-                <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase ">
+                <label class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase w-60 ">
                     Nombre del lead
                 </label>
                 <input
@@ -18,7 +18,7 @@
             </div>
             {{-- Numero del cliente --}}
             <div class="mx-2">
-                <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                <label class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase w-60">
                     Numero de cliente
                 </label>
                 <input
@@ -28,7 +28,7 @@
             </div>
             {{-- Fecha --}}
             <div class="mx-2">
-                <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                <label class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase w-60">
                     Fecha
                 </label>
                 <input
@@ -49,7 +49,7 @@
                 <x-input-error for="lead.hora" />
             </div> --}}
             {{-- Nombre de empresa --}}
-            <div class="mx-2">
+            <div class="mx-2 text-center w-60 ">
                 <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
                     Nombre de empresa
                 </label>
@@ -72,7 +72,7 @@
                 <x-input-error for="" />
             </div>
             {{-- Puesto --}}
-            <div class="mx-2">
+            <div class="mx-2 text-center w-60">
                 <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
                     Puesto
                 </label>
@@ -84,7 +84,7 @@
         </div>
         <div class="flex justify-center w-full px-2 py-4 bg-white rounded-lg shadow-lg">
             {{-- Correo --}}
-            <div class="mx-2">
+            <div class="mx-2 text-center w-60">
                 <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
                     Correo
                 </label>
@@ -94,7 +94,7 @@
                 <x-input-error for="lead.correo" />
             </div>
             {{-- Telefono --}}
-            <div class="mx-2 mb-4">
+            <div class="mx-2 mb-4 text-center w-60">
                 <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
                     Telefono
                 </label>
@@ -137,7 +137,7 @@
                     </h1>
                 </div>
                 <div class="flex justify-center w-full px-2 py-4">
-                    <div class="mx-2">
+                    <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
                             Nombre del Lead
                         </label>
@@ -146,7 +146,7 @@
                             wire:model.defer="lead.nombre_contacto" type="text">
                         <x-input-error for="lead.nombre_contacto" />
                     </div>
-                    <div class="mx-2">
+                    <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
                             Nombre de empresa
                         </label>
@@ -155,7 +155,7 @@
                             wire:model.defer="empresaSeleccionada" type="text">
                         <x-input-error for="empresaSeleccionada" />
                     </div>
-                    <div class="mx-2">
+                    <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
                             Correo
                         </label>
@@ -164,25 +164,17 @@
                             wire:model.defer="lead.correo" type="text">
                         <x-input-error for="lead.correo" />
                     </div>
-                    <div class="mx-2">
-                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
-                            Telefono
-                        </label>
-                        <input disabled
-                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="lead.telefono" type="number">
-                        <x-input-error for="lead.telefono" />
-                    </div>
                 </div>
                 <div class="flex justify-center w-full px-2 py-4">
                     {{-- Tamaño de la empresa --}}
-                    <div class="mx-2">
+                    <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
                             Tamaño de la empresa
                         </label>
                         <select wire:model='lead.datos_id'
                             class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500">
-                            <option value="">Selecciona</option>
+                            <option value="" disabled>Seleccione un valor</option>
+                            <option value="" disabled>------</option>
                             <option value="">Micro</option>
                             <option value="">Chica</option>
                             <option value="">Mediana</option>
@@ -190,19 +182,20 @@
                         </select>
                     </div>
                     {{-- Primera vez aplicando --}}
-                    <div class="mx-2">
+                    <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
                             ¿Es la primera vez aplicando?
                         </label>
                         <select wire:model='lead.datos_id'
                             class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500">
-                            <option value="">Selecciona</option>
+                            <option value="" disabled>Seleccione un valor</option>
+                            <option value="" disabled>------</option>
                             <option value="">Si</option>
                             <option value="">No</option>
                         </select>
                     </div>
                     {{-- Responsable Comercial --}}
-                    <div class="mx-2">
+                    <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
                             Responsable comercial
                         </label>
@@ -214,7 +207,25 @@
                 </div>
                 <div class="flex justify-center w-full px-2 py-4">
                     {{-- Fecha --}}
-                    <div class="mx-2">
+                    <div class="mx-2 text-center w-60">
+                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                            Giro de la empresa
+                        </label>
+                        <input
+                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                            wire:model.defer="" type="text">
+                        <x-input-error for="" />
+                    </div>
+                    <div class="mx-2 text-center w-60">
+                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                            Telefono
+                        </label>
+                        <input disabled
+                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                            wire:model.defer="lead.telefono" type="number">
+                        <x-input-error for="lead.telefono" />
+                    </div>
+                    <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
                             Fecha
                         </label>
@@ -222,15 +233,6 @@
                             class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
                             wire:model.defer="" type="date">
                         <x-input-error for="" />
-                    </div>
-                    <div class="mx-2">
-                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
-                            Giro de la empresa
-                        </label>
-                        <input
-                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="lead.fecha" type="text">
-                        <x-input-error for="lead.fecha" />
                     </div>
                 </div>
                 <div class="flex justify-end">
@@ -256,7 +258,7 @@
                     </h1>
                 </div>
                 <div class="flex justify-center w-full px-2 py-4">
-                    <div class="mx-2">
+                    <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
                             Nombre del Lead
                         </label>
@@ -265,7 +267,7 @@
                             wire:model.defer="lead.nombre_contacto" type="text">
                         <x-input-error for="lead.nombre_contacto" />
                     </div>
-                    <div class="mx-2">
+                    <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
                             Nombre de empresa
                         </label>
@@ -274,7 +276,7 @@
                             wire:model.defer="empresaSeleccionada" type="text">
                         <x-input-error for="empresaSeleccionada" />
                     </div>
-                    <div class="mx-2">
+                    <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
                             Correo
                         </label>
@@ -283,7 +285,7 @@
                             wire:model.defer="lead.correo" type="text">
                         <x-input-error for="lead.correo" />
                     </div>
-                    <div class="mx-2">
+                    <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
                             Telefono
                         </label>
@@ -294,38 +296,39 @@
                     </div>
                 </div>
                 <div class="flex justify-center w-full px-2 py-4">
-                    <div class="mx-2">
+                    <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
                             Giro de la empresa
                         </label>
                         <input
                             class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="lead.fecha" type="text">
-                        <x-input-error for="lead.fecha" />
+                            wire:model.defer="" type="text">
+                        <x-input-error for="" />
                     </div>
-                    <div class="mx-2">
+                    <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
                             Ubicacion
                         </label>
                         <input
-                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
                             wire:model.defer="" type="text">
                         <x-input-error for="" />
                     </div>
-                    <div class="mx-2">
+                    <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
                             ¿Es la primera vez aplicando?
                         </label>
                         <select wire:model='lead.datos_id'
                             class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500">
-                            <option value="">Selecciona</option>
+                            <option value="" disabled>Seleccione un valor</option>
+                            <option value="" disabled>------</option>
                             <option value="">Si</option>
                             <option value="">No</option>
                         </select>
                     </div>
                 </div>
                 <div class="flex justify-center w-full px-2 py-4">
-                    <div class="mx-2">
+                    <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
                             Medio de Informacion
                         </label>
@@ -334,7 +337,7 @@
                             wire:model.defer="" type="text">
                         <x-input-error for="" />
                     </div>
-                    <div class="mx-2">
+                    <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
                             Responsable comercial
                         </label>
@@ -343,7 +346,7 @@
                             wire:model.defer="" type="text">
                         <x-input-error for="" />
                     </div>
-                    <div class="mx-2">
+                    <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
                             Fecha
                         </label>
@@ -374,7 +377,7 @@
             <div class="m-4 rounded-lg shadow-md shadow-gray-300">
                 <div class="flex justify-center w-full px-2 py-4 bg-white rounded-lg shadow-lg">
                     {{-- Representante comercial --}}
-                    <div class="mx-2">
+                    <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
                             for="responsable_comercial">
                             Representante comercial
@@ -385,7 +388,7 @@
                         <x-input-error for="hlevped.representante_comercial" />
                     </div>
                     {{-- Fecha --}}
-                    <div class="mx-2">
+                    <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
                             for="fecha">
                             Fecha
@@ -396,7 +399,7 @@
                         <x-input-error for="hlevped.fecha" />
                     </div>
                     {{-- Nombre del cliente --}}
-                    <div class="mx-2">
+                    <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
                             for="nombre_cliente">
                             Nombre del cliente
@@ -409,7 +412,7 @@
                 </div>
                 <div class="flex justify-center w-full px-2 py-4 bg-white rounded-lg shadow-lg">
                     {{-- Puesto --}}
-                    <div class="mx-2">
+                    <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
                             for="puesto">
                             Puesto
@@ -420,7 +423,7 @@
                         <x-input-error for="hlevped.puesto" />
                     </div>
                     {{-- Empresa --}}
-                    <div class="mx-2">
+                    <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
                             for="razonsocial">
                             Empresa
@@ -431,7 +434,7 @@
                         <x-input-error for="hlevped.empresa" />
                     </div>
                     {{-- Ubicación --}}
-                    <div class="mx-2">
+                    <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
                             for="razonsocial">
                             Ubicacion
@@ -444,7 +447,7 @@
                 </div>
                 <div class="flex justify-center w-full px-2 py-4 bg-white rounded-lg shadow-lg">
                     {{-- Tamaño de empresa --}}
-                    <div class="mx-2">
+                    <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
                             for="razonsocial">
                             Tamaño de empresa
@@ -460,8 +463,8 @@
                         </select>
                         <x-input-error for="hlevped.tamano_empresa" />
                     </div>
-                    {{-- Es la primera vez aplicando --}}
-                    <div class="mx-2">
+                    {{-- Primera vez o recompra --}}
+                    <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
                             for="razonsocial">
                             ¿Es la primera vez aplicando?
@@ -476,7 +479,7 @@
                         <x-input-error for="hlevped.primera_vez_o_recompra" />
                     </div>
                     {{-- Medios CESRH --}}
-                    <div class="mx-2">
+                    <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
                             for="razonsocial">
                             Medios CESRH
@@ -489,7 +492,7 @@
                 </div>
                 <div class="flex justify-center w-full px-2 py-4 bg-white rounded-lg shadow-lg">
                     {{-- Numero de vacantes --}}
-                    <div class="mx-2">
+                    <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
                             for="razonsocial">
                             Numero de vacantes
@@ -500,7 +503,7 @@
                         <x-input-error for="hlevped.numero_vacantes" />
                     </div>
                     {{-- Operativas --}}
-                    <div class="mx-2">
+                    <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
                             for="razonsocial">
                             Operativas
@@ -511,7 +514,7 @@
                         <x-input-error for="hlevped.operativas" />
                     </div>
                     {{-- Especializadas --}}
-                    <div class="mx-2">
+                    <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
                             for="razonsocial">
                             Especializadas
@@ -524,7 +527,7 @@
                 </div>
                 <div class="flex justify-center w-full px-2 py-4 bg-white rounded-lg shadow-lg">
                     {{-- Ejecutivas --}}
-                    <div class="mx-2">
+                    <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
                             for="razonsocial">
                             Ejecutivas
@@ -535,7 +538,7 @@
                         <x-input-error for="hlevped.ejecutivas" />
                     </div>
                     {{-- Correo del cliente --}}
-                    <div class="mx-2">
+                    <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
                             for="razonsocial">
                             Correo del cliente
@@ -546,7 +549,7 @@
                         <x-input-error for="hlevped.correo_cliente" />
                     </div>
                     {{-- Telefono --}}
-                    <div class="mx-2">
+                    <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
                             for="razonsocial">
                             Telefono
@@ -559,7 +562,7 @@
                 </div>
                 <div class="flex justify-center w-full px-2 py-4 bg-white rounded-lg shadow-lg">
                     {{-- Status --}}
-                    <div class="mx-2">
+                    <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
                             for="razonsocial">
                             Status
@@ -575,7 +578,7 @@
                         <x-input-error for="hlevped.status" />
                     </div>
                     {{-- Lead --}}
-                    {{-- <div class="mx-2">
+                    {{-- <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
                             for="razonsocial">
                             Lead
@@ -595,7 +598,7 @@
             <div class="m-4 rounded-lg shadow-md shadow-gray-300">
                 <div class="flex justify-center w-full px-2 py-4 bg-white rounded-lg shadow-lg">
                     {{-- Nombre del Cliente --}}
-                    <div class="mx-2">
+                    <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
                             for="nombre_cliente">
                             Nombre del Cliente
@@ -606,7 +609,7 @@
                         <x-input-error for="nomlevped035.nombre_cliente" />
                     </div>
                     {{-- Numero de Empresa --}}
-                    <div class="mx-2">
+                    <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
                             for="razonsocial">
                             Nombre de la Empresa
@@ -617,7 +620,7 @@
                         <x-input-error for="nomlevped035.nombre_empresa" />
                     </div>
                     {{-- Giro de la Empresa --}}
-                    <div class="mx-2">
+                    <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
                             for="razonsocial">
                             Giro de la Empresa
@@ -630,7 +633,7 @@
                 </div>
                 <div class="flex justify-center w-full px-2 py-4 bg-white rounded-lg shadow-lg">
                     {{-- Ubicacion --}}
-                    <div class="mx-2">
+                    <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
                             for="razonsocial">
                             Ubicacion
@@ -641,7 +644,7 @@
                         <x-input-error for="nomlevped035.ubicacion_empresa" />
                     </div>
                     {{-- Medio CESRH --}}
-                    <div class="mx-2">
+                    <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
                             for="razonsocial">
                             Medio CESRH
@@ -652,7 +655,7 @@
                         <x-input-error for="nomlevped035.medio_cesrh" />
                     </div>
                     {{-- Responsable Comercial --}}
-                    <div class="mx-2">
+                    <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
                             for="razonsocial">
                             Responsable Comercial
@@ -665,7 +668,7 @@
                 </div>
                 <div class="flex justify-center w-full px-2 py-4 bg-white rounded-lg shadow-lg">
                     {{-- Telefono del Cliente --}}
-                    <div class="mx-2">
+                    <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
                             for="razonsocial">
                             Telefono del Cliente
@@ -676,7 +679,7 @@
                         <x-input-error for="nomlevped035.telefono_cliente" />
                     </div>
                     {{-- Informacion NOM035 --}}
-                    <div class="mx-2">
+                    <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
                             for="razonsocial">
                             Información NOM035
@@ -687,7 +690,7 @@
                         <x-input-error for="nomlevped035.035info_id" />
                     </div>
                     {{-- Tipo de Servicio --}}
-                    <div class="mx-2">
+                    <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
                             for="razonsocial">
                             Tipo de Servicio
@@ -700,7 +703,7 @@
                 </div>
                 <div class="flex justify-center w-full px-2 py-4 bg-white rounded-lg shadow-lg">
                     {{-- Fecha --}}
-                    <div class="mx-2">
+                    <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
                             for="razonsocial">
                             Fecha
@@ -711,7 +714,7 @@
                         <x-input-error for="nomlevped035.fecha" />
                     </div>
                     {{-- Correo del Cliente --}}
-                    <div class="mx-2">
+                    <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
                             for="razonsocial">
                             Correo del Cliente

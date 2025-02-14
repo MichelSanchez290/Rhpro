@@ -52,6 +52,7 @@ class Vistaprincipal extends Component
         $this->empresas = CrmEmpresa::all();
         //dd($lead['users_id']);
         $this->lead['users_id'] = Auth::user()->id;
+        $this->lead['hora']= Carbon::now()->format('H:i:s');
         $this->lead['tipo']= 'Lead';
         $this->paginacion = 0;
     }

@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Crm\LeadsCliente;
+use App\Models\Crm\LeadCliente;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -13,7 +13,7 @@ class LeadsClienteTableSeeder extends Seeder
      */
     public function run(): void
     {
-        $leadcliente = LeadsCliente::create([
+        $leadcliente = LeadCliente::create([
             'nombre_contacto' => 'Jose',
             'users_id' => '1',
             'numero_cliente' => '123456789',
