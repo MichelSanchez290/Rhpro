@@ -129,33 +129,33 @@
         <div id="form1">
             <div class="m-4 shadow-md shadow-gray-300 rounded-lg">
                 <div class="flex justify-center w-full px-2 py-4 bg-white rounded-lg shadow-lg">
-                    {{-- Nombre del contacto --}}
+                    {{-- Tiene que mandar a llamar el nombre del lead, del formato de arriba --}}
                     <div class="mx-2">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
                             for="razonsocial">
-                            Nombre del contacto
+                            Nombre del Lead
                         </label>
                         <input
                             class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200  border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
                             wire:model.defer="lead.nombre_contacto" type="text" placeholder="">
                         <x-input-error for="lead.nombre_contacto" />
                     </div>
-                    {{-- Numero del cliente --}}
+                    {{-- Tiene que mandar a llamar el nombre de la empresa del formato de arriba --}}
                     <div class="mx-2">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
                             for="razonsocial">
-                            Numero de cliente
+                            Numero de la empresa
                         </label>
                         <input
                             class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200  border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
                             wire:model.defer="lead.numero_cliente" type="text" placeholder="">
                         <x-input-error for="lead.numero_cliente" />
                     </div>
-                    {{-- Fecha --}}
+                    {{-- Giro de la empresa --}}
                     <div class="mx-2">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
                             for="razonsocial">
-                            Fecha
+                            Giro de la empresa
                         </label>
                         <input
                             class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200  border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
