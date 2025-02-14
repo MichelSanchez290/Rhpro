@@ -15,7 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('nombre_contacto');
             $table->unsignedBigInteger('users_id');
-            $table->foreign('users_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('users_id')
+                ->references('id')
+                ->on('users')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->string('numero_cliente');
             $table->date('fecha');
             $table->time('hora');

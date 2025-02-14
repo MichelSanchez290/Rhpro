@@ -22,8 +22,9 @@
                     Numero de cliente
                 </label>
                 <input
-                    class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200  border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                    wire:model.defer="lead.numero_cliente" type="text" placeholder="">
+                    class="block w-full px-4 py-3 leading-tight text-gray-700 border-2 border-black bg-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                    wire:model.defer="lead.numero_cliente" type="number" min="0" max="99999999" step="10"
+                    placeholder="">
                 <x-input-error for="lead.numero_cliente" />
             </div>
             {{-- Fecha --}}
@@ -32,8 +33,8 @@
                     Fecha
                 </label>
                 <input
-                    class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200  border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                    wire:model.defer="lead.fecha" type="text" placeholder="">
+                    class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                    wire:model.defer="lead.fecha" type="type" placeholder="">
                 <x-input-error for="lead.fecha" />
             </div>
         </div>
@@ -44,8 +45,8 @@
                     Hora
                 </label>
                 <input
-                    class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200  border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                    wire:model.defer="lead.hora" type="text" placeholder="">
+                    class="block w-full px-4 py-3 leading-tight text-gray-700 border-2 border-black bg-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                    wire:model.defer="lead.hora" type="time" placeholder="" step="1">
                 <x-input-error for="lead.hora" />
             </div>
             {{-- Razon Social --}}
@@ -56,6 +57,15 @@
                 <input
                     class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200  border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
                     wire:model.defer="lead.datos_id" type="text" placeholder="">
+                <select wire:model='lead.datos_id'>
+                    <option value="">Selecciona</option>
+                    @foreach ($datosfis as $d)
+                        <option value="{{ $d->id }}">{{ $d->razon_social }}</option>
+                    @endforeach
+                </select>
+                {{-- <input
+                    class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                    wire:model.defer="" type="text" placeholder=""> --}}
                 <x-input-error for="lead.datos_id" />
             </div>
             {{-- Puesto --}}
@@ -86,8 +96,8 @@
                     Telefono
                 </label>
                 <input
-                    class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200  border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                    wire:model.defer="lead.telefono" type="text" placeholder="">
+                    class="block w-full px-4 py-3 leading-tight text-gray-700 border-2 border-black bg-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                    wire:model.defer="lead.telefono" type="number" placeholder=""min="0" max="99999999" step="10">
                 <x-input-error for="lead.telefono" />
             </div>
         </div>
@@ -114,7 +124,6 @@
             </div>
         </div>
     </div>
-
 
     @if ($paginacion == 1)
         <div id="form1">

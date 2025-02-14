@@ -7,7 +7,7 @@ use App\Models\Crm\DatosFiscale;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class LeadsCliente extends Model
+class LeadCliente extends Model
 {
     use HasFactory;
 
@@ -17,11 +17,22 @@ class LeadsCliente extends Model
     protected $primaryKey = 'id';
 
     //especifica las columnas
-    protected $fillable = ['id', 'nombre_contacto', 'users_id','numero_cliente', 'fecha', 'hora', 'datos_id', 'puesto', 'correo','telefono','tipo'];
+    protected $fillable = ['
+    id',
+    'nombre_contacto',
+    'users_id',
+    'numero_cliente',
+    'fecha',
+    'hora',
+    'datos_id',
+    'puesto',
+    'correo',
+    'telefono',
+    'tipo'];
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'users_id');
     }
 
     public function datosfiscales()

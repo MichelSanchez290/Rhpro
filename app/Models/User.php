@@ -10,6 +10,7 @@ use App\Models\ActivoFijo\Activos\ActivoPapeleria;
 use App\Models\ActivoFijo\Activos\ActivoSouvenir;
 use App\Models\ActivoFijo\Activos\ActivoTecnologia;
 use App\Models\ActivoFijo\Activos\ActivoUniforme;
+use App\Models\Crm\LeadCliente;
 use App\Models\Crm\LeadsCliente;
 use App\Models\Encuestas360\Asignacion;
 use App\Models\PortalCapacitacion\PerfilPuesto;
@@ -208,9 +209,10 @@ class User extends Authenticatable
     {
         return $this->perfilesPuestos()->latest()->first();
     }
-   public function leadscliente()
+
+   public function leadcliente()
     {
-        return $this->hasMany(LeadsCliente::class);
+        return $this->hasMany(LeadCliente::class, 'users_id');
     }
 
 }
