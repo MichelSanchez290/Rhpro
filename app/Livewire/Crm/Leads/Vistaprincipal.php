@@ -22,7 +22,7 @@ class Vistaprincipal extends Component
         //'lead.users_id' => 'required',
         'lead.numero_cliente' => 'required',
         'lead.fecha' => 'required',
-        'lead.hora' => 'required',
+        // 'lead.hora' => 'required',
         'lead.datos_id' => 'required',
         'lead.puesto' => 'required',
         'lead.correo' => 'required',
@@ -36,7 +36,7 @@ class Vistaprincipal extends Component
         //'lead.users_id' => 'Usuario no encontrado',
         'lead.numero_cliente.required' => 'Numero de cliente requerido',
         'lead.fecha.required' => 'Fecha requerida',
-        'lead.hora.required' => 'Hora requerida',
+        // 'lead.hora.required' => 'Hora requerida',
         'lead.datos_id.required' => 'Nombre de la razon social requerida',
         'lead.puesto.required' => 'Puesto requerido',
         'lead.correo.required' => 'Correo requerido',
@@ -52,7 +52,6 @@ class Vistaprincipal extends Component
         $this->lead['users_id'] = Auth::user()->id;
         $this->lead['tipo']= 'Lead';
         $this->paginacion = 0;
-        $lead['user_id']= Auth::user()->id;
     }
 
     public function uno()
