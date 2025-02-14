@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class HeadLevantamientosPedido extends Model
 {
     use HasFactory;
-    
+
     protected $table = 'head_levantamientos_pedidos';
 
     //Define la clave primaria
@@ -19,7 +19,7 @@ class HeadLevantamientosPedido extends Model
 
     public function leadscliente()
     {
-        return $this->belongsTo(leadscliente::class);
+        return $this->belongsTo(LeadCliente::class);
     }
 
     // public function levantamientospedido()
