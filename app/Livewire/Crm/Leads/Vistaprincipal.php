@@ -57,7 +57,7 @@ class Vistaprincipal extends Component
     }
 
     public function uno()
-    {
+    { 
         $this->paginacion = 1;
     }
     public function dos()
