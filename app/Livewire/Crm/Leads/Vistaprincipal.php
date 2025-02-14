@@ -10,12 +10,13 @@ use App\Models\User;
 
 class Vistaprincipal extends Component
 {
+    public $paginacion;
     public $lead = [];
     public $consulta;
 
     protected $rules = [
         'lead.nombre_contacto' => 'required',
-        'lead.users_id' => 'required',
+        'lead.users_id' => 'exists:users_id',
         'lead.numero_cliente' => 'required',
         'lead.fecha' => 'required',
         'lead.hora' => 'required',
@@ -28,7 +29,7 @@ class Vistaprincipal extends Component
 
     protected $messages = [
         'lead.nombre_contacto.required' => 'Nombre requerido',
-        'lead.users_id.required' => 'Usuario requerido',
+        'lead.users_id.exists' => 'Usuario no encontrado',
         'lead.numero_cliente.required' => 'Numero de cliente requerido',
         'lead.fecha.required' => 'Fecha requerida',
         'lead.hora.required' => 'Hora requerida',
@@ -43,6 +44,26 @@ class Vistaprincipal extends Component
     {
         $this->consulta = LeadsCliente::get();
         $lead['user_id']= Auth::user()->id;
+        $this->paginacion = 0;
+    }
+
+    public function uno()
+    {
+        $this->paginacion = 1;
+    }
+    public function dos()
+    {
+        $this->paginacion = 2;
+    }
+
+    public function tres()
+    {
+        $this->paginacion = 3;
+    }
+
+    public function cuatro()
+    {
+        $this->paginacion = 4;
     }
 
     public function saveLead()
