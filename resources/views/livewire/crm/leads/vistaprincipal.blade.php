@@ -251,9 +251,9 @@
 
     @if ($paginacion == 2)
         <div id="form2">
-            <div class="m-4 rounded-lg bg-white shadow-md shadow-gray-300">
+            <div class="m-4 bg-white rounded-lg shadow-md shadow-gray-300">
                 <div class="text-center">
-                    <h1 class="text-3xl font-bold p-10">
+                    <h1 class="p-10 text-3xl font-bold">
                         Formulario de Training
                     </h1>
                 </div>
@@ -360,11 +360,11 @@
                 </div>
                 <div class="flex justify-end">
                     <button
-                        class="text-white font-semibold bg-blue-600 shadow-md shadow-gray-500 p-2 my-6 mr-4 hover:shadow-none hover:bg-blue-800 rounded-md">
+                        class="p-2 my-6 mr-4 font-semibold text-white bg-blue-600 rounded-md shadow-md shadow-gray-500 hover:shadow-none hover:bg-blue-800">
                         Guardar y Agregar otro
                     </button>
                     <button
-                        class="text-white font-semibold bg-green-600 shadow-md shadow-gray-500 p-2 my-6 mr-6 hovehover:shadow-none hover:bg-green-800 rounded-md ">
+                        class="p-2 my-6 mr-6 font-semibold text-white bg-green-600 rounded-md shadow-md shadow-gray-500 hovehover:shadow-none hover:bg-green-800 ">
                         Guardar y Salir
                     </button>
                 </div>
@@ -467,14 +467,14 @@
                     <div class="mx-2 w-60 text-center">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
                             for="razonsocial">
-                            ¿Primera vez o recompra?
+                            ¿Es la primera vez aplicando?
                         </label>
                         <select name="" id="" wire:model.defer="hlevped.primera_vez_o_recompra"
                             class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500">
                             <option value="" disabled>Seleccione un valor</option>
                             <option value="" disabled>------</option>
-                            <option value="primera_vez">Primera vez</option>
-                            <option value="recompra">Recompra</option>
+                            <option value="si">Sí</option>
+                            <option value="no">No</option>
                         </select>
                         <x-input-error for="hlevped.primera_vez_o_recompra" />
                     </div>
@@ -710,7 +710,7 @@
                         </label>
                         <input
                             class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="nomlevped035.fecha" type="text" placeholder="">
+                            wire:model.defer="nomlevped035.fecha" type="date" placeholder="">
                         <x-input-error for="nomlevped035.fecha" />
                     </div>
                     {{-- Correo del Cliente --}}
@@ -721,7 +721,7 @@
                         </label>
                         <input
                             class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="nomlevped035.correo_cliente" type="text" placeholder="">
+                            wire:model.defer="nomlevped035.correo_cliente" type="enail" placeholder="">
                         <x-input-error for="nomlevped035.correo_cliente" />
                     </div>
                 </div>

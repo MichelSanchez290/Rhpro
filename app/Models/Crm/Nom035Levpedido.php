@@ -19,11 +19,11 @@ class Nom035Levpedido extends Model
 
     public function Cursos()
     {
-        return $this->belongsToMany(Cursos::class);
+        return $this->belongsToMany(CrmCurso::class);
     }
 
     public function LevantamientoPedidosTraining()
     {
-        return $this->belongsTo(LevantamientoPedidosTraining::class);
+        return $this->belongsTo(TrainingLevantamiento::class);
     }
 }
