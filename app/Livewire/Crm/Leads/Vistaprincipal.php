@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Crm\Leads;
 
+use App\Models\Crm\CrmEmpresa;
 use Livewire\Component;
 use App\Models\Crm\LeadsCliente;
 use App\Models\Crm\DatosFiscale;
@@ -13,6 +14,7 @@ use Illuminate\Support\Carbon;
 class Vistaprincipal extends Component
 {
     public $paginacion;
+    public $empresas, $empresaSeleccionada;
     public $lead = [];
     public $consulta,$datosfis;
 
@@ -47,11 +49,11 @@ class Vistaprincipal extends Component
     public function mount()
     {
         $this->consulta = LeadCliente::get();
-        $this->datosfis = DatosFiscale::get();
+        $this->empresas = CrmEmpresa::all();
         //dd($lead['users_id']);
         $this->lead['users_id'] = Auth::user()->id;
         $this->lead['tipo']= 'Lead';
-        $this->paginacion = 1;
+        $this->paginacion = 0;
     }
 
     public function uno()
