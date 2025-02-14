@@ -18,7 +18,8 @@
                 </label>
                 <input
                     class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                    wire:model.defer="lead.numero_cliente" type="text" placeholder="">
+                    wire:model.defer="lead.numero_cliente" type="number" min="0" max="99999999" step="10"
+                    placeholder="">
                 <x-input-error for="lead.numero_cliente" />
             </div>
             {{-- Fecha --}}
@@ -28,7 +29,7 @@
                 </label>
                 <input
                     class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                    wire:model.defer="lead.fecha" type="text" placeholder="">
+                    wire:model.defer="lead.fecha" type="type" placeholder="">
                 <x-input-error for="lead.fecha" />
             </div>
         </div>
@@ -40,7 +41,7 @@
                 </label>
                 <input
                     class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                    wire:model.defer="lead.hora" type="text" placeholder="">
+                    wire:model.defer="lead.hora" type="time" placeholder="" step="1">
                 <x-input-error for="lead.hora" />
             </div>
             {{-- Razon Social --}}
@@ -48,9 +49,15 @@
                 <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase" for="razonsocial">
                     Razon social
                 </label>
-                <input
+                <select wire:model='lead.datos_id'>
+                    <option value="">Selecciona</option>
+                    @foreach ($datosfis as $d)
+                        <option value="{{ $d->id }}">{{ $d->razon_social }}</option>
+                    @endforeach
+                </select>
+                {{-- <input
                     class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                    wire:model.defer="lead.datos_id" type="text" placeholder="">
+                    wire:model.defer="" type="text" placeholder=""> --}}
                 <x-input-error for="lead.datos_id" />
             </div>
             {{-- Puesto --}}
@@ -82,7 +89,7 @@
                 </label>
                 <input
                     class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                    wire:model.defer="lead.telefono" type="text" placeholder="">
+                    wire:model.defer="lead.telefono" type="number" placeholder=""min="0" max="99999999" step="10">
                 <x-input-error for="lead.telefono" />
             </div>
         </div>
@@ -100,24 +107,24 @@
             </div>
         </div>
     </div>
-    <div class="bg-gray-100 font-sans  w-full border-2 border-red-700">
+    <div class="w-full font-sans bg-gray-100 border-2 border-red-700">
         <div class="p-8">
             <div class="w-full">
                 <div class="flex border-2 border-blue-700"">
                     <button wire:click="uno"
-                        class="flex-1 py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-blue transition-all duration-300 border-2 border-gray-900 mx-2">
+                        class="flex-1 px-4 py-2 mx-2 transition-all duration-300 border-2 border-gray-900 rounded-md focus:outline-none focus:shadow-outline-blue">
                         E-Smart
                     </button>
                     <button wire:click="dos"
-                        class="flex-1 py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-blue transition-all duration-300 border-2 border-gray-900 mx-2">
+                        class="flex-1 px-4 py-2 mx-2 transition-all duration-300 border-2 border-gray-900 rounded-md focus:outline-none focus:shadow-outline-blue">
                         Training
                     </button>
                     <button wire:click="tres"
-                        class="flex-1 py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-blue transition-all duration-300 border-2 border-gray-900 mx-2">
+                        class="flex-1 px-4 py-2 mx-2 transition-all duration-300 border-2 border-gray-900 rounded-md focus:outline-none focus:shadow-outline-blue">
                         HeadHunting
                     </button>
                     <button wire:click="cuatro"
-                        class="flex-1 py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-blue transition-all duration-300 border-2 border-gray-900 mx-2">
+                        class="flex-1 px-4 py-2 mx-2 transition-all duration-300 border-2 border-gray-900 rounded-md focus:outline-none focus:shadow-outline-blue">
                         Nom 035
                     </button>
                 </div>
