@@ -43,11 +43,8 @@ class Vistaprincipal extends Component
     public function mount()
     {
         $this->consulta = LeadsCliente::get();
-<<<<<<< HEAD
         $this->paginacion = 0;
-=======
         $lead['user_id']= Auth::user()->id;
->>>>>>> 6e49b493d63ac879b0b2c891619db4b0045f732b
     }
 
     public function uno()
@@ -68,7 +65,7 @@ class Vistaprincipal extends Component
     {
         $this->paginacion = 4;
     }
-    
+
     public function saveLead()
     {
         $this->validate();
