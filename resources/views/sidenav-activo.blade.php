@@ -99,7 +99,7 @@
                 @endcan
                 @can('Activo oficina Empresa')
                 <li class="mb-4">
-                    <a href="{{route('agregartec')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Empresa</a>
+                    <a href="{{route('mostrarofi')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Empresa</a>
                 </li>
                 @endcan
                 @can('Activo oficina Sucursal')
@@ -123,7 +123,7 @@
                 @endcan
                 @can('Activo uniforme Empresa')
                 <li class="mb-4">
-                    <a href="{{route('agregartec')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Empresa</a>
+                    <a href="{{route('mostraruni')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Empresa</a>
                 </li>
                 @endcan
                 @can('Activo uniforme Sucursal')
@@ -147,7 +147,7 @@
                 @endcan
                 @can('Activo papeleria Empresa')
                 <li class="mb-4">
-                    <a href="{{route('agregartec')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Empresa</a>
+                    <a href="{{route('mostrarpape')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Empresa</a>
                 </li>
                 @endcan
                 @can('Activo papeleria Sucursal')
@@ -171,7 +171,7 @@
                 @endcan
                 @can('Activo souvenir Empresa')
                 <li class="mb-4">
-                    <a href="{{route('agregartec')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Empresa</a>
+                    <a href="{{route('mostrarsou')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Empresa</a>
                 </li>
                 @endcan
                 @can('Activo souvenir Sucursal')
