@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\PortalRH\Becari;
 use App\Models\PortalRH\Becario;
 use App\Models\PortalRH\Departament;
+use App\Models\PortalRH\Departamento;
 use App\Models\PortalRH\Sucursal;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -20,7 +21,7 @@ class BecarioSeeder extends Seeder
         // Obtén un usuario, sucursal y departamento existentes
         $user = User::first(); // Obtén el primer usuario de la tabla users
         $sucursal = Sucursal::first(); // Obtén la primera sucursal de la tabla sucursales
-        $departamento = Departament::first(); // Obtén el primer departamento de la tabla departamentos
+        $departamento = Departamento::first(); // Obtén el primer departamento de la tabla departamentos
 
         // Crea un nuevo becario y asigna los IDs relacionados
         $becario = Becario::create([
