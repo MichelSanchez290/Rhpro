@@ -1,12 +1,15 @@
 import './bootstrap';
 import './../../vendor/power-components/livewire-powergrid/dist/powergrid';
 import './../../vendor/power-components/livewire-powergrid/dist/tailwind.css';
-import 'select2/dist/css/select2.css'; // Importar estilos de Select2
+import ClipboardJS from 'clipboard';
 
-import $ from 'jquery'; // Importar jQuery
-import 'select2'; // Importar Select2
+// Inicializar clipboard.js
+document.addEventListener('DOMContentLoaded', function () {
+    new ClipboardJS('.btn-copiar').on('success', function (e) {
+        alert("Clave copiada al portapapeles: " + e.text);
+    });
 
-// Inicializar Select2
-$(document).ready(function() {
-    $('.select2').select2();
+    new ClipboardJS('.btn-compartir').on('success', function (e) {
+        alert("Enlace copiado al portapapeles: " + e.text);
+    });
 });

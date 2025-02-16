@@ -14,14 +14,10 @@ use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 
 use Illuminate\Support\Facades\Crypt;
-<<<<<<< HEAD
 
 use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
-=======
-use PowerComponents\LivewirePowerGrid\Traits\WithExport; 
-use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable; 
->>>>>>> fd67a80363011711f2dfc76cb3dd41b6b7e2c254
+
 
 final class EmpresTable extends PowerGridComponent
 {

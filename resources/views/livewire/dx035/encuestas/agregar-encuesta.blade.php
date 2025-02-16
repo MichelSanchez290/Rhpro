@@ -12,19 +12,19 @@
 
         <div class="space-y-6">
 
-        <!-- Empresa -->
-        <div>
-            <label for="empresa" class="block text-sm font-semibold text-gray-700">Empresa</label>
-            <select id="empresa" wire:model.live="empresa" required
-                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                <option value="">Seleccione una empresa</option>
-                @forelse($empresas as $empresa)
-                    <option value="{{ $empresa->id }}">{{ $empresa->nombre }}</option>
-                 @empty
-                @endforelse
-            </select>
-            @error('empresa') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-        </div>
+            <!-- Empresa -->
+            <div>
+                <label for="empresa" class="block text-sm font-semibold text-gray-700">Empresa</label>
+                <select id="empresa" wire:model.live="empresa" required
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                    <option value="">Seleccione una empresa</option>
+                    @forelse($empresas as $empresa)
+                        <option value="{{ $empresa->id }}">{{ $empresa->nombre }}</option>
+                    @empty
+                    @endforelse
+                </select>
+                @error('empresa') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+            </div>
 
             <!-- Sucursal -->
             <div>
@@ -33,7 +33,9 @@
                         class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                     <option value="">Seleccione una sucursal</option>
                     @forelse($sucursales as $sucursal)
-                        <option value="{{ $sucursal->id }}">{{ $sucursal->nombre_sucursal }}</option>
+                        @foreach($sucursal->sucursales as $sucursal2)
+                            <option value="{{ $sucursal2->id }}">{{ $sucursal2->nombre_sucursal }}</option>
+                        @endforeach
                     @empty
                     @endforelse
                 </select>
@@ -47,7 +49,9 @@
                         class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                     <option value="">Seleccione un departamento</option>
                     @forelse($departamentos as $departamento)
-                        <option value="{{ $departamento->id }}">{{ $departamento->nombre_departamento }}</option>
+                        @foreach($departamento->departamentos as $departamento2)
+                            <option value="{{ $departamento2->id }}">{{ $departamento2->nombre_departamento }}</option>
+                        @endforeach
                     @empty
                     @endforelse
                 </select>
@@ -62,19 +66,37 @@
                 @error('Actividades') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
 
+            <!-- Cuestionarios (Checkboxes) -->
+            <div>
+                <label class="block text-sm font-semibold text-gray-700">Cuestionarios</label>
+                <div class="mt-2 space-y-2">
+                    @forelse($cuestionarios as $cuestionario)
+                        <label class="flex items-center">
+                            <input
+                                type="checkbox"
+                                wire:model="cuestionariosSeleccionados.{{ $cuestionario->id }}"
+                                class="form-checkbox h-4 w-4 text-blue-600 transition duration-150 ease-in-out"
+                            />
+                            <span class="ml-2 text-sm text-gray-700">{{ $cuestionario->Nombre }}</span>
+                        </label>
+                    @empty
+                        <p class="text-sm text-gray-500">No hay cuestionarios disponibles.</p>
+                    @endforelse
+                </div>
+                @error('cuestionariosSeleccionados') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+            </div>
+
+
             <!-- Fechas -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Fecha de Inicio -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label for="FechaInicio" class="block text-sm font-semibold text-gray-700">Fecha de Inicio</label>
                     <input type="date" id="FechaInicio" wire:model="FechaInicio" required
                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                     @error('FechaInicio') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
-
-                <!-- Fecha de Cierre -->
                 <div>
-                    <label for="FechaFinal" class="block text-sm font-semibold text-gray-700">Fecha de Cierre</label>
+                    <label for="FechaFinal" class="block text-sm font-semibold text-gray-700">Fecha de Finalización</label>
                     <input type="date" id="FechaFinal" wire:model="FechaFinal" required
                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                     @error('FechaFinal') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
@@ -83,54 +105,24 @@
 
             <!-- Número de Trabajadores -->
             <div>
-                <label for="NumeroEncuestas" class="block text-sm font-semibold text-gray-700">Número de Trabajadores</label>
-                <input type="number" id="NumeroEncuestas" wire:model.live="NumeroEncuestas" required
-                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                       min="1">
-                @error('NumeroEncuestas') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                <label for="numtrabajadores" class="block text-sm font-semibold text-gray-700">Número de Trabajadores</label>
+                <input type="number" id="numtrabajadores" wire:model="numtrabajadores" required
+                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                @error('numtrabajadores') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
 
-            <!-- Cuestionarios -->
+            <!-- Logo -->
             <div>
-                <label class="block text-sm font-semibold text-gray-700">Seleccionar Cuestionarios</label>
-                <div class="space-y-4">
-                    @foreach($cuestionarios as $cuestionario)
-                        <div class="flex items-center space-x-3">
-                            <label for="cuestionario{{ $cuestionario->id }}" class="flex items-center cursor-pointer">
-                                <input
-                                    type="checkbox"
-                                    id="cuestionario{{ $cuestionario->id }}"
-                                    wire:model="cuestionariosSeleccionados.{{ $cuestionario->id }}"
-                                    class="form-checkbox h-5 w-5 text-blue-600 rounded focus:ring-blue-500"
-                                >
-                                <span class="ml-2 text-gray-700">{{ $cuestionario->Nombre }}</span>
-                            </label>
-                        </div>
-                    @endforeach
-                </div>
-                @error('cuestionariosSeleccionados') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-            </div>
-
-            <!-- Logo de la Empresa -->
-            <div>
-                <label for="logo" class="block text-sm font-semibold text-gray-700">Logo de la Empresa</label>
+                <label for="logo" class="block text-sm font-semibold text-gray-700">Logo (Opcional)</label>
                 <input type="file" id="logo" wire:model="logo"
                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                 @error('logo') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-
-                <!-- Vista previa del logo -->
-                @if ($logo)
-                    <div class="mt-4">
-                        <img src="{{ $logo->temporaryUrl() }}" alt="Vista previa del logo"
-                             class="max-h-32 rounded border">
-                    </div>
-                @endif
             </div>
 
-            <!-- Botón de Guardar Encuesta -->
-            <div class="mt-6 flex justify-center">
+            <!-- Botón de Enviar -->
+            <div class="flex justify-end">
                 <button type="button" wire:click="submit"
-                        class="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none">
+                        class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
                     Guardar Encuesta
                 </button>
             </div>

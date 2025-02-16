@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('trabajadores_encuestas', function (Blueprint $table) {
             $table->id();
             $table->string('Avance');
-            $table->string('Clave');
-            $table->foreign('Clave')
-                ->references('Clave')
+            $table->unsignedBigInteger('encuesta_id');
+            $table->foreign('encuesta_id')
+                ->references('id')
                 ->on('encuestas')
                 ->onDelete('cascade');
             $table->date('fecha_fin_encuesta');
@@ -30,7 +30,7 @@ return new class extends Migration
 
         // Añadir índice en la columna 'Clave' después de la creación de la tabla
         Schema::table('trabajadores_encuestas', function (Blueprint $table) {
-            $table->index('Clave');
+            $table->index('encuesta_id');
         });
 
     }
@@ -41,9 +41,9 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('trabajadores_encuestas', function (Blueprint $table) {
-            $table->dropForeign(['Clave']);
+            $table->dropForeign(['encuesta_id']);
             $table->dropForeign(['users_id']);
-            $table->dropIndex(['Clave']);
+            $table->dropIndex(['encuesta_id']);
         });
         Schema::dropIfExists('trabajadores_encuestas');
     }
