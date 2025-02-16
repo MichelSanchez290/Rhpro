@@ -26,8 +26,8 @@
         <h3 class="text-lg font-semibold text-gray-700">Seleccione un {{ ucfirst($tipo_seleccionado) }}:</h3>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4">
             @foreach($opciones as $opcion)
-                <div wire:click="seleccionarOpcion({{ $opcion->id }})" class="p-4 border rounded-lg shadow hover:bg-gray-100 cursor-pointer transition">
-                    <p class="text-lg font-semibold">{{ $opcion->usuarios->name ?? 'Sin nombre' }}</p>
+                <div class="p-4 border rounded-lg shadow hover:bg-gray-100 cursor-pointer transition">
+                    <a class="text-lg font-semibold" href='{{ route("asignarPerfilPuesto", ["id" => Crypt::encrypt($opcion->id), "tipoUsuario" => $tipo_seleccionado]) }}'>{{ $opcion->usuarios->name ?? 'Sin nombre' }}</a>
                     <p class="text-sm text-gray-500">{{ $opcion->usuarios->email ?? 'Sin email' }}</p>
                 </div>
             @endforeach

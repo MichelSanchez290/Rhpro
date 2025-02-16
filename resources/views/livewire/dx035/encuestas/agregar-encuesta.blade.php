@@ -11,12 +11,47 @@
         @endif
 
         <div class="space-y-6">
-            <!-- Empresa -->
+
+        <!-- Empresa -->
+        <div>
+            <label for="empresa" class="block text-sm font-semibold text-gray-700">Empresa</label>
+            <select id="empresa" wire:model.live="empresa" required
+                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <option value="">Seleccione una empresa</option>
+                @forelse($empresas as $empresa)
+                    <option value="{{ $empresa->id }}">{{ $empresa->nombre }}</option>
+                 @empty
+                @endforelse
+            </select>
+            @error('empresa') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+        </div>
+
+            <!-- Sucursal -->
             <div>
-                <label for="Empresa" class="block text-sm font-semibold text-gray-700">Empresa</label>
-                <input type="text" id="Empresa" wire:model="Empresa" required
-                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                @error('Empresa') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                <label for="sucursal" class="block text-sm font-semibold text-gray-700">Sucursal</label>
+                <select id="sucursal" wire:model.live="sucursal" required
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                    <option value="">Seleccione una sucursal</option>
+                    @forelse($sucursales as $sucursal)
+                        <option value="{{ $sucursal->id }}">{{ $sucursal->nombre_sucursal }}</option>
+                    @empty
+                    @endforelse
+                </select>
+                @error('sucursal') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+            </div>
+
+            <!-- Departamento -->
+            <div>
+                <label for="departamento" class="block text-sm font-semibold text-gray-700">Departamento</label>
+                <select id="departamento" wire:model.live="departamento" required
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                    <option value="">Seleccione un departamento</option>
+                    @forelse($departamentos as $departamento)
+                        <option value="{{ $departamento->id }}">{{ $departamento->nombre_departamento }}</option>
+                    @empty
+                    @endforelse
+                </select>
+                @error('departamento') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
 
             <!-- Actividades -->
@@ -25,22 +60,6 @@
                 <textarea id="Actividades" wire:model="Actividades" required
                           class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"></textarea>
                 @error('Actividades') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-            </div>
-
-            <!-- Sucursal y Departamento -->
-    
-            <div>
-                <label for="sucursalDepartamentId" class="block text-sm font-semibold text-gray-700">Sucursal y Departamento</label>
-                <select id="sucursalDepartamentId" wire:model="sucursalDepartamentId" required
-                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                    <option value="">Seleccione una sucursal y departamento</option>
-                    @foreach($sucursalDepartamentos as $sucursalDepartamento)
-                        <option value="{{ $sucursalDepartamento->id }}">
-                            {{ $sucursalDepartamento->sucursal_nombre }} - {{ $sucursalDepartamento->departamento_nombre }}
-                        </option>
-                    @endforeach
-                </select>
-                @error('sucursalDepartamentId') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
 
             <!-- Fechas -->
@@ -65,7 +84,7 @@
             <!-- Número de Trabajadores -->
             <div>
                 <label for="NumeroEncuestas" class="block text-sm font-semibold text-gray-700">Número de Trabajadores</label>
-                <input type="number" id="NumeroEncuestas" wire:model="NumeroEncuestas" required
+                <input type="number" id="NumeroEncuestas" wire:model.live="NumeroEncuestas" required
                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                        min="1">
                 @error('NumeroEncuestas') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror

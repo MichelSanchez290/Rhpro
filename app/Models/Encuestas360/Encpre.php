@@ -9,13 +9,15 @@ class Encpre extends Model
 {
     use HasFactory;
 
-    protected $table = 'encpre';
+    protected $table = 'encpres';
     protected $primaryKey = 'id';
     protected $fillable = ['id', 'encuestas_id', 'preguntas_id'];
+
     public function encuesta()
     {
         return $this->belongsTo(Encuesta360::class, 'encuestas_id');
     }
+    
     public function pregunta()
     {
         return $this->belongsTo(Pregunta::class, 'preguntas_id');

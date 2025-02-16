@@ -3,7 +3,7 @@
 namespace App\Livewire\PortalRh\Puest;
 
 use Livewire\Component;
-use App\Models\PortalRH\Puest;
+use App\Models\PortalRH\Puesto;
 use Illuminate\Support\Facades\Crypt;
 
 class EditarPuest extends Component
@@ -13,7 +13,7 @@ class EditarPuest extends Component
     public function mount($id)
     {
         $id = Crypt::decrypt($id);
-        $puest = Puest::findOrFail($id);
+        $puest = Puesto::findOrFail($id);
 
         $this->puest_id = $id;
         $this->nombre_puesto = $puest->nombre_puesto;
@@ -25,7 +25,7 @@ class EditarPuest extends Component
             'nombre_puesto' => 'required',
         ]);
 
-        Puest::updateOrCreate(['id' => $this->puest_id], [
+        Puesto::updateOrCreate(['id' => $this->puest_id], [
             'nombre_puesto' => $this->nombre_puesto,
         ]);
 

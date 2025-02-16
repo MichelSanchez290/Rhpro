@@ -3,9 +3,9 @@
 namespace App\Livewire\PortalRh\Instructor;
 
 use Livewire\Component;
-use App\Models\PortalRH\Instruct;
+use App\Models\PortalRH\Instructor;
 use App\Models\PortalRH\Sucursal;
-use App\Models\PortalRH\Departament;
+use App\Models\PortalRH\Departamento;
 use App\Models\User;
 use Illuminate\Support\Facades\Crypt;
 
@@ -51,7 +51,7 @@ class EditarInstructor extends Component
     public function mount($id)
     {
         $id = Crypt::decrypt($id);
-        $instructor = Instruct::findOrFail($id);
+        $instructor = Instructor::findOrFail($id);
         
         $this->instructor_id = $id;
         $this->telefono1 = $instructor->telefono1;
@@ -91,7 +91,7 @@ class EditarInstructor extends Component
 
         $this->usuarios = User::all();
         $this->sucursales = Sucursal::all();
-        $this->departamentos = Departament::all();
+        $this->departamentos = Departamento::all();
     }
 
     public function actualizarInstructor()
@@ -131,7 +131,7 @@ class EditarInstructor extends Component
             'departamento_id' => 'required|exists:departamentos,id',
         ]);
 
-        Instruct::updateOrCreate(['id' => $this->instructor_id], [
+        Instructor::updateOrCreate(['id' => $this->instructor_id], [
             'telefono1' => $this->telefono1,
             'telefono2' => $this->telefono2,
             'registroStps' => $this->registroStps,

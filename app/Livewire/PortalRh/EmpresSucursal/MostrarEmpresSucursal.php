@@ -3,9 +3,9 @@
 namespace App\Livewire\PortalRh\EmpresSucursal;
 
 use Livewire\Component;
-use App\Models\PortalRH\Empres;
+use App\Models\PortalRH\Empresa;
 use App\Models\PortalRH\Sucursal;
-use App\Models\PortalRH\EmpresSucursal;
+use App\Models\PortalRH\EmpresaSucursal;
 use Illuminate\Support\Facades\DB;
 
 class MostrarEmpresSucursal extends Component
@@ -32,7 +32,7 @@ class MostrarEmpresSucursal extends Component
     public function deleteEmpresSucursal()
     {
         if ($this->empresSucursalToDelete) {
-            EmpresSucursal::find($this->empresSucursalToDelete)->delete();
+            EmpresaSucursal::find($this->empresSucursalToDelete)->delete();
             session()->flash('message', 'Dato eliminado exitosamente.');
         }
 

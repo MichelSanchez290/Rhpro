@@ -10,19 +10,17 @@ class EmpresaSucursal extends Model
     use HasFactory;
 
     protected $table = 'empresa_sucursal';
-    protected $primaryKey = 'id';
-    protected $fillable = ['id', 'sucursal_id', 'empresa_id'];
 
-    //estructura correcta segun laravel para hacer metodos de relaciones entre modelos
-    //Modelo en singular
-    //metodo en plural
-    //estructura correcta segun laravel para hacer metodos de relaciones entre modelos
-    //Modelo en singular
-    //metodo en plural
-    // public function empresas()
-    // {
-    //     return $this->belongsTo(Empresa::class, 'empresa_id');
-    // }
+    //Define la clave primaria
+    protected $primaryKey = 'id';
+
+    //especifica las columnas
+    protected $fillable = [
+        'id', 
+        'empresa_id',
+        'sucursal_id',
+        'status',
+    ];
 
     public function empresa()
     {
@@ -33,7 +31,4 @@ class EmpresaSucursal extends Model
     {
         return $this->belongsTo(Sucursal::class, 'sucursal_id');
     }
-
- 
-
 }

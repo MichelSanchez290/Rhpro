@@ -5,7 +5,7 @@ namespace App\Livewire\PortalRh\Trabajador;
 use Livewire\Component;
 use App\Models\PortalRH\Trabajador;
 use App\Models\PortalRH\Sucursal;
-use App\Models\PortalRH\Departament;
+use App\Models\PortalRH\Departamento;
 use App\Models\User;
 use Illuminate\Support\Facades\Crypt;
 
@@ -87,7 +87,7 @@ class EditarTrabajador extends Component
 
         $this->usuarios = User::all();
         $this->sucursales = Sucursal::all();
-        $this->departamentos = Departament::all();
+        $this->departamentos = Departamento::all();
     }
 
     public function actualizarTrabajador()

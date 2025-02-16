@@ -14,8 +14,13 @@ use App\Models\Encuestas360\Asignacion;
 use App\Models\PortalCapacitacion\PerfilPuesto;
 use App\Models\PortalRH\Becari;
 use App\Models\PortalRH\Becario;
+use App\Models\PortalRH\CambioSalario;
+use App\Models\PortalRH\Documento;
 use App\Models\PortalRH\Empres;
 use App\Models\PortalRH\Empresa;
+use App\Models\PortalRH\Incapacidad;
+use App\Models\PortalRH\Incidencia;
+use App\Models\PortalRH\Retardo;
 use App\Models\PortalRH\Sucursal;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -23,6 +28,9 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use PHPUnit\Framework\MockObject\Stub\ReturnArgument;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
@@ -31,33 +39,21 @@ class User extends Authenticatable
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
+    use HasRoles;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'password',
-        'empresa_id',
-        'sucursal_id',
-        'tipo_user'
-    ];
+    protected $fillable = ['name', 'email', 'password', 'password', 'empresa_id', 'sucursal_id', 'tipo_user'];
 
-    /**
+    /**sucursal_id
      * The attributes that should be hidden for serialization.
      *
      * @var array<int, string>
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-        'two_factor_recovery_codes',
-        'two_factor_secret',
-    ];
+    protected $hidden = ['password', 'remember_token', 'two_factor_recovery_codes', 'two_factor_secret'];
 
     /**
      * The attributes that should be cast.
@@ -73,39 +69,42 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $appends = [
-        'profile_photo_url',
-    ];
+    protected $appends = ['profile_photo_url'];
 
+     /* RELACIONES MODULO RH */
 
     public function becarios()
     {
         return $this->hasMany(Becario::class);
     }
 
-    
-
-
-
-    /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public function cambioSalario()
     {
-        //un user peertence a un becario
-        return $this->belongsToMany(Becari::class);
-    }
-
-    public function incidencias()
-    {
-        //un becario pertenece a un user
-        return $this->belongsToMany(Incidenci::class);
+        return $this->belongsToMany(CambioSalario::class)->withPivot('user_id', 'cambio_salario_id', 'fecha');
     }
 
     public function documentos()
     {
-        //un user peertence a un becario
-        return $this->belongsToMany(Document::class);
+        return $this->belongsToMany(Documento::class)->withPivot('documento_id', 'user_id', 'status');
     }
 
+    public function incapacidades()
+    {
+        //un becario pertenece a un user
+        return $this->belongsToMany(Incapacidad::class)->withPivot('user_id', 'incapacidad_id');
+    }
+
+    public function incidencias()
+    {
+        return $this->belongsToMany(Incidencia::class)->withPivot('user_id', 'incidencia_id');
+    }
+
+    public function retardos()
+    {
+        return $this->belongsToMany(Retardo::class)->withPivot('user_id', 'retardo_id');
+    }
+
+    /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public function bajas()
     {
         //un user tiene una baja
@@ -118,21 +117,10 @@ class User extends Authenticatable
         return $this->hasMany(Practicant::class);
     }
 
-    public function retardos()
-    {
-        //un becario pertenece a un user
-        return $this->belongsToMany(Retard::class);
-    }
-
-    public function incapacidades()
-    {
-        //un becario pertenece a un user
-        return $this->belongsToMany(Incapacidad::class);
-    }
 
     public function regPatronales()
     {
-        //cada trabajador pertenece a 
+        //cada trabajador pertenece a
         return $this->hasMany(RegisPatronal::class);
     }
 
@@ -163,8 +151,9 @@ class User extends Authenticatable
         //un user peertence a un becario
         return $this->hasMany(Practicant::class);
     }
+    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 
-    */
+    /* RELACIONES MODULO ACTIVO FIJO */
     public function activomoviliario()
     {
         return $this->belongsToMany(ActivoMobiliario::class);
@@ -190,21 +179,16 @@ class User extends Authenticatable
         return $this->belongsToMany(ActivoUniforme::class);
     }
 
-    public function empresa()
-    {
-        return $this->belongsTo(Empresa::class); // Una venta pertenece a un cliente
-    }
-
-    public function sucursal()
-    {
-        return $this->belongsTo(Sucursal::class); // Una venta pertenece a un cliente
-    }
-
+    //  /* RELACIONES MODULO CAPACITACION */
     public function perfiles_puestos()
     {
         return $this->belongsToMany(PerfilPuesto::class, 'perfil_puesto_user', 'users_id', 'perfiles_puestos_id'); // Modelo relacionado
     }
-
+    
+    public function empresas()
+    {
+        return $this->belongsTo(Empresa::class, 'empresas_id', 'id');
+    }
 
     public function asignacion()
     {
@@ -212,4 +196,24 @@ class User extends Authenticatable
         return $this->hasMany(Asignacion::class);
     }
 
+    public function perfilesPuestos(): BelongsToMany
+    {
+        return $this->belongsToMany(PerfilPuesto::class, 'perfil_puesto_user', 'users_id', 'perfiles_puestos_id')->withPivot(['status', 'fecha_inicio', 'fecha_final', 'motivo_cambio']);
+    }
+
+    public function perfilActual()
+    {
+        return $this->perfilesPuestos()->latest()->first();
+    }
+    
+    //Por favor no tocar porque aqui son de mi asignaciones para que mueste el nombre de la empresa y sucursal 
+    public function empresa()
+    {
+        return $this->belongsTo(Empresa::class, 'empresa_id');
+    }
+
+    public function sucursal()
+    {
+        return $this->belongsTo(Sucursal::class, 'sucursal_id');
+    }
 }

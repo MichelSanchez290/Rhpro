@@ -75,4 +75,4 @@ Route::get('/user/comparar', CompararPerfilPuesto::class)->name('compararPerfilP
 
 //asociar puesto para trabajadores
 Route::get('/asociar-perfil-puesto', AsociarPuestoTrabajador::class)->name('asociarPuestoTrabajador');
-Route::get('/asignar-perfil-puesto/{id}', AsignarPerfilPuesto::class)->name('asignarPerfilPuesto');
+Route::get('/asignar-perfil-puesto/{id}/{tipoUsuario}', AsignarPerfilPuesto::class)->name('asignarPerfilPuesto');

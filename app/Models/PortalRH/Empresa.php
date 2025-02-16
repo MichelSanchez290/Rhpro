@@ -18,8 +18,8 @@ class Empresa extends Model
 
     //especifica las columnas
     protected $fillable = [
-        'id', 
-        'nombre', 
+        'id',
+        'nombre',
         'razon_social',
         'rfc',
         'nombre_comercial',
@@ -28,18 +28,19 @@ class Empresa extends Model
         'url_constancia_situacion_fiscal'
     ];
 
-    public function RegistrosPatronales()
-    {
-        return $this->belongsToMany(RegistPatronal::class);
-    }
-
     public function sucursales()
     {
-        return $this->belongsToMany(Sucursal::class);
+        return $this->belongsToMany(Sucursal::class)->withPivot('empresa_id', 'sucursal_id', 'status');
     }
-   
 
-    public function usuarios()
+    public function RegistroPatronal()
+    {
+        return $this->belongsToMany(RegistroPatronal::class)->withPivot('empresa_id', 'registro_patronal_id', 'status');
+    }
+
+    //************************************************************** 
+
+    public function usuario()
     {
         return $this->hasMany(User::class, 'empresas_id', 'id');
     }

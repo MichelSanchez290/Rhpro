@@ -5,7 +5,7 @@ use App\Livewire\Dx035\Encuestas\AgregarEncuesta;
 use App\Livewire\Dx035\Encuestas\MostrarEncuestas;
 use App\Livewire\Dx035\Encuestas\EncuestaController;
 use App\Livewire\Dx035\Encuestas\EditarEncuesta;
-
+use App\Livewire\Dx035\Encuestas\CorreosMasivos;
 
 use App\Livewire\Dx035\Cuestionarios\AgregarPreguntaBase;
 use App\Livewire\Dx035\Cuestionarios\MostrarPreguntaBase;
@@ -45,3 +45,4 @@ Route::get('/preguntas/agregar', AgregarPreguntaBase::class)->name('preguntas.ag
 Route::get('/preguntas', MostrarPreguntaBase::class)->name('preguntas.mostrar');
 Route::get('/preguntas/{id}/editar', EditarPreguntaBase::class)->name('preguntas.editar');
 
+Route::get('/correos-masivos', CorreosMasivos::class)->name('correos.masivos');

@@ -295,19 +295,7 @@
                     placeholder="Ingrese la cuenta contable">
                 <x-input-error for="registro.cuenta_contable" />
             </div>
-            <div class="w-full md:w-1/2 px-3">
-                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="user_id">
-                    Usuario Responsable
-                </label>
-                <select id="user_id" wire:model.defer="registro.user_id" 
-                    class="appearance-none block w-full bg-gray-200 border rounded py-3 px-4 mb-3">
-                    <option value="">Seleccione un usuario</option>
-                    @foreach ($usuarios as $usuario)
-                        <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
-                    @endforeach
-                </select>
-                <x-input-error for="registro.user_id" />
-            </div>
+            
         </div>
         
 

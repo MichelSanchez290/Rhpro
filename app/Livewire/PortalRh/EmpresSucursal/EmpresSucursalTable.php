@@ -2,7 +2,7 @@
 
 namespace App\Livewire\PortalRh\EmpresSucursal;
 
-use App\Models\PortalRh\EmpresSucursal;
+use App\Models\PortalRh\EmpresaSucursal;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
@@ -38,7 +38,7 @@ final class EmpresSucursalTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return EmpresSucursal::query()
+        return EmpresaSucursal::query()
         ->leftJoin('empresas', 'empresa_sucursal.empresa_id', '=', 'empresas.id')
         ->leftJoin('sucursales', 'empresa_sucursal.sucursal_id', '=', 'sucursales.id')
         
@@ -49,7 +49,6 @@ final class EmpresSucursalTable extends PowerGridComponent
             'empresas.nombre as empresa_nombre',
             'sucursales.nombre_sucursal as sucursal_nombre',
             'empresa_sucursal.created_at', // created_at también hya que seleccionarlo
-            'empresa_sucursal.status',
             'empresa_sucursal.updated_at'
         ]);
     }
@@ -107,7 +106,7 @@ final class EmpresSucursalTable extends PowerGridComponent
         $this->js('alert('.$rowId.')');
     }
 
-    public function actions(EmpresSucursal $row): array
+    public function actions(EmpresaSucursal $row): array
     {
         return [
             Button::add('edit')

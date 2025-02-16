@@ -3,9 +3,9 @@
 namespace App\Livewire\PortalRh\DepartamentPuesto;
 
 use Livewire\Component;
-use App\Models\PortalRH\Departament;
-use App\Models\PortalRH\Puest;
-use App\Models\PortalRH\DepartamentPuest;
+use App\Models\PortalRH\Departamento;
+use App\Models\PortalRH\Puesto;
+use App\Models\PortalRH\DepartamentoPuesto;
 use Illuminate\Support\Facades\DB;
 
 class MostrarDepartamentPuesto extends Component
@@ -32,7 +32,7 @@ class MostrarDepartamentPuesto extends Component
     public function deleteDepaPuesto()
     {
         if ($this->depaPuestoToDelete) {
-            DepartamentPuest::find($this->depaPuestoToDelete)->delete();
+            DepartamentoPuesto::find($this->depaPuestoToDelete)->delete();
             session()->flash('message', 'Dato eliminado exitosamente.');
         }
 

@@ -25,31 +25,31 @@ class Tipoactivo extends Model
         'nombre_activo'
     ];
 
-    public function anioestimado()
+    public function anioestimados()
     {
         return $this->hasMany(Anioestimado::class); // Una venta pertenece a un cliente
     }
-    public function activouniforme()
+    public function activouniformes()
     {
         return $this->hasMany(ActivoUniforme::class); // Una venta pertenece a un cliente
     }
-    public function activopapeleria()
+    public function activopapelerias()
     {
         return $this->hasMany(ActivoPapeleria::class);
     }
-    public function activooficina()
+    public function activooficinas()
     {
         return $this->hasMany(ActivoOficina::class);
     }
-    public function activotecnologia()
+    public function activotecnologias()
     {
         return $this->hasMany(ActivoTecnologia::class);
     }
-    public function activomobiliario()
+    public function activomobiliarios()
     {
         return $this->hasMany(ActivoMobiliario::class);
     }
-    public function activosouvenir()
+    public function activosouvenirs()
     {
         return $this->hasMany(ActivoSouvenir::class);
     }

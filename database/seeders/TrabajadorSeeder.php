@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\PortalRH\Departament;
+use App\Models\PortalRH\Departamento;
 use App\Models\PortalRH\Sucursal;
 use App\Models\PortalRH\Trabajador;
 use App\Models\User;
@@ -20,7 +21,7 @@ class TrabajadorSeeder extends Seeder
 
         $user = User::first(); // Obtén el primer usuario de la tabla users
         $sucursal = Sucursal::first(); // Obtén la primera sucursal de la tabla sucursales
-        $departamento = Departament::first(); // Obtén el primer departamento de la tabla departamentos
+        $departamento = Departamento::first(); // Obtén el primer departamento de la tabla departamentos
 
         $trabajador = Trabajador::create([
             'clave_trabajador' => 'CT12345',

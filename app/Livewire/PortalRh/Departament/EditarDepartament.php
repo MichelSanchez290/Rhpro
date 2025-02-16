@@ -3,7 +3,7 @@
 namespace App\Livewire\PortalRh\Departament;
 
 use Livewire\Component;
-use App\Models\PortalRH\Departament;
+use App\Models\PortalRH\Departamento;
 use Illuminate\Support\Facades\Crypt;
 
 
@@ -14,7 +14,7 @@ class EditarDepartament extends Component
     public function mount($id)
     {
         $id = Crypt::decrypt($id);
-        $departament = Departament::findOrFail($id);
+        $departament = Departamento::findOrFail($id);
 
         $this->departament_id = $id;
         $this->nombre_departamento = $departament->nombre_departamento;
@@ -26,7 +26,7 @@ class EditarDepartament extends Component
             'nombre_departamento' => 'required',
         ]);
 
-        Departament::updateOrCreate(['id' => $this->departament_id], [
+        Departamento::updateOrCreate(['id' => $this->departament_id], [
             'nombre_departamento' => $this->nombre_departamento,
         ]);
 

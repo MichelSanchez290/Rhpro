@@ -40,13 +40,15 @@ final class TrabajadorTable extends PowerGridComponent
     {
         return Trabajador::query()
         ->leftJoin('users', 'trabajadores.user_id', '=', 'users.id')
-        ->leftJoin('sucursales', 'trabajadores.sucursal_id', '=', 'sucursales.id')
         ->leftJoin('departamentos', 'trabajadores.departamento_id', '=', 'departamentos.id')
+        ->leftJoin('puestos', 'trabajadores.puesto_id', '=', 'puestos.id')
+        ->leftJoin('registros_patronales', 'trabajadores.registro_patronal_id', '=', 'registros_patronales.id')
         ->select([
             'trabajadores.*',
             'users.name as nombre_usuario',
-            'sucursales.nombre_sucursal as sucursal',
-            'departamentos.nombre_departamento as departamento'
+            'departamentos.nombre_departamento as departamento',
+            'puestos.nombre_puesto as puesto',
+            'registros_patronales.registro_patronal as regpatronal'
         ]);
     }
 
@@ -88,10 +90,10 @@ final class TrabajadorTable extends PowerGridComponent
             ->add('status')
             ->add('user_id')
             ->add('nombre_usuario')
-            ->add('sucursal_id')
-            ->add('sucursal')
             ->add('departamento_id')
             ->add('departamento')
+            ->add('puesto_id')
+            ->add('registro_patronal_id')
             ->add('created_at');
     }
 

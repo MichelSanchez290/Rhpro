@@ -4,20 +4,22 @@ namespace App\Livewire\PortalRh\Trabajador;
 
 use Livewire\Component;
 use App\Models\PortalRH\Trabajador;
-use App\Models\PortalRH\Sucursal;
-use App\Models\PortalRH\Departament;
+use App\Models\PortalRH\Puesto;
+use App\Models\PortalRH\Departamento;
+use App\Models\PortalRH\RegistroPatronal;
 use App\Models\User;
 
 class AgregarTrabajador extends Component
 {
     public $trabajador = [];
-    public $usuarios, $sucursales, $departamentos;
+    public $usuarios, $departamentos, $puestos, $registros_patronales;
 
     public function mount()
     {
         $this->usuarios = User::all();
-        $this->sucursales = Sucursal::all();
-        $this->departamentos = Departament::all();
+        $this->departamentos = Departamento::all();
+        $this->puestos = Puesto::all();
+        $this->registros_patronales = RegistroPatronal::all();
     }
 
     protected $rules = [
@@ -48,8 +50,9 @@ class AgregarTrabajador extends Component
         'trabajador.numero' => 'required',
         'trabajador.status' => 'required',
         'trabajador.user_id' => 'required|exists:users,id',
-        'trabajador.sucursal_id' => 'required|exists:sucursales,id',
         'trabajador.departamento_id' => 'required|exists:departamentos,id',
+        'trabajador.puesto_id' => 'required|exists:puestos,id',
+        'trabajador.registro_patronal_id' => 'required|exists:registros_patronales,id',
     ];
 
     // MENSAJES DE VALIDACIÓN
@@ -60,8 +63,9 @@ class AgregarTrabajador extends Component
         'trabajador.rfc.size' => 'El RFC debe tener exactamente 13 caracteres.',
         'trabajador.numero_celular.digits' => 'El número de celular debe tener 10 dígitos.',
         'trabajador.user_id.exists' => 'El usuario seleccionado no existe.',
-        'trabajador.sucursal_id.exists' => 'La sucursal seleccionado no existe.',
         'trabajador.departamento_id.exists' => 'El departamento seleccionado no existe.',
+        'trabajador.puesto_id.exists' => 'El puesto seleccionado no existe.',
+        'trabajador.registro_patronal_id.exists' => 'El Reg Patronal seleccionado no existe.',
     ];
 
 

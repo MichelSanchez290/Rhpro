@@ -2,7 +2,7 @@
 
 namespace App\Livewire\PortalRh\RegistPatronal;
 
-use App\Models\PortalRH\RegistPatronal;
+use App\Models\PortalRH\RegistroPatronal;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -38,7 +38,7 @@ class MostrarRegPatronal extends Component
         $this->registroToDelete = $id;
 
         if ($this->registroToDelete) {
-            RegistPatronal::find($this->registroToDelete)->delete();
+            RegistroPatronal::find($this->registroToDelete)->delete();
             session()->flash('message', 'Registro patronal eliminado exitosamente.');
         }
     }
@@ -46,7 +46,7 @@ class MostrarRegPatronal extends Component
     public function render()
     {
         return view('livewire.portal-rh.regist-patronal.mostrar-reg-patronal', [
-            'registros' => RegistPatronal::where('registro_patronal', 'LIKE', "%{$this->search}%")
+            'registros' => RegistroPatronal::where('registro_patronal', 'LIKE', "%{$this->search}%")
                 ->orWhere('nombre_o_razon_social', 'LIKE', "%{$this->search}%")
                 ->orWhere('rfc', 'LIKE', "%{$this->search}%")
                 ->orderBy('registro_patronal', 'ASC')

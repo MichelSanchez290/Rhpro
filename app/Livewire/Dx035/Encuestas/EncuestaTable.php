@@ -42,34 +42,47 @@ final class EncuestaTable extends PowerGridComponent
             ->addColumn('id')
             ->addColumn('Empresa')
             ->addColumn('Formato')
-            ->addColumn('encuesta_clave')
             ->addColumn('FechaInicio')
             ->addColumn('FechaFinal')
             ->addColumn('Estado')
-            ->addColumn('EncuestasContestadas');
+            ->addColumn('EncuestasContestadas')
+            ->addColumn('compartir', function (EncuestaCuestionario $row) {
+                return '
+                    <div class="flex space-x-2">
+                        <button onclick="copiarClave(\'' . $row->encuesta_clave . '\')" class="text-blue-500 hover:text-blue-700">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                        <button onclick="compartirClave(\'' . $row->encuesta_clave . '\')" class="text-green-500 hover:text-green-700">
+                            <i class="fas fa-share"></i>
+                        </button>
+                    </div>
+                ';
+            });
     }
 
     public function columns(): array
     {
         return [
             Column::make('ID', 'id')
-                ->sortable(), // Permitir ordenamiento
+                ->sortable(),
 
             Column::make('Empresa', 'Empresa')
-                ->searchable() // Permitir búsqueda
-                ->sortable(), // Permitir ordenamiento
+                ->searchable()
+                ->sortable(),
 
             Column::make('Cuestionarios', 'Formato')
                 ->bodyAttribute('text-center'),
 
-            Column::make('Compartir', 'encuesta_clave')
+            Column::add() // Columna personalizada
+                ->title('Compartir')
+                ->field('compartir')
                 ->bodyAttribute('text-center'),
 
             Column::make('Inicio', 'FechaInicio')
-                ->sortable(), // Permitir ordenamiento
+                ->sortable(),
 
             Column::make('Cierre', 'FechaFinal')
-                ->sortable(), // Permitir ordenamiento
+                ->sortable(),
 
             Column::make('Estado', 'Estado')
                 ->bodyAttribute('text-center'),
@@ -77,7 +90,7 @@ final class EncuestaTable extends PowerGridComponent
             Column::make('Avance', 'EncuestasContestadas')
                 ->bodyAttribute('text-center'),
 
-            Column::action('Acciones'), // Columna de acciones
+            Column::action('Acciones'),
         ];
     }
 
@@ -86,14 +99,14 @@ final class EncuestaTable extends PowerGridComponent
         return [
             // Botón: Editar
             Button::add('edit')
-                ->slot('Editar')
-                ->class('btn btn-primary')
+                ->slot('<i class="fas fa-edit"></i>')
+                ->class('btn btn-sm btn-primary')
                 ->route('encuestas.edit', ['Clave' => $row->encuesta_clave]),
 
             // Botón: Eliminar
             Button::add('delete')
-                ->slot('Eliminar')
-                ->class('btn btn-danger')
+                ->slot('<i class="fas fa-trash"></i>')
+                ->class('btn btn-sm btn-danger')
                 ->dispatch('confirmDelete', ['clave' => $row->encuesta_clave]), // Emitir evento para eliminar
         ];
     }
