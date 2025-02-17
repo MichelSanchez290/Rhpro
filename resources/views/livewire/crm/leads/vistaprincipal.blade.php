@@ -577,6 +577,16 @@
                         </select>
                         <x-input-error for="hlevped.status" />
                     </div>
+                    <div class="flex justify-end">
+                        <button
+                            class="p-2 my-6 mr-4 font-semibold text-white bg-blue-600 rounded-md shadow-md shadow-gray-500 hover:shadow-none hover:bg-blue-800">
+                            Guardar y Agregar otro
+                        </button>
+                        <button
+                            class="p-2 my-6 mr-6 font-semibold text-white bg-green-600 rounded-md shadow-md shadow-gray-500 hovehover:shadow-none hover:bg-green-800 ">
+                            Guardar y Salir
+                        </button>
+                    </div>
                     {{-- Lead --}}
                     {{-- <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
@@ -723,6 +733,16 @@
                             class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
                             wire:model.defer="nomlevped035.correo_cliente" type="enail" placeholder="">
                         <x-input-error for="nomlevped035.correo_cliente" />
+                    </div>
+                    <div class="flex justify-end">
+                        <button
+                            class="p-2 my-6 mr-4 font-semibold text-white bg-blue-600 rounded-md shadow-md shadow-gray-500 hover:shadow-none hover:bg-blue-800">
+                            Guardar y Agregar otro
+                        </button>
+                        <button
+                            class="p-2 my-6 mr-6 font-semibold text-white bg-green-600 rounded-md shadow-md shadow-gray-500 hovehover:shadow-none hover:bg-green-800 ">
+                            Guardar y Salir
+                        </button>
                     </div>
                 </div>
             </div>
