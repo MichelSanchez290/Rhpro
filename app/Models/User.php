@@ -190,11 +190,6 @@ class User extends Authenticatable
     }
 
     //  /* RELACIONES MODULO CAPACITACION */
-    public function perfiles_puestos()
-    {
-        return $this->belongsToMany(PerfilPuesto::class, 'perfil_puesto_user', 'users_id', 'perfiles_puestos_id'); // Modelo relacionado
-    }
-    
     public function empresa()
     {
         return $this->belongsTo(Empresa::class, 'empresas_id', 'id');
