@@ -46,6 +46,7 @@ class AgregarMobiliario extends Component
     public function mount()
     {
         //ejemplo de consulta
+        $this->consulta = ActivoMobiliario::get();
         $this->activo['tipo_activo_id'] = Tipoactivo::where('nombre_activo', 'Activo Mobiliarios')->value('id');
         $this->anios = Anioestimado::pluck('vida_util_año', 'id')->toArray();
         $this->activo['empresa_id'] = Auth::user()->empresa_id;
