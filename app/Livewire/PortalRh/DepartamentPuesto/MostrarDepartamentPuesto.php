@@ -50,7 +50,6 @@ class MostrarDepartamentPuesto extends Component
             ->select(
                 'departamentos.nombre_departamento as departamento_nombre',
                 'puestos.nombre_puesto as puesto_nombre'
-                
             );
 
         return view('livewire.portal-rh.departament-puesto.mostrar-departament-puesto', [

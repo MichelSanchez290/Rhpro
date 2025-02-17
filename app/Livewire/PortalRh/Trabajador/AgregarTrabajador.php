@@ -7,12 +7,18 @@ use App\Models\PortalRH\Trabajador;
 use App\Models\PortalRH\Puesto;
 use App\Models\PortalRH\Departamento;
 use App\Models\PortalRH\RegistroPatronal;
+use App\Models\PortalRH\Empresa;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
+
 
 class AgregarTrabajador extends Component
 {
-    public $trabajador = [];
-    public $usuarios, $departamentos, $puestos, $registros_patronales;
+    public $trabajador = [], $sucursales=[], $user=[], $puestos=[];
+    public $usuarios, $departamentos, $registros_patronales, $empresas, $roles,
+           $empresa, $departamento_id, $nombre, $apellido_p, $apellido_m, $password, $rol;
+
 
     public function mount()
     {
@@ -20,6 +26,15 @@ class AgregarTrabajador extends Component
         $this->departamentos = Departamento::all();
         $this->puestos = Puesto::all();
         $this->registros_patronales = RegistroPatronal::all();
+        $this->empresas = Empresa::all();
+        $this->roles = Role::all();
+    }
+
+    public function updatedEmpresa()
+    {
+        //dd();
+        $this->sucursales = Empresa::with('sucursales')->where('id', $this->empresa)->get();
+        $this->puestos = Departamento::with('puestos')->where('id', $this->departamento_id)->get();
     }
 
     protected $rules = [
@@ -49,10 +64,20 @@ class AgregarTrabajador extends Component
         'trabajador.colonia' => 'required',
         'trabajador.numero' => 'required',
         'trabajador.status' => 'required',
-        'trabajador.user_id' => 'required|exists:users,id',
+
+        
         'trabajador.departamento_id' => 'required|exists:departamentos,id',
         'trabajador.puesto_id' => 'required|exists:puestos,id',
         'trabajador.registro_patronal_id' => 'required|exists:registros_patronales,id',
+
+        'nombre' => 'required',
+        'apellido_p' => 'required',
+        'apellido_m' => 'required',
+        'user.email' => 'required',
+        'password' => 'required',
+        'empresa' => 'required',
+        'user.sucursal_id' => 'required',
+        'rol' => 'required',
     ];
 
     // MENSAJES DE VALIDACIÓN
@@ -62,10 +87,19 @@ class AgregarTrabajador extends Component
         'trabajador.curp.size' => 'La CURP debe tener exactamente 18 caracteres.',
         'trabajador.rfc.size' => 'El RFC debe tener exactamente 13 caracteres.',
         'trabajador.numero_celular.digits' => 'El número de celular debe tener 10 dígitos.',
-        'trabajador.user_id.exists' => 'El usuario seleccionado no existe.',
+        
         'trabajador.departamento_id.exists' => 'El departamento seleccionado no existe.',
         'trabajador.puesto_id.exists' => 'El puesto seleccionado no existe.',
         'trabajador.registro_patronal_id.exists' => 'El Reg Patronal seleccionado no existe.',
+
+        'nombre.required' => 'Este campo es obligatorio.',
+        'apellido_p.required' => 'Este campo es obligatorio.',
+        'apellido_m.required' => 'Este campo es obligatorio.',
+        'user.email.required' => 'Este campo es obligatorio.',
+        'password.required' => 'Este campo es obligatorio.',
+        'empresa.required' => 'Este campo es obligatorio.',
+        'user.sucursal_id.required' => 'Este campo es obligatorio.',
+        'rol' => 'Este campo es obligatorio.',
     ];
 
 
@@ -74,9 +108,18 @@ class AgregarTrabajador extends Component
     public function saveTrabajador()
     {
         $this->validate();
+        $this->user['name'] = $this->nombre." ".$this->apellido_p." ".$this->apellido_m;
+        $this->user['password'] =  Hash::make($this->password);
+        $this->user['empresa_id'] = $this->empresa;
+        $this->user['rol'] = $this->rol;
+        $this->user['tipo_user'] = "Trabajador";
+
+        $guardaUser = new User($this->user);
+        $guardaUser -> save();
+        $this->trabajador['user_id'] = $guardaUser->id;
+
 
         Trabajador::create($this->trabajador);
-
         $this->trabajador = [];
         //$this->emit('showAnimatedToast', 'Registro patronal guardado correctamente.');
         return redirect()->route('mostrartrabajador');

@@ -41,7 +41,7 @@ class Sucursal extends Model
         return $this->belongsToMany(Departamento::class)->withPivot('sucursal_id', 'departamento_id', 'status');
     }
 
-    public function user()
+    public function users()
     {
         return $this->hasMany(User::class);
     }

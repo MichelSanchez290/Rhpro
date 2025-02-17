@@ -16,7 +16,6 @@ use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport; 
 use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable; 
 
-
 final class EmpresTable extends PowerGridComponent
 {
     use WithExport;

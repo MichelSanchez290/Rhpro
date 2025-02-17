@@ -35,7 +35,7 @@
                 <h2 class="font-semibold">{{ $usuarios[$trabajador->user_id]->name ?? 'Sin Nombre' }}</h2>
                 <p class="text-gray-500">{{ $usuarios[$trabajador->user_id]->email ?? 'Sin Correo' }}</p>
                 <p class="text-gray-500">Clave: {{ $trabajador->clave_trabajador }}</p>
-                <p class="text-gray-500">Sucursal: {{ $puestos[$trabajador->puesto_id]->nombre_puesto ?? 'Sin Sucursal' }}</p>
+                <p class="text-gray-500">Puesto: {{ $puestos[$trabajador->puesto_id]->nombre_puesto ?? 'Sin Puesto' }}</p>
                 <p class="text-gray-500">Departamento: {{ $departamentos[$trabajador->departamento_id]->nombre_departamento ?? 'Sin Departamento' }}</p>
                 <p class="text-gray-500">Reg Patronal: {{ $registros_patronales[$trabajador->registro_patronal_id]->registro_patronal ?? 'Sin Departamento' }}</p>
             </div>

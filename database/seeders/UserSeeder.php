@@ -58,5 +58,14 @@ class UserSeeder extends Seeder
             'sucursal_id' => 1,
             'tipo_user' => 'Practicante'
         ])->assignRole('Trabajador GLOBAL');
+
+        
+        User::create([
+            'name' => 'Ezequiel López Cruz',
+            'email' => 'ezequiel@gmail.com',
+            'password' => bcrypt('12345678'),            
+        ])->assignRole('GoldenAdmin');
+
+        User::factory(9)->create();
     }
 }

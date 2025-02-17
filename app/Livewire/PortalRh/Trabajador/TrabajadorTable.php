@@ -94,6 +94,7 @@ final class TrabajadorTable extends PowerGridComponent
             ->add('departamento')
             ->add('puesto_id')
             ->add('registro_patronal_id')
+            ->add('regpatronal')
             ->add('created_at');
     }
 
@@ -101,6 +102,7 @@ final class TrabajadorTable extends PowerGridComponent
     {
         return [
             Column::make('Id', 'id'),
+
             Column::make('Clave trabajador', 'clave_trabajador')
                 ->sortable()
                 ->searchable(),
@@ -205,11 +207,11 @@ final class TrabajadorTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            
-
-            Column::make('Sucursal', 'sucursal'),
-
             Column::make('Departamento', 'departamento'),
+
+            Column::make('Puesto id', 'puesto'),
+
+            Column::make('Registro patronal id', 'regpatronal'),
 
             Column::make('Created at', 'created_at')
                 ->sortable()

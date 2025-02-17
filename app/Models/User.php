@@ -111,6 +111,7 @@ class User extends Authenticatable
         return $this->belongsToMany(Retardo::class)->withPivot('user_id', 'retardo_id');
     }
 
+
     /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public function bajas()
     {
@@ -192,7 +193,7 @@ class User extends Authenticatable
     //  /* RELACIONES MODULO CAPACITACION */
     public function empresa()
     {
-        return $this->belongsTo(Empresa::class, 'empresas_id', 'id');
+        return $this->belongsTo(Empresa::class);
     }
 
     public function asignacion()

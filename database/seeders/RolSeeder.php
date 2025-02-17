@@ -67,5 +67,7 @@ class RolSeeder extends Seeder
         //Permisos para tipo activo
         Permission::create(['name'=>'Tipo activo'])->syncRoles([$role1]);
         //Fin de ACTIVO FIJO
+
+        
     }
 }
