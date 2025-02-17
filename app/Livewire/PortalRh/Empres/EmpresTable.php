@@ -6,22 +6,15 @@ namespace App\Livewire\PortalRh\Empres;
 use App\Models\PortalRH\Empresa;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Crypt;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
-
-use Illuminate\Support\Facades\Crypt;
-<<<<<<< HEAD
-
-use PowerComponents\LivewirePowerGrid\Traits\WithExport;
-use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
-=======
 use PowerComponents\LivewirePowerGrid\Traits\WithExport; 
 use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable; 
->>>>>>> fd67a80363011711f2dfc76cb3dd41b6b7e2c254
 
 final class EmpresTable extends PowerGridComponent
 {

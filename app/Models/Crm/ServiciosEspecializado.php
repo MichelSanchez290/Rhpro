@@ -19,11 +19,11 @@ class ServiciosEspecializado extends Model
 
     public function serviciosejecutivo()
     {
-        return $this->hasMany(serviciosejecutivos::class);
+        return $this->hasMany(ServiciosEjecutivo::class);
     }
 
     public function leadscliente()
     {
-        return $this->belongsTo(leadscliente::class);
+        return $this->belongsTo(LeadCliente::class);
     }
 }

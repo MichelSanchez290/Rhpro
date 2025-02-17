@@ -3,7 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\PortalRH\Departament;
+use App\Models\PortalRH\Departamento;
 use App\Models\PortalRH\Practicant;
+use App\Models\PortalRH\Practicante;
 use App\Models\PortalRH\Sucursal;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -19,9 +21,9 @@ class PracticanteSeeder extends Seeder
 
         $user = User::first(); // Obtén el primer usuario de la tabla users
         $sucursal = Sucursal::first(); // Obtén la primera sucursal de la tabla sucursales
-        $departamento = Departament::first(); // Obtén el primer departamento de la tabla departamentos
+        $departamento = Departamento::first(); // Obtén el primer departamento de la tabla departamentos
 
-        $practicante = Practicant::create([
+        $practicante = Practicante::create([
             'clave_practicante' => 'CPR12345',
             'numero_seguridad_social' => '9876543210',
             'fecha_nacimiento' => '2000-05-15',

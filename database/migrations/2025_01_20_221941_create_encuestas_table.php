@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('encuestas', function (Blueprint $table) {
-            $table->string('Clave')->primary(); // Clave primaria generada automáticamente
+            $table->id();
+            $table->string('Clave'); // Clave primaria generada automáticamente
             $table->string('Empresa'); // Empresa siempre requerida
             $table->string('RutaLogo')->nullable(); // El logo es opcional
             $table->date('FechaInicio'); // Fecha de inicio obligatoria
@@ -20,7 +21,7 @@ return new class extends Migration
             $table->date('Caducidad')->nullable(); // Si la encuesta puede caducar, puede ser opcional
             $table->tinyInteger('Estado')->default(0); // Estado por defecto en 0 (abierta/cerrada)
             $table->integer('NumeroEncuestas'); // Número de encuestados es obligatorio
-            $table->string('Formato')->nullable(); // Formato puede ser opcional
+            $table->json('Formato')->nullable(); // Cambiado a JSON para almacenar múltiples cuestionarios
             $table->integer('EncuestasContestadas')->default(0); // Inicialmente 0
             $table->text('Actividades')->nullable(); // Actividades opcionales
             $table->integer('Numero')->nullable(); // Número de encuesta puede generarse

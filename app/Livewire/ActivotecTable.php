@@ -131,10 +131,10 @@ final class ActivotecTable extends PowerGridComponent
     {
         return [
             Button::add('edit')
-                ->slot('Editar')
+                ->icon('default-edit')
                 ->class('btn btn-primary')
                 ->route('editaracttec', ['id' => $row->id]),
-                Button::add('delete')
+            Button::add('delete')
                 ->icon('default-trash')
                 ->class('btn btn-danger')
                 ->dispatch('openModal', [

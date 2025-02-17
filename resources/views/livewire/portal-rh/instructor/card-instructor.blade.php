@@ -180,12 +180,16 @@
                             <span class="text-gray-700">{{ $instructor->regimen_empre }}</span>
                         </li>
                         <li class="flex border-b py-2">
-                            <span class="font-bold w-44">Sucursal:</span>
-                            <span class="text-gray-700">{{ $sucursal->nombre_sucursal ?? 'Sin Sucursal' }}</span>
+                            <span class="font-bold w-44">Puesto:</span>
+                            <span class="text-gray-700">{{ $puesto->nombre_puesto ?? 'Sin Sucursal' }}</span>
                         </li>
                         <li class="flex border-b py-2">
                             <span class="font-bold w-44">Departamento:</span>
                             <span class="text-gray-700">{{ $departamento->nombre_departamento ?? 'Sin Departamento' }}</span>
+                        </li>
+                        <li class="flex border-b py-2">
+                            <span class="font-bold w-44">Registro Patronal:</span>
+                            <span class="text-gray-700">{{ $registro_patronal->registro_patronal ?? 'Sin Departamento' }}</span>
                         </li>
                     </ul>
 

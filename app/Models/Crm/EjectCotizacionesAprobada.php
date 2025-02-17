@@ -19,6 +19,6 @@ class EjectCotizacionesAprobada extends Model
 
     public function ServiciosEjecutivos()
     {
-        return $this->belongsTo(ServiciosEjecutivos::class);
+        return $this->belongsTo(ServiciosEjecutivo::class);
     }
 }

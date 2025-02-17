@@ -76,7 +76,7 @@ final class ActivoofTable extends PowerGridComponent
             Column::make('Precio Adquisición', 'precio_adquisicion')->sortable()->searchable(),
             Column::make('Año Estimado', 'anioEstimado')->sortable()->searchable(),
             Column::make('Creado el', 'created_at_formatted', 'created_at')->sortable(),
-            Column::action('Acciones'),
+            Column::action('Acction'),
         ];
     }
 
@@ -100,7 +100,7 @@ final class ActivoofTable extends PowerGridComponent
             Button::add('edit')
                 ->slot('Editar')
                 ->class('btn btn-primary')
-                ->route('editaractof', ['id' => $row->id]),
+                ->route('editaractofi', ['id' => $row->id]),
             Button::add('delete')
                 ->icon('default-trash')
                 ->class('btn btn-danger')
