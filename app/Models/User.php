@@ -30,6 +30,7 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use PHPUnit\Framework\MockObject\Stub\ReturnArgument;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
@@ -38,6 +39,7 @@ class User extends Authenticatable
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
+    use HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -69,7 +71,7 @@ class User extends Authenticatable
      */
     protected $appends = ['profile_photo_url'];
 
-     /* RELACIONES MODULO RH */
+    /* RELACIONES MODULO RH */
 
     public function becarios()
     {
@@ -168,10 +170,13 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(ActivoSouvenir::class);
     }
-    public function activotecnologias()
+    public function activosTecnologia()
     {
-        return $this->belongsToMany(ActivoTecnologia::class);
+        return $this->belongsToMany(ActivoTecnologia::class, 'activos_tecnologia_user')
+            ->withPivot('fecha_asignacion', 'fecha_devolucion', 'observaciones', 'status', 'foto1', 'foto2', 'foto3')
+            ->withTimestamps();
     }
+
     public function activouniformes()
     {
         return $this->belongsToMany(ActivoUniforme::class);
