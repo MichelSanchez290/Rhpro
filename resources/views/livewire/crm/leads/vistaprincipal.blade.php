@@ -33,7 +33,7 @@
                 </label>
                 <input
                     class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                    wire:model.defer="fechaseleccionada" type="date">
+                    wire:model.defer="lead.fecha" type="date">
                 <x-input-error for="lead.fecha" />
             </div>
         </div>
