@@ -12,8 +12,13 @@ use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 
+use Illuminate\Support\Facades\Crypt;
+use PowerComponents\LivewirePowerGrid\Traits\WithExport;
+use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
+
 final class BecarioTable extends PowerGridComponent
 {
+    use WithExport;
     public string $tableName = 'becario-table-oovfnx-table';
 
     public function setUp(): array
@@ -26,12 +31,25 @@ final class BecarioTable extends PowerGridComponent
             PowerGrid::footer()
                 ->showPerPage()
                 ->showRecordCount(),
+            PowerGrid::exportable(fileName: 'becarios') 
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
         ];
     }
 
     public function datasource(): Builder
     {
-        return Becario::query();
+        return Becario::query()
+        ->leftJoin('users', 'becarios.user_id', '=', 'users.id')
+        ->leftJoin('departamentos', 'becarios.departamento_id', '=', 'departamentos.id')
+        ->leftJoin('puestos', 'becarios.puesto_id', '=', 'puestos.id')
+        ->leftJoin('registros_patronales', 'becarios.registro_patronal_id', '=', 'registros_patronales.id')
+        ->select([
+            'becarios.*',
+            'users.name as nombre_usuario',
+            'departamentos.nombre_departamento as departamento',
+            'puestos.nombre_puesto as puesto',
+            'registros_patronales.registro_patronal as regpatronal'
+        ]);
     }
 
     public function relationSearch(): array
@@ -60,9 +78,13 @@ final class BecarioTable extends PowerGridComponent
             ->add('calle')
             ->add('colonia')
             ->add('user_id')
+            ->add('nombre_usuario')
             ->add('departamento_id')
+            ->add('departamento')
             ->add('puesto_id')
+            ->add('puesto')
             ->add('registro_patronal_id')
+            ->add('regpatronal')
             ->add('created_at');
     }
 
@@ -70,10 +92,12 @@ final class BecarioTable extends PowerGridComponent
     {
         return [
             Column::make('Id', 'id'),
-            Column::make('Id', 'id'),
+
             Column::make('Clave becario', 'clave_becario')
                 ->sortable()
                 ->searchable(),
+            
+            Column::make('User id', 'nombre_usuario'),
 
             Column::make('Numero seguridad social', 'numero_seguridad_social')
                 ->sortable()
@@ -129,12 +153,11 @@ final class BecarioTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('User id', 'user_id'),
-            Column::make('Departamento id', 'departamento_id'),
-            Column::make('Puesto id', 'puesto_id'),
-            Column::make('Registro patronal id', 'registro_patronal_id'),
-            Column::make('Created at', 'created_at_formatted', 'created_at')
-                ->sortable(),
+            Column::make('Departamento id', 'departamento'),
+
+            Column::make('Puesto id', 'puesto'),
+
+            Column::make('Registro patronal id', 'regpatronal'),
 
             Column::make('Created at', 'created_at')
                 ->sortable()
@@ -162,10 +185,14 @@ final class BecarioTable extends PowerGridComponent
     {
         return [
             Button::add('edit')
-                ->slot('Edit: '.$row->id)
-                ->id()
-                ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-                ->dispatch('edit', ['rowId' => $row->id])
+                ->slot('Editar')
+                ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
+                ->route('editarbecario', ['id' => Crypt::encrypt($row->id)]),
+            
+            Button::add('delete')
+                ->slot('Eliminar')
+                ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
+                ->dispatch('confirmDelete', ['id' => $row->id]),
         ];
     }
 

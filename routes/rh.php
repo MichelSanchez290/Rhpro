@@ -3,6 +3,13 @@
 use Illuminate\Support\Facades\Route;
 use App\Livewire\PortalRh\Inicio;
 
+use App\Livewire\PortalRh\Usuario\MostrarUsuario;
+use App\Livewire\PortalRh\Usuario\AsignarRolUsuario;
+
+use App\Livewire\PortalRh\Rol\MostrarRol;
+use App\Livewire\PortalRh\Rol\AgregarRol;
+use App\Livewire\PortalRh\Rol\EditarRol;
+
 use App\Livewire\PortalRh\Empres\MostrarEmpres;
 use App\Livewire\PortalRh\Empres\AgregarEmpres;
 use App\Livewire\PortalRh\Empres\EditarEmpres;
@@ -60,6 +67,13 @@ use App\Livewire\PortalRh\Becario\MostrarCardBecario;
 use App\Livewire\PortalRh\Becario\CardBecario;
 
 
+use App\Livewire\PortalRh\Practicante\MostrarPracticante;
+use App\Livewire\PortalRh\Practicante\AgregarPracticante;
+use App\Livewire\PortalRh\Practicante\EditarPracticante;
+use App\Livewire\PortalRh\Practicante\MostrarCardPracticante;
+use App\Livewire\PortalRh\Practicante\CardPracticante;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -76,6 +90,34 @@ Route::get(
         '/inicio',
             Inicio::class
     )->name('inicio');
+
+
+    // ROLES ---------------------------------------------------------------
+    Route::get( 
+        '/roles',
+            MostrarRol::class
+    )->name('mostrarrol');
+
+    Route::get( 
+        '/create-rol',
+            AgregarRol::class
+    )->name('agregarrol');
+
+    Route::get( 
+        '/edit-rol/{id}',
+            EditarRol::class
+    )->name('editarrol');
+
+    // USER ---------------------------------------------------------------
+    Route::get( 
+        '/usuarios',
+            MostrarUsuario::class
+    )->name('mostraruser');
+
+    Route::get( 
+        '/asig-rol-user/{id}',
+            AsignarRolUsuario::class
+    )->name('agregarroluser');
 
 
     // EMPRESAS ---------------------------------------------------------------
@@ -261,7 +303,7 @@ Route::get(
             EditarEmpresSucursal::class
     )->name('editarempressucursal');
 
-    // INSTRUCTOR ---------------------------------------------------------------
+    // Becario ---------------------------------------------------------------
     Route::get( 
         '/becarios',
             MostrarBecario::class
@@ -286,3 +328,30 @@ Route::get(
         '/card-becario/{id}',
             CardBecario::class
     )->name('cardbecario');
+
+    // Practicante ---------------------------------------------------------------
+    Route::get( 
+        '/practicantes',
+            MostrarPracticante::class
+    )->name('mostrarpracticante');
+
+    Route::get( 
+        '/create-practicante',
+            AgregarPracticante::class
+    )->name('agregarpracticante');
+
+    Route::get( 
+        '/edit-practicante/{id}',
+            EditarPracticante::class
+    )->name('editarpracticante');
+
+    Route::get( 
+        '/cards-practicantes',
+            MostrarCardPracticante::class
+    )->name('mostrarcardpracticante');
+
+    Route::get( 
+        '/card-practicante/{id}',
+            CardPracticante::class
+    )->name('cardpracticante');
+    

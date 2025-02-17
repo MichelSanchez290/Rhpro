@@ -31,6 +31,8 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use PHPUnit\Framework\MockObject\Stub\ReturnArgument;
 
+use Spatie\Permission\Traits\HasRoles;
+
 class User extends Authenticatable
 {
     use HasApiTokens;
@@ -38,6 +40,7 @@ class User extends Authenticatable
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
+    use HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -101,6 +104,7 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Retardo::class)->withPivot('user_id', 'retardo_id');
     }
+
 
     /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public function bajas()
@@ -182,9 +186,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(PerfilPuesto::class, 'perfil_puesto_user', 'users_id', 'perfiles_puestos_id'); // Modelo relacionado
     }
-    public function empresas()
+    public function empresa()
     {
-        return $this->belongsTo(Empresa::class, 'empresas_id', 'id');
+        return $this->belongsTo(Empresa::class);
     }
 
     public function asignacion()
@@ -201,5 +205,12 @@ class User extends Authenticatable
     public function perfilActual()
     {
         return $this->perfilesPuestos()->latest()->first();
+    }
+
+
+    // **********
+    public function sucursal()
+    {
+        return $this->belongsTo(Sucursal::class);
     }
 }

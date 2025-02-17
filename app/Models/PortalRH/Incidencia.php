@@ -19,7 +19,7 @@ class Incidencia extends Model
     //especifica las columnas
     protected $fillable = [
         'id', 
-        'tipo_incidencia', 
+        'tipo_incidencia', //seleccionar vacaciones, permisos, etc
         'fecha_inicio',
         'fecha_final'
     ];

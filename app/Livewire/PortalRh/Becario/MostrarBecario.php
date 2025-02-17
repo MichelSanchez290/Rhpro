@@ -13,7 +13,7 @@ class MostrarBecario extends Component
     // Redirigir a una vista para agregar sucursales
     public function redirigir()
     {
-        return redirect()->route('agregarinstructor');
+        return redirect()->route('agregarbecario');
     }
 
     
@@ -28,7 +28,7 @@ class MostrarBecario extends Component
         $this->showModal = true;
     }
     
-    public function deleteInstructor()
+    public function deleteBecario()
     {
         if ($this->becarioToDelete) {
             Becario::find($this->becarioToDelete)->delete();

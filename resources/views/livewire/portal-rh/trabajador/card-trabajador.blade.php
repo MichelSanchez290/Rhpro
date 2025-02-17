@@ -178,6 +178,10 @@
                             <span class="font-bold w-44">Departamento:</span>
                             <span class="text-gray-700">{{ $departamento->nombre_departamento ?? 'Sin Departamento' }}</span>
                         </li>
+                        <li class="flex border-b py-2">
+                            <span class="font-bold w-44">Registro Patronal:</span>
+                            <span class="text-gray-700">{{ $registro_patronal->registro_patronal ?? 'Sin Departamento' }}</span>
+                        </li>
                     </ul>
 
 
