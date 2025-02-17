@@ -180,7 +180,12 @@ class User extends Authenticatable
     //  /* RELACIONES MODULO CAPACITACION */
     public function empresa()
     {
-        return $this->belongsTo(Empresa::class, 'empresas_id', 'id');
+        return $this->belongsTo(Empresa::class, 'empresa_id', 'id');
+    }
+
+    public function sucursal()
+    {
+        return $this->belongsTo(Sucursal::class, 'sucursal_id', 'id');
     }
 
     public function asignacion()

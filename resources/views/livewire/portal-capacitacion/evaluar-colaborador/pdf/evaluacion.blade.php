@@ -51,76 +51,6 @@
         .page-break {
             page-break-before: always;
         }
-
-
-        fieldset {
-            padding: 1em;
-            border-color: rgb(7, 65, 107);
-            border-style: solid;
-            border-width: 2px;
-            background: #fff;
-        }
-
-        legend {
-            color: rgb(7, 65, 107);
-            padding: 0.3em 0.6em;
-            border: 1px solid rgb(7, 65, 107);
-            background: #fff;
-            font-size: 1.3em;
-        }
-
-        legend.radio {
-            border-radius: 50px;
-        }
-
-        th,
-        td {
-            border: 1px solid rgb(7, 65, 107);
-            padding: 6px;
-            text-align: center;
-        }
-
-        th {
-            background-color: rgb(7, 65, 107);
-        }
-
-
-
-        /* Enfasis en las celdas */
-        td:nth-child(5n+1),
-        th:nth-child(5n+1) {
-            background-color: rgb(7, 65, 107);
-        }
-
-        /* Estilo adicional */
-
-        .container1 {
-            background-color: #8cc2db;
-            padding: 1em 1em 1em;
-            box-sizing: border-box;
-            opacity: 0.7;
-        }
-
-        .container1 ul {
-            margin-top: 0;
-            padding-left: 0em;
-        }
-
-        .container1 ul li {
-            list-style-type: none;
-        }
-
-        .container1 ul+ul {
-            margin-bottom: 0;
-        }
-
-        .container1 ul+ul>li+li label {
-            margin-bottom: 0;
-        }
-
-        .page-break {
-            page-break-before: always;
-        }
         
     </style>
 
@@ -164,26 +94,86 @@
             <div style="border-top: 0.1cm solid rgb(7, 65, 107); "></div>
             <div style="position: relative; font-size: 13pt; margin-top: 1cm;">
                 <div style="width: 60%;">
-                    <div style="position: absolute; top: 50px; left: 65%; z-index: 1;">
-                        <img src="https://ui-avatars.com/api/?name={{ urlencode($usuario->name ?? 'Usuario') }}&background=random" 
-                            alt="Foto de {{ $usuario->name ?? 'Usuario' }}" style="max-width: 100%; height: auto;">
+                    <div style="position: absolute; top: 50px; left: 65%; z-index: 1; high:55px; width:55px;">
+                        <img src="https://i.pinimg.com/236x/f9/74/36/f9743626d7b91340f9b23f080a5da0b3.jpg" 
+                            alt="Foto de {{ $usuario->name ?? 'Usuario' }}" style="width: 300px; height: 300px; border-radius: 5%;">
                     </div>
                     <div style="position: relative; z-index: 0;">
                         @if ($usuario->tipo_user == 'Trabajador')
-                        
+                        <p style="color: rgb(7, 65, 107); font-size: 14pt; margin: 0;">Nombre del evaluado:</p>
+                        <p style="margin: 0;"> <b>{{ $usuario->name }}</b></p>
+                        <p style="color: rgb(7, 65, 107); font-size: 14pt;">Clave del trabajador:</p>                        
                         <p style="margin: 0;"> <b>{{ $trabajador->clave_trabajador}}</b></p>
-                            
+                        <p style="color: rgb(7, 65, 107); font-size: 14pt;">RFC:</p>
+                        <p><b>{{ $trabajador->rfc}}</b></p>
+                        <p style="color: rgb(7, 65, 107); font-size: 14pt;">Curp:</p>
+                        <p><b>{{ $trabajador->curp}}</b></p>
+                        <p style="color: rgb(7, 65, 107); font-size: 14pt;">Número de celular:</p>
+                        <p><b>{{ $trabajador->numero_celular}}</b></p>
+                        <p style="color: rgb(7, 65, 107); font-size: 14pt;">Ocupación:</p>
+                        <p><b>{{ $trabajador->ocupacion}}</b></p>
+                        <p style="color: rgb(7, 65, 107); font-size: 14pt;">Puesto:</p>
+                        <p><b>{{ $usuario->perfilActual()?->nombre_puesto ?? 'Sin asignar' }}</b></p>
+                        <p style="color: rgb(7, 65, 107); font-size: 14pt;">Sexo:</p>
+                        <p><b>
+                            {{ $trabajador->sexo == 'F' ? 'Femenino' : ($practicante->sexo == 'M' ? 'Masculino' : $practicante->sexo) }}
+                        </b></p>
+                        <p style="color: rgb(7, 65, 107); font-size: 14pt;">Empresa:</p>
+                        <p><b>{{ $usuario->empresa_id }}</b></p>
+                        <p style="color: rgb(7, 65, 107); font-size: 14pt;">Sucursal:</p>
+                        <p><b>{{ $usuario->sucursal_id }}</b></p>
+                        <p style="color: rgb(7, 65, 107); font-size: 14pt;">Departamento:</p>
+                        <p><b>{{ $trabajador->departamento_id}}</b></p>
+
                         @elseif ($usuario->tipo_user == 'Becario')
-                        
-                        <p style="margin: 0;"> <b>{{ $becario->clave_becario }}</b></p>
+                        <p style="color: rgb(7, 65, 107); font-size: 14pt; margin: 0;">Nombre del evaluado:</p>
+                        <p style="margin: 0;"> <b>{{ $usuario->name }}</b></p>
+                        <p style="color: rgb(7, 65, 107); font-size: 14pt;">Clave del trabajador:</p>                        
+                        <p style="margin: 0;"> <b>{{ $becario->clave_becario}}</b></p>
+                        <p style="color: rgb(7, 65, 107); font-size: 14pt;">Curp:</p>
+                        <p><b></b>{{ $usuario->curp }}</p>
+                        <p style="color: rgb(7, 65, 107); font-size: 14pt;">Número de celular:</p>
+                        <p><b></b></p>
+                        <p style="color: rgb(7, 65, 107); font-size: 14pt;">Ocupación:</p>
+                        <p><b></b></p>
+                        <p style="color: rgb(7, 65, 107); font-size: 14pt;">Puesto:</p>
+                        <p><b>{{ $usuario->perfilActual()?->nombre_puesto ?? 'Sin asignar' }}</b></p>
+                        <p style="color: rgb(7, 65, 107); font-size: 14pt;">Número de celular:</p>
+                        <p><b></b></p>
+                        <p style="color: rgb(7, 65, 107); font-size: 14pt;">Sexo:</p>
+                        <p><b></b></p>
+                        <p style="color: rgb(7, 65, 107); font-size: 14pt;">Sucursal:</p>
+                        <p><b></b></p>
+                        <p style="color: rgb(7, 65, 107); font-size: 14pt;">Departamento:</p>
+                        <p><b></b></p>
 
                         @elseif ($usuario->tipo_user == 'Practicante')  
+                        <p style="color: rgb(7, 65, 107); font-size: 14pt; margin: 0;">Nombre del evaluado:</p>
+                        <p style="margin: 0;"> <b>{{ $usuario->name }}</b></p>
+                        <p style="color: rgb(7, 65, 107); font-size: 14pt;">Clave del trabajador:</p>                        
                         <p style="margin: 0;"> <b>{{ $practicante->clave_practicante}}</b></p>
+                        <p style="color: rgb(7, 65, 107); font-size: 14pt;">RFC:</p>
+                        <p><b>{{ $practicante->rfc}}</b></p>
+                        <p style="color: rgb(7, 65, 107); font-size: 14pt;">Curp:</p>
+                        <p><b>{{ $practicante->curp}}</b></p>
+                        <p style="color: rgb(7, 65, 107); font-size: 14pt;">Número de celular:</p>
+                        <p><b>{{ $practicante->numero_celular}}</b></p>
+                        <p style="color: rgb(7, 65, 107); font-size: 14pt;">Ocupación:</p>
+                        <p><b>{{ $practicante->ocupacion}}</b></p>
+                        <p style="color: rgb(7, 65, 107); font-size: 14pt;">Puesto:</p>
+                        <p><b>{{ $usuario->perfilActual()?->nombre_puesto ?? 'Sin asignar' }}</b></p>
+                        <p style="color: rgb(7, 65, 107); font-size: 14pt;">Sexo:</p>
+                        <p><b>
+                            {{ $practicante->sexo == 'F' ? 'Femenino' : ($practicante->sexo == 'M' ? 'Masculino' : $practicante->sexo) }}
+                        </b></p>
+                        <p style="color: rgb(7, 65, 107); font-size: 14pt;">Empresa:</p>
+                        <p><b>{{ $usuario->empresa->nombre }}</b></p>
+                        <p style="color: rgb(7, 65, 107); font-size: 14pt;">Sucursal:</p>
+                        <p><b>{{ $usuario->sucursal->nombre_sucursal}}</b></p>
+                        <p style="color: rgb(7, 65, 107); font-size: 14pt;">Departamento:</p>
+                        <p><b>{{ $practicante->departamento->nombre_departamento}}</b></p>
                         
                         @elseif ($usuario->tipo_user == 'Instructor')
-                        <p style="margin: 0;"> <b>{{ $instructor->rfc }}</b></p>
-
-                        @endif
                         <p style="color: rgb(7, 65, 107); font-size: 14pt; margin: 0;">Nombre del evaluado:</p>
                         <p style="margin: 0;"> <b>{{ $usuario->name }}</b></p>
                         <p style="color: rgb(7, 65, 107); font-size: 14pt;">Clave del trabajador:</p>
@@ -206,12 +196,47 @@
                         <p><b></b></p>
                         <p style="color: rgb(7, 65, 107); font-size: 14pt;">Departamento:</p>
                         <p><b></b></p>
+                        @endif
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
+
+    <div class="contenedor2" style="font-family: 'Nourd', sans-serif;">
+        <h2 style="color: rgb(7, 65, 107); font-size: 20pt; font-weight: bold; margin-bottom: 5px; margin-top: 1cm;">Evaluación</h2>
+        <div style="border-top: 0.1cm solid rgb(7, 65, 107);"></div>
+        <table style="font-size: 13pt; border-collapse: collapse; margin-top: 1cm; width: 90%;">
+            <thead>
+                <tr>
+                    <th style="color: #fff; background-color: rgb(7, 65, 107); padding: 8px;">Criterio</th>
+                    <th style="color: #fff; background-color: rgb(7, 65, 107); padding: 8px;">Calificación</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($evaluaciones as $evaluacion)
+                    <tr>
+                        <td style="padding: 8px; border: 1px solid rgb(7, 65, 107);">{{ $evaluacion->criterio }}</td>
+                        <td style="padding: 8px; border: 1px solid rgb(7, 65, 107);">{{ $evaluacion->calificacion_desempeno }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td style="padding: 8px; border: 1px solid rgb(7, 65, 107);"><strong>Calificación Final:</strong></td>
+                    <td style="padding: 8px; border: 1px solid rgb(7, 65, 107);"><strong>{{ number_format($evaluaciones->avg('calificacion_desempeno'), 2) }}</strong></td>
+                </tr>
+                @if($evaluaciones->isNotEmpty())
+                    <tr>
+                        <td colspan="2" style="padding: 8px; border: 1px solid rgb(7, 65, 107);"><strong>Comentarios:</strong> {{ $evaluaciones->first()->comentarios }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="padding: 8px; border: 1px solid rgb(7, 65, 107);"><strong>Recomendaciones:</strong> {{ $evaluaciones->first()->recomendaciones }}</td>
+                    </tr>
+                @endif
+            </tfoot>
+        </table>
+    </div>    
     
 </body>
 </html>

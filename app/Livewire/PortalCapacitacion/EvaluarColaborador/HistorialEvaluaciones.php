@@ -12,6 +12,7 @@ use App\Models\PortalRH\Becario;
 use App\Models\PortalRH\Practicante;
 use App\Models\PortalRH\Trabajador;
 use App\Models\PortalRH\Instructor;
+use App\Models\PortalRH\Empresa;
 use Illuminate\Support\Facades\DB;
 
 class HistorialEvaluaciones extends Component
@@ -59,6 +60,9 @@ class HistorialEvaluaciones extends Component
         $this->becario = Becario::where('user_id', $this->userSeleccionado->id)->first();
         $this->practicante = Practicante::where('user_id', $this->userSeleccionado->id)->first();
         $this->instructor= Instructor::where('user_id', $this->userSeleccionado->id)->first();
+        $this->userSeleccionado = User::with('empresa')->find($this->userSeleccionado->id);
+        $this->userSeleccionado = User::with('sucursal')->find($this->userSeleccionado->id);
+        $this->practicante = Practicante::with('departamento')->where('user_id', $this->userSeleccionado->id)->first();
 
         $pdf = Pdf::setOptions(['dpi' => 150, 'isRemoteEnabled' => true])
             ->loadView('livewire.portal-capacitacion.evaluar-colaborador.pdf.evaluacion', [
@@ -82,9 +86,22 @@ class HistorialEvaluaciones extends Component
     {
         $evaluaciones = $this->obtenerHistorialEvaluaciones();
 
+        $this->trabajador = Trabajador::where('user_id', $this->userSeleccionado->id)->first();
+        $this->becario = Becario::where('user_id', $this->userSeleccionado->id)->first();
+        $this->practicante = Practicante::where('user_id', $this->userSeleccionado->id)->first();
+        $this->instructor= Instructor::where('user_id', $this->userSeleccionado->id)->first();
+        $this->userSeleccionado = User::with('empresa')->find($this->userSeleccionado->id);
+        $this->userSeleccionado = User::with('sucursal')->find($this->userSeleccionado->id);
+        $this->practicante = Practicante::with('departamento')->where('user_id', $this->userSeleccionado->id)->first();
+
         $pdf = Pdf::setOptions(['dpi' => 150, 'isRemoteEnabled' => true])->loadView('livewire.portal-capacitacion.evaluar-colaborador.pdf.evaluaciones-todas', [
             'evaluaciones' => $evaluaciones,
             'usuario' => $this->userSeleccionado,
+            'fecha' => $this->fechaSeleccionada,
+            'trabajador' => $this->trabajador,
+            'becario' => $this->becario,
+            'practicante' => $this->practicante,
+            'instructor' => $this->instructor,
         ])->setPaper('A4', 'portrait');;
 
         return response()->streamDownload(function () use ($pdf) {
