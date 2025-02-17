@@ -13,6 +13,7 @@ use App\Models\PortalCapacitacion\FormacionHabilidadTecnica;
 use App\Models\User;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use App\Models\PortalCapacitacion\ComparacionPuesto;
 
 class CompararPerfilPuesto extends Component
 {
@@ -94,7 +95,7 @@ class CompararPerfilPuesto extends Component
                             ?? $habilidadesTecnicasNuevo->firstWhere('descripcion', $habilidadDescripcion);
     
             $nivelActual = $habilidadActual ? $habilidadActual->nivel : null; // Si no existe, será null
-            $nivelNuevo = $habilidadNuevo ? $habilidadNuevo->nivel : null; // Si no existe, será null
+            $nivelNuevo = $habilidadNuevo ? $habilidadNuevo->nivel : null; 
     
             // Si el nivel es null, mostrar "N/A" en la tabla
             $nivelActualTexto = $nivelActual !== null ? $nivelActual : 'N/A';
@@ -113,6 +114,30 @@ class CompararPerfilPuesto extends Component
     
         $this->mostrarTabla = true; // Ahora se muestra la tabla con todas las habilidades
     }
+
+    public function guardarConclusion()
+{
+    if (!$this->perfilactual || !$this->detallePuesto || empty($this->habilidadesComparadas)) {
+        session()->flash('error', 'No hay datos para guardar.');
+        return;
+    }
+
+    // Recorrer cada competencia evaluada y guardarla como un nuevo registro
+    foreach ($this->habilidadesComparadas as $habilidad) {
+        ComparacionPuesto::create([
+            'fecha_comparacion' => now()->toDateString(),
+            'competencias_requeridas' => $habilidad['nombre'], // Se guarda cada competencia individualmente
+            'nivel_actual' => $habilidad['nivel_usuario'] !== 'N/A' ? $habilidad['nivel_usuario'] : null,
+            'nivel_nuevo' => $habilidad['nivel_puesto'] !== 'N/A' ? $habilidad['nivel_puesto'] : null,
+            'diferencia' => $habilidad['diferencia'],
+            'puesto_nuevo' => $this->detallePuesto->id,
+            'perfiles_puestos_id' => $this->perfilactual->id,
+        ]);
+    }
+
+    session()->flash('success', 'Conclusión guardada exitosamente.');
+}
+
 
 
     public function updatedPerfil($puestoId)

@@ -29,6 +29,8 @@ use App\Livewire\PortalCapacitacion\Usuarios\VerMasUsuario;
 use App\Livewire\PortalCapacitacion\Usuarios\CompararPerfilPuesto;
 use App\Livewire\PortalCapacitacion\AsociarPuestoTrabajador\AsociarPuestoTrabajador;
 use App\Livewire\PortalCapacitacion\AsociarPuestoTrabajador\AsignarPerfilPuesto;
+use App\Livewire\PortalCapacitacion\EvaluarColaborador\FormEvaluar;
+use App\Livewire\PortalCapacitacion\EvaluarColaborador\HistorialEvaluaciones;
 
 Route::get('/inicio', Inicio::class)->name('inicio-capacitacion');
 
@@ -76,3 +78,7 @@ Route::get('/user/comparar/{id}', CompararPerfilPuesto::class)->name('compararPe
 //asociar puesto para trabajadores
 Route::get('/asociar-perfil-puesto', AsociarPuestoTrabajador::class)->name('asociarPuestoTrabajador');
 Route::get('/asignar-perfil-puesto/{id}/{tipoUsuario}', AsignarPerfilPuesto::class)->name('asignarPerfilPuesto');
+
+//evaluar colaborador
+Route::get('/evaluar-colaborador/{id}', FormEvaluar::class)->name('evaluarColaborador');
+Route::get('/historial-evaluaciones/{id}', HistorialEvaluaciones::class)->name('historialEvalaciones');
