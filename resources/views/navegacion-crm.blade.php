@@ -1,5 +1,5 @@
 <!--sidenav -->
-<div class="fixed left-0 top-0 w-64 h-full bg-[#f8f4f3] p-4 z-50 sidebar-menu transition-transform">
+<div class="fixed block left-0 top-0 w-64 h-full bg-[#f8f4f3] p-4 z-50 sidebar-menu transition-transform">
     <a href="{{ url('crm/crm-inicio') }}" class="flex items-center pb-4 border-b border-b-gray-800">
         <h2 class="text-2xl font-bold">CRM</h2>
     </a>
@@ -87,5 +87,3 @@
         </li>
     </ul>
 </div>
-<div class="fixed top-0 left-0 z-40 w-full h-full bg-black/50 md:hidden sidebar-overlay"></div>
-<!-- end sidenav -->

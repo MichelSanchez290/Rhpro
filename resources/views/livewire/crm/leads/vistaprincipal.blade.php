@@ -33,7 +33,7 @@
                 </label>
                 <input
                     class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                    wire:model.defer="lead.fecha" type="date">
+                    wire:model.defer="fechaseleccionada" type="date">
                 <x-input-error for="lead.fecha" />
             </div>
         </div>
@@ -59,12 +59,6 @@
                     @foreach ($empresas as $empresa)
                         <option value="{{ $empresa->nombre }}">{{ $empresa->nombre }}</option>
                     @endforeach
-                    @if ($empresaSeleccionada)
-                        <br>
-                        <label for="empresaSeleccionada">Nombre de la empresa seleccionada:</label>
-                        <input type="text" id="empresaSeleccionada" class="form-control"
-                            value="{{ $empresaSeleccionada }}" readonly>
-                    @endif
                 </select>
                 {{-- <input
                     class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
@@ -374,7 +368,12 @@
 
     @if ($paginacion == 3)
         <div id="form3">
-            <div class="m-4 rounded-lg shadow-md shadow-gray-300">
+            <div class="m-4 bg-white rounded-lg shadow-md shadow-gray-300">
+                <div class="text-center">
+                    <h1 class="p-10 text-3xl font-bold">
+                        Formulario de HeadHunting
+                    </h1>
+                </div>
                 <div class="flex justify-center w-full px-2 py-4 bg-white rounded-lg shadow-lg">
                     {{-- Representante comercial --}}
                     <div class="mx-2 text-center w-60">
@@ -499,7 +498,7 @@
                         </label>
                         <input
                             class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="hlevped.numero_vacantes" type="text" placeholder="">
+                            wire:model.defer="hlevped.numero_vacantes" type="number" placeholder="">
                         <x-input-error for="hlevped.numero_vacantes" />
                     </div>
                     {{-- Operativas --}}
@@ -545,7 +544,7 @@
                         </label>
                         <input
                             class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="hlevped.correo_cliente" type="text" placeholder="">
+                            wire:model.defer="hlevped.correo_cliente" type="email" placeholder="">
                         <x-input-error for="hlevped.correo_cliente" />
                     </div>
                     {{-- Telefono --}}
@@ -556,7 +555,7 @@
                         </label>
                         <input
                             class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="hlevped.telefono" type="text" placeholder="">
+                            wire:model.defer="hlevped.telefono" type="number" placeholder="">
                         <x-input-error for="hlevped.telefono" />
                     </div>
                 </div>
@@ -577,16 +576,6 @@
                         </select>
                         <x-input-error for="hlevped.status" />
                     </div>
-                    <div class="flex justify-end">
-                        <button
-                            class="p-2 my-6 mr-4 font-semibold text-white bg-blue-600 rounded-md shadow-md shadow-gray-500 hover:shadow-none hover:bg-blue-800">
-                            Guardar y Agregar otro
-                        </button>
-                        <button
-                            class="p-2 my-6 mr-6 font-semibold text-white bg-green-600 rounded-md shadow-md shadow-gray-500 hovehover:shadow-none hover:bg-green-800 ">
-                            Guardar y Salir
-                        </button>
-                    </div>
                     {{-- Lead --}}
                     {{-- <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
@@ -599,13 +588,29 @@
                         <x-input-error for="hlevped.leadCli_id" />
                     </div> --}}
                 </div>
+                <div class="flex justify-end">
+                    <button
+                        class="p-2 my-6 mr-4 font-semibold text-white bg-blue-600 rounded-md shadow-md shadow-gray-500 hover:shadow-none hover:bg-blue-800"
+                        wire:click="saveHead">
+                        Guardar y Agregar otro
+                    </button>
+                    <button
+                        class="p-2 my-6 mr-6 font-semibold text-white bg-green-600 rounded-md shadow-md shadow-gray-500 hovehover:shadow-none hover:bg-green-800 ">
+                        Guardar y Salir
+                    </button>
+                </div>
             </div>
         </div>
     @endif
 
     @if ($paginacion == 4)
         <div id="form4">
-            <div class="m-4 rounded-lg shadow-md shadow-gray-300">
+            <div class="m-4 bg-white rounded-lg shadow-md shadow-gray-300">
+                <div class="text-center">
+                    <h1 class="p-10 text-3xl font-bold">
+                        Formulario de NOM035
+                    </h1>
+                </div>
                 <div class="flex justify-center w-full px-2 py-4 bg-white rounded-lg shadow-lg">
                     {{-- Nombre del Cliente --}}
                     <div class="mx-2 text-center w-60">

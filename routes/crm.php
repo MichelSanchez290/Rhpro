@@ -72,9 +72,4 @@ Route::post(
     EliminarDatosFisc::class,
 )->name('EliminarDato');
 
-Route::get(
-    '/crm-leads',
-    Vistaprincipal::class
-)->name('Leads');
-
 Route::get('/crm-deleteDato', [MostrarDatosFisc::class, 'deleteDato'])->name('confirmDeleteDato');;
