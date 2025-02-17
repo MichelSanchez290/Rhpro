@@ -18,7 +18,7 @@ class DatosFiscale extends Model
 
     public function leadcliente()
     {
-        return $this->hasMany(LeadsCliente::class);
+        return $this->hasMany(LeadCliente::class);
     }
 
     public function crmempresas()

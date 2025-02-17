@@ -10,6 +10,8 @@ use App\Models\ActivoFijo\Activos\ActivoPapeleria;
 use App\Models\ActivoFijo\Activos\ActivoSouvenir;
 use App\Models\ActivoFijo\Activos\ActivoTecnologia;
 use App\Models\ActivoFijo\Activos\ActivoUniforme;
+use App\Models\Crm\LeadCliente;
+use App\Models\Crm\LeadsCliente;
 use App\Models\Encuestas360\Asignacion;
 use App\Models\PortalCapacitacion\PerfilPuesto;
 use App\Models\PortalRH\Becari;
@@ -78,6 +80,11 @@ class User extends Authenticatable
         return $this->hasMany(Becario::class);
     }
 
+
+
+
+
+    /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public function cambioSalario()
     {
         return $this->belongsToMany(CambioSalario::class)->withPivot('user_id', 'cambio_salario_id', 'fecha');
@@ -213,4 +220,10 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Sucursal::class, 'sucursal_id');
     }
+
+   public function leadcliente()
+    {
+        return $this->hasMany(LeadCliente::class, 'users_id');
+    }
+
 }
