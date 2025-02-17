@@ -53,18 +53,12 @@
                 <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
                     Nombre de empresa
                 </label>
-                <select wire:model="empresaSeleccionada" id="empresa"
+                <select wire:model="lead.nombre_empresa"
                     class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500">
-                    <option value="">Selecciona</option>
+                    <option value="">Seleccione una empresa</option>
                     @foreach ($empresas as $empresa)
                         <option value="{{ $empresa->nombre }}">{{ $empresa->nombre }}</option>
                     @endforeach
-                    @if ($empresaSeleccionada)
-                        <br>
-                        <label for="empresaSeleccionada">Nombre de la empresa seleccionada:</label>
-                        <input type="text" id="empresaSeleccionada" class="form-control"
-                            value="{{ $empresaSeleccionada }}" readonly>
-                    @endif
                 </select>
                 {{-- <input
                     class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
@@ -139,7 +133,7 @@
                 <div class="flex justify-center w-full px-2 py-4">
                     <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
-                            Nombre del Lead
+                            Nombre Cliente
                         </label>
                         <input disabled
                             class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
@@ -152,8 +146,17 @@
                         </label>
                         <input disabled
                             class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="empresaSeleccionada" type="text">
-                        <x-input-error for="empresaSeleccionada" />
+                            wire:model.defer="lead.nombre_empresa" type="text">
+                        <x-input-error for="lead.nombre_empresa" />
+                    </div>
+                    <div class="mx-2 text-center w-60">
+                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                            Telefono
+                        </label>
+                        <input disabled
+                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                            wire:model.defer="lead.telefono" type="number">
+                        <x-input-error for="lead.telefono" />
                     </div>
                     <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
@@ -171,14 +174,14 @@
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
                             Tamaño de la empresa
                         </label>
-                        <select wire:model='lead.datos_id'
+                        <select wire:model='esmart.tamaño_empresa'
                             class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500">
                             <option value="" disabled>Seleccione un valor</option>
                             <option value="" disabled>------</option>
-                            <option value="">Micro</option>
-                            <option value="">Chica</option>
-                            <option value="">Mediana</option>
-                            <option value="">Grande</option>
+                            <option value="Micro">Micro</option>
+                            <option value="Chica">Chica</option>
+                            <option value="Mediana">Mediana</option>
+                            <option value="Grande">Grande</option>
                         </select>
                     </div>
                     {{-- Primera vez aplicando --}}
@@ -186,12 +189,12 @@
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
                             ¿Es la primera vez aplicando?
                         </label>
-                        <select wire:model='lead.datos_id'
+                        <select wire:model='esmart.primera_o_recompra'
                             class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500">
                             <option value="" disabled>Seleccione un valor</option>
                             <option value="" disabled>------</option>
-                            <option value="">Si</option>
-                            <option value="">No</option>
+                            <option value="Si">Si</option>
+                            <option value="No">No</option>
                         </select>
                     </div>
                     {{-- Responsable Comercial --}}
@@ -201,8 +204,17 @@
                         </label>
                         <input
                             class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="" type="text">
-                        <x-input-error for="" />
+                            wire:model.defer="esmart.responsable_comercial" type="text">
+                        <x-input-error for="esmart.responsable_comercial" />
+                    </div>
+                    <div class="mx-2 text-center w-60">
+                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                            ¿Por cual medio se entero?
+                        </label>
+                        <input
+                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                            wire:model.defer="esmart.medio_cesrh" type="text">
+                        <x-input-error for="esmart.medio_cesrh" />
                     </div>
                 </div>
                 <div class="flex justify-center w-full px-2 py-4">
@@ -213,17 +225,17 @@
                         </label>
                         <input
                             class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="" type="text">
-                        <x-input-error for="" />
+                            wire:model.defer="esmart.giro_empresa" type="text">
+                        <x-input-error for="esmart.giro_empresa" />
                     </div>
                     <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
-                            Telefono
+                            Ubicacion
                         </label>
-                        <input disabled
-                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="lead.telefono" type="number">
-                        <x-input-error for="lead.telefono" />
+                        <input
+                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                            wire:model.defer="esmart.ubicacion_empresa" type="text">
+                        <x-input-error for="esmart.ubicacion_empresa" />
                     </div>
                     <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
@@ -231,8 +243,8 @@
                         </label>
                         <input
                             class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="" type="date">
-                        <x-input-error for="" />
+                            wire:model.defer="esmart.fecha" type="date">
+                        <x-input-error for="esmart.fecha" />
                     </div>
                 </div>
                 <div class="flex justify-end">
@@ -240,7 +252,7 @@
                         class="p-2 my-6 mr-4 font-semibold text-white bg-blue-600 rounded-md shadow-md shadow-gray-500 hover:shadow-none hover:bg-blue-800">
                         Guardar y Agregar otro
                     </button>
-                    <button
+                    <button wire:click = "guardarEsmart" wire:loading.attr="disabled"
                         class="p-2 my-6 mr-6 font-semibold text-white bg-green-600 rounded-md shadow-md shadow-gray-500 hovehover:shadow-none hover:bg-green-800 ">
                         Guardar y Salir
                     </button>
@@ -273,8 +285,8 @@
                         </label>
                         <input disabled
                             class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="empresaSeleccionada" type="text">
-                        <x-input-error for="empresaSeleccionada" />
+                            wire:model.defer="lead.nombre_empresa" type="text">
+                        <x-input-error for="lead.nombre_empresa" />
                     </div>
                     <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">

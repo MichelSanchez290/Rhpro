@@ -62,11 +62,6 @@ Route::get(
     EditarDatosFisc::class
 )->name('editDato');
 
-Route::get(
-    '/crm-leads',
-    Vistaprincipal::class
-)->name('Leads');
-
 Route::post(
     '/crm-deleteDato/{id}',
     EliminarDatosFisc::class,
