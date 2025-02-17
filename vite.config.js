@@ -23,4 +23,8 @@ export default defineConfig({
     //     // Incluir jQuery y Select2 en la optimización de dependencias
     //     include: ['jquery', 'select2'],
     // },
+<<<<<<< HEAD
 });
+=======
+});
+>>>>>>> d3704ae626e026882bfef9d01fb0b0f917b87ef6

@@ -9,20 +9,20 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
-        Schema::create('encuesta_cuestionario', function (Blueprint $table) {
+        Schema::create('user_emails', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('encuesta_id')->constrained('encuestas')->onDelete('cascade');
-            $table->foreignId('cuestionario_id')->constrained('cuestionarios')->onDelete('cascade');
+            $table->string('email')->unique(); // Almacena el correo del usuario
             $table->timestamps();
         });
     }
+
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('encuesta_cuestionario');
+        Schema::dropIfExists('user_emails');
     }
 };

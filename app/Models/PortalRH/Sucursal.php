@@ -38,7 +38,7 @@ class Sucursal extends Model
 
     public function departamentos() //, 'sucursal_departament', 'sucursal_id', 'departamento_id'
     {
-        return $this->belongsToMany(Departamento::class)->withPivot('sucursal_id', 'departamento_id', 'status');
+        return $this->belongsToMany(Departamento::class,'sucursal_departament','sucursal_id','departamento_id')->withPivot('sucursal_id', 'departamento_id', 'status');
     }
 
     public function users()
@@ -60,8 +60,6 @@ class Sucursal extends Model
     {
         return $this->belongsTo(RegistroPatronal::class);
     }
-
-    
 
     public function trabajador()
     {

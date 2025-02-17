@@ -316,4 +316,30 @@
     }
 </script>
 
+<<<<<<< HEAD
+=======
+        @livewireScripts
+   <!-- Scripts de JavaScript -->
+   @vite(['resources/js/app.js'])
+   <script>
+    // Escuchar el evento para copiar la clave
+    Livewire.on('copiar-clave', function (data) {
+        const clave = data.clave;
+        navigator.clipboard.writeText(clave)
+            .then(() => alert("Clave copiada al portapapeles: " + clave))
+            .catch(() => alert("Error al copiar la clave"));
+    });
+
+    // Escuchar el evento para compartir el enlace
+    Livewire.on('compartir-enlace', function (data) {
+        const enlace = data.enlace;
+        navigator.clipboard.writeText(enlace)
+            .then(() => alert("Enlace copiado al portapapeles: " + enlace))
+            .catch(() => alert("Error al copiar el enlace"));
+    });
+</script>
+
+    </body>
+>>>>>>> d3704ae626e026882bfef9d01fb0b0f917b87ef6
 </html>
+

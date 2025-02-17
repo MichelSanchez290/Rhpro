@@ -82,7 +82,7 @@
                                 wire:model="cuestionariosSeleccionados.{{ $cuestionario->id }}"
                                 class="form-checkbox h-5 w-5 text-blue-600 rounded focus:ring-blue-500"
                             >
-                            <span class="ml-2 text-gray-700">{{ $cuestionario->nombre }}</span>
+                            <span class="ml-2 text-gray-700">{{ $cuestionario->Nombre }}</span>
                         </label>
                     </div>
                 @endforeach
