@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
-import { resolve } from 'path'; // Importar la función resolve para manejar rutas
+// import { resolve } from 'path'; // Importar la función resolve para manejar rutas
 
 export default defineConfig({
     plugins: [
