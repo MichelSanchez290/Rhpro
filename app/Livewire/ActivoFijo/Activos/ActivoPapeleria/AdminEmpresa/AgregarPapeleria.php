@@ -40,7 +40,7 @@ class AgregarPapeleria extends Component
         'activo.tipo.required'=>'El tipo es requerido',
         'activo.cantidad.required'=>'La cantidad es requerida',
         'activo.estado.required'=>'El estado es requerido',
-        //'activo.disponible.required'=>'La disponiblidad es requerida',
+        'activo.disponible.required'=>'La disponiblidad es requerida',
         'activo.fecha_adquisicion.required'=>'La fecha es requerida',
         'activo.tipo_activo_id.required'=>'El tipo es requerido',
         'activo.aniosestimado_id.required'=>'El año es requerido',
@@ -51,7 +51,7 @@ class AgregarPapeleria extends Component
     public function mount()
     {
         $this->consulta = ActivoPapeleria::get();
-        $this->activo['tipo_activo_id'] = Tipoactivo::where('nombre_activo', 'Activo Tecnologias')->value('id');
+        $this->activo['tipo_activo_id'] = Tipoactivo::where('nombre_activo', 'Activo Papelerias')->value('id');
         //dd($this->activo['tipo_activo_id']);
         $this->anios = Anioestimado::pluck('vida_util_año', 'id')->toArray();
         $this->activo['empresa_id'] = Auth::user()->empresa_id;

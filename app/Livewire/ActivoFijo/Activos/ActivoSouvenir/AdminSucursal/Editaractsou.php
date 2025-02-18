@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Storage;
 class Editaractsou extends Component
 {
     use WithFileUploads;
-    public $activotec_id, $codigo, $productos, $descripcion, $color, $medida, $marca, $precio, $estado, $disponible, $fechaad, $tipo, $anio;
+    public $activosou_id, $codigo, $productos, $descripcion, $color, $medida, $marca, $precio, $estado, $disponible, $fechaad, $tipo, $anio;
     public $tipos, $anios;
     public $foto1, $foto2, $foto3;
     public $subirfoto1, $subirfoto2, $subirfoto3;
@@ -92,7 +92,7 @@ class Editaractsou extends Component
 
 
         // Actualizar la venta con los nuevos datos
-        $activotec = ActivoSouvenir::findOrFail($this->activotec_id);
+        $activotec = ActivoSouvenir::findOrFail($this->activosou_id);
         $activotec->update([
             'codigo' => $this->codigo,
             'productos' => $this->productos,

@@ -76,19 +76,6 @@
                         class="block w-full border-2 px-2 py-2 text-sm sm:text-md rounded-md my-2 text-gray-500"
                         id="fecha_adquisicion">
                 </div>
-
-                <!-- Tipo de Activo -->
-                <div class="my-2">
-                    <label for="tipo" class="text-gray-700 font-bold text-xl">Tipo de Activo</label>
-                    <select wire:model="tipo"
-                        class="block w-full border-2 px-2 py-2 text-sm sm:text-md rounded-md my-2 text-gray-500"
-                        id="tipo">
-                        <option value="">Seleccione el tipo de activo</option>
-                        @foreach ($tipos as $id => $nombre)
-                            <option value="{{ $id }}">{{ $nombre }}</option>
-                        @endforeach
-                    </select>
-                </div>
                 <div class="my-2">
                     <label for="anio" class="text-gray-700 font-bold text-xl">Año Estimado</label>
                     <select wire:model="anio"
@@ -165,6 +152,8 @@
                                 <x-input-error for="subirfoto3" />
                             </label>
                         </div>
+
+                        
                     </div>
                 </div>
             </div>

@@ -41,21 +41,17 @@ final class TecnologiaTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        $query = ActivoTecnologia::query()
-            ->with(['tipoActivo', 'anioEstimado']);
+        $usuario = Auth::user();
 
-        // Depuración: Verifica los filtros aplicados
-        // dd($this->filters);
+        // Obtener las sucursales asociadas a la empresa del usuario autenticado
+        $sucursalesEmpresa = Sucursal::whereHas('empresas', function ($query) use ($usuario) {
+            $query->where('empresas.id', $usuario->empresa_id);
+        })->pluck('id');
 
-        // Aplicar filtro de sucursal si está presente
-        if (isset($this->filters['sucursal_id'])) {
-            $query->where('sucursal_id', $this->filters['sucursal_id']);
-        }
-
-        // Depuración: Verifica la consulta después de aplicar los filtros
-        // dd($query->get());
-
-        return $query;
+        // Filtrar los activos por las sucursales de la empresa
+        return ActivoTecnologia::query()
+            ->with(['tipoActivo', 'anioEstimado'])
+            ->whereIn('sucursal_id', $sucursalesEmpresa);
     }
 
     public function relationSearch(): array
@@ -77,7 +73,7 @@ final class TecnologiaTable extends PowerGridComponent
             ->add('tipo_activo_nombre', fn(ActivoTecnologia $model) => $model->tipoActivo->nombre_activo ?? 'N/A')
             ->add('precio_adquisicion')
             ->add('anioEstimado', fn(ActivoTecnologia $model) => $model->anioEstimado->vida_util_año ?? 'No asignado')
-            ->add('sucursal_nombre', fn (ActivoTecnologia $model)=> Sucursal::where('id',$model->sucursal_id)->first(['nombre_sucursal'])->nombre_sucursal);
+            ->add('sucursal_nombre', fn(ActivoTecnologia $model) => Sucursal::where('id', $model->sucursal_id)->first(['nombre_sucursal'])->nombre_sucursal);
     }
 
     public function columns(): array
@@ -124,9 +120,8 @@ final class TecnologiaTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Vida Útil (años)', 'vida_util_anio')
-                ->sortable()
-                ->searchable(),
+            Column::make('Año Estimado', 'anioEstimado')->sortable()->searchable(),
+
 
             Column::make('Sucursal', 'sucursal_nombre')
                 ->sortable()
@@ -138,21 +133,20 @@ final class TecnologiaTable extends PowerGridComponent
 
     public function filters(): array
     {
-        // Obtener las sucursales asociadas al usuario autenticado
-        $sucursales = Sucursal::whereHas('empresas', function ($query) {
-            $query->where('empresa_id', Auth::user()->empresa_id);
+        $usuario = Auth::user();
+
+        // Obtener solo las sucursales asociadas a la empresa del usuario
+        $sucursales = Sucursal::whereHas('empresas', function ($query) use ($usuario) {
+            $query->where('empresas.id', $usuario->empresa_id);
         })->get();
 
-        // Depuración: Verifica las sucursales obtenidas
-        // dd($sucursales);
-
         return [
-            Filter::datepicker('fecha_adquisicion'), // Filtro de fecha
-            Filter::datepicker('fecha_baja'), // Filtro de fecha
-            Filter::select('sucursal_id', 'sucursal_id') // Filtro de selección
+            Filter::datepicker('fecha_adquisicion'),
+            Filter::datepicker('fecha_baja'),
+            Filter::select('sucursal_id', 'sucursal_id')
                 ->dataSource($sucursales)
-                ->optionValue('id') // Columna que se usará como valor
-                ->optionLabel('nombre'), // Columna que se usará como etiqueta
+                ->optionValue('id')
+                ->optionLabel('nombre_sucursal'),
         ];
     }
 

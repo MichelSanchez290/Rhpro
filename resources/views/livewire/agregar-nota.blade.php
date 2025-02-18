@@ -20,7 +20,7 @@
             <div class="my-2">
                 <label for="activosTecnologiaSeleccionados" class="text-gray-700 font-bold text-xl">Activos de Tecnología</label>
                 <select wire:model="activosTecnologiaSeleccionados" class="block w-full border-2 px-2 py-2 text-sm sm:text-md rounded-md my-2 text-black" multiple>
-                    @foreach ($activosTecnologias as $activo)
+                    @foreach ($activosTecnologia as $activo)
                         <option value="{{ $activo->id }}">{{ $activo->nombre }} - {{ $activo->descripcion }}</option>
                     @endforeach
                 </select>
