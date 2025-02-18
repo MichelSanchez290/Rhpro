@@ -103,6 +103,7 @@
         <div class="p-4">
             <div class="flex text-center">
                 <button onclick="Livewire.dispatch('openModal', { component: 'crm.leads.modal.seleccion ' })"
+                    wire:click='uno'
                     class="flex-1 px-4 py-2 mx-2 border-2 border-gray-900 rounded-md shadow-md shadow-gray-900 active:shadow-none">
                     E-Smart
                 </button>
@@ -127,136 +128,149 @@
     </div>
 
     @if ($paginacion == 1)
-        <div id="form1">
-            <div class="m-4 bg-white rounded-lg shadow-md shadow-gray-300">
-                <div class="text-center">
-                    <h1 class="p-10 text-3xl font-bold">
-                        Formulario de E-Smart
-                    </h1>
+        <div class="bg-white">
+            @for ($i = 0; $i < $duplicados; $i++)
+                <div id="form1">
+                    <div class="m-4 bg-white rounded-lg shadow-md shadow-gray-300">
+                        <div class="text-center">
+                            <h1 class="p-10 text-3xl font-bold">
+                                Formulario de E-Smart
+                            </h1>
+                        </div>
+                        <div class="flex justify-center w-full px-10 py-4">
+                            <div class="mx-2 text-center">
+                                <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                                    Nombre Cliente
+                                </label>
+                                <input disabled
+                                    class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                                    wire:model.defer="lead.nombre_contacto" type="text">
+                                <x-input-error for="lead.nombre_contacto" />
+                            </div>
+                            <div class="mx-2 text-center">
+                                <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                                    Nombre de empresa
+                                </label>
+                                <input disabled
+                                    class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                                    wire:model.defer="lead.nombre_empresa" type="text">
+                                <x-input-error for="lead.nombre_empresa" />
+                            </div>
+                            <div class="mx-2 text-center">
+                                <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                                    Telefono
+                                </label>
+                                <input disabled
+                                    class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                                    wire:model.defer="lead.telefono" type="number">
+                                <x-input-error for="lead.telefono" />
+                            </div>
+                            <div class="mx-2 text-center">
+                                <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                                    Correo
+                                </label>
+                                <input disabled
+                                    class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                                    wire:model.defer="lead.correo" type="text">
+                                <x-input-error for="lead.correo" />
+                            </div>
+                        </div>
+                        <div class="flex justify-center w-full px-10 py-4">
+                            {{-- Tamaño de la empresa --}}
+                            <div class="mx-2 text-center">
+                                <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                                    Tamaño de la empresa
+                                </label>
+                                <select wire:model='esmart.{{ $i }}tamaño_empresa'
+                                    class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500">
+                                    <option value="" disabled>Seleccione un valor</option>
+                                    <option value="" disabled>------</option>
+                                    <option value="Micro">Micro</option>
+                                    <option value="Chica">Chica</option>
+                                    <option value="Mediana">Mediana</option>
+                                    <option value="Grande">Grande</option>
+                                </select>
+                            </div>
+                            {{-- Primera vez aplicando --}}
+                            <div class="mx-2 text-center">
+                                <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                                    ¿Es la primera vez aplicando?
+                                </label>
+                                <select wire:model='esmart.primera_o_recompra'
+                                    class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500">
+                                    <option value="" disabled>Seleccione un valor</option>
+                                    <option value="" disabled>------</option>
+                                    <option value="si">Si</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+                            {{-- Responsable Comercial --}}
+                            <div class="mx-2 text-center">
+                                <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                                    Responsable comercial
+                                </label>
+                                <input
+                                    class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                                    wire:model.defer="esmart.responsable_comercial" type="text">
+                                <x-input-error for="esmart.responsable_comercial" />
+                            </div>
+                            <div class="mx-2 text-center">
+                                <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                                    ¿Por cual medio se entero?
+                                </label>
+                                <input
+                                    class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                                    wire:model.defer="esmart.medio_cesrh" type="text">
+                                <x-input-error for="esmart.medio_cesrh" />
+                            </div>
+                        </div>
+                        <div class="flex justify-center w-full px-10 py-4">
+                            {{-- Fecha --}}
+                            <div class="mx-2 text-center">
+                                <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                                    Giro de la empresa
+                                </label>
+                                <input
+                                    class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                                    wire:model.defer="esmart.giro_empresa" type="text">
+                                <x-input-error for="esmart.giro_empresa" />
+                            </div>
+                            <div class="mx-2 text-center">
+                                <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                                    Ubicacion
+                                </label>
+                                <input
+                                    class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                                    wire:model.defer="esmart.ubicacion_empresa" type="text">
+                                <x-input-error for="esmart.ubicacion_empresa" />
+                            </div>
+                            <div class="mx-2 text-center">
+                                <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                                    Fecha
+                                </label>
+                                <input
+                                    class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                                    wire:model.defer="esmart.fecha" type="date">
+                                <x-input-error for="esmart.fecha" />
+                            </div>
+                        </div>
+                        <div class="flex justify-end">
+                            <button wire:click="eliminarEsmart({{ $i }})" type="button"
+                                class="break-inside bg-[#D20939] rounded-xl p-4 mb-4 ">
+                                <div class="flex items-center">
+                                    <i class="fa-solid fa-folder-minus text-white fa-xl"></i>
+                                    <span class="text-base font-medium text-white">Eliminar</span>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                <div class="flex justify-center w-full px-10 py-4">
-                    <div class="mx-2 text-center">
-                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
-                            Nombre Cliente
-                        </label>
-                        <input disabled
-                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="lead.nombre_contacto" type="text">
-                        <x-input-error for="lead.nombre_contacto" />
-                    </div>
-                    <div class="mx-2 text-center">
-                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
-                            Nombre de empresa
-                        </label>
-                        <input disabled
-                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="lead.nombre_empresa" type="text">
-                        <x-input-error for="lead.nombre_empresa" />
-                    </div>
-                    <div class="mx-2 text-center">
-                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
-                            Telefono
-                        </label>
-                        <input disabled
-                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="lead.telefono" type="number">
-                        <x-input-error for="lead.telefono" />
-                    </div>
-                    <div class="mx-2 text-center">
-                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
-                            Correo
-                        </label>
-                        <input disabled
-                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="lead.correo" type="text">
-                        <x-input-error for="lead.correo" />
-                    </div>
-                </div>
-                <div class="flex justify-center w-full px-10 py-4">
-                    {{-- Tamaño de la empresa --}}
-                    <div class="mx-2 text-center">
-                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
-                            Tamaño de la empresa
-                        </label>
-                        <select wire:model='esmart.tamaño_empresa'
-                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500">
-                            <option value="" disabled>Seleccione un valor</option>
-                            <option value="" disabled>------</option>
-                            <option value="Micro">Micro</option>
-                            <option value="Chica">Chica</option>
-                            <option value="Mediana">Mediana</option>
-                            <option value="Grande">Grande</option>
-                        </select>
-                    </div>
-                    {{-- Primera vez aplicando --}}
-                    <div class="mx-2 text-center">
-                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
-                            ¿Es la primera vez aplicando?
-                        </label>
-                        <select wire:model='esmart.primera_o_recompra'
-                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500">
-                            <option value="" disabled>Seleccione un valor</option>
-                            <option value="" disabled>------</option>
-                            <option value="si">Si</option>
-                            <option value="No">No</option>
-                        </select>
-                    </div>
-                    {{-- Responsable Comercial --}}
-                    <div class="mx-2 text-center">
-                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
-                            Responsable comercial
-                        </label>
-                        <input
-                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="esmart.responsable_comercial" type="text">
-                        <x-input-error for="esmart.responsable_comercial" />
-                    </div>
-                    <div class="mx-2 text-center">
-                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
-                            ¿Por cual medio se entero?
-                        </label>
-                        <input
-                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="esmart.medio_cesrh" type="text">
-                        <x-input-error for="esmart.medio_cesrh" />
-                    </div>
-                </div>
-                <div class="flex justify-center w-full px-10 py-4">
-                    {{-- Fecha --}}
-                    <div class="mx-2 text-center">
-                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
-                            Giro de la empresa
-                        </label>
-                        <input
-                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="esmart.giro_empresa" type="text">
-                        <x-input-error for="esmart.giro_empresa" />
-                    </div>
-                    <div class="mx-2 text-center">
-                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
-                            Ubicacion
-                        </label>
-                        <input
-                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="esmart.ubicacion_empresa" type="text">
-                        <x-input-error for="esmart.ubicacion_empresa" />
-                    </div>
-                    <div class="mx-2 text-center">
-                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
-                            Fecha
-                        </label>
-                        <input
-                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="esmart.fecha" type="date">
-                        <x-input-error for="esmart.fecha" />
-                    </div>
-                </div>
-                <div class="flex justify-end">
-                    <button wire:click = "guardarEsmart" wire:loading.attr="disabled"
-                        class="p-2 my-6 mr-10 font-semibold text-white bg-green-600 rounded-md shadow-md shadow-gray-500 active:shadow-none active:bg-green-800 ">
-                        Guardar y Salir
-                    </button>
-                </div>
+            @endfor
+            <div class="flex justify-center">
+                <button wire:click = "guardarEsmart" wire:loading.attr="disabled"
+                    class="p-2 my-6 mr-10 font-semibold text-white bg-green-600 rounded-md shadow-md shadow-gray-500 active:shadow-none active:bg-green-800 ">
+                    Guardar y Salir
+                </button>
             </div>
         </div>
     @endif
