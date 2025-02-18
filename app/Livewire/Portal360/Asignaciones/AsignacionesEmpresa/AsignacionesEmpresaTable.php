@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Portal360\Asignaciones\AsignacionesAdministrador;
+namespace App\Livewire\Portal360\Asignaciones\AsignacionesEmpresa;
 
 use App\Models\Encuestas360\Asignacion;
 use Illuminate\Support\Carbon;
@@ -13,9 +13,9 @@ use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 
-final class AsignacionesAdministradorTable extends PowerGridComponent
+final class AsignacionesEmpresaTable extends PowerGridComponent
 {
-    public string $tableName = 'asignaciones-administrador-table-qixcut-table';
+    public string $tableName = 'asignaciones-empresa-table-ydxwxa-table';
 
     public function setUp(): array
     {
@@ -60,7 +60,6 @@ final class AsignacionesAdministradorTable extends PowerGridComponent
     {
         return [
             Column::make('Id', 'id'),
-
             Column::make('Realizada', 'realizada')
                 ->sortable()
                 ->searchable(),
@@ -110,18 +109,17 @@ final class AsignacionesAdministradorTable extends PowerGridComponent
     public function actions(Asignacion $row): array
     {
         return [
-
             Button::add('edit')
-            ->slot('Editar')
-            ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
-            ->route('portal360.asignaciones.asignaciones-administrador.editar-asignaciones-administrador', ['id' => Crypt::encrypt($row->id)]),
+                ->slot('Editar')
+                ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
+                ->route('portal360.asignaciones.asignaciones-empresa.editar-asignaciones-empresa', ['id' => Crypt::encrypt($row->id)]),
 
 
             Button::add('delete')
-            ->slot('Eliminar')
-            ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
-            ->dispatch('confirmarEliminarAsignacionAdministrador', ['id' => Crypt::encrypt($row->id)]),
-            
+                ->slot('Eliminar')
+                ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
+                ->dispatch('confirmarEliminarAsignacionEmpresa', ['id' => Crypt::encrypt($row->id)]),
+
             Button::add('edit')
                 ->slot('Edit: ' . $row->id)
                 ->id()
@@ -130,4 +128,15 @@ final class AsignacionesAdministradorTable extends PowerGridComponent
         ];
     }
 
+    /*
+    public function actionRules($row): array
+    {
+       return [
+            // Hide button edit for ID 1
+            Rule::button('edit')
+                ->when(fn($row) => $row->id === 1)
+                ->hide(),
+        ];
+    }
+    */
 }

@@ -1,12 +1,12 @@
 <div class="p-6 overflow-x-auto">
     <div class="flex justify-between items-center mb-6">
-        <button wire:click="redirigirpreguntaAdministrador()" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded">
+        <button wire:click="redirigirpreguntaEmpresa()" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded">
             Agregar Preguntas
         </button>
     </div>
 
     <div class="w-full">
-        <livewire:portal360.preguntas.preguntasadministrador.mostrar-preguntas-administrador-table />
+        <livewire:portal360.preguntas.preguntasempresa.preguntas-empresa-table />
     </div>
 </div>
 
@@ -14,7 +14,7 @@
 <script>
     // Script para la confirmación de eliminación
     document.addEventListener('livewire:initialized', function() {
-        Livewire.on('confirmarEliminarPregunta', (data) => {
+        Livewire.on('confirmarEliminarPreguntaEmpresa', (data) => {
             Swal.fire({
                 title: "¿Está seguro?",
                 text: "¡No podrás revertir esto!",
@@ -26,7 +26,7 @@
                 cancelButtonText: "Cancelar"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    Livewire.dispatch('eliminarPregunta', { id: data.id });
+                    Livewire.dispatch('eliminarPreguntaEmpresa', { id: data.id });
                 }
             });
         });

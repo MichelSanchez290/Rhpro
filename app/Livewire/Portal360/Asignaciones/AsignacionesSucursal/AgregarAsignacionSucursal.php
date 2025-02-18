@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Portal360\Asignaciones\AsignacionesAdministrador;
+namespace App\Livewire\Portal360\Asignaciones\AsignacionesSucursal;
 
 use App\Models\Encuestas360\Asignacion;
 use App\Models\Encuestas360\Encuesta360;
@@ -10,7 +10,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Livewire\Component;
 
-class AgregarAsignacionesAdministrador extends Component
+class AgregarAsignacionSucursal extends Component
 {
     
    // Propiedades principales
@@ -157,7 +157,7 @@ class AgregarAsignacionesAdministrador extends Component
        }
    }
 
-   public function saveAsignacionAdministrador()
+   public function saveAsignacionSucursal()
    {
        $this->validate();
 
@@ -174,7 +174,7 @@ class AgregarAsignacionesAdministrador extends Component
            ]);
 
            $this->dispatch('toastr-success', message: 'Asignación creada correctamente');
-           return redirect()->route('portal360.asignaciones.asignaciones-administrador.mostrar-asignaciones-administrador');
+           return redirect()->route('portal360.asignaciones.asignaciones-sucursal.mostrar-asignacion-sucursal');
        } catch (\Exception $e) {
            logger($e->getMessage());
            $this->dispatch('toastr-error', message: 'Error al guardar la Asignación: ' . $e->getMessage());
@@ -193,10 +193,13 @@ class AgregarAsignacionesAdministrador extends Component
                     !empty($this->encuesta_id) &&
                     !empty($this->realizada);
    
-       return view('livewire.portal360.asignaciones.asignaciones-administrador.agregar-asignaciones-administrador', [
+       return view('livewire.portal360.asignaciones.asignaciones-sucursal.agregar-asignacion-sucursal', [
            'canSubmit' => $canSubmit
        ])->layout('layouts.portal360');
    }
 
-    
+    // public function render()
+    // {
+    //     return view('livewire.portal360.asignaciones.asignaciones-sucursal.agregar-asignacion-sucursal');
+    // }
 }
