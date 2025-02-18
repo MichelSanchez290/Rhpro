@@ -35,7 +35,7 @@ class AgregarEmpres extends Component
         'empresa.nombre_comercial' => 'required',
         'empresa.pais_origen' => 'required',
         'empresa.representante_legal' => 'required',
-        'empresa.url_constancia_situacion_fiscal' => 'nullable|url',
+        'empresa.url_constancia_situacion_fiscal' => 'required',
     ];
 
 
@@ -47,7 +47,7 @@ class AgregarEmpres extends Component
         'empresa.nombre_comercial.required' => 'El nombre comercial es obligatorio.',
         'empresa.pais_origen.required' => 'El país de origen es obligatorio.',
         'empresa.representante_legal.required' => 'El representante legal es obligatorio.',
-        'empresa.url_constancia_situacion_fiscal.url' => 'Debe proporcionar una URL válida.',
+        'empresa.url_constancia_situacion_fiscal.required' => 'Debe proporcionar una URL válida.',
     ];
     
 

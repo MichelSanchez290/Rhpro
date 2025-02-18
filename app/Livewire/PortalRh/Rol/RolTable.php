@@ -2,7 +2,7 @@
 
 namespace App\Livewire\PortalRh\Rol;
 
-use App\Models\User;
+use Spatie\Permission\Models\Role;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
@@ -13,12 +13,13 @@ use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 
 use Illuminate\Support\Facades\Crypt;
-use PowerComponents\LivewirePowerGrid\Traits\WithExport;
+use PowerComponents\LivewirePowerGrid\Traits\WithExport; 
 use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
+use Illuminate\Support\Facades\Gate;
 
 final class RolTable extends PowerGridComponent
 {
-    public string $tableName = 'rol-table-5l8hms-table';
+    public string $tableName = 'rol-table-eblwez-table';
 
     public function setUp(): array
     {
@@ -35,7 +36,7 @@ final class RolTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return User::query();
+        return Role::query();
     }
 
     public function relationSearch(): array
@@ -48,10 +49,6 @@ final class RolTable extends PowerGridComponent
         return PowerGrid::fields()
             ->add('id')
             ->add('name')
-            ->add('email')
-            ->add('empresa_id')
-            ->add('sucursal_id')
-            ->add('tipo_user')
             ->add('created_at');
     }
 
@@ -59,23 +56,15 @@ final class RolTable extends PowerGridComponent
     {
         return [
             Column::make('Id', 'id'),
-            Column::make('Name', 'name')
-                ->sortable()
-                ->searchable(),
-
-            Column::make('Email', 'email')
-                ->sortable()
-                ->searchable(),
-
-            Column::make('Tipo user', 'tipo_user')
-                ->sortable()
-                ->searchable(),
+            Column::make('Name', 'name'),
+            Column::make('Created at', 'created_at_formatted', 'created_at')
+                ->sortable(),
 
             Column::make('Created at', 'created_at')
                 ->sortable()
                 ->searchable(),
 
-            Column::action('Action Roles')
+            Column::action('Action')
         ];
     }
 
@@ -91,24 +80,25 @@ final class RolTable extends PowerGridComponent
         $this->js('alert('.$rowId.')');
     }
 
-    public function actions(User $row): array
+    public function actions(Role $row): array
     {
-        return [
-            Button::add('edit')
-                ->slot('Agregar')
-                ->class('bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded')
-                ->route('agregarrol', ['id' => Crypt::encrypt($row->id)]),
+        $actions = [];
 
-            Button::add('edit')
+        if (Gate::allows('Editar Trabajador')) {
+            $actions[] = Button::add('edit')
                 ->slot('Editar')
                 ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
-                ->route('editarrol', ['id' => Crypt::encrypt($row->id)]),
-            
-            Button::add('delete')
+                ->route('editarrol', ['id' => Crypt::encrypt($row->id)]);
+        }
+
+        if (Gate::allows('Eliminar Trabajador')) {
+            $actions[] = Button::add('delete')
                 ->slot('Eliminar')
                 ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
-                ->dispatch('confirmDelete', ['id' => $row->id]),
-        ];
+                ->dispatch('confirmDelete', ['id' => $row->id]); 
+        }
+
+        return $actions;
     }
 
     /*

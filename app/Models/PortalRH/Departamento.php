@@ -31,8 +31,7 @@ class Departamento extends Model
         return $this->belongsToMany(Puesto::class)->withPivot('departamento_id', 'puesto_id', 'status');
     }
 
-
-    public function usuario()
+    public function users()
     {
         return $this->hasMany(User::class);
     }

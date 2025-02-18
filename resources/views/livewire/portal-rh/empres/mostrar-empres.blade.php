@@ -1,9 +1,13 @@
 <div class="p-6 ">
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-semibold text-gray-800">Gestión de Empresas</h1>
-        <button wire:click="redirigir" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded">
-            Agregar Empresa
-        </button>
+
+        @can('Agregar Empresa')
+            <button wire:click="redirigir" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded">
+                Agregar Empresa
+            </button>
+        @endcan
+        
     </div>
 
     <!-- Modal de confirmación -->
