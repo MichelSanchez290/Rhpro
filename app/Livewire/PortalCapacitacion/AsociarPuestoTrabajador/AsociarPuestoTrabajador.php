@@ -5,8 +5,9 @@ namespace App\Livewire\PortalCapacitacion\AsociarPuestoTrabajador;
 use Livewire\Component;
 use App\Models\PortalRH\Sucursal;
 use App\Models\PortalRH\Trabajador;
-use App\Models\PortalRH\Becari;
-use App\Models\PortalRH\Practicant;
+use App\Models\PortalRH\Becario;
+use App\Models\PortalRH\Practicante;
+use App\Models\PortalRH\Instructor;
 use App\Models\User;
 
 class AsociarPuestoTrabajador extends Component
@@ -32,9 +33,11 @@ class AsociarPuestoTrabajador extends Component
         if ($this->tipo_seleccionado == 'trabajador') {
             $this->opciones = Trabajador::where('sucursal_id', $this->sucursal_id)->with('usuarios')->get();
         } elseif ($this->tipo_seleccionado == 'becario') {
-            $this->opciones = Becari::where('sucursal_id', $this->sucursal_id)->with('usuarios')->get();
+            $this->opciones = Becario::where('sucursal_id', $this->sucursal_id)->with('usuarios')->get();
         } elseif ($this->tipo_seleccionado == 'practicante') {
-            $this->opciones = Practicant::where('sucursal_id', $this->sucursal_id)->with('usuarios')->get();
+            $this->opciones = Practicante::where('sucursal_id', $this->sucursal_id)->with('usuarios')->get();
+        } elseif ($this->tipo_seleccionado == 'instructir') {
+            $this->opciones = Practicante::where('sucursal_id', $this->sucursal_id)->with('usuarios')->get();
         } else {
             $this->opciones = [];
         }

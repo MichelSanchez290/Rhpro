@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Dx035\Encuestas;
 
+use App\Models\Dx035\Encuesta;
 use App\Models\Dx035\EncuestaCuestionario;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
@@ -9,6 +10,17 @@ use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\PowerGridColumns;
 use Illuminate\Database\Eloquent\Builder;
+
+
+use PowerComponents\LivewirePowerGrid\Facades\Filter;
+use PowerComponents\LivewirePowerGrid\PowerGridFields;
+
+use Illuminate\Support\Facades\Crypt;
+
+use PowerComponents\LivewirePowerGrid\Traits\WithExport;
+use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
+
+use Illuminate\Support\Facades\Blade;
 
 final class EncuestaTable extends PowerGridComponent
 {
@@ -30,34 +42,20 @@ final class EncuestaTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return EncuestaCuestionario::query()
-            ->join('encuestas', 'encuesta_cuestionario.encuesta_clave', '=', 'encuestas.Clave')
-            ->select('encuesta_cuestionario.*', 'encuestas.Empresa', 'encuestas.Formato', 'encuestas.FechaInicio', 'encuestas.FechaFinal', 'encuestas.Estado', 'encuestas.EncuestasContestadas')
-            ->orderBy('encuesta_cuestionario.id', 'asc'); // Ordenar por el 'id' de la tabla pivote
+        return Encuesta::query();
     }
 
-    public function addColumns(): PowerGridColumns
+    public function fields(): PowerGridFields
     {
-        return PowerGrid::columns()
-            ->addColumn('id')
-            ->addColumn('Empresa')
-            ->addColumn('Formato')
-            ->addColumn('FechaInicio')
-            ->addColumn('FechaFinal')
-            ->addColumn('Estado')
-            ->addColumn('EncuestasContestadas')
-            ->addColumn('compartir', function (EncuestaCuestionario $row) {
-                return '
-                    <div class="flex space-x-2">
-                        <button onclick="copiarClave(\'' . $row->encuesta_clave . '\')" class="text-blue-500 hover:text-blue-700">
-                            <i class="fas fa-copy"></i>
-                        </button>
-                        <button onclick="compartirClave(\'' . $row->encuesta_clave . '\')" class="text-green-500 hover:text-green-700">
-                            <i class="fas fa-share"></i>
-                        </button>
-                    </div>
-                ';
-            });
+        return PowerGrid::fields()
+            ->add('id')
+            ->add('Empresa')
+            ->add('Formato')
+            ->add('rating_stars', fn ($dish) => Blade::render('<x-icons.arrow/>')) // Campo virtual
+            ->add('FechaInicio')
+            ->add('FechaFinal')
+            ->add('Estado')
+            ->add('EncuestasContestadas');
     }
 
     public function columns(): array
@@ -73,10 +71,10 @@ final class EncuestaTable extends PowerGridComponent
             Column::make('Cuestionarios', 'Formato')
                 ->bodyAttribute('text-center'),
 
-            Column::add() // Columna personalizada
-                ->title('Compartir')
-                ->field('compartir')
-                ->bodyAttribute('text-center'),
+            // Columna personalizada para "Compartir"
+
+            Column::make('Rating', 'rating_stars')
+            ->bodyAttribute('text-center'),
 
             Column::make('Inicio', 'FechaInicio')
                 ->sortable(),
@@ -90,6 +88,7 @@ final class EncuestaTable extends PowerGridComponent
             Column::make('Avance', 'EncuestasContestadas')
                 ->bodyAttribute('text-center'),
 
+            // Columna de acciones (editar y eliminar)
             Column::action('Acciones'),
         ];
     }
@@ -97,17 +96,18 @@ final class EncuestaTable extends PowerGridComponent
     public function actions(EncuestaCuestionario $row): array
     {
         return [
+
             // Botón: Editar
             Button::add('edit')
                 ->slot('<i class="fas fa-edit"></i>')
                 ->class('btn btn-sm btn-primary')
-                ->route('encuestas.edit', ['Clave' => $row->encuesta_clave]),
+                ->route('encuestas.edit', ['id' => $row->encuesta_id]),
 
             // Botón: Eliminar
             Button::add('delete')
                 ->slot('<i class="fas fa-trash"></i>')
                 ->class('btn btn-sm btn-danger')
-                ->dispatch('confirmDelete', ['clave' => $row->encuesta_clave]), // Emitir evento para eliminar
+                ->dispatch('confirmDelete', ['id' => $row->encuesta_id]), // Emitir evento para eliminar
         ];
     }
 }

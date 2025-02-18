@@ -26,6 +26,6 @@ class Cuestionario extends Model
     // Relación con Encuesta a través de la tabla pivote encuesta_cuestionario
     public function encuestas()
     {
-        return $this->belongsToMany(Encuesta::class, 'encuesta_cuestionario', 'cuestionario_id', 'encuesta_clave');
+        return $this->belongsToMany(Encuesta::class, 'encuesta_cuestionario', 'cuestionario_id', 'encuesta_id');
     }
 }

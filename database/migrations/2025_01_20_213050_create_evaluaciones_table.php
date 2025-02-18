@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('evaluaciones', function (Blueprint $table) {
             $table->id();
-            $table->date('fecha_evalución');
-            $table->string('calificación_desempeño', 45);
+            $table->date('fecha_evaluacion');
+            $table->string('criterio');
+            $table->string('calificacion_desempeno', 45);
             $table->string('comentarios', 2000);
             $table->string('recomendaciones', 2000);
             $table->string('tiempo_puesto_actual', 45);

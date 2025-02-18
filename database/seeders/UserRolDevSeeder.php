@@ -18,6 +18,10 @@ class UserRolDevSeeder extends Seeder
         $role1 = Role::create(['name' => 'GoldenAdmin']);
         $role2 = Role::create(['name' => 'EmpresaAdmin']);
         $role3 = Role::create(['name' => 'SusursalAdmin']);
+<<<<<<< HEAD
+=======
+
+>>>>>>> bea8f8bcd2d35d1c7949a08ae0572965eccb9922
         //Este rol es solo para tener acceso a Modulo crm
         $role4=Role::create(['name'=>'Trabajador CRM']);
         //Este rol es solo para tener acceso a Modulo activo fijo
@@ -32,6 +36,7 @@ class UserRolDevSeeder extends Seeder
         $role9=Role::create(['name'=>'Trabajador PORTAL CAPACITACION']);
         //Este rol es solo para tener acceso a TODOS LOS MODULOS
         $role10= Role::create(['name' => 'Trabajador GLOBAL']);
+<<<<<<< HEAD
 
 
         //CONTEMPLA MODULO 360
@@ -124,5 +129,92 @@ class UserRolDevSeeder extends Seeder
         Permission::create(['name' => 'Editar Encpre'])->syncRoles([$role1, $role2, $role3, $role10]);
         Permission::create(['name' => 'Eliminar Encpre'])->syncRoles([$role1, $role2, $role3, $role10]);
         //FIN 360 
+=======
+
+        
+
+        //Permission 
+        Permission::create(['name' => 'Administrador General'])->syncRoles([$role1]);
+        Permission::create(['name' => 'Administrador Principal'])->syncRoles([$role2]);
+        Permission::create(['name' => 'Administrador Secundario'])->syncRoles([$role3]);
+        Permission::create(['name' => 'Usuario Principal'])->syncRoles([$role8, $role10]);
+
+
+        // ************** MODULO RH ***************************************
+        // Permission - 
+        // role1, role2, role3, role8, role10
+
+        Permission::create(['name' => 'Mostrar Empresas'])->syncRoles([$role1, $role8, $role10]);
+        Permission::create(['name' => 'Agregar Empresa'])->syncRoles([$role1]);
+        Permission::create(['name' => 'Editar Empresa'])->syncRoles([$role1, $role2]);
+        Permission::create(['name' => 'Eliminar Empresa'])->syncRoles([$role1]);
+
+        Permission::create(['name' => 'Mostrar Sucursales'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Agregar Sucursal'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Editar Sucursal'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Eliminar Sucursal'])->syncRoles([$role1, $role2]);
+
+        Permission::create(['name' => 'Mostrar Departamentos'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Agregar Departamento'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Editar Departamento'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Eliminar Departamento'])->syncRoles([$role1, $role2, $role3]);
+
+        Permission::create(['name' => 'Mostrar Puestos'])->syncRoles([$role1, $role2, $role3, $role8, $role10]);
+        Permission::create(['name' => 'Agregar Puesto'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Editar Puesto'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Eliminar Puesto'])->syncRoles([$role1, $role2, $role3]);
+
+        Permission::create(['name' => 'Mostrar Trabajadores'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Mostrar Card Trabajador'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Agregar Trabajador'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Editar Trabajador'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Eliminar Trabajador'])->syncRoles([$role1, $role2, $role3]);
+
+        Permission::create(['name' => 'Mostrar Instructores'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Mostrar Card Instructor'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Agregar Instructor'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Editar Instructor'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Eliminar Instructor'])->syncRoles([$role1, $role2, $role3]);
+
+        Permission::create(['name' => 'Mostrar Becarios'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Mostrar Card Becario'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Agregar Becario'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Editar Becario'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Eliminar Becario'])->syncRoles([$role1, $role2, $role3]);
+
+        Permission::create(['name' => 'Mostrar Practicantes'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Mostrar Card Practicante'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Agregar Practicante'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Editar Practicante'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Eliminar Practicante'])->syncRoles([$role1, $role2, $role3]);
+
+        Permission::create(['name' => 'Mostrar asignación Sucursal a Empresa'])->syncRoles([$role1, $role2]);
+        Permission::create(['name' => 'Agregar asignación Sucursal a Empresa'])->syncRoles([$role1, $role2]);
+        Permission::create(['name' => 'Editar asignación Sucursal a Empresa'])->syncRoles([$role1, $role2]);
+        Permission::create(['name' => 'Eliminar asignación Sucursal a Empresa'])->syncRoles([$role1, $role2]);
+        
+        Permission::create(['name' => 'Mostrar asignación Departamento a Sucursal'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Agregar asignación Departamento a Sucursal'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Editar asignación Departamento a Sucursal'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Eliminar asignación Departamento a Sucursal'])->syncRoles([$role1, $role2, $role3]);
+
+        Permission::create(['name' => 'Mostrar asignación Puesto a Departamento'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Agregar asignación Puesto a Departamento'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Editar asignación Puesto a Departamento'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Eliminar asignación Puesto a Departamento'])->syncRoles([$role1, $role2, $role3]);
+
+
+        //solicitar retardos, incidencias (permisos, vacaciones), cambio salario, incapacidad
+        // $role1, $role2, $role3, $role8, $role10
+
+        // Aceptar o cancelar  retardos, incidencias (permisos, vacaciones),  cambio salario, incapacidad
+        // $role1, $role2, $role3,
+
+        // ver retardos, incidencias (permisos, vacaciones),  cambio salario, incapacidad
+        // $role1, $role2, $role3, $role8, $role10
+
+        
+
+>>>>>>> bea8f8bcd2d35d1c7949a08ae0572965eccb9922
     }
 }

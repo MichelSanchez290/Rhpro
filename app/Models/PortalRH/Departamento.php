@@ -23,14 +23,13 @@ class Departamento extends Model
     //, 'sucursal_departament', 'departamento_id', 'sucursal_id')
     public function sucursales()
     {
-        return $this->belongsToMany(Sucursal::class)->withPivot('sucursal_id', 'departamento_id', 'status');
+        return $this->belongsToMany(Sucursal::class,'sucursal_departament','departamento_id','sucursal_id')->withPivot('sucursal_id', 'departamento_id', 'status');
     }
 
     public function puestos()
     {
         return $this->belongsToMany(Puesto::class)->withPivot('departamento_id', 'puesto_id', 'status');
     }
-
 
     public function usuario()
     {
@@ -56,8 +55,5 @@ class Departamento extends Model
     {
         return $this->hasMany(Instructor::class);
     }
-
-
-    
 
 }

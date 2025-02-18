@@ -32,6 +32,8 @@ return new class extends Migration
             $table->string('foto1')->nullable();
             $table->string('foto2')->nullable();
             $table->string('foto3')->nullable();
+            $table->string('empresa_id')->nullable();
+            $table->string('sucursal_id')->nullable();
             $table->timestamps();
         });
     }
