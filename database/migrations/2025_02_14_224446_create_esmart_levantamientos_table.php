@@ -21,7 +21,7 @@ return new class extends Migration {
             $table->string('correo_cliente', 255);
             $table->string('telefono_cliente', 10);
             $table->unsignedBigInteger('leadcliente_id');
-            $table->unsignedBigInteger('users_id');
+            $table->unsignedBigInteger('users_id'); 
 
             // Claves foráneas (ajusta según tus necesidades)
             $table->foreign('leadcliente_id')->references('id')->on('leads_clientes')->onUpdate('cascade')->onDelete('cascade');
