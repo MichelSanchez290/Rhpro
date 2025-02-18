@@ -95,8 +95,8 @@ final class EncuestaPreguntaSucursalTable extends PowerGridComponent
 
                 Button::add('delete')
                 ->slot('Eliminar')
-                ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'),
-                // ->dispatch('confirmarEliminarEncriptEmpresa', ['id' => Crypt::encrypt($row->id)]),
+                ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
+                ->dispatch('confirmarEliminarEncriptSucursal', ['id' => Crypt::encrypt($row->id)]),
 
 
             Button::add('edit')

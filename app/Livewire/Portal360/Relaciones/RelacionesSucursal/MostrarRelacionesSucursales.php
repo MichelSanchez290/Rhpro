@@ -58,6 +58,7 @@ class MostrarRelacionesSucursales extends Component
          info("here");
          Relacion::find($id)->delete();
      }
+     
 
      
     // public function render()

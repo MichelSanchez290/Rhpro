@@ -114,8 +114,8 @@ final class AsignacionesAdministradorTable extends PowerGridComponent
             Button::add('edit')
             ->slot('Editar')
             ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
-            ->route('portal360.asignaciones.asignaciones-administrador.editar-asignaciones-administrador', ['id' => Crypt::encrypt($row->id)]),
-
+            ->route('editarAsignacionadministradordev', ['id' => Crypt::encrypt($row->id)]),
+            //       portal360.asignaciones.asignaciones-administrador.editar-asignaciones-administrador
 
             Button::add('delete')
             ->slot('Eliminar')

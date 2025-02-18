@@ -113,7 +113,7 @@ final class AsignacionesSucursalTable extends PowerGridComponent
             Button::add('edit')
             ->slot('Editar')
             ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
-            ->route('portal360.asignaciones.asignaciones-sucursal.editar-asignacion-sucursal', ['id' => Crypt::encrypt($row->id)]),
+            ->route('editarAsignacionesSocursal', ['id' => Crypt::encrypt($row->id)]),
 
 
         Button::add('delete')

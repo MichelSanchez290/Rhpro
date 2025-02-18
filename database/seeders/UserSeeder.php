@@ -38,7 +38,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('123sucursal$$$'),
             'empresa_id' => 1,
             'sucursal_id' => 1,
-            'tipo_user' => 'Trabajdor'
+            'tipo_user' => 'Trabajador'
         ])->assignRole('SusursalAdmin');
 
         $user=User::create([
