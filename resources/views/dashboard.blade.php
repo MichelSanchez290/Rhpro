@@ -1,15 +1,7 @@
-<style>
-    .bannerFondo {
-        height: 400px;
-    }
-</style>
-<x-app-layout>
-    <div>
-        <div class="bannerFondo bg-blue-950 bg-left-top bg-auto bg-repeat-x"
-            style="background-image: url(./img/continuartl_4.png)">
-        </div>
-
-        <div class="-mt-64">
+<x-app-layout >
+    <div >
+        <div class="gradient"></div>
+        <div class="">
             <div class="w-full text-center">
                 <p class="text-sm tracking-widest text-white">Sistema</p>
                 <h1 class="font-bold text-5xl text-white">

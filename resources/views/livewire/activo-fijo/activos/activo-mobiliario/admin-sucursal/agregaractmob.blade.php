@@ -143,7 +143,6 @@
                     </div>
                 </div>
             </div>
-            
             <!-- Botón de Guardar -->
             <div class="flex justify-center mt-4">
                 <button wire:click="saveActivoMob()" class="bg-gradient-to-r from-[#1763A6] to-[#1EA4D9] text-white px-6 py-2 rounded-lg shadow-lg font-bold hover:bg-[#1763A6]">Guardar</button>

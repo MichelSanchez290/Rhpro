@@ -44,6 +44,7 @@ use App\Livewire\ActivoFijo\TipoActivo\Mostrartipoactivo;
 
 use App\Livewire\ActivoFijo\Notas\Agregarnotas;
 use App\Livewire\ActivoFijo\Notas\Editarnotas;
+use App\Livewire\ActivoFijo\Notas\Mostrarnotaem;
 use App\Livewire\ActivoFijo\Notas\Mostrarnotas;
 use Illuminate\Support\Facades\Route;
 
@@ -114,4 +115,6 @@ Route::get('af/editaractivosou/{id}', Editaractsou::class)->middleware('can:Acti
 
 // Route::get('af/agregarnotatec', Agregarnotas::class)->name('agregarnotas');
 Route::get('af/mostrarnotatec', Mostrarnotas::class)->name('mostrarnotas');
+Route::get('af/mostrarnotatecem', Mostrarnotaem::class)->name('mostrarnotaem');
+
 Route::get('af/editarnotatec', Editarnotas::class)->name('editarnotas');

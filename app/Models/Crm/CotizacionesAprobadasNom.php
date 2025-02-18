@@ -19,6 +19,6 @@ class CotizacionesAprobadasNom extends Model
 
     public function Nom035Cotizaciones()
     {
-        return $this->belongsTo(Nom035Cotizaciones::class);
+        return $this->belongsTo(Nom035Cotizacione::class);
     }
 }

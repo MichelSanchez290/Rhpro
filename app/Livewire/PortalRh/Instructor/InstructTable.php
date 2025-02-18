@@ -40,12 +40,10 @@ final class InstructTable extends PowerGridComponent
     {
         return Instructor::query()
         ->leftJoin('users', 'instructores.user_id', '=', 'users.id')
-        ->leftJoin('sucursales', 'instructores.sucursal_id', '=', 'sucursales.id')
         ->leftJoin('departamentos', 'instructores.departamento_id', '=', 'departamentos.id')
         ->select([
             'instructores.*',
             'users.name as nombre_usuario',
-            'sucursales.nombre_sucursal as sucursal',
             'departamentos.nombre_departamento as departamento'
         ]);
     }
@@ -91,8 +89,6 @@ final class InstructTable extends PowerGridComponent
             ->add('regimen_empre')
             ->add('user_id')
             ->add('nombre_usuario')
-            ->add('sucursal_id')
-            ->add('sucursal')
             ->add('departamento_id')
             ->add('departamento')
             ->add('created_at');
@@ -220,8 +216,6 @@ final class InstructTable extends PowerGridComponent
                 ->searchable(),
 
             Column::make('User id', 'nombre_usuario'),
-
-            Column::make('Sucursal id', 'sucursal'),
 
             Column::make('Departamento id', 'departamento'),
 

@@ -175,9 +175,14 @@
                                     <input type="file" class="hidden" wire:model="subirfoto1" />
                                     <br>
                                     @if ($subirfoto1)
+                                        @if(empty($foto1))
+
+                                        @else
+                                            <img src="{{ asset($foto1) }}" width="100" height="100" alt="Imagen 1" />
+                                        @endif
+                                    @else
                                         <img src="{{ $subirfoto1->temporaryUrl() }}" width="100" height="100" alt="Imagen 1" />
-                                    @elseif ($foto1)
-                                        <img src="{{ asset($foto1) }}" width="100" height="100" alt="Imagen 1" />
+                                        
                                     @endif
                                     <x-input-error for="subirfoto1" />
                                 </label>

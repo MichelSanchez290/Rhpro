@@ -2,6 +2,7 @@
 
 namespace App\Models\Crm;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,12 +20,12 @@ class TrainingLevantamiento extends Model
 
     public function LeadsClientes()
     {
-        return $this->belongsTo(LeadsClientes::class);
+        return $this->belongsTo(LeadCliente::class);
     }
 
     public function Users()
     {
-        return $this->belongsTo(Users::class);
+        return $this->belongsTo(User::class);
     }
 
     public function trainingservicio()

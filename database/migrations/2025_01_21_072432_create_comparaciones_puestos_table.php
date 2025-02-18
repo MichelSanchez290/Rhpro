@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->date('fecha_comparacion');
             $table->string('competencias_requeridas');
+            $table->string('nivel_actual')->nullable();
+            $table->string('nivel_nuevo')->nullable();
+            $table->string('diferencia');
             $table->integer('puesto_nuevo');
 
             // Declarar la columna de la relación

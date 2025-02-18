@@ -14,8 +14,8 @@ use Illuminate\Support\Facades\Storage;
 class EditarSouvenir extends Component
 {
     use WithFileUploads;
-    public $activosou_id, $codigo, $productos, $descripcion, $color, $medida, $marca, $precio, $estado, $disponible, $fechaad, $tipo, $anio,$sucursal;
-    public $tipos, $anios,$sucursales;
+    public $activosou_id, $codigo, $productos, $descripcion, $color, $medida, $marca, $precio, $estado, $disponible, $fechaad, $tipo, $anio, $sucursal;
+    public $tipos, $anios, $sucursales;
     public $foto1, $foto2, $foto3;
     public $subirfoto1, $subirfoto2, $subirfoto3;
 
@@ -54,7 +54,8 @@ class EditarSouvenir extends Component
         $this->fechaad = $item->fecha_adquisicion;
         $this->tipo = $item->tipo_activo_id;
         $this->anio = $item->aniosestimado_id;
-
+        $this->foto1 = $item->foto1;
+        
         $this->tipos = Tipoactivo::all()->pluck('nombre_activo', 'id');
         $this->anios = Anioestimado::all()->pluck('vida_util_año', 'id');
         $this->sucursales = Sucursal::whereHas('empresas', function ($query) {

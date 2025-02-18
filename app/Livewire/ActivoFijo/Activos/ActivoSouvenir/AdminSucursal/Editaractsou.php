@@ -50,7 +50,8 @@ class Editaractsou extends Component
         $this->fechaad = $item->fecha_adquisicion;
         $this->tipo = $item->tipo_activo_id;
         $this->anio = $item->aniosestimado_id;
-
+        $this->foto1 = $item->foto1;
+        //dd($this->foto1);
         $this->tipos = Tipoactivo::all()->pluck('nombre_activo', 'id');
         $this->anios = Anioestimado::all()->pluck('vida_util_año', 'id');
     }

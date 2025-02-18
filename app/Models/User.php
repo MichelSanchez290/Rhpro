@@ -10,6 +10,8 @@ use App\Models\ActivoFijo\Activos\ActivoPapeleria;
 use App\Models\ActivoFijo\Activos\ActivoSouvenir;
 use App\Models\ActivoFijo\Activos\ActivoTecnologia;
 use App\Models\ActivoFijo\Activos\ActivoUniforme;
+use App\Models\Crm\LeadCliente;
+use App\Models\Crm\LeadsCliente;
 use App\Models\Encuestas360\Asignacion;
 use App\Models\PortalCapacitacion\PerfilPuesto;
 use App\Models\PortalRH\Becari;
@@ -31,6 +33,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use PHPUnit\Framework\MockObject\Stub\ReturnArgument;
 use Spatie\Permission\Traits\HasRoles;
+    
 
 class User extends Authenticatable
 {
@@ -78,6 +81,11 @@ class User extends Authenticatable
         return $this->hasMany(Becario::class);
     }
 
+
+
+
+
+    /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public function cambioSalario()
     {
         return $this->belongsToMany(CambioSalario::class)->withPivot('user_id', 'cambio_salario_id', 'fecha');
@@ -103,6 +111,7 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Retardo::class)->withPivot('user_id', 'retardo_id');
     }
+
 
     /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public function bajas()
@@ -183,13 +192,9 @@ class User extends Authenticatable
     }
 
     //  /* RELACIONES MODULO CAPACITACION */
-    public function perfiles_puestos()
+    public function empresa()
     {
-        return $this->belongsToMany(PerfilPuesto::class, 'perfil_puesto_user', 'users_id', 'perfiles_puestos_id'); // Modelo relacionado
-    }
-    public function empresas()
-    {
-        return $this->belongsTo(Empresa::class, 'empresas_id', 'id');
+        return $this->belongsTo(Empresa::class);
     }
 
     public function asignacion()
@@ -207,4 +212,16 @@ class User extends Authenticatable
     {
         return $this->perfilesPuestos()->latest()->first();
     }
+    
+    //Por favor no tocar porque aqui son de mi asignaciones para que mueste el nombre de la empresa y sucursal 
+    public function sucursal()
+    {
+        return $this->belongsTo(Sucursal::class, 'sucursal_id');
+    }
+
+   public function leadcliente()
+    {
+        return $this->hasMany(LeadCliente::class, 'users_id');
+    }
+
 }

@@ -60,4 +60,5 @@ class ActivoTecnologia extends Model
             ->withPivot('fecha_asignacion', 'fecha_devolucion', 'observaciones', 'status', 'foto1', 'foto2', 'foto3')
             ->withTimestamps();
     }
+    
 }
