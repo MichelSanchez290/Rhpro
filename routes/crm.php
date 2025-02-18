@@ -33,6 +33,11 @@ Route::get(
 )->name('Createcrm');
 
 Route::get(
+    '/crm-leads',
+    Vistaprincipal::class
+)->name('leads');
+
+Route::get(
     '/crm-editempresa/{id}',
     EditarEmpresa::class
 )->name('EditEmpresa');
