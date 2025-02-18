@@ -157,7 +157,7 @@ class AgregarAsignacionesAdministrador extends Component
        }
    }
 
-   public function saveAsignacionAdministrador()
+   public function saveAsignacionAdministradordev()
    {
        $this->validate();
 

@@ -4,8 +4,9 @@ namespace App\Livewire\PortalRh\Trabajador;
 
 use Livewire\Component;
 use App\Models\PortalRH\Trabajador;
-use App\Models\PortalRH\Sucursal;
+use App\Models\PortalRH\Puesto;
 use App\Models\PortalRH\Departamento;
+use App\Models\PortalRH\RegistroPatronal;
 use App\Models\User;
 use Illuminate\Support\Facades\Crypt;
 
@@ -38,13 +39,14 @@ class EditarTrabajador extends Component
         $colonia, 
         $numero, 
         $status, 
-        $user_id, 
-        $sucursal_id, 
-        $departamento_id
+        $user_id,
+        $departamento_id,
+        $puesto_id,
+        $registro_patronal_id
     ;
     
 
-    public $usuarios, $sucursales, $departamentos;
+    public $usuarios, $departamentos, $puestos, $registros_patronales;
 
 
     public function mount($id)
@@ -81,13 +83,14 @@ class EditarTrabajador extends Component
         $this->status = $trabajador->status;
 
         $this->user_id = $trabajador->user_id;
-        $this->sucursal_id = $trabajador->sucursal_id;
         $this->departamento_id = $trabajador->departamento_id;
-
+        $this->puesto_id = $trabajador->puesto_id;
+        $this->registro_patronal_id = $trabajador->registro_patronal_id;
 
         $this->usuarios = User::all();
-        $this->sucursales = Sucursal::all();
         $this->departamentos = Departamento::all();
+        $this->puestos = Puesto::all();
+        $this->registros_patronales = RegistroPatronal::all();
     }
 
     public function actualizarTrabajador()
@@ -120,8 +123,9 @@ class EditarTrabajador extends Component
             'numero' => 'required',
             'status' => 'required',
             'user_id' => 'required|exists:users,id',
-            'sucursal_id' => 'required|exists:sucursales,id',
             'departamento_id' => 'required|exists:departamentos,id',
+            'puesto_id' => 'required|exists:puestos,id',
+            'registro_patronal_id' => 'required|exists:registros_patronales,id',
         ]);
 
         Trabajador::updateOrCreate(['id' => $this->trabajador_id], [
@@ -152,8 +156,9 @@ class EditarTrabajador extends Component
             'numero' => $this->numero,
             'status' => $this->status,
             'user_id' => $this->user_id,
-            'sucursal_id' => $this->sucursal_id,
             'departamento_id' => $this->departamento_id,
+            'puesto_id' => $this->puesto_id,
+            'registro_patronal_id' => $this->registro_patronal_id,
         ]);
 
         return redirect()->route('mostrartrabajador')->with('message', 'Trabajador actualizado correctamente.');

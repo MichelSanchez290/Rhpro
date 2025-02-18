@@ -66,91 +66,91 @@ use Illuminate\Support\Facades\Route;
 Route::get('/inicio', Inicio::class)->name('portal360.inicio');
 
 
-//Relaciones Laborales para Administrador 
-Route::get('/mostrar-relacion-administrador', MostrarRelacionAdministrador::class)->name('portal360.relaciones.relaciones-administrador.mostrar-relacion-administrador');
-Route::get('/agregar-relacion-administrador', AgregarRelacionAdministrador::class)->name('agregarRealacionAdministrador');
-Route::get('/editar-relacion-administrador/{id}', EditarRelacionAdministrador::class)->name('editarRelacionesAdministrador');
-Route::get('/eliminar-relacion-administrador', EliminarRelacionAdministrador::class)->name('eliminarRelacionesAdministrador');
+//Relaciones Laborales para Administrador  // Route::get('/mostrar-relaciones', MostrarRelaciones::class)->middleware('can:Relaciones Laborales Mostrar')->name('portal360.mostrarUser');
+Route::get('/mostrar-relacion-administrador', MostrarRelacionAdministrador::class)->middleware('can:Mostrar Relaciones Laborales ADMIN')->name('portal360.relaciones.relaciones-administrador.mostrar-relacion-administrador');
+Route::get('/agregar-relacion-administrador', AgregarRelacionAdministrador::class)->middleware('can:Agregar Relaciones Laborales ADMIN')->name('agregarRealacionAdministrador');
+Route::get('/editar-relacion-administrador/{id}', EditarRelacionAdministrador::class)->middleware('can:Editar Relaciones Laborales ADMIN')->name('editarRelacionesAdministrador');
+Route::get('/eliminar-relacion-administrador', EliminarRelacionAdministrador::class)->middleware('can:Eliminar Relaciones Laborales ADMIN')->name('eliminarRelacionesAdministrador');
 
 //Relaciones Laborales para Empresas 
-Route::get('/mostrar-relaciones-empresa', MostrarRelacionesEmpresa::class)->name('portal360.relaciones.relaciones-empresa.mostrar-relaciones-empresa');
-Route::get('/agregar-relaciones-empresa', AgregarRelacionesEmpresa::class)->name('agregarRealacionEmpresa');
-Route::get('/editar-relaciones-empresa/{id}', EditarRelacionesEmpresa::class)->name('editarRelacionesEmpleados');
-Route::get('/eliminar-relaciones-empresa', EliminarRelacionesEmpresa::class)->name('eliminarRelacionesEmpresas');
+Route::get('/mostrar-relaciones-empresa', MostrarRelacionesEmpresa::class)->middleware('can:Mostrar Relaciones Laborales ADMIN EMPRESA')->name('portal360.relaciones.relaciones-empresa.mostrar-relaciones-empresa');
+Route::get('/agregar-relaciones-empresa', AgregarRelacionesEmpresa::class)->middleware('can:Agregar Relaciones Laborales ADMIN EMPRESA')->name('agregarRealacionEmpresa');
+Route::get('/editar-relaciones-empresa/{id}', EditarRelacionesEmpresa::class)->middleware('can:Editar Relaciones Laborales ADMIN EMPRESA')->name('editarRelacionesEmpleados');
+Route::get('/eliminar-relaciones-empresa', EliminarRelacionesEmpresa::class)->middleware('can:Eliminar Relaciones Laborales ADMIN EMPRESA')->name('eliminarRelacionesEmpresas');
 
 //Relaciones Laborales para Sucursales 
-Route::get('/mostrar-relaciones-sucursales', MostrarRelacionesSucursales::class)->name('portal360.relaciones.relaciones-sucursal.mostrar-relaciones-sucursales');
-Route::get('/agregar-relaciones-sucursales', AgregarRelacionesSucursales::class)->name('agregarRealacionSucursales');
-Route::get('/editar-relaciones-sucursales/{id}', EditarRelacionesSucursales::class)->name('editarRelacionesSucursales');
-Route::get('/eliminar-relaciones-sucursales', EliminarRelacionesSucursales::class)->name('eliminarRelacionesSucursales');
+Route::get('/mostrar-relaciones-sucursales', MostrarRelacionesSucursales::class)->middleware('can:Mostrar Relaciones Laborales ADMIN SUCURSAL')->name('portal360.relaciones.relaciones-sucursal.mostrar-relaciones-sucursales');
+Route::get('/agregar-relaciones-sucursales', AgregarRelacionesSucursales::class)->middleware('can:Agregar Relaciones Laborales ADMIN SUCURSAL')->name('agregarRealacionSucursales');
+Route::get('/editar-relaciones-sucursales/{id}', EditarRelacionesSucursales::class)->middleware('can:Editar Relaciones Laborales ADMIN SUCURSAL')->name('editarRelacionesSucursales');
+Route::get('/eliminar-relaciones-sucursales', EliminarRelacionesSucursales::class)->middleware('can:Eliminar Relaciones Laborales ADMIN SUCURSAL')->name('eliminarRelacionesSucursales');
 
 
 //Mostrar Empresas Administrador 
-Route::get('/mostrar-empresa-administrador', MostrarEmpresaAdministrador::class)->name('portal360.empresa.empresa-administrador.mostrar-empresa-administrador');
+Route::get('/mostrar-empresa-administrador', MostrarEmpresaAdministrador::class)->middleware('can:Mostrar Empresa ADMIN')->name('portal360.empresa.empresa-administrador.mostrar-empresa-administrador');
 
 //Mostrar Empresa Empresa 
-Route::get('/mostrar-empresa-empresa', MostrarEmpresaEmpresa::class)->name('portal360.empresa.empresa-empresa.mostrar-empresa-empresa');
+Route::get('/mostrar-empresa-empresa', MostrarEmpresaEmpresa::class)->middleware('can:Mostrar Empresa ADMIN EMPRESA')->name('portal360.empresa.empresa-empresa.mostrar-empresa-empresa');
 
 //Mostrar Empresa Sucursal 
-Route::get('/mostrar-empresa-sucursal', MostrarEmpresaSucursal::class)->name('portal360.empresa.empresa-sucursal.mostrar-empresa-sucursal');
+Route::get('/mostrar-empresa-sucursal', MostrarEmpresaSucursal::class)->middleware('can:Mostrar Empresa  ADMIN SUCURSAL')->name('portal360.empresa.empresa-sucursal.mostrar-empresa-sucursal');
 
 
 //Mostrar Preguntas Administrador 
-Route::get('/mostrar-preguntas-administrador', MostrarPreguntasAdministrador::class)->name('portal360.preguntas.preguntas-administrador.mostrar-preguntas-administrador');
-Route::get('/agregar-preguntas-administrador', AgregarPreguntasAdministrador::class)->name('agregarPreguntaAdministrador');
-Route::get('/editar-preguntas-administrador/{id}', EditarPreguntasAdministrador::class)->name('editarPreguntaAdmin');
-Route::get('/eliminar-preguntas-administrador', EliminarPreguntasAdministrador::class)->name('eliminarPregunta');
+Route::get('/mostrar-preguntas-administrador', MostrarPreguntasAdministrador::class)->middleware('can:Mostrar Preguntas ADMIN')->name('portal360.preguntas.preguntas-administrador.mostrar-preguntas-administrador');
+Route::get('/agregar-preguntas-administrador', AgregarPreguntasAdministrador::class)->middleware('can:Agregar Preguntas ADMIN')->name('agregarPreguntaAdministrador');
+Route::get('/editar-preguntas-administrador/{id}', EditarPreguntasAdministrador::class)->middleware('can:Editar Preguntas ADMIN')->name('editarPreguntaAdmin');
+Route::get('/eliminar-preguntas-administrador', EliminarPreguntasAdministrador::class)->middleware('can:Eliminar Preguntas ADMIN')->name('eliminarPregunta');
 
 //Mostrar Preguntas Empresa 
-Route::get('/mostrar-preguntas-empresa', MostrarPreguntasEmpresa::class)->name('portal360.preguntas.preguntas-empresa.mostrar-preguntas-empresa');
-Route::get('/agregar-preguntas-empresa', AgregarPreguntasEmpresa::class)->name('agregarPreguntaEmpresa');
-Route::get('/editar-preguntas-empresa/{id}', EditarPreguntasEmpresa::class)->name('editarPreguntaEmpre');
-Route::get('/eliminar-preguntas-empresa', EliminarPreguntasEmpresa::class)->name('eliminarPreguntaEmpresa');
+Route::get('/mostrar-preguntas-empresa', MostrarPreguntasEmpresa::class)->middleware('can:Mostrar Preguntas ADMIN EMPRESA')->name('portal360.preguntas.preguntas-empresa.mostrar-preguntas-empresa');
+Route::get('/agregar-preguntas-empresa', AgregarPreguntasEmpresa::class)->middleware('can:Agregar Preguntas ADMIN EMPRESA')->name('agregarPreguntaEmpresa');
+Route::get('/editar-preguntas-empresa/{id}', EditarPreguntasEmpresa::class)->middleware('can:Editar Preguntas ADMIN EMPRESA')->name('editarPreguntaEmpre');
+Route::get('/eliminar-preguntas-empresa', EliminarPreguntasEmpresa::class)->middleware('can:Eliminar Preguntas ADMIN EMPRESA')->name('eliminarPreguntaEmpresa');
 
 
 //Mostrar Preguntas Sucursal  
-Route::get('/mostrar-pregunta-sucursal', MostrarPreguntaSucursal::class)->name('portal360.preguntas.preguntas-sucursal.mostrar-pregunta-sucursal');
-Route::get('/agregar-pregunta-sucursal', AgregarPreguntaSucursal::class)->name('agregarPreguntaEmpresa');
-Route::get('/editar-pregunta-sucursal/{id}', EditarPreguntaSucursal::class)->name('editarPreguntaSucu');
-Route::get('/eliminar-pregunta-sucursal', EliminarPreguntaSucursal::class)->name('eliminarPreguntaSucursal');
+Route::get('/mostrar-pregunta-sucursal', MostrarPreguntaSucursal::class)->middleware('can:Mostrar Preguntas ADMIN SUCURSAL')->name('portal360.preguntas.preguntas-sucursal.mostrar-pregunta-sucursal');
+Route::get('/agregar-pregunta-sucursal', AgregarPreguntaSucursal::class)->middleware('can:Agregar Preguntas ADMIN SUCURSAL')->name('agregarPreguntaEmpresa');
+Route::get('/editar-pregunta-sucursal/{id}', EditarPreguntaSucursal::class)->middleware('can:Editar Preguntas ADMIN SUCURSAL')->name('editarPreguntaSucu');
+Route::get('/eliminar-pregunta-sucursal', EliminarPreguntaSucursal::class)->middleware('can:Eliminar Preguntas ADMIN SUCURSAL')->name('eliminarPreguntaSucursal');
 
 
 
 
 
 //Mostrar Encuesta Administrador 
-Route::get('/mostrar-encuesta-administrador', MostrarEncuestaAdministrador::class)->name('portal360.encuesta.encuesta-administrador.mostrar-encuesta-administrador');
-Route::get('/agregar-encuesta-administrador', AgregarEncuestaAdministrador::class)->name('agregarEncuestaAdministrador');
-Route::get('/editar-encuesta-administrador/{id}', EditarEncuestaAdministrador::class)->name('editarEncuestaAdministrador');
-Route::get('/eliminar-encuesta-administrador', [MostrarEncuestaAdministrador::class, 'deleteEncuesta'])->name('eliminarEncuesta');
+Route::get('/mostrar-encuesta-administrador', MostrarEncuestaAdministrador::class)->middleware('can:Mostrar Encuesta ADMIN')->name('portal360.encuesta.encuesta-administrador.mostrar-encuesta-administrador');
+Route::get('/agregar-encuesta-administrador', AgregarEncuestaAdministrador::class)->middleware('can:Agregar Encuesta ADMIN')->name('agregarEncuestaAdministrador');
+Route::get('/editar-encuesta-administrador/{id}', EditarEncuestaAdministrador::class)->middleware('can:Editar Encuesta ADMIN')->name('editarEncuestaAdministrador');
+Route::get('/eliminar-encuesta-administrador', [MostrarEncuestaAdministrador::class, 'deleteEncuesta'])->middleware('can:Eliminar Encuesta ADMIN')->name('eliminarEncuesta');
 
 
 //Mostrar Encuesta Empresa 
-Route::get('/mostrar-encuesta-empresa', MostrarEncuestaEmpresa::class)->name('portal360.encuesta.encuesta-empresa.mostrar-encuesta-empresa');
-Route::get('/agregar-encuesta-empresa', AgregarEncuestaEmpresa::class)->name('agregarEncuestaEmpresa');
-Route::get('/editar-encuesta-empresa/{id}', EditarEncuestaEmpresa::class)->name('editarEncuestadevEmpresa');
-Route::get('/eliminar-encuesta-empresa', [MostrarEncuestaEmpresa::class, 'deleteEncuestaEmpresa'])->name('eliminarEncuestaEmpresa');
+Route::get('/mostrar-encuesta-empresa', MostrarEncuestaEmpresa::class)->middleware('can:Mostrar Encuesta ADMIN EMPRESA')->name('portal360.encuesta.encuesta-empresa.mostrar-encuesta-empresa');
+Route::get('/agregar-encuesta-empresa', AgregarEncuestaEmpresa::class)->middleware('can:Agregar Encuesta ADMIN EMPRESA')->name('agregarEncuestaEmpresa');
+Route::get('/editar-encuesta-empresa/{id}', EditarEncuestaEmpresa::class)->middleware('can:Editar Encuesta ADMIN EMPRESA')->name('editarEncuestadevEmpresa');
+Route::get('/eliminar-encuesta-empresa', [MostrarEncuestaEmpresa::class, 'deleteEncuestaEmpresa'])->middleware('can:Eliminar Encuesta ADMIN EMPRESA')->name('eliminarEncuestaEmpresa');
 
 
 //Mostrar Encuesta Sucursal 
-Route::get('/mostrar-encuesta-sucursal', MostrarEncuestaSucursal::class)->name('portal360.encuesta.encuesta-sucursal.mostrar-encuesta-sucursal');
-Route::get('/agregar-encuesta-sucursal', AgregarEncuestaSucursal::class)->name('agregarEncuestaSucursal');
-Route::get('/editar-encuesta-sucursal/{id}',  EditarEncuestaSucursal::class)->name('editarEncuestaSucursal');
-Route::get('/eliminar-encuesta-sucursal', [MostrarEncuestaSucursal::class, 'deleteEncuestaSucursal'])->name('eliminarEncuestaSucursal');
+Route::get('/mostrar-encuesta-sucursal', MostrarEncuestaSucursal::class)->middleware('can:Mostrar Encuesta ADMIN SUCURSAL')->name('portal360.encuesta.encuesta-sucursal.mostrar-encuesta-sucursal');
+Route::get('/agregar-encuesta-sucursal', AgregarEncuestaSucursal::class)->middleware('can:Agregar Encuesta ADMIN SUCURSAL')->name('agregarEncuestaSucursal');
+Route::get('/editar-encuesta-sucursal/{id}',  EditarEncuestaSucursal::class)->middleware('can:Editar Encuesta ADMIN SUCURSAL')->name('editarEncuestaSucursalpro');
+Route::get('/eliminar-encuesta-sucursal', [MostrarEncuestaSucursal::class, 'deleteEncuestaSucursal'])->middleware('can:Eliminar Encuesta ADMIN SUCURSAL')->name('eliminarEncuestaSucursal');
 
 // Route::get('/eliminar-pregunta', [EncuestaDev::class, 'deleteEncuesta'])->middleware('can:Eliminar Encuesta')->name('eliminarEncuesta');
 
 //Mostrar Asignaciones Administrador 
 Route::get('/mostrar-asignaciones-administrador', MostrarAsignacionesAdministrador::class)->name('portal360.asignaciones.asignaciones-administrador.mostrar-asignaciones-administrador');
 Route::get('/agregar-asignaciones-administrador', AgregarAsignacionesAdministrador::class)->name('agregarAsignacionAdministrador');
-Route::get('/asignaciones/editar/{id}', EditarAsignacionesAdministrador::class)->name('portal360.asignaciones.asignaciones-administrador.editar-asignaciones-administrador');
+Route::get('/editar-asignaciones-administrador/{id}', EditarAsignacionesAdministrador::class)->name('editarAsignacionadministradordev');
 Route::get('/eliminar-asignacion-administrador', [MostrarAsignacionesAdministrador::class, 'deleteAsignacionAdministrador'])->name('eliminarAsignacionAdministrador');
 
 
 //Mostrar Asignaciones empresa 
 Route::get('/mostrar-asignaciones-empresa', MostrarAsignacionesEmpresa::class)->name('portal360.asignaciones.asignaciones-empresa.mostrar-asignaciones-empresa');
 Route::get('/agregar-asignaciones-empresa', AgregarAsignacionesEmpresa::class)->name('agregarAsignacionEmpresa');
-Route::get('/asignaciones/editar/{id}', EditarAsignacionesEmpresa::class)->name('portal360.asignaciones.asignaciones-empresa.editar-asignaciones-empresa');
+Route::get('/editar-asignaciones-empresa/{id}', EditarAsignacionesEmpresa::class)->name('editarAsignacionEmpresa');
 Route::get('/eliminar-asignaciones-empresa', [MostrarAsignacionesEmpresa::class, 'deleteAsignacionEmpresa'])->name('eliminarAsignacionEmpresa');
 
 
@@ -159,7 +159,7 @@ Route::get('/eliminar-asignaciones-empresa', [MostrarAsignacionesEmpresa::class,
 //Mostrar Asignaciones Sucursal 
 Route::get('/mostrar-asignacion-sucursal', MostrarAsignacionSucursal::class)->name('portal360.asignaciones.asignaciones-sucursal.mostrar-asignacion-sucursal');
 Route::get('/agregar-asignacion-sucursal', AgregarAsignacionSucursal::class)->name('agregarAsignacionSucursal');
-Route::get('/asignaciones/editar/{id}', EditarAsignacionSucursal::class)->name('portal360.asignaciones.asignaciones-sucursal.editar-asignacion-sucursal');
+Route::get('/editar-asignacion-sucursal/{id}', EditarAsignacionSucursal::class)->name('editarAsignacionesSocursal');
 Route::get('/eliminar-asignacion-sucursal', [MostrarAsignacionSucursal::class, 'deleteAsignacionSucursal'])->name('eliminarAsignacionSucursal');
 
 
@@ -182,6 +182,7 @@ Route::get('/eliminar-encuesta-pregunta-encpre-empresa', [MostrarEncuestaPregunt
 Route::get('/mostrar-encuesta-pregunta-encpre-sucursal', MostrarEncuestaPreguntaEncpreSucursal::class)->name('portal360.encpre.encuesta-pregunta-encpre-sucursal.mostrar-encuesta-pregunta-encpre-sucursal');
 Route::get('/agregar-encuesta-pregunta-encpre-sucursal', AgregarEncuestaPreguntaEncpreSucursal::class)->name('agregarEncpreSucursal');
 Route::get('/editar-encuesta-pregunta-encpre-sucursal/{id}', EditarEncuestaPreguntaEncpreSucursal::class)->name('editarEncuestaSucursal');
+Route::get('/eliminar-encuesta-pregunta-sucursal', [MostrarEncuestaPreguntaEncpreSucursal::class, 'deleteEncpreSucursal'])->name('eliminarEncpreSucursal');
 
 
 //Despues elimino los roles 

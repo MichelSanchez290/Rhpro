@@ -181,7 +181,7 @@
         {{-- Botón Guardar --}}
         <div>
             <button
-                wire:click="saveAsignacionAdministrador"
+                wire:click="saveAsignacionAdministradordev"
                 type="button"
                 class="w-full py-2 px-4 rounded font-medium bg-indigo-600 hover:bg-indigo-700 text-white">
                 Guardar Cambios

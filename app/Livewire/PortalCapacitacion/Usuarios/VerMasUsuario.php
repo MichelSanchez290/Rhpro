@@ -27,38 +27,38 @@ class VerMasUsuario extends Component
             $habilidadesTecnicas,
             $perfilactual;
 
-    public function comparar()
+    public function mount($id)
     {
-        return redirect()->route('compararPerfilPuesto');
-    }
-    
-    public function mount($id){
         $id = Crypt::decrypt($id);
-        $this->userSeleccionado = User::with('perfilesPuestos')->find($id);
-        foreach($this->userSeleccionado->perfilesPuestos as $perfiles)
-        {
+         $this->userSeleccionado = User::with('perfilesPuestos')->find($id);
+                
+        $this->perfilactual = null;
             
-            if($perfiles->pivot->status === "1")
-            {
-                $this->perfilactual= $perfiles;
+        foreach ($this->userSeleccionado->perfilesPuestos as $perfiles) {
+            if ($perfiles->pivot->status === "1") {
+                $this->perfilactual = $perfiles;
                 break;
             }
-            else
-            {
-                $perfilactual="No existe";
-                
-            }
         }
-        
-        $this->funcionesEspecificas=$this->perfilactual->funcionesEspecificas()->get();
-        $this->relacionesInternas=$this->perfilactual->relacionesInternas()->get();
-        $this->relacionesExternas=$this->perfilactual->relacionesExternas()->get();
-        $this->responsabilidadesUniversales=$this->perfilactual->responsabilidadesUniversales()->get();
-        $this->habilidadesHumanas=$this->perfilactual->habilidadesHumanas()->get();
-        $this->habilidadesTecnicas=$this->perfilactual->habilidadesTecnicas()->get();
-
-        $this->users_id = $id;
-    }
+            
+        if ($this->perfilactual) {
+            $this->funcionesEspecificas = $this->perfilactual->funcionesEspecificas()->get();
+            $this->relacionesInternas = $this->perfilactual->relacionesInternas()->get();
+            $this->relacionesExternas = $this->perfilactual->relacionesExternas()->get();
+            $this->responsabilidadesUniversales = $this->perfilactual->responsabilidadesUniversales()->get();
+            $this->habilidadesHumanas = $this->perfilactual->habilidadesHumanas()->get();
+            $this->habilidadesTecnicas = $this->perfilactual->habilidadesTecnicas()->get();
+        } else {
+            $this->funcionesEspecificas = collect();
+            $this->relacionesInternas = collect();
+            $this->relacionesExternas = collect();
+            $this->responsabilidadesUniversales = collect();
+            $this->habilidadesHumanas = collect();
+            $this->habilidadesTecnicas = collect();
+        }
+            $this->users_id = $id;
+        }
+            
 
     public function render()
     {

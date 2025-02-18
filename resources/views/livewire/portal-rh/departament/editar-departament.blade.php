@@ -1,4 +1,4 @@
-<body class="bg-gray-200">
+<div class="bg-gray-200">
     <div class="flex h-screen items-center justify-center">
         <div class="grid bg-white rounded-lg shadow-xl w-full">
             <div class="flex justify-center py-4">
@@ -22,6 +22,8 @@
                     <input wire:model.defer="nombre_departamento" type="text" id="nombre_departamento"
                         placeholder="Nombre del departamento"
                         class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                
+                    <x-input-error for="nombre_departamento" /> 
                 </div>
 
                 <!-- Botones -->
@@ -30,8 +32,13 @@
                         class='w-auto bg-blue-500 hover:bg-blue-700 rounded-lg shadow-xl font-medium text-white px-4 py-2'>
                         Actualizar
                     </button>
+
+                    <button type="button" onclick="window.history.back()"
+                        class='w-auto bg-red-500 hover:bg-red-700 rounded-lg shadow-xl font-medium text-white px-4 py-2'>
+                        Cancelar
+                    </button>
                 </div>
             </form>
         </div>
     </div>
-</body>
+</div>

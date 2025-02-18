@@ -15,7 +15,16 @@ class Evaluacion extends Model
     protected $primaryKey = 'id';
 
     // Columnas asignables masivamente
-    protected $fillable = ['id', 'fecha_evaluacion', 'calificacon_desempeño', 'comentarios', 'recomendaciones', 'tiempo_puesto_actual', 'users_id'];
+    protected $fillable = ['id', 
+        'fecha_evaluacion', 
+        'criterio',
+        'calificacion_desempeno', 
+        'comentarios', 
+        'recomendaciones', 
+        'tiempo_puesto_actual', 
+        'users_id',
+        'perfiles_puestos_id',
+    ];
     
     // Relación inversa con usuarios (pertenece a un usuario)
     public function usuario()
@@ -24,8 +33,8 @@ class Evaluacion extends Model
     }
 
     // Relación muchos a muchos con perfiles_puestos
-    public function perfiles_puestos()
+    public function perfilesPuestos()
     {
-        return $this->belongsToMany(PerfilPuesto::class); // Modelo relacionado
+        return $this->belongsToMany(PerfilPuesto::class, 'evaluacion_perfil_puesto', 'evaluaciones_id', 'perfiles_puestos_id'); // Modelo relacionado
     }
 }

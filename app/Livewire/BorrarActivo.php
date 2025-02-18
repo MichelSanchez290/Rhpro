@@ -19,13 +19,21 @@ class BorrarActivo extends ModalComponent
     {
         // Definir qué modelo usar basado en la vista
         $modelos = [
-            'mostraracttec' => 'App\\Models\\ActivoFijo\\Activos\\ActivoTecnologia',
+            'mostraractte' => 'App\\Models\\ActivoFijo\\Activos\\ActivoTecnologia',
             'mostraractofi' => 'App\\Models\\ActivoFijo\\Activos\\ActivoOficina',
             'mostraractuni' => 'App\\Models\\ActivoFijo\\Activos\\ActivoUniforme',
             'mostraractpape' => 'App\\Models\\ActivoFijo\\Activos\\ActivoPapeleria',
             'mostraractmob' => 'App\\Models\\ActivoFijo\\Activos\\ActivoMobiliario',
             'mostraractsou' => 'App\\Models\\ActivoFijo\\Activos\\ActivoSouvenir',
-            'mostrartipoactivo' => 'App\\Models\\ActivoFijo\\Tipoactivo', // Para el de TipoActivo
+
+            //Empresa
+            'mostrartec' => 'App\\Models\\ActivoFijo\\Activos\\ActivoTecnologia',
+            'mostrarofi' => 'App\\Models\\ActivoFijo\\Activos\\ActivoOficina',
+            'mostraruni' => 'App\\Models\\ActivoFijo\\Activos\\ActivoUniforme',
+            'mostrarpape' => 'App\\Models\\ActivoFijo\\Activos\\ActivoPapeleria',
+            'mostrarmob' => 'App\\Models\\ActivoFijo\\Activos\\ActivoMobiliario',
+            'mostrarsou' => 'App\\Models\\ActivoFijo\\Activos\\ActivoSouvenir',
+            'mostrartipoactivo' => 'App\\Models\\ActivoFijo\\Tipoactivo',
         ];
 
         // Verificar si la vista tiene un modelo asignado

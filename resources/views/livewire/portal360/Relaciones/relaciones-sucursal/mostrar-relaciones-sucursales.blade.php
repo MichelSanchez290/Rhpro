@@ -37,14 +37,18 @@
                                     <td class="p-3 text-black">{{ $user->nombre }}</td>
                                     <td class="p-3 text-center">
                                         <div class="flex justify-center gap-3">
+                                            @can('Editar Relaciones Laborales ADMIN SUCURSAL')
                                             <a href="{{ route('editarRelacionesSucursales', Crypt::encrypt($user->id)) }}"
                                                 class="bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-700">
                                                 Editar
                                             </a>
+                                            @endcan 
+                                            @can('Eliminar Relaciones Laborales ADMIN SUCURSAL')
                                             <button wire:click="deleteRelacionesSucursales({{ $user->id }})"
                                                 class="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-700">
                                                 Eliminar
                                             </button>
+                                            @endcan 
                                         </div>
                                     </td>
                                 </tr>
