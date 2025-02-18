@@ -1,11 +1,11 @@
 <div class="scroll-smooth">
-    <div class="w-full bg-white rounded-lg">
+    <div class="w-full bg-white rounded-lg border-2">
         <div class="text-center">
-            <h1 class="p-5 text-3xl font-bold">
+            <h1 class="mt-10 mb-5 text-3xl font-bold">
                 Formulario de Lead
             </h1>
         </div>
-        <div class="flex justify-center w-full px-10 py-4 bg-white rounded-lg shadow-lg">
+        <div class="grid grid-cols-3 gap-4 justify-center w-full px-10 py-4 bg-white rounded-lg shadow-lg">
             {{-- Nombre del lead --}}
             <div class="mx-2">
                 <label class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
@@ -37,7 +37,7 @@
                 <x-input-error for="lead.fecha" />
             </div>
         </div>
-        <div class="flex justify-center w-full px-10 py-4 bg-white rounded-lg shadow-lg">
+        <div class="grid grid-cols-2 gap-4 justify-center w-full px-10 py-4 bg-white rounded-lg shadow-lg">
             {{-- Hora --}}
             {{-- <div class="mx-2">
                 <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
@@ -76,7 +76,7 @@
                 <x-input-error for="lead.puesto" />
             </div>
         </div>
-        <div class="flex justify-center w-full px-10 py-4 bg-white rounded-lg shadow-lg">
+        <div class="grid grid-cols-2 gap-4 justify-center w-full px-10 py-4 bg-white rounded-lg mb-7">
             {{-- Correo --}}
             <div class="mx-2 text-center">
                 <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
@@ -102,7 +102,7 @@
     <div class="items-center w-full m-4 bg-gray-100 rounded-lg">
         <div class="p-4">
             <div class="flex text-center">
-                <button onclick="Livewire.dispatch('openModal', { component: 'crm.leads.modal.seleccion' })"
+                <button onclick="Livewire.dispatch('openModal', { component: 'crm.leads.modal.seleccion ' })"
                     class="flex-1 px-4 py-2 mx-2 border-2 border-gray-900 rounded-md shadow-md shadow-gray-900 active:shadow-none">
                     E-Smart
                 </button>
@@ -197,7 +197,7 @@
                             class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500">
                             <option value="" disabled>Seleccione un valor</option>
                             <option value="" disabled>------</option>
-                            <option value="Si">Si</option>
+                            <option value="si">Si</option>
                             <option value="No">No</option>
                         </select>
                     </div>
@@ -252,12 +252,8 @@
                     </div>
                 </div>
                 <div class="flex justify-end">
-                    <button
-                        class="p-2 my-6 mr-4 font-semibold text-white bg-blue-600 rounded-md shadow-md shadow-gray-500 hover:shadow-none hover:bg-blue-800">
-                        Guardar y Agregar otro
-                    </button>
                     <button wire:click = "guardarEsmart" wire:loading.attr="disabled"
-                        class="p-2 my-6 mr-6 font-semibold text-white bg-green-600 rounded-md shadow-md shadow-gray-500 hovehover:shadow-none hover:bg-green-800 ">
+                        class="p-2 my-6 mr-10 font-semibold text-white bg-green-600 rounded-md shadow-md shadow-gray-500 active:shadow-none active:bg-green-800 ">
                         Guardar y Salir
                     </button>
                 </div>
@@ -343,7 +339,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="justify-center w-full px-10 py-4 grid grid-cols-3">
+                <div class="justify-center w-full px-10  grid grid-cols-3">
                     <div class="mx-2 text-center">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
                             Medio de Informacion
@@ -372,15 +368,9 @@
                         <x-input-error for="" />
                     </div>
                 </div>
-                <div class="flex justify-center w-full px-10 py-4">
-                </div>
                 <div class="flex justify-end">
                     <button
-                        class="p-2 my-6 mr-4 font-semibold text-white bg-blue-600 rounded-md shadow-md shadow-gray-500 hover:shadow-none hover:bg-blue-800">
-                        Guardar y Agregar otro
-                    </button>
-                    <button
-                        class="p-2 my-6 mr-6 font-semibold text-white bg-green-600 rounded-md shadow-md shadow-gray-500 hovehover:shadow-none hover:bg-green-800 ">
+                        class="p-2 my-6 mr-10 font-semibold text-white bg-green-600 rounded-md shadow-md shadow-gray-500 active:shadow-none active:bg-green-800 ">
                         Guardar y Salir
                     </button>
                 </div>
@@ -520,7 +510,7 @@
                         </label>
                         <input
                             class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="hlevped.numero_vacantes" type="text" placeholder="">
+                            wire:model.defer="hlevped.numero_vacantes" type="number" placeholder="">
                         <x-input-error for="hlevped.numero_vacantes" />
                     </div>
                     {{-- Operativas --}}
@@ -566,7 +556,7 @@
                         </label>
                         <input
                             class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="hlevped.correo_cliente" type="text" placeholder="">
+                            wire:model.defer="hlevped.correo_cliente" type="email" placeholder="">
                         <x-input-error for="hlevped.correo_cliente" />
                     </div>
                     {{-- Telefono --}}
@@ -577,7 +567,7 @@
                         </label>
                         <input
                             class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="hlevped.telefono" type="text" placeholder="">
+                            wire:model.defer="hlevped.telefono" type="number" placeholder="">
                         <x-input-error for="hlevped.telefono" />
                     </div>
                 </div>
@@ -598,7 +588,6 @@
                         </select>
                         <x-input-error for="hlevped.status" />
                     </div>
-
                     {{-- Lead --}}
                     {{-- <div class="mx-2 text-center">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
@@ -613,7 +602,8 @@
                 </div>
                 <div class="flex justify-end">
                     <button
-                        class="p-2 my-6 mr-4 font-semibold text-white bg-blue-600 rounded-md shadow-md shadow-gray-500 hover:shadow-none hover:bg-blue-800">
+                        class="p-2 my-6 mr-4 font-semibold text-white bg-blue-600 rounded-md shadow-md shadow-gray-500 hover:shadow-none hover:bg-blue-800"
+                        wire:click="saveHead">
                         Guardar y Agregar otro
                     </button>
                     <button
@@ -627,7 +617,7 @@
 
     @if ($paginacion == 4)
         <div id="form4">
-            <div class="m-4 rounded-lg shadow-md shadow-gray-300 bg-white">
+            <div class="m-4 bg-white rounded-lg shadow-md shadow-gray-300">
                 <div class="text-center">
                     <h1 class="p-10 text-3xl font-bold">
                         Formulario de NOM035
@@ -761,16 +751,16 @@
                             wire:model.defer="nomlevped035.correo_cliente" type="enail" placeholder="">
                         <x-input-error for="nomlevped035.correo_cliente" />
                     </div>
-                </div>
-                <div class="flex justify-end">
-                    <button
-                        class="p-2 my-6 mr-4 font-semibold text-white bg-blue-600 rounded-md shadow-md shadow-gray-500 hover:shadow-none hover:bg-blue-800">
-                        Guardar y Agregar otro
-                    </button>
-                    <button
-                        class="p-2 my-6 mr-6 font-semibold text-white bg-green-600 rounded-md shadow-md shadow-gray-500 hovehover:shadow-none hover:bg-green-800 ">
-                        Guardar y Salir
-                    </button>
+                    <div class="flex justify-end">
+                        <button
+                            class="p-2 my-6 mr-4 font-semibold text-white bg-blue-600 rounded-md shadow-md shadow-gray-500 hover:shadow-none hover:bg-blue-800">
+                            Guardar y Agregar otro
+                        </button>
+                        <button
+                            class="p-2 my-6 mr-6 font-semibold text-white bg-green-600 rounded-md shadow-md shadow-gray-500 hovehover:shadow-none hover:bg-green-800 ">
+                            Guardar y Salir
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
