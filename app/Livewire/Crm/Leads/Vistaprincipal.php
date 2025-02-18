@@ -101,8 +101,6 @@ class Vistaprincipal extends Component
             'esmart.ubicacion_empresa' => 'required|string|max:255',
             'esmart.fecha' => 'required|date',
         ]);
-
-
     }
 
     public function uno()
@@ -123,16 +121,6 @@ class Vistaprincipal extends Component
     {
         $this->paginacion = 4;
     }
-
-    // public function saveLead()
-    // {
-    //     $this->validate();
-    //     $AgregarLead = new LeadCliente($this->lead);
-    //     $AgregarLead->save();
-
-    //     $this->lead=[];
-    // }
-
 
     public function render()
     {
