@@ -3,7 +3,7 @@
 namespace App\Livewire\PortalCapacitacion\HabilidadesTecnicas;
 
 use Livewire\Component;
-use App\Models\PortalCapacitacion\FormacionHabilidadTecnica;
+use App\Models\PortalCapacitacion\FormacionHabilidadTecnica; 
 use Livewire\WithFileUploads;
 
 class AgregarHabilidadesTecnicas extends Component
@@ -35,7 +35,7 @@ class AgregarHabilidadesTecnicas extends Component
 
         $this->tecnica=[];
         $this->emit('showAnimatedToast', 'Habilidad agregada correctamente');
-        return redirect()->route('mostrarHabilidadesHumanas');
+        return redirect()->route('mostrarHabilidadesTecnicas');
     }
 
     public function render()

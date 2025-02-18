@@ -15,7 +15,7 @@ class ResponsabilidadUniversal extends Model
     protected $primaryKey = 'id';
 
     // Columnas asignables masivamente
-    protected $fillable = ['id', 'sistema', 'responsabilidad',];
+    protected $fillable = ['id', 'sistema', 'responsalidad',];
 
     // Relación muchos a muchos con perfiles_puestos
     public function perfiles_puestos()

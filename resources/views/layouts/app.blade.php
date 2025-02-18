@@ -316,8 +316,6 @@
     }
 </script>
 
-<<<<<<< HEAD
-=======
         @livewireScripts
    <!-- Scripts de JavaScript -->
    @vite(['resources/js/app.js'])
@@ -340,6 +338,5 @@
 </script>
 
     </body>
->>>>>>> d3704ae626e026882bfef9d01fb0b0f917b87ef6
 </html>
 

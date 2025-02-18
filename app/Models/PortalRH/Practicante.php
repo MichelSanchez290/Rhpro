@@ -5,6 +5,7 @@ namespace App\Models\PortalRH;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User; // Importa el modelo User
+use App\Models\PortalRH\Departamento;
 
 class Practicante extends Model
 {
@@ -43,10 +44,10 @@ class Practicante extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function departamentos()
+    public function departamento()
     {
         //cada trabajador pertenece a 
-        return $this->belongsTo(Departamento::class);
+        return $this->belongsTo(Departamento::class, 'departamento_id');
     }
 
     public function puestos()
