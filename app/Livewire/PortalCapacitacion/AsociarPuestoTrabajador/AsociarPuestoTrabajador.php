@@ -30,19 +30,36 @@ class AsociarPuestoTrabajador extends Component
 
     public function updatedTipoSeleccionado()
     {
+        // Verificar si el tipo seleccionado es 'trabajador'
         if ($this->tipo_seleccionado == 'trabajador') {
-            $this->opciones = Trabajador::where('sucursal_id', $this->sucursal_id)->with('usuarios')->get();
-        } elseif ($this->tipo_seleccionado == 'becario') {
-            $this->opciones = Becario::where('sucursal_id', $this->sucursal_id)->with('usuarios')->get();
-        } elseif ($this->tipo_seleccionado == 'practicante') {
-            $this->opciones = Practicante::where('sucursal_id', $this->sucursal_id)->with('usuarios')->get();
-        } elseif ($this->tipo_seleccionado == 'instructir') {
-            $this->opciones = Practicante::where('sucursal_id', $this->sucursal_id)->with('usuarios')->get();
-        } else {
+            $this->opciones = Trabajador::whereHas('usuarios', function($query) {
+                $query->where('sucursal_id', $this->sucursal_id);
+            })->with('usuarios')->get();
+        } 
+        // Verificar si el tipo seleccionado es 'becario'
+        elseif ($this->tipo_seleccionado == 'becario') {
+            $this->opciones = Becario::whereHas('usuarios', function($query) {
+                $query->where('sucursal_id', $this->sucursal_id);
+            })->with('usuarios')->get();
+        } 
+        // Verificar si el tipo seleccionado es 'practicante'
+        elseif ($this->tipo_seleccionado == 'practicante') {
+            $this->opciones = Practicante::whereHas('usuarios', function($query) {
+                $query->where('sucursal_id', $this->sucursal_id);
+            })->with('usuarios')->get();
+        } 
+        // Verificar si el tipo seleccionado es 'instructor_id'
+        elseif ($this->tipo_seleccionado == 'instructor_id') {
+            $this->opciones = Instructor::whereHas('usuarios', function($query) {
+                $query->where('sucursal_id', $this->sucursal_id);
+            })->with('usuarios')->get();
+        } 
+        // Si no se seleccionó ningún tipo, se retorna un arreglo vacío
+        else {
             $this->opciones = [];
         }
     }
-
+    
 
     public function setTipo($tipo)
     {
