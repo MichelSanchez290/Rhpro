@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Livewire\Portal360\Preguntas\PreguntasAdministrador;
+namespace App\Livewire\Portal360\Preguntas\PreguntasSucursal;
 
 use App\Models\Encuestas360\Pregunta;
 use Illuminate\Support\Facades\Crypt;
 use Livewire\Component;
 
-class EditarPreguntasAdministrador extends Component
+class EditarPreguntaSucursal extends Component
 {
-    
     public $preguntaId;
     public $pregunta = [
         'texto' => '',
@@ -76,7 +75,7 @@ class EditarPreguntasAdministrador extends Component
         $this->validateOnly($propertyName);
     }
 
-    public function editarPreguntaAdmin()
+    public function editarPreguntaSucu()
     {
         $this->validate();
 
@@ -112,15 +111,16 @@ class EditarPreguntasAdministrador extends Component
             $this->dispatch('toastr-success', message: 'Pregunta editada correctamente.');
 
             // Redireccionar a la lista de preguntas
-            return redirect()->route('portal360.preguntas.preguntas-administrador.mostrar-preguntas-administrador');
+            return redirect()->route('portal360.preguntas.preguntas-sucursal.mostrar-pregunta-sucursal');
         } catch (\Exception $e) {
             // Notificación de error
             $this->dispatch('toastr-error', message: 'Error al editar la pregunta: ' . $e->getMessage());
         }
     }
 
+
     public function render()
     {
-        return view('livewire.portal360.preguntas.preguntas-administrador.editar-preguntas-administrador')->layout('layouts.portal360');
+        return view('livewire.portal360.preguntas.preguntas-sucursal.editar-pregunta-sucursal')->layout('layouts.portal360');
     }
 }

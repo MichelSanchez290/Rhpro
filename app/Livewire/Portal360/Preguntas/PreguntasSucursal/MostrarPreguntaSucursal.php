@@ -1,21 +1,22 @@
 <?php
 
-namespace App\Livewire\Portal360\Preguntas\PreguntasAdministrador;
+namespace App\Livewire\Portal360\Preguntas\PreguntasSucursal;
 
 use App\Models\Encuestas360\Pregunta;
 use Illuminate\Support\Facades\Crypt;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
-class MostrarPreguntasAdministrador extends Component
+class MostrarPreguntaSucursal extends Component
 {
-    public function redirigirpreguntaAdministrador()
+    public function redirigirpreguntaSucursal()
     {
-        return redirect()->route('agregarPreguntaAdministrador');
+        return redirect()->route('agregarPreguntaEmpresa');
     }
 
-    #[On('eliminarPregunta')]
-    public function deletePregunta($id)
+    
+    #[On('eliminarPreguntaSucursal')]
+    public function deletePreguntaSucursal($id)
     {
         try {
             $decryptedId = Crypt::decrypt($id);
@@ -31,15 +32,14 @@ class MostrarPreguntasAdministrador extends Component
             // Mostrar mensaje de éxito con SweetAlert2
             $this->dispatch('swal-success', message: 'Pregunta eliminada correctamente.');
             
-            return redirect()->route('portal360.preguntas.preguntas-administrador.mostrar-preguntas-administrador');
+            return redirect()->route('portal360.preguntas.preguntas-sucursal.mostrar-pregunta-sucursal');
         } catch (\Exception $e) {
             $this->dispatch('swal-error', message: 'Error al eliminar la pregunta: ' . $e->getMessage());
         }
     }
 
-
     public function render()
     {
-        return view('livewire.portal360.preguntas.preguntas-administrador.mostrar-preguntas-administrador')->layout('layouts.portal360');
+        return view('livewire.portal360.preguntas.preguntas-sucursal.mostrar-pregunta-sucursal')->layout('layouts.portal360');
     }
 }

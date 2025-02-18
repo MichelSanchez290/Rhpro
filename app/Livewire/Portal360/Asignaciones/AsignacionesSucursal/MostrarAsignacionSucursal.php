@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Livewire\Portal360\Asignaciones\AsignacionesAdministrador;
+namespace App\Livewire\Portal360\Asignaciones\AsignacionesSucursal;
 
 use App\Models\Encuestas360\Asignacion;
 use Illuminate\Support\Facades\Crypt;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
-class MostrarAsignacionesAdministrador extends Component
+class MostrarAsignacionSucursal extends Component
 {
-
-    public function redirigirAsignacionAdministrador()
+    public function redirigirAsignacionSucursal()
     {
-        return redirect()->route('agregarAsignacionAdministrador');
+        return redirect()->route('agregarAsignacionSucursal');
     }
 
-    #[On('eliminarAsignacionAdministrador')]
-    public function deleteAsignacionAdministrador($id)
+    
+    #[On('eliminarAsignacionSucursal')]
+    public function deleteAsignacionSucursal($id)
     {
         try {
             $decryptedId = Crypt::decrypt($id);
@@ -27,7 +27,7 @@ class MostrarAsignacionesAdministrador extends Component
             // Mostrar mensaje de éxito con SweetAlert2
             $this->dispatch('swal-success', message: 'Asignación eliminada correctamente.');
 
-            return redirect()->route('portal360.asignaciones.asignaciones-administrador.mostrar-asignaciones-administrador');
+            return redirect()->route('portal360.asignaciones.asignaciones-sucursal.mostrar-asignacion-sucursal');
         } catch (\Exception $e) {
             $this->dispatch('swal-error', message: 'Error al eliminar la asignación.');
         }
@@ -37,6 +37,6 @@ class MostrarAsignacionesAdministrador extends Component
 
     public function render()
     {
-        return view('livewire.portal360.asignaciones.asignaciones-administrador.mostrar-asignaciones-administrador')->layout('layouts.portal360');
+        return view('livewire.portal360.asignaciones.asignaciones-sucursal.mostrar-asignacion-sucursal')->layout('layouts.portal360');
     }
 }

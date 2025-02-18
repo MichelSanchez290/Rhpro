@@ -1,31 +1,27 @@
 <?php
 
-namespace App\Livewire\Portal360\Preguntas\PreguntasAdministrador;
+namespace App\Livewire\Portal360\Encuesta\EncuestaEmpresa;
 
-use App\Models\Encuestas360\Pregunta;
-use App\Models\Encuestas360\Respuesta;
+use App\Models\Encuestas360\Encuesta360;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Crypt;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
-use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 
-final class MostrarPreguntasAdministradorTable extends PowerGridComponent
+final class EncuestaEmpresaTable extends PowerGridComponent
 {
-    public string $tableName = 'mostrar-preguntas-administrador-table-oilhoo-table';
+    public string $tableName = 'encuesta-empresa-table-1ffata-table';
 
     public function setUp(): array
     {
         $this->showCheckBox();
 
         return [
-            PowerGrid::exportable(fileName: 'preguntas')
-            ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             PowerGrid::header()
                 ->showSearchInput(),
             PowerGrid::footer()
@@ -36,16 +32,7 @@ final class MostrarPreguntasAdministradorTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Respuesta::query()
-            ->join('preguntas', 'preguntas.id', '=', '360_respuestas.preguntas_id')
-            ->select([
-                '360_respuestas.id', 
-                'preguntas.id as pregunta_id',
-                'preguntas.texto',
-                'preguntas.descripcion',
-                '360_respuestas.texto as respuesta_texto',
-                '360_respuestas.puntuacion'
-            ]);
+        return Encuesta360::query();
     }
 
     public function relationSearch(): array
@@ -57,30 +44,26 @@ final class MostrarPreguntasAdministradorTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('id')
-            ->add('pregunta_id')
-            ->add('texto')
+            ->add('nombre')
             ->add('descripcion')
-            ->add('respuesta_texto')
-            ->add('puntuacion');
+            ->add('indicaciones')
+            ->add('created_at');
     }
 
     public function columns(): array
     {
         return [
             Column::make('Id', 'id'),
-            Column::make('Pregunta', 'texto')
+            Column::make('Id', 'id'),
+            Column::make('Nombre', 'nombre')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Descripción', 'descripcion')
+            Column::make('Descripcion', 'descripcion')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Respuesta', 'respuesta_texto')
-                ->sortable()
-                ->searchable(),
-
-            Column::make('Puntuación', 'puntuacion')
+            Column::make('Indicaciones', 'indicaciones')
                 ->sortable()
                 ->searchable(),
 
@@ -100,23 +83,39 @@ final class MostrarPreguntasAdministradorTable extends PowerGridComponent
         $this->js('alert('.$rowId.')');
     }
 
-    public function actions($row): array
+    public function actions(Encuesta360 $row): array
     {
-        // Obtener el ID de la pregunta relacionada con esta respuesta
-        $preguntaId = $row->pregunta_id;
-
         return [
+
             Button::add('edit')
                 ->slot('Editar')
                 ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
-                ->route('editarPreguntaAdmin', ['id' => Crypt::encrypt($preguntaId)]),
+                ->route('editarEncuestadevEmpresa', ['id' => Crypt::encrypt($row->id)]),
 
-                Button::add('delete')
+
+
+            Button::add('delete')
                 ->slot('Eliminar')
                 ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
-                ->dispatch('confirmarEliminarPregunta', ['id' => Crypt::encrypt($preguntaId)])
+                ->dispatch('confirmarEliminarEncuestaEmpresa', ['id' => Crypt::encrypt($row->id)]),
+
+            Button::add('edit')
+                ->slot('Edit: '.$row->id)
+                ->id()
+                ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
+                ->dispatch('edit', ['rowId' => $row->id])
         ];
     }
 
-
+    /*
+    public function actionRules($row): array
+    {
+       return [
+            // Hide button edit for ID 1
+            Rule::button('edit')
+                ->when(fn($row) => $row->id === 1)
+                ->hide(),
+        ];
+    }
+    */
 }
