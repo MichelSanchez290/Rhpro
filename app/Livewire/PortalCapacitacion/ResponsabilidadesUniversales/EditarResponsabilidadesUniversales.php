@@ -35,7 +35,7 @@ class EditarResponsabilidadesUniversales extends Component
            'responsalidad' => $this->responsalidad,
         ]);
 
-        $this->emit('actualizar','responsabilidad-actualizada');
+        //$this->emit('actualizar','responsabilidad-actualizada');
         return redirect()->route('mostrarResponsabilidadesUniversales');
     }
 

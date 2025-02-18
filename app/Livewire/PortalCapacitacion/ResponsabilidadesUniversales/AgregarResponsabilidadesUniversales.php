@@ -33,7 +33,7 @@ class AgregarResponsabilidadesUniversales extends Component
         $Agregaruniversal->save();
 
         $this->universal=[];
-        $this->emit('showAnimatedToast', 'Responsabilidad universal agregada correctamente');
+        //$this->emit('showAnimatedToast', 'Responsabilidad universal agregada correctamente');
         return redirect()->route('mostrarResponsabilidadesUniversales');
     }
 

@@ -72,7 +72,9 @@ class AsignarPerfilPuesto extends Component
             'fecha_final' => $this->fecha_final,
             'motivo_cambio' => $this->motivo_cambio,
         ]);
+        return redirect()->route('asociarPuestoTrabajador');
     }
+
 
     public function render()
     {

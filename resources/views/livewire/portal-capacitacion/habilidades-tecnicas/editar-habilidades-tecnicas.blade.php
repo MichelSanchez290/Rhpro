@@ -18,11 +18,11 @@
                     <label for="nivel" class="block text-sm font-medium text-gray-700 mb-1">Nivel</label>
                     <select wire:model="nivel" id="nivel" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all">
                         <option value="">Seleccionar</option>
-                        <option value="Alta">1</option>
-                        <option value="Media">2</option>
-                        <option value="Baja">3</option>
-                        <option value="Baja">4</option>
-                        <option value="Baja">5</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
                     </select>
                 </div>
                 

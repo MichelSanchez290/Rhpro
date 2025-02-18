@@ -38,7 +38,7 @@ class EditarRelacionesExternas extends Component
             'frecuencia' => $this->frecuencia,
         ]);
 
-        $this->emit('message', 'Relación externa actualizada correctamente');
+        //$this->emit('message', 'Relación externa actualizada correctamente');
         return redirect()->route('mostrarRelacionesExternas');
     }
 

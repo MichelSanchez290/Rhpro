@@ -36,7 +36,7 @@ class AgregarRelacionesExternas extends Component
         $Agregarexterna->save();
 
         $this->externa=[];
-        $this->emit('showAnimatedToast', 'Relación externa guardada correctamente');
+        //$this->emit('showAnimatedToast', 'Relación externa guardada correctamente');
         return redirect()->route('mostrarRelacionesExternas');
     }
 

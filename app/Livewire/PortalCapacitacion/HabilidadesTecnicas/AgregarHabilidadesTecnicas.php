@@ -34,7 +34,7 @@ class AgregarHabilidadesTecnicas extends Component
         $Agregartecnica->save();
 
         $this->tecnica=[];
-        $this->emit('showAnimatedToast', 'Habilidad agregada correctamente');
+        //$this->emit('showAnimatedToast', 'Habilidad agregada correctamente');
         return redirect()->route('mostrarHabilidadesTecnicas');
     }
 

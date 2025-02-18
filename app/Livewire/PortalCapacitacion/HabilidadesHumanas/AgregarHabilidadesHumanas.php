@@ -34,7 +34,7 @@ class AgregarHabilidadesHumanas extends Component
         $Agregarhumana->save();
 
         $this->humana=[];
-        $this->emit('showAnimatedToast', 'Habilidad agregada correctamente');
+        //$this->emit('showAnimatedToast', 'Habilidad agregada correctamente');
         return redirect()->route('mostrarHabilidadesHumanas');
     }
 
