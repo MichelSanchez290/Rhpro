@@ -432,7 +432,7 @@
                     <div class="mx-2 text-center w-60">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
                             for="puesto">
-                            Puesto
+                            Puestos
                         </label>
                         <input
                             class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
