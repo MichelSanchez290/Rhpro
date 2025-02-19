@@ -60,12 +60,12 @@ class UserSeeder extends Seeder
         ])->assignRole('Trabajador GLOBAL');
 
         
-        User::create([
-            'name' => 'Ezequiel López Cruz',
-            'email' => 'ezequiel@gmail.com',
-            'password' => bcrypt('12345678'),            
-        ])->assignRole('GoldenAdmin');
+        // User::create([
+        //     'name' => 'Ezequiel López Cruz',
+        //     'email' => 'ezequiel@gmail.com',
+        //     'password' => bcrypt('12345678'),            
+        // ])->assignRole('GoldenAdmin');
 
-        User::factory(9)->create();
+        // User::factory(9)->create();
     }
 }

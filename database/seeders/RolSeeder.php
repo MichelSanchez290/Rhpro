@@ -160,14 +160,6 @@ class RolSeeder extends Seeder
         //FIN 360 
 
         
-
-        //Permission 
-        Permission::create(['name' => 'Administrador General'])->syncRoles([$role1]);
-        Permission::create(['name' => 'Administrador Principal'])->syncRoles([$role2]);
-        Permission::create(['name' => 'Administrador Secundario'])->syncRoles([$role3]);
-        Permission::create(['name' => 'Usuario Principal'])->syncRoles([$role8, $role10]);
-
-
         // ************** MODULO RH ***************************************
         // Permission - 
         // role1, role2, role3, role8, role10
