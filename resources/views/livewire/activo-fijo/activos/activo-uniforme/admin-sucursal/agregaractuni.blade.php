@@ -71,23 +71,10 @@
                     @enderror
                 </div>
                 <!-- Tipo de Activo -->
-                <div class="my-2">
-                    <label for="tipo" class="text-gray-700 font-bold text-xl">Tipo de Activo</label>
-                    <select wire:model="activo.tipo_activo_id"
-                        class="block w-full border-2 px-2 py-2 text-sm sm:text-md rounded-md my-2 text-gray-500"
-                        id="tipo">
-                        <option value="">Seleccione un tipo</option>
-                        @foreach ($tipos as $id => $nombre)
-                            <option value="{{ $id }}">{{ $nombre }}</option>
-                        @endforeach
-                    </select>
-                    @error('activo.tipo_activo_id')
-                        <span class="text-red-500 text-xs">{{ $message }}</span>
-                    @enderror
-                </div>
+                
 
                 <!-- Número de Activo -->
-                <div class="my-2">
+                <div class="my-2 sm:col-span-2">
                     <label for="color" class="text-gray-700 font-bold text-xl">Color</label>
                     <input type="text" wire:model="activo.color"
                         class="block w-full border-2 px-2 py-2 text-sm sm:text-md rounded-md my-2 text-black"

@@ -6,6 +6,7 @@ use App\Models\ActivoFijo\Activos\ActivoOficina;
 use Livewire\Component;
 use App\Models\ActivoFijo\Anioestimado;
 use App\Models\ActivoFijo\Tipoactivo;
+use Illuminate\Support\Facades\Auth;
 use Livewire\WithFileUploads;
 
 class Agregaractofi extends Component
@@ -43,7 +44,8 @@ class Agregaractofi extends Component
     {
         //ejemplo de consulta
         $this->consulta = ActivoOficina::get();
-        $this->tipos = Tipoactivo::pluck('nombre_activo', 'id')->toArray();
+        $this->activo['tipo_activo_id'] = Tipoactivo::where('nombre_activo', 'Activo Oficinas')->value('id');
+        //dd($this->activo['tipo_activo_id']);
         $this->anios = Anioestimado::pluck('vida_util_año', 'id')->toArray();
     }
 
@@ -54,6 +56,10 @@ class Agregaractofi extends Component
             'subirfoto2' => 'nullable|image|max:2048',
             'subirfoto3' => 'nullable|image|max:2048',
         ]);
+
+        $this->activo['empresa_id'] = Auth::user()->empresa_id;
+        $this->activo['sucursal_id'] = Auth::user()->sucursal_id;
+
         $this->subirfoto1->storeAs('ImagenOficina1',$this->activo['nombre']."-imagen.png",'subirDocs');
         $this->activo['foto1']="ImagenOficina1/".$this->activo['nombre']."-imagen.png";
 

@@ -76,19 +76,6 @@
                         class="block w-full border-2 px-2 py-2 text-sm sm:text-md rounded-md my-2 text-gray-500"
                         id="fecha_adquisicion">
                 </div>
-
-                <!-- Tipo de Activo -->
-                <div class="my-2">
-                    <label for="tipo" class="text-gray-700 font-bold text-xl">Tipo de Activo</label>
-                    <select wire:model="tipo"
-                        class="block w-full border-2 px-2 py-2 text-sm sm:text-md rounded-md my-2 text-gray-500"
-                        id="tipo">
-                        <option value="">Seleccione el tipo de activo</option>
-                        @foreach ($tipos as $id => $nombre)
-                            <option value="{{ $id }}">{{ $nombre }}</option>
-                        @endforeach
-                    </select>
-                </div>
                 <div class="my-2">
                     <label for="anio" class="text-gray-700 font-bold text-xl">Año Estimado</label>
                     <select wire:model="anio"
@@ -111,60 +98,81 @@
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                         <!-- Imagen 1 -->
                         <div class="image-container">
-                            <label class="mx-auto cursor-pointer flex w-full flex-col items-center rounded-xl border-2 border-dashed border-blue-400 bg-white p-6 text-center shadow-md">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                            <label
+                                class="mx-auto cursor-pointer flex w-full flex-col items-center rounded-xl border-2 border-dashed border-blue-400 bg-white p-6 text-center shadow-md">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-blue-500" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                                 </svg>
                                 <h2 class="mt-4 text-xl font-medium text-gray-700 tracking-wide">Imagen 1</h2>
                                 <p class="mt-2 text-gray-500 tracking-wide">Cargue su archivo PNG o JPG</p>
                                 <input type="file" class="hidden" wire:model="subirfoto1" />
                                 <br>
-                                @if ($subirfoto1)
-                                    <img src="{{ $subirfoto1->temporaryUrl() }}" width="100" height="100" alt="Imagen 1" />
-                                @elseif ($foto1)
-                                    <img src="{{ asset($foto1) }}" width="100" height="100" alt="Imagen 1" />
+                                @if (empty($subirfoto1))
+                                    @if (empty($foto1))
+                                    
+                                    @else
+                                        <img src="{{ asset($foto1) }}" width="100" height="100"
+                                            alt="Imagen 1" />
+                                    @endif
+                                @else
+                                
+                                    <img src="{{ $subirfoto1->temporaryUrl() }}" width="100" height="100"
+                                        alt="Imagen 1" />
+
                                 @endif
                                 <x-input-error for="subirfoto1" />
                             </label>
                         </div>
-                
+
                         <!-- Imagen 2 -->
                         <div class="image-container">
-                            <label class="mx-auto cursor-pointer flex w-full flex-col items-center rounded-xl border-2 border-dashed border-blue-400 bg-white p-6 text-center shadow-md">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                            <label
+                                class="mx-auto cursor-pointer flex w-full flex-col items-center rounded-xl border-2 border-dashed border-blue-400 bg-white p-6 text-center shadow-md">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-blue-500"
+                                    fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                                 </svg>
                                 <h2 class="mt-4 text-xl font-medium text-gray-700 tracking-wide">Imagen 2</h2>
                                 <p class="mt-2 text-gray-500 tracking-wide">Cargue su archivo PNG o JPG</p>
                                 <input type="file" class="hidden" wire:model="subirfoto2" />
                                 <br>
                                 @if ($subirfoto2)
-                                    <img src="{{ $subirfoto2->temporaryUrl() }}" width="100" height="100" alt="Imagen 2" />
+                                    <img src="{{ $subirfoto2->temporaryUrl() }}" width="100" height="100"
+                                        alt="Imagen 2" />
                                 @elseif ($foto2)
                                     <img src="{{ asset($foto2) }}" width="100" height="100" alt="Imagen 2" />
                                 @endif
                                 <x-input-error for="subirfoto2" />
                             </label>
                         </div>
-                
+
                         <!-- Imagen 3 -->
                         <div class="image-container">
-                            <label class="mx-auto cursor-pointer flex w-full flex-col items-center rounded-xl border-2 border-dashed border-blue-400 bg-white p-6 text-center shadow-md">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                            <label
+                                class="mx-auto cursor-pointer flex w-full flex-col items-center rounded-xl border-2 border-dashed border-blue-400 bg-white p-6 text-center shadow-md">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-blue-500"
+                                    fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                                 </svg>
                                 <h2 class="mt-4 text-xl font-medium text-gray-700 tracking-wide">Imagen 3</h2>
                                 <p class="mt-2 text-gray-500 tracking-wide">Cargue su archivo PNG o JPG</p>
                                 <input type="file" class="hidden" wire:model="subirfoto3" />
                                 <br>
                                 @if ($subirfoto3)
-                                    <img src="{{ $subirfoto3->temporaryUrl() }}" width="100" height="100" alt="Imagen 3" />
+                                    <img src="{{ $subirfoto3->temporaryUrl() }}" width="100" height="100"
+                                        alt="Imagen 3" />
                                 @elseif ($foto3)
                                     <img src="{{ asset($foto3) }}" width="100" height="100" alt="Imagen 3" />
                                 @endif
                                 <x-input-error for="subirfoto3" />
                             </label>
                         </div>
+
+
                     </div>
                 </div>
             </div>

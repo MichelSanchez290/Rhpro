@@ -51,7 +51,7 @@ class AgregarSouvenir extends Component
     public function mount()
     {
         $this->consulta = ActivoSouvenir::get();
-        $this->activo['tipo_activo_id'] = Tipoactivo::where('nombre_activo', 'Activo Tecnologias')->value('id');
+        $this->activo['tipo_activo_id'] = Tipoactivo::where('nombre_activo', 'Activo Souvenirs')->value('id');
         //dd($this->activo['tipo_activo_id']);
         $this->anios = Anioestimado::pluck('vida_util_año', 'id')->toArray();
         $this->activo['empresa_id'] = Auth::user()->empresa_id;

@@ -35,6 +35,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use PHPUnit\Framework\MockObject\Stub\ReturnArgument;
 use Spatie\Permission\Traits\HasRoles;
+    
 
 class User extends Authenticatable
 {

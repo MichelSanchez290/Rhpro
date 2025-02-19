@@ -5,6 +5,7 @@ namespace App\Livewire\ActivoFijo\Activos\ActivoSouvenir\AdminSucursal;
 use App\Models\ActivoFijo\Activos\ActivoSouvenir;
 use App\Models\ActivoFijo\Anioestimado;
 use App\Models\ActivoFijo\Tipoactivo;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -50,7 +51,8 @@ class Agregaractsou extends Component
     {
         //ejemplo de consulta
         $this->consulta = ActivoSouvenir::get();
-        $this->tipos = Tipoactivo::pluck('nombre_activo', 'id')->toArray();
+        $this->activo['tipo_activo_id'] = Tipoactivo::where('nombre_activo', 'Activo Souvenirs')->value('id');
+        //dd($this->activo['tipo_activo_id']);
         $this->anios = Anioestimado::pluck('vida_util_año', 'id')->toArray();
     }
 
@@ -61,6 +63,10 @@ class Agregaractsou extends Component
             'subirfoto2' => 'nullable|image|max:2048',
             'subirfoto3' => 'nullable|image|max:2048',
         ]);
+
+        $this->activo['empresa_id'] = Auth::user()->empresa_id;
+        $this->activo['sucursal_id'] = Auth::user()->sucursal_id;
+
         $this->subirfoto1->storeAs('ImagenSouvenir1',$this->activo['productos']."-imagen.png",'subirDocs');
         $this->activo['foto1']="ImagenSouvenir1/".$this->activo['productos']."-imagen.png";
 

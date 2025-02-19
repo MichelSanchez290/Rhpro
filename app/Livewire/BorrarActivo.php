@@ -34,6 +34,8 @@ class BorrarActivo extends ModalComponent
             'mostrarmob' => 'App\\Models\\ActivoFijo\\Activos\\ActivoMobiliario',
             'mostrarsou' => 'App\\Models\\ActivoFijo\\Activos\\ActivoSouvenir',
             'mostrartipoactivo' => 'App\\Models\\ActivoFijo\\Tipoactivo',
+
+            'mostrarnotas' =>' App\\Models\\ActivoFijo\\Notatecno'
         ];
 
         // Verificar si la vista tiene un modelo asignado
@@ -46,7 +48,7 @@ class BorrarActivo extends ModalComponent
         // Verificar si la clase del modelo existe
         if (class_exists($modeloClase)) {
             $activo = $modeloClase::find($this->activo_id);
-            
+            dd($activo);
             if ($activo) {
                 $activo->delete();
             }
