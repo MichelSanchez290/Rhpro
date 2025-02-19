@@ -29,8 +29,8 @@
                             class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"/>
 
                         <x-input-error for="nombre" /> 
-                        
                     </div>
+
                     <div class="grid grid-cols-1 mt-5">
                         <label for="apellido_p"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Apellido Paterno
@@ -39,10 +39,8 @@
                             placeholder="Apellido paterno"
                             class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"/>
 
-                        <x-input-error for="apellido_p" /> 
-                        
+                        <x-input-error for="apellido_p" />
                     </div>
-
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
@@ -55,20 +53,18 @@
                             class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"/>
 
                         <x-input-error for="apellido_m" /> 
-                        
                     </div>
+
                     <div class="grid grid-cols-1 mt-5">
                         <label for="email"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Correo
                         </label>
-                        <input wire:model.defer="users.email" type="email" id="email"
+                        <input wire:model.defer="user.email" type="email" id="email"
                             placeholder="Correo"
                             class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"/>
 
-                        <x-input-error for="users.email" /> 
-                        
+                        <x-input-error for="user.email" /> 
                     </div>
-
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
@@ -81,10 +77,28 @@
                             placeholder="Password"
                             class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"/>
 
-                        <x-input-error for="password" /> 
-                        
+                        <x-input-error for="password" />
                     </div>
 
+                    <div class="grid grid-cols-1 mt-5">
+                        <label for="registro_patronal_id"
+                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
+                            Registros Patronales</label>
+                        <select wire:model.defer="practicante.registro_patronal_id" id="registro_patronal_id"
+                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                            <option value=""> --- Seleccione un Registro Patronal --- </option>
+                            @foreach ($registros_patronales as $registro_patronal)
+                                <option value="{{ $registro_patronal->id }}">
+                                    {{ $registro_patronal->registro_patronal }}</option>
+                            @endforeach
+                        </select>
+
+                        <x-input-error for="practicante.registro_patronal_id" />
+                        
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
                     <div class="grid grid-cols-1 mt-5">
                         <label for="empresa"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
@@ -98,19 +112,13 @@
                         </select>
 
                         <x-input-error for="empresa" />
-                        
                     </div>
 
-                    
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
-                    <!--  -->
                     <div class="grid grid-cols-1 mt-5">
                         <label for="sucursal_id"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
                             Sucursal</label>
-                        <select wire:model.defer="users.sucursal_id" id="sucursal_id"
+                        <select wire:model.defer="user.sucursal_id" id="sucursal_id"
                             class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
                             <option value=""> --- Seleccione una sucursal --- </option>
                             @forelse ($sucursales as $sucursal)
@@ -121,17 +129,62 @@
                                     </option>
                                 @endforeach
 
-                                
-
-                                @empty
+                            @empty
                                 <option value=""> Esta empresa no tiene sucursales </option>
-
                             @endforelse
                         </select>
 
-                        <x-input-error for="users.sucursal_id" />
-                        
+                        <x-input-error for="user.sucursal_id" />
                     </div>
+
+                    
+                </div>
+
+                <!-- ***********************  -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
+                    <!--  -->
+                    <div class="grid grid-cols-1 mt-5">
+                        <label for="departamento"
+                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
+                            Departamentos</label>
+                        <select wire:model.live="departamento" id="departamento"
+                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                            <option value=""> --- Seleccione un departamento --- </option>
+                            @foreach ($departamentos as $departamento)
+                                <option value="{{ $departamento->id }}">{{ $departamento->nombre_departamento }}
+                                </option>
+                            @endforeach
+                        </select>
+
+                        <x-input-error for="departamento" />
+                    </div>
+                    <!--  -->
+                    <div class="grid grid-cols-1 mt-5">
+                        <label for="puesto_id"
+                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
+                            Puesto</label>
+                        <select wire:model.defer="user.puesto_id" id="puesto_id"
+                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                            <option value=""> --- Seleccione una sucursal --- </option>
+                            @forelse ($puestos as $puesto)
+
+                                @foreach($puesto->puestos as $mi_puesto)
+
+                                    <option value="{{ $mi_puesto->id }}">{{ $mi_puesto->nombre_puesto }}
+                                    </option>
+                                @endforeach
+
+                            @empty
+                                <option value=""> Esta empresa no tiene sucursales </option>
+                            @endforelse
+                        </select>
+
+                        <x-input-error for="user.puesto_id" />
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
+                    
 
                     <!-- Clave -->
                     <div class="grid grid-cols-1 mt-5">
@@ -283,65 +336,6 @@
                             class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
 
                         <x-input-error for="practicante.numero_celular" />
-                        
-                    </div>
-                </div>
-
-                
-
-                <!-- ***********************  -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
-                    <!--  -->
-                    <div class="grid grid-cols-1 mt-5">
-                        <label for="puesto_id"
-                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
-                            Puestos</label>
-                        <select wire:model.defer="practicante.puesto_id" id="puesto_id"
-                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-                            <option value=""> --- Seleccione un puesto --- </option>
-                            @foreach ($puestos as $puesto)
-                                <option value="{{ $puesto->id }}">{{ $puesto->nombre_puesto }}</option>
-                            @endforeach
-                        </select>
-
-                        <x-input-error for="practicante.puesto_id" />
-                        
-                    </div>
-
-                    <!--  -->
-                    <div class="grid grid-cols-1 mt-5">
-                        <label for="departamento_id"
-                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
-                            Departamentos</label>
-                        <select wire:model.defer="practicante.departamento_id" id="departamento_id"
-                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-                            <option value=""> --- Seleccione un departamento --- </option>
-                            @foreach ($departamentos as $departamento)
-                                <option value="{{ $departamento->id }}">{{ $departamento->nombre_departamento }}
-                                </option>
-                            @endforeach
-                        </select>
-
-                        <x-input-error for="practicante.departamento_id" />
-                        
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
-                    <div class="grid grid-cols-1 mt-5">
-                        <label for="registro_patronal_id"
-                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
-                            Registros Patronales</label>
-                        <select wire:model.defer="practicante.registro_patronal_id" id="registro_patronal_id"
-                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-                            <option value=""> --- Seleccione un Registro Patronal --- </option>
-                            @foreach ($registros_patronales as $registro_patronal)
-                                <option value="{{ $registro_patronal->id }}">
-                                    {{ $registro_patronal->registro_patronal }}</option>
-                            @endforeach
-                        </select>
-
-                        <x-input-error for="practicante.registro_patronal_id" />
                         
                     </div>
                 </div>

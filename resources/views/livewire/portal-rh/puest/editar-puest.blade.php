@@ -1,5 +1,5 @@
-<body class="bg-gray-200">
-    <div class="flex h-screen items-center justify-center">
+<div>
+    <div class="flex min-h-screen items-center justify-center py-3">
         <div class="grid bg-white rounded-lg shadow-xl w-full">
             <div class="flex justify-center py-4">
                 <div class="flex bg-blue-200 rounded-full md:p-4 p-2 border-2 border-blue-300">
@@ -22,7 +22,9 @@
                     <input wire:model.defer="nombre_puesto" type="text" id="nombre_puesto"
                         placeholder="Nombre del puesto"
                         class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
-                </div>
+                
+                        <x-input-error for="nombre_puesto" />
+                    </div>
 
                 <!-- Botones -->
                 <div class='flex items-center justify-center md:gap-8 gap-4 pt-5 pb-5'>
@@ -30,8 +32,13 @@
                         class='w-auto bg-blue-500 hover:bg-blue-700 rounded-lg shadow-xl font-medium text-white px-4 py-2'>
                         Actualizar
                     </button>
+
+                    <button type="button" onclick="window.history.back()"
+                        class='w-auto bg-red-500 hover:bg-red-700 rounded-lg shadow-xl font-medium text-white px-4 py-2'>
+                        Cancelar
+                    </button>
                 </div>
             </form>
         </div>
     </div>
-</body>
+</div>

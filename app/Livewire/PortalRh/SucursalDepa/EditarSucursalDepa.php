@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 
 class EditarSucursalDepa extends Component
 {
-    public $sucursalDepa_id, $sucursal_id, $departamento_id;
+    public $sucursalDepa_id, $sucursal_id, $departamento_id, $status;
     public $sucursales, $departamentos;
 
     public function mount($id)
@@ -23,6 +23,7 @@ class EditarSucursalDepa extends Component
         $this->sucursalDepa_id = $id;
         $this->sucursal_id = $sucursalDepa->sucursal_id;
         $this->departamento_id = $sucursalDepa->departamento_id;
+        $this->status = $sucursalDepa->status;
 
         $this->sucursales = Sucursal::all();
         $this->departamentos = Departamento::all();
@@ -31,13 +32,15 @@ class EditarSucursalDepa extends Component
     public function actualizarSucursalDepa()
     {
         $this->validate([
-            'sucursal_id' => 'nullable|integer',
-            'departamento_id' => 'nullable|integer',
+            'sucursal_id' => 'required|integer',
+            'departamento_id' => 'required|integer',
+            'status' => 'required|integer',
         ]);
 
         SucursalDepartamento::updateOrCreate(['id' => $this->sucursalDepa_id], [
             'sucursal_id' => $this->sucursal_id,
             'departamento_id' => $this->departamento_id,
+            'status' => $this->status,
         ]);
 
         return redirect()->route('mostrarsucursaldepa')->with('message', 'Asignación actualizada correctamente.');

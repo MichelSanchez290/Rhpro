@@ -58,6 +58,7 @@ class AgregarBecario extends Component
         'becario.colonia' => 'required',
         'becario.registro_patronal_id' => 'required|exists:registros_patronales,id',
 
+        'nombre' => 'required',
         'apellido_p' => 'required',
         'apellido_m' => 'required',
         'user.email' => 'required',
@@ -96,7 +97,7 @@ class AgregarBecario extends Component
         $this->user['name'] = $this->nombre." ".$this->apellido_p." ".$this->apellido_m;
         $this->user['password'] =  Hash::make($this->password);
         $this->user['empresa_id'] = $this->empresa;
-        $this->user['departamento_id'] = $this->empresa;
+        $this->user['departamento_id'] = $this->departamento;
         $this->user['tipo_user'] = "Becario";
 
         $guardaUser = new User($this->user);

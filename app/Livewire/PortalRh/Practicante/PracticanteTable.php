@@ -44,8 +44,8 @@ final class PracticanteTable extends PowerGridComponent
 
         $query = Practicante::query()
             ->leftJoin('users', 'practicantes.user_id', '=', 'users.id')
-            ->leftJoin('departamentos', 'practicantes.departamento_id', '=', 'departamentos.id')
-            ->leftJoin('puestos', 'practicantes.puesto_id', '=', 'puestos.id')
+            ->leftJoin('departamentos', 'users.departamento_id', '=', 'departamentos.id')
+            ->leftJoin('puestos', 'users.puesto_id', '=', 'puestos.id')
             ->leftJoin('registros_patronales', 'practicantes.registro_patronal_id', '=', 'registros_patronales.id')
             ->select([
                 'practicantes.*',
@@ -99,10 +99,18 @@ final class PracticanteTable extends PowerGridComponent
     {
         return [
             Column::make('Id', 'id'),
-            Column::make('Id', 'id'),
+
             Column::make('Clave practicante', 'clave_practicante')
                 ->sortable()
                 ->searchable(),
+
+            Column::make('User', 'nombre_usuario'),
+
+            Column::make('Departamento', 'departamento'),
+
+            Column::make('Puesto', 'puesto'),
+
+            Column::make('Registro patronal', 'regpatronal'),
 
             Column::make('Numero seguridad social', 'numero_seguridad_social')
                 ->sortable()
@@ -143,10 +151,7 @@ final class PracticanteTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('User id', 'nombre_usuario'),
-            Column::make('Departamento id', 'departamento'),
-            Column::make('Puesto id', 'puesto'),
-            Column::make('Registro patronal id', 'regpatronal'),
+            
             
 
             Column::make('Created at', 'created_at')

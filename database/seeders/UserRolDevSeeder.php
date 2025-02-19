@@ -49,16 +49,21 @@ class UserRolDevSeeder extends Seeder
         // Permission - 
         // role1, role2, role3, role8, role10
 
-        Permission::create(['name' => 'Mostrar Rol'])->syncRoles([$role1, $role8, $role10]);
+        Permission::create(['name' => 'Mostrar Rol'])->syncRoles([$role1, $role2]);
         Permission::create(['name' => 'Agregar Rol'])->syncRoles([$role1]);
         Permission::create(['name' => 'Editar Rol'])->syncRoles([$role1, $role2]);
         Permission::create(['name' => 'Eliminar Rol'])->syncRoles([$role1]);
 
-        Permission::create(['name' => 'Mostrar Usuario'])->syncRoles([$role1, $role8, $role10]);
+        Permission::create(['name' => 'Mostrar Usuario'])->syncRoles([$role1, $role2]);
         Permission::create(['name' => 'Agregar Usuario'])->syncRoles([$role1]);
         Permission::create(['name' => 'Editar Usuario'])->syncRoles([$role1, $role2]);
         Permission::create(['name' => 'Eliminar Usuario'])->syncRoles([$role1]);
 
+        Permission::create(['name' => 'Mostrar Reg Patronales'])->syncRoles([$role1, $role2]);
+        Permission::create(['name' => 'Agregar Reg Patronales'])->syncRoles([$role1]);
+        Permission::create(['name' => 'Editar Reg Patronales'])->syncRoles([$role1, $role2]);
+        Permission::create(['name' => 'Eliminar Reg Patronales'])->syncRoles([$role1]);
+        
         Permission::create(['name' => 'Mostrar Empresas'])->syncRoles([$role1, $role8, $role10]);
         Permission::create(['name' => 'Agregar Empresa'])->syncRoles([$role1]);
         Permission::create(['name' => 'Editar Empresa'])->syncRoles([$role1, $role2]);

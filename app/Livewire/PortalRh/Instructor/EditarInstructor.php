@@ -4,13 +4,21 @@ namespace App\Livewire\PortalRh\Instructor;
 
 use Livewire\Component;
 use App\Models\PortalRH\Instructor;
-use App\Models\PortalRH\Sucursal;
+use App\Models\PortalRH\Puesto;
 use App\Models\PortalRH\Departamento;
+use App\Models\PortalRH\RegistroPatronal;
+use App\Models\PortalRH\Empresa;
 use App\Models\User;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Hash;
 
 class EditarInstructor extends Component
 {
+    public $sucursales = [], $puestos = [], $user = [];
+    
+    public $usuarios, $registros_patronales, $empresas, $empresa, 
+    $departamentos, $departamento, $password;
+
     public $instructor_id, 
         $telefono1, 
         $telefono2, 
@@ -41,12 +49,11 @@ class EditarInstructor extends Component
         $estado_empre,
         $postal_empre,
         $regimen_empre,
-        $user_id, 
-        $sucursal_id, 
-        $departamento_id
+        
+        $user_id,
+        $registro_patronal_id
     ;
     
-    public $usuarios, $sucursales, $departamentos;
 
     public function mount($id)
     {
@@ -83,15 +90,31 @@ class EditarInstructor extends Component
         $this->estado_empre = $instructor->estado_empre;
         $this->postal_empre = $instructor->postal_empre;
         $this->regimen_empre = $instructor->regimen_empre;
-
+        $this->registro_patronal_id = $instructor->registro_patronal_id;
         $this->user_id = $instructor->user_id;
-        $this->sucursal_id = $instructor->sucursal_id;
-        $this->departamento_id = $instructor->departamento_id;
 
+        $this->instructor = $instructor->toArray();
+        $this->user = User::findOrFail($instructor->user_id)->toArray();
+        $this->empresa = $this->user['empresa_id'] ?? null;
+        $this->departamento = $this->user['departamento_id'] ?? null;
 
         $this->usuarios = User::all();
-        $this->sucursales = Sucursal::all();
+        $this->registros_patronales = RegistroPatronal::all();
+        $this->empresas = Empresa::all();
         $this->departamentos = Departamento::all();
+
+        $this->updatedEmpresa();
+        $this->updatedDepartamento();
+    }
+
+    public function updatedEmpresa()
+    {
+        $this->sucursales = Empresa::with('sucursales')->where('id', $this->empresa)->get();
+    }
+
+    public function updatedDepartamento()
+    {
+        $this->puestos = Departamento::with('puestos')->where('id', $this->departamento)->get();
     }
 
     public function actualizarInstructor()
@@ -126,9 +149,28 @@ class EditarInstructor extends Component
             'estado_empre' => 'required',
             'postal_empre' => 'required|digits:5',
             'regimen_empre' => 'required',
+            'registro_patronal_id' => 'required|exists:registros_patronales,id',
             'user_id' => 'required|exists:users,id',
-            'sucursal_id' => 'required|exists:sucursales,id',
-            'departamento_id' => 'required|exists:departamentos,id',
+
+            'user.name' => 'required',
+            'user.email' => 'required',
+            'password' => 'nullable',
+            'empresa' => 'required',
+            'user.sucursal_id' => 'required|exists:sucursales,id',
+            'departamento' => 'required',
+            'user.puesto_id' => 'required|exists:puestos,id',
+        ]);
+
+        $user = User::findOrFail($this->user['id']);
+        $user->update([
+            'name' => $this->user['name'],
+            'email' => $this->user['email'],
+            'empresa_id' => $this->empresa,
+            'departamento_id' => $this->departamento,
+            'sucursal_id' => $this->user['sucursal_id'],
+            'puesto_id' => $this->user['puesto_id'],
+            'tipo_user' => 'Instructor',
+            'password' => $this->password ? Hash::make($this->password) : $user->password,
         ]);
 
         Instructor::updateOrCreate(['id' => $this->instructor_id], [
@@ -164,8 +206,7 @@ class EditarInstructor extends Component
             'regimen_empre' => $this->regimen_empre,
             
             'user_id' => $this->user_id,
-            'sucursal_id' => $this->sucursal_id,
-            'departamento_id' => $this->departamento_id,
+            'registro_patronal_id' => $this->registro_patronal_id,
         ]);
 
         return redirect()->route('mostrarinstructor')->with('message', 'Instructor actualizado correctamente.');

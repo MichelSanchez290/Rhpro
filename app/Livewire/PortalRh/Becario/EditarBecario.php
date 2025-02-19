@@ -7,11 +7,18 @@ use App\Models\PortalRH\Becario;
 use App\Models\PortalRH\Puesto;
 use App\Models\PortalRH\Departamento;
 use App\Models\PortalRH\RegistroPatronal;
+use App\Models\PortalRH\Empresa;
 use App\Models\User;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Hash;
 
 class EditarBecario extends Component
 {
+    public $sucursales = [], $puestos = [], $user = [];
+    
+    public $usuarios, $registros_patronales, $empresas, $empresa, 
+    $departamentos, $departamento, $password;
+
     public $becario_id, 
         $clave_becario, 
         $numero_seguridad_social, 
@@ -30,20 +37,14 @@ class EditarBecario extends Component
         $colonia,
         
         $user_id,
-        $departamento_id,
-        $puesto_id,
         $registro_patronal_id
     ;
-    
-
-    public $usuarios, $departamentos, $puestos, $registros_patronales;
-
 
     public function mount($id)
     {
         $id = Crypt::decrypt($id);
         $becario = Becario::findOrFail($id);
-        
+
         $this->becario_id = $id;
         $this->clave_becario = $becario->clave_becario;
         $this->numero_seguridad_social = $becario->numero_seguridad_social;
@@ -60,16 +61,31 @@ class EditarBecario extends Component
         $this->status = $becario->status;
         $this->calle = $becario->calle;
         $this->colonia = $becario->colonia;
-
-        $this->user_id = $becario->user_id;
-        $this->departamento_id = $becario->departamento_id;
-        $this->puesto_id = $becario->puesto_id;
         $this->registro_patronal_id = $becario->registro_patronal_id;
+        $this->user_id = $becario->user_id;
+
+        $this->becario = $becario->toArray();
+        $this->user = User::findOrFail($becario->user_id)->toArray();
+        $this->empresa = $this->user['empresa_id'] ?? null;
+        $this->departamento = $this->user['departamento_id'] ?? null;
 
         $this->usuarios = User::all();
-        $this->departamentos = Departamento::all();
-        $this->puestos = Puesto::all();
         $this->registros_patronales = RegistroPatronal::all();
+        $this->empresas = Empresa::all();
+        $this->departamentos = Departamento::all();
+
+        $this->updatedEmpresa();
+        $this->updatedDepartamento();
+    }
+
+    public function updatedEmpresa()
+    {
+        $this->sucursales = Empresa::with('sucursales')->where('id', $this->empresa)->get();
+    }
+
+    public function updatedDepartamento()
+    {
+        $this->puestos = Departamento::with('puestos')->where('id', $this->departamento)->get();
     }
 
     public function actualizarBecario()
@@ -77,7 +93,7 @@ class EditarBecario extends Component
         $this->validate([
             'clave_becario' => 'required',
             'numero_seguridad_social' => 'required',
-            'fecha_nacimiento' => 'required',
+            'fecha_nacimiento' => 'required|date',
             'lugar_nacimiento' => 'required',
             'estado' => 'required',
             'codigo_postal' => 'required|digits:5',
@@ -86,15 +102,32 @@ class EditarBecario extends Component
             'curp' => 'required|size:18',
             'rfc' => 'required|size:13',
             'numero_celular' => 'required|digits:10',
-            'fecha_ingreso' => 'required',
+            'fecha_ingreso' => 'required|date',
             'status' => 'required',
             'calle' => 'required',
             'colonia' => 'required',
-
-            'user_id' => 'required|exists:users,id',
-            'departamento_id' => 'required|exists:departamentos,id',
-            'puesto_id' => 'required|exists:puestos,id',
             'registro_patronal_id' => 'required|exists:registros_patronales,id',
+            'user_id' => 'required|exists:users,id',
+            
+            'user.name' => 'required',
+            'user.email' => 'required',
+            'password' => 'nullable',
+            'empresa' => 'required',
+            'user.sucursal_id' => 'required|exists:sucursales,id',
+            'departamento' => 'required',
+            'user.puesto_id' => 'required|exists:puestos,id',
+        ]);
+
+        $user = User::findOrFail($this->user['id']);
+        $user->update([
+            'name' => $this->user['name'],
+            'email' => $this->user['email'],
+            'empresa_id' => $this->empresa,
+            'departamento_id' => $this->departamento,
+            'sucursal_id' => $this->user['sucursal_id'],
+            'puesto_id' => $this->user['puesto_id'],
+            'tipo_user' => 'Becario',
+            'password' => $this->password ? Hash::make($this->password) : $user->password,
         ]);
 
         Becario::updateOrCreate(['id' => $this->becario_id], [
@@ -115,13 +148,10 @@ class EditarBecario extends Component
             'colonia' => $this->colonia,
             
             'user_id' => $this->user_id,
-            'departamento_id' => $this->departamento_id,
-            'puesto_id' => $this->puesto_id,
             'registro_patronal_id' => $this->registro_patronal_id,
         ]);
 
-        //$this->dispatch('toastr-success', message: 'Becario actualizado correctamente.');
-        //$this->emit('message', 'Becario actualizado correctamente.');
+        //session()->flash('message', 'Becario actualizado correctamente.');
         return redirect()->route('mostrarbecario');
     }
 

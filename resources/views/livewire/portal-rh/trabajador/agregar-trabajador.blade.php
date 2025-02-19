@@ -1,5 +1,6 @@
 <div >
     <div class="flex min-h-screen items-center justify-center py-3">
+
         <div class="grid bg-white rounded-lg shadow-xl w-full">
             <div class="flex justify-center py-4">
                 <div class="flex bg-blue-200 rounded-full md:p-4 p-2 border-2 border-blue-300">
@@ -13,7 +14,7 @@
                 </div>
             </div>
 
-            <form class="mt-5 mx-7">
+            <div class="mt-5 mx-7">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
                     <div class="grid grid-cols-1 mt-5">
                         <label for="nombre"
@@ -94,15 +95,13 @@
                         </select>
 
                         <x-input-error for="empresa" />
-                        
                     </div>
 
-                    
                 </div>
 
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
-                    <!--  -->
+                    
                     <div class="grid grid-cols-1 mt-5">
                         <label for="sucursal_id"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
@@ -126,22 +125,6 @@
                         <x-input-error for="user.sucursal_id" />
                     </div>
 
-                    <div class="grid grid-cols-1 mt-5">
-                        <label for="rol"
-                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Rol</label>
-                        <select wire:model.defer="rol" id="rol"
-                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-                            <option value=""> --- Seleccione un rol --- </option>
-                            @foreach ($roles as $rol)
-                                <option value="{{ $rol->id }}">{{ $rol->name }}</option>
-                            @endforeach
-                        </select>
-
-                        <x-input-error for="rol" />
-                    </div>
-                </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
                     <!-- Clave -->
                     <div class="grid grid-cols-1 mt-5">
                         <label for="clave_trabajador"
@@ -152,6 +135,68 @@
                             class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
                     
                         <x-input-error for="trabajador.clave_trabajador" />
+                    </div>
+                </div>
+                
+                <!-- ***********************  -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
+                    <!--  -->
+                    <div class="grid grid-cols-1 mt-5">
+                        <label for="departamento"
+                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
+                            Departamentos</label>
+                        <select wire:model.live="departamento" id="departamento"
+                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                            <option value=""> --- Seleccione un departamento --- </option>
+                            @foreach ($departamentos as $departamento)
+                                <option value="{{ $departamento->id }}">{{ $departamento->nombre_departamento }}
+                                </option>
+                            @endforeach
+                        </select>
+
+                        <x-input-error for="departamento" />
+                    </div>
+
+
+                    <!--  -->
+                    <div class="grid grid-cols-1 mt-5">
+                        <label for="puesto_id"
+                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
+                            Puesto</label>
+                        <select wire:model.defer="user.puesto_id" id="puesto_id"
+                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                            <option value=""> --- Seleccione una sucursal --- </option>
+                            @forelse ($puestos as $puesto)
+
+                                @foreach($puesto->puestos as $mi_puesto)
+
+                                    <option value="{{ $mi_puesto->id }}">{{ $mi_puesto->nombre_puesto }}
+                                    </option>
+                                @endforeach
+
+                            @empty
+                                <option value=""> Esta empresa no tiene sucursales </option>
+                            @endforelse
+                        </select>
+
+                        <x-input-error for="user.puesto_id" />
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
+                    <div class="grid grid-cols-1 mt-5">
+                        <label for="registro_patronal_id"
+                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
+                            Registros Patronales</label>
+                        <select wire:model.defer="trabajador.registro_patronal_id" id="registro_patronal_id"
+                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                            <option value=""> ---  Seleccione un Registro Patronal --- </option>
+                            @foreach ($registros_patronales as $registro_patronal)
+                                <option value="{{ $registro_patronal->id }}">{{ $registro_patronal->registro_patronal }}</option>
+                            @endforeach
+                        </select>
+
+                        <x-input-error for="trabajador.registro_patronal_id" />
                     </div>
                 </div>
 
@@ -447,55 +492,6 @@
                         </select>
                         <x-input-error for="trabajador.status" />
                     </div>
-
-                    <!-- Usuario -->
-                    <div class="grid grid-cols-1 mt-5">
-                        <label for="puesto_id"
-                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
-                            Puestos</label>
-                        <select wire:model.defer="trabajador.puesto_id" id="puesto_id"
-                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-                            <option value=""> --- Seleccione un puesto --- </option>
-                            @foreach ($puestos as $puesto)
-                                <option value="{{ $puesto->id }}">{{ $puesto->nombre_puesto }}</option>
-                            @endforeach
-                        </select>
-
-                        <x-input-error for="trabajador.puesto_id" />
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
-                    <!--  -->
-                    <div class="grid grid-cols-1 mt-5">
-                        <label for="departamento_id"
-                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
-                            Departamentos</label>
-                        <select wire:model.live="trabajador.departamento_id" id="departamento_id"
-                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-                            <option value=""> ---  Seleccione un departamento --- </option>
-                            @foreach ($departamentos as $departament)
-                                <option value="{{ $departament->id }}">{{ $departament->nombre_departamento }}</option>
-                            @endforeach
-                        </select>
-
-                        <x-input-error for="trabajador.departamento_id" />
-                    </div>
-
-                    <div class="grid grid-cols-1 mt-5">
-                        <label for="registro_patronal_id"
-                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
-                            Registros Patronales</label>
-                        <select wire:model.defer="trabajador.registro_patronal_id" id="registro_patronal_id"
-                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-                            <option value=""> ---  Seleccione un Registro Patronal --- </option>
-                            @foreach ($registros_patronales as $registro_patronal)
-                                <option value="{{ $registro_patronal->id }}">{{ $registro_patronal->registro_patronal }}</option>
-                            @endforeach
-                        </select>
-
-                        <x-input-error for="trabajador.registro_patronal_id" />
-                    </div>
                 </div>
 
                 <!-- Botones -->
@@ -511,7 +507,7 @@
                         Cancelar
                     </button>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>

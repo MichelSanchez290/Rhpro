@@ -33,7 +33,7 @@ final class SucursalTable extends PowerGridComponent
             PowerGrid::footer()
                 ->showPerPage()
                 ->showRecordCount(),
-            PowerGrid::exportable(fileName: 'sucursales-export-file') 
+            PowerGrid::exportable(fileName: 'Sucursales') 
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
         ];
     }
@@ -47,7 +47,7 @@ final class SucursalTable extends PowerGridComponent
             ->select([
                 'sucursales.*',
                 'registros_patronales.registro_patronal as nombre_registro_patronal'
-            ]);
+        ]);
 
         // 🔹 Filtrar por sucursal si el usuario es Trabajador o Practicante
         if ($user->hasRole(['Trabajador PORTAL RH', 'Trabajador GLOBAL', 'Practicante'])) {

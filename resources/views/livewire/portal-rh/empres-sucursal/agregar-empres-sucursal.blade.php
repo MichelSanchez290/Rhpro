@@ -1,9 +1,13 @@
-<body class="bg-gray-200">
+<div>
     <div class="flex min-h-screen items-center justify-center py-3">
         <div class="grid bg-white rounded-lg shadow-xl w-full">
             <div class="flex justify-center py-4">
                 <div class="flex bg-blue-200 rounded-full md:p-4 p-2 border-2 border-blue-300">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24" width="27" viewBox="0 0 576 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="#ffffff" d="M208 80c0-26.5 21.5-48 48-48l64 0c26.5 0 48 21.5 48 48l0 64c0 26.5-21.5 48-48 48l-8 0 0 40 152 0c30.9 0 56 25.1 56 56l0 32 8 0c26.5 0 48 21.5 48 48l0 64c0 26.5-21.5 48-48 48l-64 0c-26.5 0-48-21.5-48-48l0-64c0-26.5 21.5-48 48-48l8 0 0-32c0-4.4-3.6-8-8-8l-152 0 0 40 8 0c26.5 0 48 21.5 48 48l0 64c0 26.5-21.5 48-48 48l-64 0c-26.5 0-48-21.5-48-48l0-64c0-26.5 21.5-48 48-48l8 0 0-40-152 0c-4.4 0-8 3.6-8 8l0 32 8 0c26.5 0 48 21.5 48 48l0 64c0 26.5-21.5 48-48 48l-64 0c-26.5 0-48-21.5-48-48l0-64c0-26.5 21.5-48 48-48l8 0 0-32c0-30.9 25.1-56 56-56l152 0 0-40-8 0c-26.5 0-48-21.5-48-48l0-64z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24" width="27"
+                        viewBox="0 0 576 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                        <path fill="#ffffff"
+                            d="M208 80c0-26.5 21.5-48 48-48l64 0c26.5 0 48 21.5 48 48l0 64c0 26.5-21.5 48-48 48l-8 0 0 40 152 0c30.9 0 56 25.1 56 56l0 32 8 0c26.5 0 48 21.5 48 48l0 64c0 26.5-21.5 48-48 48l-64 0c-26.5 0-48-21.5-48-48l0-64c0-26.5 21.5-48 48-48l8 0 0-32c0-4.4-3.6-8-8-8l-152 0 0 40 8 0c26.5 0 48 21.5 48 48l0 64c0 26.5-21.5 48-48 48l-64 0c-26.5 0-48-21.5-48-48l0-64c0-26.5 21.5-48 48-48l8 0 0-40-152 0c-4.4 0-8 3.6-8 8l0 32 8 0c26.5 0 48 21.5 48 48l0 64c0 26.5-21.5 48-48 48l-64 0c-26.5 0-48-21.5-48-48l0-64c0-26.5 21.5-48 48-48l8 0 0-32c0-30.9 25.1-56 56-56l152 0 0-40-8 0c-26.5 0-48-21.5-48-48l0-64z" />
+                    </svg>
                 </div>
             </div>
 
@@ -26,6 +30,8 @@
                             <option value="{{ $empresa->id }}">{{ $empresa->nombre }}</option>
                         @endforeach
                     </select>
+
+                    <x-input-error for="empressucursal.empresa_id" />
                 </div>
 
                 <!--  -->
@@ -40,8 +46,10 @@
                             <option value="{{ $sucursal->id }}">{{ $sucursal->nombre_sucursal }}</option>
                         @endforeach
                     </select>
-                </div> 
-                
+
+                    <x-input-error for="empressucursal.empresa_id" />
+                </div>
+
                 <div class="grid grid-cols-1 mt-5">
                     <label for="status"
                         class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Status</label>
@@ -51,6 +59,8 @@
                         <option value="Activo">Activo</option>
                         <option value="Inactivo">Inactivo</option>
                     </select>
+
+                    <x-input-error for="empressucursal.status" />
                 </div>
 
                 <!-- Botones -->
@@ -69,4 +79,4 @@
             </form>
         </div>
     </div>
-</body>
+</div>

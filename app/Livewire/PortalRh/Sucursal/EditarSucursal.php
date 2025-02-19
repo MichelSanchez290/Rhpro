@@ -42,12 +42,12 @@ class EditarSucursal extends Component
             'nombre_sucursal' => 'required',
             'zona_economica' => 'required',
             'estado' => 'required',
-            'cuenta_contable' => 'nullable',
+            'cuenta_contable' => 'required',
             'rfc' => 'required',
             'correo' => 'required|email',
-            'telefono' => 'nullable',
+            'telefono' => 'required',
             'status' => 'required',
-            'registro_patronal_id' => 'nullable|integer',
+            'registro_patronal_id' => 'required|integer',
         ]);
 
         Sucursal::updateOrCreate(['id' => $this->sucursal_id], [

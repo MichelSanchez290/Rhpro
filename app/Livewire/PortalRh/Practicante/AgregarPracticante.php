@@ -4,37 +4,40 @@ namespace App\Livewire\PortalRh\Practicante;
 
 use Livewire\Component;
 use App\Models\PortalRH\Practicante;
-use App\Models\PortalRH\Puesto;
 use App\Models\PortalRH\Departamento;
 use App\Models\PortalRH\RegistroPatronal;
 use App\Models\PortalRH\Empresa;
-use App\Models\PortalRH\Sucursal;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
 class AgregarPracticante extends Component
 {
-    public $practicante = [], $sucursales=[], $users=[];
-    public $usuarios, $departamentos, $puestos, $registros_patronales, 
-    
-    $empresas, $empresa, $nombre, $apellido_p, $apellido_m, $password;
+    public $practicante = [], $sucursales=[], $puestos=[], $user=[];
+
+    public $usuarios, $registros_patronales, 
+    $empresas, $empresa, $nombre, $apellido_p, $apellido_m, $password,
+    $departamentos, $departamento;
 
 
     public function mount()
     {
         $this->usuarios = User::all();
-        $this->departamentos = Departamento::all();
-        $this->puestos = Puesto::all();
         $this->registros_patronales = RegistroPatronal::all();
         $this->empresas = Empresa::all();
+        $this->departamentos = Departamento::all();
         
     }
 
     public function updatedEmpresa()
     {
-        //dd();
+        //dd(); users
         $this->sucursales = Empresa::with('sucursales')->where('id', $this->empresa)->get();
+    }
 
+    public function updatedDepartamento()
+    {
+        // Obtener los puestos del departamento seleccionado
+        $this->puestos = Departamento::with('puestos')->where('id', $this->departamento)->get();
     }
 
     protected $rules = [
@@ -49,20 +52,17 @@ class AgregarPracticante extends Component
         'practicante.curp' => 'required|size:18',
         'practicante.rfc' => 'required|size:13',
         'practicante.numero_celular' => 'required|digits:10',
-
-        
-        
-        'practicante.departamento_id' => 'required|exists:departamentos,id',
-        'practicante.puesto_id' => 'required|exists:puestos,id',
         'practicante.registro_patronal_id' => 'required|exists:registros_patronales,id',
-
 
         'nombre' => 'required',
         'apellido_p' => 'required',
-        'users.email' => 'required',
+        'apellido_m' => 'required',
+        'user.email' => 'required',
         'password' => 'required',
         'empresa' => 'required',
-        'users.sucursal_id' => 'required',
+        'user.sucursal_id' => 'required|exists:sucursales,id',
+        'departamento' => 'required',
+        'user.puesto_id' => 'required|exists:puestos,id',
     ];
 
     // MENSAJES DE VALIDACIÓN
@@ -72,10 +72,18 @@ class AgregarPracticante extends Component
         'practicante.curp.size' => 'La CURP debe tener exactamente 18 caracteres.',
         'practicante.rfc.size' => 'El RFC debe tener exactamente 13 caracteres.',
         'practicante.numero_celular.digits' => 'El número de celular debe tener 10 dígitos.',
-        
-        'practicante.departamento_id.exists' => 'El departamento seleccionado no existe.',
-        'practicante.puesto_id.exists' => 'El puesto seleccionado no existe.',
         'practicante.registro_patronal_id.exists' => 'El Reg Patronal seleccionado no existe.',
+
+        'nombre.required' => 'Este campo es obligatorio.',
+        'apellido_p.required' => 'Este campo es obligatorio.',
+        'apellido_m.required' => 'Este campo es obligatorio.',
+        'user.email.required' => 'Este campo es obligatorio.',
+        'password.required' => 'Este campo es obligatorio.',
+        'empresa.required' => 'Este campo es obligatorio.',
+        'user.sucursal_id.required' => 'Este campo es obligatorio.',
+        'departamento.required' => 'Este campo es obligatorio.',
+        'user.puesto_id.required' => 'Este campo es obligatorio.',
+        'user.puesto_id.exists' => 'El puesto seleccionado no existe.',
     ];
 
 
@@ -83,14 +91,15 @@ class AgregarPracticante extends Component
     public function savePracticante()
     {
         $this->validate();
-        $this->users['name'] = $this->nombre." ".$this->apellido_p." ".$this->apellido_m;
-        $this->users['password'] =  Hash::make($this->password);
-        $this->users['empresa_id'] = $this->empresa;
-        $this->users['tipo_user'] = "Practicante";
+        $this->user['name'] = $this->nombre." ".$this->apellido_p." ".$this->apellido_m;
+        $this->user['password'] =  Hash::make($this->password);
+        $this->user['empresa_id'] = $this->empresa;
+        $this->user['departamento_id'] = $this->departamento;
+        $this->user['tipo_user'] = "Practicante";
 
 
 
-        $guardaUser = new User($this->users);
+        $guardaUser = new User($this->user);
         $guardaUser -> save();
         $this->practicante['user_id'] = $guardaUser->id;
 

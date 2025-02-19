@@ -64,7 +64,7 @@
         <nav class="mt-4">
             <ul class="space-y-2">
                 <!--  -->
-               {{-- @can('Mostrar Rol')--}} 
+                @can('Mostrar Rol')
                     <li class="opcion-con-desplegable">
                         <div class="flex items-center justify-between px-2 py-2 hover:bg-gray-700 cursor-pointer">
                             <svg class="mr-2" xmlns="http://www.w3.org/2000/svg" height="14" width="17.5" viewBox="0 0 640 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="#ffffff" d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l362.8 0c-5.4-9.4-8.6-20.3-8.6-32l0-128c0-2.1 .1-4.2 .3-6.3c-31-26-71-41.7-114.6-41.7l-91.4 0zM528 240c17.7 0 32 14.3 32 32l0 48-64 0 0-48c0-17.7 14.3-32 32-32zm-80 32l0 48c-17.7 0-32 14.3-32 32l0 128c0 17.7 14.3 32 32 32l160 0c17.7 0 32-14.3 32-32l0-128c0-17.7-14.3-32-32-32l0-48c0-44.2-35.8-80-80-80s-80 35.8-80 80z"/></svg>
@@ -87,26 +87,29 @@
                         </ul>
                     </li>
 
-                {{-- @endcan--}}
+                @endcan
                 
                 
 
                 <!--  -->
-                <li class="opcion-con-desplegable">
-                    <div class="flex items-center justify-between px-2 py-2 hover:bg-gray-700 cursor-pointer">
-                        <svg class="mr-2" xmlns="http://www.w3.org/2000/svg" height="14" width="17.5" viewBox="0 0 640 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="#ffffff" d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l362.8 0c-5.4-9.4-8.6-20.3-8.6-32l0-128c0-2.1 .1-4.2 .3-6.3c-31-26-71-41.7-114.6-41.7l-91.4 0zM528 240c17.7 0 32 14.3 32 32l0 48-64 0 0-48c0-17.7 14.3-32 32-32zm-80 32l0 48c-17.7 0-32 14.3-32 32l0 128c0 17.7 14.3 32 32 32l160 0c17.7 0 32-14.3 32-32l0-128c0-17.7-14.3-32-32-32l0-48c0-44.2-35.8-80-80-80s-80 35.8-80 80z"/></svg>
-                        <span class="flex-1">Usuarios</span>
-                        <i class="fas fa-chevron-down text-xs"></i>
-                    </div>
-                    <ul class="desplegable ml-8 hidden">
-                        <li>
-                            <a href="{{ route('mostraruser') }}"
-                                class="p-2 hover:bg-gray-700 flex items-center">
-                                <i class="mr-2 text-xs"></i> Gestionar Usuarios
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                @can('Mostrar Usuario')
+                    <li class="opcion-con-desplegable">
+                        <div class="flex items-center justify-between px-2 py-2 hover:bg-gray-700 cursor-pointer">
+                            <svg class="mr-2" xmlns="http://www.w3.org/2000/svg" height="14" width="17.5" viewBox="0 0 640 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="#ffffff" d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l362.8 0c-5.4-9.4-8.6-20.3-8.6-32l0-128c0-2.1 .1-4.2 .3-6.3c-31-26-71-41.7-114.6-41.7l-91.4 0zM528 240c17.7 0 32 14.3 32 32l0 48-64 0 0-48c0-17.7 14.3-32 32-32zm-80 32l0 48c-17.7 0-32 14.3-32 32l0 128c0 17.7 14.3 32 32 32l160 0c17.7 0 32-14.3 32-32l0-128c0-17.7-14.3-32-32-32l0-48c0-44.2-35.8-80-80-80s-80 35.8-80 80z"/></svg>
+                            <span class="flex-1">Usuarios</span>
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </div>
+                        <ul class="desplegable ml-8 hidden">
+                            <li>
+                                <a href="{{ route('mostraruser') }}"
+                                    class="p-2 hover:bg-gray-700 flex items-center">
+                                    <i class="mr-2 text-xs"></i> Gestionar Usuarios
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endcan
+                
 
                 
 
@@ -189,30 +192,30 @@
                 
                 <!-- Departamentos -->
                 @can('Mostrar Departamentos')
-                    
-                @endcan
-                <li class="opcion-con-desplegable">
-                    <div class="flex items-center justify-between px-2 py-2 hover:bg-gray-700 cursor-pointer">
-                        <svg class="mr-2" xmlns="http://www.w3.org/2000/svg" height="14" width="15.75" viewBox="0 0 576 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="#ffffff" d="M575.8 255.5c0 18-15 32.1-32 32.1l-32 0 .7 160.2c0 2.7-.2 5.4-.5 8.1l0 16.2c0 22.1-17.9 40-40 40l-16 0c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1L416 512l-24 0c-22.1 0-40-17.9-40-40l0-24 0-64c0-17.7-14.3-32-32-32l-64 0c-17.7 0-32 14.3-32 32l0 64 0 24c0 22.1-17.9 40-40 40l-24 0-31.9 0c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2l-16 0c-22.1 0-40-17.9-40-40l0-112c0-.9 0-1.9 .1-2.8l0-69.7-32 0c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z"/></svg> <!-- Icono -->
-                        <span class="flex-1">Departamentos</span>
-                        <i class="fas fa-chevron-down text-xs"></i>
-                    </div>
-                    <ul class="desplegable ml-8 hidden">
-                        <li>
-                            <a href="{{ route('mostrardepa') }}" class="p-2 hover:bg-gray-700 flex items-center">
-                                <i class="mr-2 text-xs"></i> Mostrar Departamentos
-                            </a>
-                        </li>
-
-                        @can('Agregar Departamento')
+                    <li class="opcion-con-desplegable">
+                        <div class="flex items-center justify-between px-2 py-2 hover:bg-gray-700 cursor-pointer">
+                            <svg class="mr-2" xmlns="http://www.w3.org/2000/svg" height="14" width="15.75" viewBox="0 0 576 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="#ffffff" d="M575.8 255.5c0 18-15 32.1-32 32.1l-32 0 .7 160.2c0 2.7-.2 5.4-.5 8.1l0 16.2c0 22.1-17.9 40-40 40l-16 0c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1L416 512l-24 0c-22.1 0-40-17.9-40-40l0-24 0-64c0-17.7-14.3-32-32-32l-64 0c-17.7 0-32 14.3-32 32l0 64 0 24c0 22.1-17.9 40-40 40l-24 0-31.9 0c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2l-16 0c-22.1 0-40-17.9-40-40l0-112c0-.9 0-1.9 .1-2.8l0-69.7-32 0c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z"/></svg> <!-- Icono -->
+                            <span class="flex-1">Departamentos</span>
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </div>
+                        <ul class="desplegable ml-8 hidden">
                             <li>
-                                <a href="{{ route('agregardepa') }}" class="p-2 hover:bg-gray-700 flex items-center">
-                                    <i class="mr-2 text-xs"></i> Agregar Departamento
+                                <a href="{{ route('mostrardepa') }}" class="p-2 hover:bg-gray-700 flex items-center">
+                                    <i class="mr-2 text-xs"></i> Mostrar Departamentos
                                 </a>
                             </li>
-                        @endcan
-                    </ul>
-                </li>
+
+                            @can('Agregar Departamento')
+                                <li>
+                                    <a href="{{ route('agregardepa') }}" class="p-2 hover:bg-gray-700 flex items-center">
+                                        <i class="mr-2 text-xs"></i> Agregar Departamento
+                                    </a>
+                                </li>
+                            @endcan
+                        </ul>
+                    </li>
+                @endcan
+                
 
                 <!-- Puestos -->
                 @can('Mostrar Puestos')

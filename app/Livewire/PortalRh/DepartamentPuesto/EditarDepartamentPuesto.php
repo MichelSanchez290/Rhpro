@@ -50,7 +50,7 @@ class EditarDepartamentPuesto extends Component
     public function render()
     {
         return view('livewire.portal-rh.departament-puesto.editar-departament-puesto', [
-            'departamentpuest' => DB::table('departament_puest')->get()
+            'departamentpuest' => DB::table('departamento_puesto')->get()
         ])->layout('layouts.client');
     }
 }

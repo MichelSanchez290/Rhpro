@@ -3,7 +3,7 @@
 namespace App\Livewire\PortalRh\Rol;
 
 use Livewire\Component;
-use App\Models\User;
+use Spatie\Permission\Models\Role;
 
 
 class MostrarRol extends Component
@@ -32,8 +32,8 @@ class MostrarRol extends Component
     public function deleteUsuario()
     {
         if ($this->userToDelete) {
-            User::find($this->userToDelete)->delete();
-            session()->flash('message', 'Usuaio eliminado exitosamente.');
+            Role::find($this->userToDelete)->delete();
+            session()->flash('message', 'Role eliminado exitosamente.');
         }
 
         $this->userToDelete = null;

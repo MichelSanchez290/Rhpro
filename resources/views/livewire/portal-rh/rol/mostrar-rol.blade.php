@@ -1,9 +1,13 @@
 <div class="p-6">
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-semibold text-gray-800">Gestión de Roles</h1>
-        <button wire:click="redirigir" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded">
-            Agregar Rol
-        </button>
+        
+        @can('Agregar Rol')
+            <button wire:click="redirigir" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded">
+                Agregar Rol
+            </button>
+        @endcan
+        
     </div>
 
     

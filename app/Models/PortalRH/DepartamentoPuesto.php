@@ -9,7 +9,7 @@ class DepartamentoPuesto extends Model
 {
     use HasFactory;
 
-    protected $table = 'departament_puest';
+    protected $table = 'departamento_puesto';
 
     //Define la clave primaria
     protected $primaryKey = 'id';
