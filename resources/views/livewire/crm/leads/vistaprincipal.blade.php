@@ -1,11 +1,11 @@
 <div class="scroll-smooth">
-    <div class="w-full bg-white rounded-lg border-2">
+    <div class="w-full bg-white border-2 rounded-lg">
         <div class="text-center">
             <h1 class="mt-10 mb-5 text-3xl font-bold">
                 Formulario de Lead
             </h1>
         </div>
-        <div class="grid grid-cols-3 gap-4 justify-center w-full px-10 py-4 bg-white rounded-lg shadow-lg">
+        <div class="grid justify-center w-full grid-cols-3 gap-4 px-10 py-4 bg-white rounded-lg shadow-lg">
             {{-- Nombre del lead --}}
             <div class="mx-2">
                 <label class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
@@ -37,7 +37,7 @@
                 <x-input-error for="lead.fecha" />
             </div>
         </div>
-        <div class="grid grid-cols-2 gap-4 justify-center w-full px-10 py-4 bg-white rounded-lg shadow-lg">
+        <div class="grid justify-center w-full grid-cols-2 gap-4 px-10 py-4 bg-white rounded-lg shadow-lg">
             {{-- Hora --}}
             {{-- <div class="mx-2">
                 <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
@@ -76,7 +76,7 @@
                 <x-input-error for="lead.puesto" />
             </div>
         </div>
-        <div class="grid grid-cols-2 gap-4 justify-center w-full px-10 py-4 bg-white rounded-lg mb-7">
+        <div class="grid justify-center w-full grid-cols-2 gap-4 px-10 py-4 bg-white rounded-lg mb-7">
             {{-- Correo --}}
             <div class="mx-2 text-center">
                 <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
@@ -283,7 +283,7 @@
                         Formulario de Training
                     </h1>
                 </div>
-                <div class="justify-center w-full px-10 py-4 grid gap-4 grid-cols-4">
+                <div class="grid justify-center w-full grid-cols-4 gap-4 px-10 py-4">
                     <div class="mx-2 text-center">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
                             Nombre del Lead
@@ -321,7 +321,7 @@
                         <x-input-error for="lead.telefono" />
                     </div>
                 </div>
-                <div class="justify-center w-full px-10 py-4 grid grid-cols-3">
+                <div class="grid justify-center w-full grid-cols-3 px-10 py-4">
                     <div class="mx-2 text-center">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
                             Giro de la empresa
@@ -353,7 +353,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="justify-center w-full px-10  grid grid-cols-3">
+                <div class="grid justify-center w-full grid-cols-3 px-10">
                     <div class="mx-2 text-center">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
                             Medio de Informacion
@@ -434,8 +434,6 @@
                             wire:model.defer="hlevped.nombre_cliente" type="text" placeholder="">
                         <x-input-error for="hlevped.nombre_cliente" />
                     </div>
-                </div>
-                <div class="flex justify-center w-full px-10 py-4 bg-white rounded-lg shadow-lg">
                     {{-- Puesto --}}
                     <div class="mx-2 text-center">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
@@ -447,6 +445,8 @@
                             wire:model.defer="hlevped.puesto" type="text" placeholder="">
                         <x-input-error for="hlevped.puesto" />
                     </div>
+                </div>
+                <div class="flex justify-center w-full px-10 py-4 bg-white rounded-lg shadow-lg">
                     {{-- Empresa --}}
                     <div class="mx-2 text-center">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
@@ -469,8 +469,6 @@
                             wire:model.defer="hlevped.ubicacion_empresa" type="text" placeholder="">
                         <x-input-error for="hlevped.ubicacion_empresa" />
                     </div>
-                </div>
-                <div class="flex justify-center w-full px-10 py-4 bg-white rounded-lg shadow-lg">
                     {{-- Tamaño de empresa --}}
                     <div class="mx-2 text-center">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
@@ -503,6 +501,8 @@
                         </select>
                         <x-input-error for="hlevped.primera_vez_o_recompra" />
                     </div>
+                </div>
+                <div class="flex justify-center w-full px-10 py-4 bg-white rounded-lg shadow-lg">
                     {{-- Medios CESRH --}}
                     <div class="mx-2 text-center">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
@@ -514,8 +514,6 @@
                             wire:model.defer="hlevped.medios_cesrh" type="text" placeholder="">
                         <x-input-error for="hlevped.medios_cesrh" />
                     </div>
-                </div>
-                <div class="flex justify-center w-full px-10 py-4 bg-white rounded-lg shadow-lg">
                     {{-- Numero de vacantes --}}
                     <div class="mx-2 text-center">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
@@ -584,8 +582,6 @@
                             wire:model.defer="hlevped.telefono" type="number" placeholder="">
                         <x-input-error for="hlevped.telefono" />
                     </div>
-                </div>
-                <div class="flex justify-center w-full px-10 py-4 bg-white rounded-lg shadow-lg">
                     {{-- Status --}}
                     <div class="mx-2 text-center">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
@@ -602,26 +598,15 @@
                         </select>
                         <x-input-error for="hlevped.status" />
                     </div>
-                    {{-- Lead --}}
-                    {{-- <div class="mx-2 text-center">
-                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
-                            for="razonsocial">
-                            Lead
-                        </label>
-                        <input
-                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="hlevped.leadCli_id" type="text" placeholder="">
-                        <x-input-error for="hlevped.leadCli_id" />
-                    </div> --}}
                 </div>
                 <div class="flex justify-end">
                     <button
-                        class="p-2 my-6 mr-4 font-semibold text-white bg-blue-600 rounded-md shadow-md shadow-gray-500 hover:shadow-none hover:bg-blue-800"
-                        wire:click="saveHead">
+                        class="p-2 my-6 mr-4 font-semibold text-white bg-blue-600 rounded-md shadow-md shadow-gray-500 hover:shadow-none hover:bg-blue-800">
                         Guardar y Agregar otro
                     </button>
                     <button
-                        class="p-2 my-6 mr-6 font-semibold text-white bg-green-600 rounded-md shadow-md shadow-gray-500 hovehover:shadow-none hover:bg-green-800 ">
+                        class="p-2 my-6 mr-6 font-semibold text-white bg-green-600 rounded-md shadow-md shadow-gray-500 hovehover:shadow-none hover:bg-green-800 "
+                        wire:click="saveHead">
                         Guardar y Salir
                     </button>
                 </div>
