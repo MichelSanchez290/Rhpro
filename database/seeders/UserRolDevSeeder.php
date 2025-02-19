@@ -126,14 +126,6 @@ class UserRolDevSeeder extends Seeder
         Permission::create(['name' => 'Eliminar Encpre'])->syncRoles([$role1, $role2, $role3, $role10]);
         //FIN 360 
 
-        
-
-        //Permission 
-        Permission::create(['name' => 'Administrador General'])->syncRoles([$role1]);
-        Permission::create(['name' => 'Administrador Principal'])->syncRoles([$role2]);
-        Permission::create(['name' => 'Administrador Secundario'])->syncRoles([$role3]);
-        Permission::create(['name' => 'Usuario Principal'])->syncRoles([$role8, $role10]);
-
 
         // ************** MODULO RH ***************************************
         // Permission - 
@@ -208,10 +200,13 @@ class UserRolDevSeeder extends Seeder
         // ver retardos, incidencias (permisos, vacaciones),  cambio salario, incapacidad
         // $role1, $role2, $role3, $role8, $role10
 
+        // ************** MODULO ACTIVO FIJO ***************************************
+
         // Permisos para activo tecnologia
         Permission::create(['name'=>'Activo tecnologia Admin'])->syncRoles([$role1]);
         Permission::create(['name'=>'Activo tecnologia Empresa'])->syncRoles([$role2]);
         Permission::create(['name'=>'Activo tecnologia Sucursal'])->syncRoles([$role3]);
+        
 
         // Permisos para activo mobiliario
         Permission::create(['name'=>'Activo mobiliario Admin'])->syncRoles([$role1]);
@@ -240,6 +235,9 @@ class UserRolDevSeeder extends Seeder
 
         //Permisos para tipo activo
         Permission::create(['name'=>'Tipo activo'])->syncRoles([$role1]);
+        
+        //**********************************FIN ACTIVO FIJO****************************** */
+
 
     }
 }
