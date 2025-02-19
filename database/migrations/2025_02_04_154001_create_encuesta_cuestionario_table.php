@@ -12,24 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('encuesta_cuestionario', function (Blueprint $table) {
-            $table->id(); // ID de la tabla pivote
-            $table->string('encuesta_clave'); // Clave foránea hacia encuestas
-            $table->unsignedBigInteger('cuestionario_id'); // Clave foránea hacia cuestionarios
+            $table->id();
+            $table->foreignId('encuesta_id')->constrained('encuestas')->onDelete('cascade');
+            $table->foreignId('cuestionario_id')->constrained('cuestionarios')->onDelete('cascade');
             $table->timestamps();
-
-            // Definir las claves foráneas
-            $table->foreign('encuesta_clave')
-                ->references('Clave')
-                ->on('encuestas')
-                ->onDelete('cascade');
-
-            $table->foreign('cuestionario_id')
-                ->references('id')
-                ->on('cuestionarios')
-                ->onDelete('cascade');
         });
     }
-
     /**
      * Reverse the migrations.
      */

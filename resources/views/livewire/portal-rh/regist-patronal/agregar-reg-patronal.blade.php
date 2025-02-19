@@ -2,7 +2,9 @@
     <div class="mt-6">
         <!-- Primera fila -->
         <div class="flex flex-wrap -mx-2 mb-6">
+
             <div class="w-full md:w-1/2 px-3">
+
                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="registro_patronal">
                     Registro Patronal
                 </label>
@@ -11,6 +13,7 @@
                     placeholder="Ingrese el registro patronal">
                 <x-input-error for="registro.registro_patronal" />
             </div>
+            
             <div class="w-full md:w-1/2 px-3">
                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="rfc">
                     RFC

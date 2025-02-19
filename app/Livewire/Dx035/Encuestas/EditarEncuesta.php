@@ -56,7 +56,7 @@ class EditarEncuesta extends Component
     public function submit()
     {
         $this->validate();
-
+    
         // Actualizar el logo si se proporciona uno nuevo
         if ($this->nuevoLogo) {
             // Eliminar el logo anterior si existe
@@ -65,7 +65,7 @@ class EditarEncuesta extends Component
             }
             $this->logo = $this->nuevoLogo->store('logos', 'public');
         }
-
+    
         // Obtener los IDs de los cuestionarios seleccionados
         $cuestionariosSeleccionadosIds = [];
         foreach ($this->cuestionariosSeleccionados as $cuestionarioId => $seleccionado) {
@@ -73,7 +73,7 @@ class EditarEncuesta extends Component
                 $cuestionariosSeleccionadosIds[] = $cuestionarioId;
             }
         }
-
+    
         // Actualizar la encuesta
         $this->encuesta->update([
             'Empresa' => $this->Empresa,
@@ -82,13 +82,12 @@ class EditarEncuesta extends Component
             'FechaInicio' => $this->FechaInicio,
             'FechaFinal' => $this->FechaFinal,
             'NumeroEncuestas' => $this->NumeroEncuestas,
-            'Formato' => implode(',', $cuestionariosSeleccionadosIds),
             'RutaLogo' => $this->logo,
         ]);
-
+    
         // Sincronizar los cuestionarios seleccionados en la tabla pivote
         $this->encuesta->cuestionarios()->sync($cuestionariosSeleccionadosIds);
-
+    
         session()->flash('message', 'Encuesta actualizada correctamente.');
         return redirect()->route('encuesta.index');
     }

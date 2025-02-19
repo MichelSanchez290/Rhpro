@@ -11,6 +11,10 @@
     <!-- FontAwesome CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
     <!-- Tailwind CSS -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
@@ -108,7 +112,32 @@
                         </a>
                     </li>
                 </ul>
+
+                <!-- Sección de Encuestas -->
+                <h2 class="text-lg font-bold text-gray-700 mt-8">Encuestas</h2>
+                <ul class="space-y-4 mt-4">
+                    <li>
+                        <a href="{{ route('encuesta.create') }}" class="flex items-center text-gray-600 hover:text-blue-600 transition-all hover:scale-105">
+                            <span class="material-icons mr-3">add_circle</span>
+                            Crear Encuesta
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('encuesta.index') }}" class="flex items-center text-gray-600 hover:text-blue-600 transition-all hover:scale-105">
+                            <span class="material-icons mr-3">list</span>
+                            Listar Encuestas
+                        </a>
+                    </li>
+                    <li>
+                        <form action="{{ route('responder-cuestionario') }}" method="GET" class="flex items-center">
+                            <input type="text" name="encuesta_clave" placeholder="Ingresar clave" class="border rounded-lg p-2" required>
+                            <button type="submit" class="ml-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Ir</button>
+                        </form>
+                    </li>
+                </ul>
+
             </div>
+
             <footer class="p-4 border-t mt-auto text-sm text-gray-500 bg-gray-200">
                 <p>Ingresaste como: {{ Auth::user()->name ?? 'Usuario' }}</p>
                 <p class="mt-2">© {{ date('Y') }} Dx035</p>
@@ -127,15 +156,24 @@
     </footer>
 
     @livewireScripts
+    <!-- Scripts de JavaScript -->
+    @vite(['resources/js/app.js'])
     <script>
-        // Función para copiar la clave al portapapeles
-        function copiarClave(clave) {
-            navigator.clipboard.writeText(clave).then(() => {
-                alert('Clave copiada: ' + clave);
-            }).catch((error) => {
-                alert('Error al copiar la clave: ' + error);
-            });
-        }
-    </script>
+    // Escuchar el evento para copiar la clave
+    Livewire.on('copiar-clave', function (data) {
+        const clave = data.clave;
+        navigator.clipboard.writeText(clave)
+            .then(() => alert("Clave copiada al portapapeles: " + clave))
+            .catch(() => alert("Error al copiar la clave"));
+    });
+
+    // Escuchar el evento para compartir el enlace
+    Livewire.on('compartir-enlace', function (data) {
+        const enlace = data.enlace;
+        navigator.clipboard.writeText(enlace)
+            .then(() => alert("Enlace copiado al portapapeles: " + enlace))
+            .catch(() => alert("Error al copiar el enlace"));
+    });
+</script>
 </body>
 </html>

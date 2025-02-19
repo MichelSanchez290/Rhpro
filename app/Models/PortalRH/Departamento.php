@@ -5,7 +5,7 @@ namespace App\Models\PortalRH;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User; // Importa el modelo User
-
+use App\Models\PortalRH\Practicante;
 class Departamento extends Model
 {
     use HasFactory;
@@ -23,7 +23,7 @@ class Departamento extends Model
     //, 'sucursal_departament', 'departamento_id', 'sucursal_id')
     public function sucursales()
     {
-        return $this->belongsToMany(Sucursal::class)->withPivot('sucursal_id', 'departamento_id', 'status');
+        return $this->belongsToMany(Sucursal::class,'sucursal_departament','departamento_id','sucursal_id')->withPivot('sucursal_id', 'departamento_id', 'status');
     }
 
     public function puestos()
@@ -31,8 +31,7 @@ class Departamento extends Model
         return $this->belongsToMany(Puesto::class)->withPivot('departamento_id', 'puesto_id', 'status');
     }
 
-
-    public function usuario()
+    public function users()
     {
         return $this->hasMany(User::class);
     }
@@ -56,8 +55,5 @@ class Departamento extends Model
     {
         return $this->hasMany(Instructor::class);
     }
-
-
-    
 
 }

@@ -37,18 +37,26 @@ class Becario extends Model
         'colonia',
 
         'user_id',
-        'departamento_id',
-        'puesto_id',
         'registro_patronal_id',
     ];
 
+    //'departamento_id',
+    //'puesto_id',
+
     //alcanze con el modelo 
-    public function usuario()
+    public function usuarios()
     {
         //un becario pertenece a un user
         return $this->belongsTo(User::class, 'user_id');
     } 
 
+    public function registroPatronal()
+    {
+        //cada trabajador pertenece a 
+        return $this->belongsTo(RegistroPatronal::class);
+    }
+
+    /* 
     public function departamento()
     {
         //cada trabajador pertenece a 
@@ -60,10 +68,5 @@ class Becario extends Model
         //cada trabajador pertenece a 
         return $this->belongsTo(Puesto::class);
     }
-
-    public function registroPatronal()
-    {
-        //cada trabajador pertenece a 
-        return $this->belongsTo(RegistroPatronal::class);
-    }
+    */
 }

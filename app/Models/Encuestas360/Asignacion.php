@@ -3,6 +3,7 @@
 namespace App\Models\Encuestas360;
 
 use App\Models\PortalRH\Empres;
+use App\Models\PortalRH\EmpresaSucursal;
 use App\Models\PortalRH\EmpresSucursal;
 use App\Models\PortalRH\RegistPatronal;
 use App\Models\PortalRH\Sucursal;
@@ -52,7 +53,7 @@ class Asignacion extends Model
 
     public function empresaSucursal()
     {
-        return $this->belongsTo(EmpresSucursal::class, 'empresa_sucursal_id');
+        return $this->belongsTo(EmpresaSucursal::class, 'empresa_sucursal_id');
     }
 
     // public function sucursal()

@@ -1,4 +1,4 @@
-<body class="bg-gray-200">
+<div >
     <div class="flex min-h-screen items-center justify-center py-3">
         <div class="grid bg-white rounded-lg shadow-xl w-full">
             <div class="flex justify-center py-4">
@@ -15,20 +15,133 @@
 
             <form class="mt-5 mx-7">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
-                    <!-- Usuario -->
                     <div class="grid grid-cols-1 mt-5">
-                        <label for="user_id"
-                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
-                            Usuario</label>
-                        <select wire:model.defer="trabajador.user_id" id="user_id"
-                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-                            <option value=""> Seleccione un usuario </option>
-                            @foreach ($usuarios as $user)
-                                <option value="{{ $user->id }}">{{ $user->name }}</option>
-                            @endforeach
-                        </select>
+                        <label for="nombre"
+                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Nombre
+                        </label>
+                        <input wire:model.defer="nombre" type="text" id="nombre"
+                            placeholder="Nombre"
+                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"/>
+
+                        <x-input-error for="nombre" /> 
+                        
+                    </div>
+                    <div class="grid grid-cols-1 mt-5">
+                        <label for="apellido_p"
+                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Apellido Paterno
+                        </label>
+                        <input wire:model.defer="apellido_p" type="text" id="apellido_p"
+                            placeholder="Apellido paterno"
+                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"/>
+
+                        <x-input-error for="apellido_p" /> 
+                        
                     </div>
 
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
+                    <div class="grid grid-cols-1 mt-5">
+                        <label for="apellido_m"
+                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Apellido Materno
+                        </label>
+                        <input wire:model.defer="apellido_m" type="text" id="apellido_m"
+                            placeholder="Apellido materno"
+                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"/>
+
+                        <x-input-error for="apellido_m" /> 
+                        
+                    </div>
+
+                    <div class="grid grid-cols-1 mt-5">
+                        <label for="email"
+                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Correo
+                        </label>
+                        <input wire:model.defer="user.email" type="email" id="email"
+                            placeholder="Correo"
+                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"/>
+
+                        <x-input-error for="user.email" /> 
+                        
+                    </div>
+
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
+                    <!--  -->
+                    <div class="grid grid-cols-1 mt-5">
+                        <label for="password"
+                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Password
+                        </label>
+                        <input wire:model.defer="password" type="password" id="password"
+                            placeholder="Password"
+                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"/>
+
+                        <x-input-error for="password" /> 
+                        
+                    </div>
+
+                    <div class="grid grid-cols-1 mt-5">
+                        <label for="empresa"
+                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
+                            Empresa</label>
+                        <select wire:model.live="empresa" id="empresa"
+                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                            <option value=""> --- Seleccione una empresa --- </option>
+                            @foreach ($empresas as $empresa)
+                                <option value="{{ $empresa->id }}">{{ $empresa->nombre }}</option>
+                            @endforeach
+                        </select>
+
+                        <x-input-error for="empresa" />
+                        
+                    </div>
+
+                    
+                </div>
+
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
+                    <!--  -->
+                    <div class="grid grid-cols-1 mt-5">
+                        <label for="sucursal_id"
+                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
+                            Sucursal</label>
+                        <select wire:model.defer="user.sucursal_id" id="sucursal_id"
+                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                            <option value=""> --- Seleccione una sucursal --- </option>
+                            @forelse ($sucursales as $sucursal)
+
+                                @foreach($sucursal->sucursales as $mi_sucursal)
+
+                                    <option value="{{ $mi_sucursal->id }}">{{ $mi_sucursal->nombre_sucursal }}
+                                    </option>
+                                @endforeach
+
+                            @empty
+                                <option value=""> Esta empresa no tiene sucursales </option>
+                            @endforelse
+                        </select>
+
+                        <x-input-error for="user.sucursal_id" />
+                    </div>
+
+                    <div class="grid grid-cols-1 mt-5">
+                        <label for="rol"
+                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Rol</label>
+                        <select wire:model.defer="rol" id="rol"
+                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                            <option value=""> --- Seleccione un rol --- </option>
+                            @foreach ($roles as $rol)
+                                <option value="{{ $rol->id }}">{{ $rol->name }}</option>
+                            @endforeach
+                        </select>
+
+                        <x-input-error for="rol" />
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
                     <!-- Clave -->
                     <div class="grid grid-cols-1 mt-5">
                         <label for="clave_trabajador"
@@ -37,9 +150,10 @@
                         <input wire:model.defer="trabajador.clave_trabajador" type="text" id="clave_trabajador"
                             placeholder="Clave del trabajador"
                             class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                    
+                        <x-input-error for="trabajador.clave_trabajador" />
                     </div>
                 </div>
-                
 
                 <!-- NNS y Fecha Nacimiento -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
@@ -50,6 +164,8 @@
                         <input wire:model.defer="trabajador.numero_seguridad_social" type="text" id="numero_seguridad_social"
                             placeholder="Número de Seguridad Social (NSS)"
                             class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                            
+                        <x-input-error for="trabajador.numero_seguridad_social" />
                     </div>
 
                     <div class="grid grid-cols-1">
@@ -58,6 +174,8 @@
                         </label>
                         <input wire:model.defer="trabajador.fecha_nacimiento" type="date" id="fecha_nacimiento"
                             class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                            
+                        <x-input-error for="trabajador.fecha_nacimiento" />
                     </div>
                 </div>
 
@@ -71,6 +189,8 @@
                         <input wire:model.defer="trabajador.lugar_nacimiento" type="text" id="lugar_nacimiento"
                             placeholder="Lugar de nacimiento"
                             class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                            
+                        <x-input-error for="trabajador.lugar_nacimiento" />
                     </div>
 
                     <div class="grid grid-cols-1">
@@ -80,6 +200,8 @@
                         <input wire:model.defer="trabajador.estado" type="text" id="estado"
                              placeholder="Estado"
                             class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                            
+                        <x-input-error for="trabajador.estado" />
                     </div>
                 </div>
 
@@ -90,6 +212,8 @@
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Código Postal</label>
                         <input wire:model.defer="trabajador.codigo_postal" type="text" id="codigo_postal" placeholder="Código Postal"
                             class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                            
+                        <x-input-error for="trabajador.codigo_postal" />
                     </div>
 
                     <div class="grid grid-cols-1">
@@ -101,6 +225,8 @@
                             <option value="Hombre">Hombre</option>
                             <option value="Mujer">Mujer</option>
                         </select>
+
+                        <x-input-error for="trabajador.sexo" />
                     </div>
                 </div>
 
@@ -111,6 +237,8 @@
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">CURP</label>
                         <input wire:model.defer="trabajador.curp" type="text" id="curp" placeholder="CURP"
                             class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                            
+                        <x-input-error for="trabajador.curp" />
                     </div>
 
                     <div class="grid grid-cols-1">
@@ -118,6 +246,8 @@
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">RFC</label>
                         <input wire:model.defer="trabajador.rfc" type="text" id="rfc" placeholder="RFC"
                             class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                            
+                        <x-input-error for="trabajador.rfc" />
                     </div>
                 </div>
 
@@ -128,6 +258,8 @@
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Número Celular </label>
                         <input wire:model.defer="trabajador.numero_celular" type="text" id="numero_celular" placeholder="Número de celular"
                             class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                            
+                        <x-input-error for="trabajador.numero_celular" />
                     </div>
 
                     <div class="grid grid-cols-1">
@@ -136,6 +268,8 @@
                         </label>
                         <input wire:model.defer="trabajador.fecha_ingreso" type="date" id="fecha_ingreso"
                             class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                            
+                        <x-input-error for="trabajador.fecha_ingreso" />
                     </div>
                 </div>
 
@@ -146,6 +280,8 @@
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Edad</label>
                         <input wire:model.defer="trabajador.edad" type="text" id="edad" placeholder="Edad"
                             class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                            
+                        <x-input-error for="trabajador.edad" />
                     </div>
 
                     <div class="grid grid-cols-1">
@@ -159,6 +295,7 @@
                             <option value="Viudo">Viudo</option>
                             <option value="Divorciado">Divorciado</option>
                         </select>
+                        <x-input-error for="trabajador.estado_civil" />
                     </div>
                 </div>
 
@@ -177,6 +314,8 @@
                             <option value="Superior Licenciatura">Superior Licenciatura</option>
                             <option value="Superior Ingenieria">Superior Ingenieria</option>
                         </select>
+                        
+                        <x-input-error for="trabajador.estudios" />
                     </div>
 
                     <div class="grid grid-cols-1">
@@ -184,6 +323,8 @@
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Ocupación</label>
                         <input wire:model.defer="trabajador.ocupacion" type="text" id="ocupacion" placeholder="Ocupación actual"
                             class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                            
+                        <x-input-error for="trabajador.ocupacion" />
                     </div>
                 </div>
 
@@ -194,6 +335,8 @@
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Tipo puesto</label>
                         <input wire:model.defer="trabajador.tipo_puest" type="text" id="tipo_puest" placeholder="Tipo de puesto"
                             class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                            
+                        <x-input-error for="trabajador.tipo_puest" />
                     </div>
 
                     <div class="grid grid-cols-1">
@@ -201,6 +344,8 @@
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Contratación</label>
                         <input wire:model.defer="trabajador.contratacion" type="text" id="contratacion" placeholder="Contratación"
                             class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                            
+                        <x-input-error for="trabajador.contratacion" />
                     </div>
                 </div>
 
@@ -211,6 +356,8 @@
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Tipo personal</label>
                         <input wire:model.defer="trabajador.tipo_personal" type="text" id="tipo_personal" placeholder="Tipo de personal"
                             class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                            
+                        <x-input-error for="trabajador.tipo_personal" />
                     </div>
 
                     <div class="grid grid-cols-1">
@@ -218,6 +365,8 @@
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Jornada Trabajo</label>
                         <input wire:model.defer="trabajador.jornada_trabajo" type="text" id="jornada_trabajo" placeholder="Jornada de trabajo"
                             class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                            
+                        <x-input-error for="trabajador.jornada_trabajo" />
                     </div>
                 </div>
 
@@ -228,6 +377,8 @@
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Rotación</label>
                         <input wire:model.defer="trabajador.rotacion" type="text" id="rotacion" placeholder="Rotación de turno"
                             class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                            
+                        <x-input-error for="trabajador.rotacion" />
                     </div>
 
                     <div class="grid grid-cols-1">
@@ -235,6 +386,8 @@
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Experiencia</label>
                         <input wire:model.defer="trabajador.experiencia" type="text" id="experiencia" placeholder="Experiencia laboral"
                             class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                            
+                        <x-input-error for="trabajador.experiencia" />
                     </div>
                 </div>
 
@@ -245,6 +398,8 @@
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Tiempo Puesto</label>
                         <input wire:model.defer="trabajador.tiempo_puesto" type="text" id="tiempo_puesto" placeholder="Tiempo ocupado en el puesto"
                             class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                            
+                        <x-input-error for="trabajador.tiempo_puesto" />
                     </div>
 
                     <div class="grid grid-cols-1">
@@ -252,6 +407,8 @@
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Calle</label>
                         <input wire:model.defer="trabajador.calle" type="text" id="calle" placeholder="Calle"
                             class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                            
+                        <x-input-error for="trabajador.calle" />
                     </div>
                 </div>
 
@@ -262,6 +419,8 @@
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Número</label>
                         <input wire:model.defer="trabajador.numero" type="text" id="numero" placeholder="Número de calle"
                             class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                            
+                        <x-input-error for="trabajador.numero" />
                     </div>
 
                     <div class="grid grid-cols-1">
@@ -269,6 +428,8 @@
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Colonia</label>
                         <input wire:model.defer="trabajador.colonia" type="text" id="colonia" placeholder="Colonia"
                             class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                            
+                        <x-input-error for="trabajador.colonia" />
                     </div>
                 </div>
 
@@ -284,6 +445,7 @@
                             <option value="Activo">Activo</option>
                             <option value="Inactivo">Inactivo</option>
                         </select>
+                        <x-input-error for="trabajador.status" />
                     </div>
 
                     <!-- Usuario -->
@@ -298,6 +460,8 @@
                                 <option value="{{ $puesto->id }}">{{ $puesto->nombre_puesto }}</option>
                             @endforeach
                         </select>
+
+                        <x-input-error for="trabajador.puesto_id" />
                     </div>
                 </div>
 
@@ -307,13 +471,15 @@
                         <label for="departamento_id"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
                             Departamentos</label>
-                        <select wire:model.defer="trabajador.departamento_id" id="departamento_id"
+                        <select wire:model.live="trabajador.departamento_id" id="departamento_id"
                             class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
                             <option value=""> ---  Seleccione un departamento --- </option>
                             @foreach ($departamentos as $departament)
                                 <option value="{{ $departament->id }}">{{ $departament->nombre_departamento }}</option>
                             @endforeach
                         </select>
+
+                        <x-input-error for="trabajador.departamento_id" />
                     </div>
 
                     <div class="grid grid-cols-1 mt-5">
@@ -327,6 +493,8 @@
                                 <option value="{{ $registro_patronal->id }}">{{ $registro_patronal->registro_patronal }}</option>
                             @endforeach
                         </select>
+
+                        <x-input-error for="trabajador.registro_patronal_id" />
                     </div>
                 </div>
 
@@ -346,4 +514,4 @@
             </form>
         </div>
     </div>
-</body>
+</div>

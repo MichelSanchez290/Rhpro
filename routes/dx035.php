@@ -11,6 +11,13 @@ use App\Livewire\Dx035\Cuestionarios\AgregarPreguntaBase;
 use App\Livewire\Dx035\Cuestionarios\MostrarPreguntaBase;
 use App\Livewire\Dx035\Cuestionarios\EditarPreguntaBase;
 
+use App\Livewire\Dx035\CuestionarioUno\ResponderCuestionario;
+
+use App\Livewire\Dx035\CuestionarioParaResponder\ResponderCuestionarioUno;
+
+use App\Livewire\Dx035\Encuestas\InvitarEncuesta;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -46,3 +53,26 @@ Route::get('/preguntas', MostrarPreguntaBase::class)->name('preguntas.mostrar');
 Route::get('/preguntas/{id}/editar', EditarPreguntaBase::class)->name('preguntas.editar');
 
 Route::get('/correos-masivos', CorreosMasivos::class)->name('correos.masivos');
+
+Route::post('/send-invitation', [SurveyInvitationController::class, 'sendInvitation'])->name('send.invitation');
+
+Route::post('/guardar-correo', [UserEmailController::class, 'store'])->name('guardar.correo');
+
+// Ruta para responder el cuestionario
+Route::get('/dx035/responder-cuestionario', ResponderCuestionario::class)->name('responder-cuestionario');
+
+Route::get('/survey/show/{key}', function ($key) {
+    // Buscar la encuesta por su clave
+    $encuesta = \App\Models\Dx035\Encuesta::where('Clave', $key)->firstOrFail();
+
+    // Mostrar una vista simple con la información de la encuesta
+    return view('survey.show', compact('encuesta'));
+})->name('survey.show');
+
+Route::get('/survey/{key}', ResponderCuestionarioUno::class)->name('survey.show');
+
+Route::get('/encuesta/invitar/{clave}', InvitarEncuesta::class)->name('encuesta.invitar');
+
+Route::get('/dx035/survey/thankyou', function () {
+    return view('livewire.dx035.surveyuno.thankyouuno');
+})->name('survey.thankyou');

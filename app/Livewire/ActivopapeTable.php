@@ -38,9 +38,20 @@ final class ActivopapeTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
+        $user = auth()->user();
+         // Assuming auth()->user() returns the authenticated user
+        if (!$user->sucursal_id) {
+            return ActivoPapeleria::query()->whereRaw('1 = 0'); // Devuelve una consulta vacía
+        }
+
         return ActivoPapeleria::query()
-            ->with(['tipoActivo', 'anioEstimado']);
+            ->with(['tipoActivo', 'anioEstimado'])
+            ->where('sucursal_id', $user->sucursal_id);
+
+        
     }
+
+    
 
     public function relationSearch(): array
     {
@@ -137,7 +148,7 @@ final class ActivopapeTable extends PowerGridComponent
     {
         return [
             Button::add('edit')
-                ->slot('Editar')
+                ->icon('default-edit')
                 ->class('btn btn-primary')
                 ->route('editaractpape', ['id' => $row->id]),
                 Button::add('delete')

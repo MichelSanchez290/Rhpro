@@ -11,14 +11,38 @@ class Encuesta extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'Clave'; // Especificar que la clave primaria es 'Clave'
-    public $incrementing = false;   // Indicar que no es autoincremental
-    protected $keyType = 'string';  // Especificar el tipo de la clave primaria
+    protected $primaryKey = 'id'; // Especificar que la clave primaria es 'Clave'
+    protected $table = 'encuestas';
+
+    // public $incrementing = false;   // Indicar que no es autoincremental
+    //protected $keyType = 'string';  // Especificar el tipo de la clave primaria
+
+     // Especificar los campos de fecha
+    protected $dates = [
+        'FechaInicio',
+        'FechaFinal',
+        'Caducidad',
+        'created_at',
+        'updated_at',
+    ];
 
     protected $fillable = [
-        'Clave', 'Empresa', 'RutaLogo', 'FechaInicio', 'Caducidad',
-        'Estado', 'NumeroEncuestas', 'Formato', 'EncuestasContestadas',
-        'Actividades', 'Numero', 'Dep', 'Cerrable', 'usuariosdx035_CorreoElectronico', 'FechaFinal'
+        'id',
+        'Clave',
+        'Empresa',
+        'RutaLogo',
+        'FechaInicio',
+        'FechaFinal',
+        'Caducidad',
+        'Estado',
+        'NumeroEncuestas',
+        'cuestionario_id', // Agregar el campo cuestionario_id
+        'EncuestasContestadas',
+        'Actividades',
+        'Numero',
+        'Dep',
+        'Cerrable',
+        'usuariosdx035_CorreoElectronico',
     ];
 
     // Relación con SucursalDepartament
@@ -27,10 +51,10 @@ class Encuesta extends Model
         return $this->belongsTo(SucursalDepartament::class, 'sucursal_departament_id');
     }
 
-    // Relación con la tabla pivote encuesta_cuestionario
+    // Relación con Cuestionario
     public function cuestionarios()
     {
-        return $this->belongsToMany(Cuestionario::class, 'encuesta_cuestionario', 'encuesta_clave', 'cuestionario_id');
+        return $this->belongsToMany(Cuestionario::class, 'encuesta_cuestionario', 'encuesta_id', 'cuestionario_id');
     }
 
     // Método para calcular el avance de la encuesta
@@ -51,6 +75,6 @@ class Encuesta extends Model
     // Relación con TrabajadorEncuesta
     public function trabajadoresEncuestas()
     {
-        return $this->hasMany(TrabajadorEncuesta::class, 'Clave', 'Clave');
+        return $this->hasMany(TrabajadorEncuesta::class, 'encuesta_id');
     }
 }
