@@ -23,7 +23,6 @@ class LeadCliente extends Model
     'users_id',
     'numero_cliente',
     'fecha',
-    'hora',
     'datos_id',
     'puesto',
     'correo',
@@ -35,16 +34,16 @@ class LeadCliente extends Model
         return $this->belongsTo(User::class,'users_id');
     }
 
-    public function datosfiscales()
-    {
-        return $this->belongsTo(DatosFiscale::class);
-    }
-
     public function headlevantamientospedido()
     {
         return $this->hasMany(HeadLevantamientosPedido::class);
     }
 
+    public function EsmartLevantamiento()
+    {
+        return $this->hasMany(EsmartLevantamiento::class);
+    }
+    
     public function serviciosespecializado()
     {
         return $this->hasMany(ServiciosEspecializado::class);
