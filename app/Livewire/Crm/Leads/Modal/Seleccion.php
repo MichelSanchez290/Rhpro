@@ -7,14 +7,14 @@ use LivewireUI\Modal\ModalComponent;
 
 class Seleccion extends ModalComponent
 {
-    public $cantidadSeleccionada = 1; // Valor predeterminado
+    public $cantidad;
 
-    public function seleccionar()
+    public function seleccionarCantidad()
     {
-        $this->dispatch('cantidadSeleccionada',   $this->numeroLista);
+        $this->dispatch('generarForms', cantidad: $this->cantidad);
         $this->closeModal();
     }
-    
+
     public function render()
     {
         return view('livewire.crm.leads.modal.seleccion');
