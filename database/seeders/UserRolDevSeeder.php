@@ -41,21 +41,22 @@ class UserRolDevSeeder extends Seeder
         Permission::create(['name' => 'Administrador Secundario'])->syncRoles([$role3]);
         Permission::create(['name' => 'Usuario Principal'])->syncRoles([$role6, $role10]);
 
-        Permission::create(['name' => 'Relaciones Laborales Mostrar'])->syncRoles([$role1, $role2, $role3, $role10]);
-        Permission::create(['name' => 'Relaciones Laborales Agregar'])->syncRoles([$role1, $role2, $role3, $role10]);
-        Permission::create(['name' => 'Relaciones Laborales Editar'])->syncRoles([$role1, $role2, $role3, $role10]);
-        Permission::create(['name' => 'Relaciones Laborales Eliminar'])->syncRoles([$role1, $role2, $role3, $role10]);
+        // Permission::create(['name' => 'Relaciones Laborales Mostrar'])->syncRoles([$role1, $role2, $role3, $role10]);
+        // Permission::create(['name' => 'Relaciones Laborales Agregar'])->syncRoles([$role1, $role2, $role3, $role10]);
+        // Permission::create(['name' => 'Relaciones Laborales Editar'])->syncRoles([$role1, $role2, $role3, $role10]);
+        // Permission::create(['name' => 'Relaciones Laborales Eliminar'])->syncRoles([$role1, $role2, $role3, $role10]);
 
 
-        Permission::create(['name' => 'Mostrar Preguntas'])->syncRoles([$role1, $role2, $role3, $role10]);
-        Permission::create(['name' => 'Agregar Preguntas'])->syncRoles([$role1, $role2, $role3, $role10]);
-        Permission::create(['name' => 'Editar Preguntas'])->syncRoles([$role1, $role2, $role3, $role10]);
-        Permission::create(['name' => 'Eliminar Preguntas'])->syncRoles([$role1, $role2, $role3, $role10]);
+        // Permission::create(['name' => 'Mostrar Preguntas'])->syncRoles([$role1, $role2, $role3, $role10]);
+        // Permission::create(['name' => 'Agregar Preguntas'])->syncRoles([$role1, $role2, $role3, $role10]);
+        // Permission::create(['name' => 'Editar Preguntas'])->syncRoles([$role1, $role2, $role3, $role10]);
+        // Permission::create(['name' => 'Eliminar Preguntas'])->syncRoles([$role1, $role2, $role3, $role10]);
 
 
         // Permission::create(['name' => 'Mostrar Empresa'])->syncRoles([$role1, $role2, $role3, $role10]);
 
           //----------------------------------------------------------------------------------------------------------\\
+          //Encuesta 
 
         Permission::create(['name' => 'Mostrar Encuesta ADMIN'])->syncRoles([$role1]);
         Permission::create(['name' => 'Agregar Encuesta ADMIN'])->syncRoles([$role1]);
@@ -68,6 +69,12 @@ class UserRolDevSeeder extends Seeder
         Permission::create(['name' => 'Eliminar Encuesta ADMIN EMPRESA'])->syncRoles([$role2]);
 
         Permission::create(['name' => 'Mostrar Encuesta ADMIN SUCURSAL'])->syncRoles([$role3]);
+        Permission::create(['name' => 'Agregar Encuesta ADMIN SUCURSAL'])->syncRoles([$role1, $role2]);
+        Permission::create(['name' => 'Editar Encuesta ADMIN SUCURSAL'])->syncRoles([$role1, $role2]);
+        Permission::create(['name' => 'Eliminar Encuesta ADMIN SUCURSAL'])->syncRoles([$role1, $role2]);
+
+        //------------------------------------------------------------------------------------------------------\\
+        //Preguntas
 
         Permission::create(['name' => 'Mostrar Preguntas ADMIN'])->syncRoles([$role1]);
         Permission::create(['name' => 'Agregar Preguntas ADMIN'])->syncRoles([$role1]);
@@ -80,7 +87,13 @@ class UserRolDevSeeder extends Seeder
         Permission::create(['name' => 'Eliminar Preguntas ADMIN EMPRESA'])->syncRoles([$role2]);
 
         Permission::create(['name' => 'Mostrar Preguntas ADMIN SUCURSAL'])->syncRoles([$role3]);
+        Permission::create(['name' => 'Agregar Preguntas ADMIN SUCURSAL'])->syncRoles([$role1, $role2]);
+        Permission::create(['name' => 'Editar Preguntas ADMIN SUCURSAL'])->syncRoles([$role1, $role2]);
+        Permission::create(['name' => 'Eliminar Preguntas ADMIN SUCURSAL'])->syncRoles([$role1, $role2]);
 
+        //-------------------------------------------------------------------------------------------------------\\
+        
+        //Encpre
         Permission::create(['name' => 'Mostrar Encpre ADMIN'])->syncRoles([$role1]);
         Permission::create(['name' => 'Agregar Encpre ADMIN'])->syncRoles([$role1]);
         Permission::create(['name' => 'Editar Encpre ADMIN'])->syncRoles([$role1]);
@@ -92,7 +105,13 @@ class UserRolDevSeeder extends Seeder
         Permission::create(['name' => 'Eliminar Encpre ADMIN EMPRESA'])->syncRoles([$role2]);
 
         Permission::create(['name' => 'Mostrar Encpre ADMIN SUCURSAL'])->syncRoles([$role3]);
+        Permission::create(['name' => 'Agregar Encpre ADMIN SUCURSAL'])->syncRoles([$role1, $role2]);
+        Permission::create(['name' => 'Editar Encpre ADMIN SUCURSAL'])->syncRoles([$role1, $role2]);
+        Permission::create(['name' => 'Eliminar Encpre ADMIN SUCURSAL'])->syncRoles([$role1, $role2]);
 
+        //-------------------------------------------------------------------------------------------------------\\
+        
+        //Asignaciones 
         
         Permission::create(['name' => 'Mostrar Asignaciones ADMIN'])->syncRoles([$role1]);
         Permission::create(['name' => 'Agregar Asignaciones ADMIN'])->syncRoles([$role1]);
@@ -106,6 +125,13 @@ class UserRolDevSeeder extends Seeder
         Permission::create(['name' => 'Eliminar Asignaciones ADMIN EMPRESA'])->syncRoles([$role2]);
 
         Permission::create(['name' => 'Mostrar Asignaciones ADMIN SUCURSAL'])->syncRoles([$role3]);
+        Permission::create(['name' => 'Agregar Asignaciones ADMIN SUCURSAL'])->syncRoles([$role1, $role2]);
+        Permission::create(['name' => 'Editar Asignaciones ADMIN SUCURSAL'])->syncRoles([$role1, $role2]);
+        Permission::create(['name' => 'Eliminar Asignaciones ADMIN SUCURSAL'])->syncRoles([$role1, $role2]);
+
+        //----------------------------------------------------------------------------------------------------------------\\
+
+        //Empresa 
 
         Permission::create(['name' => 'Mostrar Empresa ADMIN'])->syncRoles([$role1]);
         Permission::create(['name' => 'Mostrar Empresa ADMIN EMPRESA'])->syncRoles([$role2]);
@@ -113,16 +139,36 @@ class UserRolDevSeeder extends Seeder
 
         //----------------------------------------------------------------------------------------------------------\\
 
-        Permission::create(['name' => 'Mostrar Asignaciones'])->syncRoles([$role1, $role2, $role3, $role10]);
-        Permission::create(['name' => 'Agregar Asignaciones'])->syncRoles([$role1, $role2, $role3, $role10]);
-        Permission::create(['name' => 'Editar Asignaciones'])->syncRoles([$role1, $role2, $role3, $role10]);
-        Permission::create(['name' => 'Eliminar Asignaciones'])->syncRoles([$role1, $role2, $role3, $role10]);
+        //Relaciones 
+        Permission::create(['name' => 'Mostrar Relaciones Laborales ADMIN'])->syncRoles([$role1]);
+        Permission::create(['name' => 'Agregar Relaciones Laborales ADMIN'])->syncRoles([$role1]);
+        Permission::create(['name' => 'Editar Relaciones Laborales ADMIN'])->syncRoles([$role1]);
+        Permission::create(['name' => 'Eliminar Relaciones Laborales ADMIN'])->syncRoles([$role1]);
+
+        Permission::create(['name' => 'Mostrar Relaciones Laborales ADMIN EMPRESA'])->syncRoles([$role2]);
+        Permission::create(['name' => 'Agregar Relaciones Laborales ADMIN EMPRESA'])->syncRoles([$role2]);
+        Permission::create(['name' => 'Editar Relaciones Laborales ADMIN EMPRESA'])->syncRoles([$role2]);
+        Permission::create(['name' => 'Eliminar Relaciones Laborales ADMIN EMPRESA'])->syncRoles([$role2]);
+
+        Permission::create(['name' => 'Mostrar Relaciones Laborales ADMIN SUCURSAL'])->syncRoles([$role3]);
+        Permission::create(['name' => 'Agregar Relaciones Laborales ADMIN SUCURSAL'])->syncRoles([$role1, $role2]);
+        Permission::create(['name' => 'Editar Relaciones Laborales ADMIN SUCURSAL'])->syncRoles([$role1, $role2]);
+        Permission::create(['name' => 'Eliminar Relaciones Laborales ADMIN SUCURSAL'])->syncRoles([$role1, $role2]);
+
+        //---------------------------------------------------------------------------------------------------------------\\
 
 
-        Permission::create(['name' => 'Mostrar Encpre'])->syncRoles([$role1, $role2, $role3, $role10]);
-        Permission::create(['name' => 'Agregar Encpre'])->syncRoles([$role1, $role2, $role3, $role10]);
-        Permission::create(['name' => 'Editar Encpre'])->syncRoles([$role1, $role2, $role3, $role10]);
-        Permission::create(['name' => 'Eliminar Encpre'])->syncRoles([$role1, $role2, $role3, $role10]);
+        //
+        // Permission::create(['name' => 'Mostrar Asignaciones'])->syncRoles([$role1, $role2, $role3, $role10]);
+        // Permission::create(['name' => 'Agregar Asignaciones'])->syncRoles([$role1, $role2, $role3, $role10]);
+        // Permission::create(['name' => 'Editar Asignaciones'])->syncRoles([$role1, $role2, $role3, $role10]);
+        // Permission::create(['name' => 'Eliminar Asignaciones'])->syncRoles([$role1, $role2, $role3, $role10]);
+
+
+        // Permission::create(['name' => 'Mostrar Encpre'])->syncRoles([$role1, $role2, $role3, $role10]);
+        // Permission::create(['name' => 'Agregar Encpre'])->syncRoles([$role1, $role2, $role3, $role10]);
+        // Permission::create(['name' => 'Editar Encpre'])->syncRoles([$role1, $role2, $role3, $role10]);
+        // Permission::create(['name' => 'Eliminar Encpre'])->syncRoles([$role1, $role2, $role3, $role10]);
         //FIN 360 
 
         
@@ -259,5 +305,6 @@ class UserRolDevSeeder extends Seeder
         Permission::create(['name'=>'Tipo activo'])->syncRoles([$role1]);
         // ************** FIN MODULO ACTIVO TECNOLOGIA ***************************************
 
+        
     }
 }

@@ -10,21 +10,47 @@
     </div>
 </div>
 
-
+<!-- Scripts para SweetAlert2 -->
 <script>
-    $wire.on('eliminarPregunta', (event) => {
-        Swal.fire({
-            title: "¿Está seguro?",
-            text: "¡No podrás revertir esto!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "¡Sí, bórralo!"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $wire.confirmarEliminacion(event.id);
-            }
+    // Script para la confirmación de eliminación
+    document.addEventListener('livewire:initialized', function() {
+        Livewire.on('confirmarEliminarPregunta', (data) => {
+            Swal.fire({
+                title: "¿Está seguro?",
+                text: "¡No podrás revertir esto!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "¡Sí, bórralo!",
+                cancelButtonText: "Cancelar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Livewire.dispatch('eliminarPregunta', { id: data.id });
+                }
+            });
+        });
+    });
+
+    // Scripts para mostrar mensajes de éxito o error
+    document.addEventListener('livewire:initialized', function() {
+        Livewire.on('swal-success', (data) => {
+            Swal.fire({
+                title: "¡Éxito!",
+                text: data.message,
+                icon: "success",
+                timer: 2000,
+                showConfirmButton: false
+            });
+        });
+
+        Livewire.on('swal-error', (data) => {
+            Swal.fire({
+                title: "Error",
+                text: data.message,
+                icon: "error",
+                confirmButtonText: "Aceptar"
+            });
         });
     });
 </script>
