@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('departament_puest', function (Blueprint $table) {
+        Schema::create('departamento_puesto', function (Blueprint $table) {
             $table->id();
             
             //donde almacenara el id de la relacion
@@ -43,11 +43,11 @@ return new class extends Migration
     public function down(): void
     {
         // Eliminar las claves foráneas explícitamente
-        Schema::table('departament_puest', function (Blueprint $table) {
+        Schema::table('departamento_puesto', function (Blueprint $table) {
             $table->dropForeign(['departamento_id']);
             $table->dropForeign(['puesto_id']);
         });
 
-        Schema::dropIfExists('departament_puest');
+        Schema::dropIfExists('departamento_puesto');
     }
 };

@@ -15,6 +15,9 @@ use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport; 
 use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable; 
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
+
 
 final class EmpresTable extends PowerGridComponent
 {
@@ -38,7 +41,15 @@ final class EmpresTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Empresa::query();
+        $user = Auth::user();
+
+        // Si el usuario es administrador, devolver todos los departamentos
+        if ($user->hasRole('GoldenAdmin')) {
+            return Empresa::query();
+        }
+
+        // Si el usuario es trabajador o practicante, devolver solo su departamento
+        return Empresa::where('id', $user->empresa_id);
     }
 
     public function relationSearch(): array
@@ -118,22 +129,23 @@ final class EmpresTable extends PowerGridComponent
 
     public function actions(Empresa $row): array
     {
-        return [
-            Button::add('edit')
+        $actions = [];
+
+        if (Gate::allows('Editar Empresa')) {
+            $actions[] = Button::add('edit')
                 ->slot('Editar')
                 ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
-                ->route('editarempresa', ['id' => Crypt::encrypt($row->id)]),
+                ->route('editarempresa', ['id' => Crypt::encrypt($row->id)]);
+        }
 
-
-            Button::add('delete')
+        if (Gate::allows('Eliminar Empresa')) {
+            $actions[] = Button::add('delete')
                 ->slot('Eliminar')
                 ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
-                // ->confirm('Are you sure you want to edit?'),
-                ->dispatch('confirmDelete', ['id' => $row->id]), // Emitir evento Livewire
-        ];
+                ->dispatch('confirmDelete', ['id' => $row->id]); 
+        }
 
-
-
+        return $actions;
     }
 
     /*

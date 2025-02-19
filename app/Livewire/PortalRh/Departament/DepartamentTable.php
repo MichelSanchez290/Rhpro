@@ -15,6 +15,8 @@ use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use Illuminate\Support\Facades\Crypt;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport; 
 use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable; 
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
 
 final class DepartamentTable extends PowerGridComponent
 {
@@ -31,14 +33,22 @@ final class DepartamentTable extends PowerGridComponent
             PowerGrid::footer()
                 ->showPerPage()
                 ->showRecordCount(),
-            PowerGrid::exportable(fileName: 'departamentos-export-file') 
+            PowerGrid::exportable(fileName: 'departamentos') 
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV), 
         ];
     }
 
     public function datasource(): Builder
     {
-        return Departamento::query();
+        $user = Auth::user();
+
+        // Si el usuario es administrador, devolver todos los departamentos
+        if ($user->hasRole('GoldenAdmin')) {
+            return Departamento::query();
+        }
+
+        // Si el usuario es trabajador o practicante, devolver solo su departamento
+        return Departamento::where('id', $user->departamento_id ?? 0);
     }
 
     public function relationSearch(): array
@@ -85,18 +95,23 @@ final class DepartamentTable extends PowerGridComponent
 
     public function actions(Departamento $row): array
     {
-        return [
-            Button::add('edit')
+        $actions = [];
+
+        if (Gate::allows('Editar Departamento')) {
+            $actions[] = Button::add('edit')
                 ->slot('Editar')
                 ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
-                ->route('editardepa', ['id' => Crypt::encrypt($row->id)]),
+                ->route('editardepa', ['id' => Crypt::encrypt($row->id)]);
+        }
 
-
-            Button::add('delete')
+        if (Gate::allows('Eliminar Departamento')) {
+            $actions[] = Button::add('delete')
                 ->slot('Eliminar')
                 ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
-                ->dispatch('confirmDelete', ['id' => $row->id]), // Emitir evento Livewire
-        ];
+                ->dispatch('confirmDelete', ['id' => $row->id]); 
+        }
+
+        return $actions;
     }
 
     /*

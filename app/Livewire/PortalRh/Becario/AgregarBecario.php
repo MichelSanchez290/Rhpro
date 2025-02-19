@@ -4,7 +4,6 @@ namespace App\Livewire\PortalRh\Becario;
 
 use Livewire\Component;
 use App\Models\PortalRH\Becario;
-use App\Models\PortalRH\Puesto;
 use App\Models\PortalRH\Departamento;
 use App\Models\PortalRH\RegistroPatronal;
 use App\Models\PortalRH\Empresa;
@@ -13,17 +12,18 @@ use Illuminate\Support\Facades\Hash;
 
 class AgregarBecario extends Component
 {
-    public $becario = [], $sucursales=[], $user=[];
-    public $usuarios, $departamentos, $puestos, $registros_patronales, 
-    $empresas, $empresa, $nombre, $apellido_p, $apellido_m, $password;
+    public $becario = [], $sucursales=[], $puestos=[], $user=[];
+
+    public $usuarios, $registros_patronales, 
+    $empresas, $empresa, $nombre, $apellido_p, $apellido_m, $password,
+    $departamentos, $departamento;
 
     public function mount()
     {
         $this->usuarios = User::all();
-        $this->departamentos = Departamento::all();
-        $this->puestos = Puesto::all();
         $this->registros_patronales = RegistroPatronal::all();
         $this->empresas = Empresa::all();
+        $this->departamentos = Departamento::all();
     }
 
     public function updatedEmpresa()
@@ -32,6 +32,13 @@ class AgregarBecario extends Component
         $this->sucursales = Empresa::with('sucursales')->where('id', $this->empresa)->get();
 
     }
+
+    public function updatedDepartamento()
+    {
+        // Obtener los puestos del departamento seleccionado
+        $this->puestos = Departamento::with('puestos')->where('id', $this->departamento)->get();
+    }
+
 
     protected $rules = [
         'becario.clave_becario' => 'required',
@@ -49,9 +56,6 @@ class AgregarBecario extends Component
         'becario.status' => 'required',
         'becario.calle' => 'required',
         'becario.colonia' => 'required',
-
-        'becario.departamento_id' => 'required|exists:departamentos,id',
-        'becario.puesto_id' => 'required|exists:puestos,id',
         'becario.registro_patronal_id' => 'required|exists:registros_patronales,id',
 
         'apellido_p' => 'required',
@@ -59,7 +63,9 @@ class AgregarBecario extends Component
         'user.email' => 'required',
         'password' => 'required',
         'empresa' => 'required',
-        'user.sucursal_id' => 'required',
+        'user.sucursal_id' => 'required|exists:sucursales,id',
+        'departamento' => 'required',
+        'user.puesto_id' => 'required|exists:puestos,id',
     ];
 
     // MENSAJES DE VALIDACIÓN
@@ -69,9 +75,6 @@ class AgregarBecario extends Component
         'becario.curp.size' => 'La CURP debe tener exactamente 18 caracteres.',
         'becario.rfc.size' => 'El RFC debe tener exactamente 13 caracteres.',
         'becario.numero_celular.digits' => 'El número de celular debe tener 10 dígitos.',
-
-        'becario.departamento_id.exists' => 'El departamento seleccionado no existe.',
-        'becario.puesto_id.exists' => 'El puesto seleccionado no existe.',
         'becario.registro_patronal_id.exists' => 'El Reg Patronal seleccionado no existe.',
 
         'nombre.required' => 'Este campo es obligatorio.',
@@ -81,6 +84,9 @@ class AgregarBecario extends Component
         'password.required' => 'Este campo es obligatorio.',
         'empresa.required' => 'Este campo es obligatorio.',
         'user.sucursal_id.required' => 'Este campo es obligatorio.',
+        'departamento.required' => 'Este campo es obligatorio.',
+        'user.puesto_id.required' => 'Este campo es obligatorio.',
+        'user.puesto_id.exists' => 'El puesto seleccionado no existe.',
     ];
     
     // Método para guardar el registro patronal
@@ -90,6 +96,7 @@ class AgregarBecario extends Component
         $this->user['name'] = $this->nombre." ".$this->apellido_p." ".$this->apellido_m;
         $this->user['password'] =  Hash::make($this->password);
         $this->user['empresa_id'] = $this->empresa;
+        $this->user['departamento_id'] = $this->empresa;
         $this->user['tipo_user'] = "Becario";
 
         $guardaUser = new User($this->user);
