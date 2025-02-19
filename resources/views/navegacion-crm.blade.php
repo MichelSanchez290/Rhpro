@@ -19,52 +19,57 @@
                 <span class="text-sm">Empresas</span>
             </a>
         </li>
-        <li class="mb-1 group">
-            <a href=""
-                class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100 sidebar-dropdown-toggle">
-                <i class='mr-3 text-lg bx bx-user'></i>
-                <span class="text-sm">Datos Fiscales</span>
-                <i class="ri-arrow-right-s-line ml-auto group-[.selected]:rotate-90"></i>
-            </a>
-            <ul class="pl-7 mt-2 hidden group-[.selected]:block">
-                <li class="mb-4">
-                    <a href="{{ route('mostrarDatosFiscales') }}"
-                        class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Mostrar
-                        datos fiscales</a>
-                </li>
-                <li class="mb-4">
-                    <a href="{{ route('registra_datos_fiscales') }}"
-                        class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Registrar
-                        datos fiscales</a>
-                </li>
-            </ul>
-        </li>
-        <span class="font-bold text-gray-400">Leads</span>
-        <li class="mb-1 group">
-            <a href=""
-                class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100 sidebar-dropdown-toggle">
+        <details class="group">
+            <summary
+                class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md cursor-pointer">
                 <i class='mr-3 text-lg bx bxl-blogger'></i>
-                <span class="text-sm">Leads</span>
-                <i class="ri-arrow-right-s-line ml-auto group-[.selected]:rotate-90"></i>
-            </a>
-            <ul class="pl-7 mt-2 hidden group-[.selected]:block">
-                <li class="mb-4">
-                    <a href=""
-                        class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Leads</a>
-                </li>
-                <li class="mb-4">
-                    <a href=""
-                        class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Clientes</a>
-                </li>
-            </ul>
-        </li>
-        <li class="mb-1 group">
+                <span class="text-sm">Levantamiento de pedidos</span>
+                <ion-icon name="chevron-forward-outline"
+                    class="text-2xl text-gray-500 transition-transform duration-300 group-open:rotate-90"></ion-icon>
+            </summary>
+            <div
+                class="box-border max-h-0 opacity-20 overflow-hidden transition-[max-height, opacity] duration-500 group-open:max-h-96 group-open:opacity-100">
+                <div class="pl-9 mt-2 space-y-3">
+                    <a href="#" class="flex items-center text-gray-600 hover:text-black group">
+                        <span
+                            class="w-2 h-2 bg-gray-400 rounded-full mr-3 transition-colors group-hover:bg-black"></span>
+                        <span class="text-sm">Leads</span>
+                    </a>
+                    <a href="#" class="flex items-center text-gray-600 hover:text-black group">
+                        <span
+                            class="w-2 h-2 bg-gray-400 rounded-full mr-3 transition-colors group-hover:bg-black"></span>
+                        <span class="text-sm">Clientes</span>
+                    </a>
+                </div>
+            </div>
+        </details>
+        {{-- <li class="mb-1 group">
             <a href=""
                 class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
                 <i class='mr-3 text-lg bx bx-archive'></i>
                 <span class="text-sm">Empresas</span>
             </a>
+        </li> --}}
+        <li class="mb-1">
+            <input type="checkbox" id="datosFiscales" class="peer hidden">
+            <label for="datosFiscales"
+                class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md cursor-pointer">
+                <i class='mr-3 text-lg bx bx-user'></i>
+                <span class="text-sm">Datos Fiscales</span>
+            </label>
+            <ul class="pl-7 mt-2 hidden peer-checked:block">
+                <li class="mb-4">
+                    <a href="{{ route('mostrarDatosFiscales') }}" Mostrar datos fiscales </a>
+                </li>
+                <li class="mb-4">
+                    <a href="{{ route('registra_datos_fiscales') }}"
+                        class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:block before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">
+                        Registrar datos fiscales
+                    </a>
+                </li>
+            </ul>
         </li>
+
         <span class="font-bold text-gray-400">PERSONAL</span>
         <li class="mb-1 group">
             <a href=""

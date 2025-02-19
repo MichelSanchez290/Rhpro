@@ -1,4 +1,4 @@
-<div class="scroll-smooth">
+<div>
     <div class="w-full bg-white border-2 rounded-lg">
         <div class="text-center">
             <h1 class="mt-10 mb-5 text-3xl font-bold">
@@ -99,7 +99,7 @@
             </div>
         </div>
     </div>
-    <div class="items-center w-full m-4 bg-gray-100 rounded-lg">
+    <div class="w-full bg-white border-2 rounded-lg mt-4">
         <div class="p-4">
             <div class="flex text-center">
                 <button onclick="Livewire.dispatch('openModal', { component: 'crm.leads.modal.seleccion ' })"
@@ -128,7 +128,7 @@
     </div>
 
     @if ($paginacion == 1)
-        <div class="bg-white">
+        <div>
             @for ($i = 0; $i < $duplicados; $i++)
                 <div id="form1">
                     <div class="m-4 bg-white rounded-lg shadow-md shadow-gray-300">
@@ -137,7 +137,7 @@
                                 Formulario de E-Smart
                             </h1>
                         </div>
-                        <div class="flex justify-center w-full px-10 py-4">
+                        <div class="grid justify-center w-full grid-cols-4 gap-4 px-10 py-4">
                             <div class="mx-2 text-center">
                                 <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
                                     Nombre Cliente
@@ -175,7 +175,7 @@
                                 <x-input-error for="lead.correo" />
                             </div>
                         </div>
-                        <div class="flex justify-center w-full px-10 py-4">
+                        <div class="grid justify-center w-full grid-cols-4 gap-4 px-10 py-4">
                             {{-- Tamaño de la empresa --}}
                             <div class="mx-2 text-center">
                                 <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
@@ -224,7 +224,7 @@
                                 <x-input-error for="esmart.medio_cesrh" />
                             </div>
                         </div>
-                        <div class="flex justify-center w-full px-10 py-4">
+                        <div class="grid justify-center w-full grid-cols-3 gap-4 px-10 py-4">
                             {{-- Fecha --}}
                             <div class="mx-2 text-center">
                                 <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
@@ -254,7 +254,7 @@
                                 <x-input-error for="esmart.fecha" />
                             </div>
                         </div>
-                        <div class="flex justify-end">
+                        <div class="flex justify-end mr-10">
                             <button wire:click="eliminarEsmart({{ $i }})" type="button"
                                 class="break-inside bg-[#D20939] rounded-xl p-4 mb-4 ">
                                 <div class="flex items-center">
@@ -266,13 +266,21 @@
                     </div>
                 </div>
             @endfor
-            <div class="flex justify-center">
+        </div>
+        @if ($i > 0)
+            <div class="flex justify-center bg-white rounded-lg">
                 <button wire:click = "guardarEsmart" wire:loading.attr="disabled"
                     class="p-2 my-6 mr-10 font-semibold text-white bg-green-600 rounded-md shadow-md shadow-gray-500 active:shadow-none active:bg-green-800 ">
                     Guardar y Salir
                 </button>
             </div>
-        </div>
+        @else
+            <div class="bg-white rounded-lg mt-4">
+                <h1 class="text-center text-6xl font-bold p-10">
+                    Agregue formularios
+                </h1>
+            </div>
+        @endif
     @endif
 
     @if ($paginacion == 2)
