@@ -17,7 +17,7 @@
             <h2 class="font-semibold">{{ $usuarios[$instructor->user_id]->name ?? 'Sin Nombre' }}</h2>
             <p class="text-gray-500">{{ $usuarios[$instructor->user_id]->email ?? 'Sin Correo' }}</p>
             <p class="text-gray-500">RFC: {{ $instructor->rfc }}</p>
-            <p class="text-gray-500">Sucursal: {{ $sucursales[$instructor->sucursal_id]->nombre_sucursal ?? 'Sin Sucursal' }}</p>
+            <p class="text-gray-500">Puesto: {{ $puestos[$instructor->puesto_id]->nombre_puesto ?? 'Sin Puesto' }}</p>
             <p class="text-gray-500">Departamento: {{ $departamentos[$instructor->departamento_id]->nombre_departamento ?? 'Sin Departamento' }}</p>
         </div>
 

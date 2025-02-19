@@ -35,7 +35,7 @@ final class EmpresaSucursalTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Empresa::query() //->with('sucursales')
+        return Empresa::query()
         ->join('empresa_sucursal', 'empresas.id', '=', 'empresa_sucursal.empresa_id')
         ->join('sucursales', 'empresa_sucursal.sucursal_id', '=', 'sucursales.id')
         ->select(
@@ -60,7 +60,6 @@ final class EmpresaSucursalTable extends PowerGridComponent
     public function fields(): PowerGridFields
     {
         return PowerGrid::fields()
-            ->add('id')
             ->add('empresa_sucursal_id')
             ->add('nombre')
             ->add('sucursal_nombre')

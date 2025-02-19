@@ -10,6 +10,9 @@ use App\Models\ActivoFijo\Activos\ActivoPapeleria;
 use App\Models\ActivoFijo\Activos\ActivoSouvenir;
 use App\Models\ActivoFijo\Activos\ActivoTecnologia;
 use App\Models\ActivoFijo\Activos\ActivoUniforme;
+use App\Models\Crm\EsmartLevantamiento;
+use App\Models\Crm\LeadCliente;
+use App\Models\Crm\LeadsCliente;
 use App\Models\Encuestas360\Asignacion;
 use App\Models\PortalCapacitacion\PerfilPuesto;
 use App\Models\PortalRH\Becari;
@@ -22,6 +25,8 @@ use App\Models\PortalRH\Incapacidad;
 use App\Models\PortalRH\Incidencia;
 use App\Models\PortalRH\Retardo;
 use App\Models\PortalRH\Sucursal;
+use App\Models\PortalRH\Departamento;
+use App\Models\PortalRH\Puesto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -30,6 +35,8 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use PHPUnit\Framework\MockObject\Stub\ReturnArgument;
+use Spatie\Permission\Traits\HasRoles;
+    
 
 class User extends Authenticatable
 {
@@ -38,13 +45,14 @@ class User extends Authenticatable
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
+    use HasRoles;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
-    protected $fillable = ['name', 'email', 'password', 'password', 'empresa_id', 'sucursal_id', 'tipo_user'];
+    protected $fillable = ['name', 'email', 'password', 'password', 'empresa_id', 'sucursal_id', 'tipo_user', 'departamento_id', 'puesto_id'];
 
     /**sucursal_id
      * The attributes that should be hidden for serialization.
@@ -69,13 +77,18 @@ class User extends Authenticatable
      */
     protected $appends = ['profile_photo_url'];
 
-     /* RELACIONES MODULO RH */
+    /* RELACIONES MODULO RH */
 
     public function becarios()
     {
         return $this->hasMany(Becario::class);
     }
 
+
+
+
+
+    /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public function cambioSalario()
     {
         return $this->belongsToMany(CambioSalario::class)->withPivot('user_id', 'cambio_salario_id', 'fecha');
@@ -100,6 +113,16 @@ class User extends Authenticatable
     public function retardos()
     {
         return $this->belongsToMany(Retardo::class)->withPivot('user_id', 'retardo_id');
+    }
+
+    public function departamento()
+    {
+        return $this->belongsTo(Departamento::class);
+    }
+
+    public function puesto()
+    {
+        return $this->belongsTo(Puesto::class);
     }
 
     /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -168,23 +191,22 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(ActivoSouvenir::class);
     }
-    public function activotecnologias()
+    public function activosTecnologia()
     {
-        return $this->belongsToMany(ActivoTecnologia::class);
+        return $this->belongsToMany(ActivoTecnologia::class, 'activos_tecnologia_user')
+            ->withPivot('fecha_asignacion', 'fecha_devolucion', 'observaciones', 'status', 'foto1', 'foto2', 'foto3')
+            ->withTimestamps();
     }
+
     public function activouniformes()
     {
         return $this->belongsToMany(ActivoUniforme::class);
     }
 
     //  /* RELACIONES MODULO CAPACITACION */
-    public function perfiles_puestos()
+    public function empresa()
     {
-        return $this->belongsToMany(PerfilPuesto::class, 'perfil_puesto_user', 'users_id', 'perfiles_puestos_id'); // Modelo relacionado
-    }
-    public function empresas()
-    {
-        return $this->belongsTo(Empresa::class, 'empresas_id', 'id');
+        return $this->belongsTo(Empresa::class, 'empresa_id', 'id');
     }
 
     public function asignacion()
@@ -201,5 +223,21 @@ class User extends Authenticatable
     public function perfilActual()
     {
         return $this->perfilesPuestos()->latest()->first();
+    }
+    
+    //Por favor no tocar porque aqui son de mi asignaciones para que mueste el nombre de la empresa y sucursal 
+    public function sucursal()
+    {
+        return $this->belongsTo(Sucursal::class, 'sucursal_id');
+    }
+
+   public function leadcliente()
+    {
+        return $this->hasMany(LeadCliente::class, 'users_id');
+    }
+
+    public function esmart_levantamiento()
+    {
+        return $this->hasMany(EsmartLevantamiento::class);
     }
 }

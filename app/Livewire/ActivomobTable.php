@@ -38,8 +38,16 @@ final class ActivomobTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
+        $user = auth()->user();
+
+        // Si el usuario no tiene sucursal, no mostrar nada
+        if (!$user->sucursal_id) {
+            return ActivoMobiliario::query()->whereRaw('1 = 0'); // Devuelve una consulta vacía
+        }
+
         return ActivoMobiliario::query()
-            ->with(['tipoActivo', 'anioEstimado']);
+            ->with(['tipoActivo', 'anioEstimado'])
+            ->where('sucursal_id', $user->sucursal_id);
     }
 
     public function relationSearch(): array
@@ -129,7 +137,7 @@ final class ActivomobTable extends PowerGridComponent
     {
         return [
             Button::add('edit')
-                ->icon('default-copy')
+                ->icon('default-edit')
                 ->class('btn btn-primary')
                 ->route('editaractmob', ['id' => $row->id]),
                 Button::add('delete')

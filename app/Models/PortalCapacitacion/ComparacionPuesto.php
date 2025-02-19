@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\PortalCapacitacion;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -20,6 +20,9 @@ class ComparacionPuesto extends Model
         'id',
         'fecha_comparacion',
         'competencias_requeridas',
+        'nivel_actual',
+        'nivel_nuevo',
+        'diferencia',
         'puesto_nuevo',
         'perfiles_puestos_id',
     ];
@@ -28,5 +31,10 @@ class ComparacionPuesto extends Model
     public function perfilPuesto()
     {
         return $this->belongsToMany(PerfilPuesto::class, 'perfiles_puestos_id');
+    }
+
+    public function puestoNuevo()
+    {
+        return $this->belongsTo(PerfilPuesto::class, 'puesto_nuevo');
     }
 }

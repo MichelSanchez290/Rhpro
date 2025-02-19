@@ -19,6 +19,6 @@ class Identificadore extends Model
 
     public function crmempresa()
     {
-        return $this->hasMany(crmempresa::class);
+        return $this->hasMany(CrmEmpresa::class);
     }
 }

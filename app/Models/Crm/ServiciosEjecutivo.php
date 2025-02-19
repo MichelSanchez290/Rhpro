@@ -19,11 +19,11 @@ class ServiciosEjecutivo extends Model
 
     public function ejectcotizacionesaprobadas()
     {
-        return $this->hasMany(ejectcotizacionesaprobadas::class);
+        return $this->hasMany(EjectCotizacionesAprobada::class);
     }
 
     public function levantamientopedidos()
     {
-        return $this->belongsTo(levantamientopedidos::class);
+        return $this->belongsTo(HeadLevantamientosPedido::class);
     }
 }

@@ -1,14 +1,16 @@
 <?php
 
-use App\Livewire\Crm\Inicio;
 use App\Livewire\Crm\CrmEmpresa\Agregar\AgregarEmpresa;
 use App\Livewire\Crm\CrmEmpresa\Editar\EditarEmpresa;
 use App\Livewire\Crm\CrmEmpresa\Eliminar\EliminarEmpresa;
 use App\Livewire\Crm\CrmEmpresa\Mostrar\MostrarEmpre;
 use App\Livewire\Crm\DatosFiscale\Agregar\AgregarDatosFiscale;
-use App\Livewire\Crm\DatosFiscale\Mostrar\MostrarDatosFisc;
 use App\Livewire\Crm\DatosFiscale\Editar\EditarDatosFisc;
 use App\Livewire\Crm\DatosFiscale\Eliminar\EliminarDatosFisc;
+use App\Livewire\Crm\DatosFiscale\Mostrar\MostrarDatosFisc;
+use App\Livewire\Crm\Inicio;
+use App\Livewire\Crm\Leads\Vistaprincipal;
+use App\Livewire\DatosFiscalesTable;
 use App\Livewire\LeadsCliente;
 use App\Livewire\Portal360\EliminarRolesDev;
 use App\Livewire\PortalRh\Empres\MostrarEmpres;
@@ -31,6 +33,11 @@ Route::get(
 )->name('Createcrm');
 
 Route::get(
+    '/crm-leads',
+    Vistaprincipal::class
+)->name('leads');
+
+Route::get(
     '/crm-editempresa/{id}',
     EditarEmpresa::class
 )->name('EditEmpresa');
@@ -39,11 +46,6 @@ Route::post(
     '/crm-deleteEmpresa/{id}',
     EliminarEmpresa::class
 )->name('EliminarEmpresa');
-
-// Route::get(
-//     '/leads-inicio',
-//     // InicioLeadsCliente::class
-// )->name('Leads');
 
 Route::get(
     '/crm-registrarDatosFiscales',
@@ -65,4 +67,9 @@ Route::post(
     EliminarDatosFisc::class,
 )->name('EliminarDato');
 
-// Route::get('select', 'AgregarDatosFiscale@select');
+Route::get('/crm-deleteDato', [MostrarDatosFisc::class, 'deleteDato'])->name('confirmDeleteDato');
+
+Route::get(
+    '/crm-leads',
+    Vistaprincipal::class,
+)->name('Leads');

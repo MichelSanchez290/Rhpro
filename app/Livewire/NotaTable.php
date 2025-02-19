@@ -15,6 +15,7 @@ use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 final class NotaTable extends PowerGridComponent
 {
     public string $tableName = 'nota-table-i5b7ln-table';
+    protected $listeners = ['refreshPowerGrid' => '$refresh'];
 
     public function setUp(): array
     {
@@ -31,7 +32,7 @@ final class NotaTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Notatecno::query();
+        return Notatecno::query()->with('activosTecnologias');
     }
 
     public function relationSearch(): array
@@ -44,29 +45,23 @@ final class NotaTable extends PowerGridComponent
         return PowerGrid::fields()
             ->add('id')
             ->add('descripcion')
-            ->add('activos_tecnologia', function ($nota) {
-                // Obtener los nombres de los activos relacionados
-                return $nota->activosTecnologia->pluck('nombre')->join(', ');
-            })
-            ->add('created_at');
+            ->add('activos_tecnologias', function (Notatecno $notatecno) {
+                return $notatecno->activosTecnologias->pluck('nombre')->implode(', ');
+            });
     }
 
     public function columns(): array
     {
         return [
             Column::make('Id', 'id'),
-            Column::make('Descripción', 'descripcion')
+            Column::make('Notas', 'descripcion')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Activos de Tecnología', 'activos_tecnologia') // Columna para los nombres de los activos
-                ->sortable()
-                ->searchable(),
+            Column::make('Activos de Tecnología', 'activos_tecnologias'),
 
-            Column::make('Fecha de creación', 'created_at_formatted', 'created_at')
-                ->sortable(),
 
-            Column::action('Acciones')
+            Column::action('Action')
         ];
     }
 
@@ -89,6 +84,16 @@ final class NotaTable extends PowerGridComponent
             //     ->id()
             //     ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
             //     ->dispatch('edit', ['rowId' => $row->id])
+            Button::add('delete')
+                ->icon('default-trash')
+                ->class('btn btn-danger')
+                ->dispatch('openModal', [
+                    'component' => 'borrar-activo',
+                    'arguments' => [
+                        'vista' => 'mostrarnotas', // Nombre de la vista actual
+                        'activo_id' => $row->id
+                    ]
+                ]),
         ];
     }
 

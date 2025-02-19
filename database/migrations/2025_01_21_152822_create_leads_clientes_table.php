@@ -15,16 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('nombre_contacto');
             $table->unsignedBigInteger('users_id');
-            $table->foreign('users_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
-            $table->string('numero_cliente');
-            $table->date('fecha');
-            $table->time('hora');
-            $table->unsignedBigInteger('datos_id');
-            $table->foreign('datos_id')
+            $table->foreign('users_id')
                 ->references('id')
-                ->on('datos_fiscales')
+                ->on('users')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
+            $table->string('numero_cliente');
+            $table->date('fecha');
             $table->string('puesto');
             $table->string('correo');
             $table->string('telefono');
@@ -39,7 +36,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('leads_clientes', function (Blueprint $table) {
-            $table->dropForeign(['datos_id']);
+            $table->dropForeign(['users_id']);
         });
         Schema::dropIfExists('leads_clientes');
     }
