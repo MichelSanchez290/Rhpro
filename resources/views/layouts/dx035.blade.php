@@ -117,18 +117,6 @@
                 <h2 class="text-lg font-bold text-gray-700 mt-8">Encuestas</h2>
                 <ul class="space-y-4 mt-4">
                     <li>
-                        <a href="{{ route('encuesta.create') }}" class="flex items-center text-gray-600 hover:text-blue-600 transition-all hover:scale-105">
-                            <span class="material-icons mr-3">add_circle</span>
-                            Crear Encuesta
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('encuesta.index') }}" class="flex items-center text-gray-600 hover:text-blue-600 transition-all hover:scale-105">
-                            <span class="material-icons mr-3">list</span>
-                            Listar Encuestas
-                        </a>
-                    </li>
-                    <li>
                         <form action="{{ route('responder-cuestionario') }}" method="GET" class="flex items-center">
                             <input type="text" name="encuesta_clave" placeholder="Ingresar clave" class="border rounded-lg p-2" required>
                             <button type="submit" class="ml-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Ir</button>

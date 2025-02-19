@@ -14,30 +14,52 @@ class ResponderCuestionarioUno extends Component
     public $preguntas;
     public $respuestas = [];
     public $mostrarSeccionesAdicionales = false;
+    public $cuestionarioId;
+    public $atencionClientes = null; // Pregunta clave: Atención a clientes
+    public $esJefe = null; // Pregunta clave: Es jefe
 
     public function mount($key)
     {
-        // Cargar la encuesta y las preguntas del cuestionario 1
+        // Cargar la encuesta
         $this->encuesta = Encuesta::where('Clave', $key)->firstOrFail();
-        $this->preguntas = PreguntaBase::where('cuestionarios_id', 1)->get();
+    
+        // Obtener los IDs de los cuestionarios seleccionados
+        $cuestionariosIds = $this->encuesta->cuestionarios->pluck('id')->toArray();
+    
+        // Asignar el cuestionarioId (por ejemplo, si solo hay un cuestionario)
+        $this->cuestionarioId = $cuestionariosIds[0] ?? null; // Ajusta según tu lógica
+    
+        // Cargar las preguntas de los cuestionarios seleccionados
+        $this->preguntas = PreguntaBase::whereIn('cuestionarios_id', $cuestionariosIds)->get();
+    
+        // Debug: Verificar los cuestionarios y preguntas cargadas
+        \Log::info('Cuestionarios IDs:', ['ids' => $cuestionariosIds]);
+        \Log::info('Preguntas cargadas:', ['preguntas' => $this->preguntas->pluck('id')]);
     }
 
     public function updatedRespuestas()
     {
-        // Verificar si alguna respuesta en la Sección I es "Sí"
-        $seccionI = $this->preguntas
-            ->where('Seccion', 'Acontecimiento traumático severo')
-            ->pluck('id')
-            ->toArray();
+        \Log::info('Respuestas actualizadas:', $this->respuestas);
     
-        // Filtrar las respuestas de la Sección I
-        $respuestasSeccionI = array_intersect_key($this->respuestas, array_flip($seccionI));
+        if ($this->cuestionarioId == 1) {
+            $seccionI = $this->preguntas
+                ->where('Seccion', 'Acontecimiento traumático severo')
+                ->pluck('id')
+                ->toArray();
     
-        // Si alguna respuesta en la Sección I es "Sí", mostrar las secciones adicionales
-        if (in_array(1, $respuestasSeccionI)) {
-            $this->mostrarSeccionesAdicionales = true;
-        } else {
-            $this->mostrarSeccionesAdicionales = false;
+            \Log::info('IDs de la Sección I:', $seccionI);
+    
+            $respuestasSeccionI = array_intersect_key($this->respuestas, array_flip($seccionI));
+    
+            \Log::info('Respuestas de la Sección I:', $respuestasSeccionI);
+    
+            if (in_array(1, $respuestasSeccionI)) {
+                $this->mostrarSeccionesAdicionales = true;
+            } else {
+                $this->mostrarSeccionesAdicionales = false;
+            }
+    
+            \Log::info('Mostrar secciones adicionales:', ['mostrar' => $this->mostrarSeccionesAdicionales]);
         }
     }
 
@@ -45,67 +67,83 @@ class ResponderCuestionarioUno extends Component
     {
         // Validar que todas las respuestas estén completas
         $this->validate([
-            'respuestas.*' => 'required|in:0,1',
+            'respuestas.*' => 'required|in:0,1,2,3,4', // Ajustar según las opciones del cuestionario
+            'atencionClientes' => 'required_if:cuestionarioId,2|in:0,1', // Validar la pregunta clave
+            'esJefe' => 'required_if:cuestionarioId,2|in:0,1', // Validar la pregunta clave
         ]);
-
-        // Evaluar las respuestas
-        $seccionI = array_slice($this->respuestas, 0, 6);
-        $seccionII = array_slice($this->respuestas, 6, 5);
-        $seccionIII = array_slice($this->respuestas, 11, 5);
-        $seccionIV = array_slice($this->respuestas, 16, 5);
-
-        $requiereAtencion = false;
-
-        if (in_array(1, $seccionI)) {
-            if (in_array(1, $seccionII) || array_sum($seccionIII) >= 3 || array_sum($seccionIV) >= 2) {
-                $requiereAtencion = true;
-            }
-        }
-
+    
         // Guardar las respuestas en la base de datos
         $trabajadorEncuesta = TrabajadorEncuesta::create([
-            'encuesta_id' => $this->encuesta->id, // Usar el ID de la encuesta
-            'users_id' => auth()->id(), // Asignar el ID del usuario autenticado
+            'encuesta_id' => $this->encuesta->id,
+            'users_id' => auth()->id(),
             'fecha_fin_encuesta' => now(),
-            'Avance' => 100, // Puedes ajustar este valor según tu lógica
+            'Avance' => 100,
         ]);
-
+    
         foreach ($this->respuestas as $preguntaId => $respuesta) {
-            // Verificar si el ID de la pregunta existe en la tabla preguntas_bases
             if (!PreguntaBase::where('id', $preguntaId)->exists()) {
-                continue; // Saltar preguntas no respondidas o con ID inválido
+                continue;
             }
-
+    
             Respuesta::create([
                 'ValorRespuesta' => $respuesta,
                 'preguntasbases_id' => $preguntaId,
                 'trabajadores_encuestas_id' => $trabajadorEncuesta->id,
             ]);
         }
-
-        // Filtrar respuestas no válidas
-        $this->respuestas = array_filter($this->respuestas, function ($preguntaId) {
-            return PreguntaBase::where('id', $preguntaId)->exists();
-        }, ARRAY_FILTER_USE_KEY);
-
-        // Calcular el porcentaje de avance
-        $totalTrabajadores = $this->encuesta->NumeroEncuestas;
-        $respuestasRecibidas = $this->encuesta->EncuestasContestadas + 1; // Incrementar en 1
-        $porcentajeAvance = ($respuestasRecibidas / $totalTrabajadores) * 100;
-
-        // Actualizar el avance de la encuesta
-        $this->encuesta->update([
-            'EncuestasContestadas' => $respuestasRecibidas,
-            'Avance' => $porcentajeAvance,
-        ]);
-
+    
+        // Calcular la calificación final (solo para cuestionario 2)
+        if ($this->cuestionarioId == 2) {
+            $calificacionFinal = $this->calcularCalificacionFinal();
+            $nivelRiesgo = $this->determinarNivelRiesgo($calificacionFinal);
+    
+            // Guardar la calificación y el nivel de riesgo
+            $trabajadorEncuesta->update([
+                'calificacion_final' => $calificacionFinal,
+                'nivel_riesgo' => $nivelRiesgo,
+            ]);
+        }
+    
         // Redirigir a la página de agradecimiento
-        return redirect()->route('survey.thankyou')->with('requiereAtencion', $requiereAtencion);
+        return redirect()->route('survey.thankyou')->with('requiereAtencion', $nivelRiesgo ?? false);
+    }
+
+    private function calcularCalificacionFinal()
+    {
+        $puntaje = 0;
+
+        foreach ($this->respuestas as $preguntaId => $respuesta) {
+            $pregunta = PreguntaBase::find($preguntaId);
+
+            // Aplicar la lógica de calificación según el cuestionario 2
+            if (in_array($preguntaId, range(18, 33))) {
+                $puntaje += $respuesta; // Siempre=0, Casi siempre=1, etc.
+            } elseif (in_array($preguntaId, array_merge(range(1, 17), range(34, 46)))) {
+                $puntaje += (4 - $respuesta); // Siempre=4, Casi siempre=3, etc.
+            }
+        }
+
+        return $puntaje;
+    }
+
+    private function determinarNivelRiesgo($calificacionFinal)
+    {
+        if ($calificacionFinal < 20) {
+            return 'Nulo o despreciable';
+        } elseif ($calificacionFinal >= 20 && $calificacionFinal < 45) {
+            return 'Bajo';
+        } elseif ($calificacionFinal >= 45 && $calificacionFinal < 70) {
+            return 'Medio';
+        } elseif ($calificacionFinal >= 70 && $calificacionFinal < 90) {
+            return 'Alto';
+        } else {
+            return 'Muy alto';
+        }
     }
 
     public function render()
     {
         return view('livewire.dx035.cuestionario-para-responder.responder-cuestionario-uno')
-            ->layout('layouts.app');
+            ->layout('layouts.cuestionariosdx035');
     }
 }
