@@ -33,8 +33,9 @@ class AgregarFunEspecificas extends Component
         $AgregarFuncion->save();
 
         $this->funcion=[];
-        //$this->emit('showAnimatedToast', 'Producto guardado correctamente');
-        return redirect()->route('mostrarFuncionesEspecificas');
+        $this->reset(['nombre']);
+
+        session()->flash('message', 'Funcion Especifica agregada correctamente');
         
     }
 

@@ -116,27 +116,27 @@ class CompararPerfilPuesto extends Component
     }
 
     public function guardarConclusion()
-{
-    if (!$this->perfilactual || !$this->detallePuesto || empty($this->habilidadesComparadas)) {
-        session()->flash('error', 'No hay datos para guardar.');
-        return;
-    }
+    {
+        if (!$this->perfilactual || !$this->detallePuesto || empty($this->habilidadesComparadas)) {
+            session()->flash('error', 'No hay datos para guardar.');
+            return;
+        }
 
-    // Recorrer cada competencia evaluada y guardarla como un nuevo registro
-    foreach ($this->habilidadesComparadas as $habilidad) {
-        ComparacionPuesto::create([
-            'fecha_comparacion' => now()->toDateString(),
-            'competencias_requeridas' => $habilidad['nombre'], // Se guarda cada competencia individualmente
-            'nivel_actual' => $habilidad['nivel_usuario'] !== 'N/A' ? $habilidad['nivel_usuario'] : null,
-            'nivel_nuevo' => $habilidad['nivel_puesto'] !== 'N/A' ? $habilidad['nivel_puesto'] : null,
-            'diferencia' => $habilidad['diferencia'],
-            'puesto_nuevo' => $this->detallePuesto->id,
-            'perfiles_puestos_id' => $this->perfilactual->id,
-        ]);
-    }
+        // Recorrer cada competencia evaluada y guardarla como un nuevo registro
+        foreach ($this->habilidadesComparadas as $habilidad) {
+            ComparacionPuesto::create([
+                'fecha_comparacion' => now()->toDateString(),
+                'competencias_requeridas' => $habilidad['nombre'], // Se guarda cada competencia individualmente
+                'nivel_actual' => $habilidad['nivel_usuario'] !== 'N/A' ? $habilidad['nivel_usuario'] : null,
+                'nivel_nuevo' => $habilidad['nivel_puesto'] !== 'N/A' ? $habilidad['nivel_puesto'] : null,
+                'diferencia' => $habilidad['diferencia'],
+                'puesto_nuevo' => $this->detallePuesto->id,
+                'perfiles_puestos_id' => $this->perfilactual->id,
+            ]);
+        }
 
-    session()->flash('success', 'Conclusión guardada exitosamente.');
-}
+        session()->flash('success', 'Conclusión guardada exitosamente.');
+    }
 
 
 

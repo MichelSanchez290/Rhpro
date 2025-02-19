@@ -3,7 +3,7 @@
 
     <button onclick="window.history.back()" 
         class="absolute top-4 right-4 text-gray-700 hover:text-red-500 focus:text-red-500 
-           p-3 rounded-full transition-all duration-300 transform hover:scale-110 focus:scale-110">
+           p-3 rounded-full transition-all duration-300 transform hover:scale-110 focus:scale-110 z-50">
            <i class="fa-solid fa-circle-xmark text-2xl"></i>
     </button>
 
