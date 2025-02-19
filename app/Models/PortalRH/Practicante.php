@@ -33,8 +33,6 @@ class Practicante extends Model
         'numero_celular',
 
         'user_id',
-        'departamento_id',
-        'puesto_id',
         'registro_patronal_id',
     ];
 
@@ -55,10 +53,29 @@ class Practicante extends Model
         //cada trabajador pertenece a 
         return $this->belongsTo(Puesto::class);
     }
+    
 
     public function registrosPatronales()
     {
         //cada trabajador pertenece a 
         return $this->belongsTo(RegistroPatronal::class);
     }
+
+    /*
+    
+        'departamento_id',
+        'puesto_id',
+
+        public function departamentos()
+        {
+            //cada trabajador pertenece a 
+            return $this->belongsTo(Departamento::class);
+        }
+
+        public function puestos()
+        {
+            //cada trabajador pertenece a 
+            return $this->belongsTo(Puesto::class);
+        }
+    */
 }

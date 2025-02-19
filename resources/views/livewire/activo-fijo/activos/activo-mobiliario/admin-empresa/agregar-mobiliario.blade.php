@@ -16,17 +16,22 @@
 @endsection
 
 @section('js')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.js"></script>
+<!-- Asegúrate de cargar primero jQuery y luego Select2 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        $('.select2').select2();
-    
-    $('#sucursall').on('change', function() {
+        // Inicializa Select2 en los selects
+        $('#sucursall').select2({
+            width: '100%' // Asegúrate de que ocupe todo el ancho
+        });
+
+        // Cambios en el select
+        $('#sucursall').on('change', function() {
             @this.set('activo.sucursal_id', this.value);
         });
-    })
+    });
 </script>
 @endsection
 <div class="h-screen overflow-y-auto">
@@ -43,17 +48,14 @@
                     <label for="nombre" class="text-gray-700 font-bold text-xl">Sucursal</label>
                 </div>
                 <div wire:ignore>
-                    <select id="sucursall" class="select2"  wire:model="activo.sucursal_id" >
-
+                    <select id="sucursall" class="select2" wire:model="activo.sucursal_id">
                         <option>Selecciona la sucursal</option>
-
                         @foreach ($sucursales as $su)
                             <option value="{{ $su->id }}">{{ $su->nombre_sucursal }}</option>
                         @endforeach
                     </select>
-
                 </div>
-                <x-input-error for="curso.category_id" />
+                <x-input-error for="activo.sucursal_id" />
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <!-- Nombre del Producto -->
@@ -102,21 +104,10 @@
                     </select>
                     @error('activo.aniosestimado_id') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                 </div>
-                
-                <!-- Tipo de Activo -->
-                <div class="my-2">
-                    <label for="tipo" class="text-gray-700 font-bold text-xl">Tipo de Activo</label>
-                    <select wire:model="activo.tipo_activo_id" class="block w-full border-2 px-2 py-2 text-sm sm:text-md rounded-md my-2 text-gray-500" id="tipo">
-                        <option value="">Seleccione un tipo</option>
-                        @foreach ($tipos as $id => $nombre)
-                            <option value="{{ $id }}">{{ $nombre }}</option>
-                        @endforeach
-                    </select>
-                    @error('activo.tipo_activo_id') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
-                </div>
+            
                 
                 <!-- Precio de Adquisición -->
-                <div class="my-2">
+                <div class="my-2 sm:col-span-2">
                     <label for="precio_adquisicion" class="text-gray-700 font-bold text-xl">Precio de Adquisición</label>
                     <input type="number" wire:model="activo.precio_adquisicion" class="block w-full border-2 px-2 py-2 text-sm sm:text-md rounded-md my-2 text-black" id="precio_adquisicion">
                     @error('activo.precio_adquisicion') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror

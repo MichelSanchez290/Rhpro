@@ -99,7 +99,7 @@ class AgregarEncuesta extends Component
             'FechaFinal' => $this->FechaFinal,
             'NumeroEncuestas' => $this->numtrabajadores,
             'RutaLogo' => $rutaLogo,
-            'Estado' => 0,
+            'Estado' => 1,
         ]);
     
         // Obtener los IDs de los cuestionarios seleccionados

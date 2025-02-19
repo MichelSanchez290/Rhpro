@@ -39,11 +39,17 @@ final class MobiliarioTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
+        $usuario = Auth::user();
+
+        // Obtener las sucursales asociadas a la empresa del usuario autenticado
+        $sucursalesEmpresa = Sucursal::whereHas('empresas', function ($query) use ($usuario) {
+            $query->where('empresas.id', $usuario->empresa_id);
+        })->pluck('id');
+
+        // Filtrar los activos por las sucursales de la empresa
         return ActivoMobiliario::query()
-            ->with(['tipoActivo', 'anioEstimado']);
-        if (isset($this->filters['sucursal_id'])) {
-            $query->where('sucursal_id', $this->filters['sucursal_id']);
-        }
+            ->with(['tipoActivo', 'anioEstimado'])
+            ->whereIn('sucursal_id', $sucursalesEmpresa);
     }
 
     public function relationSearch(): array
@@ -119,16 +125,20 @@ final class MobiliarioTable extends PowerGridComponent
 
     public function filters(): array
     {
-        $sucursales = Sucursal::whereHas('empresas', function ($query) {
-            $query->where('empresa_id', Auth::user()->empresa_id);
+        $usuario = Auth::user();
+
+        // Obtener solo las sucursales asociadas a la empresa del usuario
+        $sucursales = Sucursal::whereHas('empresas', function ($query) use ($usuario) {
+            $query->where('empresas.id', $usuario->empresa_id);
         })->get();
+
         return [
             Filter::datepicker('fecha_adquisicion'),
             Filter::datepicker('fecha_baja'),
-            Filter::select('sucursal_id', 'sucursal_id') // Filtro de selección
+            Filter::select('sucursal_id', 'sucursal_id')
                 ->dataSource($sucursales)
-                ->optionValue('id') // Columna que se usará como valor
-                ->optionLabel('nombre'),
+                ->optionValue('id')
+                ->optionLabel('nombre_sucursal'),
         ];
     }
 

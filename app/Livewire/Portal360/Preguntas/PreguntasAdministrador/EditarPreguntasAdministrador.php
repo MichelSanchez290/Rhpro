@@ -36,6 +36,7 @@ class EditarPreguntasAdministrador extends Component
         'respuestas.*.puntuacion.min' => 'La puntuación debe ser al menos 1.',
         'respuestas.*.puntuacion.max' => 'La puntuación no debe ser mayor a 4.',
     ];
+    
 
     public function mount($id)
     {

@@ -5,6 +5,7 @@ namespace App\Livewire\Portal360\Asignaciones\AsignacionesAdministrador;
 use App\Models\Encuestas360\Asignacion;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Crypt;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
@@ -112,15 +113,14 @@ final class AsignacionesAdministradorTable extends PowerGridComponent
 
             Button::add('edit')
             ->slot('Editar')
-            ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'),
-            // ->route('', ['id' => Crypt::encrypt($row->id)]),
+            ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
+            ->route('editarAsignacionadministradordev', ['id' => Crypt::encrypt($row->id)]),
+            //       portal360.asignaciones.asignaciones-administrador.editar-asignaciones-administrador
 
-
-        Button::add('delete')
+            Button::add('delete')
             ->slot('Eliminar')
-            ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'),
-            // ->dispatch('', ['id' => Crypt::encrypt($row->id)]), 
-
+            ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
+            ->dispatch('confirmarEliminarAsignacionAdministrador', ['id' => Crypt::encrypt($row->id)]),
             
             Button::add('edit')
                 ->slot('Edit: ' . $row->id)
@@ -130,15 +130,4 @@ final class AsignacionesAdministradorTable extends PowerGridComponent
         ];
     }
 
-    /*
-    public function actionRules($row): array
-    {
-       return [
-            // Hide button edit for ID 1
-            Rule::button('edit')
-                ->when(fn($row) => $row->id === 1)
-                ->hide(),
-        ];
-    }
-    */
 }

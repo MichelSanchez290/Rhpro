@@ -42,6 +42,6 @@
         </div>
     </div>
 
-    
+    <livewire:portalrh.rol.rol-table/>
 
 </div>

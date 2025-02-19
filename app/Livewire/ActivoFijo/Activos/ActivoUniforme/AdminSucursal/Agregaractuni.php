@@ -4,6 +4,7 @@ namespace App\Livewire\ActivoFijo\Activos\ActivoUniforme\AdminSucursal;
 
 use App\Models\ActivoFijo\Activos\ActivoUniforme;
 use App\Models\ActivoFijo\Tipoactivo;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -43,7 +44,8 @@ class Agregaractuni extends Component
     {
         //ejemplo de consulta
         $this->consulta = ActivoUniforme::get();
-        $this->tipos = Tipoactivo::pluck('nombre_activo', 'id')->toArray();
+        $this->activo['tipo_activo_id'] = Tipoactivo::where('nombre_activo', 'Activo Uniformes')->value('id');
+        //dd($this->activo['tipo_activo_id']);
     }
 
     public function saveActivoUni()
@@ -53,6 +55,10 @@ class Agregaractuni extends Component
             'subirfoto2' => 'nullable|image|max:2048',
             'subirfoto3' => 'nullable|image|max:2048',
         ]);
+
+        $this->activo['empresa_id'] = Auth::user()->empresa_id;
+        $this->activo['sucursal_id'] = Auth::user()->sucursal_id;
+
         $this->subirfoto1->storeAs('ImagenUniforme1',$this->activo['descripcion']."-imagen.png",'subirDocs');
         $this->activo['foto1']="ImagenUniforme1/".$this->activo['descripcion']."-imagen.png";
 

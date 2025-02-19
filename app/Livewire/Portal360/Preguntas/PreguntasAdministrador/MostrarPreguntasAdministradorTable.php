@@ -3,6 +3,7 @@
 namespace App\Livewire\Portal360\Preguntas\PreguntasAdministrador;
 
 use App\Models\Encuestas360\Pregunta;
+use App\Models\Encuestas360\Respuesta;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Crypt;
@@ -35,15 +36,16 @@ final class MostrarPreguntasAdministradorTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Pregunta::query()
-        ->join('360_respuestas', 'preguntas.id', '=', '360_respuestas.preguntas_id')
-        ->select([
-            '360_respuestas.id', // Aquí aseguramos que el ID de la respuesta sea el que se muestra
-            'preguntas.texto',
-            'preguntas.descripcion',
-            '360_respuestas.texto as respuesta_texto',
-            '360_respuestas.puntuacion'
-        ]);
+        return Respuesta::query()
+            ->join('preguntas', 'preguntas.id', '=', '360_respuestas.preguntas_id')
+            ->select([
+                '360_respuestas.id', 
+                'preguntas.id as pregunta_id',
+                'preguntas.texto',
+                'preguntas.descripcion',
+                '360_respuestas.texto as respuesta_texto',
+                '360_respuestas.puntuacion'
+            ]);
     }
 
     public function relationSearch(): array
@@ -55,6 +57,7 @@ final class MostrarPreguntasAdministradorTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('id')
+            ->add('pregunta_id')
             ->add('texto')
             ->add('descripcion')
             ->add('respuesta_texto')
@@ -97,38 +100,23 @@ final class MostrarPreguntasAdministradorTable extends PowerGridComponent
         $this->js('alert('.$rowId.')');
     }
 
-    public function actions(Pregunta $row): array
+    public function actions($row): array
     {
+        // Obtener el ID de la pregunta relacionada con esta respuesta
+        $preguntaId = $row->pregunta_id;
+
         return [
-
             Button::add('edit')
-            ->slot('Editar')
-            ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
-            ->route('editarPreguntaAdmin', ['id' => Crypt::encrypt($row->id)]),
+                ->slot('Editar')
+                ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
+                ->route('editarPreguntaAdmin', ['id' => Crypt::encrypt($preguntaId)]),
 
-            Button::add('delete')
-            ->slot('Eliminar')
-            ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
-            ->dispatch('eliminarPregunta', ['id' => Crypt::encrypt($row->id)]),
-
-
-            Button::add('edit')
-                ->slot('Edit: '.$row->id)
-                ->id()
-                ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-                ->dispatch('edit', ['rowId' => $row->id])
+                Button::add('delete')
+                ->slot('Eliminar')
+                ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
+                ->dispatch('confirmarEliminarPregunta', ['id' => Crypt::encrypt($preguntaId)])
         ];
     }
 
-    /*
-    public function actionRules($row): array
-    {
-       return [
-            // Hide button edit for ID 1
-            Rule::button('edit')
-                ->when(fn($row) => $row->id === 1)
-                ->hide(),
-        ];
-    }
-    */
+
 }

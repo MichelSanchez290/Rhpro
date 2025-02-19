@@ -38,8 +38,16 @@ final class ActivotecTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
+        $user = auth()->user();
+
+        // Si el usuario no tiene sucursal, no mostrar nada
+        if (!$user->sucursal_id) {
+            return ActivoTecnologia::query()->whereRaw('1 = 0'); // Devuelve una consulta vacía
+        }
+
         return ActivoTecnologia::query()
-            ->with(['tipoActivo', 'anioEstimado']);
+            ->with(['tipoActivo', 'anioEstimado'])
+            ->where('sucursal_id', $user->sucursal_id);
     }
 
     public function relationSearch(): array
@@ -103,11 +111,8 @@ final class ActivotecTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Vida Útil (años)', 'vida_util_anio')
-                ->sortable()
-                ->searchable(),
 
-            //Column::make('Aniosestimado id', 'aniosestimado_id'),
+            Column::make('Vida Util(años)', 'anioEstimado')->sortable()->searchable(),
 
             Column::action('Action')
         ];

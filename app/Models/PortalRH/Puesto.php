@@ -46,5 +46,10 @@ class Puesto extends Model
     {
         return $this->hasMany(Instructor::class);
     }
+
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
     
 }
