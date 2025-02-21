@@ -274,7 +274,10 @@ class Vistaprincipal extends Component
         $this->lead['puesto_contacto_2'] = [];
         $this->lead['correo_2'] = [];
         $this->lead['telefono_2'] = [];
-        $this->show = false;
+        // return redirect()->route('Leads');
+
+        //para poder ocupar elemento banner que dice que ya agrego
+        $this->dispatch('message');
     }
 
     public function saveHead()
