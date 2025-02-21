@@ -36,18 +36,6 @@
                     wire:model.defer="lead.numero_lead" type="number" disabled readonly>
                 <x-input-error for="lead.numero_lead" />
             </div>
-            {{-- Fecha y Hora --}}
-            {{-- <div class="mx-2">
-                <label class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase">
-                    Fecha
-                </label>
-                <input
-                    class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                    wire:model.defer="lead.fecha_y_hora" type="datetime" disabled readonly>
-                <x-input-error for="lead.fecha_y_hora" />
-            </div> --}}
-        </div>
-        <div class="grid justify-center w-full grid-cols-2 gap-4 px-10 py-4 bg-white rounded-lg shadow-lg">
             {{-- Nombre de empresa --}}
             <div class="mx-2 text-center ">
                 <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
@@ -71,18 +59,47 @@
                     wire:model.defer="lead.puesto" type="text">
                 <x-input-error for="lead.puesto" />
             </div>
+            {{-- Telefono --}}
+            <div class="mx-2 mb-4 text-center">
+                <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                    Telefono
+                </label>
+                <input
+                    class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                    wire:model.defer="lead.telefono" type="number">
+                <x-input-error for="lead.telefono" />
+            </div>
+            {{-- Correo --}}
+            <div class="mx-2 text-center">
+                <label class="mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                    Correo
+                </label>
+                <input
+                    class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                    wire:model.defer="lead.correo" type="email">
+                <x-input-error for="lead.correo" />
+            </div>
+        </div>
+        {{-- Contacto alternativo --}}
+        <div class="grid justify-center w-full grid-cols-1 gap-4 px-10 py-4">
+            <div class="mx-4 text-center">
+                <h2 class="block mb-2 font-bold tracking-wide text-cyan-700 uppercase">En caso de estar ausente, ¿a quién podemos contactar?</h2>
+            </div>
+        </div>
+        <div class="grid justify-center w-full grid-cols-2 gap-4 px-10 py-4 bg-white rounded-lg shadow-lg">
             {{-- Contacto Alternativo --}}
             <div class="mx-2 text-center">
                 <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
-                    Contacto Alternativo
+                    Nombre de contacto alternativo
                 </label>
                 <input
                     class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
                     wire:model.defer="lead.nombre_contacto_2" type="text">
                 <x-input-error for="lead.nombre_contacto_2" />
             </div>
-            {{-- Puesto Alternativo --}}
+
             <div class="mx-2 text-center">
+                {{-- Puesto Alternativo --}}
                 <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
                     Puesto Alternativo
                 </label>
@@ -90,18 +107,6 @@
                     class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
                     wire:model.defer="lead.puesto_contacto_2" type="text">
                 <x-input-error for="lead.puesto_contacto_2" />
-            </div>
-        </div>
-        <div class="grid justify-center w-full grid-cols-2 gap-4 px-10 py-4 bg-white rounded-lg mb-7">
-            {{-- Correo --}}
-            <div class="mx-2 text-center">
-                <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
-                    Correo
-                </label>
-                <input
-                    class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                    wire:model.defer="lead.correo" type="email">
-                <x-input-error for="lead.correo" />
             </div>
             {{-- Correo alternativo --}}
             <div class="mx-2 text-center">
@@ -113,16 +118,8 @@
                     wire:model.defer="lead.correo_2" type="email">
                 <x-input-error for="lead.correo_2" />
             </div>
-            {{-- Telefono --}}
-            <div class="mx-2 mb-4 text-center">
-                <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
-                    Telefono
-                </label>
-                <input
-                    class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                    wire:model.defer="lead.telefono" type="number">
-                <x-input-error for="lead.telefono" />
-            </div>
+        </div>
+        <div class="grid justify-center w-full grid-cols-2 gap-4 px-10 py-4 bg-white rounded-lg mb-7">
             {{-- Telefono --}}
             <div class="mx-2 mb-4 text-center">
                 <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
@@ -148,7 +145,6 @@
                     Ir a inicio
                 </a>
             </div>
-
             <div x-data="{show:false}" x-show="show" x-transition x-init="@this.on('message',() => {
                 show=true;
                 });"
