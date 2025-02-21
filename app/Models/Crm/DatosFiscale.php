@@ -14,12 +14,7 @@ class DatosFiscale extends Model
     protected $primaryKey = 'id';
 
     //especifica las columnas
-    protected $fillable = ['id', 'razon_social', 'rfc', 'calle', 'numero_exterior', 'numero_interior', 'colonia', 'municipio', 'localidad', 'estado', 'pais', 'codigo_postal', 'crm_empresasid'];
-
-    public function leadcliente()
-    {
-        return $this->hasMany(LeadCliente::class);
-    }
+    protected $fillable = ['id', 'razon_social', 'rfc', 'calle', 'numero_exterior', 'numero_interior', 'colonia', 'municipio', 'localidad', 'estado', 'pais', 'codigo_postal', 'crm_empresas_id'];
 
     public function crmempresas()
     {
