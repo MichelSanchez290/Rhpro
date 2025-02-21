@@ -36,6 +36,7 @@ class Vistaprincipal extends Component
     public $lead = [];
     public $esmart = [[]];
     public $recuperarLead;
+    public $show = false;
 
     protected $rules = [
         //TABLA LEADSCLIENTES
@@ -94,8 +95,8 @@ class Vistaprincipal extends Component
         }else {
             $this->lead['numero_lead'] = $this->consulta->numero_lead+1;
         }
-        $this->consultahh = HeadLevantamientosPedido::get();
-        $this->consultanom035 = Nom035Levpedido::get();
+        // $this->consultahh = HeadLevantamientosPedido::get();
+        // $this->consultanom035 = Nom035Levpedido::get();
         $this->empresas = CrmEmpresa::all();
 
         $this->lead['users_id'] = Auth::user()->id;
@@ -273,7 +274,7 @@ class Vistaprincipal extends Component
         $this->lead['puesto_contacto_2'] = [];
         $this->lead['correo_2'] = [];
         $this->lead['telefono_2'] = [];
-        return dispatch('');
+        // $this->show = false;
     }
 
     public function saveHead()
