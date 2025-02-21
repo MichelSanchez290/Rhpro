@@ -201,6 +201,7 @@ class Vistaprincipal extends Component
         $AgregarLead = new LeadCliente($this->lead);
         $AgregarLead->save();
         $this->recuperarLead = $AgregarLead;
+
         $this->lead['nombre_cliente'] = [];
         $this->lead['medios_cesrh'] = [];
         $this->lead['fecha_y_hora'] = [];
@@ -212,7 +213,7 @@ class Vistaprincipal extends Component
         $this->lead['puesto_contacto_2'] = [];
         $this->lead['correo_2'] = [];
         $this->lead['telefono_2'] = [];
-        $this->lead['numero_lead']=$this->lead['numero_lead']+1;
+        $this->lead['numero_lead'] = $this->lead['numero_lead']+1;
     }
 
     public function saveHead()
