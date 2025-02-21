@@ -41,13 +41,19 @@ final class EmpresaTable extends PowerGridComponent
 
     public function relationSearch(): array
     {
-        return [];
+        return [
+            'empresa' => [ // Nombre de la relación en el modelo EmpresaSucursal
+                'nombre', // Columna en la tabla 'empresas' que se debe buscar
+            ],
+            'sucursal' => [ // Nombre de la relación en el modelo EmpresaSucursal
+                'clave_sucursal', // Columna en la tabla 'sucursales' que se debe buscar
+            ],
+        ];
     }
 
     public function fields(): PowerGridFields
     {
         return PowerGrid::fields()
-            ->add('id')
             ->add('id')
             ->add('empresa_nombre', fn(EmpresaSucursal $model) => $model->empresa->nombre)
             ->add('sucursal_clave', fn(EmpresaSucursal $model) => $model->sucursal->clave_sucursal);
@@ -58,14 +64,13 @@ final class EmpresaTable extends PowerGridComponent
     {
         return [
             Column::make('Id', 'id'),
-            Column::make('Id', 'id'),
             Column::make('Nombre Empresa', 'empresa_nombre')
-                ->sortable()
-                ->searchable(),
+                ->sortable(),
+                // ->searchable(),
 
             Column::make('Clave Sucursal', 'sucursal_clave')
-                ->sortable()
-                ->searchable(),
+                ->sortable(),
+                // ->searchable(),
 
 
             // Column::action('Action')

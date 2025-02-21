@@ -71,5 +71,10 @@ class PerfilPuesto extends Model
             ->withPivot(['status', 'fecha_inicio', 'fecha_final', 'motivo_cambio']);
     }
 
+    public function evaluaciones()
+    {
+        return $this->belongsToMany(Evaluacion::class, 'evaluacion_perfil_puesto', 'evaluaciones_id', 'perfiles_puestos_id');
+    }
+
 
 }

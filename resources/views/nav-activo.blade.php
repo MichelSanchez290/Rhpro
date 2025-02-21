@@ -1,8 +1,12 @@
 <div>
     <div class="py-2 px-6 bg-[#f8f4f3] flex items-center shadow-md shadow-black/5 sticky top-0 left-0 z-30">
-        <button type="button" class="text-lg text-gray-900 font-semibold sidebar-toggle">
+        <button type="button" class="text-lg text-gray-900 font-semibold sidebar-toggle mr-8">
             <i class="ri-menu-line"></i>
         </button>
+        
+        <a href="{{ route('dashboard') }}" class="text-lg text-gray-900 font-semibold sidebar-toggle">
+            <i class="ri-arrow-left-line"></i>
+        </a>
 
         <ul class="ml-auto flex items-center">
             <li class="mr-1 dropdown">
@@ -154,9 +158,9 @@
                         </div>
                     </div>
                     <div class="p-2 md:block text-left">
-                        <h2 class="text-sm font-semibold text-gray-800">John Doe</h2>
-                        <p class="text-xs text-gray-500">Administrator</p>
-                    </div>                
+                        <h2 class="text-sm font-semibold text-gray-800">{{ Auth::user()->name }}</h2>
+                        <p class="text-xs text-gray-500">{{ Auth::user()->getRoleNames()->first() }}</p>
+                    </div>           
                 </button>
                 <ul class="dropdown-menu shadow-md shadow-black/5 z-30 hidden py-1.5 rounded-md bg-white border border-gray-100 w-full max-w-[140px]">
                     <li>

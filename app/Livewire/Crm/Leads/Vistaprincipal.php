@@ -11,7 +11,6 @@ use App\Models\Crm\LeadCliente;
 use App\Models\Crm\HeadLevantamientosPedido;
 use App\Models\Crm\Nom035Levpedido;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
 use Illuminate\Support\Carbon;
 use Livewire\Attributes\On;
 use PhpOffice\PhpSpreadsheet\Style\ConditionalFormatting\Wizard\Duplicates;
@@ -23,7 +22,7 @@ class Vistaprincipal extends Component
     public $consulta;
     public $empresas;
     //variable gobal para almacenar lead
-    public $empresaSeleccionada,$fechaseleccionada;
+    public $empresaSeleccionada, $fechaseleccionada;
     public $hlevped = [];
     public $nom035 = [];
     public $datosfis;
@@ -32,24 +31,28 @@ class Vistaprincipal extends Component
     public $leadGlobal;
     public $lead = [];
     public $esmart = [[]];
+    public $recuperarLead;
 
     protected $rules = [
         //TABLA LEADSCLIENTES
-        'lead.nombre_contacto' => 'required',
-        'lead.users_id' => 'required',
-        //'lead.users_id' => 'required',
-        'lead.numero_cliente' => 'required',
-        'lead.fecha' => 'required',
-        // 'lead.hora' => 'required',
-        'lead.datos_id' => 'required',
+        'lead.numero_lead' => 'required',
+        'lead.nombre_cliente' => 'required',
+        'lead.medios_cesrh' => 'required',
+        'lead.fecha_y_hora' => 'required',
+        'lead.crm_empresas_id' => 'required',
         'lead.puesto' => 'required',
         'lead.correo' => 'required',
+        'lead.correo_2' => 'required',
         'lead.telefono' => 'required',
+        'lead.telefono_2' => 'required',
+        'lead.nombre_contacto_2' => 'required',
+        'lead.puesto_contacto_2' => 'required',
+        'lead.medios_cesrh' => 'required',
         //'lead.tipo' => 'required',
         //TABLA Head Levantamiento de pedidos
-        'hlevped.responsable_comercial' => 'required',
+        // 'hlevped.responsable_comercial' => 'required',
         'hlevped.fecha' => 'required',
-        'hlevped.nombre_cliente' => 'required',
+        // 'hlevped.nombre_cliente' => 'required',
         'hlevped.puesto' => 'required',
         'hlevped.empresa' => 'required',
         'hlevped.ubicacion_empresa' => 'required',
@@ -63,7 +66,7 @@ class Vistaprincipal extends Component
         'hlevped.correo_cliente' => 'required',
         'hlevped.telefono' => 'required',
         'hlevped.status' => 'required',
-        // 'hlevped.leadCli_id' => 'required',
+        'hlevped.leadCli_id' => 'required',
         //TABLA NOM 035
         'nom035.nombre_cliente' => 'required',
         'nom035.nombre_empresa' => 'required',
@@ -82,22 +85,26 @@ class Vistaprincipal extends Component
 
     public function mount()
     {
-        $this->consulta = LeadCliente::get();
+        $this->consulta = LeadCliente::where('tipo', 'lead')->orderBy('id', 'desc')->first();
+        if(empty($this->consulta)){
+            $this->lead['numero_lead'] = 1;
+        }else {
+            $this->lead['numero_lead'] = $this->consulta->numero_lead+1;
+        }
         $this->consultahh = HeadLevantamientosPedido::get();
         $this->consultanom035 = Nom035Levpedido::get();
         $this->empresas = CrmEmpresa::all();
-        //dd($lead['users_id']);
+
         $this->lead['users_id'] = Auth::user()->id;
-        $this->lead['hora'] = Carbon::now()->format('H:i:s');
+        $this->lead['fecha_y_hora'] = Carbon::now()->format('Y-m-d H:s:i');
         $this->lead['tipo'] = 'Lead';
         $this->paginacion = 0;
     }
 
     public function guardarEsmart()
     {
-        for ($i=0; $i < $this->duplicados; $i++)
-        {
-            if (isset($esmart[$i])){
+        for ($i = 0; $i < $this->duplicados; $i++) {
+            if (isset($esmart[$i])) {
                 $this->esmart[$i] = [];
             }
         }
@@ -127,13 +134,13 @@ class Vistaprincipal extends Component
         $guardarlead->save();
         $this->leadGlobal = $guardarlead->id;
 
-        foreach($this->esmart as $index => $esmartt){
-            $this -> esmartt['leadcliente_id'] = $guardarlead->id;
-            $this -> esmartt['users_id'] = Auth::id();
-            $this -> esmartt['nombre_cliente'] = $this -> lead['nombre_contacto'];
-            $this -> esmartt['nombre_empresa'] = $this -> lead['nombre_empresa'];
-            $this -> esmartt['telefono_cliente'] = $this -> lead['telefono'];
-            $this -> esmartt['correo_cliente'] = $this -> lead['correo'];
+        foreach ($this->esmart as $index => $esmartt) {
+            $this->esmartt['leadcliente_id'] = $guardarlead->id;
+            $this->esmartt['users_id'] = Auth::id();
+            $this->esmartt['nombre_cliente'] = $this->lead['nombre_contacto'];
+            $this->esmartt['nombre_empresa'] = $this->lead['nombre_empresa'];
+            $this->esmartt['telefono_cliente'] = $this->lead['telefono'];
+            $this->esmartt['correo_cliente'] = $this->lead['correo'];
             $guardarSmart = new EsmartLevantamiento($esmartt);
             $guardarSmart->save();
         }
@@ -181,20 +188,36 @@ class Vistaprincipal extends Component
 
     public function saveLead()
     {
-        $this->validate();
+        $this->validate([
+            'lead.numero_lead' => 'required',
+            'lead.nombre_cliente' => 'required',
+            'lead.medios_cesrh' => 'required',
+            'lead.fecha_y_hora' => 'required',
+            'lead.crm_empresas_id' => 'required',
+            'lead.puesto' => 'required',
+            'lead.correo' => 'required',
+            'lead.telefono' => 'required',
+        ]);
         $AgregarLead = new LeadCliente($this->lead);
         $AgregarLead->save();
-
-        $this->lead=[];
+        $this->recuperarLead = $AgregarLead;
     }
 
     public function saveHead()
     {
-        $this->validate();
-        $AgregarHead = new HeadLevantamientosPedido($this->hlevped);
-        $AgregarHead->save();
-
-        $this->hlevped=[];
+        // dd($this->hlevped);
+        // $this->validate();
+        foreach ($this->hlevped as $index => $head) {
+            $head['responsable_comercial'] = Auth::user()->name;
+            $head['nombre_cliente'] = $this->recuperarLead->nombre_contacto;
+            $head['puesto'] = $this->recuperarLead->puesto;
+            $head['empresa'] = $this->recuperarLead->datos_id;
+            $head['leadCli_id'] = $this->recuperarLead->id;
+            $head['fecha'] = $this->recuperarLead->fecha;
+            $AgregarHead = new HeadLevantamientosPedido($head);
+            $AgregarHead->save();
+            $this->hlevped = [];
+        }
     }
 
     public function saveNom035()
@@ -203,7 +226,7 @@ class Vistaprincipal extends Component
         $AgregarNOM035 = new Nom035Levpedido($this->nom035);
         $AgregarNOM035->save();
 
-        $this->nom035=[];
+        $this->nom035 = [];
     }
 
 

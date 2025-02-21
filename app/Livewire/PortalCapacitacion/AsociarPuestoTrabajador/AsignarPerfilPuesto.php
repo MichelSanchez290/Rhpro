@@ -7,8 +7,9 @@ use Illuminate\Support\Facades\Crypt;
 use App\Models\User;
 use App\Models\PortalCapacitacion\PerfilPuesto;
 use App\Models\PortalRH\Trabajador;
-use App\Models\PortalRH\Becari;
-use App\Models\PortalRH\Practicant;
+use App\Models\PortalRH\Becario;
+use App\Models\PortalRH\Practicante;
+use App\Models\PortalRH\Instructor;
 
 class AsignarPerfilPuesto extends Component
 {
@@ -33,10 +34,13 @@ class AsignarPerfilPuesto extends Component
                 $modelo = Trabajador::with('usuarios')->find($id);
                 break;
             case 'becario':
-                $modelo = Becari::with('usuarios')->find($id);
+                $modelo = Becario::with('usuarios')->find($id);
                 break;
             case 'practicante':
-                $modelo = Practicant::with('usuarios')->find($id);
+                $modelo = Practicante::with('usuarios')->find($id);
+                break;
+            case 'instructor':
+                $modelo = Instructor::with('usuarios')->find($id);
                 break;
             default:
                 abort(404, 'Tipo de usuario no válido.');

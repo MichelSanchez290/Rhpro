@@ -5,8 +5,9 @@ namespace App\Livewire\PortalCapacitacion\AsociarPuestoTrabajador;
 use Livewire\Component;
 use App\Models\PortalRH\Sucursal;
 use App\Models\PortalRH\Trabajador;
-use App\Models\PortalRH\Becari;
-use App\Models\PortalRH\Practicant;
+use App\Models\PortalRH\Becario;
+use App\Models\PortalRH\Practicante;
+use App\Models\PortalRH\Instructor;
 use App\Models\User;
 
 class AsociarPuestoTrabajador extends Component
@@ -29,17 +30,36 @@ class AsociarPuestoTrabajador extends Component
 
     public function updatedTipoSeleccionado()
     {
+        // Verificar si el tipo seleccionado es 'trabajador'
         if ($this->tipo_seleccionado == 'trabajador') {
-            $this->opciones = Trabajador::where('sucursal_id', $this->sucursal_id)->with('usuarios')->get();
-        } elseif ($this->tipo_seleccionado == 'becario') {
-            $this->opciones = Becari::where('sucursal_id', $this->sucursal_id)->with('usuarios')->get();
-        } elseif ($this->tipo_seleccionado == 'practicante') {
-            $this->opciones = Practicant::where('sucursal_id', $this->sucursal_id)->with('usuarios')->get();
-        } else {
+            $this->opciones = Trabajador::whereHas('usuarios', function($query) {
+                $query->where('sucursal_id', $this->sucursal_id);
+            })->with('usuarios')->get();
+        } 
+        // Verificar si el tipo seleccionado es 'becario'
+        elseif ($this->tipo_seleccionado == 'becario') {
+            $this->opciones = Becario::whereHas('usuarios', function($query) {
+                $query->where('sucursal_id', $this->sucursal_id);
+            })->with('usuarios')->get();
+        } 
+        // Verificar si el tipo seleccionado es 'practicante'
+        elseif ($this->tipo_seleccionado == 'practicante') {
+            $this->opciones = Practicante::whereHas('usuarios', function($query) {
+                $query->where('sucursal_id', $this->sucursal_id);
+            })->with('usuarios')->get();
+        } 
+        // Verificar si el tipo seleccionado es 'instructor_id'
+        elseif ($this->tipo_seleccionado == 'instructor_id') {
+            $this->opciones = Instructor::whereHas('usuarios', function($query) {
+                $query->where('sucursal_id', $this->sucursal_id);
+            })->with('usuarios')->get();
+        } 
+        // Si no se seleccionó ningún tipo, se retorna un arreglo vacío
+        else {
             $this->opciones = [];
         }
     }
-
+    
 
     public function setTipo($tipo)
     {
