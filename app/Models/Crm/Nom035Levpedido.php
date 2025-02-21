@@ -9,13 +9,15 @@ class Nom035Levpedido extends Model
 {
     use HasFactory;
 
-    protected $table = 'nom035_levpedido';
+    protected $table = 'nom035_levpedidos';
 
     //Define la clave primaria
     protected $primaryKey = 'id';
 
     //especifica las columnas
-    protected $fillable = ['id', 'nombre_cliente', 'nombre_empresa', 'giro_empresa', 'ubicacion_empresa','medio_cesrh', 'responsable_comercial', 'tipo_servicio', 'fecha', 'correo_cliente', 'telefono_cliente', 'leadsCli_id', 'users_id', '035info_id'];
+    protected $fillable = [
+        'id', 'tipo_servicio', 'fecha', 'hora', 
+    ];
 
     public function Cursos()
     {

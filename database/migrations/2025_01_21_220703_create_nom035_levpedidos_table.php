@@ -13,12 +13,24 @@ return new class extends Migration
             $table->string('tipo_servicio');
             $table->date('fecha');
             $table->time('hora');
-
+            $table->foreignId('nom035_informaciones_id')
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->foreignId('users_id')
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->timestamps();
         });
+        
     }
     public function down(): void
     {
+        Schema::table('nom035_levpedidos', function (Blueprint $table) {
+            $table->dropColumn('nom035_informaciones_id');
+            $table->dropColumn('users_id');
+        });
         Schema::dropIfExists('nom035_levpedidos');
     }
 };
