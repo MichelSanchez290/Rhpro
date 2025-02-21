@@ -274,7 +274,7 @@ class Vistaprincipal extends Component
         $this->lead['puesto_contacto_2'] = [];
         $this->lead['correo_2'] = [];
         $this->lead['telefono_2'] = [];
-        // $this->show = false;
+        $this->show = false;
     }
 
     public function saveHead()
