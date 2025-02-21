@@ -46,9 +46,9 @@ class MostarSucursalDepa extends Component
 
     public function render()
     {
-        $sucursaldepartament = DB::table('sucursal_departament')
-            ->join('sucursales', 'sucursal_departament.sucursal_id', '=', 'sucursales.id')
-            ->join('departamentos', 'sucursal_departament.departamento_id', '=', 'departamentos.id')
+        $sucursaldepartament = DB::table('departamento_sucursal')
+            ->join('sucursales', 'departamento_sucursal.sucursal_id', '=', 'sucursales.id')
+            ->join('departamentos', 'departamento_sucursal.departamento_id', '=', 'departamentos.id')
             ->select(
                 'sucursales.nombre_sucursal as sucursal_nombre',
                 'departamentos.nombre_departamento as departamento_nombre'

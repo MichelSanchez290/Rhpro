@@ -40,13 +40,7 @@ final class RolTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Role::query()
-        ->leftJoin('role_has_permissions', 'roles.id', '=', 'role_has_permissions.role_id')
-        ->leftJoin('permissions', 'role_has_permissions.permission_id', '=', 'permissions.id')
-        ->select([
-            'roles.*',
-            'permissions.name as permisos'
-        ]);
+        return Role::query();
     }
 
     public function relationSearch(): array
@@ -59,7 +53,6 @@ final class RolTable extends PowerGridComponent
         return PowerGrid::fields()
             ->add('id')
             ->add('name')
-            ->add('permisos')
             ->add('created_at');
     }
 
@@ -68,8 +61,6 @@ final class RolTable extends PowerGridComponent
         return [
             Column::make('Id', 'id'),
             Column::make('Rol', 'name'),
-
-            Column::make('Permisos', 'permisos'),
 
             Column::make('Created at', 'created_at')
                 ->sortable()
@@ -95,6 +86,14 @@ final class RolTable extends PowerGridComponent
     {
         $actions = [];
 
+        if (Gate::allows('Ver Permisos')) {
+            $actions[] = Button::add('ver')
+                ->slot('Permisos')
+                ->class('bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded')
+                ->route('mostrarpermisos', ['id' => Crypt::encrypt($row->id)]);
+        }
+        
+
         if (Gate::allows('Editar Rol')) {
             $actions[] = Button::add('edit')
                 ->slot('Editar')
@@ -112,7 +111,7 @@ final class RolTable extends PowerGridComponent
         return $actions;
     }
 
-    /*
+    /* mostrarpermisos
     public function actionRules($row): array
     {
        return [

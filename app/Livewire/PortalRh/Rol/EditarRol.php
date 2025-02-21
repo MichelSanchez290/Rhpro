@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Crypt;
 
 class EditarRol extends Component
 {
-    public $rolId;
+    public $rol_id;
     public $nombre;
     public $selectedPermissions = [];
     public $permissions = [];
@@ -19,38 +19,36 @@ class EditarRol extends Component
         $id = Crypt::decrypt($id);
         $rol = Role::findOrFail($id);
 
-        $this->rolId = $rol->id;
+        $this->rol_id = $id;
         $this->nombre = $rol->name;
         $this->selectedPermissions = $rol->permissions->pluck('id')->toArray(); // Guardar IDs en lugar de nombres
+
         $this->permissions = Permission::all();
     }
 
-    protected $rules = [
-        'nombre' => 'required|string|unique:roles,name,' . 'rolId',
-        'selectedPermissions' => 'array'
-    ];
-
-    protected $messages = [
-        'nombre.required' => 'El nombre del rol es obligatorio.',
-        'selectedPermissions.array' => 'Debes seleccionar al menos un permiso.',
-    ];
-
     public function actualizarRol()
     {
-        $this->validate();
+        $this->validate([
+            'nombre' => 'required|string|unique:roles,name,' . $this->rol_id,
+            'selectedPermissions' => 'array'
+        ]);
 
-        $rol = Role::findOrFail($this->rolId);
+        $rol = Role::findOrFail($this->rol_id);
         $rol->name = $this->nombre;
         $rol->save();
 
-        // Asegurarse de sincronizar los permisos usando los IDs en lugar de los nombres
-        $rol->syncPermissions($this->selectedPermissions);
+        // Obtener los nombres de los permisos seleccionados
+        $permisosNombres = Permission::whereIn('id', $this->selectedPermissions)->pluck('name')->toArray();
 
-        // Refrescar la data del rol después de actualizar
-        $this->mount(Crypt::encrypt($this->rolId));
+        // Sincronizar permisos con los nombres obtenidos
+        $rol->syncPermissions($permisosNombres);
 
         session()->flash('message', 'Rol actualizado correctamente.');
+
+        return redirect()->route('mostrarrol');
     }
+    
+
 
     //return redirect()->route('mostrarrol');
     

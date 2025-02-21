@@ -29,7 +29,7 @@ class MostrarRol extends Component
         $this->showModal = true;
     }
     
-    public function deleteUsuario()
+    public function deleteRol()
     {
         if ($this->userToDelete) {
             Role::find($this->userToDelete)->delete();

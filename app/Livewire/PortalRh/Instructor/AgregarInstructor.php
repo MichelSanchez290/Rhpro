@@ -8,29 +8,34 @@ use App\Models\PortalRH\Puesto;
 use App\Models\PortalRH\Departamento;
 use App\Models\PortalRH\RegistroPatronal;
 use App\Models\PortalRH\Empresa;
+use App\Models\PortalRH\Sucursal;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
 class AgregarInstructor extends Component
 {
-    public $instructor = [], $sucursales=[], $puestos=[], $user=[];
+    public $instructor = [], $sucursales=[], $departamentos=[], $puestos=[], $user=[];
 
     public $usuarios, $registros_patronales, 
     $empresas, $empresa, $nombre, $apellido_p, $apellido_m, $password,
-    $departamentos, $departamento;
+    $sucursal, $departamento;
 
     public function mount()
     {
         $this->usuarios = User::all();
         $this->registros_patronales = RegistroPatronal::all();
         $this->empresas = Empresa::all();
-        $this->departamentos = Departamento::all();
     }
 
     public function updatedEmpresa()
     {
         //dd();
         $this->sucursales = Empresa::with('sucursales')->where('id', $this->empresa)->get();
+    }
+
+    public function updatedSucursal()
+    {
+        $this->departamentos = Sucursal::with('departamentos')->where('id', $this->sucursal)->get();
     }
 
     public function updatedDepartamento()
@@ -74,10 +79,10 @@ class AgregarInstructor extends Component
         'nombre' => 'required',
         'apellido_p' => 'required',
         'apellido_m' => 'required',
-        'user.email' => 'required',
+        'user.email' => 'required|unique:users,email',
         'password' => 'required',
         'empresa' => 'required',
-        'user.sucursal_id' => 'required|exists:sucursales,id',
+        'sucursal' => 'required',
         'departamento' => 'required',
         'user.puesto_id' => 'required|exists:puestos,id',
     ];
@@ -92,15 +97,16 @@ class AgregarInstructor extends Component
         'instructor.rfc_empre.size' => 'El RFC de la empresa debe tener exactamente 13 caracteres.',
         'instructor.telefono1.digits' => 'El número de celular debe tener 10 dígitos.',
         'instructor.telefono2.digits' => 'El número de celular debe tener 10 dígitos.',
-        'instructor.registro_patronal_id.exists' => 'El departamento seleccionado no existe.',
+        'instructor.registro_patronal_id.exists' => 'El Reg Patronal seleccionado no existe.',
 
-    'nombre.required' => 'Este campo es obligatorio.',
+        'nombre.required' => 'Este campo es obligatorio.',
         'apellido_p.required' => 'Este campo es obligatorio.',
         'apellido_m.required' => 'Este campo es obligatorio.',
         'user.email.required' => 'Este campo es obligatorio.',
+        'user.email.unique' => 'Este correo ya esta en uso.',
         'password.required' => 'Este campo es obligatorio.',
         'empresa.required' => 'Este campo es obligatorio.',
-        'user.sucursal_id.required' => 'Este campo es obligatorio.',
+        'sucursal.required' => 'Este campo es obligatorio.',
         'departamento.required' => 'Este campo es obligatorio.',
         'user.puesto_id.required' => 'Este campo es obligatorio.',
         'user.puesto_id.exists' => 'El puesto seleccionado no existe.',
@@ -115,10 +121,9 @@ class AgregarInstructor extends Component
         $this->user['name'] = $this->nombre." ".$this->apellido_p." ".$this->apellido_m;
         $this->user['password'] =  Hash::make($this->password);
         $this->user['empresa_id'] = $this->empresa;
+        $this->user['sucursal_id'] = $this->sucursal;
         $this->user['departamento_id'] = $this->departamento;
         $this->user['tipo_user'] = "Instructor";
-
-
 
         $guardaUser = new User($this->user);
         $guardaUser -> save();

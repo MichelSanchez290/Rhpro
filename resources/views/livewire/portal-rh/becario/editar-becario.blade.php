@@ -58,6 +58,21 @@
                         <x-input-error for="password" />
                     </div>
 
+                    <!-- Clave -->
+                    <div class="grid grid-cols-1 mt-5">
+                        <label for="clave_becario"
+                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Clave
+                            Becario</label>
+                        <input wire:model.defer="clave_becario" type="text" id="clave_becario"
+                            placeholder="Clave del becario"
+                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"/>
+
+                        <x-input-error for="clave_becario" /> 
+                        
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
                     <div class="grid grid-cols-1 mt-5">
                         <label for="empresa"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
@@ -72,15 +87,12 @@
 
                         <x-input-error for="empresa" />
                     </div>
-                </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
-                    <!--  -->
                     <div class="grid grid-cols-1 mt-5">
-                        <label for="sucursal_id"
+                        <label for="sucursal"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
                             Sucursal</label>
-                        <select wire:model.defer="user.sucursal_id" id="sucursal_id"
+                        <select wire:model.live="sucursal" id="sucursal"
                             class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
                             <option value=""> --- Seleccione una sucursal --- </option>
                             @forelse ($sucursales as $sucursal)
@@ -96,21 +108,9 @@
                             @endforelse
                         </select>
 
-                        <x-input-error for="user.sucursal_id" />
+                        <x-input-error for="sucursal" />
                     </div>
-
-                    <!-- Clave -->
-                    <div class="grid grid-cols-1 mt-5">
-                        <label for="clave_becario"
-                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Clave
-                            Becario</label>
-                        <input wire:model.defer="clave_becario" type="text" id="clave_becario"
-                            placeholder="Clave del becario"
-                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"/>
-
-                        <x-input-error for="clave_becario" /> 
-                        
-                    </div>
+                    
                 </div>
 
                 <!-- ***********************  -->
@@ -119,19 +119,25 @@
                     <div class="grid grid-cols-1 mt-5">
                         <label for="departamento"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
-                            Departamentos</label>
+                            Departamento</label>
                         <select wire:model.live="departamento" id="departamento"
                             class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
                             <option value=""> --- Seleccione un departamento --- </option>
-                            @foreach ($departamentos as $departamento)
-                                <option value="{{ $departamento->id }}">{{ $departamento->nombre_departamento }}
-                                </option>
-                            @endforeach
+                            @forelse ($departamentos as $departamento)
+
+                                @foreach($departamento->departamentos as $mi_depa)
+
+                                    <option value="{{ $mi_depa->id }}">{{ $mi_depa->nombre_departamento }}
+                                    </option>
+                                @endforeach
+
+                            @empty
+                                <option value=""> Esta sucursal no tiene departamentos</option>
+                            @endforelse
                         </select>
 
                         <x-input-error for="departamento" />
                     </div>
-
 
                     <!--  -->
                     <div class="grid grid-cols-1 mt-5">

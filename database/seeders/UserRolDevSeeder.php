@@ -50,6 +50,7 @@ class UserRolDevSeeder extends Seeder
         // role1, role2, role3, role8, role10
 
         Permission::create(['name' => 'Mostrar Rol'])->syncRoles([$role1, $role2]);
+        Permission::create(['name' => 'Ver Permisos'])->syncRoles([$role1, $role2]);
         Permission::create(['name' => 'Agregar Rol'])->syncRoles([$role1]);
         Permission::create(['name' => 'Editar Rol'])->syncRoles([$role1, $role2]);
         Permission::create(['name' => 'Eliminar Rol'])->syncRoles([$role1]);
@@ -136,7 +137,11 @@ class UserRolDevSeeder extends Seeder
         // ver retardos, incidencias (permisos, vacaciones),  cambio salario, incapacidad
         // $role1, $role2, $role3, $role8, $role10
 
-        
+        Permission::create(['name' => 'Mostrar Incidencias'])->syncRoles([$role1, $role2, $role3, $role8, $role10]);
+        Permission::create(['name' => 'Agregar Incidencia'])->syncRoles([$role1, $role2, $role3, $role8, $role10]);
+        Permission::create(['name' => 'Aceptar Incidencia'])->syncRoles([$role1, $role2, $role3]);        
+        Permission::create(['name' => 'Editar Incidencia'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Eliminar Incidencia'])->syncRoles([$role1, $role2, $role3]);        
 
     }
 }

@@ -4,19 +4,21 @@ namespace App\Livewire\PortalRh\Practicante;
 
 use Livewire\Component;
 use App\Models\PortalRH\Practicante;
+use App\Models\PortalRH\Puesto;
 use App\Models\PortalRH\Departamento;
 use App\Models\PortalRH\RegistroPatronal;
 use App\Models\PortalRH\Empresa;
+use App\Models\PortalRH\Sucursal;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
 class AgregarPracticante extends Component
 {
-    public $practicante = [], $sucursales=[], $puestos=[], $user=[];
+    public $practicante = [], $sucursales=[], $departamentos=[], $puestos=[], $user=[];
 
     public $usuarios, $registros_patronales, 
     $empresas, $empresa, $nombre, $apellido_p, $apellido_m, $password,
-    $departamentos, $departamento;
+    $sucursal, $departamento, $rol;
 
 
     public function mount()
@@ -24,7 +26,6 @@ class AgregarPracticante extends Component
         $this->usuarios = User::all();
         $this->registros_patronales = RegistroPatronal::all();
         $this->empresas = Empresa::all();
-        $this->departamentos = Departamento::all();
         
     }
 
@@ -34,6 +35,13 @@ class AgregarPracticante extends Component
         $this->sucursales = Empresa::with('sucursales')->where('id', $this->empresa)->get();
     }
 
+    public function updatedSucursal()
+    {
+        // Obtener los puestos del departamento seleccionado
+        //dd();
+        $this->departamentos = Sucursal::with('departamentos')->where('id', $this->sucursal)->get();
+    }
+
     public function updatedDepartamento()
     {
         // Obtener los puestos del departamento seleccionado
@@ -41,7 +49,7 @@ class AgregarPracticante extends Component
     }
 
     protected $rules = [
-        'practicante.clave_practicante' => 'required',
+        'practicante.clave_practicante' => 'required|unique:practicantes,clave_practicante',
         'practicante.numero_seguridad_social' => 'required',
         'practicante.fecha_nacimiento' => 'required',
         'practicante.lugar_nacimiento' => 'required',
@@ -57,10 +65,10 @@ class AgregarPracticante extends Component
         'nombre' => 'required',
         'apellido_p' => 'required',
         'apellido_m' => 'required',
-        'user.email' => 'required',
+        'user.email' => 'required|unique:users,email',
         'password' => 'required',
         'empresa' => 'required',
-        'user.sucursal_id' => 'required|exists:sucursales,id',
+        'sucursal' => 'required',
         'departamento' => 'required',
         'user.puesto_id' => 'required|exists:puestos,id',
     ];
@@ -68,6 +76,7 @@ class AgregarPracticante extends Component
     // MENSAJES DE VALIDACIÓN
     protected $messages = [
         'practicante.*.required' => 'Este campo es obligatorio.',
+        'practicante.clave_practicante.unique' => 'Esta clave ya existe.',
         'practicante.codigo_postal.digits' => 'El código postal debe tener 5 dígitos.',
         'practicante.curp.size' => 'La CURP debe tener exactamente 18 caracteres.',
         'practicante.rfc.size' => 'El RFC debe tener exactamente 13 caracteres.',
@@ -78,9 +87,10 @@ class AgregarPracticante extends Component
         'apellido_p.required' => 'Este campo es obligatorio.',
         'apellido_m.required' => 'Este campo es obligatorio.',
         'user.email.required' => 'Este campo es obligatorio.',
+        'user.email.unique' => 'Este correo ya esta en uso.',
         'password.required' => 'Este campo es obligatorio.',
         'empresa.required' => 'Este campo es obligatorio.',
-        'user.sucursal_id.required' => 'Este campo es obligatorio.',
+        'sucursal.required' => 'Este campo es obligatorio.',
         'departamento.required' => 'Este campo es obligatorio.',
         'user.puesto_id.required' => 'Este campo es obligatorio.',
         'user.puesto_id.exists' => 'El puesto seleccionado no existe.',
@@ -94,6 +104,7 @@ class AgregarPracticante extends Component
         $this->user['name'] = $this->nombre." ".$this->apellido_p." ".$this->apellido_m;
         $this->user['password'] =  Hash::make($this->password);
         $this->user['empresa_id'] = $this->empresa;
+        $this->user['sucursal_id'] = $this->sucursal;
         $this->user['departamento_id'] = $this->departamento;
         $this->user['tipo_user'] = "Practicante";
 

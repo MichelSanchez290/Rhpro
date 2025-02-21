@@ -88,10 +88,10 @@
                     </div>
 
                     <div class="grid grid-cols-1 mt-5">
-                        <label for="sucursal_id"
+                        <label for="sucursal"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
                             Sucursal</label>
-                        <select wire:model.defer="user.sucursal_id" id="sucursal_id"
+                        <select wire:model.live="sucursal" id="sucursal"
                             class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
                             <option value=""> --- Seleccione una sucursal --- </option>
                             @forelse ($sucursales as $sucursal)
@@ -101,13 +101,13 @@
                                     <option value="{{ $mi_sucursal->id }}">{{ $mi_sucursal->nombre_sucursal }}
                                     </option>
                                 @endforeach
-                                @empty
-                                <option value=""> Esta empresa no tiene sucursales </option>
 
+                            @empty
+                                <option value=""> Esta empresa no tiene sucursales </option>
                             @endforelse
                         </select>
 
-                        <x-input-error for="user.sucursal_id" />
+                        <x-input-error for="sucursal" />
                     </div>
                 </div>
 
@@ -117,14 +117,21 @@
                     <div class="grid grid-cols-1 mt-5">
                         <label for="departamento"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
-                            Departamentos</label>
+                            Departamento</label>
                         <select wire:model.live="departamento" id="departamento"
                             class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
                             <option value=""> --- Seleccione un departamento --- </option>
-                            @foreach ($departamentos as $departamento)
-                                <option value="{{ $departamento->id }}">{{ $departamento->nombre_departamento }}
-                                </option>
-                            @endforeach
+                            @forelse ($departamentos as $departamento)
+
+                                @foreach($departamento->departamentos as $mi_depa)
+
+                                    <option value="{{ $mi_depa->id }}">{{ $mi_depa->nombre_departamento }}
+                                    </option>
+                                @endforeach
+
+                            @empty
+                                <option value=""> Esta sucursal no tiene departamentos</option>
+                            @endforelse
                         </select>
 
                         <x-input-error for="departamento" />
@@ -469,6 +476,11 @@
                     <button type="button" wire:click="actualizarInstructor"
                         class='w-auto bg-blue-500 hover:bg-blue-700 rounded-lg shadow-xl font-medium text-white px-4 py-2'>
                         Actualizar
+                    </button>
+
+                    <button type="button" onclick="window.history.back()"
+                        class='w-auto bg-red-500 hover:bg-red-700 rounded-lg shadow-xl font-medium text-white px-4 py-2'>
+                        Cancelar
                     </button>
                 </div>
             </form>

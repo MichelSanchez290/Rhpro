@@ -8,16 +8,18 @@ use App\Models\PortalRH\Puesto;
 use App\Models\PortalRH\Departamento;
 use App\Models\PortalRH\RegistroPatronal;
 use App\Models\PortalRH\Empresa;
+use App\Models\PortalRH\Sucursal;
 use App\Models\User;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 
 class EditarPracticante extends Component
 {
-    public $sucursales = [], $puestos = [], $user = [];
+    public $sucursales = [], $departamentos=[], $puestos = [], $user = [];
     
-    public $usuarios, $registros_patronales, $empresas, $empresa, 
-    $departamentos, $departamento, $password;
+    public $usuarios, $registros_patronales, 
+    $empresas, $empresa, $sucursal,
+    $departamento, $password;
 
     public $practicante_id, 
         $clave_practicante, 
@@ -61,20 +63,26 @@ class EditarPracticante extends Component
         $this->practicante = $practicante->toArray();
         $this->user = User::findOrFail($practicante->user_id)->toArray();
         $this->empresa = $this->user['empresa_id'] ?? null;
+        $this->sucursal = $this->user['sucursal_id'] ?? null;
         $this->departamento = $this->user['departamento_id'] ?? null;
 
         $this->usuarios = User::all();
         $this->registros_patronales = RegistroPatronal::all();
         $this->empresas = Empresa::all();
-        $this->departamentos = Departamento::all();
 
         $this->updatedEmpresa();
         $this->updatedDepartamento();
+        $this->updatedSucursal();
     }
 
     public function updatedEmpresa()
     {
         $this->sucursales = Empresa::with('sucursales')->where('id', $this->empresa)->get();
+    }
+
+    public function updatedSucursal()
+    {
+        $this->departamentos = Sucursal::with('departamentos')->where('id', $this->sucursal)->get();
     }
 
     public function updatedDepartamento()
@@ -115,7 +123,7 @@ class EditarPracticante extends Component
             'email' => $this->user['email'],
             'empresa_id' => $this->empresa,
             'departamento_id' => $this->departamento,
-            'sucursal_id' => $this->user['sucursal_id'],
+            'sucursal_id' => $this->sucursal,
             'puesto_id' => $this->user['puesto_id'],
             'tipo_user' => 'Practicante',
             'password' => $this->password ? Hash::make($this->password) : $user->password,

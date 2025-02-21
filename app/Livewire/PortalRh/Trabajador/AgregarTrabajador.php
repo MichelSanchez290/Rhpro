@@ -8,6 +8,7 @@ use App\Models\PortalRH\Puesto;
 use App\Models\PortalRH\Departamento;
 use App\Models\PortalRH\RegistroPatronal;
 use App\Models\PortalRH\Empresa;
+use App\Models\PortalRH\Sucursal;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
@@ -15,11 +16,11 @@ use Spatie\Permission\Models\Role;
 
 class AgregarTrabajador extends Component
 {
-    public $trabajador = [], $sucursales=[], $user=[], $puestos=[];
+    public $trabajador = [], $sucursales=[], $departamentos=[], $puestos=[], $user=[];
 
     public $usuarios, $registros_patronales, 
     $empresas, $empresa, $nombre, $apellido_p, $apellido_m, $password,
-    $departamentos, $departamento, $rol;
+    $sucursal, $departamento, $rol;
 
 
     public function mount()
@@ -27,15 +28,19 @@ class AgregarTrabajador extends Component
         $this->usuarios = User::all();
         $this->registros_patronales = RegistroPatronal::all();
         $this->empresas = Empresa::all();
-        $this->departamentos = Departamento::all();
-        //$this->roles = Role::all();
     }
 
     public function updatedEmpresa()
     {
         //dd();
         $this->sucursales = Empresa::with('sucursales')->where('id', $this->empresa)->get();
-        //$this->puestos = Departamento::with('puestos')->where('id', $this->departamento)->get();
+    }
+
+    public function updatedSucursal()
+    {
+        // Obtener los puestos del departamento seleccionado
+        //dd();
+        $this->departamentos = Sucursal::with('departamentos')->where('id', $this->sucursal)->get();
     }
 
     public function updatedDepartamento()
@@ -45,7 +50,8 @@ class AgregarTrabajador extends Component
     }
 
     protected $rules = [
-        'trabajador.clave_trabajador' => 'required',
+        'trabajador.clave_trabajador' => 'required|unique:trabajadores,clave_trabajador',
+        
         'trabajador.numero_seguridad_social' => 'required',
         'trabajador.fecha_nacimiento' => 'required',
         'trabajador.lugar_nacimiento' => 'required',
@@ -76,10 +82,10 @@ class AgregarTrabajador extends Component
         'nombre' => 'required',
         'apellido_p' => 'required',
         'apellido_m' => 'required',
-        'user.email' => 'required',
+        'user.email' => 'required|unique:users,email',
         'password' => 'required',
         'empresa' => 'required',
-        'user.sucursal_id' => 'required|exists:sucursales,id',
+        'sucursal' => 'required',
         'departamento' => 'required',
         'user.puesto_id' => 'required|exists:puestos,id',
         //'rol' => 'required',
@@ -88,22 +94,21 @@ class AgregarTrabajador extends Component
     // MENSAJES DE VALIDACIÓN
     protected $messages = [
         'trabajador.*.required' => 'Este campo es obligatorio.',
+        'trabajador.clave_trabajador.unique' => 'Esta clave ya existe.',
         'trabajador.codigo_postal.digits' => 'El código postal debe tener 5 dígitos.',
         'trabajador.curp.size' => 'La CURP debe tener exactamente 18 caracteres.',
         'trabajador.rfc.size' => 'El RFC debe tener exactamente 13 caracteres.',
         'trabajador.numero_celular.digits' => 'El número de celular debe tener 10 dígitos.',
-        
-        'trabajador.departamento_id.exists' => 'El departamento seleccionado no existe.',
-        'trabajador.puesto_id.exists' => 'El puesto seleccionado no existe.',
         'trabajador.registro_patronal_id.exists' => 'El Reg Patronal seleccionado no existe.',
 
         'nombre.required' => 'Este campo es obligatorio.',
         'apellido_p.required' => 'Este campo es obligatorio.',
         'apellido_m.required' => 'Este campo es obligatorio.',
         'user.email.required' => 'Este campo es obligatorio.',
+        'user.email.unique' => 'Este correo ya esta en uso.',
         'password.required' => 'Este campo es obligatorio.',
         'empresa.required' => 'Este campo es obligatorio.',
-        'user.sucursal_id.required' => 'Este campo es obligatorio.',
+        'sucursal.required' => 'Este campo es obligatorio.',
         'departamento.required' => 'Este campo es obligatorio.',
         'user.puesto_id.required' => 'Este campo es obligatorio.',
         'user.puesto_id.exists' => 'El puesto seleccionado no existe.',
@@ -119,6 +124,7 @@ class AgregarTrabajador extends Component
         $this->user['name'] = $this->nombre." ".$this->apellido_p." ".$this->apellido_m;
         $this->user['password'] =  Hash::make($this->password);
         $this->user['empresa_id'] = $this->empresa;
+        $this->user['sucursal_id'] = $this->sucursal;
         $this->user['departamento_id'] = $this->departamento;
         $this->user['tipo_user'] = "Trabajador";
         //$this->user['rol'] = $this->rol;

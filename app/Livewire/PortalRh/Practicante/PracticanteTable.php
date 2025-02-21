@@ -55,7 +55,7 @@ final class PracticanteTable extends PowerGridComponent
                 'registros_patronales.registro_patronal as regpatronal'
             ]);
 
-        // 🔹 Filtrar por departamento si el usuario es Trabajador o Practicante
+        // Filtrar por departamento si el usuario es Trabajador o Practicante
         if ($user->hasRole(['Trabajador PORTAL RH', 'Trabajador GLOBAL', 'Practicante'])) {
             $query->where('practicantes.departamento_id', $user->departamento_id);
         }
