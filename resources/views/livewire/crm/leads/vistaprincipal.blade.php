@@ -142,9 +142,11 @@
             </button>
             <a href="{{ url('/crm/crm-inicio') }}"
                 class="px-4 py-2 font-bold text-white bg-red-500 rounded btn hover:bg-red-700 m-2">
-                Cancelar
+                Ir a inicio
             </a>
-            
+            <div class="bg-green-100 border-t border-b border-green-500 text-green-700 px-4 py-3" role="alert">
+                <p class="text-sm">Lead registado con éxito</p>
+            </div>
         </div>
     </div>
     <div class="w-full bg-white border-2 rounded-lg mt-4">
@@ -532,7 +534,8 @@
                             </label>
                             <input
                                 class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                                wire:model.defer="hlevped.{{ $i }}.empresa" type="text" placeholder="">
+                                wire:model.defer="hlevped.{{ $i }}.empresa" type="text"
+                                placeholder="">
                             <x-input-error for="hlevped.{{ $i }}.empresa" />
                         </div>
                         {{-- Ubicación --}}
