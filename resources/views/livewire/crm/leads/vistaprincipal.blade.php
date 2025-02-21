@@ -144,6 +144,7 @@
                 class="px-4 py-2 font-bold text-white bg-red-500 rounded btn hover:bg-red-700 m-2">
                 Cancelar
             </a>
+            
         </div>
     </div>
     <div class="w-full bg-white border-2 rounded-lg mt-4">

@@ -161,8 +161,8 @@ class Vistaprincipal extends Component
 
     public function guardarTraininig()
     {
-        for ($i=0; $i < $this->duplicados; $i++) 
-        { 
+        for ($i=0; $i < $this->duplicados; $i++)
+        {
             if (isset($training[$i])){
                 $this->training[$i] = [];
             }
@@ -184,13 +184,13 @@ class Vistaprincipal extends Component
             'training.*.ubicacion_empresa' => 'required|string|max:255',
             'training.*.fecha' => 'required|date',
         ]);
-        
+
         // Guardar el lead
         $guardarlead = new LeadCliente($this->lead);
         $guardarlead->save();
         $this->leadGlobal = $guardarlead;
 
-        
+
         foreach ($this->traininig as $index => $nuevoTraining) {
 
             $nuevoTraining['users_id'] = Auth::id();
@@ -273,7 +273,7 @@ class Vistaprincipal extends Component
         $this->lead['puesto_contacto_2'] = [];
         $this->lead['correo_2'] = [];
         $this->lead['telefono_2'] = [];
-        $this->lead['numero_lead'] = $this->lead['numero_lead']+1;
+        return dispatch('');
     }
 
     public function saveHead()
