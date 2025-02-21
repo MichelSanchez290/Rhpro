@@ -22,6 +22,8 @@ class MostrarEncuestas extends Component
     public $emails;
     public $mensaje;
 
+    public $avances=[];
+
     // Escuchar los eventos
     protected $listeners = [
         'confirmDelete' => 'confirmDelete', // Captura el evento de eliminar
@@ -34,6 +36,12 @@ class MostrarEncuestas extends Component
     {
         $this->encuestaToDelete = $id;
         $this->showModal = true; // Mostrar el modal de confirmación
+    }
+
+    public function calcularAvance($encuesta)
+    {
+        // Calcular el avance para una encuesta específica
+        return ($encuesta->EncuestasContestadas / $encuesta->NumeroEncuestas) * 100;
     }
 
     // Método para eliminar la encuesta
@@ -100,8 +108,14 @@ class MostrarEncuestas extends Component
             ->orderBy('id', 'asc')
             ->paginate(10);
 
+            // Calcular el avance para cada encuesta
+        foreach ($encuestas as $encuesta) {
+            $this->avances[$encuesta->id] = $this->calcularAvance($encuesta);
+        }
+
         return view('livewire.dx035.encuestas.mostrar-encuestas', [
             'encuestas' => $encuestas,
+            'avances'=>$this->avances,
         ])->layout('layouts.dx035');
     }
 }

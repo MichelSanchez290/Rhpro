@@ -95,8 +95,7 @@
                                                 <div class="flex items-center">
                                                     <div class="w-full bg-gray-200 rounded-full h-2.5">
                                                         @php
-                                                            // Calcular el porcentaje de avance
-                                                            $avance = ($encuesta->EncuestasContestadas / $encuesta->NumeroEncuestas) * 100;
+                                                            $avance = $this->calcularAvance($encuesta);
                                                         @endphp
                                                         <div class="bg-blue-600 h-2.5 rounded-full" style="width: {{ $avance }}%"></div>
                                                     </div>

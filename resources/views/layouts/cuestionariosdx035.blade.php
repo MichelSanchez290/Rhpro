@@ -9,20 +9,15 @@
 </head>
 <body class="bg-gray-100">
     <!-- Contenedor principal -->
-    <div class="min-h-screen flex flex-col items-center justify-center p-6">
+    <div class="min-h-screen flex flex-col items-center p-6">
         <!-- Cabecera -->
         <header class="w-full max-w-4xl bg-blue-600 text-white p-6 rounded-t-lg shadow-lg">
             <h1 class="text-3xl font-bold text-center">Cuestionarios DX035</h1>
         </header>
 
         <!-- Contenido Principal -->
-        <main class="flex-1 p-8 bg-gray-100">
+        <main class="w-full max-w-4xl bg-white p-8 rounded-b-lg shadow-lg mt-6">
             {{ $slot }}
-        </main>
-
-        <!-- Contenido dinámico -->
-        <main class="w-full max-w-4xl bg-white p-8 rounded-b-lg shadow-lg">
-            @yield('content')
         </main>
 
         <!-- Pie de página -->
