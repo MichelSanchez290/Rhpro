@@ -2,6 +2,7 @@
 
 namespace App\Models\Crm;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,15 +18,26 @@ class Nom035Levpedido extends Model
     //especifica las columnas
     protected $fillable = [
         'id', 'tipo_servicio', 'fecha', 'hora', 
+        'nom035_informaciones_id', 'users_id',
     ];
 
-    public function Cursos()
+    public function crmcursos()
     {
         return $this->belongsToMany(CrmCurso::class);
     }
 
-    public function LevantamientoPedidosTraining()
+    public function leadcliente()
     {
-        return $this->belongsTo(TrainingLevantamiento::class);
+        return $this->belongsTo(LeadCliente::class);
+    }
+
+    public function Nom035Cotizaciones()
+    {
+        return $this->hasMany(Nom035Cotizacione::class);
+    }
+
+    public function Nom035Informaciones()
+    {
+        return $this->belongsTo(Nom035Informacione::class);
     }
 }

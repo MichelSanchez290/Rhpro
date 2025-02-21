@@ -22,7 +22,7 @@ class TrainingLevantamiento extends Model
         'fecha', 'correo_cliente', 'telefono_cliente', 'leadsCli_id', 'users_id'
     ];
 
-    public function LeadsClientes()
+    public function LeadsCliente()
     {
         return $this->belongsTo(LeadCliente::class);
     }

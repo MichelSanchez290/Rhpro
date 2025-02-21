@@ -15,11 +15,20 @@ class ServiciosEjecutivo extends Model
     protected $primaryKey = 'id';
 
     //especifica las columnas
-    protected $fillable = ['id', 'head_asesor', 'correo', 'telefono', 'num_cotizacion', 'cotizacion_emitida', 'levantamientoPed_id'];
+    protected $fillable = [
+        'id', 'head_asesor', 'correo', 'telefono', 
+        'num_cotizacion', 'cotizacion_emitida', 
+        'cotizacion_valida_hasta', 'informaciones_ejecutivos_id',
+    ];
 
     public function ejectcotizacionesaprobadas()
     {
         return $this->hasMany(EjectCotizacionesAprobada::class);
+    }
+
+    public function informacionejecutivos()
+    {
+        return $this->belongsTo(InformacionesEjecutivo::class);
     }
 
     public function levantamientopedidos()

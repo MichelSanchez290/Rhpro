@@ -17,7 +17,7 @@ return new class extends Migration
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->foreignId('users_id')
+            $table->foreignId('leads_clientes_id')
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
@@ -29,7 +29,7 @@ return new class extends Migration
     {
         Schema::table('nom035_levpedidos', function (Blueprint $table) {
             $table->dropColumn('nom035_informaciones_id');
-            $table->dropColumn('users_id');
+            $table->dropColumn('leads_clientes_id');
         });
         Schema::dropIfExists('nom035_levpedidos');
     }

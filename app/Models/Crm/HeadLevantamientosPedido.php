@@ -26,8 +26,18 @@ class HeadLevantamientosPedido extends Model
         return $this->belongsTo(LeadCliente::class);
     }
 
-    // public function levantamientospedido()
-    // {
-    //     return $this->hasMany(levantamientospedido::class);
-    // }
+    public function serviciosejecutivo()
+    {
+        return $this->hasMany(ServiciosEjecutivo::class);
+    }
+
+    public function serviciosespecializado()
+    {
+        return $this->hasMany(ServiciosEspecializado::class);
+    }
+
+    public function serviciosoperativo()
+    {
+        return $this->hasMany(ServiciosOperativo::class);
+    }
 }

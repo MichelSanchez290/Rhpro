@@ -16,4 +16,10 @@ class InformacionesEjecutivo extends Model
 
     //especifica las columnas
     protected $fillable = ['id', 'numeroCotizacion', 'servicio', 'ubicacion', 'puesto', 'cantidad', 'sueldoMensual', 'comision', 'puPorVacante', 'puSinIva'];
+
+    public function serviciosejecutivo()
+    {
+        return $this->hasMany(ServiciosEjecutivo::class);
+    }
+    
 }

@@ -16,4 +16,9 @@ class InformacionesEspecializado extends Model
 
     //especifica las columnas
     protected $fillable = ['id', 'numero_cotizacion', 'servicio', 'ubicacion', 'puesto', 'cantidad', 'sueldomensual', 'comision','pu_por_vacante','precio_sin_iva'];
+
+    public function serviciosEspecializado()
+    {
+        return $this->hasMany(ServiciosEspecializado::class);
+    }
 }

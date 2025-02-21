@@ -21,10 +21,22 @@ return new class extends Migration
             $table->decimal('especializados');
             $table->decimal('ejecutivos');
             $table->decimal('numero_pedido');
-            $table->foreignId('users_id')
+            $table->foreignId('leads_clientes_id')
                 ->constrained()
                 ->onUpdate('cascade')
-                ->onDelete('cascade');    
+                ->onDelete('cascade');
+            $table->foreignId('servicios_especializados_id')
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->foreignId('servicios_operativos_id')
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->foreignId('servicios_ejecutivos_id')
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -34,8 +46,11 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('esmart_levantamientos', function (Blueprint $table) {
-            $table->dropColumn('users_id');
+        Schema::table('head_levantamiento_pedidos', function (Blueprint $table) {
+            $table->dropColumn('leads_clientes_id');
+            $table->dropColumn('servicios_especializados_id');
+            $table->dropColumn('servicios_operativos_id');
+            $table->dropColumn('servicios_ejecutivos_id');
         });
         Schema::dropIfExists('head_levantamiento_pedidos');
     }

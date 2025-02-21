@@ -8,11 +8,11 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('eject_cotizaciones_aprobadas', function (Blueprint $table) {
+        Schema::create("aprobada_especializados", function (Blueprint $table) {
             $table->id();
             $table->date('fecha_aprobacion');
             $table->string('email_enviado');
-            $table->foreignId('servicios_ejecutivos_id')
+            $table->foreignId('servicios_especializados_id')
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
@@ -22,9 +22,9 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::table('eject_cotizaciones_aprobadas', function (Blueprint $table) {
-            $table->dropForeign(['servicios_ejecutivos_id']);
+        Schema::table('aprobada_especializados', function (Blueprint $table) {
+            $table->dropColumn('servicios_especializados_id');
         });
-        Schema::dropIfExists('eject_cotizaciones_aprobadas');
+        Schema::dropIfExists('aprobada_especializados');
     }
 };

@@ -45,22 +45,22 @@ class LeadCliente extends Model
         return $this->belongsTo(User::class,'users_id');
     }
 
-    public function headlevantamientospedido()
+    public function headlevantamientospedidos()
     {
         return $this->hasMany(HeadLevantamientosPedido::class);
     }
 
-    public function EsmartLevantamiento()
+    public function nom035levpedidos()
+    {
+        return $this->hasMany(Nom035Levpedido::class);
+    }
+
+    public function EsmartLevantamientos()
     {
         return $this->hasMany(EsmartLevantamiento::class);
     }
 
-    public function serviciosespecializado()
-    {
-        return $this->hasMany(ServiciosEspecializado::class);
-    }
-
-    public function traininglevantamiento()
+    public function traininglevantamientos()
     {
         return $this->hasMany(TrainingLevantamiento::class);
     }

@@ -14,9 +14,7 @@ class EsmartLevantamiento extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = 
-    ['id','nombre_cliente', 'nombre_empresa', 'giro_empresa', 'ubicacion_empresa', 
-    'tamaño_empresa', 'primera_o_recompra', 'medio_cesrh', 'responsable_comercial',
-    'fecha', 'correo_cliente', 'telefono_cliente','leadcliente_id','users_id', 
+    ['id','fecha', 'hora', 'numero_pedido', 
     ];
 
     public function leadscliente()
