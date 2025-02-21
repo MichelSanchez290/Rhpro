@@ -136,15 +136,23 @@
         </div>
         {{-- Botones --}}
         <div class="flex items-center justify-center">
-            <button wire:click="saveLead()"
+            <div x-data="{show:true}" x-show="show" x-transition x-init="@this.on('message',() => {
+                show=false;
+                });">
+                <button  wire:click="saveLead()"
                 class="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 m-2">
-                Agregar
-            </button>
-            <a href="{{ url('/crm/crm-inicio') }}"
-                class="px-4 py-2 font-bold text-white bg-red-500 rounded btn hover:bg-red-700 m-2">
-                Ir a inicio
-            </a>
-            <div class="bg-green-100 border-t border-b border-green-500 text-green-700 px-4 py-3" role="alert">
+                    Agregar
+                </button>
+                <a href="{{ url('/crm/crm-inicio') }}" x-data x-show="!show" x-transition
+                    class="px-4 py-2 font-bold text-white bg-red-500 rounded btn hover:bg-red-700 m-2">
+                    Ir a inicio
+                </a>
+            </div>
+
+            <div x-data="{show:false}" x-show="show" x-transition x-init="@this.on('message',() => {
+                show=true;
+                });"
+             class="justify-center flexed bottom-4 left-1/2 transform -translate-x-1/2  bg-green-100 border-t border-b border-green-500 text-green-700 px-4 py-3" role="alert">
                 <p class="text-sm">Lead registado con éxito</p>
             </div>
         </div>
