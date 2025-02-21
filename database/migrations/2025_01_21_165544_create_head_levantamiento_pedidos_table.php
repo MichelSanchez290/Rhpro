@@ -21,7 +21,10 @@ return new class extends Migration
             $table->decimal('especializados');
             $table->decimal('ejecutivos');
             $table->decimal('numero_pedido');
-
+            $table->foreignId('users_id')
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');    
             $table->timestamps();
         });
     }
@@ -31,6 +34,9 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('esmart_levantamientos', function (Blueprint $table) {
+            $table->dropColumn('users_id');
+        });
         Schema::dropIfExists('head_levantamiento_pedidos');
     }
 };

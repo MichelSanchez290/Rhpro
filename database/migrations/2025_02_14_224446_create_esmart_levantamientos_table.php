@@ -14,7 +14,10 @@ return new class extends Migration {
             $table->date('fecha');
             $table->time('hora');
             $table->string('numero_pedido');
-            
+            $table->foreignId('users_id')
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->timestamps();
             
         });
@@ -22,6 +25,9 @@ return new class extends Migration {
 
     public function down()
     {
+        Schema::table('esmart_levantamientos', function (Blueprint $table) {
+            $table->dropColumn('users_id');
+        });
         Schema::dropIfExists('esmart_levantamientos');
     }
 };
