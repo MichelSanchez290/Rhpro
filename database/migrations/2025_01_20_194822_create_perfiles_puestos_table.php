@@ -13,10 +13,22 @@ return new class extends Migration
     {
         Schema::create('perfiles_puestos', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('empresa_id');
+            $table->foreign('empresa_id')
+                ->references('id')
+                ->on( 'empresas')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->unsignedBigInteger('sucursal_id');
+            $table->foreign('sucursal_id')
+                ->references('id')
+                ->on( 'sucursales')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->string('nombre_puesto', 45);
             $table->string('area', 45);
             $table->string('proceso', 45);
-            $table->string('mision', 45);
+            $table->string('mision', 2000);
             $table->string('puesto_reporta', 45);
             $table->string('puestos_que_le_reportan', 45);
             $table->string('suplencia', 45);
@@ -45,6 +57,12 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('empresa', function (Blueprint $table){
+            $table->dropForeign(['empresa_id']);
+        });
+        Schema::table('sucursal', function (Blueprint $table){
+            $table->dropForeign(['sucursal_id']);
+        });
         Schema::dropIfExists('perfiles_puestos');
     }
 };

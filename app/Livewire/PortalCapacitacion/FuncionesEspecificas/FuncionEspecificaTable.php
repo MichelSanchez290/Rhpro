@@ -43,7 +43,13 @@ final class FuncionEspecificaTable extends PowerGridComponent
      */
     public function datasource(): Builder
     {
-        return FuncionEspecifica::query();
+        // return FuncionEspecifica::query();join
+        return FuncionEspecifica::query()
+            ->join('empresas', 'empresas.id', 'funciones_esp.empresa_id')
+            ->join('sucursales', 'sucursales.id', 'funciones_esp.sucursal_id')
+            ->select('funciones_esp.id', 'funciones_esp.nombre', 'empresas.nombre as empresa_nombre','sucursales.nombre_sucursal as sucursal_nombre');
+
+
     }
 
     /**
@@ -61,7 +67,9 @@ final class FuncionEspecificaTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('id')
-            ->add('nombre');
+            ->add('nombre')
+            ->add('empresa_nombre')
+            ->add('sucursal_nombre');
     }
 
     /**
@@ -75,6 +83,11 @@ final class FuncionEspecificaTable extends PowerGridComponent
             Column::make('Nombre', 'nombre')
                 ->sortable()
                 ->searchable(),
+
+                Column::make('Empresa', 'empresa_nombre')
+                ->sortable(),
+                Column::make('Sucursal', 'sucursal_nombre')
+                ->sortable(),
 
             Column::action('Action')
         ];

@@ -35,15 +35,15 @@ use App\Livewire\PortalCapacitacion\EvaluarColaborador\HistorialEvaluaciones;
 Route::get('/inicio', Inicio::class)->name('inicio-capacitacion');
 
  //perfiles de puesto
-Route::get('/mostrar-perfil-puesto', MostrarPerfilPuesto::class)->name('mostrarPerfilPuesto');
-Route::get('/agregar-perfil-puesto', AgregarPerfilPuesto::class)->name('agregarPerfilPuesto');
-Route::get('/editar-perfil-puesto/{id}', EditarPerfilPuesto::class)->name('editarPerfilPuesto');
-Route::get('/ver-mas/{id}', VerMasPerfilPuesto::class)->name('vermasPerfilPuesto');
+Route::get('/mostrar-perfil-puesto', MostrarPerfilPuesto::class)->middleware('can:Mostrar Perfil Puesto')->name('mostrarPerfilPuesto');
+Route::get('/agregar-perfil-puesto', AgregarPerfilPuesto::class)->middleware('can:Agregar Perfil Puesto')->name('agregarPerfilPuesto');
+Route::get('/editar-perfil-puesto/{id}', EditarPerfilPuesto::class)->middleware('can:Editar Perfil Puesto')->name('editarPerfilPuesto');
+Route::get('/ver-mas/{id}', VerMasPerfilPuesto::class)->middleware('can:Eliminar Perfil Puesto')->name('vermasPerfilPuesto');
 
 //funciones especificas
-Route::get('/mostrar-funciones-especificas', MostrarFunEspecificas::class)->name('mostrarFuncionesEspecificas');
-Route::get('/agregar-funciones-especificas', AgregarFunEspecificas::class)->name('agregarFuncionesEspecificas');
-Route::get('/editar-funciones-especificas/{id}', EditarFunEspecificas::class)->name('editarFuncionesEspecificas');
+Route::get('/mostrar-funciones-especificas', MostrarFunEspecificas::class)->middleware('can:Mostrar Funciones Especificas')->name('mostrarFuncionesEspecificas');
+Route::get('/agregar-funciones-especificas', AgregarFunEspecificas::class)->middleware('can:Agregar Funciones Especificas')->name('agregarFuncionesEspecificas');
+Route::get('/editar-funciones-especificas/{id}', EditarFunEspecificas::class)->middleware('can:Editar Funciones Especificas')->name('editarFuncionesEspecificas');
 
 //relaciones internas
 Route::get('/mostrar-relaciones-internas', MostrarRelacionesInternas::class)->name('mostrarRelacionesInternas');

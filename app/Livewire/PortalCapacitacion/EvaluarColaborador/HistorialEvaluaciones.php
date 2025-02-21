@@ -62,8 +62,8 @@ class HistorialEvaluaciones extends Component
         $this->instructor= Instructor::where('user_id', $this->userSeleccionado->id)->first();
         $this->userSeleccionado = User::with('empresa')->find($this->userSeleccionado->id);
         $this->userSeleccionado = User::with('sucursal')->find($this->userSeleccionado->id);
-        $this->practicante = Practicante::with('departamento')->where('user_id', $this->userSeleccionado->id)->first();
-
+        //$this->userSeleccionado = User::with('departamento')->find($this->userSeleccionado->id);
+       
         $pdf = Pdf::setOptions(['dpi' => 150, 'isRemoteEnabled' => true])
             ->loadView('livewire.portal-capacitacion.evaluar-colaborador.pdf.evaluacion', [
                 'evaluaciones' => $evaluaciones,

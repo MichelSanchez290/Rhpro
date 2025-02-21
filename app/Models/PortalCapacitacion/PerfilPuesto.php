@@ -17,6 +17,8 @@ class PerfilPuesto extends Model
     // Columnas asignables masivamente
     protected $fillable = ['id', 
             'nombre_puesto',
+            'empresa_id',
+            'sucursal_id',
             'area', 
             'proceso',
             'mision',

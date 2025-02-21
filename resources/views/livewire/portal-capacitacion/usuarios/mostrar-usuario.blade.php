@@ -3,9 +3,9 @@
         <h2 class="text-3xl font-bold text-blue-900 sm:text-4xl">Usuarios Registrados</h2>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-3xl">
         @forelse($users as $user) 
-        <div class="bg-white rounded-2xl shadow-lg overflow-hidden transition-transform transform hover:scale-105"> 
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden transition-transform transform hover:scale-105"> 
             <!-- Imagen de portada -->
             <div class="h-[180px] w-full overflow-hidden">
                 <img src="https://ui-avatars.com/api/?name={{ urlencode($user->name ?? 'Usuario') }}&background=random" 
