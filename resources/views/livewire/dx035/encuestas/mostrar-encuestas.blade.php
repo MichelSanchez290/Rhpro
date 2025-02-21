@@ -73,9 +73,9 @@
                             </button>
 
                             <!-- Botón Compartir Enlace -->
-                            <button onclick="compartirEnlace('{{ route('survey.show', ['key' => $encuesta->Clave]) }}')" class="text-purple-600 hover:text-purple-900 ml-4">
+                            <a href="{{ route('encuesta.invitar', ['clave' => $encuesta->Clave]) }}" class="text-purple-600 hover:text-purple-900 ml-4">
                                 <i class="fas fa-share"></i> Compartir
-                            </button>
+                            </a>
                             </th>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 {{ $encuesta->FechaInicio ? \Carbon\Carbon::parse($encuesta->FechaInicio)->format('d/m/Y') : 'N/A' }}

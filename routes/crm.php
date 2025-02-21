@@ -33,6 +33,11 @@ Route::get(
 )->name('Createcrm');
 
 Route::get(
+    '/crm-leads',
+    Vistaprincipal::class
+)->name('leads');
+
+Route::get(
     '/crm-editempresa/{id}',
     EditarEmpresa::class
 )->name('EditEmpresa');
@@ -41,11 +46,6 @@ Route::post(
     '/crm-deleteEmpresa/{id}',
     EliminarEmpresa::class
 )->name('EliminarEmpresa');
-
-// Route::get(
-//     '/leads-inicio',
-//     // InicioLeadsCliente::class
-// )->name('Leads');
 
 Route::get(
     '/crm-registrarDatosFiscales',
@@ -62,19 +62,14 @@ Route::get(
     EditarDatosFisc::class
 )->name('editDato');
 
-Route::get(
-    '/crm-leads',
-    Vistaprincipal::class
-)->name('Leads');
-
 Route::post(
     '/crm-deleteDato/{id}',
     EliminarDatosFisc::class,
 )->name('EliminarDato');
 
+Route::get('/crm-deleteDato', [MostrarDatosFisc::class, 'deleteDato'])->name('confirmDeleteDato');
+
 Route::get(
     '/crm-leads',
-    Vistaprincipal::class
+    Vistaprincipal::class,
 )->name('Leads');
-
-Route::get('/crm-deleteDato', [MostrarDatosFisc::class, 'deleteDato'])->name('confirmDeleteDato');;

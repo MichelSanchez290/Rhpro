@@ -75,6 +75,6 @@ class Encuesta extends Model
     // Relación con TrabajadorEncuesta
     public function trabajadoresEncuestas()
     {
-        return $this->hasMany(TrabajadorEncuesta::class, 'Clave', 'Clave');
+        return $this->hasMany(TrabajadorEncuesta::class, 'encuesta_id');
     }
 }

@@ -30,7 +30,7 @@
         </li> --}}
         <li class="mb-1 group">
             @can('Tipo activo')
-            <a href="" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+            <a href="{{route('mostrartipoactivo')}}" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
                 <i class='fas fa-boxes mr-3 text-lg'></i>
                 <span class="text-sm">Inventario</span>
             </a>
@@ -70,7 +70,7 @@
             <ul class="pl-7 mt-2 hidden group-[.selected]:block">
                 @can('Activo mobiliario Admin')
                 <li class="mb-4">
-                    <a href="" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Administrador</a>
+                    <a href="{{route('mostrarmobad')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Administrador</a>
                 </li>
                 @endcan
                 @can('Activo mobiliario Empresa')
@@ -142,7 +142,7 @@
             <ul class="pl-7 mt-2 hidden group-[.selected]:block">
                 @can('Activo papeleria Admin')
                 <li class="mb-4">
-                    <a href="" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Administrador</a>
+                    <a href="{{route('agregarmobad')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Administrador</a>
                 </li>
                 @endcan
                 @can('Activo papeleria Empresa')

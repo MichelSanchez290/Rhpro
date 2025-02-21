@@ -13,6 +13,11 @@ use App\Livewire\Dx035\Cuestionarios\EditarPreguntaBase;
 
 use App\Livewire\Dx035\CuestionarioUno\ResponderCuestionario;
 
+use App\Livewire\Dx035\CuestionarioParaResponder\ResponderCuestionarioUno;
+
+use App\Livewire\Dx035\Encuestas\InvitarEncuesta;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -63,3 +68,11 @@ Route::get('/survey/show/{key}', function ($key) {
     // Mostrar una vista simple con la información de la encuesta
     return view('survey.show', compact('encuesta'));
 })->name('survey.show');
+
+Route::get('/survey/{key}', ResponderCuestionarioUno::class)->name('survey.show');
+
+Route::get('/encuesta/invitar/{clave}', InvitarEncuesta::class)->name('encuesta.invitar');
+
+Route::get('/dx035/survey/thankyou', function () {
+    return view('livewire.dx035.surveyuno.thankyouuno');
+})->name('survey.thankyou');

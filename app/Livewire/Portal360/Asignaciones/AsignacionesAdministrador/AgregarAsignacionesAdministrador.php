@@ -157,7 +157,7 @@ class AgregarAsignacionesAdministrador extends Component
        }
    }
 
-   public function saveAsignacionAdministrador()
+   public function saveAsignacionAdministradordev()
    {
        $this->validate();
 
@@ -198,8 +198,5 @@ class AgregarAsignacionesAdministrador extends Component
        ])->layout('layouts.portal360');
    }
 
-    // public function render()
-    // {
-    //     return view('livewire.portal360.asignaciones.asignaciones-administrador.agregar-asignaciones-administrador')->layout('layouts.portal360');
-    // }
+    
 }

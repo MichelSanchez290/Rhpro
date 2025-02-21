@@ -10,6 +10,7 @@ use App\Models\ActivoFijo\Activos\ActivoPapeleria;
 use App\Models\ActivoFijo\Activos\ActivoSouvenir;
 use App\Models\ActivoFijo\Activos\ActivoTecnologia;
 use App\Models\ActivoFijo\Activos\ActivoUniforme;
+use App\Models\Crm\EsmartLevantamiento;
 use App\Models\Crm\LeadCliente;
 use App\Models\Crm\LeadsCliente;
 use App\Models\Encuestas360\Asignacion;
@@ -24,6 +25,8 @@ use App\Models\PortalRH\Incapacidad;
 use App\Models\PortalRH\Incidencia;
 use App\Models\PortalRH\Retardo;
 use App\Models\PortalRH\Sucursal;
+use App\Models\PortalRH\Departamento;
+use App\Models\PortalRH\Puesto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -49,7 +52,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = ['name', 'email', 'password', 'password', 'empresa_id', 'sucursal_id', 'tipo_user'];
+    protected $fillable = ['name', 'email', 'password', 'password', 'empresa_id', 'sucursal_id', 'tipo_user', 'departamento_id', 'puesto_id'];
 
     /**sucursal_id
      * The attributes that should be hidden for serialization.
@@ -112,6 +115,15 @@ class User extends Authenticatable
         return $this->belongsToMany(Retardo::class)->withPivot('user_id', 'retardo_id');
     }
 
+    public function departamento()
+    {
+        return $this->belongsTo(Departamento::class);
+    }
+
+    public function puesto()
+    {
+        return $this->belongsTo(Puesto::class);
+    }
 
     /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public function bajas()
@@ -194,7 +206,7 @@ class User extends Authenticatable
     //  /* RELACIONES MODULO CAPACITACION */
     public function empresa()
     {
-        return $this->belongsTo(Empresa::class);
+        return $this->belongsTo(Empresa::class, 'empresa_id', 'id');
     }
 
     public function asignacion()
@@ -224,4 +236,8 @@ class User extends Authenticatable
         return $this->hasMany(LeadCliente::class, 'users_id');
     }
 
+    public function esmart_levantamiento()
+    {
+        return $this->hasMany(EsmartLevantamiento::class);
+    }
 }

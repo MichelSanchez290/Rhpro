@@ -19,6 +19,7 @@ class BorrarActivo extends ModalComponent
     {
         // Definir qué modelo usar basado en la vista
         $modelos = [
+            // Sucursal
             'mostraractte' => 'App\\Models\\ActivoFijo\\Activos\\ActivoTecnologia',
             'mostraractofi' => 'App\\Models\\ActivoFijo\\Activos\\ActivoOficina',
             'mostraractuni' => 'App\\Models\\ActivoFijo\\Activos\\ActivoUniforme',
@@ -35,6 +36,15 @@ class BorrarActivo extends ModalComponent
             'mostrarsou' => 'App\\Models\\ActivoFijo\\Activos\\ActivoSouvenir',
             'mostrartipoactivo' => 'App\\Models\\ActivoFijo\\Tipoactivo',
 
+            //Admin
+            'mostrarmobad' => 'App\\Models\\ActivoFijo\\Activos\\ActivoMobiliario',
+            'mostrartecad' => 'App\\Models\\ActivoFijo\\Activos\\ActivoMobiliario',
+            'mostraruniad' => 'App\\Models\\ActivoFijo\\Activos\\ActivoMobiliario',
+            'mostrarsouad' => 'App\\Models\\ActivoFijo\\Activos\\ActivoMobiliario',
+            'mostrarofiad' => 'App\\Models\\ActivoFijo\\Activos\\ActivoMobiliario',
+            'mostrarpapead' => 'App\\Models\\ActivoFijo\\Activos\\ActivoMobiliario',
+            
+
             'mostrarnotas' =>' App\\Models\\ActivoFijo\\Notatecno'
         ];
 
@@ -48,7 +58,7 @@ class BorrarActivo extends ModalComponent
         // Verificar si la clase del modelo existe
         if (class_exists($modeloClase)) {
             $activo = $modeloClase::find($this->activo_id);
-            dd($activo);
+            
             if ($activo) {
                 $activo->delete();
             }

@@ -8,6 +8,9 @@ use Livewire\WithPagination;
 use App\Models\Dx035\Encuesta;
 use Illuminate\Support\Facades\Route;
 
+use Illuminate\Support\Facades\Mail;
+use App\Mail\InvitacionEncuesta;
+
 class MostrarEncuestas extends Component
 {
     use WithPagination; // WithDispatch;
@@ -15,6 +18,9 @@ class MostrarEncuestas extends Component
     public $showModal = false; // Control para ventana emergente
     public $encuestaToDelete;  // Clave de la encuesta a eliminar
     public $search = '';       // Propiedad para la búsqueda
+
+    public $emails;
+    public $mensaje;
 
     // Escuchar los eventos
     protected $listeners = [
@@ -72,6 +78,18 @@ class MostrarEncuestas extends Component
     public function updatingSearch()
     {
         $this->resetPage();
+    }
+
+    public function enviarInvitacion()
+    {
+        $emails = array_map('trim', explode(',', $this->emails));
+
+        foreach ($emails as $email) {
+            Mail::to($email)->send(new InvitacionEncuesta($this->mensaje, $this->encuestaToShare));
+        }
+
+        session()->flash('message', 'Invitaciones enviadas correctamente.');
+        return redirect()->route('encuesta.index');
     }
 
     public function render()

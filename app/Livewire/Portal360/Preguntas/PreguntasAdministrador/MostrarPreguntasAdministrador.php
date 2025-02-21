@@ -14,6 +14,7 @@ class MostrarPreguntasAdministrador extends Component
         return redirect()->route('agregarPreguntaAdministrador');
     }
 
+    #[On('eliminarPregunta')]
     public function deletePregunta($id)
     {
         try {
@@ -27,18 +28,15 @@ class MostrarPreguntasAdministrador extends Component
             // Luego eliminar la pregunta
             $pregunta->delete();
 
-            $this->dispatch('toastr-success', message: 'Pregunta eliminada correctamente.');
-            return redirect()->route('portal360.empresa.empresa-administrador.mostrar-empresa-administrador');
+            // Mostrar mensaje de éxito con SweetAlert2
+            $this->dispatch('swal-success', message: 'Pregunta eliminada correctamente.');
+            
+            return redirect()->route('portal360.preguntas.preguntas-administrador.mostrar-preguntas-administrador');
         } catch (\Exception $e) {
-            $this->dispatch('toastr-error', message: 'Error al eliminar la pregunta: ' . $e->getMessage());
+            $this->dispatch('swal-error', message: 'Error al eliminar la pregunta: ' . $e->getMessage());
         }
     }
 
-    #[On('eliminarPregunta')]
-    public function confirmarEliminacion($id)
-    {
-        $this->deletePregunta($id);
-    }
 
     public function render()
     {

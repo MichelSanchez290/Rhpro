@@ -14,7 +14,7 @@ class MostrarHabilidadesTecnicas extends Component
     public $funcionToDelete;
 
     public function redirigir(){
-        return redirect()->route('agregarHabilidadesHumanas');
+        return redirect()->route('agregarHabilidadesTecnicas');
     }
 
     protected $listeners = [
@@ -37,7 +37,7 @@ class MostrarHabilidadesTecnicas extends Component
         $this->funcionToDelete = null;
         $this->showModal = false;
 
-        return redirect()->route('mostrarFuncionesEspecificas');
+        return redirect()->route('mostrarHabilidadesTecnicas');
     }
 
     public function render()

@@ -17,7 +17,7 @@ class AgregarTrabajador extends Component
 {
     public $trabajador = [], $sucursales=[], $user=[], $puestos=[];
     public $usuarios, $departamentos, $registros_patronales, $empresas, $roles,
-           $empresa, $departamento_id, $nombre, $apellido_p, $apellido_m, $password, $rol;
+           $empresa, $departamento, $nombre, $apellido_p, $apellido_m, $password, $rol;
 
 
     public function mount()
@@ -34,7 +34,7 @@ class AgregarTrabajador extends Component
     {
         //dd();
         $this->sucursales = Empresa::with('sucursales')->where('id', $this->empresa)->get();
-        $this->puestos = Departamento::with('puestos')->where('id', $this->departamento_id)->get();
+        //$this->puestos = Departamento::with('puestos')->where('id', $this->departamento)->get();
     }
 
     protected $rules = [
