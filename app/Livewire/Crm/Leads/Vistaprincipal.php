@@ -10,14 +10,17 @@ use App\Models\Crm\DatosFiscale;
 use App\Models\Crm\LeadCliente;
 use App\Models\Crm\HeadLevantamientosPedido;
 use App\Models\Crm\Nom035Levpedido;
+use App\Models\Crm\TrainingLevantamiento;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Carbon;
 use Livewire\Attributes\On;
+use Livewire\Livewire;
 use PhpOffice\PhpSpreadsheet\Style\ConditionalFormatting\Wizard\Duplicates;
 
 class Vistaprincipal extends Component
 {
+    public $guardarlead, $nuevoEsmart = [], $nuevoTraining = [];
     public $paginacion;
     public $duplicados = 1;
     public $consulta;
@@ -32,6 +35,7 @@ class Vistaprincipal extends Component
     public $leadGlobal;
     public $lead = [];
     public $esmart = [[]];
+    public $training = [[]];
 
     protected $rules = [
         //TABLA LEADSCLIENTES
@@ -101,7 +105,7 @@ class Vistaprincipal extends Component
                 $this->esmart[$i] = [];
             }
         }
-        // Validar los datos del lead
+
         $this->validate([
             'lead.nombre_contacto' => 'required|string|max:255',
             'lead.numero_cliente' => 'required|string|max:255',
@@ -119,29 +123,24 @@ class Vistaprincipal extends Component
             'esmart.*.fecha' => 'required|date',
         ]);
         
-
         // Guardar el lead
         $guardarlead = new LeadCliente($this->lead);
-        
-
         $guardarlead->save();
-        $this->leadGlobal = $guardarlead->id;
+        $this->leadGlobal = $guardarlead;
 
-        foreach($this->esmart as $index => $esmartt){
-            $this -> esmartt['leadcliente_id'] = $guardarlead->id;
-            $this -> esmartt['users_id'] = Auth::id();
-            $this -> esmartt['nombre_cliente'] = $this -> lead['nombre_contacto'];
-            $this -> esmartt['nombre_empresa'] = $this -> lead['nombre_empresa'];
-            $this -> esmartt['telefono_cliente'] = $this -> lead['telefono'];
-            $this -> esmartt['correo_cliente'] = $this -> lead['correo'];
-            $guardarSmart = new EsmartLevantamiento($esmartt);
+        
+        foreach ($this->esmart as $index => $nuevoEsmart) {
+
+            $nuevoEsmart['users_id'] = Auth::id();
+            $nuevoEsmart['leadcliente_id'] = $this->lead['id'];
+            $nuevoEsmart['nombre_cliente'] = $this->lead['nombre_contacto'];
+            $nuevoEsmart['nombre_empresa'] = $this->lead['nombre_empresa'];
+            $nuevoEsmart['telefono_cliente'] = $this->lead['telefono'];
+            $nuevoEsmart['correo_cliente'] = $this->lead['correo'];
+
+            $guardarSmart = new EsmartLevantamiento($nuevoEsmart);
             $guardarSmart->save();
         }
-
-        // Guardar el registro de Esmart
-        // $this->esmart['leadcliente_id'] = $guardarlead->id;
-        // $this->esmart['users_id'] = Auth::id();
-
 
         session()->flash('message', 'Registros guardados correctamente.');
         return redirect()->to('crm/crm-leads'); // Cambia la ruta según tu necesidad
@@ -152,6 +151,68 @@ class Vistaprincipal extends Component
         unset($this->esmart[$indexR]);
         $this->esmart = array_values($this->esmart);
         $this->duplicados--;
+    }
+
+    public function guardarTraininig()
+    {
+        for ($i=0; $i < $this->duplicados; $i++) 
+        { 
+            if (isset($training[$i])){
+                $this->training[$i] = [];
+            }
+        }
+
+        $this->validate([
+            'lead.nombre_contacto' => 'required|string|max:255',
+            'lead.numero_cliente' => 'required|string|max:255',
+            'lead.fecha' => 'required|date',
+            'lead.nombre_empresa' => 'required|string|max:50',
+            'lead.puesto' => 'required|string|max:255',
+            'lead.correo' => 'required|email|max:255',
+            'lead.telefono' => 'required|string|max:10',
+            'training.*.tamaño_empresa' => 'required|string|max:45',
+            'training.*.primera_vez_o_recompra' => 'required|string|max:45',
+            'training.*.responsable_comercial' => 'required|string|max:255',
+            'training.*.medio_cesrh' => 'required|string|max:255',
+            'training.*.giro_empresa' => 'required|string|max:255',
+            'training.*.ubicacion_empresa' => 'required|string|max:255',
+            'training.*.fecha' => 'required|date',
+        ]);
+        
+        // Guardar el lead
+        $guardarlead = new LeadCliente($this->lead);
+        $guardarlead->save();
+        $this->leadGlobal = $guardarlead;
+
+        
+        foreach ($this->traininig as $index => $nuevoTraining) {
+
+            $nuevoTraining['users_id'] = Auth::id();
+            $nuevoTraining['leadsCli_id'] = $this->lead['id'];
+            $nuevoTraining['nombre_cliente'] = $this->lead['nombre_contacto'];
+            $nuevoTraining['nombre_empresa'] = $this->lead['nombre_empresa'];
+            $nuevoTraining['telefono_cliente'] = $this->lead['telefono'];
+            $nuevoTraining['correo_cliente'] = $this->lead['correo'];
+
+            $guardarSmart = new TrainingLevantamiento($nuevoTraining);
+            $guardarSmart->save();
+        }
+
+        session()->flash('message', 'Registros guardados correctamente.');
+        return redirect()->to('crm/crm-leads'); // Cambia la ruta según tu necesidad
+    }
+
+    public function eliminarTraining($indexR)
+    {
+        unset($this->training[$indexR]);
+        $this->training = array_values($this->training);
+        $this->duplicados--;
+    }
+
+
+    public function botonborrar()
+    {
+       $this->dispatch('boton',);
     }
 
     #[On('generarForms')]

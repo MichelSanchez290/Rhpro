@@ -11,12 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('training_levantamientos', function (Blueprint $table) {
+        Schema::create('head_levantamiento_pedidos', function (Blueprint $table) {
             $table->id();
+            $table->string('tipo_servicio');
             $table->date('fecha');
             $table->time('hora');
-            $table->string('numero_pedido');
-    
+            $table->decimal('total_vacantes');
+            $table->decimal('operativos');
+            $table->decimal('especializados');
+            $table->decimal('ejecutivos');
+            $table->decimal('numero_pedido');
+
             $table->timestamps();
         });
     }
@@ -25,7 +30,7 @@ return new class extends Migration
      * Reverse the migrations.
      */
     public function down(): void
-    {   
-        Schema::dropIfExists('training_levantamietos');
+    {
+        Schema::dropIfExists('head_levantamiento_pedidos');
     }
 };

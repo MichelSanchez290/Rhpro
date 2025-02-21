@@ -60,9 +60,6 @@
                         <option value="{{ $empresa->nombre }}">{{ $empresa->nombre }}</option>
                     @endforeach
                 </select>
-                {{-- <input
-                    class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                    wire:model.defer="" type="text"> --}}
                 <x-input-error for="" />
             </div>
             {{-- Puesto --}}
@@ -130,7 +127,7 @@
     @if ($paginacion == 1)
         <div>
             @for ($i = 0; $i < $duplicados; $i++)
-                <div id="form1">
+                <div>
                     <div class="m-4 bg-white rounded-lg shadow-md shadow-gray-300">
                         <div class="text-center">
                             <h1 class="p-10 text-3xl font-bold">
@@ -181,7 +178,7 @@
                                 <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
                                     Tamaño de la empresa
                                 </label>
-                                <select wire:model='esmart.{{ $i }}tamaño_empresa'
+                                <select wire:model='esmart.{{ $i }}.tamaño_empresa'
                                     class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500">
                                     <option value="" disabled>Seleccione un valor</option>
                                     <option value="" disabled>------</option>
@@ -196,7 +193,7 @@
                                 <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
                                     ¿Es la primera vez aplicando?
                                 </label>
-                                <select wire:model='esmart.primera_o_recompra'
+                                <select wire:model='esmart.{{ $i }}.primera_o_recompra'
                                     class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500">
                                     <option value="" disabled>Seleccione un valor</option>
                                     <option value="" disabled>------</option>
@@ -211,8 +208,9 @@
                                 </label>
                                 <input
                                     class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                                    wire:model.defer="esmart.responsable_comercial" type="text">
-                                <x-input-error for="esmart.responsable_comercial" />
+                                    wire:model.defer="esmart.{{ $i }}.responsable_comercial"
+                                    type="text">
+                                <x-input-error for="esmart.{{ $i }}.responsable_comercial" />
                             </div>
                             <div class="mx-2 text-center">
                                 <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
@@ -220,8 +218,8 @@
                                 </label>
                                 <input
                                     class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                                    wire:model.defer="esmart.medio_cesrh" type="text">
-                                <x-input-error for="esmart.medio_cesrh" />
+                                    wire:model.defer="esmart.{{ $i }}.medio_cesrh" type="text">
+                                <x-input-error for="esmart.{{ $i }}.medio_cesrh" />
                             </div>
                         </div>
                         <div class="grid justify-center w-full grid-cols-3 gap-4 px-10 py-4">
@@ -232,8 +230,8 @@
                                 </label>
                                 <input
                                     class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                                    wire:model.defer="esmart.giro_empresa" type="text">
-                                <x-input-error for="esmart.giro_empresa" />
+                                    wire:model.defer="esmart.{{ $i }}.giro_empresa" type="text">
+                                <x-input-error for="esmart.{{ $i }}.giro_empresa" />
                             </div>
                             <div class="mx-2 text-center">
                                 <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
@@ -241,8 +239,8 @@
                                 </label>
                                 <input
                                     class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                                    wire:model.defer="esmart.ubicacion_empresa" type="text">
-                                <x-input-error for="esmart.ubicacion_empresa" />
+                                    wire:model.defer="esmart.{{ $i }}.ubicacion_empresa" type="text">
+                                <x-input-error for="esmart.{{ $i }}.ubicacion_empresa" />
                             </div>
                             <div class="mx-2 text-center">
                                 <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
@@ -250,16 +248,34 @@
                                 </label>
                                 <input
                                     class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                                    wire:model.defer="esmart.fecha" type="date">
-                                <x-input-error for="esmart.fecha" />
+                                    wire:model.defer="esmart.{{ $i }}.fecha" type="date">
+                                <x-input-error for="esmart.{{ $i }}.fecha" />
                             </div>
                         </div>
                         <div class="flex justify-end mr-10">
                             <button wire:click="eliminarEsmart({{ $i }})" type="button"
-                                class="break-inside bg-[#D20939] rounded-xl p-4 mb-4 ">
-                                <div class="flex items-center">
-                                    <i class="fa-solid fa-folder-minus text-white fa-xl"></i>
-                                    <span class="text-base font-medium text-white">Eliminar</span>
+                                class="break-inside bg-[#D20939] hover:bg-[#B00730] active:bg-[#900528] rounded-xl p-4 mb-4 transition-colors duration-200 relative">
+                                <div class="flex items-center gap-2">
+                                    <!-- Icono normal -->
+                                    <i class="far fa-trash-alt text-white fa-xl" wire:loading.remove
+                                        wire:target="eliminarEsmart({{ $i }})"></i>
+                                    <!-- Spinner de carga -->
+                                    <span class="text-white" wire:loading
+                                        wire:target="eliminarEsmart({{ $i }})">
+                                        <i class="fas fa-spinner fa-spin fa-xl"></i>
+                                    </span>
+
+                                    <!-- Texto normal -->
+                                    <span class="text-base font-medium text-white" wire:loading.remove
+                                        wire:target="eliminarEsmart({{ $i }})">
+                                        Eliminar
+                                    </span>
+
+                                    <!-- Texto durante carga -->
+                                    <span class="text-base font-medium text-white" wire:loading
+                                        wire:target="eliminarEsmart({{ $i }})">
+                                        Eliminando...
+                                    </span>
                                 </div>
                             </button>
                         </div>
@@ -772,5 +788,25 @@
             </div>
         </div>
     @endif
-
 </div>
+{{-- <script>
+    function confirmarEliminacion(index) {
+        Swal.fire({
+            title: "¿Estás seguro?",
+            text: "¡No podrás revertir esto!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Sí, eliminarlo"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: "¡Listo!",
+                    text: "Eliminaste correctamente.",
+                    icon: "success"
+                });
+            }
+        });
+    }
+</script> --}}

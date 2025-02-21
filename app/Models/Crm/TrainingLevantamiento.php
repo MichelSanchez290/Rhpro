@@ -16,7 +16,11 @@ class TrainingLevantamiento extends Model
     protected $primaryKey = 'id';
 
     //especifica las columnas
-    protected $fillable = ['id', 'nombre_cliente', 'nombre_empresa', 'giro_empresa', 'ubicacion_empresa', 'tamano_empresa', 'primera_vez_o_recompra', 'medio_cesrh', 'responsable_comercial', 'fecha', 'correo_cliente', 'telefono_cliente', 'leadsCli_id', 'users_id'];
+    protected $fillable = [
+        'id', 'nombre_cliente', 'nombre_empresa', 'giro_empresa', 'ubicacion_empresa', 
+        'tamano_empresa', 'primera_vez_o_recompra', 'medio_cesrh', 'responsable_comercial', 
+        'fecha', 'correo_cliente', 'telefono_cliente', 'leadsCli_id', 'users_id'
+    ];
 
     public function LeadsClientes()
     {

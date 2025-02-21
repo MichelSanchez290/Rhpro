@@ -24,23 +24,17 @@
                 class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md cursor-pointer">
                 <i class='mr-3 text-lg bx bxl-blogger'></i>
                 <span class="text-sm">Levantamiento de pedidos</span>
-                <ion-icon name="chevron-forward-outline"
-                    class="text-2xl text-gray-500 transition-transform duration-300 group-open:rotate-90"></ion-icon>
+                <i class="fas fa-caret-right text-2xl transition-transform duration-300 group-open:rotate-90"></i>
             </summary>
-            <div
-                class="box-border max-h-0 opacity-20 overflow-hidden transition-[max-height, opacity] duration-500 group-open:max-h-96 group-open:opacity-100">
-                <div class="pl-9 mt-2 space-y-3">
-                    <a href="#" class="flex items-center text-gray-600 hover:text-black group">
-                        <span
-                            class="w-2 h-2 bg-gray-400 rounded-full mr-3 transition-colors group-hover:bg-black"></span>
-                        <span class="text-sm">Leads</span>
-                    </a>
-                    <a href="#" class="flex items-center text-gray-600 hover:text-black group">
-                        <span
-                            class="w-2 h-2 bg-gray-400 rounded-full mr-3 transition-colors group-hover:bg-black"></span>
-                        <span class="text-sm">Clientes</span>
-                    </a>
-                </div>
+            <div class="pl-9 mt-2 space-y-3">
+                <a href="{{ 'crm-leads' }}" class="flex items-center text-gray-600 hover:text-black group">
+                    <span class="w-2 h-2 bg-gray-400 rounded-full mr-3 transition-colors group-hover:bg-black"></span>
+                    <span class="text-sm">Leads</span>
+                </a>
+                <a href="#" class="flex items-center text-gray-600 hover:text-black group">
+                    <span class="w-2 h-2 bg-gray-400 rounded-full mr-3 transition-colors group-hover:bg-black"></span>
+                    <span class="text-sm">Clientes</span>
+                </a>
             </div>
         </details>
         {{-- <li class="mb-1 group">
