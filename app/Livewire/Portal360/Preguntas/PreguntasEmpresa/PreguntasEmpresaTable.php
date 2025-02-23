@@ -37,13 +37,15 @@ final class PreguntasEmpresaTable extends PowerGridComponent
     {
         return Respuesta::query()
             ->join('preguntas', 'preguntas.id', '=', '360_respuestas.preguntas_id')
+            ->join('empresas', 'empresas.id', '=', '360_respuestas.empresa_id')
             ->select([
                 '360_respuestas.id',
                 'preguntas.id as pregunta_id',
                 'preguntas.texto',
                 'preguntas.descripcion',
                 '360_respuestas.texto as respuesta_texto',
-                '360_respuestas.puntuacion'
+                '360_respuestas.puntuacion',
+                'empresas.nombre as empresa_nombre' // Agregar el nombre de la empresa
             ]);
     }
 
@@ -60,7 +62,8 @@ final class PreguntasEmpresaTable extends PowerGridComponent
             ->add('texto')
             ->add('descripcion')
             ->add('respuesta_texto')
-            ->add('puntuacion');
+            ->add('puntuacion')
+            ->add('empresa_nombre');
     }
 
     public function columns(): array
@@ -80,6 +83,10 @@ final class PreguntasEmpresaTable extends PowerGridComponent
                 ->searchable(),
 
             Column::make('Puntuación', 'puntuacion')
+                ->sortable()
+                ->searchable(),
+
+            Column::make('Empresa', 'empresa_nombre') // Agregar columna para el nombre de la empresa
                 ->sortable()
                 ->searchable(),
 
@@ -104,17 +111,17 @@ final class PreguntasEmpresaTable extends PowerGridComponent
 
         return [
 
-           
+
 
             Button::add('edit')
-            ->slot('Editar')
-            ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
-            ->route('editarPreguntaEmpre', ['id' => Crypt::encrypt($preguntaId)]),
+                ->slot('Editar')
+                ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
+                ->route('editarPreguntaEmpre', ['id' => Crypt::encrypt($preguntaId)]),
 
             Button::add('delete')
-            ->slot('Eliminar')
-            ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
-            ->dispatch('confirmarEliminarPreguntaEmpresa', ['id' => Crypt::encrypt($preguntaId)]),
+                ->slot('Eliminar')
+                ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
+                ->dispatch('confirmarEliminarPreguntaEmpresa', ['id' => Crypt::encrypt($preguntaId)]),
 
         ];
     }

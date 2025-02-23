@@ -86,25 +86,26 @@ final class EncuestaPreguntaSucursalTable extends PowerGridComponent
 
     public function actions(Encpre $row): array
     {
-        return [
-            Button::add('edit')
+       
+        $actions = [];
+
+        if (auth()->check()) {
+            if (auth()->user()->hasPermissionTo('Editar Encpre ADMIN SUCURSAL')) {
+                $actions[] = Button::add('edit')
                 ->slot('Editar')  // Usando slot() en lugar de caption()
                 ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
-                ->route('editarEncuestaSucursal', ['id' => Crypt::encrypt($row->id)]),
+                ->route('editarEncuestaSucursal', ['id' => Crypt::encrypt($row->id)]);
+            }
 
-
-                Button::add('delete')
+            if (auth()->user()->hasPermissionTo('Eliminar Encpre ADMIN SUCURSAL')) {
+                $actions[] = Button::add('delete')
                 ->slot('Eliminar')
                 ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
-                ->dispatch('confirmarEliminarEncriptSucursal', ['id' => Crypt::encrypt($row->id)]),
+                ->dispatch('confirmarEliminarEncriptSucursal', ['id' => Crypt::encrypt($row->id)]);
+            }
+        }
 
-
-            Button::add('edit')
-                ->slot('Edit: ' . $row->id)
-                ->id()
-                ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-                ->dispatch('edit', ['rowId' => $row->id])
-        ];
+        return $actions;
     }
 
     /*

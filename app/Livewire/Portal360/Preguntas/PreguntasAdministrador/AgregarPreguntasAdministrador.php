@@ -3,6 +3,7 @@
 namespace App\Livewire\Portal360\Preguntas\PreguntasAdministrador;
 
 use App\Models\Encuestas360\Pregunta;
+use App\Models\PortalRH\Empresa;
 use Livewire\Component;
 
 class AgregarPreguntasAdministrador extends Component
@@ -12,30 +13,22 @@ class AgregarPreguntasAdministrador extends Component
         'descripcion' => ''
     ];
 
-    
     public $respuestas = [];
-    
-    // Inicializar las 4 respuestas
+    public $empresas = [];
+    public $empresa_id;
+    public $sucursales = [];
+    public $sucursal_id;
+
     public function mount()
     {
         $this->respuestas = [
-            [
-                'texto' => '',
-                'puntuacion' => ''
-            ],
-            [
-                'texto' => '',
-                'puntuacion' => ''
-            ],
-            [
-                'texto' => '',
-                'puntuacion' => ''
-            ],
-            [
-                'texto' => '',
-                'puntuacion' => ''
-            ]
+            ['texto' => '', 'puntuacion' => ''],
+            ['texto' => '', 'puntuacion' => ''],
+            ['texto' => '', 'puntuacion' => ''],
+            ['texto' => '', 'puntuacion' => '']
         ];
+
+        $this->empresas = Empresa::select('id', 'nombre')->get();
     }
 
     protected $rules = [
@@ -43,6 +36,8 @@ class AgregarPreguntasAdministrador extends Component
         'pregunta.descripcion' => 'required|max:500',
         'respuestas.*.texto' => 'required|min:5',
         'respuestas.*.puntuacion' => 'required|integer|min:1|max:4',
+        'empresa_id' => 'required|exists:empresas,id',
+        'sucursal_id' => 'required|exists:sucursales,id',
     ];
 
     protected $messages = [
@@ -56,7 +51,30 @@ class AgregarPreguntasAdministrador extends Component
         'respuestas.*.puntuacion.integer' => 'La puntuación debe ser un número entero.',
         'respuestas.*.puntuacion.min' => 'La puntuación debe ser al menos 1.',
         'respuestas.*.puntuacion.max' => 'La puntuación no debe ser mayor a 4.',
+        'empresa_id.required' => 'Debe seleccionar una empresa.',
+        'empresa_id.exists' => 'La empresa seleccionada no es válida.',
+        'sucursal_id.required' => 'Debe seleccionar una sucursal.',
+        'sucursal_id.exists' => 'La sucursal seleccionada no es válida.',
     ];
+
+    public function updatedEmpresaId($value)
+    {
+        if (!empty($value)) {
+            try {
+                $empresa = Empresa::with('sucursales')->findOrFail($value);
+                $this->sucursales = $empresa->sucursales;
+                $this->sucursal_id = '';
+                
+                $this->dispatch('toastr-success', message: 'Sucursales cargadas correctamente.');
+            } catch (\Exception $e) {
+                $this->dispatch('toastr-error', message: 'Error al cargar las sucursales: ' . $e->getMessage());
+                $this->sucursales = collect();
+            }
+        } else {
+            $this->sucursales = collect();
+            $this->sucursal_id = '';
+        }
+    }
 
     public function updated($propertyName)
     {
@@ -76,17 +94,14 @@ class AgregarPreguntasAdministrador extends Component
             foreach ($this->respuestas as $respuesta) {
                 $nuevaPregunta->respuestas()->create([
                     'texto' => $respuesta['texto'],
-                    'puntuacion' => $respuesta['puntuacion']
+                    'puntuacion' => $respuesta['puntuacion'],
+                    'empresa_id' => $this->empresa_id,
+                    'sucursal_id' => $this->sucursal_id
                 ]);
             }
 
-            // Limpiar los campos después de guardar
-            $this->pregunta = [
-                'texto' => '',
-                'descripcion' => ''
-            ];
-            
-            $this->mount(); // Reinicializar las respuestas
+            $this->reset(['pregunta', 'respuestas', 'empresa_id', 'sucursal_id']);
+            $this->mount();
 
             $this->dispatch('toastr-success', message: 'Pregunta y respuestas guardadas correctamente.');
             return redirect()->route('portal360.preguntas.preguntas-administrador.mostrar-preguntas-administrador');
@@ -96,7 +111,6 @@ class AgregarPreguntasAdministrador extends Component
             $this->dispatch('toastr-error', message: 'Error al guardar la pregunta: ' . $e->getMessage());
         }
     }
-
 
     public function render()
     {

@@ -86,4 +86,11 @@ class Sucursal extends Model
     {
         return $this->belongsToMany(ContactoSucursal::class);
     }
+
+    public function empresa()
+    {
+        return $this->belongsTo(Empresa::class, 'empresa_id', 'id');
+    }
+
+    
 }

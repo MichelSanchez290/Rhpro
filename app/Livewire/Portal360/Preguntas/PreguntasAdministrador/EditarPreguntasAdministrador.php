@@ -3,12 +3,12 @@
 namespace App\Livewire\Portal360\Preguntas\PreguntasAdministrador;
 
 use App\Models\Encuestas360\Pregunta;
+use App\Models\PortalRH\Empresa;
 use Illuminate\Support\Facades\Crypt;
 use Livewire\Component;
 
 class EditarPreguntasAdministrador extends Component
 {
-    
     public $preguntaId;
     public $pregunta = [
         'texto' => '',
@@ -16,12 +16,18 @@ class EditarPreguntasAdministrador extends Component
     ];
     
     public $respuestas = [];
+    public $empresas = [];
+    public $empresa_id;
+    public $sucursales = [];
+    public $sucursal_id;
 
     protected $rules = [
         'pregunta.texto' => 'required|min:10',
         'pregunta.descripcion' => 'required|max:500',
         'respuestas.*.texto' => 'required|min:5',
         'respuestas.*.puntuacion' => 'required|integer|min:1|max:4',
+        'empresa_id' => 'required|exists:empresas,id',
+        'sucursal_id' => 'required|exists:sucursales,id'
     ];
 
     protected $messages = [
@@ -35,8 +41,11 @@ class EditarPreguntasAdministrador extends Component
         'respuestas.*.puntuacion.integer' => 'La puntuación debe ser un número entero.',
         'respuestas.*.puntuacion.min' => 'La puntuación debe ser al menos 1.',
         'respuestas.*.puntuacion.max' => 'La puntuación no debe ser mayor a 4.',
+        'empresa_id.required' => 'Debe seleccionar una empresa.',
+        'empresa_id.exists' => 'La empresa seleccionada no es válida.',
+        'sucursal_id.required' => 'Debe seleccionar una sucursal.',
+        'sucursal_id.exists' => 'La sucursal seleccionada no es válida.',
     ];
-    
 
     public function mount($id)
     {
@@ -54,20 +63,57 @@ class EditarPreguntasAdministrador extends Component
                 return [
                     'id' => $respuesta->id,
                     'texto' => $respuesta->texto,
-                    'puntuacion' => $respuesta->puntuacion
+                    'puntuacion' => $respuesta->puntuacion,
+                    'empresa_id' => $respuesta->empresa_id,
+                    'sucursal_id' => $respuesta->sucursal_id
                 ];
             })->toArray();
 
-            // Ensure we always have 4 respuestas, adding empty ones if needed
             while (count($this->respuestas) < 4) {
                 $this->respuestas[] = [
                     'id' => null,
                     'texto' => '',
-                    'puntuacion' => ''
+                    'puntuacion' => '',
+                    'empresa_id' => null,
+                    'sucursal_id' => null
                 ];
+            }
+
+            $this->empresas = Empresa::select('id', 'nombre')->get();
+
+            if (!empty($this->respuestas[0]['empresa_id'])) {
+                $this->empresa_id = $this->respuestas[0]['empresa_id'];
+                
+                // Cargar las sucursales de la empresa seleccionada
+                $empresa = Empresa::with('sucursales')->find($this->empresa_id);
+                $this->sucursales = $empresa->sucursales;
+                
+                // Establecer la sucursal seleccionada
+                if (!empty($this->respuestas[0]['sucursal_id'])) {
+                    $this->sucursal_id = $this->respuestas[0]['sucursal_id'];
+                }
             }
         } catch (\Exception $e) {
             $this->dispatch('toastr-error', message: 'Error al cargar la pregunta: ' . $e->getMessage());
+        }
+    }
+
+    public function updatedEmpresaId($value)
+    {
+        if (!empty($value)) {
+            try {
+                $empresa = Empresa::with('sucursales')->findOrFail($value);
+                $this->sucursales = $empresa->sucursales;
+                $this->sucursal_id = '';
+                
+                $this->dispatch('toastr-success', message: 'Sucursales cargadas correctamente.');
+            } catch (\Exception $e) {
+                $this->dispatch('toastr-error', message: 'Error al cargar las sucursales: ' . $e->getMessage());
+                $this->sucursales = collect();
+            }
+        } else {
+            $this->sucursales = collect();
+            $this->sucursal_id = '';
         }
     }
 
@@ -81,40 +127,36 @@ class EditarPreguntasAdministrador extends Component
         $this->validate();
 
         try {
-            // Buscar la pregunta y actualizarla
             $pregunta = Pregunta::findOrFail($this->preguntaId);
             $pregunta->update([
                 'texto' => $this->pregunta['texto'],
                 'descripcion' => $this->pregunta['descripcion']
             ]);
 
-            // Actualizar o crear respuestas
             foreach ($this->respuestas as $respuestaData) {
                 if (isset($respuestaData['id'])) {
-                    // Actualizar respuesta existente
                     $pregunta->respuestas()->updateOrCreate(
                         ['id' => $respuestaData['id']],
                         [
                             'texto' => $respuestaData['texto'],
-                            'puntuacion' => $respuestaData['puntuacion']
+                            'puntuacion' => $respuestaData['puntuacion'],
+                            'empresa_id' => $this->empresa_id,
+                            'sucursal_id' => $this->sucursal_id
                         ]
                     );
                 } else {
-                    // Crear nueva respuesta
                     $pregunta->respuestas()->create([
                         'texto' => $respuestaData['texto'],
-                        'puntuacion' => $respuestaData['puntuacion']
+                        'puntuacion' => $respuestaData['puntuacion'],
+                        'empresa_id' => $this->empresa_id,
+                        'sucursal_id' => $this->sucursal_id
                     ]);
                 }
             }
 
-            // Notificación de éxito
             $this->dispatch('toastr-success', message: 'Pregunta editada correctamente.');
-
-            // Redireccionar a la lista de preguntas
             return redirect()->route('portal360.preguntas.preguntas-administrador.mostrar-preguntas-administrador');
         } catch (\Exception $e) {
-            // Notificación de error
             $this->dispatch('toastr-error', message: 'Error al editar la pregunta: ' . $e->getMessage());
         }
     }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,18 +17,25 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
+
 <body class="font-sans antialiased bg-blue-50">
+    <!-- Incluye el componente Livewire para el menú lateral -->
+    @livewire('portal360.navigation-menu')
+
+    <!-- Incluye la barra de navegación superior (si es necesario) -->
     @include('navigation-menudev')
+    <!-- Mueve la searchbar arriba del main -->
+    @include('searchbar')
+
     <main class="w-full md:w-[calc(100%-256px)] md:ml-64 transition-all main">
-        @include('searchbar')
         <!-- Content -->
         <div class="pt-5">
             <main class="">
                 {{ $slot }}
             </main>
         </div>
-        <!-- End Content -->
     </main>
+
 
     @livewireScripts
     <!-- jQuery (requerido por Toastr y Select2) -->
@@ -62,9 +70,66 @@
         window.addEventListener('toastr-error', event => {
             toastr.error(event.detail.message);
         });
+
+        window.addEventListener('toastr-warning', event => {
+            toastr.warning(event.detail.message);
+        });
+    </script>
+   <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    const sidebar = document.getElementById('sidebar');
+    const sidebarToggle = document.getElementById('sidebarToggle');
+
+    // Leer el estado del menú desde localStorage al cargar la página
+    const isSidebarOpen = localStorage.getItem('isSidebarOpen') === 'true';
+
+    // Aplicar el estado inicial del menú
+    if (isSidebarOpen) {
+        sidebar.classList.remove('-translate-x-full');
+        sidebar.classList.add('translate-x-0');
+    } else {
+        sidebar.classList.remove('translate-x-0');
+        sidebar.classList.add('-translate-x-full');
+    }
+
+    sidebarToggle.addEventListener('click', function() {
+        const isOpen = sidebar.classList.contains('translate-x-0');
+        
+        // Alternar el estado del menú
+        if (isOpen) {
+            sidebar.classList.remove('translate-x-0');
+            sidebar.classList.add('-translate-x-full');
+        } else {
+            sidebar.classList.remove('-translate-x-full');
+            sidebar.classList.add('translate-x-0');
+        }
+
+        // Guardar el estado del menú en localStorage
+        localStorage.setItem('isSidebarOpen', !isOpen);
+
+        // Enviar el estado a Livewire (opcional, si es necesario)
+        Livewire.emit('sidebarToggled', !isOpen);
+    });
+});
+
+function toggleUsuarios() {
+    const menu = document.getElementById('usuariosMenu');
+    const icon = document.getElementById('usuariosIcon');
+
+    menu.classList.toggle('hidden');
+    icon.classList.toggle('rotate-180');
+}
+
+function toggleEncuesta() {
+    const menu = document.getElementById('usuariosMenudev');
+    const icon = document.getElementById('usuariosIcondev');
+
+    menu.classList.toggle('hidden');
+    icon.classList.toggle('rotate-180');
+}
     </script>
 
     @stack('scripts') <!-- Aquí se incluirán los scripts push -->
 </body>
-</html>
 
+</html>

@@ -14,6 +14,7 @@ use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 
+
 final class PreguntasSucursalTable extends PowerGridComponent
 {
     public string $tableName = 'preguntas-sucursal-table-xkdgjg-table';
@@ -37,13 +38,15 @@ final class PreguntasSucursalTable extends PowerGridComponent
     {
         return Respuesta::query()
             ->join('preguntas', 'preguntas.id', '=', '360_respuestas.preguntas_id')
+            ->join('empresas', 'empresas.id', '=', '360_respuestas.empresa_id')
             ->select([
                 '360_respuestas.id',
                 'preguntas.id as pregunta_id',
                 'preguntas.texto',
                 'preguntas.descripcion',
                 '360_respuestas.texto as respuesta_texto',
-                '360_respuestas.puntuacion'
+                '360_respuestas.puntuacion',
+                'empresas.nombre as empresa_nombre' // Agregar el nombre de la empresa
             ]);
     }
 
@@ -60,7 +63,8 @@ final class PreguntasSucursalTable extends PowerGridComponent
             ->add('texto')
             ->add('descripcion')
             ->add('respuesta_texto')
-            ->add('puntuacion');
+            ->add('puntuacion')
+            ->add('empresa_nombre');
     }
 
     public function columns(): array
@@ -83,6 +87,10 @@ final class PreguntasSucursalTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
+            Column::make('Empresa', 'empresa_nombre') // Agregar columna para el nombre de la empresa
+                ->sortable()
+                ->searchable(),
+
             Column::action('Action')
         ];
     }
@@ -100,19 +108,29 @@ final class PreguntasSucursalTable extends PowerGridComponent
 
     public function actions(Respuesta $row): array
     {
+        $actions = [];
         $preguntaId = $row->pregunta_id;
 
-        return [
-            Button::add('edit')
-            ->slot('Editar')
-            ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
-            ->route('editarPreguntaSucu', ['id' => Crypt::encrypt($preguntaId)]),
 
-            Button::add('delete')
-            ->slot('Eliminar')
-            ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
-            ->dispatch('confirmarEliminarPreguntaSucursal', ['id' => Crypt::encrypt($preguntaId)]),
-        ];
+        // Verifica el permiso de edición
+
+        if (auth()->check() && auth()->user()->hasPermissionTo('Editar Preguntas ADMIN SUCURSAL')) {
+            $actions[] = Button::add('edit')
+                ->slot('Editar')
+                ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
+                ->route('editarPreguntaSucu', ['id' => Crypt::encrypt($preguntaId)]);
+            // ... código del botón de editar
+        }
+
+        if (auth()->check() && auth()->user()->hasPermissionTo('Eliminar Preguntas ADMIN SUCURSAL')) {
+            $actions[] = Button::add('delete')
+                ->slot('Eliminar')
+                ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
+                ->dispatch('confirmarEliminarPreguntaSucursal', ['id' => Crypt::encrypt($preguntaId)]);
+            // ... código del botón de eliminar
+        }
+
+        return $actions;
     }
 
     /*
