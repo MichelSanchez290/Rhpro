@@ -32,7 +32,12 @@ final class EncuestaAdministradorTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Encuesta360::query();
+        return Encuesta360::query()
+            ->join('empresas', 'empresas.id', '=', '360_encuestas.empresa_id')
+            ->join('sucursales', 'sucursales.id', '=', '360_encuestas.sucursal_id')
+            ->select('360_encuestas.*', 
+                    'empresas.nombre as empresa_nombre',
+                    'sucursales.nombre_sucursal as sucursal_nombre');
     }
 
     public function relationSearch(): array
@@ -47,6 +52,8 @@ final class EncuestaAdministradorTable extends PowerGridComponent
             ->add('nombre')
             ->add('descripcion')
             ->add('indicaciones')
+            ->add('empresa_nombre')
+            ->add('sucursal_nombre')
             ->add('created_at');
     }
 
@@ -66,6 +73,13 @@ final class EncuestaAdministradorTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
+            Column::make('Empresa', 'empresa_nombre')
+                ->sortable()
+                ->searchable(),
+
+            Column::make('Sucursal', 'sucursal_nombre')
+                ->sortable()
+                ->searchable(),
 
             Column::action('Action')
         ];
@@ -89,7 +103,7 @@ final class EncuestaAdministradorTable extends PowerGridComponent
             Button::add('edit')
                 ->slot('Editar')
                 ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
-                ->route('editarEncuestaAdministrador', ['id' => Crypt::encrypt($row->id)]),
+                ->route('editarEncuestaAdministradordevpro', ['id' => Crypt::encrypt($row->id)]),
 
 
 
@@ -98,24 +112,10 @@ final class EncuestaAdministradorTable extends PowerGridComponent
                 ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
                 ->dispatch('confirmarEliminarEncuesta', ['id' => Crypt::encrypt($row->id)]),
 
-
-            Button::add('edit')
-                ->slot('Edit: ' . $row->id)
-                ->id()
-                ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-                ->dispatch('edit', ['rowId' => $row->id])
         ];
     }
-
-    /*
-    public function actionRules($row): array
-    {
-       return [
-            // Hide button edit for ID 1
-            Rule::button('edit')
-                ->when(fn($row) => $row->id === 1)
-                ->hide(),
-        ];
-    }
-    */
 }
+
+
+
+

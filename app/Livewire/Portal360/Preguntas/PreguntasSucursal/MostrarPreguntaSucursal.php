@@ -11,7 +11,7 @@ class MostrarPreguntaSucursal extends Component
 {
     public function redirigirpreguntaSucursal()
     {
-        return redirect()->route('agregarPreguntaEmpresa');
+        return redirect()->route('agregarPreguntaSucursal');
     }
 
     
