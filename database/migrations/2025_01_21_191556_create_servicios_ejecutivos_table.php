@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('servicio_ejecutivos', function (Blueprint $table) {
+        Schema::create('servicios_ejecutivos', function (Blueprint $table) {
             $table->id();
             $table->string('head_asesor');
             $table->string('correo');
@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('num_cotizacion');
             $table->date('cotizacion_emitida');
             $table->date('cotizacion_valida_hasta');
-            $table->foreignId('informacione_ejecutivos_id')
+            $table->foreignId('informaciones_ejecutivos_id')
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
@@ -31,7 +31,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('servicios_ejecutivos', function (Blueprint $table) {
-            $table->dropForeign(['informacione_ejecutivos_id']);
+            $table->dropForeign(['informaciones_ejecutivos_id']);
         });
         Schema::dropIfExists('servicio_ejecutivos');
     }

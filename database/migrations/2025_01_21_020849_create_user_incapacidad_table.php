@@ -23,7 +23,7 @@ return new class extends Migration
             $table->unsignedBigInteger('incapacidad_id');
             $table->foreign('incapacidad_id') //Declara que id es una clave foránea.
                     ->references('id') //Indica que esta columna hace referencia a la columna id
-                    ->on( 'incapacidades')  // Define que la relación es con la tabla xxx
+                    ->on( 'incapacidades')  // Define que la03 relación es con la tabla xxx
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
     

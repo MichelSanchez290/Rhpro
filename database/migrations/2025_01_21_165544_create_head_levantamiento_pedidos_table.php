@@ -25,18 +25,6 @@ return new class extends Migration
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->foreignId('servicios_especializados_id')
-                ->constrained()
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
-            $table->foreignId('servicios_operativos_id')
-                ->constrained()
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
-            $table->foreignId('servicios_ejecutivos_id')
-                ->constrained()
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -48,9 +36,6 @@ return new class extends Migration
     {
         Schema::table('head_levantamiento_pedidos', function (Blueprint $table) {
             $table->dropColumn('leads_clientes_id');
-            $table->dropColumn('servicios_especializados_id');
-            $table->dropColumn('servicios_operativos_id');
-            $table->dropColumn('servicios_ejecutivos_id');
         });
         Schema::dropIfExists('head_levantamiento_pedidos');
     }

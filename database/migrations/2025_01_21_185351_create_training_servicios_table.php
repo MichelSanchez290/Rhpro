@@ -22,7 +22,7 @@ return new class extends Migration
             $table->foreignId('training_informaciones_id')
                 ->constrained()
                 ->onUpdate('cascade')
-                ->onDelete('cascade');
+                ->onDelete('cascade');  
             $table->timestamps();
         });
     }
