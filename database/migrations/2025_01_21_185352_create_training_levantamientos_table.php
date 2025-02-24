@@ -20,6 +20,14 @@ return new class extends Migration
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
+            $table->foreignId('training_servicios')
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->foreignId('leads_clientes')
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -30,7 +38,7 @@ return new class extends Migration
     public function down(): void
     {   
         Schema::table('esmart_levantamientos', function (Blueprint $table) {
-            $table->dropColumn('users_id');
+            $table->dropForeign(['user_id']);
         });
         Schema::dropIfExists('training_levantamietos');
     }

@@ -21,4 +21,14 @@ class ServiciosOperativo extends Model
     {
         return $this->belongsTO(HeadLevantamientosPedido::class);
     }
+
+    public function informacionesoperativos()
+    {
+        return $this->belongsTO(InformacionesOperativo::class);
+    }
+
+    public function aprobadaoperativos()
+    {
+        return $this->hasMany(AprobadaOperativo::class);
+    }
 }

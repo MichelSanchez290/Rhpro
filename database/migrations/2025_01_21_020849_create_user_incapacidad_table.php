@@ -19,7 +19,6 @@ return new class extends Migration
                     ->on( 'users')  // Define que la relación es con la tabla xxx
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
-
             //donde almacenara el id de la relacion
             $table->unsignedBigInteger('incapacidad_id');
             $table->foreign('incapacidad_id') //Declara que id es una clave foránea.
