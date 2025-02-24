@@ -36,6 +36,7 @@ class Vistaprincipal extends Component
     public $lead = [];
     public $esmart = [[]];
     public $recuperarLead;
+    public $mostrarOperativo = false;
     public $show = false;
 
     protected $rules = [
@@ -99,6 +100,10 @@ class Vistaprincipal extends Component
         $this->hh['hora'] = Carbon::now()->format('H:s:i');
         $this->hh['users_id'] = Auth::user()->id;
         $this->paginacion = 0;
+        // if($this->hh['tipo_servicio']==false)
+        // {
+
+        // }
     }
 
     public function guardarEsmart()

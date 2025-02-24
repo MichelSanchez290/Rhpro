@@ -83,7 +83,8 @@
         {{-- Contacto alternativo --}}
         <div class="grid justify-center w-full grid-cols-1 gap-4 px-10 py-4">
             <div class="mx-4 text-center">
-                <h2 class="block mb-2 font-bold tracking-wide text-cyan-700 uppercase">En caso de estar ausente, ¿a quién podemos contactar?</h2>
+                <h2 class="block mb-2 font-bold tracking-wide text-cyan-700 uppercase">En caso de estar ausente, ¿a
+                    quién podemos contactar?</h2>
             </div>
         </div>
         <div class="grid justify-center w-full grid-cols-2 gap-4 px-10 py-4 bg-white rounded-lg shadow-lg">
@@ -133,11 +134,11 @@
         </div>
         {{-- Botones --}}
         <div class="flex items-center justify-center">
-            <div x-data="{show:true}" x-show="show" x-transition x-init="@this.on('message',() => {
-                show=false;
-                });">
-                <button  wire:click="saveLead()"
-                class="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 m-2">
+            <div x-data="{ show: true }" x-show="show" x-transition x-init="@this.on('message', () => {
+                show = false;
+            });">
+                <button wire:click="saveLead()"
+                    class="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 m-2">
                     Agregar
                 </button>
                 <a href="{{ url('/crm/crm-inicio') }}" x-data x-show="!show" x-transition
@@ -145,11 +146,12 @@
                     Ir a inicio
                 </a>
             </div>
-            <div x-data="{show:false}" x-show="show" x-transition x-init="@this.on('message',() => {
-                show=true;
-                });"
-             class="justify-center flexed bottom-4 left-1/2 transform -translate-x-1/2  bg-green-100 border-t border-b border-green-500 text-green-700 px-4 py-3" role="alert">
-                <p class="text-sm">Lead registado con éxito</p>
+            <div x-data="{ show: false }" x-show="show" x-transition x-init="@this.on('message', () => {
+                show = true;
+            });"
+                class="justify-center flexed bottom-4 left-1/2 transform -translate-x-1/2  bg-green-100 border-t border-b border-green-500 text-green-700 px-4 py-3"
+                role="alert">
+                <p class="text-sm">Lead registrado con éxito</p>
             </div>
         </div>
     </div>
@@ -486,63 +488,68 @@
                     <div class="grid justify-center w-full px-10 py-4 bg-white rounded-lg shadow-lg">
                         {{-- Tipo de servicio --}}
                         <div class="mx-2">
-                            <label class="mb-2 text-base font-bold tracking-wide text-center text-gray-700 uppercase ">
+                            <h2 class="mb-2 text-sm font-bold tracking-wide text-center text-cyan-700 uppercase ">
                                 Tipo de servicio
+                            </h2>
+                            {{-- Servicios operativos --}}
+                            <label class="mb-2 text-sm font-bold tracking-wide text-center text-gray-700 uppercase ">
+                                <input type="checkbox" name="" id="" wire:model='mostrarOperativo'>
+                                <span>Servicios operativos</span>
+                                <x-input-error for="hh.tipo_servicio.operativos" />
                             </label>
-                            <input name="Operativos"
-                                class="focus:outline-none focus:bg-white focus:border-gray-500"
-                                wire:model.defer="hh.tipo_servicio.operativos" type="checkbox">
-                            <label for="Operativos">Operativos</label>
-                            <x-input-error for="hh.tipo_servicio.operativos" />
-                            <input name="especializados"
-                                class="focus:outline-none focus:bg-white focus:border-gray-500"
-                                wire:model.defer="hh.tipo_servicio.especializados" type="checkbox" >
-                            <x-input-error for="hh.tipo_servicio.especializados" />
-                            <label for="especializados">Especializados</label>
-                            <input name="Ejecutivos"
-                                class="focus:outline-none focus:bg-white focus:border-gray-500"
-                                wire:model.defer="hh.tipo_servicio.ejecutivos" type="checkbox" >
-                            <label for="Ejecutivos">Ejecutivos</label>
-                            <x-input-error for="hh.tipo_servicio.ejecutivos" />
+                            {{-- Operativos --}}
+                            @if ($mostrarOperativo)
+                                <div class="mx-2">
+                                    <input
+                                        class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                                        wire:model.defer="hh.operativos" type="number">
+                                    <x-input-error for="hh.operativos" />
+                                </div>
+                            @endif
+                            {{-- Servicios Espescializados --}}
+                            <label class="mb-2 text-sm font-bold tracking-wide text-center text-gray-700 uppercase ">
+                                <input type="checkbox" name="" id=""
+                                    wire:model='hh.tipo_servicio.especializados'>
+                                <span>Servicios especializados</span>
+                            </label>
 
-                        </div>
-                    </div>
-                    <div class="grid justify-center w-full grid-cols-3 gap-4 px-10 py-4 bg-white rounded-lg shadow-lg">
-                        {{-- Operativos --}}
-                        <div class="mx-2">
-                            <label class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
-                                Operativos
+                            {{-- Especializados --}}
+                            <div class="mx-2">
+                                <label
+                                    class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
+                                    Especializados
+                                </label>
+                                <input
+                                    class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                                    wire:model.defer="hh.especializados" type="number">
+                                <x-input-error for="hh.especializados" />
+                            </div>
+
+                            {{-- Servicios Ejecutivos --}}
+                            <label class="mb-2 text-sm font-bold tracking-wide text-center text-gray-700 uppercase ">
+                                <input type="checkbox" name="" id=""
+                                    wire:model='hh.tipo_servicio.ejecutivos'>
+                                <span>Servicios ejecutivos</span>
                             </label>
-                            <input
-                                class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                                wire:model.defer="hh.operativos" type="number">
-                            <x-input-error for="hh.operativos" />
-                        </div>
-                        {{-- Especializados --}}
-                        <div class="mx-2">
-                            <label class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
-                                Especializados
-                            </label>
-                            <input
-                                class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                                wire:model.defer="hh.especializados" type="number">
-                            <x-input-error for="hh.especializados" />
-                        </div>
-                        {{-- Ejecutivos --}}
-                        <div class="mx-2">
-                            <label class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
-                                Ejecutivos
-                            </label>
-                            <input
-                                class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                                wire:model.defer="hh.ejecutivos" type="number">
-                            <x-input-error for="hh.ejecutivos" />
+
+                            <div class="mx-2">
+                                {{-- Ejecutivos --}}
+                                <label
+                                    class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
+                                    Ejecutivos
+                                </label>
+                                <input
+                                    class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                                    wire:model.defer="hh.ejecutivos" type="number">
+                                <x-input-error for="hh.ejecutivos" />
+                            </div>
                         </div>
                     </div>
                     <div class="grid justify-center w-full grid-cols-3 gap-4 px-10 py-4 bg-white rounded-lg shadow-lg">
                         {{-- Numero de pedido --}}
                         <div class="mx-2">
-                            <label class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
+                            <label
+                                class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
                                 Numero de pedido
                             </label>
                             <input
@@ -552,22 +559,23 @@
                         </div>
                         {{-- Total de Vacantes --}}
                         <div class="mx-2">
-                            <label class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
+                            <label
+                                class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
                                 Total de Vacantes
                             </label>
-                            <input
+                            {{-- <input
                                 class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
                                 wire:model.defer="hh.total_vacantes" type="text" readonly>
-                            <x-input-error for="hh.total_vacantes" />
+                            <x-input-error for="hh.total_vacantes" /> --}}
                         </div>
                     </div>
                     {{-- Botones --}}
                     <div class="flex items-center justify-center">
-                        <div x-data="{show:true}" x-show="show" x-transition x-init="@this.on('message',() => {
-                            show=false;
-                            });">
-                            <button  wire:click="saveHead()"
-                            class="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 m-2">
+                        <div x-data="{ show: true }" x-show="show" x-transition x-init="@this.on('message', () => {
+                            show = false;
+                        });">
+                            <button wire:click="saveHead()"
+                                class="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 m-2">
                                 Agregar
                             </button>
                             <a href="{{ url('/crm/crm-inicio') }}" x-data x-show="!show" x-transition
@@ -575,11 +583,12 @@
                                 Ir a inicio
                             </a>
                         </div>
-                        <div x-data="{show:false}" x-show="show" x-transition x-init="@this.on('message',() => {
-                            show=true;
-                            });"
-                        class="justify-center flexed bottom-4 left-1/2 transform -translate-x-1/2  bg-green-100 border-t border-b border-green-500 text-green-700 px-4 py-3" role="alert">
-                            <p class="text-sm">Lead registado con éxito</p>
+                        <div x-data="{ show: false }" x-show="show" x-transition x-init="@this.on('message', () => {
+                            show = true;
+                        });"
+                            class="justify-center flexed bottom-4 left-1/2 transform -translate-x-1/2  bg-green-100 border-t border-b border-green-500 text-green-700 px-4 py-3"
+                            role="alert">
+                            <p class="text-sm">Levantamiento head hunting registrado con éxito</p>
                         </div>
                     </div>
                 @endfor
@@ -593,7 +602,7 @@
                 @for ($i = 0; $i < $duplicados; $i++)
                     <div class="text-center">
                         <h1 class="p-10 text-3xl font-bold">
-                            Formulario de HeadHunting
+                            Formulario de NOM 035
                         </h1>
                     </div>
                     <div class="grid justify-center w-full px-10 py-4 bg-white rounded-lg shadow-lg">
@@ -602,28 +611,26 @@
                             <label class="mb-2 text-base font-bold tracking-wide text-center text-gray-700 uppercase ">
                                 Tipo de servicio
                             </label>
-                            <input name="Operativos"
-                                class="focus:outline-none focus:bg-white focus:border-gray-500"
+                            <input name="Operativos" class="focus:outline-none focus:bg-white focus:border-gray-500"
                                 wire:model.defer="nom035.tipo_servicio.operativos" type="checkbox">
                             <label for="Operativos">Operativos</label>
                             <x-input-error for="nom035.tipo_servicio.operativos" />
                             <input name="especializados"
                                 class="focus:outline-none focus:bg-white focus:border-gray-500"
-                                wire:model.defer="nom035.tipo_servicio.especializados" type="checkbox" >
+                                wire:model.defer="nom035.tipo_servicio.especializados" type="checkbox">
                             <x-input-error for="nom035.tipo_servicio.especializados" />
                             <label for="especializados">Especializados</label>
-                            <input name="Ejecutivos"
-                                class="focus:outline-none focus:bg-white focus:border-gray-500"
-                                wire:model.defer="nom035.tipo_servicio.ejecutivos" type="checkbox" >
+                            <input name="Ejecutivos" class="focus:outline-none focus:bg-white focus:border-gray-500"
+                                wire:model.defer="nom035.tipo_servicio.ejecutivos" type="checkbox">
                             <label for="Ejecutivos">Ejecutivos</label>
                             <x-input-error for="nom035.tipo_servicio.ejecutivos" />
-
                         </div>
                     </div>
                     <div class="grid justify-center w-full grid-cols-3 gap-4 px-10 py-4 bg-white rounded-lg shadow-lg">
                         {{-- Operativos --}}
                         <div class="mx-2">
-                            <label class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
+                            <label
+                                class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
                                 Operativos
                             </label>
                             <input
@@ -633,7 +640,8 @@
                         </div>
                         {{-- Especializados --}}
                         <div class="mx-2">
-                            <label class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
+                            <label
+                                class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
                                 Especializados
                             </label>
                             <input
@@ -643,7 +651,8 @@
                         </div>
                         {{-- Ejecutivos --}}
                         <div class="mx-2">
-                            <label class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
+                            <label
+                                class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
                                 Ejecutivos
                             </label>
                             <input
@@ -655,7 +664,8 @@
                     <div class="grid justify-center w-full grid-cols-3 gap-4 px-10 py-4 bg-white rounded-lg shadow-lg">
                         {{-- Numero de pedido --}}
                         <div class="mx-2">
-                            <label class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
+                            <label
+                                class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
                                 Numero de pedido
                             </label>
                             <input
@@ -665,7 +675,8 @@
                         </div>
                         {{-- Total de Vacantes --}}
                         <div class="mx-2">
-                            <label class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
+                            <label
+                                class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
                                 Total de Vacantes
                             </label>
                             <input
@@ -676,11 +687,11 @@
                     </div>
                     {{-- Botones --}}
                     <div class="flex items-center justify-center">
-                        <div x-data="{show:true}" x-show="show" x-transition x-init="@this.on('message',() => {
-                            show=false;
-                            });">
-                            <button  wire:click="saveLead()"
-                            class="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 m-2">
+                        <div x-data="{ show: true }" x-show="show" x-transition x-init="@this.on('message', () => {
+                            show = false;
+                        });">
+                            <button wire:click="saveNom035()"
+                                class="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 m-2">
                                 Agregar
                             </button>
                             <a href="{{ url('/crm/crm-inicio') }}" x-data x-show="!show" x-transition
@@ -688,11 +699,12 @@
                                 Ir a inicio
                             </a>
                         </div>
-                        <div x-data="{show:false}" x-show="show" x-transition x-init="@this.on('message',() => {
-                            show=true;
-                            });"
-                        class="justify-center flexed bottom-4 left-1/2 transform -translate-x-1/2  bg-green-100 border-t border-b border-green-500 text-green-700 px-4 py-3" role="alert">
-                            <p class="text-sm">Lead registado con éxito</p>
+                        <div x-data="{ show: false }" x-show="show" x-transition x-init="@this.on('message', () => {
+                            show = true;
+                        });"
+                            class="justify-center flexed bottom-4 left-1/2 transform -translate-x-1/2  bg-green-100 border-t border-b border-green-500 text-green-700 px-4 py-3"
+                            role="alert">
+                            <p class="text-sm">Lead registrado con éxito</p>
                         </div>
                     </div>
                 @endfor
