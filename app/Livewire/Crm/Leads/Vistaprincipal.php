@@ -257,18 +257,6 @@ class Vistaprincipal extends Component
         $AgregarLead = new LeadCliente($this->lead);
         $AgregarLead->save();
         $this->recuperarLead = $AgregarLead;
-
-        $this->lead['nombre_cliente'] = [];
-        $this->lead['medios_cesrh'] = [];
-        $this->lead['fecha_y_hora'] = [];
-        $this->lead['crm_empresas_id'] = [];
-        $this->lead['puesto'] = [];
-        $this->lead['correo'] = [];
-        $this->lead['telefono'] = [];
-        $this->lead['nombre_contacto_2'] = [];
-        $this->lead['puesto_contacto_2'] = [];
-        $this->lead['correo_2'] = [];
-        $this->lead['telefono_2'] = [];
         // return redirect()->route('Leads');
 
         //para poder ocupar elemento banner que dice que ya agrego
