@@ -9,7 +9,7 @@ class InformacionesEjecutivo extends Model
 {
     use HasFactory;
 
-    protected $table = 'datos_fiscales';
+    protected $table = 'informaciones_ejecutivos';
 
     //Define la clave primaria
     protected $primaryKey = 'id';

@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class AprobadoEspecializado extends Model
 {
     use HasFactory;
+    protected $table = "servicios_especializados";
+
     protected $primaryKey = 'id';
 
     protected $fillable = [

@@ -32,8 +32,13 @@ class TrainingLevantamiento extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function trainingservicio()
+    public function trainingservicios()
     {
         return $this->hasMany(trainingservicio::class);
+    }
+
+    public function crmcursos()
+    {
+        return $this->hasMany(CrmCurso::class);
     }
 }

@@ -33,7 +33,7 @@ return new class extends Migration
         Schema::table('servicios_ejecutivos', function (Blueprint $table) {
             $table->dropForeign(['informaciones_ejecutivos_id']);
         });
-        Schema::dropIfExists('servicios_ejecutivos');
+        Schema::dropIfExists('servicio_ejecutivos');
     }
 };
 

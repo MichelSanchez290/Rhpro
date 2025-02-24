@@ -14,6 +14,7 @@ use App\Models\Crm\EsmartLevantamiento;
 use App\Models\Crm\LeadCliente;
 use App\Models\Crm\LeadsCliente;
 use App\Models\Crm\Nom035Levpedido;
+use App\Models\Crm\TrainingLevantamiento;
 use App\Models\Encuestas360\Asignacion;
 use App\Models\PortalCapacitacion\PerfilPuesto;
 use App\Models\PortalRH\Becari;
@@ -245,5 +246,10 @@ class User extends Authenticatable
     public function nom035levpedidos()
     {
         return $this->hasMany(Nom035Levpedido::class);
+    }
+
+    public function traininglevantamientos()
+    {
+        return $this->hasMany(TrainingLevantamiento::class);
     }
 }

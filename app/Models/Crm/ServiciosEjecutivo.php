@@ -9,7 +9,7 @@ class ServiciosEjecutivo extends Model
 {
     use HasFactory;
 
-    protected $table = 'serviesp_infoesp';
+    protected $table = 'servicio_ejecutivos';
 
     //Define la clave primaria
     protected $primaryKey = 'id';
