@@ -59,26 +59,24 @@ class Vistaprincipal extends Component
         'hh.tipo_servicio.ejecutivos' => 'boolean',
         'hh.fecha' => 'required',
         'hh.hora' => 'required',
-        'hh.total_vacantes' => 'required',
+        // 'hh.total_vacantes' => 'required',
         'hh.operativos' => 'required',
         'hh.especializados' => 'required',
         'hh.ejecutivos' => 'required',
         'hh.numero_pedido' => 'required',
         'hh.users_id' => 'required',
         //TABLA NOM 035
-        'nom035.nombre_cliente' => 'required',
-        'nom035.nombre_empresa' => 'required',
-        'nom035.giro_empresa' => 'required',
-        'nom035.ubicacion_empresa' => 'required',
-        'nom035.medio_cesrh' => 'required',
-        'nom035.responsable_comercial' => 'required',
-        'nom035.tipo_servicio' => 'required',
+        'nom035.tipo_servicio.operativos' => 'boolean',
+        'nom035.tipo_servicio.especializados' => 'boolean',
+        'nom035.tipo_servicio.ejecutivos' => 'boolean',
         'nom035.fecha' => 'required',
-        'nom035.correo_cliente' => 'required',
-        'nom035.telefono_cliente' => 'required',
-        'nom035.leadsCli_id' => 'required',
+        'nom035.hora' => 'required',
+        // 'nom035.total_vacantes' => 'required',
+        'nom035.operativos' => 'required',
+        'nom035.especializados' => 'required',
+        'nom035.ejecutivos' => 'required',
+        'nom035.numero_pedido' => 'required',
         'nom035.users_id' => 'required',
-        'nom035.035info_id	' => 'required',
     ];
 
     public function mount()
@@ -291,6 +289,7 @@ class Vistaprincipal extends Component
 
         //     $AgregarHead->save();
         //     $this->hh = [];
+        //      $AgregarHead = new HeadLevantamientosPedido($head);
         // }
         $this->validate([
             'hh.tipo_servicio.operativos' => 'boolean',
@@ -298,23 +297,33 @@ class Vistaprincipal extends Component
             'hh.tipo_servicio.ejecutivos' => 'boolean',
             'hh.fecha' => 'required',
             'hh.hora' => 'required',
-            'hh.total_vacantes' => 'required',
             'hh.operativos' => 'required',
             'hh.especializados' => 'required',
             'hh.ejecutivos' => 'required',
             'hh.numero_pedido' => 'required',
             'hh.users_id' => 'required',
         ]);
-        // $AgregarHead = new HeadLevantamientosPedido($head);
-
-        // $AgregarHead->save();
+        $AgregarHead = new HeadLevantamientosPedido($this->hh);
+        $AgregarHead->save();
         $this->hh = [];
     }
 
 
     public function saveNom035()
     {
-        $this->validate();
+        $this->validate([
+            'nom035.tipo_servicio.operativos' => 'boolean',
+            'nom035.tipo_servicio.especializados' => 'boolean',
+            'nom035.tipo_servicio.ejecutivos' => 'boolean',
+            'nom035.fecha' => 'required',
+            'nom035.hora' => 'required',
+            'nom035.total_vacantes' => 'required',
+            'nom035.operativos' => 'required',
+            'nom035.especializados' => 'required',
+            'nom035.ejecutivos' => 'required',
+            'nom035.numero_pedido' => 'required',
+            'nom035.users_id' => 'required',
+        ]);
         $AgregarNOM035 = new Nom035Levpedido($this->nom035);
         $AgregarNOM035->save();
 

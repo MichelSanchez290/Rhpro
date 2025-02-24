@@ -518,8 +518,6 @@
                                 wire:model.defer="hh.operativos" type="number">
                             <x-input-error for="hh.operativos" />
                         </div>
-                    </div>
-                    <div class="grid justify-center w-full grid-cols-3 gap-4 px-10 py-4 bg-white rounded-lg shadow-lg">
                         {{-- Especializados --}}
                         <div class="mx-2">
                             <label class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
@@ -527,11 +525,9 @@
                             </label>
                             <input
                                 class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                                wire:model.defer="hh.especializados" type="text">
+                                wire:model.defer="hh.especializados" type="number">
                             <x-input-error for="hh.especializados" />
                         </div>
-                    </div>
-                    <div class="grid justify-center w-full grid-cols-3 gap-4 px-10 py-4 bg-white rounded-lg shadow-lg">
                         {{-- Ejecutivos --}}
                         <div class="mx-2">
                             <label class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
@@ -539,7 +535,7 @@
                             </label>
                             <input
                                 class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                                wire:model.defer="hh.ejecutivos" type="text">
+                                wire:model.defer="hh.ejecutivos" type="number">
                             <x-input-error for="hh.ejecutivos" />
                         </div>
                     </div>
@@ -554,8 +550,6 @@
                                 wire:model.defer="hh.numero_pedido" type="text">
                             <x-input-error for="hh.numero_pedido" />
                         </div>
-                    </div>
-                    <div class="grid justify-center w-full grid-cols-3 gap-4 px-10 py-4 bg-white rounded-lg shadow-lg">
                         {{-- Total de Vacantes --}}
                         <div class="mx-2">
                             <label class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
@@ -565,6 +559,119 @@
                                 class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
                                 wire:model.defer="hh.total_vacantes" type="text" readonly>
                             <x-input-error for="hh.total_vacantes" />
+                        </div>
+                    </div>
+                    {{-- Botones --}}
+                    <div class="flex items-center justify-center">
+                        <div x-data="{show:true}" x-show="show" x-transition x-init="@this.on('message',() => {
+                            show=false;
+                            });">
+                            <button  wire:click="saveHead()"
+                            class="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 m-2">
+                                Agregar
+                            </button>
+                            <a href="{{ url('/crm/crm-inicio') }}" x-data x-show="!show" x-transition
+                                class="px-4 py-2 font-bold text-white bg-red-500 rounded btn hover:bg-red-700 m-2">
+                                Ir a inicio
+                            </a>
+                        </div>
+                        <div x-data="{show:false}" x-show="show" x-transition x-init="@this.on('message',() => {
+                            show=true;
+                            });"
+                        class="justify-center flexed bottom-4 left-1/2 transform -translate-x-1/2  bg-green-100 border-t border-b border-green-500 text-green-700 px-4 py-3" role="alert">
+                            <p class="text-sm">Lead registado con éxito</p>
+                        </div>
+                    </div>
+                @endfor
+            </div>
+        </div>
+    @endif
+
+    @if ($paginacion == 4)
+        <div id="form4">
+            <div class="m-4 bg-white rounded-lg shadow-md shadow-gray-300">
+                @for ($i = 0; $i < $duplicados; $i++)
+                    <div class="text-center">
+                        <h1 class="p-10 text-3xl font-bold">
+                            Formulario de HeadHunting
+                        </h1>
+                    </div>
+                    <div class="grid justify-center w-full px-10 py-4 bg-white rounded-lg shadow-lg">
+                        {{-- Tipo de servicio --}}
+                        <div class="mx-2">
+                            <label class="mb-2 text-base font-bold tracking-wide text-center text-gray-700 uppercase ">
+                                Tipo de servicio
+                            </label>
+                            <input name="Operativos"
+                                class="focus:outline-none focus:bg-white focus:border-gray-500"
+                                wire:model.defer="nom035.tipo_servicio.operativos" type="checkbox">
+                            <label for="Operativos">Operativos</label>
+                            <x-input-error for="nom035.tipo_servicio.operativos" />
+                            <input name="especializados"
+                                class="focus:outline-none focus:bg-white focus:border-gray-500"
+                                wire:model.defer="nom035.tipo_servicio.especializados" type="checkbox" >
+                            <x-input-error for="nom035.tipo_servicio.especializados" />
+                            <label for="especializados">Especializados</label>
+                            <input name="Ejecutivos"
+                                class="focus:outline-none focus:bg-white focus:border-gray-500"
+                                wire:model.defer="nom035.tipo_servicio.ejecutivos" type="checkbox" >
+                            <label for="Ejecutivos">Ejecutivos</label>
+                            <x-input-error for="nom035.tipo_servicio.ejecutivos" />
+
+                        </div>
+                    </div>
+                    <div class="grid justify-center w-full grid-cols-3 gap-4 px-10 py-4 bg-white rounded-lg shadow-lg">
+                        {{-- Operativos --}}
+                        <div class="mx-2">
+                            <label class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
+                                Operativos
+                            </label>
+                            <input
+                                class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                                wire:model.defer="nom035.operativos" type="number">
+                            <x-input-error for="nom035.operativos" />
+                        </div>
+                        {{-- Especializados --}}
+                        <div class="mx-2">
+                            <label class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
+                                Especializados
+                            </label>
+                            <input
+                                class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                                wire:model.defer="nom035.especializados" type="number">
+                            <x-input-error for="nom035.especializados" />
+                        </div>
+                        {{-- Ejecutivos --}}
+                        <div class="mx-2">
+                            <label class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
+                                Ejecutivos
+                            </label>
+                            <input
+                                class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                                wire:model.defer="nom035.ejecutivos" type="number">
+                            <x-input-error for="nom035.ejecutivos" />
+                        </div>
+                    </div>
+                    <div class="grid justify-center w-full grid-cols-3 gap-4 px-10 py-4 bg-white rounded-lg shadow-lg">
+                        {{-- Numero de pedido --}}
+                        <div class="mx-2">
+                            <label class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
+                                Numero de pedido
+                            </label>
+                            <input
+                                class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                                wire:model.defer="nom035.numero_pedido" type="text">
+                            <x-input-error for="nom035.numero_pedido" />
+                        </div>
+                        {{-- Total de Vacantes --}}
+                        <div class="mx-2">
+                            <label class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
+                                Total de Vacantes
+                            </label>
+                            <input
+                                class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                                wire:model.defer="nom035.total_vacantes" type="text" readonly>
+                            <x-input-error for="nom035.total_vacantes" />
                         </div>
                     </div>
                     {{-- Botones --}}
@@ -589,157 +696,6 @@
                         </div>
                     </div>
                 @endfor
-            </div>
-        </div>
-    @endif
-
-    @if ($paginacion == 4)
-        <div id="form4">
-            <div class="m-4 bg-white rounded-lg shadow-md shadow-gray-300">
-                <div class="text-center">
-                    <h1 class="p-10 text-3xl font-bold">
-                        Formulario de NOM035
-                    </h1>
-                </div>
-                <div class="flex justify-center w-full px-10 py-4 bg-white rounded-lg shadow-lg">
-                    {{-- Nombre del Cliente --}}
-                    <div class="mx-2 text-center">
-                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
-                            for="nombre_cliente">
-                            Nombre del Cliente
-                        </label>
-                        <input
-                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="nomlevped035.nombre_cliente" type="text" placeholder="">
-                        <x-input-error for="nomlevped035.nombre_cliente" />
-                    </div>
-                    {{-- Numero de Empresa --}}
-                    <div class="mx-2 text-center">
-                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
-                            for="razonsocial">
-                            Nombre de la Empresa
-                        </label>
-                        <input
-                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="nomlevped035.nombre_empresa" type="text" placeholder="">
-                        <x-input-error for="nomlevped035.nombre_empresa" />
-                    </div>
-                    {{-- Giro de la Empresa --}}
-                    <div class="mx-2 text-center">
-                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
-                            for="razonsocial">
-                            Giro de la Empresa
-                        </label>
-                        <input
-                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="nomlevped035.giro_empresa" type="text" placeholder="">
-                        <x-input-error for="nomlevped035.giro_empresa" />
-                    </div>
-                </div>
-                <div class="flex justify-center w-full px-10 py-4 bg-white rounded-lg shadow-lg">
-                    {{-- Ubicacion --}}
-                    <div class="mx-2 text-center">
-                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
-                            for="razonsocial">
-                            Ubicacion
-                        </label>
-                        <input
-                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="nomlevped035.ubicacion_empresa" type="text" placeholder="">
-                        <x-input-error for="nomlevped035.ubicacion_empresa" />
-                    </div>
-                    {{-- Medio CESRH --}}
-                    <div class="mx-2 text-center">
-                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
-                            for="razonsocial">
-                            Medio CESRH
-                        </label>
-                        <input
-                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="nomlevped035.medio_cesrh" type="text" placeholder="">
-                        <x-input-error for="nomlevped035.medio_cesrh" />
-                    </div>
-                    {{-- Responsable Comercial --}}
-                    <div class="mx-2 text-center">
-                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
-                            for="razonsocial">
-                            Responsable Comercial
-                        </label>
-                        <input
-                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="nomlevped035.responsable_comercial" type="text" placeholder="">
-                        <x-input-error for="nomlevped035.responsable_comercial" />
-                    </div>
-                </div>
-                <div class="flex justify-center w-full px-10 py-4 bg-white rounded-lg shadow-lg">
-                    {{-- Telefono del Cliente --}}
-                    <div class="mx-2 text-center">
-                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
-                            for="razonsocial">
-                            Telefono del Cliente
-                        </label>
-                        <input
-                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="nomlevped035.telefono_cliente" type="text" placeholder="">
-                        <x-input-error for="nomlevped035.telefono_cliente" />
-                    </div>
-                    {{-- Informacion NOM035 --}}
-                    <div class="mx-2 text-center">
-                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
-                            for="razonsocial">
-                            Información NOM035
-                        </label>
-                        <input
-                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="nomlevped035.035info_id" type="text" placeholder="">
-                        <x-input-error for="nomlevped035.035info_id" />
-                    </div>
-                    {{-- Tipo de Servicio --}}
-                    <div class="mx-2 text-center">
-                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
-                            for="razonsocial">
-                            Tipo de Servicio
-                        </label>
-                        <input
-                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="nomlevped035.tipo_servicio" type="text" placeholder="">
-                        <x-input-error for="nomlevped035.tipo_servicio" />
-                    </div>
-                </div>
-                <div class="flex justify-center w-full px-10 py-4 bg-white rounded-lg shadow-lg">
-                    {{-- Fecha --}}
-                    <div class="mx-2 text-center">
-                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
-                            for="razonsocial">
-                            Fecha
-                        </label>
-                        <input
-                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="nomlevped035.fecha" type="date" placeholder="">
-                        <x-input-error for="nomlevped035.fecha" />
-                    </div>
-                    {{-- Correo del Cliente --}}
-                    <div class="mx-2 text-center">
-                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
-                            for="razonsocial">
-                            Correo del Cliente
-                        </label>
-                        <input
-                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="nomlevped035.correo_cliente" type="enail" placeholder="">
-                        <x-input-error for="nomlevped035.correo_cliente" />
-                    </div>
-                    <div class="flex justify-end">
-                        <button
-                            class="p-2 my-6 mr-4 font-semibold text-white bg-blue-600 rounded-md shadow-md shadow-gray-500 hover:shadow-none hover:bg-blue-800">
-                            Guardar y Agregar otro
-                        </button>
-                        <button
-                            class="p-2 my-6 mr-6 font-semibold text-white bg-green-600 rounded-md shadow-md shadow-gray-500 hovehover:shadow-none hover:bg-green-800 ">
-                            Guardar y Salir
-                        </button>
-                    </div>
-                </div>
             </div>
         </div>
     @endif
