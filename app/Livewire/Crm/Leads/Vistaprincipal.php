@@ -87,7 +87,13 @@ class Vistaprincipal extends Component
         } else {
             $this->lead['numero_lead'] = $this->consulta->numero_lead + 1;
         }
-        $this->consultahh = HeadLevantamientosPedido::get()->sum('operativos','especializados','ejecutivos');
+
+        if (empty($this->pedido)) {
+            $this->esmart['numero_pedido'] = 1;
+        } else {
+            $this->esmart['numero_pedido'] = $this->pedido->numero_pedido + 1;
+        }
+
         // $this->consultanom035 = Nom035Levpedido::get();
         $this->empresas = CrmEmpresa::all();
 
@@ -98,6 +104,7 @@ class Vistaprincipal extends Component
         $this->hh['fecha'] = Carbon::now()->format('Y-m-d');
         $this->hh['hora'] = Carbon::now()->format('H:s:i');
         $this->hh['users_id'] = Auth::user()->id;
+
         $this->paginacion = 0;
     }
 
@@ -110,20 +117,9 @@ class Vistaprincipal extends Component
         }
 
         $this->validate([
-            'lead.nombre_contacto' => 'required|string|max:255',
-            'lead.numero_cliente' => 'required|string|max:255',
-            'lead.fecha' => 'required|date',
-            'lead.nombre_empresa' => 'required|string|max:50',
-            'lead.puesto' => 'required|string|max:255',
-            'lead.correo' => 'required|email|max:255',
-            'lead.telefono' => 'required|string|max:10',
             'esmart.*.tamaño_empresa' => 'required|string|max:45',
-            'esmart.*.primera_o_recompra' => 'required|string|max:45',
-            'esmart.*.responsable_comercial' => 'required|string|max:255',
-            'esmart.*.medio_cesrh' => 'required|string|max:255',
-            'esmart.*.giro_empresa' => 'required|string|max:255',
-            'esmart.*.ubicacion_empresa' => 'required|string|max:255',
             'esmart.*.fecha' => 'required|date',
+            
         ]);
 
 

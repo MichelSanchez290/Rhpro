@@ -13,6 +13,20 @@ return new class extends Migration
     {
         Schema::create('training_levantamientos', function (Blueprint $table) {
             $table->id();
+             // Leads -----------------------------------
+             $table->string('numero_lead');
+             $table->string('nombre_cliente');
+             $table->string('medios_cesrh');
+             $table->datetime('fecha_y_hora');
+             $table->string('puesto');
+             $table->string('correo');
+             $table->string('correo_2')->nullable();
+             $table->string('telefono');
+             $table->string('telefono_2')->nullable();
+             $table->string('nombre_contacto_2')->nullable();
+             $table->string('puesto_contacto_2')->nullable();
+             $table->string('tipo');
+             // ------------------------------------------
             $table->date('fecha');
             $table->time('hora');
             $table->string('numero_pedido');
@@ -20,14 +34,18 @@ return new class extends Migration
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->foreignId('training_servicios')
+            $table->foreignId('leads_clientes_id')
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->foreignId('leads_clientes')
+            $table->foreignId('sucursales_id')
                 ->constrained()
                 ->onUpdate('cascade')
-                ->onDelete('cascade');
+                ->onDelete('cascade');            
+            $table->foreignId('empresa_id')
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');   
             $table->timestamps();
         });
     }
@@ -39,6 +57,9 @@ return new class extends Migration
     {   
         Schema::table('esmart_levantamientos', function (Blueprint $table) {
             $table->dropForeign(['user_id']);
+            $table->dropForeign(['leads_clientes_id']);
+            $table->dropForeign(['empresa_id']);
+            $table->dropForeign(['sucursales_id']);
         });
         Schema::dropIfExists('training_levantamietos');
     }
