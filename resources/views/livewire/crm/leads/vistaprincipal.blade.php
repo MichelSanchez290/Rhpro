@@ -483,238 +483,110 @@
                             Formulario de HeadHunting
                         </h1>
                     </div>
-                    <div class="flex justify-center w-full px-10 py-4 bg-white rounded-lg shadow-lg">
-                        {{-- Representante comercial --}}
-                        {{-- <div class="mx-2 text-center">
-                            <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
-                                for="responsable_comercial">
-                                Representante comercial
+                    <div class="grid justify-center w-full px-10 py-4 bg-white rounded-lg shadow-lg">
+                        {{-- Tipo de servicio --}}
+                        <div class="mx-2">
+                            <label class="mb-2 text-base font-bold tracking-wide text-center text-gray-700 uppercase ">
+                                Tipo de servicio
                             </label>
-                            <input
-                                class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                                wire:model.defer="hlevped.{{ $i }}.representante_comercial" type="text" placeholder="">
-                            <x-input-error for="hlevped.{{ $i }}.representante_comercial" />
-                        </div> --}}
-                        {{-- Fecha --}}
-                        {{-- <div class="mx-2 text-center">
-                            <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
-                                for="fecha">
-                                Fecha
-                            </label>
-                            <input
-                                class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                                wire:model.defer="hlevped.{{ $i }}.fecha" type="date" placeholder="">
-                            <x-input-error for="hlevped.{{ $i }}.fecha" />
-                        </div> --}}
-                        {{-- Nombre del cliente --}}
-                        {{-- <div class="mx-2 text-center">
-                            <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
-                                for="nombre_cliente">
-                                Nombre del cliente
-                            </label>
-                            <input
-                                class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                                wire:model.defer="hlevped.{{ $i }}.nombre_cliente" type="text" placeholder="">
-                            <x-input-error for="hlevped.{{ $i }}.nombre_cliente" />
-                        </div> --}}
-                        {{-- Puesto --}}
-                        {{-- <div class="mx-2 text-center">
-                            <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
-                                for="puesto">
-                                Puestos
-                            </label>
-                            <input
-                                class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                                wire:model.defer="hlevped.{{ $i }}.puesto" type="text" placeholder="">
-                            <x-input-error for="hlevped.{{ $i }}.puesto" />
-                        </div> --}}
-                    </div>
-                    <div class="flex justify-center w-full px-10 py-4 bg-white rounded-lg shadow-lg">
-                        {{-- Empresa --}}
-                        <div class="mx-2 text-center">
-                            <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
-                                for="razonsocial">
-                                Empresa
-                            </label>
-                            <input
-                                class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                                wire:model.defer="hlevped.{{ $i }}.empresa" type="text"
-                                placeholder="">
-                            <x-input-error for="hlevped.{{ $i }}.empresa" />
-                        </div>
-                        {{-- Ubicación --}}
-                        <div class="mx-2 text-center">
-                            <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
-                                for="razonsocial">
-                                Ubicacion
-                            </label>
-                            <input
-                                class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                                wire:model.defer="hlevped.{{ $i }}.ubicacion_empresa" type="text"
-                                placeholder="">
-                            <x-input-error for="hlevped.{{ $i }}.ubicacion_empresa" />
-                        </div>
-                        {{-- Tamaño de empresa --}}
-                        <div class="mx-2 text-center">
-                            <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
-                                for="razonsocial">
-                                Tamaño de empresa
-                            </label>
-                            <select name="" id=""
-                                wire:model.defer="hlevped.{{ $i }}.tamano_empresa"
-                                class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500">
-                                <option value="" disabled>Seleccione un valor</option>
-                                <option value="" disabled>------</option>
-                                <option value="Micro">Micro</option>
-                                <option value="Pequeña">Pequeña</option>
-                                <option value="Mediana">Mediana</option>
-                                <option value="Grande">Grande</option>
-                            </select>
-                            <x-input-error for="hlevped.{{ $i }}.tamano_empresa" />
-                        </div>
-                        {{-- Primera vez o recompra --}}
-                        <div class="mx-2 text-center">
-                            <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
-                                for="razonsocial">
-                                ¿Es la primera vez aplicando?
-                            </label>
-                            <select name="" id=""
-                                wire:model.defer="hlevped.{{ $i }}.primera_vez_o_recompra"
-                                class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500">
-                                <option value="" disabled>Seleccione un valor</option>
-                                <option value="" disabled>------</option>
-                                <option value="si">Sí</option>
-                                <option value="no">No</option>
-                            </select>
-                            <x-input-error for="hlevped.{{ $i }}.primera_vez_o_recompra" />
+                            <input name="Operativos"
+                                class="focus:outline-none focus:bg-white focus:border-gray-500"
+                                wire:model.defer="hh.tipo_servicio.operativos" type="checkbox">
+                            <label for="Operativos">Operativos</label>
+                            <x-input-error for="hh.tipo_servicio.operativos" />
+                            <input name="especializados"
+                                class="focus:outline-none focus:bg-white focus:border-gray-500"
+                                wire:model.defer="hh.tipo_servicio.especializados" type="checkbox" >
+                            <x-input-error for="hh.tipo_servicio.especializados" />
+                            <label for="especializados">Especializados</label>
+                            <input name="Ejecutivos"
+                                class="focus:outline-none focus:bg-white focus:border-gray-500"
+                                wire:model.defer="hh.tipo_servicio.ejecutivos" type="checkbox" >
+                            <label for="Ejecutivos">Ejecutivos</label>
+                            <x-input-error for="hh.tipo_servicio.ejecutivos" />
+
                         </div>
                     </div>
-                    <div class="flex justify-center w-full px-10 py-4 bg-white rounded-lg shadow-lg">
-                        {{-- Medios CESRH --}}
-                        <div class="mx-2 text-center">
-                            <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
-                                for="razonsocial">
-                                Medios CESRH
+                    <div class="grid justify-center w-full grid-cols-3 gap-4 px-10 py-4 bg-white rounded-lg shadow-lg">
+                        {{-- Operativos --}}
+                        <div class="mx-2">
+                            <label class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
+                                Operativos
                             </label>
                             <input
                                 class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                                wire:model.defer="hlevped.{{ $i }}.medios_cesrh" type="text"
-                                placeholder="">
-                            <x-input-error for="hlevped.{{ $i }}.medios_cesrh" />
-                        </div>
-                        {{-- Numero de vacantes --}}
-                        <div class="mx-2 text-center">
-                            <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
-                                for="razonsocial">
-                                Numero de vacantes
-                            </label>
-                            <input
-                                class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                                wire:model.defer="hlevped.{{ $i }}.numero_vacantes" type="number"
-                                placeholder="">
-                            <x-input-error for="hlevped.{{ $i }}.numero_vacantes" />
-                        </div>
-                        {{-- Operativas --}}
-                        <div class="mx-2 text-center">
-                            <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
-                                for="razonsocial">
-                                Operativas
-                            </label>
-                            <input
-                                class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                                wire:model.defer="hlevped.{{ $i }}.operativas" type="text"
-                                placeholder="">
-                            <x-input-error for="hlevped.{{ $i }}.operativas" />
-                        </div>
-                        {{-- Especializadas --}}
-                        <div class="mx-2 text-center">
-                            <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
-                                for="razonsocial">
-                                Especializadas
-                            </label>
-                            <input
-                                class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                                wire:model.defer="hlevped.{{ $i }}.especializadas" type="text"
-                                placeholder="">
-                            <x-input-error for="hlevped.{{ $i }}.especializadas" />
+                                wire:model.defer="hh.operativos" type="number">
+                            <x-input-error for="hh.operativos" />
                         </div>
                     </div>
-                    <div class="flex justify-center w-full px-10 py-4 bg-white rounded-lg shadow-lg">
-                        {{-- Ejecutivas --}}
-                        <div class="mx-2 text-center">
-                            <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
-                                for="razonsocial">
-                                Ejecutivas
+                    <div class="grid justify-center w-full grid-cols-3 gap-4 px-10 py-4 bg-white rounded-lg shadow-lg">
+                        {{-- Especializados --}}
+                        <div class="mx-2">
+                            <label class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
+                                Especializados
                             </label>
                             <input
                                 class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                                wire:model.defer="hlevped.{{ $i }}.ejecutivas" type="text"
-                                placeholder="">
-                            <x-input-error for="hlevped.{{ $i }}.ejecutivas" />
-                        </div>
-                        {{-- Correo del cliente --}}
-                        <div class="mx-2 text-center">
-                            <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
-                                for="razonsocial">
-                                Correo del cliente
-                            </label>
-                            <input
-                                class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                                wire:model.defer="hlevped.{{ $i }}.correo_cliente" type="email"
-                                placeholder="">
-                            <x-input-error for="hlevped.{{ $i }}.correo_cliente" />
-                        </div>
-                        {{-- Telefono --}}
-                        <div class="mx-2 text-center">
-                            <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
-                                for="razonsocial">
-                                Telefono
-                            </label>
-                            <input
-                                class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                                wire:model.defer="hlevped.{{ $i }}.telefono" type="number"
-                                placeholder="">
-                            <x-input-error for="hlevped.{{ $i }}.telefono" />
-                        </div>
-                        {{-- Status --}}
-                        <div class="mx-2 text-center">
-                            <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
-                                for="razonsocial">
-                                Status
-                            </label>
-                            <select name="" id=""
-                                wire:model.defer="hlevped.{{ $i }}.status"
-                                class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500">
-                                <option value="" disabled>Seleccione un valor</option>
-                                <option value="" disabled>------</option>
-                                <option value="en_revision">En revisión</option>
-                                <option value="declinada">Declinada</option>
-                                <option value="aceptada">Aceptada</option>
-                            </select>
-                            <x-input-error for="hlevped.{{ $i }}.status" />
+                                wire:model.defer="hh.especializados" type="text">
+                            <x-input-error for="hh.especializados" />
                         </div>
                     </div>
-                    {{-- Leads --}}
-                    {{-- <div class="mx-2 text-center">
-                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase"
-                            for="razonsocial">
-                            Lead id
-                        </label>
-                        <input
-                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="hlevped.{{ $i }}.leadCli_id" type="text" placeholder="" readonly disabled>
-                        <x-input-error for="hlevped.{{ $i }}.leadCli_id" />
-                    </div> --}}
-                    <div class="flex justify-end">
-                        <button
-                            class="p-2 my-6 mr-4 font-semibold text-white bg-blue-600 rounded-md shadow-md shadow-gray-500 hover:shadow-none hover:bg-blue-800">
-                            Guardar y Agregar otro
-                        </button>
-                        <button
-                            class="p-2 my-6 mr-6 font-semibold text-white bg-green-600 rounded-md shadow-md shadow-gray-500 hovehover:shadow-none hover:bg-green-800 "
-                            wire:click="saveHead">
-                            Guardar y Salir
-                        </button>
+                    <div class="grid justify-center w-full grid-cols-3 gap-4 px-10 py-4 bg-white rounded-lg shadow-lg">
+                        {{-- Ejecutivos --}}
+                        <div class="mx-2">
+                            <label class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
+                                Ejecutivos
+                            </label>
+                            <input
+                                class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                                wire:model.defer="hh.ejecutivos" type="text">
+                            <x-input-error for="hh.ejecutivos" />
+                        </div>
+                    </div>
+                    <div class="grid justify-center w-full grid-cols-3 gap-4 px-10 py-4 bg-white rounded-lg shadow-lg">
+                        {{-- Numero de pedido --}}
+                        <div class="mx-2">
+                            <label class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
+                                Numero de pedido
+                            </label>
+                            <input
+                                class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                                wire:model.defer="hh.numero_pedido" type="text">
+                            <x-input-error for="hh.numero_pedido" />
+                        </div>
+                    </div>
+                    <div class="grid justify-center w-full grid-cols-3 gap-4 px-10 py-4 bg-white rounded-lg shadow-lg">
+                        {{-- Total de Vacantes --}}
+                        <div class="mx-2">
+                            <label class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
+                                Total de Vacantes
+                            </label>
+                            <input
+                                class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                                wire:model.defer="hh.total_vacantes" type="text" readonly>
+                            <x-input-error for="hh.total_vacantes" />
+                        </div>
+                    </div>
+                    {{-- Botones --}}
+                    <div class="flex items-center justify-center">
+                        <div x-data="{show:true}" x-show="show" x-transition x-init="@this.on('message',() => {
+                            show=false;
+                            });">
+                            <button  wire:click="saveLead()"
+                            class="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 m-2">
+                                Agregar
+                            </button>
+                            <a href="{{ url('/crm/crm-inicio') }}" x-data x-show="!show" x-transition
+                                class="px-4 py-2 font-bold text-white bg-red-500 rounded btn hover:bg-red-700 m-2">
+                                Ir a inicio
+                            </a>
+                        </div>
+                        <div x-data="{show:false}" x-show="show" x-transition x-init="@this.on('message',() => {
+                            show=true;
+                            });"
+                        class="justify-center flexed bottom-4 left-1/2 transform -translate-x-1/2  bg-green-100 border-t border-b border-green-500 text-green-700 px-4 py-3" role="alert">
+                            <p class="text-sm">Lead registado con éxito</p>
+                        </div>
                     </div>
                 @endfor
             </div>

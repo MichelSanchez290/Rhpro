@@ -27,7 +27,7 @@ class Vistaprincipal extends Component
     public $empresas;
     //variable gobal para almacenar lead
     public $empresaSeleccionada, $fechaseleccionada;
-    public $hlevped = [];
+    public $hh = [];
     public $nom035 = [];
     public $datosfis;
     public $consultahh;
@@ -54,23 +54,17 @@ class Vistaprincipal extends Component
         'lead.puesto_contacto_2' => 'required',
         //'lead.tipo' => 'required',
         //TABLA Head Levantamiento de pedidos
-        // 'hlevped.responsable_comercial' => 'required',
-        'hlevped.fecha' => 'required',
-        // 'hlevped.nombre_cliente' => 'required',
-        'hlevped.puesto' => 'required',
-        'hlevped.empresa' => 'required',
-        'hlevped.ubicacion_empresa' => 'required',
-        'hlevped.tamano_empresa' => 'required',
-        'hlevped.primera_vez_o_recompra' => 'required',
-        'hlevped.medio_cesrh' => 'required',
-        'hlevped.numero_vacantes' => 'required',
-        'hlevped.operativas' => 'required',
-        'hlevped.especializadas' => 'required',
-        'hlevped.ejecutivas' => 'required',
-        'hlevped.correo_cliente' => 'required',
-        'hlevped.telefono' => 'required',
-        'hlevped.status' => 'required',
-        'hlevped.leadCli_id' => 'required',
+        'hh.tipo_servicio.operativos' => 'boolean',
+        'hh.tipo_servicio.especializados' => 'boolean',
+        'hh.tipo_servicio.ejecutivos' => 'boolean',
+        'hh.fecha' => 'required',
+        'hh.hora' => 'required',
+        'hh.total_vacantes' => 'required',
+        'hh.operativos' => 'required',
+        'hh.especializados' => 'required',
+        'hh.ejecutivos' => 'required',
+        'hh.numero_pedido' => 'required',
+        'hh.users_id' => 'required',
         //TABLA NOM 035
         'nom035.nombre_cliente' => 'required',
         'nom035.nombre_empresa' => 'required',
@@ -90,18 +84,22 @@ class Vistaprincipal extends Component
     public function mount()
     {
         $this->consulta = LeadCliente::where('tipo', 'lead')->orderBy('id', 'desc')->first();
-        if(empty($this->consulta)){
+        if (empty($this->consulta)) {
             $this->lead['numero_lead'] = 1;
-        }else {
-            $this->lead['numero_lead'] = $this->consulta->numero_lead+1;
+        } else {
+            $this->lead['numero_lead'] = $this->consulta->numero_lead + 1;
         }
-        // $this->consultahh = HeadLevantamientosPedido::get();
+        $this->consultahh = HeadLevantamientosPedido::get()->sum('operativos','especializados','ejecutivos');
         // $this->consultanom035 = Nom035Levpedido::get();
         $this->empresas = CrmEmpresa::all();
 
         $this->lead['users_id'] = Auth::user()->id;
         $this->lead['fecha_y_hora'] = Carbon::now()->format('Y-m-d H:s:i');
         $this->lead['tipo'] = 'Lead';
+
+        $this->hh['fecha'] = Carbon::now()->format('Y-m-d');
+        $this->hh['hora'] = Carbon::now()->format('H:s:i');
+        $this->hh['users_id'] = Auth::user()->id;
         $this->paginacion = 0;
     }
 
@@ -162,9 +160,8 @@ class Vistaprincipal extends Component
 
     public function guardarTraininig()
     {
-        for ($i=0; $i < $this->duplicados; $i++)
-        {
-            if (isset($training[$i])){
+        for ($i = 0; $i < $this->duplicados; $i++) {
+            if (isset($training[$i])) {
                 $this->training[$i] = [];
             }
         }
@@ -219,7 +216,7 @@ class Vistaprincipal extends Component
 
     public function botonborrar()
     {
-       $this->dispatch('boton',);
+        $this->dispatch('boton',);
     }
 
     #[On('generarForms')]
@@ -284,18 +281,36 @@ class Vistaprincipal extends Component
     {
         // dd($this->hlevped);
         // $this->validate();
-        foreach ($this->hlevped as $index => $head) {
-            $head['responsable_comercial'] = Auth::user()->name;
-            $head['nombre_cliente'] = $this->recuperarLead->nombre_contacto;
-            $head['puesto'] = $this->recuperarLead->puesto;
-            $head['empresa'] = $this->recuperarLead->datos_id;
-            $head['leadCli_id'] = $this->recuperarLead->id;
-            $head['fecha'] = $this->recuperarLead->fecha;
-            $AgregarHead = new HeadLevantamientosPedido($head);
-            $AgregarHead->save();
-            $this->hlevped = [];
-        }
+        // foreach ($this->hh as $index => $head) {
+        //     // $head['nombre_cliente'] = $this->recuperarLead->nombre_contacto;
+        //     $head['puesto'] = $this->recuperarLead->puesto;
+        //     $head['empresa'] = $this->recuperarLead->datos_id;
+        //     $head['leadCli_id'] = $this->recuperarLead->id;
+        //     $head['fecha'] = $this->recuperarLead->fecha;
+        //     $AgregarHead = new HeadLevantamientosPedido($head);
+
+        //     $AgregarHead->save();
+        //     $this->hh = [];
+        // }
+        $this->validate([
+            'hh.tipo_servicio.operativos' => 'boolean',
+            'hh.tipo_servicio.especializados' => 'boolean',
+            'hh.tipo_servicio.ejecutivos' => 'boolean',
+            'hh.fecha' => 'required',
+            'hh.hora' => 'required',
+            'hh.total_vacantes' => 'required',
+            'hh.operativos' => 'required',
+            'hh.especializados' => 'required',
+            'hh.ejecutivos' => 'required',
+            'hh.numero_pedido' => 'required',
+            'hh.users_id' => 'required',
+        ]);
+        // $AgregarHead = new HeadLevantamientosPedido($head);
+
+        // $AgregarHead->save();
+        $this->hh = [];
     }
+
 
     public function saveNom035()
     {
