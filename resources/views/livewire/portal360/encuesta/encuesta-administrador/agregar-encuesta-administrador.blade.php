@@ -7,6 +7,39 @@
         <!-- Formulario -->
         <div class="space-y-4">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Empresa -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Empresa</label>
+                    <select
+                        wire:model.live="encuesta.empresa_id"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                        <option value="">Seleccione una empresa</option>
+                        @foreach($empresas as $empresa)
+                            <option value="{{ $empresa->id }}">{{ $empresa->nombre }}</option>
+                        @endforeach
+                    </select>
+                    @error('encuesta.empresa_id')
+                    <span class="text-red-500 text-xs">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <!-- Sucursal -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Sucursal</label>
+                    <select
+                        wire:model="encuesta.sucursal_id"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                        @if(!$encuesta['empresa_id']) disabled @endif>
+                        <option value="">Seleccione una sucursal</option>
+                        @foreach($sucursales as $sucursal)
+                            <option value="{{ $sucursal->id }}">{{ $sucursal->nombre_sucursal }}</option>
+                        @endforeach
+                    </select>
+                    @error('encuesta.sucursal_id')
+                    <span class="text-red-500 text-xs">{{ $message }}</span>
+                    @enderror
+                </div>
+
                 <!-- Nombre -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Nombre</label>

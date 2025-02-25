@@ -115,4 +115,9 @@ class Sucursal extends Model
     {
         return $this->hasMany(Nom035Levpedido::class);
     }
+    
+    public function empresa()
+    {
+        return $this->belongsTo(Empresa::class, 'empresa_id', 'id');
+    }
 }

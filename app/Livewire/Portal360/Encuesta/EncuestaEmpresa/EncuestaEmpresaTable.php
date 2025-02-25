@@ -32,7 +32,9 @@ final class EncuestaEmpresaTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Encuesta360::query();
+        return Encuesta360::query()
+            ->join('empresas', 'empresas.id', '=', '360_encuestas.empresa_id')
+            ->select('360_encuestas.*', 'empresas.nombre as empresa_nombre');
     }
 
     public function relationSearch(): array
@@ -47,6 +49,7 @@ final class EncuestaEmpresaTable extends PowerGridComponent
             ->add('nombre')
             ->add('descripcion')
             ->add('indicaciones')
+            ->add('empresa_nombre')
             ->add('created_at');
     }
 
@@ -67,20 +70,23 @@ final class EncuestaEmpresaTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
+            Column::make('Empresa', 'empresa_nombre')
+                ->sortable()
+                ->searchable(),
+
             Column::action('Action')
         ];
     }
 
     public function filters(): array
     {
-        return [
-        ];
+        return [];
     }
 
     #[\Livewire\Attributes\On('edit')]
     public function edit($rowId): void
     {
-        $this->js('alert('.$rowId.')');
+        $this->js('alert(' . $rowId . ')');
     }
 
     public function actions(Encuesta360 $row): array
@@ -100,7 +106,7 @@ final class EncuestaEmpresaTable extends PowerGridComponent
                 ->dispatch('confirmarEliminarEncuestaEmpresa', ['id' => Crypt::encrypt($row->id)]),
 
             Button::add('edit')
-                ->slot('Edit: '.$row->id)
+                ->slot('Edit: ' . $row->id)
                 ->id()
                 ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
                 ->dispatch('edit', ['rowId' => $row->id])

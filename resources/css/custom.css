@@ -27,3 +27,33 @@
     right: 10px;
 }
 
+.transition-transform {
+    transition: transform 0.3s ease-in-out;
+}
+
+.-translate-x-full {
+    transform: translateX(-100%);
+}
+
+.translate-x-0 {
+    transform: translateX(0);
+}
+
+/* Si la línea gris es un borde */
+.table-borderless {
+    border: none;
+}
+
+/* Si la línea gris es un fondo */
+.table-no-background {
+    background-color: transparent;
+}
+
+tr:hover {
+    background-color: #f3f4f6;
+    transition: background-color 0.3s ease;
+}
+
+
+
+

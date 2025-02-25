@@ -25,7 +25,7 @@ final class MostrarPreguntasAdministradorTable extends PowerGridComponent
 
         return [
             PowerGrid::exportable(fileName: 'preguntas')
-            ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             PowerGrid::header()
                 ->showSearchInput(),
             PowerGrid::footer()
@@ -38,13 +38,17 @@ final class MostrarPreguntasAdministradorTable extends PowerGridComponent
     {
         return Respuesta::query()
             ->join('preguntas', 'preguntas.id', '=', '360_respuestas.preguntas_id')
+            ->join('empresas', 'empresas.id', '=', '360_respuestas.empresa_id')
+            ->join('sucursales', 'sucursales.id', '=', '360_respuestas.sucursal_id')
             ->select([
-                '360_respuestas.id', 
+                '360_respuestas.id',
                 'preguntas.id as pregunta_id',
                 'preguntas.texto',
                 'preguntas.descripcion',
                 '360_respuestas.texto as respuesta_texto',
-                '360_respuestas.puntuacion'
+                '360_respuestas.puntuacion',
+                'empresas.nombre as empresa_nombre',
+                'sucursales.nombre_sucursal as sucursal_nombre'
             ]);
     }
 
@@ -61,7 +65,9 @@ final class MostrarPreguntasAdministradorTable extends PowerGridComponent
             ->add('texto')
             ->add('descripcion')
             ->add('respuesta_texto')
-            ->add('puntuacion');
+            ->add('puntuacion')
+            ->add('empresa_nombre')
+            ->add('sucursal_nombre');
     }
 
     public function columns(): array
@@ -84,20 +90,28 @@ final class MostrarPreguntasAdministradorTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
+            Column::make('Empresa', 'empresa_nombre')
+                ->sortable()
+                ->searchable(),
+
+            Column::make('Sucursal', 'sucursal_nombre')
+                ->sortable()
+                ->searchable(),
+
             Column::action('Action')
         ];
     }
 
+
     public function filters(): array
     {
-        return [
-        ];
+        return [];
     }
 
     #[\Livewire\Attributes\On('edit')]
     public function edit($rowId): void
     {
-        $this->js('alert('.$rowId.')');
+        $this->js('alert(' . $rowId . ')');
     }
 
     public function actions($row): array
@@ -111,12 +125,10 @@ final class MostrarPreguntasAdministradorTable extends PowerGridComponent
                 ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
                 ->route('editarPreguntaAdmin', ['id' => Crypt::encrypt($preguntaId)]),
 
-                Button::add('delete')
+            Button::add('delete')
                 ->slot('Eliminar')
                 ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
                 ->dispatch('confirmarEliminarPregunta', ['id' => Crypt::encrypt($preguntaId)])
         ];
     }
-
-
 }
