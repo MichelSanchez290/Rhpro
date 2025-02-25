@@ -15,7 +15,13 @@ class RelacionInterna extends Model
     protected $primaryKey = 'id';
 
     // Columnas asignables masivamente
-    protected $fillable = ['id', 'puesto', 'razon_motivo', 'frecuencia'];
+    protected $fillable = ['id', 
+            'empresa_id',
+            'sucursal_id',
+            'puesto', 
+            'razon_motivo', 
+            'frecuencia'
+        ];
 
     // Relación muchos a muchos con perfiles_puestos
     public function perfiles_puestos()

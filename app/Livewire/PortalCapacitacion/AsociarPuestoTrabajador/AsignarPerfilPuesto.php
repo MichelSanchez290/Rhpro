@@ -59,7 +59,7 @@ class AsignarPerfilPuesto extends Component
     {
         $this->validate([
             'perfilSeleccionado' => 'required',
-            'status' => 'required|string|in:pendiente,aprobado,fallido',
+            'status' => 'required',
             'fecha_inicio' => 'required',
             'fecha_final' => 'required',
             'motivo_cambio' => 'required|string',
@@ -72,7 +72,10 @@ class AsignarPerfilPuesto extends Component
             'fecha_final' => $this->fecha_final,
             'motivo_cambio' => $this->motivo_cambio,
         ]);
+        $this->reset(['status', 'fecha_inicio', 'fecha_final', 'motivo_cambio']);
+        session()->flash('success', 'Perfil Puesto asignado exitosamente.');
     }
+
 
     public function render()
     {

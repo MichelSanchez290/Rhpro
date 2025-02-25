@@ -25,9 +25,8 @@
     <select wire:model="status" 
             class="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 bg-white shadow-sm focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition">
         <option value="">Selecciona un estado</option>    
-        <option value="pendiente">Pendiente</option>
-        <option value="aprobado">Aprobado</option>
-        <option value="fallido">Fallido</option>
+        <option value="1">Activo</option>
+        <option value="0">Inactivo</option>
     </select>
 
     <!-- Fechas -->
@@ -55,4 +54,19 @@
             Cancelar
         </button>
     </div>
+
+    @if (session()->has('success') || session()->has('error'))
+    <div class="fixed top-5 right-5 bg-green-600 text-white text-lg px-6 py-3 rounded-lg shadow-lg transition-opacity duration-500"
+        style="z-index: 1000;"
+        x-data="{ show: true }" x-init="setTimeout(() => show = false, 3000)" x-show="show">
+
+        @if (session()->has('success'))
+            ✅ {{ session('success') }}
+        @endif
+
+        @if (session()->has('error'))
+            ❌ {{ session('error') }}
+        @endif
+    </div>
+    @endif
 </div>

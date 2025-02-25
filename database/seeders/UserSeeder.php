@@ -58,6 +58,23 @@ class UserSeeder extends Seeder
         //     'sucursal_id' => 1,
         //     'tipo_user' => 'Practicante'
         // ])->assignRole('Trabajador GLOBAL');
+        $user=User::create([
+            'name'=>'Trabajador PORTAL CAPACITACION',
+            'email'=>'portal@gmail.com',
+            'password' => Hash::make('12345678'),
+            'empresa_id' => 1,
+            'sucursal_id' => 1,
+            'tipo_user' => 'Practicante'
+        ])->assignRole('Trabajador PORTAL CAPACITACION');
+
+        $user=User::create([
+            'name'=>'Trabajador Global',
+            'email'=>'practicante@gmail.com',
+            'password' => Hash::make('prodiangelo$$$'),
+            'empresa_id' => 1,
+            'sucursal_id' => 1,
+            'tipo_user' => 'Practicante'
+        ])->assignRole('Trabajador GLOBAL');
 
         
         // User::create([

@@ -19,7 +19,6 @@ use App\Models\PortalRH\Becari;
 use App\Models\PortalRH\Becario;
 use App\Models\PortalRH\CambioSalario;
 use App\Models\PortalRH\Documento;
-use App\Models\PortalRH\Empres;
 use App\Models\PortalRH\Empresa;
 use App\Models\PortalRH\Incapacidad;
 use App\Models\PortalRH\Incidencia;
@@ -229,6 +228,16 @@ class User extends Authenticatable
     public function sucursal()
     {
         return $this->belongsTo(Sucursal::class, 'sucursal_id');
+    }
+
+    public function puesto()
+    {
+        return $this->belongsTo(Puesto::class, 'puesto_id');
+    }
+
+    public function departamento()
+    {
+        return $this->belongsTo(Departamento::class, 'departamento_id');
     }
 
    public function leadcliente()

@@ -13,6 +13,18 @@ return new class extends Migration
     {
         Schema::create('funciones_esp', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('empresa_id');
+            $table->foreign('empresa_id')
+                ->references('id')
+                ->on( 'empresas')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->unsignedBigInteger('sucursal_id');
+            $table->foreign('sucursal_id')
+                ->references('id')
+                ->on( 'sucursales')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->string('nombre', 2000);
             $table->timestamps();
         });

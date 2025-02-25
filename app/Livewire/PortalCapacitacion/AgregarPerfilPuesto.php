@@ -343,8 +343,8 @@ class AgregarPerfilPuesto extends Component
     $this->pack = [];
     // Reiniciar los valores del formulario después de guardar
     $this->reset(['perfil', 'funciones', 'internas', 'externas', 'responsabilidades', 'humanas', 'tecnicas']);
+    session()->flash('message', 'Perfil de Puesto creado con exito');
 }
-
 
 
     public function render()

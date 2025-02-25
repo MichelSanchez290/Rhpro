@@ -6,7 +6,7 @@
         </button>
     </div>
 
-
+    <div class="mt-6 bg-white shadow-lg rounded-lg border border-gray-200 overflow-hidden">
         <livewire:portalcapacitacion.funcionesespecificas.funcion-especifica-table/>
 
         <div id="modalConfirm"
@@ -40,5 +40,6 @@
                     Cancelar
                 </button>
             </div>
+        </div>
     </div>
 </div>

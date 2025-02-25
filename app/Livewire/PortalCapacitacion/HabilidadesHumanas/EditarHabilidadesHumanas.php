@@ -35,7 +35,7 @@ class EditarHabilidadesHumanas extends Component
             'nivel' => $this->nivel,
         ]);
 
-        $this->emit('message', 'Actualizada correctamente');
+        //$this->emit('message', 'Actualizada correctamente');
         return redirect()->route('mostrarHabiliadesHumanas');
         
 

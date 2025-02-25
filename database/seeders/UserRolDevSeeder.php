@@ -320,6 +320,63 @@ class UserRolDevSeeder extends Seeder
 
 
 
+
+        // ************** MODULO PORTAL DE CAPACITACIÓN ***************************************
+        // role1, role2, role3, role9, role10
+        //Permisos para Perfil de Puesto
+        Permission::create(['name' => 'Mostrar Perfil Puesto'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Agregar Perfil Puesto'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Editar Perfil Puesto'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Eliminar Perfil Puesto'])->syncRoles([$role1, $role2, $role3]);
+
+        //Permisos para funciones especificas
+        Permission::create(['name' => 'Mostrar Funciones Especificas'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Agregar Funciones Especificas'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Editar Funciones Especificas'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Eliminar Funciones Especificas'])->syncRoles([$role1, $role2, $role3]);
+
+        //Permisos para relaciones externas
+        Permission::create(['name' => 'Mostrar Relaciones Externas'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Agregar Relaciones Externas'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Editar Relaciones Externas'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Eliminar Relaciones Externas'])->syncRoles([$role1, $role2, $role3]);
+
+        //Permisos para relaciones internas
+        Permission::create(['name' => 'Mostrar Relaciones Internas'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Agregar Relaciones Internas'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Editar Relaciones Internas'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Eliminar Relaciones Internas'])->syncRoles([$role1, $role2, $role3]);
+
+        //Permisos para responsabilidades universales
+        Permission::create(['name' => 'Mostrar Responsabilidades Universales'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Agregar Responsabilidades Universales'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Editar Responsabilidades Universales'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Eliminar Responsabilidades Universales'])->syncRoles([$role1, $role2, $role3]);
+
+        //Permisos para habilidades humanas
+        Permission::create(['name' => 'Mostrar Habilidades Humanas'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Agregar Habilidades Humanas'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Editar Habilidades Humanas'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Eliminar Habilidades Humanas'])->syncRoles([$role1, $role2, $role3]);
+
+        //Permisos para habilidades técnicas
+        Permission::create(['name' => 'Mostrar Habilidades Tecnicas'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Agregar Habilidades Tecnicas'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Editar Habilidades Tecnicas'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Eliminar Habilidades Tecnicas'])->syncRoles([$role1, $role2, $role3]);
+
+        //Asociar Puesto a Trabajador
+        Permission::create(['name' => 'Asociar Puesto Trabajador'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Asignar Puesto Trabajador'])->syncRoles([$role1, $role2, $role3]);
+
+        //Ver usuarios
+        Permission::create(['name' => 'Mostrar Usuarios'])->syncRoles([$role1, $role2, $role3, $role9, $role10]);
+        Permission::create(['name' => 'Ver Mas Usuarios'])->syncRoles([$role1, $role2, $role3, $role9, $role10]);
+        Permission::create(['name' => 'Comparar Perfil Puesto'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Evaluar Trabajador'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Ver Historial de Evaluaciones'])->syncRoles([$role1, $role2, $role3, $role9, $role10]);
+
         
+        // ************** FIN MODULO PORTAL DE CAPACITACIÓN ***************************************
     }
 }

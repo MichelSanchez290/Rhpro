@@ -34,8 +34,9 @@ class AgregarHabilidadesHumanas extends Component
         $Agregarhumana->save();
 
         $this->humana=[];
-        $this->emit('showAnimatedToast', 'Habilidad agregada correctamente');
-        return redirect()->route('mostrarHabilidadesHumanas');
+        $this->reset(['descripcion', 'nivel']);
+
+        session()->flash('message', 'Habilidda Humana creada con exito');
     }
 
     public function render()

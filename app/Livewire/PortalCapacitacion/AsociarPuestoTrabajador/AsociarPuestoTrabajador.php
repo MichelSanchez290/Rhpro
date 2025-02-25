@@ -3,6 +3,7 @@
 namespace App\Livewire\PortalCapacitacion\AsociarPuestoTrabajador;
 
 use Livewire\Component;
+use App\Models\PortalRH\Empresa;
 use App\Models\PortalRH\Sucursal;
 use App\Models\PortalRH\Trabajador;
 use App\Models\PortalRH\Becario;
@@ -12,6 +13,8 @@ use App\Models\User;
 
 class AsociarPuestoTrabajador extends Component
 {
+    public $empresas;
+    public $empresa_id;
     public $sucursales;
     public $sucursal_id;
     public $tipo_seleccionado;
@@ -19,7 +22,17 @@ class AsociarPuestoTrabajador extends Component
 
     public function mount()
     {
+        $this->empresas = Empresa::all();
         $this->sucursales = Sucursal::all();
+    }
+
+    public function updatedEmpresaId()
+    {
+        // Obtener las sucursales a través de la tabla pivote empresa_sucursal
+        $this->sucursales = Empresa::find($this->empresa_id)?->sucursales ?? [];
+        $this->sucursal_id = null;
+        $this->tipo_seleccionado = null;
+        $this->opciones = [];
     }
 
     public function updatedSucursalId()
@@ -73,5 +86,3 @@ class AsociarPuestoTrabajador extends Component
             ->layout("layouts.portal_capacitacion");
     }
 }
-
-

@@ -30,9 +30,15 @@ class Empresa extends Model
 
     public function sucursales()
     {
-        return $this->belongsToMany(Sucursal::class, 'empresa_sucursal', 'empresa_id', 'sucursal_id')
-            ->withPivot('status'); // Si necesitas acceder a la columna "status" de la tabla pivote
+        return $this->belongsToMany(
+            Sucursal::class,   // Modelo relacionado
+            'empresa_sucursal', // Nombre de la tabla pivote
+            'empresa_id',       // Clave foránea en la tabla pivote para Empresa
+            'sucursal_id'       // Clave foránea en la tabla pivote para Sucursal
+        )->withPivot('status'); // Opcional: si necesitas traer el campo "status"
     }
+
+
     public function RegistroPatronal()
     {
         return $this->belongsToMany(RegistroPatronal::class)->withPivot('empresa_id', 'registro_patronal_id', 'status');

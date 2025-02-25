@@ -37,7 +37,7 @@ class MostrarHabilidadesHumanas extends Component
         $this->funcionToDelete = null;
         $this->showModal = false;
 
-        return redirect()->route('mostrarFuncionesEspecificas');
+        return redirect()->route('mostrarHabilidadesHumanas');
     }
 
     public function render()
