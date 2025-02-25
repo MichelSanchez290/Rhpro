@@ -58,7 +58,7 @@ class Encuesta extends Model
     }
 
     // Método para calcular el avance de la encuesta
-    public function avance()
+    public function calcularAvance()
     {
         if ($this->NumeroEncuestas > 0) {
             return ($this->EncuestasContestadas / $this->NumeroEncuestas) * 100;
