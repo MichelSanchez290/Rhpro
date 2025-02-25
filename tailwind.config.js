@@ -2,6 +2,7 @@ import defaultTheme from 'tailwindcss/defaultTheme';
 import forms from '@tailwindcss/forms';
 import typography from '@tailwindcss/typography';
 
+    
 /** @type {import('tailwindcss').Config} */
 export default {
     content: [
@@ -23,6 +24,12 @@ export default {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
         },
+    },
+
+    corePlugins: {
+        transitionProperty: true,
+        transitionDuration: true,
+        transform: true // ¡Agrega esto si usas rotaciones!
     },
 
     plugins: [forms, typography],

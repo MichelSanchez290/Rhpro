@@ -46,7 +46,7 @@ class AgregarEmpresa extends Component
 
         $this->empresa=[];
         $this->imgagen=NULL;
-        return redirect()->route('mostrarEmpresaCrm');
+        // return redirect()->route('mostrarEmpresaCrm');
     }
     public function render()
     {

@@ -15,12 +15,10 @@ return new class extends Migration
             $table->id();
             $table->date('fecha_aprobacion');
             $table->string('email_enviado');
-            $table->unsignedBigInteger('nom035cotizaciones_id');
-            $table->foreign('nom035cotizaciones_id')
-                ->references('id')
-                ->on('nom035_cotizaciones')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
+            $table->foreignId('nom035_cotizaciones_id')
+             ->constrained()
+             ->onUpdate('cascade')
+             ->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -30,8 +28,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('cotizaciones_aprobadas_nom', function (Blueprint $table) {
-            $table->dropForeign(['nom035cotizaciones_id ']);
+        Schema::table('cotizacione_aprobadas_nom', function (Blueprint $table) {
+            $table->dropForeign(['nom035_cotizaciones_id ']);
         });
         Schema::dropIfExists('cotizaciones_aprobadas_nom');
     }

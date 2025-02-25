@@ -25,7 +25,7 @@ class DatosFiscaleTableSeeder extends Seeder
             'estado' => 'CDMX',
             'pais' => 'México',
             'codigo_postal' => '02250',
-            'crm_empresasid' => '1'
+            'crm_empresas_id' => '1'
         ]);
         $datofiscal2 = DatosFiscale::create([
             'razon_social' => 'Empresa MAS Chida S. de RL',
@@ -39,7 +39,7 @@ class DatosFiscaleTableSeeder extends Seeder
             'estado' => 'Jalisco',
             'pais' => 'México',
             'codigo_postal' => '44440',
-            'crm_empresasid' => '22'
+            'crm_empresas_id' => '5'
         ]);
         $datofiscal3 = DatosFiscale::create([
             'razon_social' => 'Taquerías Los Carnales',
@@ -53,7 +53,7 @@ class DatosFiscaleTableSeeder extends Seeder
             'estado' => 'Puebla',
             'pais' => 'México',
             'codigo_postal' => '72530',
-            'crm_empresasid' => '10'
+            'crm_empresas_id' => '2'
         ]);
         $datofiscal4 = DatosFiscale::create([
             'razon_social' => 'Tiendas Don Baraton',
@@ -67,7 +67,7 @@ class DatosFiscaleTableSeeder extends Seeder
             'estado' => 'Puebla',
             'pais' => 'México',
             'codigo_postal' => '72000',
-            'crm_empresasid' => '8'
+            'crm_empresas_id' => '3'
         ]);
         $datofiscal5 = DatosFiscale::create([
             'razon_social' => 'Patito S.A. de C.V.',
@@ -81,7 +81,7 @@ class DatosFiscaleTableSeeder extends Seeder
             'estado' => 'Puebla',
             'pais' => 'México',
             'codigo_postal' => '72160',
-            'crm_empresasid' => '1'
+            'crm_empresas_id' => '4'
         ]);
     }
 }

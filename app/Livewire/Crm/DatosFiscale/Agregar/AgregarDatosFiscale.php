@@ -8,7 +8,7 @@ use App\Models\Crm\CrmEmpresa;
 
 class AgregarDatosFiscale extends Component
 {
-    public $dato =[];
+    public $dato = [];
     public $consulta;
 
     protected $rules = [
@@ -23,7 +23,7 @@ class AgregarDatosFiscale extends Component
         'dato.estado' => 'required',
         'dato.pais' => 'required',
         'dato.codigo_postal' => 'required',
-        'dato.crm_empresasid' => 'required',
+        'dato.crm_empresas_id' => 'required',
     ];
 
     protected $messages = [
@@ -38,7 +38,7 @@ class AgregarDatosFiscale extends Component
         'dato.estado.required' => 'Estado requerido',
         'dato.pais.required' => 'Pais requerido',
         'dato.codigo_postal.required' => 'Codigo Postal requerida',
-        'dato.crm_empresasid.required' => 'Empresa requerida',
+        'dato.crm_empresas_id.required' => 'Empresa requerida',
     ];
 
     public function mount()
@@ -53,13 +53,13 @@ class AgregarDatosFiscale extends Component
         $AgregarDato = new DatosFiscale($this->dato);
         $AgregarDato->save();
 
-        $this->dato=[];
+        $this->dato = [];
     }
 
     public function render()
     {
-        return view('livewire.crm.datos-fiscale.agregar.agregar-datos-fiscale',[
-                'empresa' => CrmEmpresa::get()
-            ])->layout('layouts.crm');
+        return view('livewire.crm.datos-fiscale.agregar.agregar-datos-fiscale', [
+            'empresa' => CrmEmpresa::get()
+        ])->layout('layouts.crm');
     }
 }

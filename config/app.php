@@ -70,7 +70,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'America/Mexico_City',
 
     /*
     |--------------------------------------------------------------------------
@@ -170,7 +170,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\FortifyServiceProvider::class,
         App\Providers\JetstreamServiceProvider::class,
-        //Uso de laravel permission 
+        //Uso de laravel permission
         Spatie\Permission\PermissionServiceProvider::class,
         //Uso de laravel excel
         Maatwebsite\Excel\ExcelServiceProvider::class,

@@ -13,18 +13,29 @@ return new class extends Migration
     {
         Schema::create('leads_clientes', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre_contacto');
+            $table->string('numero_lead');
+            $table->string('nombre_cliente');
             $table->unsignedBigInteger('users_id');
             $table->foreign('users_id')
                 ->references('id')
                 ->on('users')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->string('numero_cliente');
-            $table->date('fecha');
+            $table->string('medios_cesrh');
+            $table->datetime('fecha_y_hora');
+            $table->unsignedBigInteger('crm_empresas_id');
+            $table->foreign('crm_empresas_id')
+                ->references('id')
+                ->on('crm_empresas')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->string('puesto');
             $table->string('correo');
+            $table->string('correo_2')->nullable();
             $table->string('telefono');
+            $table->string('telefono_2')->nullable();
+            $table->string('nombre_contacto_2')->nullable();
+            $table->string('puesto_contacto_2')->nullable();
             $table->string('tipo');
             $table->timestamps();
         });

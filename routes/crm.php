@@ -23,19 +23,14 @@ Route::get(
 )->name('InicioCrm');
 
 Route::get(
-    '/crm-mostrarEmpresa',
-        MostrarEmpre::class
-)->name('mostrarEmpresaCrm');
-
-Route::get(
     '/crm-createempresa',
     AgregarEmpresa::class
 )->name('Createcrm');
 
 Route::get(
-    '/crm-leads',
-    Vistaprincipal::class
-)->name('leads');
+    '/crm-mostrarEmpresa',
+        MostrarEmpre::class
+)->name('mostrarEmpresaCrm');
 
 Route::get(
     '/crm-editempresa/{id}',

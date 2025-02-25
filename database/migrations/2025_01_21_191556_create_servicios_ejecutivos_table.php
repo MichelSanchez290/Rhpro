@@ -19,25 +19,21 @@ return new class extends Migration
             $table->string('num_cotizacion');
             $table->date('cotizacion_emitida');
             $table->date('cotizacion_valida_hasta');
-            $table->unsignedBigInteger('levantamientoPed_id');
-            $table->foreign('levantamientoPed_id')
-                ->references('id')
-                ->on('head_levantamientos_pedidos')
+            $table->foreignId('informaciones_ejecutivos_id')
+                ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
+            
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::table('servicios_head_ejecutivos', function (Blueprint $table) {
-            $table->dropForeign(['levantamientospedidosehad_id']);
+        Schema::table('servicios_ejecutivos', function (Blueprint $table) {
+            $table->dropForeign(['informaciones_ejecutivos_id']);
         });
-        Schema::dropIfExists('servicios_head_ejecutivos');
+        Schema::dropIfExists('servicio_ejecutivos');
     }
 };
 

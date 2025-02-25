@@ -24,8 +24,8 @@ return new class extends Migration
             $table->string('estado');
             $table->string('pais');
             $table->string('codigo_postal');
-            $table->unsignedBigInteger('crm_empresasid');
-            $table->foreign('crm_empresasid')
+            $table->unsignedBigInteger('crm_empresas_id');
+            $table->foreign('crm_empresas_id')
                 ->references('id')
                 ->on('crm_empresas')
                 ->onUpdate('cascade')

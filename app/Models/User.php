@@ -13,6 +13,8 @@ use App\Models\ActivoFijo\Activos\ActivoUniforme;
 use App\Models\Crm\EsmartLevantamiento;
 use App\Models\Crm\LeadCliente;
 use App\Models\Crm\LeadsCliente;
+use App\Models\Crm\Nom035Levpedido;
+use App\Models\Crm\TrainingLevantamiento;
 use App\Models\Encuestas360\Asignacion;
 use App\Models\PortalCapacitacion\PerfilPuesto;
 use App\Models\PortalRH\Becari;
@@ -230,23 +232,23 @@ class User extends Authenticatable
         return $this->belongsTo(Sucursal::class, 'sucursal_id');
     }
 
-    public function puesto()
-    {
-        return $this->belongsTo(Puesto::class, 'puesto_id');
-    }
-
-    public function departamento()
-    {
-        return $this->belongsTo(Departamento::class, 'departamento_id');
-    }
-
-   public function leadcliente()
+   public function leadclientes()
     {
         return $this->hasMany(LeadCliente::class, 'users_id');
     }
 
-    public function esmart_levantamiento()
+    public function esmart_levantamientos()
     {
         return $this->hasMany(EsmartLevantamiento::class);
+    }
+
+    public function nom035levpedidos()
+    {
+        return $this->hasMany(Nom035Levpedido::class);
+    }
+
+    public function traininglevantamientos()
+    {
+        return $this->hasMany(TrainingLevantamiento::class);
     }
 }
