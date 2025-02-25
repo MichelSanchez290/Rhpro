@@ -47,21 +47,20 @@ class Agregarmob extends Component
     ];
 
     public function mount()
-    {
-        $this->empresas = Empresa::all();
-        //dd($this->empresas); // Verifica que las empresas se carguen correctamente
+{
+    $this->empresas = Empresa::all();
+    $this->consulta = ActivoMobiliario::get();
+    $this->activo['tipo_activo_id'] = Tipoactivo::where('nombre_activo', 'Activo Mobiliarios')->value('id');
+    $this->anios = Anioestimado::pluck('vida_util_año', 'id')->toArray();
 
-        $this->consulta = ActivoMobiliario::get();
-        $this->activo['tipo_activo_id'] = Tipoactivo::where('nombre_activo', 'Activo Mobiliarios')->value('id');
-        $this->anios = Anioestimado::pluck('vida_util_año', 'id')->toArray();
-        $this->activo['empresa_id'] = Auth::user()->empresa_id;
+    // Inicializar empresaSeleccionada con la empresa del usuario autenticado
+    $this->empresaSeleccionada = Auth::user()->empresa_id;
 
-        // Cargar sucursales de la empresa del usuario autenticado
-        $this->sucursalesFiltradas = Sucursal::join('empresa_sucursal', 'sucursales.id', '=', 'empresa_sucursal.sucursal_id')
-            ->where('empresa_sucursal.empresa_id', Auth::user()->empresa_id)
-            ->get();
-        //dd($this->sucursalesFiltradas); // Verifica que las sucursales se carguen correctamente
-    }
+    // Cargar sucursales de la empresa del usuario autenticado
+    $this->sucursalesFiltradas = Sucursal::join('empresa_sucursal', 'sucursales.id', '=', 'empresa_sucursal.sucursal_id')
+        ->where('empresa_sucursal.empresa_id', Auth::user()->empresa_id)
+        ->get();
+}
 
     public function updatedEmpresaSeleccionada($empresaId)
     {
@@ -84,6 +83,8 @@ class Agregarmob extends Component
             'subirfoto4' => 'nullable|image|max:2048',
         ]);
 
+        // Asignar la empresa seleccionada al activo
+        $this->activo['empresa_id'] = $this->empresaSeleccionada;
         // Guardar imágenes si fueron subidas
         if ($this->subirfoto1) {
             $this->subirfoto1->storeAs('ImagenMobiliario1', "{$this->activo['nombre']}-imagen1.png", 'subirDocs');

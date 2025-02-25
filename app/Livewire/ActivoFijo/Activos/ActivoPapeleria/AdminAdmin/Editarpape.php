@@ -1,18 +1,16 @@
 <?php
 
-namespace App\Livewire\ActivoFijo\Activos\ActivoOficina\AdminAdmin;
+namespace App\Livewire\ActivoFijo\Activos\ActivoPapeleria\AdminAdmin;
 
-use App\Models\ActivoFijo\Activos\ActivoOficina;
+use App\Models\ActivoFijo\Activos\ActivoPapeleria;
 use App\Models\ActivoFijo\Anioestimado;
 use App\Models\ActivoFijo\Tipoactivo;
 use App\Models\PortalRH\Empresa;
-use App\Models\PortalRH\Sucursal;
-use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Illuminate\Support\Facades\Storage; 
+use Illuminate\Support\Facades\Storage;
 
-class Editarofi extends Component
+class Editarpape extends Component
 {
     use WithFileUploads;
     public $activo; // Datos del activo a editar
@@ -21,39 +19,46 @@ class Editarofi extends Component
     public $subirfoto1, $subirfoto2, $subirfoto3;
     public $foto1, $foto2, $foto3;
     public $empresaSeleccionada;
-
+    
     protected $rules = [
-        'activo.nombre' => 'required',
-        'activo.descripcion' => 'required',
-        'activo.numero_activo' => 'required',
-        'activo.ubicacion_fisica' => 'required',
-        'activo.fecha_adquisicion' => 'required',
+        'activo.codigo_producto'=>'required',
+        'activo.nombre'=>'required',
+        'activo.marca'=>'required',
+        'activo.tipo'=>'required',
+        'activo.cantidad'=>'required',
+        'activo.estado'=>'required',
+        'activo.disponible'=>'required',
+        'activo.fecha_adquisicion'=>'required',
         'activo.fecha_baja' => 'nullable|date',
-        'activo.tipo_activo_id' => 'required',
-        'activo.precio_adquisicion' => 'required',
-        'activo.aniosestimado_id' => 'required',
+        'activo.tipo_activo_id'=>'required',
+        'activo.aniosestimado_id'=>'required',
+        'activo.color'=>'required',
+        'activo.precio_unitario'=>'required',
         'activo.empresa_id' => 'required',
         'activo.sucursal_id' => 'required',
-
     ];
 
     protected $messages = [
-        'activo.nombre.required' => 'Nombre es requerido',
-        'activo.descripcion.required' => 'Descripcion es requerido',
-        'activo.numero_activo.required' => 'Numero activo es requerido',
-        'activo.ubicacion_fisica.required' => 'Ubicacion es requerido',
-        'activo.fecha_adquisicion.required' => 'Fecha es requerido',
-        'activo.tipo_activo_id.required' => 'Tipo es requerido',
-        'activo.precio_adquisicion.required' => 'Precio es requerido',
-        'activo.aniosestimado_id.required' => 'Año es requerido',
+        'activo.codigo_producto.required'=>'El codigo es requerido',
+        'activo.nombre.required'=>'El nombre es requerido',
+        'activo.marca.required'=>'La marca es requerida',
+        'activo.tipo.required'=>'El tipo es requerido',
+        'activo.cantidad.required'=>'La cantidad es requerida',
+        'activo.estado.required'=>'El estado es requerido',
+        'activo.disponible.required'=>'La disponiblidad es requerida',
+        'activo.fecha_adquisicion.required'=>'La fecha es requerida',
+        'activo.tipo_activo_id.required'=>'El tipo es requerido',
+        'activo.aniosestimado_id.required'=>'El año es requerido',
+        'activo.color.required'=>'El color es requerido',
+        'activo.precio_unitario.required'=>'El precio es requerido',
         'activo.empresa_id.required' => 'La empresa es requerida',
         'activo.sucursal_id.required' => 'La sucursal es requerida',
     ];
 
     public function mount($id)
     {
-       // Cargar el activo a editar
-       $this->activo = ActivoOficina::findOrFail($id)->toArray();
+        // Cargar el activo a editar
+       $this->activo = ActivoPapeleria::findOrFail($id)->toArray();
        $this->foto1 = $this->activo['foto1'];
        $this->foto2 = $this->activo['foto2'];
        $this->foto3 = $this->activo['foto3'];
@@ -96,8 +101,8 @@ class Editarofi extends Component
             }
 
             // Guardar la nueva imagen
-            $this->subirfoto1->storeAs('ImagenOficina1', $this->activo['nombre'] . "-imagen1.png", 'subirDocs');
-            $this->activo['foto1'] = "ImagenOficina1/" . $this->activo['nombre'] . "-imagen1.png";
+            $this->subirfoto1->storeAs('ImagenPapeleria1', $this->activo['nombre'] . "-imagen1.png", 'subirDocs');
+            $this->activo['foto1'] = "ImagenPapeleria1/" . $this->activo['nombre'] . "-imagen1.png";
         }
 
         if ($this->subirfoto2) {
@@ -107,8 +112,8 @@ class Editarofi extends Component
             }
 
             // Guardar la nueva imagen
-            $this->subirfoto2->storeAs('ImagenOficina2', $this->activo['nombre'] . "-imagen2.png", 'subirDocs');
-            $this->activo['foto2'] = "ImagenOficina2/" . $this->activo['nombre'] . "-imagen2.png";
+            $this->subirfoto2->storeAs('ImagenPapeleria2', $this->activo['nombre'] . "-imagen2.png", 'subirDocs');
+            $this->activo['foto2'] = "ImagenPapeleria2/" . $this->activo['nombre'] . "-imagen2.png";
         }
 
         if ($this->subirfoto3) {
@@ -118,19 +123,18 @@ class Editarofi extends Component
             }
 
             // Guardar la nueva imagen
-            $this->subirfoto3->storeAs('ImagenOficina3', $this->activo['nombre'] . "-imagen3.png", 'subirDocs');
-            $this->activo['foto3'] = "ImagenOficina3/" . $this->activo['nombre'] . "-imagen3.png";
+            $this->subirfoto3->storeAs('ImagenPapeleria3', $this->activo['nombre'] . "-imagen3.png", 'subirDocs');
+            $this->activo['foto3'] = "ImagenPapeleria3/" . $this->activo['nombre'] . "-imagen3.png";
         }
-
-
+        // Crear una nueva instancia de Sale y asignar los valores
         // Actualizar el activo mobiliario
-        ActivoOficina::find($this->activo['id'])->update($this->activo);
+        ActivoPapeleria::find($this->activo['id'])->update($this->activo);
 
         // Redirigir a la vista de mostrar
-        return redirect()->route('mostrarofiad');
+        return redirect()->route('mostrarpapead');
     }
     public function render()
     {
-        return view('livewire.activo-fijo.activos.activo-oficina.admin-admin.editarofi')->layout('layouts.navactivos');
+        return view('livewire.activo-fijo.activos.activo-papeleria.admin-admin.editarpape')->layout('layouts.navactivos');
     }
 }

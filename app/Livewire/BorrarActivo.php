@@ -38,11 +38,11 @@ class BorrarActivo extends ModalComponent
 
             //Admin
             'mostrarmobad' => 'App\\Models\\ActivoFijo\\Activos\\ActivoMobiliario',
-            'mostrartecad' => 'App\\Models\\ActivoFijo\\Activos\\ActivoMobiliario',
-            'mostraruniad' => 'App\\Models\\ActivoFijo\\Activos\\ActivoMobiliario',
-            'mostrarsouad' => 'App\\Models\\ActivoFijo\\Activos\\ActivoMobiliario',
-            'mostrarofiad' => 'App\\Models\\ActivoFijo\\Activos\\ActivoMobiliario',
-            'mostrarpapead' => 'App\\Models\\ActivoFijo\\Activos\\ActivoMobiliario',
+            'mostrartecad' => 'App\\Models\\ActivoFijo\\Activos\\ActivoTecnologia',
+            'mostraruniad' => 'App\\Models\\ActivoFijo\\Activos\\ActivoUniforme',
+            'mostrarsouad' => 'App\\Models\\ActivoFijo\\Activos\\ActivoSouvenir',
+            'mostrarofiad' => 'App\\Models\\ActivoFijo\\Activos\\ActivoOficina',
+            'mostrarpapead' => 'App\\Models\\ActivoFijo\\Activos\\ActivoPapeleria',
             
 
             'mostrarnotas' =>' App\\Models\\ActivoFijo\\Notatecno'
