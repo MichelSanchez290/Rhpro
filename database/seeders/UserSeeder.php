@@ -14,60 +14,61 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $user=User::create([
-            'name'=>'ADMINISTRADOR',
-            'email'=> 'admin@gmail.com',
-            'password' => Hash::make('123456789'),
-            'empresa_id' => 1,
-            'sucursal_id' => 1,
-            'tipo_user' => 'Trabajador'
-        ])->assignRole('GoldenAdmin');
+        // $user=User::create([
+        //     'name'=>'ADMINISTRADOR',
+        //     'email'=> 'admin@gmail.com',
+        //     'password' => Hash::make('123456789'),
+        //     'empresa_id' => 1,
+        //     'sucursal_id' => 1,
+        //     'tipo_user' => 'Trabajador'
+        // ])->assignRole('GoldenAdmin');
 
-        $user=User::create([
-            'name'=>'ADMINISTRADOR EMPRESA',
-            'email'=>'empresaadmin@gmail.com',
-            'password' => Hash::make('123456789$$$'),
-            'empresa_id' => 1,
-            'sucursal_id' => 1,
-            'tipo_user' => 'Trabajador'
-        ])->assignRole('EmpresaAdmin');
+        // $user=User::create([
+        //     'name'=>'ADMINISTRADOR EMPRESA',
+        //     'email'=>'empresaadmin@gmail.com',
+        //     'password' => Hash::make('123456789$$$'),
+        //     'empresa_id' => 1,
+        //     'sucursal_id' => 1,
+        //     'tipo_user' => 'Trabajador'
+        // ])->assignRole('EmpresaAdmin');
 
-        $user=User::create([
-            'name'=>'ADMINISTRADOR SUCURSAL',
-            'email'=>'sucursal@gmail.com',
-            'password' => Hash::make('123sucursal$$$'),
-            'empresa_id' => 1,
-            'sucursal_id' => 1,
-            'tipo_user' => 'Trabajador'
-        ])->assignRole('SusursalAdmin');
+        // $user=User::create([
+        //     'name'=>'ADMINISTRADOR SUCURSAL',
+        //     'email'=>'sucursal@gmail.com',
+        //     'password' => Hash::make('123sucursal$$$'),
+        //     'empresa_id' => 1,
+        //     'sucursal_id' => 1,
+        //     'tipo_user' => 'Trabajador'
+        // ])->assignRole('SusursalAdmin');
 
-        $user=User::create([
-            'name'=>'Trabajador ENCUESTA 360',
-            'email'=>'becartio@gmail.com',
-            'password' => Hash::make('123encuesta360$$$'),
-            'empresa_id' => 1,
-            'sucursal_id' => 1,
-            'tipo_user' => 'Becario'
-        ])->assignRole('Trabajador ENCUESTA 360');
+        // $user=User::create([
+        //     'name'=>'Trabajador ENCUESTA 360',
+        //     'email'=>'becartio@gmail.com',
+        //     'password' => Hash::make('123encuesta360$$$'),
+        //     'empresa_id' => 1,
+        //     'sucursal_id' => 1,
+        //     'tipo_user' => 'Becario'
+        // ])->assignRole('Trabajador ENCUESTA 360');
 
-        $user=User::create([
-            'name'=>'Trabajador Global',
-            'email'=>'practicante@gmail.com',
-            'password' => Hash::make('prodiangelo$$$'),
-            'empresa_id' => 1,
-            'sucursal_id' => 1,
-            'tipo_user' => 'Practicante'
-        ])->assignRole('Trabajador GLOBAL');
+        // $user=User::create([
+        //     'name'=>'Trabajador Global',
+        //     'email'=>'practicante@gmail.com',
+        //     'password' => Hash::make('prodiangelo$$$'),
+        //     'empresa_id' => 1,
+        //     'sucursal_id' => 1,
+        //     'tipo_user' => 'Practicante'
+        // ])->assignRole('Trabajador GLOBAL');
 
         
-        User::create([
-             'name' => 'Ezequiel López Cruz',
-             'email' => 'ezequiel@gmail.com',
-             'password' => bcrypt('12345678'),            
-        ])->assignRole('GoldenAdmin');
+        // User::create([
+        //      'name' => 'Ezequiel López Cruz',
+        //      'email' => 'ezequiel@gmail.com',
+        //      'password' => bcrypt('12345678'),            
+        // ])->assignRole('GoldenAdmin');
 
-        User::factory(9)->create();
+        // User::factory(9)->create();
 
+        //***SEEDER PARA ACTIVO FIJO PRUEBAS
         //Empresa 1
         User::create([
             'name' => 'Carlos Torres',
@@ -93,13 +94,13 @@ class UserSeeder extends Seeder
             'sucursal_id'=>'1',
         ])->assignRole('SusursalAdmin');
 
-        User::create([
-            'name' => 'Fernando Gomez',
-            'email' => 'fer@gmail.com',
-            'password' => Hash::make('12345678'),
-            'empresa_id'=>'1', 
-            'sucursal_id'=>'1',
-        ])->assignRole('Trabajador');
+        // User::create([
+        //     'name' => 'Fernando Gomez',
+        //     'email' => 'fer@gmail.com',
+        //     'password' => Hash::make('12345678'),
+        //     'empresa_id'=>'1', 
+        //     'sucursal_id'=>'1',
+        // ])->assignRole('Trabajador');
 
         // Empresa 2
         User::create([
@@ -126,13 +127,13 @@ class UserSeeder extends Seeder
             'sucursal_id'=>'3',
         ])->assignRole('SusursalAdmin');
 
-        User::create([
-            'name' => 'Pedro Perez',
-            'email' => 'pedro@gmail.com',
-            'password' => Hash::make('12345678'),
-            'empresa_id'=>'2', 
-            'sucursal_id'=>'3',
-        ])->assignRole('Trabajador');
+        // User::create([
+        //     'name' => 'Pedro Perez',
+        //     'email' => 'pedro@gmail.com',
+        //     'password' => Hash::make('12345678'),
+        //     'empresa_id'=>'2', 
+        //     'sucursal_id'=>'3',
+        // ])->assignRole('Trabajador');
 
         // Empresa 3
         User::create([
@@ -159,12 +160,12 @@ class UserSeeder extends Seeder
             'sucursal_id'=>'5',
         ])->assignRole('SusursalAdmin');
 
-        User::create([
-            'name' => 'Ana Rodriguez',
-            'email' => 'ana@gmail.com',
-            'password' => Hash::make('12345678'),
-            'empresa_id'=>'3', 
-            'sucursal_id'=>'5',
-        ])->assignRole('Trabajador');
+        // User::create([
+        //     'name' => 'Ana Rodriguez',
+        //     'email' => 'ana@gmail.com',
+        //     'password' => Hash::make('12345678'),
+        //     'empresa_id'=>'3', 
+        //     'sucursal_id'=>'5',
+        // ])->assignRole('Trabajador');
     }
 }

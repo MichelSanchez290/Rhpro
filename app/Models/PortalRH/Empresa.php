@@ -30,9 +30,9 @@ class Empresa extends Model
 
     public function sucursales()
     {
-        return $this->belongsToMany(Sucursal::class)->withPivot('empresa_id', 'sucursal_id', 'status');
+        return $this->belongsToMany(Sucursal::class, 'empresa_sucursal', 'empresa_id', 'sucursal_id')
+            ->withPivot('status'); // Si necesitas acceder a la columna "status" de la tabla pivote
     }
-
     public function RegistroPatronal()
     {
         return $this->belongsToMany(RegistroPatronal::class)->withPivot('empresa_id', 'registro_patronal_id', 'status');
@@ -44,7 +44,4 @@ class Empresa extends Model
     {
         return $this->hasMany(User::class, 'empresa_id', 'id');
     }
-
-    
 }
-

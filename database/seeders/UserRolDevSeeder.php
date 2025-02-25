@@ -286,6 +286,7 @@ class UserRolDevSeeder extends Seeder
         Permission::create(['name'=>'Activo tecnologia Admin'])->syncRoles([$role1]);
         Permission::create(['name'=>'Activo tecnologia Empresa'])->syncRoles([$role2]);
         Permission::create(['name'=>'Activo tecnologia Sucursal'])->syncRoles([$role3]);
+        
 
         // Permisos para activo mobiliario
         Permission::create(['name'=>'Activo mobiliario Admin'])->syncRoles([$role1]);
@@ -314,7 +315,9 @@ class UserRolDevSeeder extends Seeder
 
         //Permisos para tipo activo
         Permission::create(['name'=>'Tipo activo'])->syncRoles([$role1]);
-        // ************** FIN MODULO ACTIVO TECNOLOGIA ***************************************
+        
+        //**********************************FIN ACTIVO FIJO****************************** */
+
 
 
         
