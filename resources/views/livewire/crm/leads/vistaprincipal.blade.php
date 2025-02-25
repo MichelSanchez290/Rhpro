@@ -148,12 +148,9 @@
                     Ir a inicio
                 </a>
             </div>
-            <div x-data="{ show: false }" x-show="show" x-transition x-init="@this.on('message', () => {
-                show = true;
-            });"
-                class="justify-center flexed bottom-4 left-1/2 transform -translate-x-1/2  bg-green-100 border-t border-b border-green-500 text-green-700 px-4 py-3"
-                role="alert">
-                <p class="text-sm">Lead registrado con éxito</p>
+            <div class="flexed bottom-4 left-1/2 transform -translate-x-1/2  bg-green-100 border-t border-b border-green-500 text-green-700 px-4 py-3"
+                x-data="{ show: false }" x-show="show" x-transition x-init="@this.on('message', () => { show = true; });" role="alert">
+                <p class="text-sm">Lead registado con éxito</p>
             </div>
         </div>
     </div>
@@ -347,7 +344,6 @@
         </h1>
     </div>
 @endif
-@endif
 
 @if ($paginacion == 2)
     <div id="form2">
@@ -475,6 +471,124 @@
                         Formulario de HeadHunting
                     </h1>
                 </div>
+                <div class="grid justify-center w-full grid-cols-4 gap-4 px-10 py-4">
+                    <div class="mx-2 text-center">
+                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                            Nombre del Lead
+                        </label>
+                        <input disabled
+                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                            wire:model.defer="lead.nombre_contacto" type="text">
+                        <x-input-error for="lead.nombre_contacto" />
+                    </div>
+                    <div class="mx-2 text-center">
+                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                            Nombre de empresa
+                        </label>
+                        <input disabled
+                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                            wire:model.defer="lead.nombre_empresa" type="text">
+                        <x-input-error for="lead.nombre_empresa" />
+                    </div>
+                    <div class="mx-2 text-center">
+                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                            Correo
+                        </label>
+                        <input disabled
+                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                            wire:model.defer="lead.correo" type="text">
+                        <x-input-error for="lead.correo" />
+                    </div>
+                    <div class="mx-2 text-center">
+                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                            Telefono
+                        </label>
+                        <input disabled
+                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                            wire:model.defer="lead.telefono" type="number">
+                        <x-input-error for="lead.telefono" />
+                    </div>
+                </div>
+                <div class="grid justify-center w-full grid-cols-3 px-10 py-4">
+                    <div class="mx-2 text-center">
+                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                            Giro de la empresa
+                        </label>
+                        <input
+                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                            wire:model.defer="" type="text">
+                        <x-input-error for="" />
+                    </div>
+                    <div class="mx-2 text-center">
+                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                            Ubicacion
+                        </label>
+                        <input
+                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                            wire:model.defer="" type="text">
+                        <x-input-error for="" />
+                    </div>
+                    <div class="mx-2 text-center">
+                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                            ¿Es la primera vez aplicando?
+                        </label>
+                        <select wire:model='lead.datos_id'
+                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500">
+                            <option value="" disabled>Seleccione un valor</option>
+                            <option value="" disabled>------</option>
+                            <option value="">Si</option>
+                            <option value="">No</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="grid justify-center w-full grid-cols-3 px-10">
+                    <div class="mx-2 text-center">
+                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                            Medio de Informacion
+                        </label>
+                        <input
+                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                            wire:model.defer="" type="text">
+                        <x-input-error for="" />
+                    </div>
+                    <div class="mx-2 text-center">
+                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                            Responsable comercial
+                        </label>
+                        <input
+                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                            wire:model.defer="" type="text">
+                        <x-input-error for="" />
+                    </div>
+                    <div class="mx-2 text-center">
+                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                            Fecha
+                        </label>
+                        <input
+                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                            wire:model.defer="" type="date">
+                        <x-input-error for="" />
+                    </div>
+                </div>
+                <div class="flex justify-end">
+                    <button
+                        class="p-2 my-6 mr-10 font-semibold text-white bg-green-600 rounded-md shadow-md shadow-gray-500 active:shadow-none active:bg-green-800 ">
+                        Guardar y Salir
+                    </button>
+                </div>
+        </div>
+    </div>
+@endif
+
+@if ($paginacion == 3)
+    <div id="form3">
+        <div class="m-4 bg-white rounded-lg shadow-md shadow-gray-300">
+            @for ($i = 0; $i < $duplicados; $i++)
+                <div class="text-center">{{-- ENCABEZADO --}}
+                    <h1 class="p-10 text-3xl font-bold">
+                        Formulario de HeadHunting
+                    </h1>
+                </div>
                 <div class="grid justify-center w-full px-10 py-4 bg-white rounded-lg shadow-lg">
                     {{-- Tipo de servicio --}}
                     <div class="mx-2">
@@ -482,121 +596,136 @@
                             Tipo de servicio
                         </h2>
                         {{-- Servicios operativos --}}
-                        <label class="mb-2 text-sm font-bold tracking-wide text-center text-gray-700 uppercase ">
-                            <input type="checkbox" name="" id="" wire:model='mostrarOperativo'>
+                        <label class="mb-2 text-sm font-bold tracking-wide text-center text-gray-700 uppercase">
+                            <input type="checkbox"
+                                class="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-red-500 checked:bg-red-500 checked:before:bg-red-500 hover:before:opacity-10"
+                                name="" id="" wire:model.live='mostrarOperativo'>
                             <span>Servicios operativos</span>
                             <x-input-error for="hh.tipo_servicio.operativos" />
-                        </label>
-                        {{-- Operativos --}}
-                        @if ($mostrarOperativo)
-                            <div class="mx-2">
+                            {{-- Input Operativos --}}
+                            @if ($mostrarOperativo == true)
                                 <input
                                     class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                                    wire:model.defer="hh.operativos" type="number">
-                                <x-input-error for="hh.operativos" />
-                            </div>
-                        @endif
+                                    wire:model.defer="hh.tipo_servicio.operativos" type="number">
+                                <x-input-error for="hh.tipo_servicio.operativos" />
+                            @endif
+                        </label>
                         {{-- Servicios Espescializados --}}
                         <label class="mb-2 text-sm font-bold tracking-wide text-center text-gray-700 uppercase ">
-                            <input type="checkbox" name="" id=""
-                                wire:model='hh.tipo_servicio.especializados'>
+                            <input type="checkbox"
+                                class="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-red-500 checked:bg-red-500 checked:before:bg-red-500 hover:before:opacity-10"
+                                name="" id="" wire:model.live='mostrarEspecializado'>
                             <span>Servicios especializados</span>
+                            @if ($mostrarEspecializado == true)
+                                <input
+                                    class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                                    wire:model.defer="hh.tipo_servicio.especializados" type="number">
+                                <x-input-error for="hh.tipo_servicio.especializados" />
+                            @endif
                         </label>
-                        <input name="Operativos" class="focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="hh.tipo_servicio.operativos" type="checkbox">
-                        <label for="Operativos">Operativos</label>
-                        <x-input-error for="hh.tipo_servicio.operativos" />
-                        <input name="especializados" class="focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="hh.tipo_servicio.especializados" type="checkbox">
-                        <x-input-error for="hh.tipo_servicio.especializados" />
-                        <label for="especializados">Especializados</label>
-                        <input name="Ejecutivos" class="focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="hh.tipo_servicio.ejecutivos" type="checkbox">
-                        <label for="Ejecutivos">Ejecutivos</label>
-                        <x-input-error for="hh.tipo_servicio.ejecutivos" />
 
+                        {{-- Servicios Ejecutivos --}}
+                        <label class="mb-2 text-sm font-bold tracking-wide text-center text-gray-700 uppercase ">
+                            <input type="checkbox"
+                                class="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-red-500 checked:bg-red-500 checked:before:bg-red-500 hover:before:opacity-10"
+                                name="" id="" wire:model.live='mostrarEjecutivo'>
+                            <span>Servicios ejecutivos</span>
+                            @if ($mostrarEjecutivo == true)
+                                <input
+                                    class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                                    wire:model.defer="hh.tipo_servicio.ejecutivos" type="number">
+                                <x-input-error for="hh.tipo_servicio.ejecutivos" />
+                            @endif
+                        </label>
                     </div>
                 </div>
-                <div class="grid justify-center w-full grid-cols-3 gap-4 px-10 py-4 bg-white rounded-lg shadow-lg">
-                    {{-- Operativos --}}
-                    <div class="mx-2">
-                        <label class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
-                            Operativos
-                        </label>
-                        <input
-                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="hh.operativos" type="number">
-                        <x-input-error for="hh.operativos" />
-                    </div>
-                    {{-- Especializados --}}
-                    <div class="mx-2">
-                        <label class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
-                            Especializados
-                        </label>
-                        <input
-                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="hh.especializados" type="number">
-                        <x-input-error for="hh.especializados" />
-                    </div>
-                    {{-- Ejecutivos --}}
-                    <div class="mx-2">
-                        <label class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
-                            Ejecutivos
-                        </label>
-                        <input
-                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="hh.ejecutivos" type="number">
-                        <x-input-error for="hh.ejecutivos" />
-                    </div>
-                </div>
-                <div class="grid justify-center w-full grid-cols-3 gap-4 px-10 py-4 bg-white rounded-lg shadow-lg">
-                    {{-- Numero de pedido --}}
-                    <div class="mx-2">
-                        <label class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
-                            Numero de pedido
-                        </label>
-                        <input
-                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="hh.numero_pedido" type="text">
-                        <x-input-error for="hh.numero_pedido" />
-                    </div>
-                    {{-- Total de Vacantes --}}
-                    <div class="mx-2">
-                        <label class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
-                            Total de Vacantes
-                        </label>
-                        {{-- <input
+        </div>
+        <div class="grid justify-center w-full grid-cols-3 gap-4 px-10 py-4 bg-white rounded-lg shadow-lg">
+            {{-- Operativos --}}
+            <div class="mx-2">
+                <label class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
+                    Operativos
+                </label>
+                <input
+                    class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                    wire:model.defer="hh.operativos" type="number">
+                <x-input-error for="hh.operativos" />
+            </div>
+            {{-- Especializados --}}
+            <div class="mx-2">
+                <label class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
+                    Especializados
+                </label>
+                <input
+                    class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                    wire:model.defer="hh.especializados" type="number">
+                <x-input-error for="hh.especializados" />
+            </div>
+            {{-- Ejecutivos --}}
+            <div class="mx-2">
+                <label class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
+                    Ejecutivos
+                </label>
+                <input
+                    class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                    wire:model.defer="hh.ejecutivos" type="number">
+                <x-input-error for="hh.ejecutivos" />
+            </div>
+        </div>
+        <div class="grid justify-center w-full grid-cols-3 gap-4 px-10 py-4 bg-white rounded-lg shadow-lg">
+            {{-- Numero de pedido --}}
+            <div class="mx-2">
+                <label class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
+                    Numero de pedido
+                </label>
+                <input
+                    class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                    wire:model.defer="hh.numero_pedido" type="text">
+                <x-input-error for="hh.numero_pedido" />
+            </div>
+            {{-- Total de Vacantes --}}
+            <div class="mx-2">
+                <label class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
+                    Total de Vacantes
+                </label>
+                {{-- <input
                                 class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
                                 wire:model.defer="hh.total_vacantes" type="text" readonly>
                             <x-input-error for="hh.total_vacantes" /> --}}
-                    </div>
+            </div>
+            {{-- Botones --}}
+            <div class="flex items-center justify-center">
+                <div x-data="{ show: true }" x-show="show" x-transition x-init="@this.on('message', () => {
+                    show = false;
+                });">
+                    <button wire:click="saveHead()"
+                        class="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 m-2">
+                        Agregar
+                    </button>
+                    <a href="{{ url('/crm/crm-inicio') }}" x-data x-show="!show" x-transition
+                        class="px-4 py-2 font-bold text-white bg-red-500 rounded btn hover:bg-red-700 m-2">
+                        Ir a inicio
+                    </a>
                 </div>
-                {{-- Botones --}}
-                <div class="flex items-center justify-center">
-                    <div x-data="{ show: true }" x-show="show" x-transition x-init="@this.on('message', () => {
-                        show = false;
-                    });">
-                        <button wire:click="saveHead()"
-                            class="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 m-2">
-                            Agregar
-                        </button>
-                        <a href="{{ url('/crm/crm-inicio') }}" x-data x-show="!show" x-transition
-                            class="px-4 py-2 font-bold text-white bg-red-500 rounded btn hover:bg-red-700 m-2">
-                            Ir a inicio
-                        </a>
-                    </div>
-                    <div x-data="{ show: false }" x-show="show" x-transition x-init="@this.on('message', () => {
-                        show = true;
-                    });"
-                        class="justify-center flexed bottom-4 left-1/2 transform -translate-x-1/2  bg-green-100 border-t border-b border-green-500 text-green-700 px-4 py-3"
-                        role="alert">
-                        <p class="text-sm">Lead registado con éxito</p>
-                    </div>
+                <div x-data="{ show: false }" x-show="show" x-transition x-init="@this.on('message', () => {
+                    show = true;
+                });"
+                    class="justify-center flexed bottom-4 left-1/2 transform -translate-x-1/2  bg-green-100 border-t border-b border-green-500 text-green-700 px-4 py-3"
+                    role="alert">
+                    <p class="text-sm">Lead registado con éxito</p>
                 </div>
-            @endfor
+            </div>
+            <div x-data="{ show: false }" x-show="show" x-transition x-init="@this.on('message', () => {
+                show = true;
+            });"
+                class="justify-center flexed bottom-4 left-1/2 transform -translate-x-1/2  bg-green-100 border-t border-b border-green-500 text-green-700 px-4 py-3"
+                role="alert">
+                <p class="text-sm">Lead registado con éxito</p>
+            </div>
         </div>
     </div>
-@endif
+@endfor
+
 
 @if ($paginacion == 4)
     <div id="form4">
@@ -658,17 +787,27 @@
                             wire:model.defer="nom035.ejecutivos" type="number">
                         <x-input-error for="nom035.ejecutivos" />
                     </div>
-                </div>
-                <div class="grid justify-center w-full grid-cols-3 gap-4 px-10 py-4 bg-white rounded-lg shadow-lg">
-                    {{-- Numero de pedido --}}
-                    <div class="mx-2">
-                        <label class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
-                            Numero de pedido
-                        </label>
-                        <input
-                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="nom035.numero_pedido" type="text">
-                        <x-input-error for="nom035.numero_pedido" />
+                    {{-- Botones --}}
+                    <div class="flex items-center justify-center">
+                        <div x-data="{ show: true }" x-show="show" x-transition x-init="@this.on('message', () => {
+                            show = false;
+                        });">
+                            <button wire:click="saveLead()"
+                                class="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 m-2">
+                                Agregar
+                            </button>
+                            <a href="{{ url('/crm/crm-inicio') }}" x-data x-show="!show" x-transition
+                                class="px-4 py-2 font-bold text-white bg-red-500 rounded btn hover:bg-red-700 m-2">
+                                Ir a inicio
+                            </a>
+                        </div>
+                        <div x-data="{ show: false }" x-show="show" x-transition x-init="@this.on('message', () => {
+                            show = true;
+                        });"
+                            class="justify-center flexed bottom-4 left-1/2 transform -translate-x-1/2  bg-green-100 border-t border-b border-green-500 text-green-700 px-4 py-3"
+                            role="alert">
+                            <p class="text-sm">Lead registado con éxito</p>
+                        </div>
                     </div>
                     {{-- Total de Vacantes --}}
                     <div class="mx-2">
@@ -707,4 +846,3 @@
         </div>
     </div>
 @endif
-</div>
