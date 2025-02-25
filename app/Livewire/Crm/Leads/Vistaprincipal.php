@@ -20,23 +20,22 @@ use PhpOffice\PhpSpreadsheet\Style\ConditionalFormatting\Wizard\Duplicates;
 class Vistaprincipal extends Component
 {
     public $guardarlead, $nuevoEsmart = [], $nuevoTraining = [];
-    public $training = [];
     public $paginacion;
     public $duplicados = 1;
     public $consulta;
+    public $pedido;
     public $empresas;
     //variable gobal para almacenar lead
     public $empresaSeleccionada, $fechaseleccionada;
-    public $hh = [];
-    public $nom035 = [];
+    public $hh = [], $nom035 = [], $lead = [], $esmart = [[]], $training = [];
     public $datosfis;
     public $consultahh;
     public $consultanom035;
     public $leadGlobal;
-    public $lead = [];
-    public $esmart = [[]];
     public $recuperarLead;
+    public $mostrarOperativo = false;
     public $show = false;
+    public $curso=[];
 
     protected $rules = [
         //TABLA LEADSCLIENTES
@@ -77,6 +76,11 @@ class Vistaprincipal extends Component
         'nom035.ejecutivos' => 'required',
         'nom035.numero_pedido' => 'required',
         'nom035.users_id' => 'required',
+        // esmart university
+        'esmart.fecha'=> 'required',
+        'esmart.hora'=> 'required',
+        'esmart.numero_pedido'=> 'required',
+        'esmart.user_id'=> 'required',
     ];
 
     public function mount()
@@ -88,6 +92,7 @@ class Vistaprincipal extends Component
             $this->lead['numero_lead'] = $this->consulta->numero_lead + 1;
         }
 
+        $this->pedido = EsmartLevantamiento::where('numero_pedido')->orderBy('id', 'desc')->first();
         if (empty($this->pedido)) {
             $this->esmart['numero_pedido'] = 1;
         } else {
@@ -101,11 +106,20 @@ class Vistaprincipal extends Component
         $this->lead['fecha_y_hora'] = Carbon::now()->format('Y-m-d H:s:i');
         $this->lead['tipo'] = 'Lead';
 
+        $this->esmart['users_id'] = Auth::user()->id;
+        $this->esmart['fecha_y_hora'] = Carbon::now()->format('Y-m-d H:s:i');
+        $this->esmart['tipo'] = 'Lead';
+
         $this->hh['fecha'] = Carbon::now()->format('Y-m-d');
         $this->hh['hora'] = Carbon::now()->format('H:s:i');
         $this->hh['users_id'] = Auth::user()->id;
 
         $this->paginacion = 0;
+        $this->curso = 0;
+        // if($this->hh['tipo_servicio']==false)
+        // {
+
+        // }
     }
 
     public function guardarEsmart()
@@ -117,7 +131,15 @@ class Vistaprincipal extends Component
         }
 
         $this->validate([
+            'lead.nombre_contacto' => 'required|string|max:255',
+            'lead.numero_cliente' => 'required|string|max:255',
+            'lead.fecha' => 'required|date',
+            'lead.nombre_empresa' => 'required|string|max:50',
+            'lead.puesto' => 'required|string|max:255',
+            'lead.correo' => 'required|email|max:255',
+            'lead.telefono' => 'required|string|max:10',
             'esmart.*.tamaño_empresa' => 'required|string|max:45',
+            'esmart.*.numero_pedido'=> 'required|dacimal',
             'esmart.*.fecha' => 'required|date',
             
         ]);
@@ -133,10 +155,7 @@ class Vistaprincipal extends Component
         foreach ($this->esmart as $index => $esmartt) {
             $this->esmartt['leadcliente_id'] = $guardarlead->id;
             $this->esmartt['users_id'] = Auth::id();
-            $this->esmartt['nombre_cliente'] = $this->lead['nombre_contacto'];
-            $this->esmartt['nombre_empresa'] = $this->lead['nombre_empresa'];
-            $this->esmartt['telefono_cliente'] = $this->lead['telefono'];
-            $this->esmartt['correo_cliente'] = $this->lead['correo'];
+
             $guardarSmart = new EsmartLevantamiento($esmartt);
             $guardarSmart->save();
         }
@@ -219,10 +238,16 @@ class Vistaprincipal extends Component
         $this->duplicados = $cantidad;
     }
 
+    public function nuevo()
+    {
+        $this->curso = 1;
+    }
+
     public function uno()
     {
         $this->paginacion = 1;
     }
+
     public function dos()
     {
         $this->paginacion = 2;

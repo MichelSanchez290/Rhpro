@@ -31,9 +31,9 @@ return new class extends Migration
             $table->date('fecha');
             $table->time('hora');
             $table->decimal('total_vacantes');
-            $table->decimal('operativos');
-            $table->decimal('especializados');
-            $table->decimal('ejecutivos');
+            $table->decimal('operativos')->nullable();
+            $table->decimal('especializados')->nullable();
+            $table->decimal('ejecutivos')->nullable();
             $table->decimal('numero_pedido');
             $table->foreignId('users_id')
                 ->constrained()
