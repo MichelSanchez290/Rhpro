@@ -21,7 +21,7 @@
     <main class="w-full md:w-[calc(100%-256px)] md:ml-64 transition-all main">
         @include('searchbar')
         <!-- Content -->
-        <div class="pt-5">
+        <div class="pt-5">zz
             <main class="">
                 {{ $slot }}
             </main>

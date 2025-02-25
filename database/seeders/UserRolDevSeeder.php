@@ -305,6 +305,7 @@ class UserRolDevSeeder extends Seeder
         Permission::create(['name'=>'Tipo activo'])->syncRoles([$role1]);
         // ************** FIN MODULO ACTIVO TECNOLOGIA ***************************************
 
+
         
     }
 }

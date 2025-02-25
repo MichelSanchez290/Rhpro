@@ -46,7 +46,7 @@ class AgregarEncuestaPreguntaEncpreAdministrador extends Component
                           ->exists();
 
             if ($existe) {
-                $this->dispatch('toastr-error', message: 'Esta combinación de encuesta y pregunta ya existe.');
+                $this->dispatch('toastr-error',  'Esta combinación de encuesta y pregunta ya existe.');
                 return;
             }
 
@@ -60,13 +60,13 @@ class AgregarEncuestaPreguntaEncpreAdministrador extends Component
             ];
 
             // Notificación de éxito
-            $this->dispatch('toastr-success', message: 'Relación guardada correctamente.');
+            $this->dispatch('toastr-success',  'Relación guardada correctamente.');
             
             // Redireccionar
             return redirect()->route('portal360.encpre.encuesta-pregunta-encpre-administrador.mostrar-encuesta-pregunta-encpre-administrador');
 
         } catch (\Exception $e) {
-            $this->dispatch('toastr-error', message: 'Error al guardar: ' . $e->getMessage());
+            $this->dispatch('toastr-error',  'Error al guardar: ' . $e->getMessage());
         }
     }
 
