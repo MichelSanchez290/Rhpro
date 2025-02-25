@@ -15,13 +15,26 @@ return new class extends Migration
             $table->string('tipo_necesidades');
             $table->date('fecha_tentativa');
             $table->decimal('presupuesto');
-            $table->unsignedBigInteger('tipo_servicios_id');
-            $table->foreign('tipo_servicios_id')
-                ->references('id')
-                ->on('tipo_servicios')
+            $table->foreignId('tipo_servicios_id')
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade'); 
+            $table->foreignId('sucursales_id')
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');            
+            $table->foreignId('empresa_id')
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');   
+            $table->foreignId('leads_clientes_id')
+                ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            
+            $table->foreignId('users_id')
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -30,6 +43,10 @@ return new class extends Migration
     {
         Schema::table('levantamiento_otros', function (Blueprint $table) {
             $table->dropColumn(['tipo_servicios_id']);
+            $table->dropForeign(['empresa_id']);
+            $table->dropColumn('leads_clientes_id');
+            $table->dropForeign(['users_id']);
+            $table->dropForeign(['sucursales_id']);
         });
         Schema::dropIfExists('levantamiento_otros');
     }

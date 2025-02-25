@@ -2,6 +2,10 @@
 
 namespace App\Models\PortalRH;
 
+use App\Models\Crm\EsmartLevantamiento;
+use App\Models\Crm\HeadLevantamientosPedido;
+use App\Models\Crm\Nom035Levpedido;
+use App\Models\Crm\TrainingLevantamiento;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -81,9 +85,28 @@ class Sucursal extends Model
         return $this->hasMany(Instructor::class);
     }
 
-
     public function contactoSucursal()
     {
         return $this->belongsToMany(ContactoSucursal::class);
+    }
+
+    public function esmartlevantamientos()
+    {
+        return $this->hasMany(EsmartLevantamiento::class);
+    }
+    
+    public function traininglevantamientos()
+    {
+        return $this->hasMany(TrainingLevantamiento::class);
+    }
+    
+    public function headlevantamientospedidos()
+    {
+        return $this->hasMany(HeadLevantamientosPedido::class);
+    }
+
+    public function nom035levpedidos()
+    {
+        return $this->hasMany(Nom035Levpedido::class);
     }
 }

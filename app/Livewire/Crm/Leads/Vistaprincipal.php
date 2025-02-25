@@ -55,9 +55,22 @@ class Vistaprincipal extends Component
         'lead.puesto_contacto_2' => 'required',
         //'lead.tipo' => 'required',
         //TABLA Head Levantamiento de pedidos
-        'hh.tipo_servicio.operativos' => 'boolean',
-        'hh.tipo_servicio.especializados' => 'boolean',
-        'hh.tipo_servicio.ejecutivos' => 'boolean',
+        'hh.numero_lead' => 'required',
+        'hh.nombre_cliente' => 'required',
+        'hh.medios_cesrh' => 'required',
+        'hh.fecha_y_hora' => 'required',
+        'hh.puesto' => 'required',
+        'hh.correo' => 'required',
+        'hh.correo_2' => 'required',
+        'hh.telefono' => 'required',
+        'hh.telefono_2' => 'required',
+        'hh.nombre_contacto_2' => 'required',
+        'hh.puesto_contacto_2' => 'required',
+        'hh.tipo' => 'required',
+        'hh.tipo_servicio' => 'required',
+        // 'hh.tipo_servicio.operativos' => 'boolean',
+        // 'hh.tipo_servicio.especializados' => 'boolean',
+        // 'hh.tipo_servicio.ejecutivos' => 'boolean',
         'hh.fecha' => 'required',
         'hh.hora' => 'required',
         // 'hh.total_vacantes' => 'required',
@@ -66,6 +79,9 @@ class Vistaprincipal extends Component
         'hh.ejecutivos' => 'required',
         'hh.numero_pedido' => 'required',
         'hh.users_id' => 'required',
+        'hh.leads_clientes_id' => 'required',
+        'hh.sucursales_id' => 'required',
+        'hh.empresa_id' => 'required',
         //TABLA NOM 035
         'nom035.tipo_servicio.operativos' => 'boolean',
         'nom035.tipo_servicio.especializados' => 'boolean',
@@ -88,7 +104,13 @@ class Vistaprincipal extends Component
         } else {
             $this->lead['numero_lead'] = $this->consulta->numero_lead + 1;
         }
-        $this->consultahh = HeadLevantamientosPedido::get()->sum('operativos','especializados','ejecutivos');
+
+        if (empty($this->pedido)) {
+            $this->esmart['numero_pedido'] = 1;
+        } else {
+            $this->esmart['numero_pedido'] = $this->pedido->numero_pedido + 1;
+        }
+
         // $this->consultanom035 = Nom035Levpedido::get();
         $this->empresas = CrmEmpresa::all();
 
@@ -96,9 +118,10 @@ class Vistaprincipal extends Component
         $this->lead['fecha_y_hora'] = Carbon::now()->format('Y-m-d H:s:i');
         $this->lead['tipo'] = 'Lead';
 
-        $this->hh['fecha'] = Carbon::now()->format('Y-m-d');
-        $this->hh['hora'] = Carbon::now()->format('H:s:i');
+        $this->hh['fecha_y_hora'] = Carbon::now()->format('Y-m-d H:s:i');
         $this->hh['users_id'] = Auth::user()->id;
+        $this->hh['tipo'] = 'Cliente';
+
         $this->paginacion = 0;
         // if($this->hh['tipo_servicio']==false)
         // {
@@ -115,20 +138,9 @@ class Vistaprincipal extends Component
         }
 
         $this->validate([
-            'lead.nombre_contacto' => 'required|string|max:255',
-            'lead.numero_cliente' => 'required|string|max:255',
-            'lead.fecha' => 'required|date',
-            'lead.nombre_empresa' => 'required|string|max:50',
-            'lead.puesto' => 'required|string|max:255',
-            'lead.correo' => 'required|email|max:255',
-            'lead.telefono' => 'required|string|max:10',
             'esmart.*.tamaño_empresa' => 'required|string|max:45',
-            'esmart.*.primera_o_recompra' => 'required|string|max:45',
-            'esmart.*.responsable_comercial' => 'required|string|max:255',
-            'esmart.*.medio_cesrh' => 'required|string|max:255',
-            'esmart.*.giro_empresa' => 'required|string|max:255',
-            'esmart.*.ubicacion_empresa' => 'required|string|max:255',
             'esmart.*.fecha' => 'required|date',
+
         ]);
 
 
@@ -271,34 +283,24 @@ class Vistaprincipal extends Component
     public function saveHead()
     {
         // dd($this->hlevped);
-        // $this->validate();
-        // foreach ($this->hh as $index => $head) {
-        //     // $head['nombre_cliente'] = $this->recuperarLead->nombre_contacto;
-        //     $head['puesto'] = $this->recuperarLead->puesto;
-        //     $head['empresa'] = $this->recuperarLead->datos_id;
-        //     $head['leadCli_id'] = $this->recuperarLead->id;
-        //     $head['fecha'] = $this->recuperarLead->fecha;
-        //     $AgregarHead = new HeadLevantamientosPedido($head);
-
-        //     $AgregarHead->save();
-        //     $this->hh = [];
-        //      $AgregarHead = new HeadLevantamientosPedido($head);
-        // }
-        $this->validate([
-            'hh.tipo_servicio.operativos' => 'boolean',
-            'hh.tipo_servicio.especializados' => 'boolean',
-            'hh.tipo_servicio.ejecutivos' => 'boolean',
-            'hh.fecha' => 'required',
-            'hh.hora' => 'required',
-            'hh.operativos' => 'required',
-            'hh.especializados' => 'required',
-            'hh.ejecutivos' => 'required',
-            'hh.numero_pedido' => 'required',
-            'hh.users_id' => 'required',
-        ]);
-        $AgregarHead = new HeadLevantamientosPedido($this->hh);
-        $AgregarHead->save();
-        $this->hh = [];
+        $this->validate();
+        foreach ($this->hh as $index => $head) {
+            $head['numero_lead'] = $this->recuperarLead->numero_lead;
+            $head['nombre_cliente'] = $this->recuperarLead->nombre_contacto;
+            $head['medios_cesrh'] = $this->recuperarLead->medios_cesrh;
+            $head['puesto'] = $this->recuperarLead->puesto;
+            $head['correo'] = $this->recuperarLead->correo;
+            $head['correo_2'] = $this->recuperarLead->correo_2;
+            $head['telefono'] = $this->recuperarLead->telefono;
+            $head['telefono'] = $this->recuperarLead->telefono_2;
+            $head['nombre_contacto_2'] = $this->recuperarLead->nombre_contacto_2;
+            $head['puesto_contacto_2'] = $this->recuperarLead->puesto_contacto_2;
+            $head['empresa'] = $this->recuperarLead->datos_id;
+            $head['leadCli_id'] = $this->recuperarLead->id;
+            $AgregarHead = new HeadLevantamientosPedido($head);
+            $AgregarHead->save();
+            $this->hh = [];
+        }
     }
 
 

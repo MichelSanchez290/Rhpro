@@ -2,6 +2,8 @@
 
 namespace App\Models\Crm;
 
+use App\Models\Empresa;
+use App\Models\PortalRH\Sucursal;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,9 +18,9 @@ class HeadLevantamientosPedido extends Model
 
     //especifica las columnas
     protected $fillable = [
-        'id', 'tipo_servicio', 'fecha',
-        'hora', 'total_vacantes', 'operativos',
-        'ejecutivos', 'numero_pedido'
+    'id','fecha', 'hora', 'numero_pedido', 'users_id', 'leads_clientes_id', 'sucursales_id', 'empresa_id',
+    'numero_lead', 'nombre_cliente','medios_cesrh','fecha_y_hora','puesto','correo','correo_2','telefono','telefono_2',
+    'nombre_contacto_2','puesto_contacto_2','tipo',
     ];
 
     public function leadscliente()
@@ -39,5 +41,15 @@ class HeadLevantamientosPedido extends Model
     public function serviciosoperativo()
     {
         return $this->hasMany(ServiciosOperativo::class);
+    }
+
+    public function empresa()
+    {
+        return $this->hasMany(Empresa::class);
+    }
+
+    public function sucursal()
+    {
+        return $this->hasMany(Sucursal::class);
     }
 }
