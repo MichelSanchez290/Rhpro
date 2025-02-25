@@ -384,48 +384,47 @@
                                 Tipo de servicio
                             </h2>
                             {{-- Servicios operativos --}}
-                            <select name="" id="" wire:model.defer="hh.tipo_servicio">
-                                <option value="0">Seleccione una opcion</option>
-                                <option value="1">---------------</option>
-                                <option value="operativos">Operativos</option>
-                                <option value="ejec">Ejecutivos</option>
-                                <option value="">Especializados</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="grid justify-center w-full grid-cols-3 gap-4 px-10 py-4 bg-white rounded-lg shadow-lg">
-                        {{-- Operativos --}}
-                        <div class="mx-2">
-                            <label
-                                class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
-                                Operativos
+                            <label class="mb-2 text-sm font-bold tracking-wide text-center text-gray-700 uppercase">
+                                <input type="checkbox"
+                                    class="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-red-500 checked:bg-red-500 checked:before:bg-red-500 hover:before:opacity-10"
+                                    name="" id="" wire:model.live='mostrarOperativo'>
+                                <span>Servicios operativos</span>
+                                <x-input-error for="hh.tipo_servicio.operativos" />
+                                {{-- Input Operativos --}}
+                                @if ($mostrarOperativo == true)
+                                    <input
+                                        class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                                        wire:model.defer="hh.tipo_servicio.operativos" type="number">
+                                    <x-input-error for="hh.tipo_servicio.operativos" />
+                                @endif
                             </label>
-                            <input
-                                class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                                wire:model.defer="hh.operativos" type="number">
-                            <x-input-error for="hh.operativos" />
-                        </div>
-                        {{-- Especializados --}}
-                        <div class="mx-2">
-                            <label
-                                class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
-                                Especializados
+                            {{-- Servicios Espescializados --}}
+                            <label class="mb-2 text-sm font-bold tracking-wide text-center text-gray-700 uppercase ">
+                                <input type="checkbox"
+                                    class="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-red-500 checked:bg-red-500 checked:before:bg-red-500 hover:before:opacity-10"
+                                    name="" id="" wire:model.live='mostrarEspecializado'>
+                                <span>Servicios especializados</span>
+                                @if ($mostrarEspecializado == true)
+                                    <input
+                                        class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                                        wire:model.defer="hh.tipo_servicio.especializados" type="number">
+                                    <x-input-error for="hh.tipo_servicio.especializados" />
+                                @endif
                             </label>
-                            <input
-                                class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                                wire:model.defer="hh.especializados" type="number">
-                            <x-input-error for="hh.especializados" />
-                        </div>
-                        {{-- Ejecutivos --}}
-                        <div class="mx-2">
-                            <label
-                                class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
-                                Ejecutivos
+
+                            {{-- Servicios Ejecutivos --}}
+                            <label class="mb-2 text-sm font-bold tracking-wide text-center text-gray-700 uppercase ">
+                                <input type="checkbox"
+                                    class="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-red-500 checked:bg-red-500 checked:before:bg-red-500 hover:before:opacity-10"
+                                    name="" id="" wire:model.live='mostrarEjecutivo'>
+                                <span>Servicios ejecutivos</span>
+                                @if ($mostrarEjecutivo == true)
+                                    <input
+                                        class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                                        wire:model.defer="hh.tipo_servicio.ejecutivos" type="number">
+                                    <x-input-error for="hh.tipo_servicio.ejecutivos" />
+                                @endif
                             </label>
-                            <input
-                                class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                                wire:model.defer="hh.ejecutivos" type="number">
-                            <x-input-error for="hh.ejecutivos" />
                         </div>
                     </div>
                     <div class="grid justify-center w-full grid-cols-3 gap-4 px-10 py-4 bg-white rounded-lg shadow-lg">

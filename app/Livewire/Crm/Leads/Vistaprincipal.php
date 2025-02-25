@@ -36,7 +36,7 @@ class Vistaprincipal extends Component
     public $lead = [];
     public $esmart = [[]];
     public $recuperarLead;
-    public $mostrarOperativo = false;
+    public $mostrarOperativo = false, $mostrarEspecializado = false, $mostrarEjecutivo = false;
     public $show = false;
 
     protected $rules = [
