@@ -41,14 +41,27 @@ final class BecarioTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Becario::query()
-        ->leftJoin('users', 'becarios.user_id', '=', 'users.id')
-        ->leftJoin('registros_patronales', 'becarios.registro_patronal_id', '=', 'registros_patronales.id')
-        ->select([
-            'becarios.*',
-            'users.name as nombre_usuario',
-            'registros_patronales.registro_patronal as regpatronal'
-        ]);
+        $user = Auth::user();
+    
+        $query = Becario::query()
+            ->leftJoin('users', 'becarios.user_id', '=', 'users.id')
+            ->leftJoin('registros_patronales', 'becarios.registro_patronal_id', '=', 'registros_patronales.id')
+            ->leftJoin('departamentos', 'users.departamento_id', '=', 'departamentos.id')
+            ->leftJoin('puestos', 'users.puesto_id', '=', 'puestos.id')
+            ->select([
+                'becarios.*',
+                'users.name as nombre_usuario',
+                'registros_patronales.registro_patronal as regpatronal',
+                'departamentos.nombre_departamento as departamento',
+                'puestos.nombre_puesto as puesto',
+            ]);
+
+        // 🔹 Filtrar por departamento si es Trabajador PORTAL RH, Trabajador GLOBAL o Practicante
+        if ($user->hasRole(['Trabajador PORTAL RH', 'Trabajador GLOBAL', 'Practicante'])) {
+            $query->where('becarios.departamento_id', $user->departamento_id);
+        }
+
+        return $query;
     }
 
     public function relationSearch(): array
@@ -80,6 +93,10 @@ final class BecarioTable extends PowerGridComponent
             ->add('nombre_usuario')
             ->add('registro_patronal_id')
             ->add('regpatronal')
+            ->add('departamento_id')
+            ->add('departamento')
+            ->add('puesto_id')
+            ->add('puesto')
             ->add('created_at');
     }
 
@@ -92,7 +109,13 @@ final class BecarioTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
             
-            Column::make('User id', 'nombre_usuario'),
+            Column::make('Usuario', 'nombre_usuario'),
+
+            Column::make('Departamento', 'departamento'),
+
+            Column::make('Puesto', 'puesto'),
+
+            Column::make('Registro patronal', 'regpatronal'),
 
             Column::make('Numero seguridad social', 'numero_seguridad_social')
                 ->sortable()
@@ -147,8 +170,6 @@ final class BecarioTable extends PowerGridComponent
             Column::make('Colonia', 'colonia')
                 ->sortable()
                 ->searchable(),
-
-            Column::make('Registro patronal id', 'regpatronal'),
 
             Column::make('Created at', 'created_at')
                 ->sortable()

@@ -14,22 +14,157 @@
             </div>
 
             <form class="mt-5 mx-7">
+
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
-                    <!-- Usuario -->
                     <div class="grid grid-cols-1 mt-5">
-                        <label for="user_id"
-                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
-                            Usuario</label>
-                        <select wire:model.defer="user_id" id="user_id"
-                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-                            <option value=""> Seleccione un usuario </option>
-                            @foreach ($usuarios as $user)
-                                <option value="{{ $user->id }}">{{ $user->name }}</option>
-                            @endforeach
-                        </select>
+                        <label for="name"
+                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Nombre
+                        </label>
+                        <input wire:model.defer="user.name" type="text" id="name"
+                            placeholder="Nombre"
+                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"/>
+
+                        <x-input-error for="user.name" /> 
+                    </div>                    
+
+                    <div class="grid grid-cols-1 mt-5">
+                        <label for="email"
+                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Correo
+                        </label>
+                        <input wire:model.defer="user.email" type="email" id="email"
+                            placeholder="Correo"
+                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"/>
+
+                        <x-input-error for="user.email" /> 
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
+                    <!--  -->
+                    <div class="grid grid-cols-1 mt-5">
+                        <label for="Nueva contraseña"
+                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Password (SOLO SI ES NECESARIO)
+                        </label>
+                        <input wire:model.defer="password" type="password" id="password"
+                            placeholder="Password"
+                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"/>
+
+                        <x-input-error for="password" />
                     </div>
 
+                    <div class="grid grid-cols-1 mt-5">
+                        <label for="registro_patronal_id"
+                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
+                            Registros Patronales</label>
+                        <select wire:model.defer="registro_patronal_id" id="registro_patronal_id"
+                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                            <option value=""> --- Seleccione un Registro Patronal --- </option>
+                            @foreach ($registros_patronales as $registro_patronal)
+                                <option value="{{ $registro_patronal->id }}">
+                                    {{ $registro_patronal->registro_patronal }}</option>
+                            @endforeach
+                        </select>
+
+                        <x-input-error for="registro_patronal_id" />
+                        
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
                     <!--  -->
+                    <div class="grid grid-cols-1 mt-5">
+                        <label for="empresa"
+                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
+                            Empresa</label>
+                        <select wire:model.live="empresa" id="empresa"
+                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                            <option value=""> --- Seleccione una empresa --- </option>
+                            @foreach ($empresas as $empresa)
+                                <option value="{{ $empresa->id }}">{{ $empresa->nombre }}</option>
+                            @endforeach
+                        </select>
+
+                        <x-input-error for="empresa" />
+                    </div>
+
+                    <div class="grid grid-cols-1 mt-5">
+                        <label for="sucursal"
+                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
+                            Sucursal</label>
+                        <select wire:model.live="sucursal" id="sucursal"
+                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                            <option value=""> --- Seleccione una sucursal --- </option>
+                            @forelse ($sucursales as $sucursal)
+
+                                @foreach($sucursal->sucursales as $mi_sucursal)
+
+                                    <option value="{{ $mi_sucursal->id }}">{{ $mi_sucursal->nombre_sucursal }}
+                                    </option>
+                                @endforeach
+
+                            @empty
+                                <option value=""> Esta empresa no tiene sucursales </option>
+                            @endforelse
+                        </select>
+
+                        <x-input-error for="sucursal" />
+                    </div>
+                </div>
+
+                <!-- ***********************  -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
+                    <!--  -->
+                    <div class="grid grid-cols-1 mt-5">
+                        <label for="departamento"
+                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
+                            Departamento</label>
+                        <select wire:model.live="departamento" id="departamento"
+                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                            <option value=""> --- Seleccione un departamento --- </option>
+                            @forelse ($departamentos as $departamento)
+
+                                @foreach($departamento->departamentos as $mi_depa)
+
+                                    <option value="{{ $mi_depa->id }}">{{ $mi_depa->nombre_departamento }}
+                                    </option>
+                                @endforeach
+
+                            @empty
+                                <option value=""> Esta sucursal no tiene departamentos</option>
+                            @endforelse
+                        </select>
+
+                        <x-input-error for="departamento" />
+                    </div>
+
+
+                    <!--  -->
+                    <div class="grid grid-cols-1 mt-5">
+                        <label for="puesto_id"
+                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
+                            Puesto</label>
+                        <select wire:model.defer="user.puesto_id" id="puesto_id"
+                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                            <option value=""> --- Seleccione una sucursal --- </option>
+                            @forelse ($puestos as $puesto)
+
+                                @foreach($puesto->puestos as $mi_puesto)
+
+                                    <option value="{{ $mi_puesto->id }}">{{ $mi_puesto->nombre_puesto }}
+                                    </option>
+                                @endforeach
+
+                            @empty
+                                <option value=""> Esta empresa no tiene sucursales </option>
+                            @endforelse
+                        </select>
+
+                        <x-input-error for="user.puesto_id" />
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
+                    
                     <div class="grid grid-cols-1 mt-5">
                         <label for="telefono1"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Telefono 1
@@ -335,43 +470,17 @@
                     </div> 
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5"> 
-                    <!--  -->
-                    <div class="grid grid-cols-1 mt-5">
-                        <label for="sucursal_id"
-                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
-                            Sucursales</label>
-                        <select wire:model.defer="sucursal_id" id="sucursal_id"
-                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-                            <option value=""> --- Seleccione una Sucursal --- </option>
-                            @foreach ($sucursales as $sucursal)
-                                <option value="{{ $sucursal->id }}">{{ $sucursal->nombre_sucursal }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <!--  -->
-                    <div class="grid grid-cols-1 mt-5">
-                        <label for="departamento_id"
-                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
-                            Departamentos</label>
-                        <select wire:model.defer="departamento_id" id="departamento_id"
-                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-                            <option value=""> ---  Seleccione un departamento --- </option>
-                            @foreach ($departamentos as $departament)
-                                <option value="{{ $departament->id }}">{{ $departament->nombre_departamento }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                </div>
-
                 <!-- Botones -->
                 <div class='flex items-center justify-center md:gap-8 gap-4 pt-5 pb-5'>
 
                     <button type="button" wire:click="actualizarInstructor"
                         class='w-auto bg-blue-500 hover:bg-blue-700 rounded-lg shadow-xl font-medium text-white px-4 py-2'>
                         Actualizar
+                    </button>
+
+                    <button type="button" onclick="window.history.back()"
+                        class='w-auto bg-red-500 hover:bg-red-700 rounded-lg shadow-xl font-medium text-white px-4 py-2'>
+                        Cancelar
                     </button>
                 </div>
             </form>

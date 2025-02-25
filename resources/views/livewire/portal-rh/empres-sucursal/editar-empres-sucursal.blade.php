@@ -1,5 +1,5 @@
-<body class="bg-gray-200">
-    <div class="flex h-screen items-center justify-center">
+<div>
+    <div class="flex min-h-screen items-center justify-center py-3">
         <div class="grid bg-white rounded-lg shadow-xl w-full">
             <div class="flex justify-center py-4">
                 <div class="flex bg-blue-200 rounded-full md:p-4 p-2 border-2 border-blue-300">
@@ -26,6 +26,8 @@
                             <option value="{{ $empresa->id }}">{{ $empresa->nombre }}</option>
                         @endforeach
                     </select>
+
+                    <x-input-error for="empresa_id" />
                 </div>
 
                 <!-- Sucursal -->
@@ -39,6 +41,8 @@
                             <option value="{{ $sucursal->id }}">{{ $sucursal->nombre_sucursal }}</option>
                         @endforeach
                     </select>
+
+                    <x-input-error for="sucursal_id" />
                 </div>
 
                 <div class="grid grid-cols-1 mt-5">
@@ -50,6 +54,8 @@
                         <option value="Activo">Activo</option>
                         <option value="Inactivo">Inactivo</option>
                     </select>
+
+                    <x-input-error for="status" />
                 </div>
 
                 <!-- Botones -->
@@ -68,4 +74,4 @@
             </form>
         </div>
     </div>
-</body>
+</div>

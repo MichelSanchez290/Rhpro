@@ -107,7 +107,7 @@ class User extends Authenticatable
 
     public function incidencias()
     {
-        return $this->belongsToMany(Incidencia::class)->withPivot('user_id', 'incidencia_id');
+        return $this->belongsToMany(Incidencia::class, 'user_incidencia', 'user_id', 'incidencia_id')->withTimestamps();
     }
 
     public function retardos()

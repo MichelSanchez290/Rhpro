@@ -1,4 +1,4 @@
-<div class="bg-gray-200">
+<div>
     <div class="flex min-h-screen items-center justify-center py-3">
         <div class="grid bg-white rounded-lg shadow-xl w-full">
             <div class="flex justify-center py-4">

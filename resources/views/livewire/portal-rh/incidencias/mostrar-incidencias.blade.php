@@ -1,16 +1,17 @@
 <div class="p-6">
     <div class="flex justify-between items-center mb-6">
-        <h1 class="text-2xl font-semibold text-gray-800">Gestión de Roles</h1>
+        <h1 class="text-2xl font-semibold text-gray-800">Gestión de Incidencias</h1>
         
-        @can('Agregar Rol')
+        @can('Agregar Incidencia')
             <button wire:click="redirigir" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded">
-                Agregar Rol
+                Solicitar Incidencia
             </button>
         @endcan
         
     </div>
 
     
+
     <!-- Modal de confirmación -->
     <div id="modalConfirm"
         class="{{ $showModal ? '' : 'hidden' }} fixed z-50 inset-0 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full px-4">
@@ -31,9 +32,9 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
-                <h3 class="text-xl font-normal text-gray-500 mt-5 mb-6">¿Estás seguro de que deseas eliminar este
-                    Rol?</h3>
-                <button wire:click="deleteRol"
+                <h3 class="text-xl font-normal text-gray-500 mt-5 mb-6">¿Estás seguro de que deseas eliminar esta
+                    incidencia?</h3>
+                <button wire:click="deleteIncidencia"
                     class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-base inline-flex items-center px-3 py-2.5 text-center mr-2">
                     Sí, estoy seguro
                 </button>
@@ -46,6 +47,7 @@
         </div>
     </div>
 
-    <livewire:portalrh.rol.rol-table/>
+
+    <livewire:portalrh.incidencias.incidencia-table/>
 
 </div>

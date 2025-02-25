@@ -9,7 +9,7 @@ class SucursalDepartamento extends Model
 {
     use HasFactory;
 
-    protected $table = 'sucursal_departament';
+    protected $table = 'departamento_sucursal';
 
     //Define la clave primaria
     protected $primaryKey = 'id';

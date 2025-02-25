@@ -1,4 +1,4 @@
-<body class="bg-gray-200">
+<div>
     <div class="flex min-h-screen items-center justify-center py-3">
         <div class="grid bg-white rounded-lg shadow-xl w-full">
             <div class="flex justify-center py-4">
@@ -22,7 +22,9 @@
                     <input wire:model.defer="puest.nombre_puesto" type="text" id="nombre_puesto"
                         placeholder="Nombre del puesto"
                         class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
-                </div>
+                
+                        <x-input-error for="puest.nombre_puesto" />
+                    </div>
 
                 <!-- Botones -->
                 <div class='flex items-center justify-center md:gap-8 gap-4 pt-5 pb-5'>
@@ -39,4 +41,4 @@
             </form>
         </div>
     </div>
-</body>
+</div>

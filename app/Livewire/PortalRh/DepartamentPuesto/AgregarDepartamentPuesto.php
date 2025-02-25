@@ -40,7 +40,7 @@ class AgregarDepartamentPuesto extends Component
         $this->validate();
 
         // Insertar en la tabla pivote directamente con DB::table()
-        DB::table('departament_puest')->insert([
+        DB::table('departamento_puesto')->insert([
             'departamento_id' => $this->depaPuest['departamento_id'],
             'puesto_id' => $this->depaPuest['puesto_id'],
             'status' => $this->depaPuest['status'],
@@ -61,7 +61,7 @@ class AgregarDepartamentPuesto extends Component
     public function render()
     {
         return view('livewire.portal-rh.departament-puesto.agregar-departament-puesto', [
-            'departamentpuest' => DB::table('departament_puest')->get()
+            'departamentpuest' => DB::table('departamento_puesto')->get()
         ])->layout('layouts.client');
     }
 }

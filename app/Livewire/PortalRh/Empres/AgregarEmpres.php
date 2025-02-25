@@ -11,22 +11,6 @@ class AgregarEmpres extends Component
     public $empresa = []; //almacenar 
 
 
-    /*
-    public function mount(){
-        $prueba = Empresa::with('sucursales')->get();
-        //dd($prueba);
-
-
-
-        foreach($prueba as $p){
-
-            foreach($p->sucursales as $sucursales){
-                dd($sucursales->nombre_sucursal);
-            }
-            
-        }
-    } */
-
     // Reglas de validación
     protected $rules = [
         'empresa.nombre' => 'required',
@@ -38,8 +22,6 @@ class AgregarEmpres extends Component
         'empresa.url_constancia_situacion_fiscal' => 'required',
     ];
 
-
-    
     protected $messages = [
         'empresa.nombre.required' => 'El nombre es obligatorio.',
         'empresa.razon_social.required' => 'La razón social es obligatoria.',
