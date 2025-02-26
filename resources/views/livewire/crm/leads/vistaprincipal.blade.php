@@ -266,8 +266,8 @@
                         </label>
                         <input disabled
                             class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="lead.nombre_contacto" type="text">
-                        <x-input-error for="lead.nombre_contacto" />
+                            wire:model.defer="lead.nombre_cliente" type="text">
+                        <x-input-error for="lead.nombre_cliente" />
                     </div>
                     <div class="mx-2 text-center">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
@@ -373,7 +373,7 @@
             <div class="m-4 bg-white rounded-lg shadow-md shadow-gray-300">
                 @for ($i = 0; $i < $duplicados; $i++)
                     <div class="text-center">{{-- ENCABEZADO --}}
-                        <h1 class="p-10 text-3xl font-bold">
+                        <h1 class="p-10 text-2xl font-bold">
                             Formulario de HeadHunting
                         </h1>
                     </div>
@@ -383,6 +383,8 @@
                             <h2 class="mb-2 text-sm font-bold tracking-wide text-center text-cyan-700 uppercase ">
                                 Tipo de servicio
                             </h2>
+                        </div>
+                        <div class="mx-2">
                             {{-- Servicios operativos --}}
                             <label class="mb-2 text-sm font-bold tracking-wide text-center text-gray-700 uppercase">
                                 <input type="checkbox"
@@ -394,10 +396,13 @@
                                 @if ($mostrarOperativo == true)
                                     <input
                                         class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                                        wire:model.defer="hh.tipo_servicio.operativos" type="number">
-                                    <x-input-error for="hh.tipo_servicio.operativos" />
+                                        wire:model="hh.operativos" type="number"
+                                        placeholder="{{ $mensajesservicioshead }}">
+                                    <x-input-error for="hh.operativos" />
                                 @endif
                             </label>
+                        </div>
+                        <div class="mx-2">
                             {{-- Servicios Espescializados --}}
                             <label class="mb-2 text-sm font-bold tracking-wide text-center text-gray-700 uppercase ">
                                 <input type="checkbox"
@@ -407,11 +412,13 @@
                                 @if ($mostrarEspecializado == true)
                                     <input
                                         class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                                        wire:model.defer="hh.tipo_servicio.especializados" type="number">
-                                    <x-input-error for="hh.tipo_servicio.especializados" />
+                                        wire:model="hh.especializados" type="number"
+                                        placeholder="{{ $mensajesservicioshead }}">
+                                    <x-input-error for="hh.especializados" />
                                 @endif
                             </label>
-
+                        </div>
+                        <div class="mx-2">
                             {{-- Servicios Ejecutivos --}}
                             <label class="mb-2 text-sm font-bold tracking-wide text-center text-gray-700 uppercase ">
                                 <input type="checkbox"
@@ -421,8 +428,9 @@
                                 @if ($mostrarEjecutivo == true)
                                     <input
                                         class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                                        wire:model.defer="hh.tipo_servicio.ejecutivos" type="number">
-                                    <x-input-error for="hh.tipo_servicio.ejecutivos" />
+                                        wire:model="hh.ejecutivos" type="number"
+                                        placeholder="{{ $mensajesservicioshead }}">
+                                    <x-input-error for="eje" />
                                 @endif
                             </label>
                         </div>
@@ -433,22 +441,38 @@
                             <label
                                 class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
                                 Numero de pedido
+                                <input
+                                    class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                                    wire:model.defer="hh.numero_pedido" type="text" readonly>
+                                <x-input-error for="hh.numero_pedido" />
                             </label>
-                            <input
-                                class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                                wire:model.defer="hh.numero_pedido" type="text">
-                            <x-input-error for="hh.numero_pedido" />
                         </div>
                         {{-- Total de Vacantes --}}
                         <div class="mx-2">
                             <label
                                 class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
                                 Total de Vacantes
+                                {{-- <span class="grid justify-center w-full grid-cols-3 gap-4 px-10 py-4 bg-white rounded-lg shadow-lg">
+                                    {{ $op+$esp+$eje }}
+                                </span> --}}
+                                <input
+                                    class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                                    wire:model.defer="hh.total_vacantes" type="number">
+                                <x-input-error for="hh.total_vacantes" />
                             </label>
-                            {{-- <input
-                                class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                                wire:model.defer="hh.total_vacantes" type="text" readonly>
-                            <x-input-error for="hh.total_vacantes" /> --}}
+                        </div>
+                        <div class="mx-2">
+                            <label
+                                class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 ">
+                                <span class="text-sm">Sucursal</span>
+                                <select name="" id="" wire:model.defer ="hh.sucursal_id">
+                                    <option>Seleccione una opción</option>
+                                    <option value="0" disabled>-----------</option>
+                                    @foreach ($sucursales as $sucursal)
+                                        <option value="{{ $sucursal->id }}">{{ $sucursal->nombre_sucursal }}</option>
+                                    @endforeach
+                                </select>
+                            </label>
                         </div>
                     </div>
                     {{-- Botones --}}

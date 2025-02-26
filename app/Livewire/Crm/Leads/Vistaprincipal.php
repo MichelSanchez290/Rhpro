@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Crm\Leads;
 
+use App\Livewire\PortalRh\Sucursal\SucursalTable;
 use App\Models\Crm\CrmEmpresa;
 use App\Models\Crm\EsmartLevantamiento;
 use Livewire\Component;
@@ -11,11 +12,14 @@ use App\Models\Crm\LeadCliente;
 use App\Models\Crm\HeadLevantamientosPedido;
 use App\Models\Crm\Nom035Levpedido;
 use App\Models\Crm\TrainingLevantamiento;
+use App\Models\PortalRH\Sucursal;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
 use Livewire\Attributes\On;
 use Livewire\Livewire;
 use PhpOffice\PhpSpreadsheet\Style\ConditionalFormatting\Wizard\Duplicates;
+
+use function PHPUnit\Framework\isNull;
 
 class Vistaprincipal extends Component
 {
@@ -23,6 +27,7 @@ class Vistaprincipal extends Component
     public $paginacion;
     public $duplicados = 1;
     public $consulta;
+    public $pedido_hh, $vacantes_hh;
     public $pedido;
     public $empresas;
     //variable gobal para almacenar lead
@@ -34,8 +39,11 @@ class Vistaprincipal extends Component
     public $leadGlobal;
     public $recuperarLead;
     public $mostrarOperativo = false, $mostrarEspecializado = false, $mostrarEjecutivo = false;
+    public $mensajesservicioshead = "¿Cuántos necesita?";
     public $show = false;
-    public $curso=[];
+    public $totalvacantes;
+    public $curso = [];
+    public $v;
 
     protected $rules = [
         //TABLA LEADSCLIENTES
@@ -46,11 +54,7 @@ class Vistaprincipal extends Component
         'lead.crm_empresas_id' => 'required',
         'lead.puesto' => 'required',
         'lead.correo' => 'required',
-        'lead.correo_2' => 'required',
         'lead.telefono' => 'required',
-        'lead.telefono_2' => 'required',
-        'lead.nombre_contacto_2' => 'required',
-        'lead.puesto_contacto_2' => 'required',
         //'lead.tipo' => 'required',
         //TABLA Head Levantamiento de pedidos
         'hh.numero_lead' => 'required',
@@ -66,15 +70,9 @@ class Vistaprincipal extends Component
         'hh.puesto_contacto_2' => 'required',
         'hh.tipo' => 'required',
         'hh.tipo_servicio' => 'required',
-        // 'hh.tipo_servicio.operativos' => 'boolean',
-        // 'hh.tipo_servicio.especializados' => 'boolean',
-        // 'hh.tipo_servicio.ejecutivos' => 'boolean',
         'hh.fecha' => 'required',
         'hh.hora' => 'required',
-        // 'hh.total_vacantes' => 'required',
-        'hh.operativos' => 'required',
-        'hh.especializados' => 'required',
-        'hh.ejecutivos' => 'required',
+        'hh.total_vacantes' => 'required',
         'hh.numero_pedido' => 'required',
         'hh.users_id' => 'required',
         'hh.leads_clientes_id' => 'required',
@@ -93,20 +91,34 @@ class Vistaprincipal extends Component
         'nom035.numero_pedido' => 'required',
         'nom035.users_id' => 'required',
         // esmart university
-        'esmart.fecha'=> 'required',
-        'esmart.hora'=> 'required',
-        'esmart.numero_pedido'=> 'required',
-        'esmart.user_id'=> 'required',
+        'esmart.fecha' => 'required',
+        'esmart.hora' => 'required',
+        'esmart.numero_pedido' => 'required',
+        'esmart.user_id' => 'required',
     ];
 
     public function mount()
     {
+        // Establece el valor del numero de lead en 1 o le aumenta en 1 si ya no es nulo
         $this->consulta = LeadCliente::where('tipo', 'lead')->orderBy('id', 'desc')->first();
         if (empty($this->consulta)) {
             $this->lead['numero_lead'] = 1;
         } else {
             $this->lead['numero_lead'] = $this->consulta->numero_lead + 1;
         }
+
+        $this->consultasumahh = DB::select("SELECT campo1, campo2, campo3, (campo1 + campo2 + campo3) AS resultado FROM tabla_original");
+
+        // Establece el valor del numero de pedido para head hunting en 1 o le aumenta en 1 si ya no es nulo
+
+        $this->pedido_hh = HeadLevantamientosPedido::where('numero_pedido')->orderBy('id', 'desc')->first();
+        if (empty($this->pedido_hh)) {
+            $this->hh['numero_pedido'] = 1;
+        } else {
+            $this->hh['numero_pedido'] = $this->pedido_hh->numero_pedido + 1;
+        }
+
+        // Establece el valor del numero de pedido para esmart en 1 o le aumenta en 1 si ya no es nulo
 
         $this->pedido = EsmartLevantamiento::where('numero_pedido')->orderBy('id', 'desc')->first();
         if (empty($this->pedido)) {
@@ -115,7 +127,6 @@ class Vistaprincipal extends Component
             $this->esmart['numero_pedido'] = $this->pedido->numero_pedido + 1;
         }
 
-        // $this->consultanom035 = Nom035Levpedido::get();
         $this->empresas = CrmEmpresa::all();
 
         $this->lead['users_id'] = Auth::user()->id;
@@ -126,17 +137,13 @@ class Vistaprincipal extends Component
         $this->esmart['fecha_y_hora'] = Carbon::now()->format('Y-m-d H:s:i');
         $this->esmart['tipo'] = 'Lead';
 
-        $this->hh['fecha'] = Carbon::now()->format('Y-m-d');
-        $this->hh['hora'] = Carbon::now()->format('H:s:i');
+        $this->hh['fecha_y_hora'] = Carbon::now()->format('Y-m-d H:s:i');
         $this->hh['users_id'] = Auth::user()->id;
-        $this->hh['tipo'] = 'Cliente';
+        $this->hh['tipo'] = 'Lead';
+        $this->hh['total_vacantes'] = 1;
 
         $this->paginacion = 0;
         $this->curso = 0;
-        // if($this->hh['tipo_servicio']==false)
-        // {
-
-        // }
     }
 
     public function guardarEsmart()
@@ -156,7 +163,7 @@ class Vistaprincipal extends Component
             'lead.correo' => 'required|email|max:255',
             'lead.telefono' => 'required|string|max:10',
             'esmart.*.tamaño_empresa' => 'required|string|max:45',
-            'esmart.*.numero_pedido'=> 'required|dacimal',
+            'esmart.*.numero_pedido' => 'required|dacimal',
             'esmart.*.fecha' => 'required|date',
 
         ]);
@@ -303,11 +310,26 @@ class Vistaprincipal extends Component
 
     public function saveHead()
     {
-        // dd($this->hlevped);
+        dd($this->hh);
+        // dd($this->op);
+        //Si el checkbox es true, asígnale la cadena de texto operativo, especializado o ejecutivo
+        if ($this->mostrarOperativo == true) {
+            $this->hh['tipo_servicio'] = 'operativo';
+        }
+
+        if ($this->mostrarEspecializado == true) {
+            $this->hh['tipo_servicio'] = 'especializado';
+        }
+
+        if ($this->mostrarEjecutivo == true) {
+            $this->hh['tipo_servicio'] = 'ejecutivo';
+        }
         $this->validate();
+        $this->hh['total_vacantes'] =  $this->hh['operativos']+$this->hh['especializados']+$this->hh['ejecutivos'];
+        $this->totalvacantes = $this->hh['total_vacantes'];
         foreach ($this->hh as $index => $head) {
             $head['numero_lead'] = $this->recuperarLead->numero_lead;
-            $head['nombre_cliente'] = $this->recuperarLead->nombre_contacto;
+            $head['nombre_cliente'] = $this->recuperarLead->nombre_cliente;
             $head['medios_cesrh'] = $this->recuperarLead->medios_cesrh;
             $head['puesto'] = $this->recuperarLead->puesto;
             $head['correo'] = $this->recuperarLead->correo;
@@ -318,10 +340,19 @@ class Vistaprincipal extends Component
             $head['puesto_contacto_2'] = $this->recuperarLead->puesto_contacto_2;
             $head['empresa'] = $this->recuperarLead->datos_id;
             $head['leadCli_id'] = $this->recuperarLead->id;
-            $AgregarHead = new HeadLevantamientosPedido($head);
-            $AgregarHead->save();
-            $this->hh = [];
+            $head['sucursales_id'] = $this->recuperarLead->id;
+            $AgregarLeadenHead = new HeadLevantamientosPedido($head);
+            $AgregarLeadenHead->save();
         }
+        // foreach($this->hh as $index => $vacante){
+        //     $this->v=$vacante['total_vacantes']=$vacante['operativos']+$vacante['especializados']+$vacante['ejecutivos'];
+        // }
+        // $this->op = $this->hh['operativos'];
+        // $this->esp = $this->hh['especializados'];
+        // $this->eje = $this->hh['ejecutivos'];
+        // $this->hh['total_vacantes']=$this->sumacampos;
+        $AgregarHead = new HeadLevantamientosPedido();
+        $AgregarHead->save();
     }
 
 
@@ -349,6 +380,8 @@ class Vistaprincipal extends Component
 
     public function render()
     {
-        return view('livewire.crm.leads.vistaprincipal')->layout('layouts.crm');
+        return view('livewire.crm.leads.vistaprincipal', [
+            'sucursales' => Sucursal::get()
+        ])->layout('layouts.crm');
     }
 }
