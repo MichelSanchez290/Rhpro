@@ -12,8 +12,8 @@ return new class extends Migration {
             $table->id(); // Clave primaria
             $table->date('fecha');
             $table->time('hora');
-            $table->decimal('numero_pedido');
-            $table->foreignId('leads_clientes_id')
+            $table->integer('numero_pedido');
+            $table->foreignId('leads_clientes_id')->nullable()
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
@@ -21,11 +21,11 @@ return new class extends Migration {
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->foreignId('sucursales_id')
+            $table->foreignId('sucursales_id')->nullable()
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');            
-            $table->foreignId('empresa_id')
+            $table->foreignId('empresa_id')->nullable()
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');   
@@ -40,7 +40,8 @@ return new class extends Migration {
             $table->string('telefono_2')->nullable();
             $table->string('nombre_contacto_2')->nullable();
             $table->string('puesto_contacto_2')->nullable();
-            $table->string('tipo');
+            $table->string('tipo')->default('lead');
+
             // ------------------------------------------
             $table->timestamps();
         });

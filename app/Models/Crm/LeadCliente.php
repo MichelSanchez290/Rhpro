@@ -57,7 +57,7 @@ class LeadCliente extends Model
 
     public function EsmartLevantamientos()
     {
-        return $this->hasMany(EsmartLevantamiento::class);
+        return $this->hasMany(EsmartLevantamiento::class, 'leads_clientes_id');
     }
 
     public function traininglevantamientos()

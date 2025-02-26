@@ -92,7 +92,7 @@ class Sucursal extends Model
 
     public function esmartlevantamientos()
     {
-        return $this->hasMany(EsmartLevantamiento::class);
+        return $this->hasMany(EsmartLevantamiento::class, 'esmart_levantamientos_id');
     }
     
     public function traininglevantamientos()

@@ -15,12 +15,21 @@ class EsmartUniversity extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'nombre_curso','participantes','departamentos_participan','puestos_participan','fecha_habilitada',
-        'esmart_levantamientos_id','dc3_requieren','nuevo_existente','nuevo_curso','horas_nuevo','tipo_curso',
+        'nombre_curso',
+        'participantes',
+        'departamentos_participan',
+        'puestos_participan',
+        'fecha_habilitada',
+        'esmart_levantamientos_id',
+        'dc3_requieren',
+        'nuevo_existente',
+        'nuevo_curso',
+        'horas_nuevo',
+        'tipo_curso',
     ];
 
     public function esmarlevantamiento()
     {
-        return $this->hasMany(EsmartLevantamiento::class);
+        return $this->belongsTo(EsmartLevantamiento::class, 'esmart_levantamientos_id');
     }
 }
