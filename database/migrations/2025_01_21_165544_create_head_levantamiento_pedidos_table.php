@@ -28,8 +28,6 @@ return new class extends Migration
              $table->string('tipo');
              // ------------------------------------------
             $table->string('tipo_servicio');
-            $table->date('fecha');
-            $table->time('hora');
             $table->decimal('total_vacantes');
             $table->decimal('operativos')->nullable();
             $table->decimal('especializados')->nullable();
@@ -46,11 +44,11 @@ return new class extends Migration
             $table->foreignId('sucursales_id')
                 ->constrained()
                 ->onUpdate('cascade')
-                ->onDelete('cascade');            
+                ->onDelete('cascade');
             $table->foreignId('empresa_id')
                 ->constrained()
                 ->onUpdate('cascade')
-                ->onDelete('cascade');   
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

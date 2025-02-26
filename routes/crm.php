@@ -10,6 +10,7 @@ use App\Livewire\Crm\DatosFiscale\Eliminar\EliminarDatosFisc;
 use App\Livewire\Crm\DatosFiscale\Mostrar\MostrarDatosFisc;
 use App\Livewire\Crm\Inicio;
 use App\Livewire\Crm\Leads\Vistaprincipal;
+use App\Livewire\Crm\Levantamientos\Esmart\TableVistas\EsmartTabla;
 use App\Livewire\DatosFiscalesTable;
 use App\Livewire\LeadsCliente;
 use App\Livewire\Portal360\EliminarRolesDev;
@@ -68,3 +69,8 @@ Route::get(
     '/crm-leads',
     Vistaprincipal::class,
 )->name('Leads');
+
+Route::get(
+    '/esmart-levantamiento',
+    EsmartTabla::class,
+)->name('EsmartLevantamiento');

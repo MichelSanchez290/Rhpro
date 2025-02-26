@@ -148,12 +148,9 @@
                     Ir a inicio
                 </a>
             </div>
-            <div x-data="{ show: false }" x-show="show" x-transition x-init="@this.on('message', () => {
-                show = true;
-            });"
-                class="justify-center flexed bottom-4 left-1/2 transform -translate-x-1/2  bg-green-100 border-t border-b border-green-500 text-green-700 px-4 py-3"
-                role="alert">
-                <p class="text-sm">Lead registrado con éxito</p>
+            <div class="flexed bottom-4 left-1/2 transform -translate-x-1/2  bg-green-100 border-t border-b border-green-500 text-green-700 px-4 py-3"
+                x-data="{ show: false }" x-show="show" x-transition x-init="@this.on('message', () => { show = true; });" role="alert">
+                <p class="text-sm">Lead registado con éxito</p>
             </div>
         </div>
     </div>
@@ -698,11 +695,11 @@
                                     <i class="fas fa-spinner fa-spin fa-xl"></i>
                                 </span>
 
-                                <!-- Texto normal -->
-                                <span class="text-base font-medium text-white" wire:loading.remove
-                                    wire:target="eliminarEsmart({{ $i }})">
-                                    Eliminar
-                                </span>
+                                    <!-- Texto normal -->
+                                    <span class="text-base font-medium text-white" wire:loading.remove
+                                        wire:target="eliminarEsmart({{ $i }})">
+                                        Eliminar
+                                    </span>
 
                                 <!-- Texto durante carga -->
                                 <span class="text-base font-medium text-white" wire:loading
