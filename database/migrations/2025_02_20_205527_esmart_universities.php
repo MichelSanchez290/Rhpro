@@ -26,20 +26,19 @@ return new class extends Migration
                 ->onUpdate("cascade")
                 ->onDelete("cascade");
             $table->string("dc3_requieren");
-            $table->string("nuevo_existente");
+            $table->string("nuevo_existente")->nullable();
             $table->string("nuevo_curso")->nullable();
             $table->string("horas_nuevo")->nullable();
             $table->string("tipo_curso")->nullable();
-                            
-            $table->timestamps(); 
 
+            $table->timestamps();
         });
     }
 
     public function down(): void
     {
         Schema::table("esmart_universities", function (Blueprint $table) {
-            $table->dropColumn(["esmart_levantamientos_id"]);
+            $table->dropForeign(["esmart_levantamientos_id"]);
         });
         Schema::dropIfExists("esmart_universities");
     }

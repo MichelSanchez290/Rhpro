@@ -11,6 +11,7 @@ use App\Models\Crm\LeadCliente;
 use App\Models\Crm\HeadLevantamientosPedido;
 use App\Models\Crm\Nom035Levpedido;
 use App\Models\Crm\TrainingLevantamiento;
+use App\Models\EsmartUniversity;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
 use Livewire\Attributes\On;
@@ -35,7 +36,8 @@ class Vistaprincipal extends Component
     public $recuperarLead;
     public $mostrarOperativo = false, $mostrarEspecializado = false, $mostrarEjecutivo = false;
     public $show = false;
-    public $curso=[];
+    public $curso = [];
+    public $university = [];
 
     protected $rules = [
         //TABLA LEADSCLIENTES
@@ -92,11 +94,7 @@ class Vistaprincipal extends Component
         'nom035.ejecutivos' => 'required',
         'nom035.numero_pedido' => 'required',
         'nom035.users_id' => 'required',
-        // esmart university
-        'esmart.fecha'=> 'required',
-        'esmart.hora'=> 'required',
-        'esmart.numero_pedido'=> 'required',
-        'esmart.user_id'=> 'required',
+
     ];
 
     public function mount()
@@ -142,44 +140,40 @@ class Vistaprincipal extends Component
 
     public function guardarEsmart()
     {
-        for ($i = 0; $i < $this->duplicados; $i++) {
-            if (isset($esmart[$i])) {
-                $this->esmart[$i] = [];
-            }
-        }
+        // $this->university = ['esmart_levantamientos_id' => 1];
+        // $this->validate([
+        //     // // Lead ---------------------
+        //     // 'lead.nombre_contacto' => 'required|string|max:255',
+        //     // 'lead.numero_cliente' => 'required|string|max:255',
+        //     // 'lead.fecha' => 'required|date',
+        //     // 'lead.nombre_empresa' => 'required|string|max:50',
+        //     // 'lead.puesto' => 'required|string|max:255',
+        //     // 'lead.correo' => 'required|email|max:255',
+        //     // 'lead.telefono' => 'required|string|max:10',
+        //     // // --------------------------
 
-        $this->validate([
-            'lead.nombre_contacto' => 'required|string|max:255',
-            'lead.numero_cliente' => 'required|string|max:255',
-            'lead.fecha' => 'required|date',
-            'lead.nombre_empresa' => 'required|string|max:50',
-            'lead.puesto' => 'required|string|max:255',
-            'lead.correo' => 'required|email|max:255',
-            'lead.telefono' => 'required|string|max:10',
-            'esmart.*.tamaño_empresa' => 'required|string|max:45',
-            'esmart.*.numero_pedido'=> 'required|dacimal',
-            'esmart.*.fecha' => 'required|date',
+        //     // Esmart -------------------
+        //     'esmart.numero_pedido' => 'required',
+        //     // --------------------------
 
-        ]);
+        //     // University ---------------
+        //     'university.nombre_curso' => 'required',
+        //     'university.participantes' => 'required',
+        //     'university.departamentos_participan' => 'required',
+        //     'university.puestos_participan' => 'required',
+        //     'university.fecha_habilitada' => 'required',
+        //     'university.esmart_levantamientos_id' => 'required',
+        //     'university.dc3_requieren' => 'required',
+        //     'university.nuevo_existente' => 'required',
+        //     // --------------------------
 
+        // ]);
 
-        // Guardar el lead
-        $guardarlead = new LeadCliente($this->lead);
+        // $guardarSmart = new EsmartLevantamiento($this->university);
+        // $guardarSmart->save();
+        $Uni = EsmartUniversity::create($this->university);
 
-
-        $guardarlead->save();
-        $this->leadGlobal = $guardarlead;
-
-        foreach ($this->esmart as $index => $esmartt) {
-            $this->esmartt['leadcliente_id'] = $guardarlead->id;
-            $this->esmartt['users_id'] = Auth::id();
-
-            $guardarSmart = new EsmartLevantamiento($esmartt);
-            $guardarSmart->save();
-        }
-
-        session()->flash('message', 'Registros guardados correctamente.');
-        return redirect()->to('crm/crm-leads'); // Cambia la ruta según tu necesidad
+        return redirect()->to('crm/crm-leads');
     }
 
     public function eliminarEsmart($indexR)
@@ -223,7 +217,7 @@ class Vistaprincipal extends Component
         foreach ($this->traininig as $index => $nuevoTraining) {
 
             $nuevoTraining['users_id'] = Auth::id();
-            $nuevoTraining['leadsCli_id'] = $this->lead['id'];
+            $nuevoTraining['leadsCli_id'] = $t . his->lead['id'];
             $nuevoTraining['nombre_cliente'] = $this->lead['nombre_contacto'];
             $nuevoTraining['nombre_empresa'] = $this->lead['nombre_empresa'];
             $nuevoTraining['telefono_cliente'] = $this->lead['telefono'];

@@ -233,7 +233,7 @@
                             <x-input-error for="esmart.numero_pedido" />
                         </div>
                     </div>
-                    <div class="grid justify-center w-full grid-cols-3 gap-2 px-10 bg-white rounded-lg mb-7">
+                    <div class="grid justify-center w-full grid-cols-4 gap-2 px-10 bg-white rounded-lg mb-7">
                         <div class="mx-2 text-center">
                             <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
                                 Fecha habilitada
@@ -253,6 +253,15 @@
                                 <option value="si">Si</option>
                                 <option value="no">No</option>
                             </select>
+                        </div>
+                        <div class="mx-2 text-center">
+                            <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                                Que puestos participan?
+                            </label>
+                            <input
+                                class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                                wire:model.defer="university.puestos_participan" type="text">
+                            <x-input-error for="university.puestos_participan" />
                         </div>
                         <div class="mx-2 text-center">
                             <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
@@ -283,7 +292,7 @@
                                 </label>
                                 <input
                                     class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                                    wire:model.defer="university.horas_nuevo" type="text">
+                                    wire:model.defer="university.horas_nuevo" type="number">
                                 <x-input-error for="university.horas_nuevo" />
                             </div>
                             <div class="mx-2 text-center">
@@ -294,6 +303,15 @@
                                     class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
                                     wire:model.defer="university.tipo_curso" type="text">
                                 <x-input-error for="university.tipo_curso" />
+                            </div>
+                            <div class="mx-2 text-center">
+                                <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                                    levantamiento
+                                </label>
+                                <input
+                                    class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                                    wire:model.defer="university.esmart_levantamiento_id" type="number">
+                                <x-input-error for="university.esmart_levantamiento_id" />
                             </div>
                         </div>
                     @endif
