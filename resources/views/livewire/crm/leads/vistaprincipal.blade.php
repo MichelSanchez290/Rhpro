@@ -194,7 +194,7 @@
                             Formulario de E-Smart
                         </h1>
                     </div>
-                    <div class="grid justify-center w-full grid-cols-4 gap-2 px-10 bg-white rounded-lg mb-7">
+                    <div class="grid justify-center w-full grid-cols-3 gap-2 px-10 bg-white rounded-lg mb-7">
                         <div class="mx-2 text-center">
                             <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
                                 Nombre del curso
@@ -222,16 +222,16 @@
                                 wire:model.defer="university.departamentos_participan" type="text">
                             <x-input-error for="university.departamentos_participan" />
                         </div>
-                        <div class="mx-2">
+                        {{-- <div class="mx-2">
                             <label
                                 class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase">
                                 Numero de pedido
                             </label>
                             <input
                                 class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                                wire:model.defer="esmart.numero_pedido" type="number" disabled readonly>
-                            <x-input-error for="esmart.numero_pedido" />
-                        </div>
+                                wire:model.defer="numeroPedido" type="number" disabled readonly>
+                            <x-input-error for="numeroPedido" />
+                        </div> --}}
                     </div>
                     <div class="grid justify-center w-full grid-cols-4 gap-2 px-10 bg-white rounded-lg mb-7">
                         <div class="mx-2 text-center">
@@ -304,21 +304,12 @@
                                     wire:model.defer="university.tipo_curso" type="text">
                                 <x-input-error for="university.tipo_curso" />
                             </div>
-                            <div class="mx-2 text-center">
-                                <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
-                                    levantamiento
-                                </label>
-                                <input
-                                    class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                                    wire:model.defer="university.esmart_levantamiento_id" type="number">
-                                <x-input-error for="university.esmart_levantamiento_id" />
-                            </div>
                         </div>
                     @endif
                     <div class="flex justify-center bg-white rounded-lg">
                         <button wire:click = "guardarEsmart()" wire:loading.attr="disabled"
                             class="p-2 my-6 mr-10 font-semibold text-white bg-green-600 rounded-md shadow-md shadow-gray-500 active:shadow-none active:bg-green-800 ">
-                            Guardar y Salir
+                            Guardar y Agregar
                         </button>
                     </div>
                 </div>
@@ -337,77 +328,32 @@
                 <div class="grid justify-center w-full grid-cols-4 gap-4 px-10 py-4">
                     <div class="mx-2 text-center">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
-                            Nombre
+                            Nombre del Curso
                         </label>
                         <input
                             class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="training.nombre" type="text">
-                        <x-input-error for="training.nombre" />
+                            wire:model.defer="training.nombre_curso" type="text">
+                        <x-input-error for="training.nombre_curso" />
                     </div>
                     <div class="mx-2 text-center">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
-                            Modalidad
+                            Modaliddad
                         </label>
-                        <input
-                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="training.modalidad" type="text">
-                        <x-input-error for="training.modalidad" />
+                        <select wire:model.defer="training.modalidad"
+                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500">
+                            <option value="" disabled>---</option>
+                            <option value="presencial">Presencial</option>
+                            <option value="online">Online</option>
+                        </select>
                     </div>
                     <div class="mx-2 text-center">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
-                            Ubicacion
+                            Participantes
                         </label>
                         <input
                             class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="training.ubicacion" type="text">
-                        <x-input-error for="training.ubicacion" />
-                    </div>
-                    <div class="mx-2">
-                        <label class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase">
-                            Numero de pedido
-                        </label>
-                        <input
-                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="trai.numero_pedido" type="number" disabled readonly>
-                        <x-input-error for="trai.numero_pedido" />
-                    </div>
-                </div>
-                <div class="grid justify-center w-full grid-cols-5 gap-4 px-10 py-4">
-                    <div class="mx-2 text-center">
-                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
-                            Curso
-                        </label>
-                        <input
-                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="training.curso" type="text">
-                        <x-input-error for="training.curso" />
-                    </div>
-                    <div class="mx-2 text-center">
-                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
-                            Tiempo de duracion
-                        </label>
-                        <input
-                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="training.duracion_horas" type="number">
-                        <x-input-error for="training.duracion_horas" />
-                    </div>
-                    <div class="mx-2 text-center">
-                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
-                            Numero de Sesiones
-                        </label>
-                        <input
-                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="training.num_sesiones" type="text">
-                        <x-input-error for="training.num_sesiones" />
-                    </div>
-                    <div class="mx-2 text-center">
-                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
-                            Cupo maximo
-                        </label>
-                        <input
-                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="training.max_personas" type="number">
-                        <x-input-error for="training.max_personas" />
+                            wire:model.defer="training.participantes" type="text">
+                        <x-input-error for="training.participantes" />
                     </div>
                     <div class="mx-2 text-center">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
@@ -419,51 +365,64 @@
                         <x-input-error for="training.grupos" />
                     </div>
                 </div>
-                <div class="grid justify-center w-full grid-cols-5 gap-4 px-10 py-4">
+                <div class="grid justify-center w-full grid-cols-3 gap-4 px-10 py-4">
                     <div class="mx-2 text-center">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
-                            Precio por grupo
+                            Puestos participantes
                         </label>
                         <input
                             class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="training.precio_grupo" type="number">
-                        <x-input-error for="training.precio_grupo" />
-                    </div>
-                    <div class="mx-2 text-center">
-                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
-                            Descuento especial
-                        </label>
-                        <input
-                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="training.decuento" type="%">
-                        <x-input-error for="training.decuento" />
+                            wire:model.defer="training.puestos_participantes" type="text">
+                        <x-input-error for="training.puestos_participantes" />
                     </div>
                     <div class="mx-2 text-center">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
-                            Precio con descuento
+                            ¿Cuenta con experiencia?
                         </label>
-                        <input
-                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="training.precio_descuento" type="number" disabled readonly>
-                        <x-input-error for="training.precio_descuento" />
+                        <select wire:model.defer="training.experiencia"
+                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500">
+                            <option value="" disabled>---</option>
+                            <option value="si">Si</option>
+                            <option value="no">No</option>
+                        </select>
                     </div>
-                    <div class="mx-2 text-center mb-6">
+                    <div class="mx-2 text-center">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
-                            Precio sin IVA
+                            ¿Cual?
                         </label>
                         <input
                             class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="training.sin_iva" type="number" disabled readonly>
-                        <x-input-error for="training.sin_iva" />
+                            wire:model.defer="training.cual" type="text">
+                        <x-input-error for="training.cual" />
                     </div>
-                    <div class="mx-2 text-center mb-6">
+                </div>
+                <div class="grid justify-center w-full grid-cols-3 gap-4 px-10 py-4">
+                    <div class="mx-2 text-center">
                         <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
-                            Total
+                            Objetivo del curso
                         </label>
                         <input
                             class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                            wire:model.defer="training.total" type="number" disabled readonly>
-                        <x-input-error for="training.total" />
+                            wire:model.defer="training.objetivo_curso" type="text">
+                        <x-input-error for="training.objetivo_curso" />
+                    </div>
+                    <div class="mx-2 text-center">
+                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                            Fecha tentativa
+                        </label>
+                        <input
+                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                            wire:model.defer="training.fecha_tentativa" type="date">
+                        <x-input-error for="training.fecha_tentativa" />
+                    </div>
+                    <div class="mx-2 text-center">
+                        <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                            Presupuesto asignado
+                        </label>
+                        <input
+                            class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                            wire:model.defer="training.presupuesto" type="number">
+                        <x-input-error for="training.presupuesto" />
                     </div>
                 </div>
                 <div class="flex justify-center bg-white rounded-lg">

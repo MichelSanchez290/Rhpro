@@ -42,12 +42,12 @@ class EsmartLevantamiento extends Model
 
     public function leadscliente()
     {
-        return $this->belongsTo(LeadCliente::class);
+        return $this->belongsTo(LeadCliente::class, 'leads_clientes_id');
     }
 
     public function empresa()
     {
-        return $this->belongsTo(Empresa::class);
+        return $this->belongsTo(Empresa::class, 'empresa_id');
     }
 
     public function user()
@@ -57,12 +57,12 @@ class EsmartLevantamiento extends Model
 
     public function sucursal()
     {
-        return $this->belongsTo(Sucursal::class);
+        return $this->belongsTo(Sucursal::class, 'sucursales_id');
     }
 
     public function esmartuniversitys()
     {
-        return $this->hasMany(EsmartUniversity::class);
+        return $this->hasMany(EsmartUniversity::class, 'esmart_levantamientos_id');
     }
 
     public function esmartaprobadas()

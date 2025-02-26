@@ -30,6 +30,6 @@ class EsmartUniversity extends Model
 
     public function esmarlevantamiento()
     {
-        return $this->belongsTo(EsmartLevantamiento::class);
+        return $this->belongsTo(EsmartLevantamiento::class, 'esmart_levantamientos_id');
     }
 }

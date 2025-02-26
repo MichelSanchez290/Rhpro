@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string("departamentos_participan");
             $table->string("puestos_participan");
             $table->date("fecha_habilitada");
-            $table->unsignedBigInteger("esmart_levantamientos_id");
-            $table->foreign("esmart_levantamientos_id")
+            $table->unsignedBigInteger("esmart_levantamientos_id")->nullable();
+            $table->foreign("esmart_levantamientos_id")->nullable()
                 ->references("id")
                 ->on("esmart_levantamientos")
                 ->onUpdate("cascade")

@@ -15,7 +15,10 @@ class CrmCurso extends Model
     protected $primaryKey = 'id';
 
     //especifica las columnas
-    protected $fillable = ['id', 'id_servicio', 'nombre', 'modalidad', 'ubicacion', 'curso', 'duracionTotalHoras', 'numSesiones', 'cupoMaxPerson', 'grupos', 'precioPorGrupo', 'descuentoEspecial', 'precioConDescuento', 'precioSinIVa'];
+    protected $fillable = [
+        'id', 'nombre_curso', 'modalidad', 'participantes', 'grupos', 'puestos_participantes', 'experiencia', 
+        'cual', 'objetivo_curso', 'fecha_tentativa', 'presupuesto', 'training_levantamientos_id',
+    ];
 
     public function traininglevantamiento()
     {

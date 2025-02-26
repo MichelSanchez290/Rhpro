@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Crm\Leads;
 
+use App\Models\Crm\CrmCurso;
 use App\Models\Crm\CrmEmpresa;
 use App\Models\Crm\EsmartLevantamiento;
 use Livewire\Component;
@@ -20,7 +21,7 @@ use PhpOffice\PhpSpreadsheet\Style\ConditionalFormatting\Wizard\Duplicates;
 
 class Vistaprincipal extends Component
 {
-    public $guardarlead, $nuevoEsmart = [], $nuevoTraining = [];
+    public $guardarlead, $nuevoEsmart = [];
     public $paginacion;
     public $duplicados = 1;
     public $consulta;
@@ -28,7 +29,7 @@ class Vistaprincipal extends Component
     public $empresas;
     //variable gobal para almacenar lead
     public $empresaSeleccionada, $fechaseleccionada;
-    public $hh = [], $nom035 = [], $lead = [], $esmart = [[]], $training = [];
+    public $hh = [], $nom035 = [], $lead = [], $esmart = [], $training = [];
     public $datosfis;
     public $consultahh;
     public $consultanom035;
@@ -53,7 +54,33 @@ class Vistaprincipal extends Component
         'lead.telefono_2' => 'required',
         'lead.nombre_contacto_2' => 'required',
         'lead.puesto_contacto_2' => 'required',
-        //'lead.tipo' => 'required',
+
+        // University ----------------------
+        'university.nombre_curso'=> 'required',
+        'university.participantes'=> 'required',
+        'university.departamentos_participan'=> 'required',
+        'university.puestos_participan'=> 'required',
+        'university.fecha_habilitada'=> 'required',
+        'university.dc3_requieren'=> 'required',
+        'university.nuevo_existente'=> 'required',
+        'university.nuevo_curso'=> 'required',
+        'university.horas_nuevo'=> 'required',
+        'university.tipo_curso'=> 'required',
+        // ---------------------------------
+
+        // Cursos Trainig ------------------
+        'training.nombre_curso' => 'required',
+        'training.modalidad' => 'required',
+        'training.participantes' => 'required',
+        'training.grupos' => 'required',
+        'training.puestos_participantes' => 'required',
+        'training.experiencia' => 'required',
+        'training.cual' => 'required',
+        'training.objetivo_curso' => 'required',
+        'training.fecha_tentativa' => 'required',
+        'training.presupuesto' => 'required',
+        // ---------------------------------
+
         //TABLA Head Levantamiento de pedidos
         'hh.numero_lead' => 'required',
         'hh.nombre_cliente' => 'required',
@@ -106,32 +133,21 @@ class Vistaprincipal extends Component
             $this->lead['numero_lead'] = $this->consulta->numero_lead + 1;
         }
 
-        $this->pedido = EsmartLevantamiento::where('numero_pedido')->orderBy('id', 'desc')->first();
-        if (empty($this->pedido)) {
-            $this->esmart['numero_pedido'] = 1;
-        } else {
-            $this->esmart['numero_pedido'] = $this->pedido->numero_pedido + 1;
-        }
-
         // $this->consultanom035 = Nom035Levpedido::get();
         $this->empresas = CrmEmpresa::all();
 
         $this->lead['users_id'] = Auth::user()->id;
-        $this->lead['fecha_y_hora'] = Carbon::now()->format('Y-m-d H:s:i');
+        $this->training['fecha_y_hora'] = Carbon::now()->format('Y-m-d H:s:i');
         $this->lead['tipo'] = 'Lead';
-
-        $this->esmart['users_id'] = Auth::user()->id;
-        $this->esmart['fecha_y_hora'] = Carbon::now()->format('Y-m-d H:s:i');
-        $this->esmart['tipo'] = 'Lead';
 
         $this->hh['fecha'] = Carbon::now()->format('Y-m-d');
         $this->hh['hora'] = Carbon::now()->format('H:s:i');
         $this->hh['fecha_y_hora'] = Carbon::now()->format('Y-m-d H:s:i');
         $this->hh['users_id'] = Auth::user()->id;
-        $this->hh['tipo'] = 'Cliente';
+       
 
-        $this->paginacion = 0;
-        $this->curso = 0;
+        $this->paginacion = 2;
+        $this->curso = 'existente';
         // if($this->hh['tipo_servicio']==false)
         // {
 
@@ -140,103 +156,169 @@ class Vistaprincipal extends Component
 
     public function guardarEsmart()
     {
-        // $this->university = ['esmart_levantamientos_id' => 1];
-        // $this->validate([
-        //     // // Lead ---------------------
-        //     // 'lead.nombre_contacto' => 'required|string|max:255',
-        //     // 'lead.numero_cliente' => 'required|string|max:255',
-        //     // 'lead.fecha' => 'required|date',
-        //     // 'lead.nombre_empresa' => 'required|string|max:50',
-        //     // 'lead.puesto' => 'required|string|max:255',
-        //     // 'lead.correo' => 'required|email|max:255',
-        //     // 'lead.telefono' => 'required|string|max:10',
-        //     // // --------------------------
-
-        //     // Esmart -------------------
-        //     'esmart.numero_pedido' => 'required',
-        //     // --------------------------
-
-        //     // University ---------------
-        //     'university.nombre_curso' => 'required',
-        //     'university.participantes' => 'required',
-        //     'university.departamentos_participan' => 'required',
-        //     'university.puestos_participan' => 'required',
-        //     'university.fecha_habilitada' => 'required',
-        //     'university.esmart_levantamientos_id' => 'required',
-        //     'university.dc3_requieren' => 'required',
-        //     'university.nuevo_existente' => 'required',
-        //     // --------------------------
-
-        // ]);
-
-        // $guardarSmart = new EsmartLevantamiento($this->university);
-        // $guardarSmart->save();
-        $Uni = EsmartUniversity::create($this->university);
-
-        return redirect()->to('crm/crm-leads');
-    }
-
-    public function eliminarEsmart($indexR)
-    {
-        unset($this->esmart[$indexR]);
-        $this->esmart = array_values($this->esmart);
-        $this->duplicados--;
-    }
-
-    public function guardarTraininig()
-    {
-        for ($i = 0; $i < $this->duplicados; $i++) {
-            if (isset($training[$i])) {
-                $this->training[$i] = [];
-            }
-        }
-
         $this->validate([
-            'lead.nombre_contacto' => 'required|string|max:255',
-            'lead.numero_cliente' => 'required|string|max:255',
-            'lead.fecha' => 'required|date',
-            'lead.nombre_empresa' => 'required|string|max:50',
+            'lead.nombre_cliente' => 'required|string|max:255',
+            'lead.medios_cesrh' => 'required|string|max:255',
+            'lead.numero_lead' => 'required|numeric',
+            'lead.crm_empresas_id' => 'required|exists:crm_empresas,id',
             'lead.puesto' => 'required|string|max:255',
+            'lead.telefono' => 'required|numeric',
             'lead.correo' => 'required|email|max:255',
-            'lead.telefono' => 'required|string|max:10',
-            'training.*.tamaño_empresa' => 'required|string|max:45',
-            'training.*.primera_vez_o_recompra' => 'required|string|max:45',
-            'training.*.responsable_comercial' => 'required|string|max:255',
-            'training.*.medio_cesrh' => 'required|string|max:255',
-            'training.*.giro_empresa' => 'required|string|max:255',
-            'training.*.ubicacion_empresa' => 'required|string|max:255',
-            'training.*.fecha' => 'required|date',
+            'lead.nombre_contacto_2' => 'nullable|string|max:255',
+            'lead.puesto_contacto_2' => 'nullable|string|max:255',
+            'lead.correo_2' => 'nullable|email|max:255',
+            'lead.telefono_2' => 'nullable|numeric',
+            'university.nombre_curso' => 'required|string|max:255',
+            'university.participantes' => 'required|string|max:255',
+            'university.departamentos_participan' => 'required|string|max:255',
+            'university.puestos_participan' => 'required|string|max:255',
+            'university.fecha_habilitada' => 'required|date',
+            'university.dc3_requieren' => 'required|string|max:255',
+            'university.nuevo_existente' => 'nullable|string|max:255',
+            'university.nuevo_curso' => 'nullable|string|max:255',
+            'university.horas_nuevo' => 'nullable|numeric',
+            'university.tipo_curso' => 'nullable|string|max:255',
         ]);
 
-        // Guardar el lead
-        $guardarlead = new LeadCliente($this->lead);
-        $guardarlead->save();
-        $this->leadGlobal = $guardarlead;
+       $ultimoPedido = EsmartLevantamiento::orderBy('numero_pedido','desc')->first();
+       if (empty($ultimoPedido)) {
+        $numeroPedido = 1;
+       } else {
+        $numeroPedido = $ultimoPedido -> numero_pedido + 1;
+       }
+       
+        
+        $fechaActual = Carbon::now()->toDateString();
+        $horaActual = Carbon::now()->toTimeString();
+        // Asignar el ID generado a EsmartUniversity
+        //  $this->university['esmart_levantamientos_id'] = $lead->id;
+        EsmartLevantamiento::create([
+            'fecha'=> $fechaActual,
+            'hora'=> $horaActual,
+            // 'leads_clientes_id'=> $this->lead['leads_clientes_id'],
+            // 'sucursales_id'=> auth()->user()->id,
+            // 'empresa_id'=> auth()->user()->id,
+            'users_id'=> auth()->user()->id,
+            'numero_pedido' => $numeroPedido,
+            'nombre_cliente' => $this->lead['nombre_cliente'] ?? null,
+            'medios_cesrh'=> $this->lead['medios_cesrh'] ?? null,
+            'numero_lead'=> $this->lead['numero_lead'] ?? null,
+            'crm_empresas_id'=> $this->lead['crm_empresas_id'] ?? null,
+            'puesto'=> $this->lead['puesto'] ?? null,
+            'telefono'=> $this->lead['telefono'] ?? null,
+            'correo'=> $this->lead['correo'] ?? null,
+            'nombre_contacto_2'=> $this->lead['nombre_contacto_2'] ?? null,
+            'puesto_contacto_2'=> $this->lead['puesto_contacto_2'] ?? null,
+            'correo_2'=> $this->lead['correo_2'] ?? null,
+            'telefono_2'=> $this->lead['telefono_2'] ?? null,
+        ]);
 
+        // $Uni = EsmartUniversity::create($this->university);
+        EsmartUniversity::create([
+            'nombre_curso'=> $this->university['nombre_curso'] ?? null,
+            'participantes'=> $this->university['participantes'] ?? null,
+            'departamentos_participan'=> $this->university['departamentos_participan'] ?? null,
+            'puestos_participan'=> $this->university['puestos_participan'] ?? null,
+            'fecha_habilitada'=> $this->university['fecha_habilitada'] ?? null,
+            'dc3_requieren'=> $this->university['dc3_requieren'] ?? null,
+            'nuevo_existente'=> $this->university['nuevo_existente'] ?? null,
+            'nuevo_curso'=> $this->university['nuevo_curso'] ?? null,
+            'horas_nuevo'=> $this->university['horas_nuevo'] ?? null,
+            'tipo_curso'=> $this->university['tipo_curso'] ?? null,
+            // 'esmart_levantamiento_id' => $lead->id,
+        ]);
 
-        foreach ($this->traininig as $index => $nuevoTraining) {
-
-            $nuevoTraining['users_id'] = Auth::id();
-            $nuevoTraining['leadsCli_id'] = $t . his->lead['id'];
-            $nuevoTraining['nombre_cliente'] = $this->lead['nombre_contacto'];
-            $nuevoTraining['nombre_empresa'] = $this->lead['nombre_empresa'];
-            $nuevoTraining['telefono_cliente'] = $this->lead['telefono'];
-            $nuevoTraining['correo_cliente'] = $this->lead['correo'];
-
-            $guardarSmart = new TrainingLevantamiento($nuevoTraining);
-            $guardarSmart->save();
-        }
-
-        session()->flash('message', 'Registros guardados correctamente.');
-        return redirect()->to('crm/crm-leads'); // Cambia la ruta según tu necesidad
+        session()->flash('message', 'Datos guardados correctamente');
+        $this->reset(['university']);
     }
 
-    public function eliminarTraining($indexR)
+    // public function eliminarEsmart($indexR)
+    // {
+    //     unset($this->esmart[$indexR]);
+    //     $this->esmart = array_values($this->esmart);
+    //     $this->duplicados--;
+    // }
+
+    public function guardarTraining()
     {
-        unset($this->training[$indexR]);
-        $this->training = array_values($this->training);
-        $this->duplicados--;
+        // dd($this->training);
+        $this->validate([
+            'lead.nombre_cliente' => 'required|string|max:255',
+            'lead.medios_cesrh' => 'required|string|max:255',
+            'lead.numero_lead' => 'required|numeric',
+            'lead.crm_empresas_id' => 'required|exists:crm_empresas,id',
+            'lead.puesto' => 'required|string|max:255',
+            'lead.telefono' => 'required|numeric',
+            'lead.correo' => 'required|email|max:255',
+            'lead.nombre_contacto_2' => 'nullable|string|max:255',
+            'lead.puesto_contacto_2' => 'nullable|string|max:255',
+            'lead.correo_2' => 'nullable|email|max:255',
+            'lead.telefono_2' => 'nullable|numeric',
+            'training.nombre_curso' => 'required|string|max:255',
+            'training.modalidad' => 'required|string|max:255',
+            'training.participantes' => 'required|string|max:255',
+            'training.grupos' => 'required|string|max:255',
+            'training.puestos_participantes' => 'required|string|max:255',
+            'training.experiencia' => 'required|string|max:255',
+            'training.cual' => 'required|string|max:255',
+            'training.objetivo_curso' => 'required|string|max:255',
+            'training.fecha_tentativa' => 'required|date',
+            'training.presupuesto' => 'required|string|max:255',
+        ]);
+        $ultimoPedido = TrainingLevantamiento::orderBy('numero_pedido','desc')->first();
+        if (empty($ultimoPedido)) {
+            $numeroPedido = 1;
+        } else {
+            $numeroPedido = $ultimoPedido -> numero_pedido + 1;
+        }
+        
+        
+        $fechaActual = Carbon::now()->toDateString();
+        $horaActual = Carbon::now()->toTimeString();
+
+        TrainingLevantamiento::create([
+            'fecha' => $fechaActual,
+            'hora'=> $horaActual,
+            // 'sucursales_id'=> auth()->user()->id,
+            // 'empresa_id'=> auth()->user()->id,
+            'numero_pedido' => $numeroPedido,
+            'users_id'=> auth()->user()->id,
+            'nombre_cliente' => $this->lead['nombre_cliente'] ?? null,
+            'medios_cesrh'=> $this->lead['medios_cesrh'] ?? null,
+            'numero_lead'=> $this->lead['numero_lead'] ?? null,
+            'crm_empresas_id'=> $this->lead['crm_empresas_id'] ?? null,
+            'puesto'=> $this->lead['puesto'] ?? null,
+            'telefono'=> $this->lead['telefono'] ?? null,
+            'correo'=> $this->lead['correo'] ?? null,
+            'nombre_contacto_2'=> $this->lead['nombre_contacto_2'] ?? null,
+            'puesto_contacto_2'=> $this->lead['puesto_contacto_2'] ?? null,
+            'correo_2'=> $this->lead['correo_2'] ?? null,
+            'telefono_2'=> $this->lead['telefono_2'] ?? null,
+        ]);
+
+        CrmCurso::create([
+            'nombre_curso'=> $this->training['nombre_curso'] ?? null,
+            'modalidad'=> $this->training['modalidad'] ?? null,
+            'participantes'=> $this->training['participantes'] ?? null,
+            'grupos'=> $this->training['grupos'] ?? null,
+            'puestos_participantes'=> $this->training['puestos_participantes'] ?? null,
+            'experiencia'=> $this->training['experiencia'] ?? null,
+            'cual'=> $this->training['cual'] ?? null,
+            'objetivo_curso'=> $this->training['objetivo_curso'] ?? null,
+            'fecha_tentativa'=> $this->training['fecha_tentativa'] ?? null,
+            'presupuesto'=> $this->training['presupuesto'] ?? null,
+        ]);
+
+        session()->flash('message', 'Datos guardados correctamente');
+        $this->reset(['training']);
     }
+
+    // public function eliminarTraining($indexR)
+    // {
+    //     unset($this->training[$indexR]);
+    //     $this->training = array_values($this->training);
+    //     $this->duplicados--;
+    // }
 
 
     public function botonborrar()
@@ -313,7 +395,7 @@ class Vistaprincipal extends Component
             $head['puesto_contacto_2'] = $this->recuperarLead->puesto_contacto_2;
             $head['empresa'] = $this->recuperarLead->datos_id;
             $head['leadCli_id'] = $this->recuperarLead->id;
-            $AgregarHead = new HeadLevantamientosPedido($head);
+            $AgregarHead = new HeadLevantamientosPedido();
             $AgregarHead->save();
             $this->hh = [];
         }
