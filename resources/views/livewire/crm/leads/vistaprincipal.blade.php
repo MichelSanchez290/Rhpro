@@ -157,7 +157,8 @@
     <div class="w-full bg-white border-2 rounded-lg mt-4">
         <div class="p-4">
             <div class="flex text-center">
-                <button wire:click='uno' {{-- onclick="Livewire.dispatch('openModal', { component: 'crm.leads.modal.seleccion ' })" --}} wire:click='uno'
+                <button onclick="Livewire.dispatch('openModal', { component: 'crm.leads.modal.seleccion ' })"
+                    wire:click='uno'
                     class="flex-1 px-4 py-2 mx-2 border-2 border-gray-900 rounded-md shadow-md shadow-gray-900 active:shadow-none">
                     E-Smart
                 </button>
@@ -165,16 +166,17 @@
                     class="flex-1 px-4 py-2 mx-2 transition-all duration-300 border-2 border-gray-900 rounded-md shadow-md shadow-gray-900 hover:shadow-none">
                     E-Smart
                 </a> --}}
-                <a wire:click="dos"
+                <a href="#form2" wire:click="dos"
                     class="flex-1 px-4 py-2 mx-2 border-2 border-gray-900 rounded-md shadow-md shadow-gray-900 active:shadow-none">
                     Training
                 </a>
-                <a onclick="Livewire.dispatch('openModal', { component: 'crm.leads.modal.seleccion ' })"
+                <a href="#form3"
+                    onclick="Livewire.dispatch('openModal', { component: 'crm.leads.modal.seleccion ' })"
                     wire:click="tres"
                     class="flex-1 px-4 py-2 mx-2 border-2 border-gray-900 rounded-md shadow-md shadow-gray-900 active:shadow-none">
                     HeadHunting
                 </a>
-                <a wire:click="cuatro"
+                <a href="#form4" wire:click="cuatro"
                     class="flex-1 px-4 py-2 mx-2 border-2 border-gray-900 rounded-md shadow-md shadow-gray-900 active:shadow-none">
                     Nom 035
                 </a>

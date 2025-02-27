@@ -4,17 +4,18 @@ namespace App\Livewire\Crm\Leads;
 
 use App\Models\Crm\CrmCurso;
 use App\Livewire\PortalRh\Sucursal\SucursalTable;
+use Illuminate\Support\Facades\DB;
 use App\Models\Crm\CrmEmpresa;
 use App\Models\Crm\EsmartLevantamiento;
 use Livewire\Component;
 use App\Models\Crm\LeadsCliente;
 use App\Models\Crm\DatosFiscale;
+use App\Models\PortalRH\Sucursal;
 use App\Models\Crm\LeadCliente;
 use App\Models\Crm\HeadLevantamientosPedido;
 use App\Models\Crm\Nom035Levpedido;
 use App\Models\Crm\TrainingLevantamiento;
 use App\Models\EsmartUniversity;
-use App\Models\PortalRH\Sucursal;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
 use Livewire\Attributes\On;
@@ -43,8 +44,7 @@ class Vistaprincipal extends Component
     public $mostrarOperativo = false, $mostrarEspecializado = false, $mostrarEjecutivo = false;
     public $mensajesservicioshead = "¿Cuántos necesita?";
     public $show = false;
-    public $university = [];
-    public $totalvacantes;
+    public $totalvacantes, $consultasumahh;
     public $curso = [];
     public $v;
 
@@ -141,8 +141,7 @@ class Vistaprincipal extends Component
             $this->lead['numero_lead'] = $this->consulta->numero_lead + 1;
         }
 
-        // $this->consultanom035 = Nom035Levpedido::get();
-        // $this->consultasumahh = DB::select("SELECT campo1, campo2, campo3, (campo1 + campo2 + campo3) AS resultado FROM tabla_original");
+        $this->consultasumahh = DB::select("SELECT operativos, especializados, ejecutivos, (operativos + especializados + ejecutivos) AS resultado FROM head_levantamiento_pedidos");
 
         // Establece el valor del numero de pedido para head hunting en 1 o le aumenta en 1 si ya no es nulo
 
@@ -208,8 +207,8 @@ class Vistaprincipal extends Component
        } else {
         $numeroPedido = $ultimoPedido -> numero_pedido + 1;
        }
-       
-        
+
+
         $fechaActual = Carbon::now()->toDateString();
         $horaActual = Carbon::now()->toTimeString();
         // Asignar el ID generado a EsmartUniversity
@@ -293,8 +292,8 @@ class Vistaprincipal extends Component
         } else {
             $numeroPedido = $ultimoPedido -> numero_pedido + 1;
         }
-        
-        
+
+
         $fechaActual = Carbon::now()->toDateString();
         $horaActual = Carbon::now()->toTimeString();
 
