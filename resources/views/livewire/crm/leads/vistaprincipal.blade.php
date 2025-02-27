@@ -521,7 +521,7 @@
                         });"
                             class="justify-center flexed bottom-4 left-1/2 transform -translate-x-1/2  bg-green-100 border-t border-b border-green-500 text-green-700 px-4 py-3"
                             role="alert">
-                            <p class="text-sm">Lead registado con éxito</p>
+                            <p class="text-sm">Lead registrado con éxito</p>
                         </div>
                     </div>
                 @endfor

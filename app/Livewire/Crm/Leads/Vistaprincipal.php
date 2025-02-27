@@ -57,9 +57,6 @@ class Vistaprincipal extends Component
         'lead.puesto' => 'required',
         'lead.correo' => 'required',
         'lead.telefono' => 'required',
-        'lead.telefono_2' => 'required',
-        'lead.nombre_contacto_2' => 'required',
-        'lead.puesto_contacto_2' => 'required',
 
         // University ----------------------
         'university.nombre_curso'=> 'required',
@@ -153,22 +150,19 @@ class Vistaprincipal extends Component
         }
 
         $this->empresas = CrmEmpresa::all();
+        $this->training['fecha_y_hora'] = Carbon::now()->format('Y-m-d H:s:i');
 
         $this->lead['users_id'] = Auth::user()->id;
-        $this->training['fecha_y_hora'] = Carbon::now()->format('Y-m-d H:s:i');
+        $this->lead['fecha_y_hora'] = Carbon::now()->format('Y-m-d H:s:i');
         $this->lead['tipo'] = 'Lead';
-
-        $this->hh['fecha'] = Carbon::now()->format('Y-m-d');
-        $this->hh['hora'] = Carbon::now()->format('H:s:i');
-        $this->hh['fecha_y_hora'] = Carbon::now()->format('Y-m-d H:s:i');
-        $this->hh['users_id'] = Auth::user()->id;
-
-        $this->paginacion = 2;
-        $this->curso = 'existente';
+        $this->lead['users_id'] = Auth::user()->id;
 
         $this->hh['fecha_y_hora'] = Carbon::now()->format('Y-m-d H:s:i');
         $this->hh['users_id'] = Auth::user()->id;
         $this->hh['tipo'] = 'Lead';
+
+        $this->paginacion = 2;
+        $this->curso = 'existente';
 
         $this->paginacion = 0;
         $this->curso = 0;
