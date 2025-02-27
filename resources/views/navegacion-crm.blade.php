@@ -22,9 +22,9 @@
         <details class="group">
             <summary
                 class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md cursor-pointer">
-                <i class='mr-3 text-lg bx bxl-blogger'></i>
-                <span class="text-sm">Levantamiento de pedidos</span>
-                <i class="fas fa-caret-right text-2xl transition-transform duration-300 group-open:rotate-90"></i>
+                <i class="fas fa-star mr-4"></i>
+                <span class="text-sm ">Levantamiento de pedidos</span>
+                <i class="ml-10 fas fa-caret-right text-2xl transition-transform duration-300 group-open:rotate-90"></i>
             </summary>
             <div class="pl-9 mt-2 space-y-3">
                 <a href="{{ 'crm-leads' }}" class="flex items-center text-gray-600 hover:text-black group">
@@ -34,6 +34,78 @@
                 <a href="#" class="flex items-center text-gray-600 hover:text-black group">
                     <span class="w-2 h-2 bg-gray-400 rounded-full mr-3 transition-colors group-hover:bg-black"></span>
                     <span class="text-sm">Clientes</span>
+                </a>
+            </div>
+        </details>
+        <details class="group">
+            <summary
+                class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md cursor-pointer">
+                <i class="fas fa-university mr-4"></i>
+                <span class="text-sm ">E-Smart University</span>
+                <i class="ml-10 fas fa-caret-right text-2xl transition-transform duration-300 group-open:rotate-90"></i>
+            </summary>
+            <div class="pl-9 mt-2 space-y-3">
+                <a href="{{ 'esmart-levantamiento' }}" class="flex items-center text-gray-600 hover:text-black group">
+                    <span class="w-2 h-2 bg-gray-400 rounded-full mr-3 transition-colors group-hover:bg-black"></span>
+                    <span class="text-sm">Tabla Levantamientos</span>
+                </a>
+                <a href="#" class="flex items-center text-gray-600 hover:text-black group">
+                    <span class="w-2 h-2 bg-gray-400 rounded-full mr-3 transition-colors group-hover:bg-black"></span>
+                    <span class="text-sm">Tabla University </span>
+                </a>
+            </div>
+        </details>
+        <details class="group">
+            <summary
+                class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md cursor-pointer">
+                <i class="fas fa-cogs mr-4"></i>
+                <span class="text-sm ">Training Workshop</span>
+                <i class="ml-10 fas fa-caret-right text-2xl transition-transform duration-300 group-open:rotate-90"></i>
+            </summary>
+            <div class="pl-9 mt-2 space-y-3">
+                <a href="{{ 'crm-leads' }}" class="flex items-center text-gray-600 hover:text-black group">
+                    <span class="w-2 h-2 bg-gray-400 rounded-full mr-3 transition-colors group-hover:bg-black"></span>
+                    <span class="text-sm">Tabla Levantamientos</span>
+                </a>
+                <a href="#" class="flex items-center text-gray-600 hover:text-black group">
+                    <span class="w-2 h-2 bg-gray-400 rounded-full mr-3 transition-colors group-hover:bg-black"></span>
+                    <span class="text-sm">Tabla Cursos </span>
+                </a>
+            </div>
+        </details>
+        <details class="group">
+            <summary
+                class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md cursor-pointer">
+                <i class="fas fa-heading mr-4"></i>
+                <span class="text-sm ">HeadHunting</span>
+                <i class="ml-10 fas fa-caret-right text-2xl transition-transform duration-300 group-open:rotate-90"></i>
+            </summary>
+            <div class="pl-9 mt-2 space-y-3">
+                <a href="{{ 'crm-leads' }}" class="flex items-center text-gray-600 hover:text-black group">
+                    <span class="w-2 h-2 bg-gray-400 rounded-full mr-3 transition-colors group-hover:bg-black"></span>
+                    <span class="text-sm">Tabla Levantamientos</span>
+                </a>
+                <a href="#" class="flex items-center text-gray-600 hover:text-black group">
+                    <span class="w-2 h-2 bg-gray-400 rounded-full mr-3 transition-colors group-hover:bg-black"></span>
+                    <span class="text-sm">Tabla ---- </span>
+                </a>
+            </div>
+        </details>
+        <details class="group">
+            <summary
+                class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md cursor-pointer">
+                <i class="fab fa-wpforms mr-4"></i>
+                <span class="text-sm ">Nom 035</span>
+                <i class="ml-10 fas fa-caret-right text-2xl transition-transform duration-300 group-open:rotate-90"></i>
+            </summary>
+            <div class="pl-9 mt-2 space-y-3">
+                <a href="{{ 'crm-leads' }}" class="flex items-center text-gray-600 hover:text-black group">
+                    <span class="w-2 h-2 bg-gray-400 rounded-full mr-3 transition-colors group-hover:bg-black"></span>
+                    <span class="text-sm">Tabla Levantamientos</span>
+                </a>
+                <a href="#" class="flex items-center text-gray-600 hover:text-black group">
+                    <span class="w-2 h-2 bg-gray-400 rounded-full mr-3 transition-colors group-hover:bg-black"></span>
+                    <span class="text-sm">Tabla ---- </span>
                 </a>
             </div>
         </details>

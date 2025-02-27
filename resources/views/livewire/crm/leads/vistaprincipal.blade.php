@@ -104,7 +104,7 @@
             <div class="mx-2 text-center">
                 {{-- Puesto Alternativo --}}
                 <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
-                    Puesto Alternativo
+                    Puesto del contacto
                 </label>
                 <input
                     class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
@@ -116,7 +116,7 @@
             {{-- Correo alternativo --}}
             <div class="mx-2 text-center">
                 <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
-                    Correo Alternativo
+                    Correo del contacto
                 </label>
                 <input
                     class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
@@ -126,7 +126,7 @@
             {{-- Telefono --}}
             <div class="mx-2 text-center">
                 <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
-                    Telefono Alternativo
+                    Telefono del contacto
                 </label>
                 <input
                     class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
@@ -187,12 +187,39 @@
     @if ($paginacion == 1)
         <div>
             @for ($i = 0; $i < $duplicados; $i++)
-                <div>
-                    <div class="m-4 bg-white rounded-lg shadow-md shadow-gray-300">
-                        <div class="text-center">
-                            <h1 class="p-10 text-3xl font-bold">
-                                Formulario de E-Smart
-                            </h1>
+                <div class="m-4 bg-white rounded-lg shadow-md shadow-gray-300">
+                    <div class="text-center">
+                        <h1 class="p-10 text-3xl font-bold">
+                            Formulario de E-Smart
+                        </h1>
+                    </div>
+                    <div class="grid justify-center w-full grid-cols-3 gap-2 px-10 bg-white rounded-lg mb-7">
+                        <div class="mx-2 text-center">
+                            <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                                Nombre del curso
+                            </label>
+                            <input
+                                class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                                wire:model.defer="university.nombre_curso" type="text">
+                            <x-input-error for="university.nombre_curso" />
+                        </div>
+                        <div class="mx-2 text-center">
+                            <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                                Cuantos participantes son?
+                            </label>
+                            <input
+                                class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                                wire:model.defer="university.participantes" type="text">
+                            <x-input-error for="university.participantes" />
+                        </div>
+                        <div class="mx-2 text-center">
+                            <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                                Departamentos participantes
+                            </label>
+                            <input
+                                class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                                wire:model.defer="university.departamentos_participan" type="text">
+                            <x-input-error for="university.departamentos_participan" />
                         </div>
                         <div class="mx-2">
                             <label
@@ -396,7 +423,7 @@
                                 @if ($mostrarOperativo == true)
                                     <input
                                         class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                                        wire:model="hh.operativos" type="number"
+                                        wire:model="op" type="number"
                                         placeholder="{{ $mensajesservicioshead }}">
                                     <x-input-error for="hh.operativos" />
                                 @endif
@@ -412,7 +439,7 @@
                                 @if ($mostrarEspecializado == true)
                                     <input
                                         class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                                        wire:model="hh.especializados" type="number"
+                                        wire:model="esp" type="number"
                                         placeholder="{{ $mensajesservicioshead }}">
                                     <x-input-error for="hh.especializados" />
                                 @endif
@@ -428,7 +455,7 @@
                                 @if ($mostrarEjecutivo == true)
                                     <input
                                         class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                                        wire:model="hh.ejecutivos" type="number"
+                                        wire:model="eje" type="number"
                                         placeholder="{{ $mensajesservicioshead }}">
                                     <x-input-error for="eje" />
                                 @endif

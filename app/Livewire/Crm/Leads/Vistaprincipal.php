@@ -2,8 +2,8 @@
 
 namespace App\Livewire\Crm\Leads;
 
-use Illuminate\Support\Facades\DB;
 use App\Models\Crm\CrmCurso;
+use App\Livewire\PortalRh\Sucursal\SucursalTable;
 use App\Models\Crm\CrmEmpresa;
 use App\Models\Crm\EsmartLevantamiento;
 use Livewire\Component;
@@ -40,7 +40,7 @@ class Vistaprincipal extends Component
     public $consultanom035;
     public $leadGlobal;
     public $recuperarLead;
-    public $mostrarOperativo = false, $mostrarEspecializado = false, $mostrarEjecutivo = false;
+    public $mostrarOperativo = false, $mostrarEspecializado = false, $mostrarEjecutivo = false, $op, $esp, $eje;
     public $mensajesservicioshead = "¿Cuántos necesita?";
     public $show = false;
     public $totalvacantes, $consultasumahh;
@@ -57,6 +57,36 @@ class Vistaprincipal extends Component
         'lead.puesto' => 'required',
         'lead.correo' => 'required',
         'lead.telefono' => 'required',
+        'lead.telefono_2' => 'required',
+        'lead.nombre_contacto_2' => 'required',
+        'lead.puesto_contacto_2' => 'required',
+
+        // University ----------------------
+        'university.nombre_curso'=> 'required',
+        'university.participantes'=> 'required',
+        'university.departamentos_participan'=> 'required',
+        'university.puestos_participan'=> 'required',
+        'university.fecha_habilitada'=> 'required',
+        'university.dc3_requieren'=> 'required',
+        'university.nuevo_existente'=> 'required',
+        'university.nuevo_curso'=> 'required',
+        'university.horas_nuevo'=> 'required',
+        'university.tipo_curso'=> 'required',
+        // ---------------------------------
+
+        // Cursos Trainig ------------------
+        'training.nombre_curso' => 'required',
+        'training.modalidad' => 'required',
+        'training.participantes' => 'required',
+        'training.grupos' => 'required',
+        'training.puestos_participantes' => 'required',
+        'training.experiencia' => 'required',
+        'training.cual' => 'required',
+        'training.objetivo_curso' => 'required',
+        'training.fecha_tentativa' => 'required',
+        'training.presupuesto' => 'required',
+        // ---------------------------------
+
         //'lead.tipo' => 'required',
         //TABLA Head Levantamiento de pedidos
         'hh.numero_lead' => 'required',
@@ -92,6 +122,12 @@ class Vistaprincipal extends Component
         'nom035.ejecutivos' => 'required',
         'nom035.numero_pedido' => 'required',
         'nom035.users_id' => 'required',
+
+        // esmart university
+        'esmart.fecha' => 'required',
+        'esmart.hora' => 'required',
+        'esmart.numero_pedido' => 'required',
+        'esmart.user_id' => 'required',
     ];
 
     public function mount()
@@ -104,7 +140,8 @@ class Vistaprincipal extends Component
             $this->lead['numero_lead'] = $this->consulta->numero_lead + 1;
         }
 
-        $this->consultasumahh = DB::select("SELECT operativos, especializados, ejecutivos, (operativos + especializados + ejecutivos) AS resultado FROM head_levantamiento_pedidos");
+        // $this->consultanom035 = Nom035Levpedido::get();
+        // $this->consultasumahh = DB::select("SELECT campo1, campo2, campo3, (campo1 + campo2 + campo3) AS resultado FROM tabla_original");
 
         // Establece el valor del numero de pedido para head hunting en 1 o le aumenta en 1 si ya no es nulo
 
@@ -113,15 +150,6 @@ class Vistaprincipal extends Component
             $this->hh['numero_pedido'] = 1;
         } else {
             $this->hh['numero_pedido'] = $this->pedido_hh->numero_pedido + 1;
-        }
-
-        // Establece el valor del numero de pedido para esmart en 1 o le aumenta en 1 si ya no es nulo
-
-        $this->pedido = EsmartLevantamiento::where('numero_pedido')->orderBy('id', 'desc')->first();
-        if (empty($this->pedido)) {
-            $this->esmart['numero_pedido'] = 1;
-        } else {
-            $this->esmart['numero_pedido'] = $this->pedido->numero_pedido + 1;
         }
 
         $this->empresas = CrmEmpresa::all();
@@ -135,13 +163,15 @@ class Vistaprincipal extends Component
         $this->hh['fecha_y_hora'] = Carbon::now()->format('Y-m-d H:s:i');
         $this->hh['users_id'] = Auth::user()->id;
 
-
         $this->paginacion = 2;
         $this->curso = 'existente';
-        // if($this->hh['tipo_servicio']==false)
-        // {
 
-        // }
+        $this->hh['fecha_y_hora'] = Carbon::now()->format('Y-m-d H:s:i');
+        $this->hh['users_id'] = Auth::user()->id;
+        $this->hh['tipo'] = 'Lead';
+
+        $this->paginacion = 0;
+        $this->curso = 0;
     }
 
     public function guardarEsmart()
@@ -375,6 +405,9 @@ class Vistaprincipal extends Component
         //Si el checkbox es true, asígnale la cadena de texto operativo, especializado o ejecutivo
         if ($this->mostrarOperativo == true) {
             $this->hh['tipo_servicio'] = 'operativo';
+            $this->hh['operativos'] = $this->op;
+            $this->hh['especializados'] = $this->esp;
+            $this->hh['ejecutivos'] = $this->eje;
         }
 
         if ($this->mostrarEspecializado == true) {

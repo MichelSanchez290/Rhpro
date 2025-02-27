@@ -140,12 +140,12 @@ final class EsmartLevantamientoTable extends PowerGridComponent
         ];
     }
 
-    public function filters(): array
-    {
-        return [
-            Filter::datepicker('fecha'),
-        ];
-    }
+    // public function filters(): array
+    // {
+    //     return [
+    //         Filter::datepicker('fecha'),
+    //     ];
+    // }
 
     #[\Livewire\Attributes\On('edit')]
     public function edit($rowId): void
