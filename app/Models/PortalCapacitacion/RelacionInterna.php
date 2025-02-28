@@ -29,5 +29,16 @@ class RelacionInterna extends Model
         return $this->belongsToMany(PerfilPuesto::class, 'relacion_interna_perfil_puesto', 'relaciones_internas_id', 'perfiles_puestos_id'); // Modelo relacionado
     }
 
+     // Relación uno a muchos con empresas
+     public function empresa()
+     {
+         return $this->belongsTo(Empresa::class);
+     }
+ 
+     // Relación uno a muchos con sucursales 
+     public function sucursal()
+     {
+         return $this->belongsTo(Sucursal::class);
+     }
     
 }

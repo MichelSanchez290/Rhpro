@@ -41,42 +41,177 @@
                 </a>
                 <ul class="pl-7 mt-2 hidden group-[.selected]:block">
                     @can('Mostrar Perfil Puesto')
-                    <li class="mb-4">
-                        <a href="{{ route('mostrarPerfilPuesto') }}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Ver Perfil de Puesto</a>
-                    </li> 
+                        <li class="mb-4">
+                            <a href="{{ route('mostrarPerfilPuesto') }}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Ver Perfil de Puesto</a>
+                        </li> 
                     @endcan
-                    <li class="mb-4">
-                        <a href="{{route('mostrarFuncionesEspecificas')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Funciones Especificas</a>
-                    </li> 
-                    <li class="mb-4">
-                      <a href="{{route('mostrarRelacionesInternas')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Relaciones Internas</a>
-                    </li> 
-                    <li class="mb-4">
-                      <a href="{{route('mostrarRelacionesExternas')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Relaciones Externas</a>
-                    </li> 
-                    <li class="mb-4">
-                      <a href="{{route('mostrarResponsabilidadesUniversales')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Responsabilidades Universales</a>
-                    </li> 
-                    <li class="mb-4">
-                      <a href="{{route('mostrarHabilidadesHumanas')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Habilidades humanas</a>
-                    </li>
-                    <li class="mb-4">
-                      <a href="{{route('mostrarHabilidadesTecnicas')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Habilidades técnica</a>
-                    </li>  
+
+                    @can('Mostrar Funciones Especificas')
+                        <li class="mb-4">
+                            <a href="{{route('mostrarFuncionesEspecificas')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Funciones Especificas</a>
+                        </li> 
+                    @endcan
+
+                    @can('Mostrar Relaciones Internas')
+                        <li class="mb-4">
+                        <a href="{{route('mostrarRelacionesInternas')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Relaciones Internas</a>
+                        </li> 
+                    @endcan
+
+                    @can('Mostrar Relaciones Externas')
+                        <li class="mb-4">
+                        <a href="{{route('mostrarRelacionesExternas')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Relaciones Externas</a>
+                        </li> 
+                    @endcan
+
+                    @can('Mostrar Responsabilidades Universales')
+                        <li class="mb-4">
+                        <a href="{{route('mostrarResponsabilidadesUniversales')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Responsabilidades Universales</a>
+                        </li> 
+                    @endcan
+                    
+                    @can('Mostrar Habilidades Humanas')
+                        <li class="mb-4">
+                        <a href="{{route('mostrarHabilidadesHumanas')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Habilidades humanas</a>
+                        </li>
+                    @endcan
+
+                    @can('Mostrar Habilidades Tecnicas')
+                        <li class="mb-4">
+                        <a href="{{route('mostrarHabilidadesTecnicas')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Habilidades técnica</a>
+                        </li> 
+                    @endcan
+
+                     <!-- vista para admin empresa --> 
+                    @can('Mostrar Perfil Puesto Empresa')
+                        <li class="mb-4">
+                            <a href="{{ route('mostrarPerfilPuestoEmpresa') }}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Ver Perfil de Puesto Empresa</a>
+                        </li> 
+                    @endcan
+                    @can('Mostrar Funciones Especificas Empresa')
+                     <li class="mb-4">
+                         <a href="{{ route('mostrarFuncionesEspecificasEmpresa') }}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Funciones Especificas Empresa</a>
+                     </li> 
+                    @endcan
+                    @can('Mostrar Relaciones Internas Empresa')
+                        <li class="mb-4">
+                            <a href="{{ route('mostrarRelacionesInternasEmpresa') }}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Relaciones Internas Empresa</a>
+                        </li> 
+                    @endcan
+                    @can('Mostrar Relaciones Externas Empresa')
+                        <li class="mb-4">
+                            <a href="{{ route('mostrarRelacionesExternasEmpresa') }}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Relaciones Externas Empresa</a>
+                        </li> 
+                    @endcan
+
+                    @can('Mostrar Responsabilidades Universales Empresa')
+                        <li class="mb-4">
+                            <a href="{{route('mostrarResponsabilidadesUniversalesEmpresa')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Responsabilidades Universales empresa</a>
+                        </li> 
+                    @endcan
+
+                    @can('Mostrar Habilidades Humanas Empresa')
+                        <li class="mb-4">
+                        <a href="{{route('mostrarHabilidadesHumanasEmpresa')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Habilidades humanas empresa</a>
+                        </li>
+                    @endcan
+
+                    @can('Mostrar Habilidades Tecnicas Empresa')
+                        <li class="mb-4">
+                        <a href="{{route('mostrarHabilidadesTecnicasEmpresa')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Habilidades técnica empresa</a>
+                        </li> 
+                    @endcan
+
+                    <!-- vista para admin sucursal --> 
+                    @can('Mostrar Perfil Puesto Sucursal')
+                        <li class="mb-4">
+                            <a href="{{ route('mostrarPerfilPuestoSucursal') }}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Ver Perfil de Puesto Sucursal</a>
+                        </li> 
+                    @endcan
+                    @can('Mostrar Funciones Especificas Sucursal')
+                        <li class="mb-4">
+                            <a href="{{ route('mostrarFuncionesEspecificasSucursal') }}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Funciones Especificas Sucursal</a>
+                        </li> 
+                    @endcan
+                    @can('Mostrar Relaciones Internas Sucursal')
+                        <li class="mb-4">
+                            <a href="{{ route('mostrarRelacionesInternasSucursal') }}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Relaciones Internas sucursal</a>
+                        </li> 
+                    @endcan
+                    @can('Mostrar Relaciones Externas Sucursal')
+                        <li class="mb-4">
+                            <a href="{{ route('mostrarRelacionesExternasSucursal') }}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Relaciones Externas sucursal</a>
+                        </li> 
+                    @endcan
+                    @can('Mostrar Responsabilidades Universales Sucursal')
+                        <li class="mb-4">
+                            <a href="{{route('mostrarResponsabilidadesUniversalesSucursal')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Responsabilidades Universales Sucursal</a>
+                        </li> 
+                    @endcan
+                    @can('Mostrar Habilidades Humanas Sucursal')
+                        <li class="mb-4">
+                        <a href="{{route('mostrarHabilidadesHumanasSucursal')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Habilidades humanas sucursal</a>
+                        </li>
+                    @endcan
+                    @can('Mostrar Habilidades Tecnicas Sucursal')
+                        <li class="mb-4">
+                        <a href="{{route('mostrarHabilidadesTecnicasSucursal')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Habilidades técnica sucursal</a>
+                        </li> 
+                    @endcan
+
+
                 </ul>
             </li>
             <span class="text-gray-400 font-bold">Trabajadores</span>
             <li class="mb-1 group">
-              <a href="{{ route('mostrarUsuarios') }}" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
-                  <i class='bx bx-user mr-3 text-lg'></i>                
-                  <span class="text-sm">Users</span>
-              </a>
+                @can('Mostrar Usuarios') 
+                    <a href="{{ route('mostrarUsuarios') }}" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+                        <i class='bx bx-user mr-3 text-lg'></i>              
+                        <span class="text-sm">Users</span>
+                    </a>
+                @endcan
+
+                @can('Mostrar Usuarios Empresa') 
+                    <a href="{{ route('mostrarUsuariosEmpresa') }}" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+                        <i class='bx bx-user mr-3 text-lg'></i>              
+                        <span class="text-sm">Users Empresa</span>
+                    </a>
+                @endcan
+
+                @can('Mostrar Usuarios Sucursal') 
+                    <a href="{{ route('mostrarUsuariosSucursal') }}" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+                        <i class='bx bx-user mr-3 text-lg'></i>              
+                        <span class="text-sm">Users Sucursal</span>
+                    </a>
+                @endcan
+
+                @can('Mostrar Usuarios Trabajador') 
+                    <a href="{{ route('mostrarUsuariosTrabajador') }}" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+                        <i class='bx bx-user mr-3 text-lg'></i>              
+                        <span class="text-sm">Users Trabajador</span>
+                    </a>
+                @endcan
           </li>
             <li class="mb-1 group">
-                <a href="{{ route('asociarPuestoTrabajador') }}" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
-                    <i class='bx bx-archive mr-3 text-lg'></i>                
-                    <span class="text-sm">Asociar un Perfil de Puesto</span>
-                </a>
+                @can('Asociar Puesto Trabajador')
+                    <a href="{{ route('asociarPuestoTrabajador') }}" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+                        <i class='bx bx-archive mr-3 text-lg'></i>                
+                        <span class="text-sm">Asociar un Perfil de Puesto</span>
+                    </a>
+                @endcan
+
+                @can('Asociar Puesto Trabajador Empresa')
+                    <a href="{{ route('asociarPuestoTrabajadorEmpresa') }}" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+                        <i class='bx bx-archive mr-3 text-lg'></i>                
+                        <span class="text-sm">Asociar un Perfil de Puesto Empresa</span>
+                    </a>
+                @endcan
+                @can('Asociar Puesto Trabajador Sucursal')
+                    <a href="{{ route('asociarPuestoTrabajadorSucursal') }}" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+                        <i class='bx bx-archive mr-3 text-lg'></i>                
+                        <span class="text-sm">Asociar un Perfil de Puesto Sucursal</span>
+                    </a>
+                @endcan
             </li>
             <span class="text-gray-400 font-bold">PERSONAL</span>
             <li class="mb-1 group">
