@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Livewire\PortalCapacitacion\HabilidadesHumanas\AdminGeneral;
+namespace App\Livewire\PortalCapacitacion\Cursos\Tematicas\AdminGeneral;
 
 use Livewire\Component;
-use App\Models\PortalCapacitacion\FormacionHabilidadHumana;
+use App\Models\PortalCapacitacion\Tematica;
 use Illuminate\Support\Facades\Response;
 
-class MostrarHabilidadesHumanas extends Component
+class MostrarTematica extends Component
 {
     public $showModal = false; // Control para ventana emergente
     public $funcionToDelete;
 
     public function redirigir(){
-        return redirect()->route('agregarHabilidadesHumanas');
+        return redirect()->route('agregarTematicas');
     }
 
     protected $listeners = [
@@ -28,18 +28,18 @@ class MostrarHabilidadesHumanas extends Component
     public function deleteFuncion()
     {
         if ($this->funcionToDelete) {
-            FormacionHabilidadHumana::find($this->funcionToDelete)->delete();
-            session()->flash('message', 'Habilidad humana eliminada exitosamente.');
+            Tematica::find($this->funcionToDelete)->delete();
+            session()->flash('message', 'Tematica eliminada exitosamente.');
         }
 
         $this->funcionToDelete = null;
         $this->showModal = false;
 
-        return redirect()->route('mostrarHabilidadesHumanas');
+        return redirect()->route('verTematicas');
     }
 
     public function render()
     {
-        return view('livewire.portal-capacitacion.habilidades-humanas.admin-general.mostrar-habilidades-humanas')->layout("layouts.portal_capacitacion");
+        return view('livewire.portal-capacitacion.cursos.tematicas.admin-general.mostrar-tematica')->layout("layouts.portal_capacitacion");
     }
 }

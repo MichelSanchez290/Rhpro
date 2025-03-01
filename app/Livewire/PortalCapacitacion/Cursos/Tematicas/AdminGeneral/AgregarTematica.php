@@ -1,39 +1,34 @@
 <?php
 
-namespace App\Livewire\PortalCapacitacion\HabilidadesHumanas\AdminGeneral;
+namespace App\Livewire\PortalCapacitacion\Cursos\Tematicas\AdminGeneral;
 
 use Livewire\Component;
-use App\Models\PortalCapacitacion\FormacionHabilidadHumana;
-use App\Models\PortalRH\Empresa;
+use App\Models\PortalCapacitacion\Tematica;
 use App\Models\PortalRH\Sucursal;
-use Livewire\WithFileUploads;
+use App\Models\PortalRH\Empresa;
 
-class AgregarHabilidadesHumanas extends Component
+class AgregarTematica extends Component
 {
-    public $humana=[];
-    public $consulta; 
     public $empresas = [];
     public $sucursales = [];
     public $empresa_id;
-    public $sucursal_id;
+    public $sucursal_id; 
+    public $tematica = [];
 
     protected $rules = [
-        'humana.descripcion' => 'required',
-        'humana.nivel' => 'required',
         'empresa_id' => 'required',
         'sucursal_id' => 'required',
+        'tematica.nombre' => 'required',
     ];
 
     protected $messages = [
-        'humana.descripcion.required' => 'La descripción es obligatoria.',
-        'humana.nivel.required' => 'El nivel es obligatorio.',
         'empresa_id.required' => 'Debe seleccionar una empresa.',
         'sucursal_id.required' => 'Debe seleccionar una sucursal.',
+        'tematica.nombre.required' => 'La función específica es obligatoria.',
     ];
 
     public function mount()
     {
-        $this->consulta = FormacionHabilidadHumana::all();
         // Obtener todas las empresas
         $this->empresas = Empresa::all();
         // Iniciar las sucursales vacías hasta que se seleccione una empresa
@@ -48,28 +43,27 @@ class AgregarHabilidadesHumanas extends Component
         $this->sucursal_id = null;
     }
 
-    public function agregarHumana()
+    public function agregarTematica()
     {
         $this->validate();
 
-        FormacionHabilidadHumana::create([
-            'descripcion' => $this->humana['descripcion'],
-            'nivel' => $this->humana['nivel'],
+        Tematica::create([
             'empresa_id' => $this->empresa_id,
             'sucursal_id' => $this->sucursal_id,
+            'nombre' => $this->tematica['nombre']
         ]);
 
-        // Limpiar los datos del formulario
+        // Resetear valores después de guardar
         $this->empresa_id = null;
         $this->sucursal_id = null;
-        $this->humana = [];
+        $this->tematica = [];
         $this->sucursales = [];
-        
-        session()->flash('message', 'Habilidda Humana creada con exito');
+
+        session()->flash('message', 'Tematica agregada correctamente.');
     }
 
     public function render()
     {
-        return view('livewire.portal-capacitacion.habilidades-humanas.admin-general.agregar-habilidades-humanas')->layout("layouts.portal_capacitacion");
+        return view('livewire.portal-capacitacion.cursos.tematicas.admin-general.agregar-tematica')->layout("layouts.portal_capacitacion");
     }
 }

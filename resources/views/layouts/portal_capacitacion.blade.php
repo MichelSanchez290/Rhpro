@@ -162,7 +162,7 @@
 
                 </ul>
             </li>
-            <span class="text-gray-400 font-bold">Trabajadores</span>
+            <span class="text-gray-400 font-bold">TRABAJADORES</span>
             <li class="mb-1 group">
                 @can('Mostrar Usuarios') 
                     <a href="{{ route('mostrarUsuarios') }}" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
@@ -213,6 +213,32 @@
                     </a>
                 @endcan
             </li>
+
+            <ul class="mt-4">
+                <li class="mb-1 group">
+                    <a href="#" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100 sidebar-dropdown-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5" />
+                        </svg>         
+                        <span class="text-sm ml-2"> Cursos</span>
+                        <i class="ri-arrow-right-s-line ml-auto group-[.selected]:rotate-90"></i>
+                    </a>
+                    <ul class="pl-7 mt-2 hidden group-[.selected]:block">
+                        @can('Ver cursos')
+                            <li class="mb-4">
+                                <a href="{{ route('verCursos') }}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Ver Cursos</a>
+                            </li> 
+                        @endcan
+    
+                        @can('Ver tematicas')
+                            <li class="mb-4">
+                                <a href="{{route('verTematicas')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Ver Tematicas</a>
+                            </li> 
+                        @endcan    
+                    </ul>
+                </li>
+
+            
             <span class="text-gray-400 font-bold">PERSONAL</span>
             <li class="mb-1 group">
                 <a href="" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">

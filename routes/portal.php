@@ -92,6 +92,10 @@ use App\Livewire\PortalCapacitacion\AsociarPuestoTrabajador\AdminSucursal\Asocia
 use App\Livewire\PortalCapacitacion\AsociarPuestoTrabajador\AdminGeneral\AsignarPerfilPuesto;
 use App\Livewire\PortalCapacitacion\AsociarPuestoTrabajador\AdminEmpresa\AsignarPerfilPuestoEmpresa;
 use App\Livewire\PortalCapacitacion\AsociarPuestoTrabajador\AdminSucursal\AsignarPerfilPuestoSucursal;
+use App\Livewire\PortalCapacitacion\Cursos\Tematicas\AdminGeneral\MostrarTematica;
+use App\Livewire\PortalCapacitacion\Cursos\Tematicas\AdminGeneral\AgregarTematica;
+use App\Livewire\PortalCapacitacion\Cursos\Tematicas\AdminGeneral\EditarTematica;
+use App\Livewire\PortalCapacitacion\Cursos\Cursos\AdminGeneral\MostrarCurso;
 
 Route::get('/inicio', Inicio::class)->name('inicio-capacitacion');
 
@@ -220,3 +224,10 @@ Route::get('/asociar-perfil-puesto-sucursal', AsociarPuestoTrabajadorSucursal::c
 Route::get('/asignar-perfil-puesto/{id}/{tipoUsuario}', AsignarPerfilPuesto::class)->middleware('can:Asociar Puesto Trabajador')->name('asignarPerfilPuesto');
 Route::get('/asignar-perfil-puesto-empresa/{id}/{tipoUsuario}', AsignarPerfilPuestoEmpresa::class)->middleware('can:Asociar Puesto Trabajador Empresa')->name('asignarPerfilPuestoEmpresa');
 Route::get('/asignar-perfil-puesto-sucursal/{id}/{tipoUsuario}', AsignarPerfilPuestoSucursal::class)->middleware('can:Asociar Puesto Trabajador Sucursal')->name('asignarPerfilPuestoSucursal');
+
+//tematicas
+Route::get('/tematicas', MostrarTematica::class)->middleware('can:Ver tematicas')->name('verTematicas');
+Route::get('/agregar-tematicas', AgregarTematica::class)->middleware('can:Agregar tematicas')->name('agregarTematicas');
+Route::get('/editar-tematicas/{id}', EditarTematica::class)->middleware('can:Editar tematicas')->name('editarTematicas');
+
+Route::get('/curso', MostrarCurso::class)->middleware('can:Ver cursos')->name('verCursos');

@@ -25,7 +25,7 @@ return new class extends Migration
                 ->on( 'sucursales')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->string('TEnombre');
+            $table->string('nombre');
             $table->timestamps();
         });
     }

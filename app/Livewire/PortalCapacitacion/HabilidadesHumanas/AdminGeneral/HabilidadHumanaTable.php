@@ -60,7 +60,6 @@ final class HabilidadHumanaTable extends PowerGridComponent
     public function fields(): PowerGridFields
     {
         return PowerGrid::fields()
-            ->add('id')
             ->add('descripcion')
             ->add('nivel')
             ->add('empresa_nombre')
@@ -70,7 +69,6 @@ final class HabilidadHumanaTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('Id', 'id'),
             Column::make('Descripcion', 'descripcion')
                 ->sortable()
                 ->searchable(),

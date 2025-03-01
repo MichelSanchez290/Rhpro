@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Livewire\PortalCapacitacion\FuncionesEspecificas\AdminGeneral;
+namespace App\Livewire\PortalCapacitacion\Cursos\Tematicas\AdminGeneral;
 
-use App\Models\PortalCapacitacion\FuncionEspecifica;
+use App\Models\PortalCapacitacion\Tematica;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
@@ -17,11 +17,9 @@ use Illuminate\Support\Facades\Crypt;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport; 
 use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable; 
 
-final class FuncionEspecificaTable extends PowerGridComponent
+final class TematicaTable extends PowerGridComponent
 {
-    use WithExport;
-
-    public string $tableName = 'funcion-especifica-table';
+    public string $tableName = 'tematica-table';
 
     public function setUp(): array
     {
@@ -33,63 +31,48 @@ final class FuncionEspecificaTable extends PowerGridComponent
             PowerGrid::footer()
                 ->showPerPage()
                 ->showRecordCount(),
-            PowerGrid::exportable(fileName: 'funcionesEspecificas-export-file') 
+            PowerGrid::exportable(fileName: 'tematicas-export-file') 
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV), 
         ];
     }
 
-    /**
-     * Origen de datos de la tabla
-     */
     public function datasource(): Builder
     {
-        // return FuncionEspecifica::query();join
-        return FuncionEspecifica::query()
-            ->join('empresas', 'empresas.id', 'funciones_esp.empresa_id')
-            ->join('sucursales', 'sucursales.id', 'funciones_esp.sucursal_id')
-            ->select(
-                'funciones_esp.id', 
-                'funciones_esp.nombre', 
+        return Tematica::query()
+            ->join('empresas', 'empresas.id', 'tematicas.empresa_id')
+            ->join('sucursales', 'sucursales.id', 'tematicas.sucursal_id')
+            ->select([
+                'tematicas.id',
+                'tematicas.nombre',
                 'empresas.nombre as empresa_nombre',
-                'sucursales.nombre_sucursal as sucursal_nombre');
-
-
+                'sucursales.nombre_sucursal as sucursal_nombre']);
     }
 
-    /**
-     * Relación de búsqueda para las columnas (si aplica)
-     */
     public function relationSearch(): array
     {
         return [];
     }
 
-    /**
-     * Definición de las columnas de datos
-     */
     public function fields(): PowerGridFields
     {
         return PowerGrid::fields()
-            ->add('nombre')
             ->add('empresa_nombre')
-            ->add('sucursal_nombre');
+            ->add('sucursal_nombre')
+            ->add('nombre');
     }
 
-    /**
-     * Definición de columnas y sus estilos
-     */
     public function columns(): array
     {
         return [
+            Column::make('Empresa id', 'empresa_nombre')
+                ->sortable(),
+
+            Column::make('Sucursal id', 'sucursal_nombre')
+                ->sortable(),
+
             Column::make('Nombre', 'nombre')
                 ->sortable()
                 ->searchable(),
-
-            Column::make('Empresa', 'empresa_nombre')
-                ->sortable(),
-
-            Column::make('Sucursal', 'sucursal_nombre')
-                ->sortable(),
 
             Column::action('Action')
         ];
@@ -107,16 +90,13 @@ final class FuncionEspecificaTable extends PowerGridComponent
         $this->js('alert('.$rowId.')');
     }
 
-    /**
-     * Configuración de botones de acción (Editar y Eliminar)
-     */
-    public function actions(FuncionEspecifica $row): array
+    public function actions(Tematica $row): array
     {
         return [
             Button::add('edit')
                 ->slot('Editar')
                 ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
-                ->route('editarFuncionesEspecificas', ['id' => Crypt::encrypt($row->id)]),
+                ->route('editarTematicas', ['id' => Crypt::encrypt($row->id)]),
 
             Button::add('delete')
                 ->slot('Eliminar')
@@ -124,4 +104,16 @@ final class FuncionEspecificaTable extends PowerGridComponent
                 ->dispatch('confirmDelete', ['id' => $row->id]),
         ];
     }
+
+    /*
+    public function actionRules($row): array
+    {
+       return [
+            // Hide button edit for ID 1
+            Rule::button('edit')
+                ->when(fn($row) => $row->id === 1)
+                ->hide(),
+        ];
+    }
+    */
 }

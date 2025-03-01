@@ -113,7 +113,7 @@
                     @endforelse
                 </div>
 
-                <p class="text-gray-600"><strong class="text-gray-600">Edad deseable:</strong> {{ $perfilactual?->rango_edad_deseable ?? 'No definido' }}</p>
+                <p class="text-gray-600"><strong class="text-gray-600">Edad deseable:</strong> {{ $perfilactual?->rango_edad_desable ?? 'No definido' }}</p>
                 <p class="text-gray-600"><strong class="text-gray-600">Sexo preferente:</strong> {{ $perfilactual?->sexo_preferente ?? 'No definido' }}</p>
                 <p class="text-gray-600"><strong class="text-gray-600">Estado civil deseable:</strong> {{ $perfilactual?->estado_civil_deseable ?? 'No definido' }}</p>
                 <p class="text-gray-600"><strong class="text-gray-600">Escolaridad:</strong> {{ $perfilactual?->escolaridad ?? 'No definido' }}</p>
