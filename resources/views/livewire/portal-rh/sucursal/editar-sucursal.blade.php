@@ -124,21 +124,38 @@
                     </div>
                 </div>
 
-                <!-- Registro Patronal -->
-                <div class="grid grid-cols-1 mt-5">
-                    <label for="registro_patronal_id"
-                        class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Registro
-                        Patronal</label>
-                    <select wire:model.defer="registro_patronal_id" id="registro_patronal_id"
-                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-                        <option value="">Seleccione un usuario</option>
-                        @foreach ($regpatronales as $regpatronal)
-                            <option value="{{ $regpatronal->id }}">{{ $regpatronal->registro_patronal }}</option>
-                        @endforeach
-                    </select>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
+                    <!-- Registro Patronal -->
+                    <div class="grid grid-cols-1 mt-5">
+                        <label for="registro_patronal_id"
+                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Registro
+                            Patronal</label>
+                        <select wire:model.defer="registro_patronal_id" id="registro_patronal_id"
+                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                            <option value="">Seleccione un usuario</option>
+                            @foreach ($regpatronales as $regpatronal)
+                                <option value="{{ $regpatronal->id }}">{{ $regpatronal->registro_patronal }}</option>
+                            @endforeach
+                        </select>
 
-                    <x-input-error for="registro_patronal_id" />
+                        <x-input-error for="registro_patronal_id" />
+                    </div>
+
+                    <div class="grid grid-cols-1 mt-5">
+                        <label for="empresa_id"
+                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Asociar Empresa</label>
+                        <select wire:model.defer="empresa_id" id="empresa_id"
+                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                            <option value="">Seleccione una Empresa</option>
+                            @foreach ($empresas as $empresa)
+                                <option value="{{ $empresa->id }}">{{ $empresa->nombre }}</option>
+                            @endforeach
+                        </select>
+    
+                        <x-input-error for="empresa_id" />
+                    </div>
                 </div>
+                
 
                 <!-- Botones -->
                 <div class='flex items-center justify-center md:gap-8 gap-4 pt-5 pb-5'>

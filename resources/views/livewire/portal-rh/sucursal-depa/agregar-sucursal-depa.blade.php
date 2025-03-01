@@ -15,7 +15,7 @@
 
             <form class="mt-5 mx-7">
 
-                <!-- Registro Patronal -->
+                <!-- -->
                 <div class="grid grid-cols-1 mt-5">
                     <label for="sucursal_id"
                         class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Sucursales</label>
@@ -30,7 +30,7 @@
                     <x-input-error for="sucursaldepa.sucursal_id" />
                 </div>
 
-                <!-- Registro Patronal -->
+                <!-- -->
                 <div class="grid grid-cols-1 mt-5">
                     <label for="departamento_id"
                         class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Departamentos</label>
@@ -43,19 +43,6 @@
                     </select>
 
                     <x-input-error for="sucursaldepa.departamento_id" />
-                </div>
-
-                <div class="grid grid-cols-1 mt-5">
-                    <label for="status"
-                        class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Status</label>
-                    <select wire:model.defer="sucursaldepa.status" id="status"
-                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-                        <option value="" selected>-- Selecciona una opción --</option>
-                        <option value="Activo">Activo</option>
-                        <option value="Inactivo">Inactivo</option>
-                    </select>
-
-                    <x-input-error for="sucursaldepa.status" />
                 </div>
 
                 <!-- Botones -->

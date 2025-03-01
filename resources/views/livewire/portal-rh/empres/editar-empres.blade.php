@@ -87,21 +87,42 @@
                 </div>
 
                 <!-- URL Constancia -->
-                <div class="grid grid-cols-1 mt-5">
-                    <label for="url_constancia_situacion_fiscal"
-                        class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">URL
-                        Constancia de Situación Fiscal</label>
-                    <input wire:model.defer="url_constancia_situacion_fiscal" type="url"
-                        id="url_constancia_situacion_fiscal" placeholder="https://..."
-                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                <div class="flex flex-col items-center mt-5">
+                    <label for="subirPdf" class="uppercase text-lg md:text-xl text-gray-600 font-semibold mb-4">
+                        Constancia Situación Fiscal
+                    </label>
 
-                    <x-input-error for="url_constancia_situacion_fiscal" />
+                    <div class="mx-auto cursor-pointer flex w-full max-w-lg flex-col items-center rounded-xl border-2 border-dashed border-blue-400 bg-white p-6 text-center"
+                        onclick="document.getElementById('fileInput').click()" ondragover="event.preventDefault()"
+                        ondrop="handleDrop(event)">
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-blue-500" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                        </svg>
+
+                        <h2 class="mt-4 text-xl font-medium text-gray-700 tracking-wide">Adjuntar archivo</h2>
+                        <p class="mt-2 text-gray-500 tracking-wide">Seleccione o arrastre su archivo aquí</p>
+
+                        <!-- Input oculto, activado al hacer clic -->
+                        <input type="file" id="fileInput" class="hidden" wire:model="subirPdf" accept=".pdf" />
+
+                        <br>
+
+                        @if ($subirPdf)
+                            <img src="{{ asset('img/pdf_icon.jpeg') }}" alt="PDF Icon" width="100" height="100">
+                        @endif
+                    </div>
+
+                    <!-- Mensaje de error -->
+                    <x-input-error for="subirPdf" class="text-red-600 text-sm mt-2" />
                 </div>
 
                 <!-- Botones -->
                 <div class='flex items-center justify-center md:gap-8 gap-4 pt-5 pb-5'>
 
-                    <button type="button" wire:click="actualizarEmpres()"
+                    <button type="button" wire:click="actualizarEmpresa"
                         class='w-auto bg-blue-500 hover:bg-blue-700 rounded-lg shadow-xl font-medium text-white px-4 py-2'>
                         Actualizar
                     </button>

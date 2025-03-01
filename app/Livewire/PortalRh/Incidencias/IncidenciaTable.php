@@ -17,6 +17,7 @@ use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 final class IncidenciaTable extends PowerGridComponent
 {
@@ -42,14 +43,32 @@ final class IncidenciaTable extends PowerGridComponent
     {
         $user = Auth::user();
 
-        return Incidencia::query()
-            ->join('user_incidencia', 'incidencias.id', '=', 'user_incidencia.incidencia_id')
-            ->join('users', 'user_incidencia.user_id', '=', 'users.id')
-            ->select([
-                'incidencias.*',
-                'users.name as nombre_usuario'
-            ])
-            ->where('users.id', $user->id);
+        if ($user->hasRole('GoldenAdmin')) { // Ajusta el nombre del rol según corresponda
+            // Para Admin, mostramos TODAS las incidencias usando leftJoin para obtener el nombre del usuario,
+            // o un mensaje por defecto si no hay registro en la tabla pivote.
+            $query = Incidencia::query()
+                ->leftJoin('user_incidencia', 'incidencias.id', '=', 'user_incidencia.incidencia_id')
+                ->leftJoin('users', 'users.id', '=', 'user_incidencia.user_id')
+                ->select([
+                    'incidencias.*',
+                    'users.name as nombre_usuario'
+                ]);
+        } elseif ($user->hasRole(['Trabajador PORTAL RH', 'Trabajador GLOBAL', 'Practicante'])) {
+            // Para estos roles, usamos inner join y filtramos por su user_id
+            $query = Incidencia::query()
+                ->join('user_incidencia', 'incidencias.id', '=', 'user_incidencia.incidencia_id')
+                ->join('users', 'users.id', '=', 'user_incidencia.user_id')
+                ->select([
+                    'incidencias.*',
+                    'users.name as nombre_usuario'
+                ])
+                ->where('user_incidencia.user_id', $user->id);
+        } else {
+            // Consulta por defecto
+            $query = Incidencia::query()->select('incidencias.*');
+        }
+
+        return $query;
     }
 
     public function relationSearch(): array
@@ -62,7 +81,9 @@ final class IncidenciaTable extends PowerGridComponent
         return PowerGrid::fields()
             ->add('id')
             ->add('id')
+            ->add('nombre_usuario')
             ->add('tipo_incidencia')
+            ->add('status')
             ->add('fecha_inicio_formatted', fn (Incidencia $model) => Carbon::parse($model->fecha_inicio)->format('d/m/Y'))
             ->add('fecha_final_formatted', fn (Incidencia $model) => Carbon::parse($model->fecha_final)->format('d/m/Y'));
     }
@@ -71,6 +92,10 @@ final class IncidenciaTable extends PowerGridComponent
     {
         return [
             Column::make('Id', 'id'),
+
+            Column::make('Usuario', 'nombre_usuario')
+                ->sortable()
+                ->searchable(),
             
             Column::make('Incidencia', 'tipo_incidencia')
                 ->sortable()
@@ -89,8 +114,6 @@ final class IncidenciaTable extends PowerGridComponent
     public function filters(): array
     {
         return [
-            Filter::datepicker('fecha_inicio'),
-            Filter::datepicker('fecha_final'),
         ];
     }
 
@@ -102,13 +125,23 @@ final class IncidenciaTable extends PowerGridComponent
 
     public function actions(Incidencia $row): array
     {
-        return [
-            Button::add('edit')
-                ->slot('Edit: '.$row->id)
-                ->id()
-                ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-                ->dispatch('edit', ['rowId' => $row->id])
-        ];
+        $actions = [];
+
+        if (Gate::allows('Editar Incidencia')) {
+            $actions[] = Button::add('edit')
+                ->slot('Editar')
+                ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
+                ->route('editarincidencia', ['id' => Crypt::encrypt($row->id)]);
+        }
+
+        if (Gate::allows('Eliminar Incidencia')) {
+            $actions[] = Button::add('delete')
+                ->slot('Eliminar')
+                ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
+                ->dispatch('confirmDelete', ['id' => $row->id]); 
+        }
+
+        return $actions;
     }
 
     /*

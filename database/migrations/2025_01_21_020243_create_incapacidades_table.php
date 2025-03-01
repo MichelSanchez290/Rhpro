@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('incapacidades', function (Blueprint $table) {
             $table->id();
+            $table->string('tipo', 255);
+            $table->text('motivo');
             $table->date('fecha_inicio');
             $table->date('fecha_final');
-            $table->string('motivo', 255);
-            $table->string('tipo', 255);
             $table->string('documento', 255);
             $table->string('status', 45);
-            $table->string('observaciones', 255);
-
+            $table->text('observaciones')->nullable();
+            $table->timestamps();
             
         });
     }

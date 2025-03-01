@@ -185,6 +185,18 @@
                     </div>
                 </div>
                 
+                <div class="grid grid-cols-1 mt-7">
+                    <label for="registroStps"
+                        class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold"> Registro STPS
+                    </label>
+                    <input wire:model.defer="instructor.registroStps" type="text" id="registroStps"
+                        placeholder="Registro STPS"
+                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                
+                    <x-input-error for="instructor.registroStps" />
+                </div>
+
+                <!-- *********** -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
                     <!--  -->
                     <div class="grid grid-cols-1 mt-5">
@@ -197,11 +209,8 @@
                     
                         <x-input-error for="instructor.telefono1" />
                     </div>
-                </div>
 
-                <!-- *********** -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="telefono2"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Telefono 2
                         </label>
@@ -212,22 +221,13 @@
                         <x-input-error for="instructor.telefono2" />
                     </div>
 
-                    <div class="grid grid-cols-1">
-                        <label for="registroStps"
-                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold"> Registro STPS
-                        </label>
-                        <input wire:model.defer="instructor.registroStps" type="text" id="registroStps"
-                            placeholder="Registro STPS"
-                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
                     
-                        <x-input-error for="instructor.registroStps" />
-                    </div>
                 </div>
 
                 <!-- ********************** -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
 
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="rfc"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold"> RFC
                         </label>
@@ -238,7 +238,7 @@
                         <x-input-error for="instructor.rfc" />
                     </div>
 
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="regimen"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
                             Regimen fiscal</label>
@@ -252,7 +252,7 @@
 
                 <!--  -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="estado"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Estado
                         </label>
@@ -263,7 +263,7 @@
                         <x-input-error for="instructor.estado" />    
                     </div>
 
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="municipio"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Municipio
                         </label>
@@ -277,7 +277,7 @@
 
                 <!--  -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="codigopostal"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Código Postal
                         </label>
@@ -288,7 +288,7 @@
                         <x-input-error for="instructor.codigopostal" />
                     </div>
 
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="colonia"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Colonia
                         </label>
@@ -302,7 +302,7 @@
 
                 <!-- ***********************  -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="calle"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Calle </label>
                         <input wire:model.defer="instructor.calle" type="text" id="calle" 
@@ -312,7 +312,7 @@
                         <x-input-error for="instructor.calle" />
                     </div>
 
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="numero"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Número </label>
                         <input wire:model.defer="instructor.numero" type="text" id="numero" 
@@ -351,7 +351,7 @@
 
                 <!-- ***********************  -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="dc5"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">DC5
                         </label>
@@ -362,7 +362,7 @@
                         <x-input-error for="instructor.dc5" />
                     </div>
 
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="cuentabancaria"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Cuenta Bancaria
                         </label>
@@ -376,7 +376,7 @@
 
                 <!-- ***********************  -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="ine"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">INE
                         </label>
@@ -387,7 +387,7 @@
                         <x-input-error for="instructor.ine" />
                     </div>
 
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="curp"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">CURP
                         </label>
@@ -401,7 +401,7 @@
 
                 <!-- ***********************  -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="sat"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">SAT
                         </label>
@@ -412,7 +412,7 @@
                         <x-input-error for="instructor.sat" />
                     </div>
 
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="domicilio"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Domicilio
                         </label>
@@ -426,7 +426,7 @@
 
                 <!-- ***********************  -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="tipoinstructor"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Tipo Instructor
                         </label>
@@ -437,7 +437,7 @@
                         <x-input-error for="instructor.tipoinstructor" />
                     </div>
 
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="nombre_empresa"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Nombre Empresa
                         </label>
@@ -451,7 +451,7 @@
 
                 <!-- ***********************  -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="rfc_empre"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">RFC Empresa
                         </label>
@@ -462,7 +462,7 @@
                         <x-input-error for="instructor.rfc_empre" />
                     </div>
 
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="calle_empre"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Calle Empresa
                         </label>
@@ -476,7 +476,7 @@
 
                 <!-- ***********************  -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="numero_empre"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Número Calle Empresa
                         </label>
@@ -487,7 +487,7 @@
                         <x-input-error for="instructor.numero_empre" />
                     </div>
 
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="colonia_empre"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Colonia Empresa
                         </label>
@@ -501,7 +501,7 @@
 
                 <!-- ***********************  -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="municipio_empre"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Municipio Empresa
                         </label>
@@ -512,7 +512,7 @@
                         <x-input-error for="instructor.municipio_empre" />
                     </div>
 
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="estado_empre"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Estado Empresa
                         </label>
@@ -526,7 +526,7 @@
 
                 <!-- ***********************  -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="postal_empre"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Código Postal Empresa
                         </label>

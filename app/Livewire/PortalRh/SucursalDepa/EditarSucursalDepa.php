@@ -23,7 +23,7 @@ class EditarSucursalDepa extends Component
         $this->sucursalDepa_id = $id;
         $this->sucursal_id = $sucursalDepa->sucursal_id;
         $this->departamento_id = $sucursalDepa->departamento_id;
-        $this->status = $sucursalDepa->status;
+        //$this->status = $sucursalDepa->status;
 
         $this->sucursales = Sucursal::all();
         $this->departamentos = Departamento::all();
@@ -34,13 +34,13 @@ class EditarSucursalDepa extends Component
         $this->validate([
             'sucursal_id' => 'required|integer',
             'departamento_id' => 'required|integer',
-            'status' => 'required|integer',
+            //'status' => 'required|integer',
         ]);
 
         SucursalDepartamento::updateOrCreate(['id' => $this->sucursalDepa_id], [
             'sucursal_id' => $this->sucursal_id,
             'departamento_id' => $this->departamento_id,
-            'status' => $this->status,
+            //'status' => $this->status,
         ]);
 
         return redirect()->route('mostrarsucursaldepa')->with('message', 'Asignación actualizada correctamente.');

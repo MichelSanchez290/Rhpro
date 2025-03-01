@@ -37,8 +37,6 @@ class AgregarPracticante extends Component
 
     public function updatedSucursal()
     {
-        // Obtener los puestos del departamento seleccionado
-        //dd();
         $this->departamentos = Sucursal::with('departamentos')->where('id', $this->sucursal)->get();
     }
 
@@ -50,15 +48,15 @@ class AgregarPracticante extends Component
 
     protected $rules = [
         'practicante.clave_practicante' => 'required|unique:practicantes,clave_practicante',
-        'practicante.numero_seguridad_social' => 'required',
+        'practicante.numero_seguridad_social' => 'required|digits:11|unique:practicantes,numero_seguridad_social',
         'practicante.fecha_nacimiento' => 'required',
         'practicante.lugar_nacimiento' => 'required',
         'practicante.estado' => 'required',
         'practicante.codigo_postal' => 'required|digits:5',
         'practicante.ocupacion' => 'required',
         'practicante.sexo' => 'required',
-        'practicante.curp' => 'required|size:18',
-        'practicante.rfc' => 'required|size:13',
+        'practicante.curp' => 'required|size:18|unique:practicantes,curp',
+        'practicante.rfc' => 'required|size:13|unique:practicantes,rfc',
         'practicante.numero_celular' => 'required|digits:10',
         'practicante.registro_patronal_id' => 'required|exists:registros_patronales,id',
 
@@ -76,12 +74,17 @@ class AgregarPracticante extends Component
     // MENSAJES DE VALIDACIÓN
     protected $messages = [
         'practicante.*.required' => 'Este campo es obligatorio.',
-        'practicante.clave_practicante.unique' => 'Esta clave ya existe.',
+        'practicante.clave_practicante.unique' => 'Esta clave ya esta asignada a otro practicante.',
         'practicante.codigo_postal.digits' => 'El código postal debe tener 5 dígitos.',
         'practicante.curp.size' => 'La CURP debe tener exactamente 18 caracteres.',
         'practicante.rfc.size' => 'El RFC debe tener exactamente 13 caracteres.',
         'practicante.numero_celular.digits' => 'El número de celular debe tener 10 dígitos.',
         'practicante.registro_patronal_id.exists' => 'El Reg Patronal seleccionado no existe.',
+
+        'practicante.numero_seguridad_social.digits' => 'El NSS debe tener 11 dígitos.',
+        'practicante.numero_seguridad_social.unique' => 'Este NSS ya esta asignada a otro practicante.',
+        'practicante.rfc.unique' => 'Esta RFC ya esta asignada a otro practicante.',
+        'practicante.curp.unique' => 'Esta CURP ya esta asignada a otro practicante.',
 
         'nombre.required' => 'Este campo es obligatorio.',
         'apellido_p.required' => 'Este campo es obligatorio.',

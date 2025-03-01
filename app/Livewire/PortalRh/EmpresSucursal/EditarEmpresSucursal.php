@@ -35,7 +35,7 @@ class EditarEmpresSucursal extends Component
         $this->empresSucursal_id = $empresaSucursal->id; // Asegurar que se usa el ID correcto
         $this->empresa_id = $empresaSucursal->empresa_id;
         $this->sucursal_id = $empresaSucursal->sucursal_id;
-        $this->status = $empresaSucursal->status;
+        //$this->status = $empresaSucursal->status;
 
         // Obtener todas las empresas y sucursales para los selects en la vista
         $this->empresas = Empresa::all();
@@ -49,7 +49,7 @@ class EditarEmpresSucursal extends Component
         $this->validate([
             'empresa_id' => 'required|integer',
             'sucursal_id' => 'required|integer',
-            'status' => 'required',
+            //'status' => 'required',
         ]);
     
         // Actualizar la tabla intermedia
@@ -58,7 +58,7 @@ class EditarEmpresSucursal extends Component
             ->update([
                 'empresa_id' => $this->empresa_id,
                 'sucursal_id' => $this->sucursal_id,
-                'status' => $this->status,
+                //'status' => $this->status,
                 'updated_at' => now(),
             ]);
 

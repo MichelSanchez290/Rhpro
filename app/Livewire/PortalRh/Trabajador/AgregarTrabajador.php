@@ -51,15 +51,14 @@ class AgregarTrabajador extends Component
 
     protected $rules = [
         'trabajador.clave_trabajador' => 'required|unique:trabajadores,clave_trabajador',
-        
-        'trabajador.numero_seguridad_social' => 'required',
+        'trabajador.numero_seguridad_social' => 'required|digits:11|unique:trabajadores,numero_seguridad_social',
         'trabajador.fecha_nacimiento' => 'required',
         'trabajador.lugar_nacimiento' => 'required',
         'trabajador.estado' => 'required',
         'trabajador.codigo_postal' => 'required|digits:5',
         'trabajador.sexo' => 'required',
-        'trabajador.curp' => 'required|size:18',
-        'trabajador.rfc' => 'required|size:13',
+        'trabajador.curp' => 'required|size:18|unique:trabajadores,curp',
+        'trabajador.rfc' => 'required|size:13|unique:trabajadores,rfc',
         'trabajador.numero_celular' => 'required|digits:10',
         'trabajador.fecha_ingreso' => 'required',
         'trabajador.edad' => 'required',
@@ -97,8 +96,12 @@ class AgregarTrabajador extends Component
         'trabajador.clave_trabajador.unique' => 'Esta clave ya existe.',
         'trabajador.codigo_postal.digits' => 'El código postal debe tener 5 dígitos.',
         'trabajador.curp.size' => 'La CURP debe tener exactamente 18 caracteres.',
+        'trabajador.curp.unique' => 'Esta CURP ya esta asignada a otro trabajador.',
         'trabajador.rfc.size' => 'El RFC debe tener exactamente 13 caracteres.',
+        'trabajador.rfc.unique' => 'Este RFC ya esta asignada a otro trabajador.',
         'trabajador.numero_celular.digits' => 'El número de celular debe tener 10 dígitos.',
+        'trabajador.numero_seguridad_social.digits' => 'El NSS debe tener 11 dígitos.',
+        'trabajador.numero_seguridad_social.unique' => 'Esta NSS ya esta asignada a otro trabajador.',
         'trabajador.registro_patronal_id.exists' => 'El Reg Patronal seleccionado no existe.',
 
         'nombre.required' => 'Este campo es obligatorio.',

@@ -93,8 +93,7 @@ class User extends Authenticatable
 
     public function incapacidades()
     {
-        //un becario pertenece a un user
-        return $this->belongsToMany(Incapacidad::class)->withPivot('user_id', 'incapacidad_id');
+        return $this->belongsToMany(Incapacidad::class, 'user_incapacidad', 'user_id', 'incapacidad_id')->withTimestamps();
     }
 
     public function incidencias()

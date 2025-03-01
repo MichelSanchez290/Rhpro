@@ -69,7 +69,12 @@ final class EmpresTable extends PowerGridComponent
             ->add('nombre_comercial')
             ->add('pais_origen')
             ->add('representante_legal')
-            ->add('url_constancia_situacion_fiscal')
+
+            ->add('url_constancia_situacion_fiscal', function (Empresa $model) {
+                return '<a href="' . asset('PortalRH/Empresas/' . basename($model->url_constancia_situacion_fiscal)) . '" target="_blank" class="text-blue-600 hover:underline">Ver PDF</a>';
+            })
+            
+            
             ->add('created_at');
     }
 
@@ -105,6 +110,8 @@ final class EmpresTable extends PowerGridComponent
             Column::make('Url constancia situacion fiscal', 'url_constancia_situacion_fiscal')
                 ->sortable()
                 ->searchable(),
+
+
 
             Column::make('Created at', 'created_at')
                 ->sortable()

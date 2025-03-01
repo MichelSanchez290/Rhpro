@@ -186,23 +186,21 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
-                    <div class="grid grid-cols-1 mt-5">
-                        <label for="registro_patronal_id"
-                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
-                            Registros Patronales</label>
-                        <select wire:model.defer="becario.registro_patronal_id" id="registro_patronal_id"
-                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-                            <option value=""> --- Seleccione un Registro Patronal --- </option>
-                            @foreach ($registros_patronales as $registro_patronal)
-                                <option value="{{ $registro_patronal->id }}">
-                                    {{ $registro_patronal->registro_patronal }}</option>
-                            @endforeach
-                        </select>
+                <div class="grid grid-cols-1 mt-7">
+                    <label for="registro_patronal_id"
+                        class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
+                        Registros Patronales</label>
+                    <select wire:model.defer="becario.registro_patronal_id" id="registro_patronal_id"
+                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                        <option value=""> --- Seleccione un Registro Patronal --- </option>
+                        @foreach ($registros_patronales as $registro_patronal)
+                            <option value="{{ $registro_patronal->id }}">
+                                {{ $registro_patronal->registro_patronal }}</option>
+                        @endforeach
+                    </select>
 
-                        <x-input-error for="becario.registro_patronal_id" />
-                        
-                    </div>
+                    <x-input-error for="becario.registro_patronal_id" />
+                    
                 </div>
 
                 <!-- NNS y Fecha Nacimiento -->
@@ -342,7 +340,7 @@
 
                 <!-- ********************************** -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="fecha_ingreso"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
                             Fecha Ingreso
