@@ -147,19 +147,19 @@ final class TecnologiaadmTable extends PowerGridComponent
     {
         return [
             Button::add('edit')
-            ->icon('default-edit')
-            ->class('btn btn-primary')
-            ->route('editartecad', ['id' => $row->id]),
-        Button::add('delete')
-            ->icon('default-trash')
-            ->class('btn btn-danger')
-            ->dispatch('openModal', [
-                'component' => 'borrar-activo',
-                'arguments' => [
-                    'vista' => 'mostrartecad', // Nombre de la vista actual
-                    'activo_id' => $row->id
-                ]
-            ]),
+                ->icon('default-edit')
+                ->class('btn btn-primary')
+                ->route('editartecad', ['id' => $row->id]),
+            Button::add('delete')
+                ->icon('default-trash')
+                ->class('btn btn-danger')
+                ->dispatch('openModal', [
+                    'component' => 'borrar-activo',
+                    'arguments' => [
+                        'vista' => 'mostrartecad', // Nombre de la vista actual
+                        'activo_id' => $row->id
+                    ]
+                ]),
         ];
     }
 

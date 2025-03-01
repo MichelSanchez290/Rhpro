@@ -9,16 +9,22 @@ use App\Models\PortalRH\Sucursal;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class Asignartec extends Component
 {
 
+    use WithFileUploads;
     public $empresas, $sucursales;
     public $empresaSeleccionada;
     public $sucursalesFiltradas = [];
     public $sucursal_id; // Agregamos esta propiedad para almacenar la sucursal seleccionada
     public $activosFiltrados = [];
     public $usuariosFiltrados = [];
+    public $subirfoto1, $subirfoto2, $subirfoto3;
+    public $usuarioSeleccionado; // Añadido
+    public $activoSeleccionado;
+    public $observaciones;
 
     public function mount()
     {
@@ -55,7 +61,7 @@ class Asignartec extends Component
         // Obtén los activos de tecnología relacionados con la sucursal seleccionada
         if ($sucursalId) {
             $this->activosFiltrados = ActivoTecnologia::where('sucursal_id', $sucursalId)->get();
-            $this->usuariosFiltrados = User::where('sucursal_id',$sucursalId)->get();
+            $this->usuariosFiltrados = User::where('sucursal_id', $sucursalId)->get();
         } else {
             $this->activosFiltrados = []; // Si no se selecciona una sucursal, vacía el listado de activos
             $this->usuariosFiltrados = [];
@@ -64,29 +70,56 @@ class Asignartec extends Component
 
     public function asignarActivo()
     {
-        // Validar que se hayan seleccionado un usuario y un activo
         $this->validate([
             'usuarioSeleccionado' => 'required|exists:users,id',
             'activoSeleccionado' => 'required|exists:activos_tecnologias,id',
+            'observaciones' => 'required|string',
+            'subirfoto1' => 'nullable|image|max:1024', // 1MB max
+            'subirfoto2' => 'nullable|image|max:1024',
+            'subirfoto3' => 'nullable|image|max:1024',
         ]);
-
-        // Obtener el usuario y el activo seleccionados
+    
         $usuario = User::find($this->usuarioSeleccionado);
         $activo = ActivoTecnologia::find($this->activoSeleccionado);
-
-        // Asignar el activo al usuario
+    
+        // Definir la ruta base para las imágenes
+        $rutaBase = 'ActivoFijo/Activos/ActivoTecnologia/Asignaciones/Admin';
+        $nombreActivo = $activo->nombre ?? 'activo_' . $activo->id; // Usar el nombre del activo o su ID si no hay nombre
+    
+        // Manejar el almacenamiento de las imágenes
+        $foto1Path = $this->subirfoto1 
+            ? $this->subirfoto1->storeAs($rutaBase, "{$nombreActivo}-foto1.png", 'public') 
+            : null;
+        $foto2Path = $this->subirfoto2 
+            ? $this->subirfoto2->storeAs($rutaBase, "{$nombreActivo}-foto2.png", 'public') 
+            : null;
+        $foto3Path = $this->subirfoto3 
+            ? $this->subirfoto3->storeAs($rutaBase, "{$nombreActivo}-foto3.png", 'public') 
+            : null;
+    
+        // Asignar el activo al usuario con las rutas de las imágenes
         $usuario->activosTecnologia()->attach($activo->id, [
             'fecha_asignacion' => now(),
             'fecha_devolucion' => null,
-            'observaciones' => 'Asignado manualmente',
+            'observaciones' => $this->observaciones,
             'status' => 1,
-            'foto1' => '',
-            'foto2' => '',
-            'foto3' => '',
+            'foto1' => $foto1Path,
+            'foto2' => $foto2Path,
+            'foto3' => $foto3Path,
         ]);
-
-        // Mostrar mensaje de éxito
-        session()->flash('message', 'Activo asignado correctamente.');
+    
+        // Resetear campos después de la asignación
+        $this->reset([
+            'usuarioSeleccionado',
+            'activoSeleccionado',
+            'observaciones',
+            'subirfoto1',
+            'subirfoto2',
+            'subirfoto3'
+        ]);
+    
+        // Redirigir con mensaje de éxito
+        return redirect()->route('mostrarasignaad');
     }
 
     public function render()

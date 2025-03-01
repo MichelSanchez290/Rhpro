@@ -43,9 +43,24 @@ class BorrarActivo extends ModalComponent
             'mostrarsouad' => 'App\\Models\\ActivoFijo\\Activos\\ActivoSouvenir',
             'mostrarofiad' => 'App\\Models\\ActivoFijo\\Activos\\ActivoOficina',
             'mostrarpapead' => 'App\\Models\\ActivoFijo\\Activos\\ActivoPapeleria',
-            
 
-            'mostrarnotas' =>' App\\Models\\ActivoFijo\\Notatecno'
+            'mostrarpapead' => 'App\\Models\\ActivoFijo\\Activos\\ActivoPapeleria',
+            'mostrarnotaem' => 'App\\Models\\ActivoFijo\\Notas\\Mostrarnotaem',
+
+            'asignaciones-tec' => null,
+            'asignaciones-mob' => null,
+            'asignaciones-uni' => null,
+            'asignaciones-ofi' => null,
+            'asignaciones-pape' => null,
+            'asignaciones-sou' => null,
+
+            'asignaciones-tec-empresa' => null,
+            'asignaciones-uni-empresa' => null,
+            'asignaciones-ofi-empresa' => null,
+            'asignaciones-pape-empresa' => null,
+            'asignaciones-sou-empresa' => null,
+            'asignaciones-mob-empresa' => null,
+
         ];
 
         // Verificar si la vista tiene un modelo asignado
@@ -56,11 +71,17 @@ class BorrarActivo extends ModalComponent
         $modeloClase = $modelos[$this->vista];
 
         // Verificar si la clase del modelo existe
-        if (class_exists($modeloClase)) {
-            $activo = $modeloClase::find($this->activo_id);
-            
-            if ($activo) {
-                $activo->delete();
+        if (is_null($modeloClase)) {
+            // Generar el nombre del evento basado en la vista
+            $evento = 'deleteAsignacion' . ucfirst(str_replace('asignaciones-', '', $this->vista));
+            $this->dispatch($evento, ['rowId' => $this->activo_id]);
+        } else {
+            // Lógica existente para modelos Eloquent
+            if (class_exists($modeloClase)) {
+                $activo = $modeloClase::find($this->activo_id);
+                if ($activo) {
+                    $activo->delete();
+                }
             }
         }
 

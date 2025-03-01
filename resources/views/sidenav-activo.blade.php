@@ -44,6 +44,11 @@
                     <a href="{{route('mostrartec')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Empresa</a>
                 </li>
                 @endcan
+                @can('Activo tecnologia Empresa')
+                <li class="mb-4">
+                    <a href="{{route('mostrarasigntecem')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Asignaciones</a>
+                </li>
+                @endcan
                 @can('Activo tecnologia Sucursal')
                 <li class="mb-4">
                     <a href="{{route('mostraracttec')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Sucursal</a>
@@ -61,6 +66,11 @@
                 @can('Activo mobiliario Admin')
                 <li class="mb-4">
                     <a href="{{route('mostrarmobad')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Administrador</a>
+                </li>
+                @endcan
+                @can('Activo mobiliario Admin')
+                <li class="mb-4">
+                    <a href="{{route('mostrarasignmobad')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Asignaciones</a>
                 </li>
                 @endcan
                 @can('Activo mobiliario Empresa')
@@ -87,6 +97,11 @@
                     <a href="{{route('mostrarofiad')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Administrador</a>
                 </li>
                 @endcan
+                @can('Activo oficina Admin')
+                <li class="mb-4">
+                    <a href="{{route('mostrarasignofiad')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Asignaciones</a>
+                </li>
+                @endcan
                 @can('Activo oficina Empresa')
                 <li class="mb-4">
                     <a href="{{route('mostrarofi')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Empresa</a>
@@ -108,7 +123,12 @@
             <ul class="pl-7 mt-2 hidden group-[.selected]:block">
                 @can('Activo uniforme Admin')
                 <li class="mb-4">
-                    <a href="" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Administrador</a>
+                    <a href="{{route('mostraruniad')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Administrador</a>
+                </li>
+                @endcan
+                @can('Activo uniforme Admin')
+                <li class="mb-4">
+                    <a href="{{route('mostrarasignuniad')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Asignaciones</a>
                 </li>
                 @endcan
                 @can('Activo uniforme Empresa')
@@ -135,6 +155,11 @@
                     <a href="{{route('mostrarpapead')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Administrador</a>
                 </li>
                 @endcan
+                @can('Activo papeleria Admin')
+                <li class="mb-4">
+                    <a href="{{route('mostrarasignpapead')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Asignaciones</a>
+                </li>
+                @endcan
                 @can('Activo papeleria Empresa')
                 <li class="mb-4">
                     <a href="{{route('mostrarpape')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Empresa</a>
@@ -157,6 +182,11 @@
                 @can('Activo souvenir Admin')
                 <li class="mb-4">
                     <a href="{{route('mostrarsouad')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Administrador</a>
+                </li>
+                @endcan
+                @can('Activo souvenir Admin')
+                <li class="mb-4">
+                    <a href="{{route('mostrarasignsouad')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Asignaciones</a>
                 </li>
                 @endcan
                 @can('Activo souvenir Empresa')

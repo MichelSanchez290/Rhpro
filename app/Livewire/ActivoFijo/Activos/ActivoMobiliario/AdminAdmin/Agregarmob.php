@@ -47,31 +47,33 @@ class Agregarmob extends Component
     ];
 
     public function mount()
-{
-    $this->empresas = Empresa::all();
-    $this->consulta = ActivoMobiliario::get();
-    $this->activo['tipo_activo_id'] = Tipoactivo::where('nombre_activo', 'Activo Mobiliarios')->value('id');
-    $this->anios = Anioestimado::pluck('vida_util_año', 'id')->toArray();
+    {
+        $this->empresas = Empresa::all();
+        $this->consulta = ActivoMobiliario::get();
+        $this->activo['tipo_activo_id'] = Tipoactivo::where('nombre_activo', 'Activo Mobiliarios')->value('id');
+        $this->anios = Anioestimado::pluck('vida_util_año', 'id')->toArray();
 
-    // Inicializar empresaSeleccionada con la empresa del usuario autenticado
-    $this->empresaSeleccionada = Auth::user()->empresa_id;
+        // Inicializar empresaSeleccionada con la empresa del usuario autenticado
+        $this->empresaSeleccionada = Auth::user()->empresa_id;
 
-    // Cargar sucursales de la empresa del usuario autenticado
-    $this->sucursalesFiltradas = Sucursal::join('empresa_sucursal', 'sucursales.id', '=', 'empresa_sucursal.sucursal_id')
-        ->where('empresa_sucursal.empresa_id', Auth::user()->empresa_id)
-        ->get();
-}
+        $this->updatedEmpresaSeleccionada($this->empresaSeleccionada);
+    }
+
+    public function hydrate()
+    {
+        $this->dispatch('render-select2'); // Dispara el evento para reinicializar Select2
+    }
 
     public function updatedEmpresaSeleccionada($empresaId)
     {
-        // Obtén las sucursales relacionadas con la empresa seleccionada
-        $empresa = Empresa::find($empresaId);
-        if ($empresa) {
-            $this->sucursalesFiltradas = $empresa->sucursales;
-        } else {
-            $this->sucursalesFiltradas = []; // Si no se encuentra la empresa, vacía el listado de sucursales
-        }
-        //dd($this->sucursalesFiltradas); // Verifica que las sucursales se filtren correctamente
+        $this->sucursalesFiltradas = Sucursal::join('empresa_sucursal', 'sucursales.id', '=', 'empresa_sucursal.sucursal_id')
+            ->where('empresa_sucursal.empresa_id', $empresaId)
+            ->get();
+
+        $this->activo['sucursal_id'] = '';
+
+        // Emitir un evento al frontend para reinicializar Select2
+        $this->dispatch('sucursales-actualizadas');
     }
 
     public function saveActivoMob()

@@ -1,5 +1,4 @@
 @section('css')
-    <!--Select2-->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <style>
         .select2-container--default .select2-selection--single {
@@ -7,9 +6,7 @@
             height: 47px;
             line-height: 28px;
             border-radius: 10px;
-            /* Mejor ajuste */
         }
-
         .select2 {
             width: 100%;
         }
@@ -22,25 +19,53 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Inicializa Select2 en los selects
-            $('#empresa').select2({
-                width: '100%' // Asegúrate de que ocupe todo el ancho
+        // Función para inicializar Select2
+        function initializeSelect2(selector) {
+            const $element = $(selector);
+            console.log('Intentando inicializar Select2 en:', selector, 'Elemento existe:', $element.length > 0);
+            
+            if ($element.hasClass('select2-hidden-accessible')) {
+                $element.select2('destroy');
+                console.log('Select2 destruido para:', selector);
+            }
+            
+            $element.select2({
+                width: '100%'
             });
+            console.log('Select2 aplicado a:', selector, 'Contenedor generado:', $element.next('.select2-container').length > 0);
+        }
 
-            $('#sucursall').select2({
-                width: '100%' // Asegúrate de que ocupe todo el ancho
-            });
+        // Inicialización al cargar la página
+        document.addEventListener('livewire:navigated', () => {
+            console.log('Livewire navigated ejecutado');
+            initializeSelect2('#empresa');
+            initializeSelect2('#sucursall');
 
-            // Cambios en el select de empresa
+            // Evento de cambio para Empresa
             $('#empresa').on('change', function() {
-                @this.set('empresaSeleccionada', this.value);
+                @this.set('empresaSeleccionada', $(this).val());
             });
 
-            // Cambios en el select de sucursal
+            // Evento de cambio para Sucursal
             $('#sucursall').on('change', function() {
-                @this.set('activo.sucursal_id', this.value);
+                @this.set('activo.sucursal_id', $(this).val());
             });
+        });
+
+        // Escuchar el evento personalizado desde updatedEmpresaSeleccionada
+        document.addEventListener('sucursales-actualizadas', () => {
+            console.log('Sucursales actualizadas detectadas');
+            setTimeout(() => {
+                initializeSelect2('#sucursall');
+            }, 50); // Pequeño retraso para asegurar que el DOM esté listo
+        });
+
+        // Escuchar el evento desde hydrate()
+        document.addEventListener('render-select2', () => {
+            console.log('Evento render-select2 disparado desde hydrate');
+            setTimeout(() => {
+                initializeSelect2('#sucursall');
+            }, 5);
         });
     </script>
 @endsection
@@ -57,7 +82,7 @@
             <div class="bg-white rounded-b-lg shadow-2xl p-6 ">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <!-- Select de Empresa -->
-                    <div class="my-2">
+                    <div class="my-2" wire:ignore>
                         <div class="py-2 my-2">
                             <label for="empresa" class="text-gray-700 font-bold text-xl">Empresa</label>
                         </div>

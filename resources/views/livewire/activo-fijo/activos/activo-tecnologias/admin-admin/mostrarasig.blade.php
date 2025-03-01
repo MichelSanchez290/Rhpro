@@ -13,4 +13,7 @@
             </button>
         </div>
     </div>
+    <div class="bg-white rounded-b-lg shadow-2xl p-6 mt-2">
+        <livewire:activofijo.tablaspower.admin.asignacionestec-table/>
+    </div>
 </div>
