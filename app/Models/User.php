@@ -36,6 +36,8 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use PHPUnit\Framework\MockObject\Stub\ReturnArgument;
 use Spatie\Permission\Traits\HasRoles;
+
+use App\Models\Dx035\DatoTrabajador;
     
 
 class User extends Authenticatable
@@ -206,7 +208,7 @@ class User extends Authenticatable
     //  /* RELACIONES MODULO CAPACITACION */
     public function empresa()
     {
-        return $this->belongsTo(Empresa::class, 'empresa_id', 'id');
+        return $this->belongsTo(Empresa::class, 'empresa_id');
     }
 
     public function asignacion()
@@ -240,4 +242,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(EsmartLevantamiento::class);
     }
+
+    // Dx035
+    public function datoTrabajadores()
+    {
+        return $this->hasMany(DatoTrabajador::class, 'users_id');
+    }
+
 }
