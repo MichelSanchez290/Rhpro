@@ -378,5 +378,6 @@ class UserRolDevSeeder extends Seeder
 
         
         // ************** FIN MODULO PORTAL DE CAPACITACIÓN ***************************************
+        
     }
 }

@@ -131,7 +131,7 @@ class AgregarEncuestaPreguntaEncpreAdministrador extends Component
             // Create new relationship
             Encpre::create([
                 'encuestas_id' => $this->formData['encuestas_id'],
-                'preguntas_id' => $this->formData['preguntas_id']
+                'preguntas_id' => $this->formData['preguntas_id'],
             ]);
 
             // Reset form
