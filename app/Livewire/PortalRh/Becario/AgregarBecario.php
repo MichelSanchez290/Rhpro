@@ -50,15 +50,15 @@ class AgregarBecario extends Component
 
     protected $rules = [
         'becario.clave_becario' => 'required|unique:becarios,clave_becario',
-        'becario.numero_seguridad_social' => 'required',
+        'becario.numero_seguridad_social' => 'required|digits:11|unique:becarios,numero_seguridad_social',
         'becario.fecha_nacimiento' => 'required',
         'becario.lugar_nacimiento' => 'required',
         'becario.estado' => 'required',
         'becario.codigo_postal' => 'required|digits:5',
         'becario.ocupacion' => 'required',
         'becario.sexo' => 'required',
-        'becario.curp' => 'required|size:18',
-        'becario.rfc' => 'required|size:13',
+        'becario.curp' => 'required|size:18|unique:becarios,curp',
+        'becario.rfc' => 'required|size:13|unique:becarios,rfc',
         'becario.numero_celular' => 'required|digits:10',
         'becario.fecha_ingreso' => 'required',
         'becario.status' => 'required',
@@ -80,12 +80,17 @@ class AgregarBecario extends Component
     // MENSAJES DE VALIDACIÓN
     protected $messages = [
         'becario.*.required' => 'Este campo es obligatorio.',
-        'becario.clave_becario.unique' => 'Esta clave ya existe.',
+        'becario.clave_becario.unique' => 'Esta clave ya esta asignada a otro becario.',
         'becario.codigo_postal.digits' => 'El código postal debe tener 5 dígitos.',
         'becario.curp.size' => 'La CURP debe tener exactamente 18 caracteres.',
         'becario.rfc.size' => 'El RFC debe tener exactamente 13 caracteres.',
         'becario.numero_celular.digits' => 'El número de celular debe tener 10 dígitos.',
         'becario.registro_patronal_id.exists' => 'El Reg Patronal seleccionado no existe.',
+
+        'becario.numero_seguridad_social.digits' => 'El NSS debe tener 11 dígitos.',
+        'becario.numero_seguridad_social.unique' => 'Este NSS ya esta asignada a otro becario.',
+        'becario.rfc.unique' => 'Esta RFC ya esta asignada a otro becario.',
+        'becario.curp.unique' => 'Esta CURP ya esta asignada a otro becario.',
 
         'nombre.required' => 'Este campo es obligatorio.',
         'apellido_p.required' => 'Este campo es obligatorio.',

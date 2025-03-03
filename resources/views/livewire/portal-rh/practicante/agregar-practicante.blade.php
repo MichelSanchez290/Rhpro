@@ -191,23 +191,19 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
+                <!-- Clave -->
+                <div class="grid grid-cols-1 mt-7">
+                    <label for="clave_practicante"
+                        class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
+                        Clave Practicante
+                    </label>
+                    <input wire:model.defer="practicante.clave_practicante" type="text" id="clave_practicante"
+                        placeholder="Clave del becario"
+                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"/>
+
+                    <x-input-error for="practicante.clave_practicante" /> 
                     
-
-                    <!-- Clave -->
-                    <div class="grid grid-cols-1 mt-5">
-                        <label for="clave_practicante"
-                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Clave
-                            Practicante</label>
-                        <input wire:model.defer="practicante.clave_practicante" type="text" id="clave_practicante"
-                            placeholder="Clave del becario"
-                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"/>
-
-                        <x-input-error for="practicante.clave_practicante" /> 
-                        
-                    </div>
                 </div>
-
 
                 <!-- NNS y Fecha Nacimiento -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">

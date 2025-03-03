@@ -27,8 +27,6 @@ return new class extends Migration
                     ->on( 'sucursales')  // Define que la relación es con la tabla xxx
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
-
-            $table->string('status', 45);
             $table->timestamps();
         });
     }

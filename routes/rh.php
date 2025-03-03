@@ -78,7 +78,12 @@ use App\Livewire\PortalRh\Practicante\CardPracticante;
 use App\Livewire\PortalRh\Incidencias\MostrarIncidencias;
 use App\Livewire\PortalRh\Incidencias\AgregarIncidencias;
 use App\Livewire\PortalRh\Incidencias\EditarIncidencias;
-use App\Livewire\PortalRh\Incidencias\AceptarIncidencias;
+use App\Livewire\PortalRh\Incidencias\VerIncidencias;
+
+use App\Livewire\PortalRh\Incapacidad\MostrarIncapacidad;
+use App\Livewire\PortalRh\Incapacidad\AgregarIncapacidad;
+use App\Livewire\PortalRh\Incapacidad\AceptarIncapacidad;
+use App\Livewire\PortalRh\Incapacidad\EditarIncapacidad;
 
 
 /*
@@ -385,6 +390,27 @@ Route::get(
     )->name('editarincidencia');
 
     Route::get( 
-        '/aceptar-incidencia',
-            AceptarIncidencias::class
-    )->name('aceptarincidencia');
+        '/mis-incidencias',
+            VerIncidencias::class
+    )->name('verincidencia');
+
+    // INCAPACIDAD ---------------------------------------------------------------
+    Route::get( 
+        '/incapacidad',
+            MostrarIncapacidad::class
+    )->name('mostrarincapacidad');
+
+    Route::get( 
+        '/create-incapacidad',
+            AgregarIncapacidad::class
+    )->name('agregarincapacidad');
+
+    Route::get( 
+        '/edit-incapacidad/{id}',
+            EditarIncapacidad::class
+    )->name('editarincapacidad');
+
+    Route::get( 
+        '/aceptar-incapacidad',
+            AceptarIncapacidad::class
+    )->name('aceptarincapacidad');

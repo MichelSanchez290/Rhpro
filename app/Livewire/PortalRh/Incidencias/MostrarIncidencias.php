@@ -8,7 +8,7 @@ use App\Models\PortalRH\Incidencia;
 class MostrarIncidencias extends Component
 {
     public $showModal = false; // Control para ventana emergente
-    public $sucursalToDelete; // ID de la sucursal a eliminar
+    public $incidenciaToDelete; // ID a eliminar
 
     // Redirigir a una vista para agregar sucursales
     public function redirigir()
@@ -24,21 +24,21 @@ class MostrarIncidencias extends Component
     
     public function confirmDelete($id)
     {
-        $this->sucursalToDelete = $id;
+        $this->incidenciaToDelete = $id;
         $this->showModal = true;
     }
     
     public function deleteIncidencia()
     {
-        if ($this->sucursalToDelete) {
-            Incidencia::find($this->sucursalToDelete)->delete();
+        if ($this->incidenciaToDelete) {
+            Incidencia::find($this->incidenciaToDelete)->delete();
             session()->flash('message', 'Incidencia eliminada exitosamente.');
         }
 
-        $this->sucursalToDelete = null;
+        $this->incidenciaToDelete = null;
         $this->showModal = false;
 
-        return redirect()->route('mostrarsucursal');
+        return redirect()->route('mostrarincidencia');
     }
 
     public function render()

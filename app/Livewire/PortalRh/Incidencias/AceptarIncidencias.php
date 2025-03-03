@@ -4,6 +4,7 @@ namespace App\Livewire\PortalRh\Incidencias;
 use App\Models\PortalRH\Incidencia;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 use Livewire\Component;
 
@@ -13,46 +14,39 @@ class AceptarIncidencias extends Component
 
     public function mount()
     {
-        // Obtener incidencias que aún no han sido aprobadas
-         $this->incidencias_pendientes = Incidencia::with('users')->doesntHave('users')->get();
+        // Obtener incidencias con status "Pendiente"
+        $this->incidencias_pendientes = Incidencia::with('users')
+        ->where('status', 'Pendiente')
+        ->get();
     }
 
     public function aprobar($incidenciaId)
     {
         $incidencia = Incidencia::findOrFail($incidenciaId);
 
-        // Obtener el usuario que solicitó la incidencia
-        $user = $incidencia->users()->first();
+        // Actualizar status de la incidencia a 'Aprobada'
+        $incidencia->status = 'Aprobada';
+        $incidencia->save();
 
-        if ($user) {
-            // Insertar en la tabla pivote user_incidencia
-            $incidencia->users()->syncWithoutDetaching([$user->id]);
+        session()->flash('message', 'Incidencia aprobada y registrada.');
 
-            // Notificar al usuario
-            session()->flash('message', 'Incidencia aprobada y registrada.');
-        }
-
-        // Actualizar la lista de incidencias pendientes
-        $this->mount();
+        // Recargar la página
+        return redirect()->to(request()->header('Referer'));
     }
 
     public function rechazar($incidenciaId)
     {
         $incidencia = Incidencia::findOrFail($incidenciaId);
 
-        // Obtener el usuario que solicitó la incidencia
-        $user = $incidencia->users()->first();
+        // Actualizar status de la incidencia a 'Rechazada'
+        $incidencia->status = 'Rechazada';
+        $incidencia->save();
 
-        if ($user) {
-            // Notificar al usuario que su incidencia fue rechazada
-            session()->flash('message', 'Incidencia rechazada.');
+        session()->flash('message', 'Incidencia rechazada.');
 
-            // Opcional: Eliminar la incidencia si no deseas conservar registros rechazados
-            $incidencia->delete();
-        }
-
-        // Actualizar la lista de incidencias pendientes
-        $this->mount();
+        // Recargar la página
+        return redirect()->to(request()->header('Referer'));
+        
     }
 
     public function render()

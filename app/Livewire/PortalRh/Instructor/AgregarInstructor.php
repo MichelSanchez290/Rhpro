@@ -48,7 +48,7 @@ class AgregarInstructor extends Component
         'instructor.telefono1' => 'required|digits:10',
         'instructor.telefono2' => 'required|digits:10',
         'instructor.registroStps' => 'required',
-        'instructor.rfc' => 'required|size:13',
+        'instructor.rfc' => 'required|size:13|unique:instructores,rfc',
         'instructor.regimen' => 'required',
         'instructor.estado' => 'required',
         'instructor.municipio' => 'required',
@@ -59,9 +59,9 @@ class AgregarInstructor extends Component
         'instructor.honorarios' => 'required',
         'instructor.status' => 'required',
         'instructor.dc5' => 'required',
-        'instructor.cuentabancaria' => 'required',
+        'instructor.cuentabancaria' => 'required|digits:16|unique:instructores,cuentabancaria',
         'instructor.ine' => 'required',
-        'instructor.curp' => 'required|size:18', //|size:18
+        'instructor.curp' => 'required|size:18|unique:instructores,curp', //|size:18
         'instructor.sat' => 'required',
         'instructor.domicilio' => 'required',
         'instructor.tipoinstructor' => 'required',
@@ -98,6 +98,11 @@ class AgregarInstructor extends Component
         'instructor.telefono1.digits' => 'El número de celular debe tener 10 dígitos.',
         'instructor.telefono2.digits' => 'El número de celular debe tener 10 dígitos.',
         'instructor.registro_patronal_id.exists' => 'El Reg Patronal seleccionado no existe.',
+
+        'instructor.cuentabancaria.digits' => 'El número de cuenta debe tener 16 dígitos.',
+        'instructor.rfc.unique' => 'Esta RFC ya esta asignada a otro instructor.',
+        'instructor.cuentabancaria.unique' => 'Esta cuenta ya esta asignada a otro instructor.',
+        'instructor.curp.unique' => 'Esta CURP ya esta asignada a otro instructor.',
 
         'nombre.required' => 'Este campo es obligatorio.',
         'apellido_p.required' => 'Este campo es obligatorio.',

@@ -23,7 +23,7 @@ class EditarDepartamentPuesto extends Component
         $this->depaPuesto_id = $id;
         $this->departamento_id = $depaPuesto->departamento_id;
         $this->puesto_id = $depaPuesto->puesto_id;
-        $this->status = $depaPuesto->status;
+        //$this->status = $depaPuesto->status;
 
 
         $this->departamentos = Departamento::all();
@@ -35,13 +35,13 @@ class EditarDepartamentPuesto extends Component
         $this->validate([
             'departamento_id' => 'nullable|integer',
             'puesto_id' => 'nullable|integer',
-            'status' => 'required',
+            //'status' => 'required',
         ]);
 
         DepartamentoPuesto::updateOrCreate(['id' => $this->depaPuesto_id], [            
             'departamento_id' => $this->departamento_id,
             'puesto_id' => $this->puesto_id,
-            'status' => $this->status,
+            //'status' => $this->status,
         ]);
 
         return redirect()->route('mostrardepapuesto')->with('message', 'Actualización exitosa.');

@@ -73,10 +73,10 @@
                 @can('Mostrar Rol')
                     <li class="opcion-con-desplegable">
                         <div class="flex items-center justify-between px-2 py-2 hover:bg-gray-700 cursor-pointer">
-                            <svg class="mr-2" xmlns="http://www.w3.org/2000/svg" height="14" width="17.5"
-                                viewBox="0 0 640 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                            <svg class="mr-2" xmlns="http://www.w3.org/2000/svg" height="14" width="12.25"
+                                viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
                                 <path fill="#ffffff"
-                                    d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l362.8 0c-5.4-9.4-8.6-20.3-8.6-32l0-128c0-2.1 .1-4.2 .3-6.3c-31-26-71-41.7-114.6-41.7l-91.4 0zM528 240c17.7 0 32 14.3 32 32l0 48-64 0 0-48c0-17.7 14.3-32 32-32zm-80 32l0 48c-17.7 0-32 14.3-32 32l0 128c0 17.7 14.3 32 32 32l160 0c17.7 0 32-14.3 32-32l0-128c0-17.7-14.3-32-32-32l0-48c0-44.2-35.8-80-80-80s-80 35.8-80 80z" />
+                                    d="M144 144l0 48 160 0 0-48c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192l0-48C80 64.5 144.5 0 224 0s144 64.5 144 144l0 48 16 0c35.3 0 64 28.7 64 64l0 192c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 256c0-35.3 28.7-64 64-64l16 0z" />
                             </svg>
                             <span class="flex-1">Roles</span>
                             <i class="fas fa-chevron-down text-xs"></i>
@@ -265,6 +265,48 @@
                 @endcan
 
                 <!-- Incidencias -->
+                @can('Mostrar Incapacidad')
+                    <li class="opcion-con-desplegable">
+                        <div class="flex items-center justify-between px-2 py-2 hover:bg-gray-700 cursor-pointer">
+                            <!-- Icono -->
+                            <svg class="mr-2" xmlns="http://www.w3.org/2000/svg" height="14" width="15.75"
+                                viewBox="0 0 576 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                                <path fill="#ffffff"
+                                    d="M0 64C0 28.7 28.7 0 64 0L224 0l0 128c0 17.7 14.3 32 32 32l128 0 0 47-92.8 37.1c-21.3 8.5-35.2 29.1-35.2 52c0 56.6 18.9 148 94.2 208.3c-9 4.8-19.3 7.6-30.2 7.6L64 512c-35.3 0-64-28.7-64-64L0 64zm384 64l-128 0L256 0 384 128zm39.1 97.7c5.7-2.3 12.1-2.3 17.8 0l120 48C570 277.4 576 286.2 576 296c0 63.3-25.9 168.8-134.8 214.2c-5.9 2.5-12.6 2.5-18.5 0C313.9 464.8 288 359.3 288 296c0-9.8 6-18.6 15.1-22.3l120-48zM527.4 312L432 273.8l0 187.8c68.2-33 91.5-99 95.4-149.7z" />
+                            </svg>
+                            <span class="flex-1">Incapacidades</span>
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </div>
+                        <ul class="desplegable ml-8 hidden">
+                            <li>
+                                <a href="{{ route('mostrarincapacidad') }}"
+                                    class="p-2 hover:bg-gray-700 flex items-center">
+                                    <i class="mr-2 text-xs"></i> Mostrar Incapacidades
+                                </a>
+                            </li>
+
+                            @can('Aceptar Incapacidad')
+                                <li>
+                                    <a href="{{ route('aceptarincapacidad') }}"
+                                        class="p-2 hover:bg-gray-700 flex items-center">
+                                        <i class="mr-2 text-xs"></i> Aprobar Solicitudes
+                                    </a>
+                                </li>
+                            @endcan
+
+                            @can('Agregar Incapacidad')
+                                <li>
+                                    <a href="{{ route('agregarincapacidad') }}"
+                                        class="p-2 hover:bg-gray-700 flex items-center">
+                                        <i class="mr-2 text-xs"></i> Solicitar Incapacidad
+                                    </a>
+                                </li>
+                            @endcan
+                        </ul>
+                    </li>
+                @endcan
+
+                <!-- Incidencias -->
                 @can('Mostrar Incidencias')
                     <li class="opcion-con-desplegable">
                         <div class="flex items-center justify-between px-2 py-2 hover:bg-gray-700 cursor-pointer">
@@ -278,18 +320,11 @@
                             <i class="fas fa-chevron-down text-xs"></i>
                         </div>
                         <ul class="desplegable ml-8 hidden">
-                            <li>
-                                <a href="{{ route('mostrarincidencia') }}"
-                                    class="p-2 hover:bg-gray-700 flex items-center">
-                                    <i class="mr-2 text-xs"></i> Mostrar Incidencias
-                                </a>
-                            </li>
-
-                            @can('Aceptar Incidencia')
+                            @can('Agregar Incidencia')
                                 <li>
-                                    <a href="{{ route('aceptarincidencia') }}"
+                                    <a href="{{ route('mostrarincidencia') }}"
                                         class="p-2 hover:bg-gray-700 flex items-center">
-                                        <i class="mr-2 text-xs"></i> Solicitudes
+                                        <i class="mr-2 text-xs"></i> Mostrar Incidencias
                                     </a>
                                 </li>
                             @endcan
@@ -299,6 +334,15 @@
                                     <a href="{{ route('agregarincidencia') }}"
                                         class="p-2 hover:bg-gray-700 flex items-center">
                                         <i class="mr-2 text-xs"></i> Agregar Incidencia
+                                    </a>
+                                </li>
+                            @endcan
+                            
+                            @can('Ver Incidencias')
+                                <li>
+                                    <a href="{{ route('verincidencia') }}"
+                                        class="p-2 hover:bg-gray-700 flex items-center">
+                                        <i class="mr-2 text-xs"></i> Mis Incidencias
                                     </a>
                                 </li>
                             @endcan
@@ -462,50 +506,6 @@
                         </ul>
                     </li>
                 @endcan
-
-
-                <!-- Relaciones -->
-                @can('Mostrar Relaciones')
-                    <li class="opcion-con-desplegable">
-                        <div class="flex items-center justify-between px-2 py-2 hover:bg-gray-700 cursor-pointer">
-                            <i class="fas fa-sitemap mr-2"></i> <!-- Icono -->
-                            <span class="flex-1">Relaciones</span>
-                            <i class="fas fa-chevron-down text-xs"></i>
-                        </div>
-                        <ul class="desplegable ml-8 hidden">
-
-                            @can('Mostrar asignación Sucursal a Empresa')
-                                <li>
-                                    <a href="{{ route('mostrarempressucursal') }}"
-                                        class="p-2 hover:bg-gray-700 flex items-center">
-                                        <i class="mr-2 text-xs"></i> Empresa con Sucursales
-                                    </a>
-                                </li>
-                            @endcan
-
-                            @can('Mostrar asignación Departamento a Sucursal')
-                                <li>
-                                    <a href="{{ route('mostrarsucursaldepa') }}"
-                                        class="p-2 hover:bg-gray-700 flex items-center">
-                                        <i class="mr-2 text-xs"></i> Sucursales con Departamentos
-                                    </a>
-                                </li>
-                            @endcan
-
-                            @can('Mostrar asignación Puesto a Departamento')
-                                <li>
-                                    <a href="{{ route('mostrardepapuesto') }}"
-                                        class="p-2 hover:bg-gray-700 flex items-center">
-                                        <i class="mr-2 text-xs"></i> Departamentos con Puestos
-                                    </a>
-                                </li>
-                            @endcan
-
-                        </ul>
-                    </li>
-                @endcan
-
-
 
             </ul>
         </nav>

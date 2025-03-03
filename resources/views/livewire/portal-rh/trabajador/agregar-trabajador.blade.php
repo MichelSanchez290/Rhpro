@@ -204,6 +204,18 @@
 
                         <x-input-error for="trabajador.registro_patronal_id" />
                     </div>
+
+                    <div class="grid grid-cols-1 mt-5">
+                        <label for="status"
+                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Status</label>
+                        <select wire:model.defer="trabajador.status" id="status"
+                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                            <option value="" selected>-- Selecciona una opción --</option>
+                            <option value="Activo">Activo</option>
+                            <option value="Inactivo">Inactivo</option>
+                        </select>
+                        <x-input-error for="trabajador.status" />
+                    </div>
                 </div>
 
                 <!-- NNS y Fecha Nacimiento -->
@@ -484,21 +496,7 @@
                     </div>
                 </div>
 
-                <!-- ***********************  -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
-
-                    <div class="grid grid-cols-1 mt-5">
-                        <label for="status"
-                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Status</label>
-                        <select wire:model.defer="trabajador.status" id="status"
-                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-                            <option value="" selected>-- Selecciona una opción --</option>
-                            <option value="Activo">Activo</option>
-                            <option value="Inactivo">Inactivo</option>
-                        </select>
-                        <x-input-error for="trabajador.status" />
-                    </div>
-                </div>
+                
 
                 <!-- Botones -->
                 <div class='flex items-center justify-center md:gap-8 gap-4 pt-5 pb-5'>
