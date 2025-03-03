@@ -25,7 +25,7 @@ class EditarPreguntasAdministrador extends Component
         'pregunta.texto' => 'required|min:10',
         'pregunta.descripcion' => 'required|max:500',
         'respuestas.*.texto' => 'required|min:5',
-        'respuestas.*.puntuacion' => 'required|integer|min:1|max:4',
+        'respuestas.*.puntuacion' => 'required|integer|min:0|max:4', // Cambiado min:1 a min:0
         'empresa_id' => 'required|exists:empresas,id',
         'sucursal_id' => 'required|exists:sucursales,id'
     ];
@@ -39,7 +39,7 @@ class EditarPreguntasAdministrador extends Component
         'respuestas.*.texto.min' => 'El texto de la respuesta debe tener al menos 5 caracteres.',
         'respuestas.*.puntuacion.required' => 'La puntuación es obligatoria.',
         'respuestas.*.puntuacion.integer' => 'La puntuación debe ser un número entero.',
-        'respuestas.*.puntuacion.min' => 'La puntuación debe ser al menos 1.',
+        'respuestas.*.puntuacion.min' => 'La puntuación debe ser al menos 0.', // Cambiado de 1 a 0
         'respuestas.*.puntuacion.max' => 'La puntuación no debe ser mayor a 4.',
         'empresa_id.required' => 'Debe seleccionar una empresa.',
         'empresa_id.exists' => 'La empresa seleccionada no es válida.',
@@ -134,7 +134,7 @@ class EditarPreguntasAdministrador extends Component
             ]);
 
             foreach ($this->respuestas as $respuestaData) {
-                if (isset($respuestaData['id'])) {
+                if (isset($respuestaData['id']) && !empty($respuestaData['id'])) {
                     $pregunta->respuestas()->updateOrCreate(
                         ['id' => $respuestaData['id']],
                         [
@@ -144,7 +144,7 @@ class EditarPreguntasAdministrador extends Component
                             'sucursal_id' => $this->sucursal_id
                         ]
                     );
-                } else {
+                } else if (!empty($respuestaData['texto']) || !empty($respuestaData['puntuacion'])) {
                     $pregunta->respuestas()->create([
                         'texto' => $respuestaData['texto'],
                         'puntuacion' => $respuestaData['puntuacion'],

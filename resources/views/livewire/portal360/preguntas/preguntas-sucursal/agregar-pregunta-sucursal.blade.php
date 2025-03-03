@@ -31,6 +31,8 @@
             </div>
         </div>
     </div>
+
+    <!-- Respuesta 1 -->
     <div class="bg-white shadow-md rounded-lg p-6 mx-4 my-6">
         <p class="text-center text-xl font-extrabold text-black md:text-3xl">
             Respuestas
@@ -47,7 +49,6 @@
                 placeholder="Ingrese la respuesta..."></textarea>
             <x-input-error for="respuestas.0.texto" />
         </div>
-
         <div class="mb-6">
             <label for="puntuacion1" class="block text-sm font-medium text-gray-700 mb-2">
                 Puntuación (1-4)
@@ -64,7 +65,7 @@
         </div>
     </div>
 
-    <!-- Respuesta 1 -->
+    <!-- Respuesta 2 -->
     <div class="bg-white shadow-md rounded-lg p-6 mx-4 my-6">
         <p class="text-center text-xl font-extrabold text-black md:text-3xl">
             Respuestas
@@ -81,7 +82,6 @@
                 placeholder="Ingrese la respuesta..."></textarea>
             <x-input-error for="respuestas.1.texto" />
         </div>
-
         <div class="mb-6">
             <label for="puntuacion2" class="block text-sm font-medium text-gray-700 mb-2">
                 Puntuación (1-4)
@@ -98,6 +98,7 @@
         </div>
     </div>
 
+    <!-- Respuesta 3 -->
     <div class="bg-white shadow-md rounded-lg p-6 mx-4 my-6">
         <p class="text-center text-xl font-extrabold text-black md:text-3xl">
             Respuestas
@@ -114,7 +115,6 @@
                 placeholder="Ingrese la respuesta..."></textarea>
             <x-input-error for="respuestas.2.texto" />
         </div>
-
         <div class="mb-6">
             <label for="puntuacion3" class="block text-sm font-medium text-gray-700 mb-2">
                 Puntuación (1-4)
@@ -131,6 +131,7 @@
         </div>
     </div>
 
+    <!-- Respuesta 4 -->
     <div class="bg-white shadow-md rounded-lg p-6 mx-4 my-6">
         <p class="text-center text-xl font-extrabold text-black md:text-3xl">
             Respuestas
@@ -140,14 +141,13 @@
                 Respuesta 4
             </label>
             <textarea
-                id="respuesta3"
+                id="respuesta4"
                 wire:model.live="respuestas.3.texto"
                 rows="3"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-150 ease-in-out"
                 placeholder="Ingrese la respuesta..."></textarea>
             <x-input-error for="respuestas.3.texto" />
         </div>
-
         <div class="mb-6">
             <label for="puntuacion4" class="block text-sm font-medium text-gray-700 mb-2">
                 Puntuación (1-4)
@@ -164,24 +164,6 @@
         </div>
     </div>
 
-    <!-- Campo para seleccionar la empresa -->
-    <!-- <div class="mb-6"> -->
-    <div class="bg-white shadow-md rounded-lg p-6 mx-4 my-6">
-        <label for="empresa_id" class="block text-sm font-medium text-gray-700 mb-2">
-            Empresa
-        </label>
-        <select
-            id="empresa_id"
-            wire:model.live="empresa_id"
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-150 ease-in-out">
-            <option value="">Seleccione una empresa</option>
-            @foreach($empresas as $empresa)
-            <option value="{{ $empresa->id }}">{{ $empresa->nombre }}</option>
-            @endforeach
-        </select>
-        <x-input-error for="empresa_id" />
-    </div>
-
     <div class="bg-white shadow-md rounded-lg p-6 mx-4">
         <div>
             <button
@@ -192,6 +174,3 @@
         </div>
     </div>
 </div>
-
-
-

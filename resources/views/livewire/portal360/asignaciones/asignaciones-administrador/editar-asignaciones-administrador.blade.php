@@ -4,7 +4,6 @@
             Editar Asignación
         </p>
 
-        {{-- Select de Empresa --}}
         <div class="mb-6">
             <label for="empresa_id" class="block text-sm font-medium text-gray-700 mb-2">
                 Seleccionar Empresa
@@ -22,16 +21,13 @@
             @enderror
         </div>
 
-        {{-- Select de Sucursal --}}
         <div class="mb-6">
             <label for="sucursal_id" class="block text-sm font-medium text-gray-700 mb-2">
                 Seleccionar Sucursal
             </label>
             <select id="sucursal_id"
                 wire:model.live="sucursal_id"
-                @class([ 'w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500' , 'bg-gray-100'=> empty($empresa_id)
-                ])
-                @disabled(empty($empresa_id))>
+                class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                 <option value="">-- Seleccione una sucursal --</option>
                 @foreach($sucursales as $sucursal)
                 <option value="{{ $sucursal->id }}">{{ $sucursal->nombre_sucursal }}</option>
@@ -41,7 +37,6 @@
             <span class="text-red-500 text-sm">{{ $message }}</span>
             @enderror
         </div>
-
         {{-- Select de Tipo Usuario Calificador --}}
         <div class="mb-6">
             <label for="tipo_user_calificador" class="block text-sm font-medium text-gray-700 mb-2">
@@ -49,9 +44,7 @@
             </label>
             <select id="tipo_user_calificador"
                 wire:model.live="tipo_user_calificador"
-                @class([ 'w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500' , 'bg-gray-100'=> empty($sucursal_id)
-                ])
-                @disabled(empty($sucursal_id))>
+                class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                 <option value="">-- Seleccione tipo de usuario --</option>
                 @foreach($tipos_usuario as $tipo)
                 <option value="{{ $tipo }}">{{ $tipo }}</option>
@@ -69,9 +62,7 @@
             </label>
             <select id="calificador_id"
                 wire:model.live="calificador_id"
-                @class([ 'w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500' , 'bg-gray-100'=> empty($tipo_user_calificador)
-                ])
-                @disabled(empty($tipo_user_calificador))>
+                class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                 <option value="">-- Seleccione un calificador --</option>
                 @foreach($usuarios_calificador as $usuario)
                 <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
@@ -89,9 +80,7 @@
             </label>
             <select id="tipo_user_calificado"
                 wire:model.live="tipo_user_calificado"
-                @class([ 'w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500' , 'bg-gray-100'=> empty($calificador_id)
-                ])
-                @disabled(empty($calificador_id))>
+                class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                 <option value="">-- Seleccione tipo de usuario --</option>
                 @foreach($tipos_usuario as $tipo)
                 <option value="{{ $tipo }}">{{ $tipo }}</option>
@@ -109,9 +98,7 @@
             </label>
             <select id="calificado_id"
                 wire:model.live="calificado_id"
-                @class([ 'w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500' , 'bg-gray-100'=> empty($tipo_user_calificado)
-                ])
-                @disabled(empty($tipo_user_calificado))>
+                class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                 <option value="">-- Seleccione un calificado --</option>
                 @foreach($usuarios_calificado as $usuario)
                 <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
@@ -129,9 +116,7 @@
             </label>
             <select id="relacion_id"
                 wire:model.live="relacion_id"
-                @class([ 'w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500' , 'bg-gray-100'=> empty($calificado_id)
-                ])
-                @disabled(empty($calificado_id))>
+                class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                 <option value="">-- Seleccione una relación --</option>
                 @foreach($relaciones as $relacion)
                 <option value="{{ $relacion->id }}">{{ $relacion->nombre }}</option>
@@ -149,9 +134,7 @@
             </label>
             <select id="encuesta_id"
                 wire:model.live="encuesta_id"
-                @class([ 'w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500' , 'bg-gray-100'=> empty($relacion_id)
-                ])
-                @disabled(empty($relacion_id))>
+                class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                 <option value="">-- Seleccione una encuesta --</option>
                 @foreach($encuestas as $encuesta)
                 <option value="{{ $encuesta->id }}">{{ $encuesta->nombre }}</option>
@@ -170,9 +153,7 @@
             <input type="datetime-local"
                 id="realizada"
                 wire:model.live="realizada"
-                @class([ 'w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500' , 'bg-gray-100'=> empty($encuesta_id)
-            ])
-            @disabled(empty($encuesta_id))>
+                class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
             @error('realizada')
             <span class="text-red-500 text-sm">{{ $message }}</span>
             @enderror
@@ -181,7 +162,7 @@
         {{-- Botón Guardar --}}
         <div>
             <button
-                wire:click="saveAsignacionAdministradordev"
+                wire:click="saveAsignacionAdministrador"
                 type="button"
                 class="w-full py-2 px-4 rounded font-medium bg-indigo-600 hover:bg-indigo-700 text-white">
                 Guardar Cambios
