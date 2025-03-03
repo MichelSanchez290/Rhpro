@@ -14,7 +14,7 @@ use Livewire\WithFileUploads;
 class Agregarofi extends Component
 {
     use WithFileUploads;
-    public $consulta,$sucursales,$empresas;
+    public $consulta, $sucursales, $empresas;
     public $activo = [], $tipos = [], $anios = [];
     public $subirfoto1, $subirfoto2, $subirfoto3;
     public $empresaSeleccionada;
@@ -30,7 +30,7 @@ class Agregarofi extends Component
         'activo.tipo_activo_id' => 'required',
         'activo.precio_adquisicion' => 'required',
         'activo.aniosestimado_id' => 'required',
-        
+
 
     ];
 
@@ -48,39 +48,43 @@ class Agregarofi extends Component
     public function mount()
     {
         $this->empresas = Empresa::all();
-        //dd($this->empresas); // Verifica que las empresas se carguen correctamente
-
         $this->consulta = ActivoOficina::get();
-        $this->activo['tipo_activo_id'] = Tipoactivo::where('nombre_activo', 'Activo Mobiliarios')->value('id');
+        $this->activo['tipo_activo_id'] = Tipoactivo::where('nombre_activo', 'Activo Tecnologias')->value('id');
         $this->anios = Anioestimado::pluck('vida_util_año', 'id')->toArray();
-        $this->activo['empresa_id'] = Auth::user()->empresa_id;
 
-        // Cargar sucursales de la empresa del usuario autenticado
-        $this->sucursalesFiltradas = Sucursal::join('empresa_sucursal', 'sucursales.id', '=', 'empresa_sucursal.sucursal_id')
-            ->where('empresa_sucursal.empresa_id', Auth::user()->empresa_id)
-            ->get();
+        // Inicializar empresaSeleccionada con la empresa del usuario autenticado
+        $this->empresaSeleccionada = Auth::user()->empresa_id;
+
+        $this->updatedEmpresaSeleccionada($this->empresaSeleccionada);
     }
 
+    public function hydrate()
+    {
+        $this->dispatch('render-select2'); // Dispara el evento para reinicializar Select2
+    }
     public function updatedEmpresaSeleccionada($empresaId)
     {
-        // Obtén las sucursales relacionadas con la empresa seleccionada
-        $empresa = Empresa::find($empresaId);
-        if ($empresa) {
-            $this->sucursalesFiltradas = $empresa->sucursales;
-        } else {
-            $this->sucursalesFiltradas = []; // Si no se encuentra la empresa, vacía el listado de sucursales
-        }
-        //dd($this->sucursalesFiltradas); // Verifica que las sucursales se filtren correctamente
+        $this->sucursalesFiltradas = Sucursal::join('empresa_sucursal', 'sucursales.id', '=', 'empresa_sucursal.sucursal_id')
+            ->where('empresa_sucursal.empresa_id', $empresaId)
+            ->get();
+
+        $this->activo['sucursal_id'] = '';
+
+        // Emitir un evento al frontend para reinicializar Select2
+        $this->dispatch('sucursales-actualizadas');
     }
 
     public function saveActivoOf()
     {
+
         $this->validate([
             'subirfoto1' => 'required|image|max:2048',
             'subirfoto2' => 'nullable|image|max:2048',
             'subirfoto3' => 'nullable|image|max:2048',
         ]);
 
+
+        $this->activo['empresa_id'] = $this->empresaSeleccionada;
 
         $this->subirfoto1->storeAs('ImagenOficina1', $this->activo['nombre'] . "-imagen.png", 'subirDocs');
         $this->activo['foto1'] = "ImagenOficina1/" . $this->activo['nombre'] . "-imagen.png";

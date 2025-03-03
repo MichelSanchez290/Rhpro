@@ -139,7 +139,7 @@
                     </div>
                     <div class="my-2 sm:col-span-2">
                         <label for="descripcion" class="text-gray-700 font-bold text-xl">Descripción</label>
-                        <textarea wire:model="descripcion" class="block w-full border-2 px-2 py-2 text-sm sm:text-md rounded-md my-2 text-black"
+                        <textarea wire:model="activo.descripcion" class="block w-full border-2 px-2 py-2 text-sm sm:text-md rounded-md my-2 text-black"
                             id="descripcion"></textarea>
                     </div>
                     <div class="my-2 sm:col-span-2">

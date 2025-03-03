@@ -83,9 +83,11 @@ class Editarmob extends Component
         $this->sucursalesFiltradas = $empresa ? $empresa->sucursales : collect();
     }
 
-    public function updateActivo()
+    public function editar()
     {
         $this->validate();
+
+        $this->activo['empresa_id'] = $this->empresaSeleccionada;
 
         // Manejo de imágenes
         if ($this->subirfoto1) {

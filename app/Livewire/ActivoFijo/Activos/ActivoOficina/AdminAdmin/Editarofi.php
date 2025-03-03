@@ -82,10 +82,12 @@ class Editarofi extends Component
     public function editar()
     {
         $this->validate([
-            'subirfoto1' => 'required|image|max:2048',
+            'subirfoto1' => 'nullable|image|max:2048',
             'subirfoto2' => 'nullable|image|max:2048',
             'subirfoto3' => 'nullable|image|max:2048',
         ]);
+
+        $this->activo['empresa_id'] = $this->empresaSeleccionada;
 
         if ($this->subirfoto1) {
             // Eliminar la imagen anterior si existe
