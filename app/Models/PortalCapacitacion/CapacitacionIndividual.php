@@ -4,6 +4,9 @@ namespace App\Models\PortalCapacitacion;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\PortalCapacitacion\Curso;
+use App\Models\PortalCapacitacion\Evidencia;
+use App\Models\User;
 
 class CapacitacionIndividual extends Model
 {
@@ -18,13 +21,20 @@ class CapacitacionIndividual extends Model
     // Columnas asignables masivamente
     protected $fillable = ['id','fechaIni', 'fechaFin', 'nombreCapacitacion', 'objetivoCapacitacion', 'cursos_id'];
 
-    public function cursos()
+    public function curso()
     {
-        return $this->belongsTo(Curso::class, 'cursos_id');
+        return $this->belongsToMany(Curso::class);
     }
 
     public function evidencias()
     {
         return $this->belongsToMany(Evidencia::class);
     }
+
+    public function usuarios()
+    {
+        return $this->belongsToMany(User::class, 'cap_individual_user', 'caps_individuales_id', 'users_id');
+    }
+
+
 }

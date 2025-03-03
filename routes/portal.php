@@ -96,6 +96,9 @@ use App\Livewire\PortalCapacitacion\Cursos\Tematicas\AdminGeneral\MostrarTematic
 use App\Livewire\PortalCapacitacion\Cursos\Tematicas\AdminGeneral\AgregarTematica;
 use App\Livewire\PortalCapacitacion\Cursos\Tematicas\AdminGeneral\EditarTematica;
 use App\Livewire\PortalCapacitacion\Cursos\Cursos\AdminGeneral\MostrarCurso;
+use App\Livewire\PortalCapacitacion\Cursos\Cursos\AdminGeneral\AgregarCurso;
+use App\Livewire\PortalCapacitacion\Cursos\Cursos\AdminGeneral\EditarCurso;
+use App\Livewire\PortalCapacitacion\Capacitaciones\CapIndividuales\AdminGeneral\AgregarCapacitaciones;
 
 Route::get('/inicio', Inicio::class)->name('inicio-capacitacion');
 
@@ -231,3 +234,7 @@ Route::get('/agregar-tematicas', AgregarTematica::class)->middleware('can:Agrega
 Route::get('/editar-tematicas/{id}', EditarTematica::class)->middleware('can:Editar tematicas')->name('editarTematicas');
 
 Route::get('/curso', MostrarCurso::class)->middleware('can:Ver cursos')->name('verCursos');
+Route::get('/agregar-curso', AgregarCurso::class)->middleware('can:Agregar cursos')->name('agregarCursos');
+Route::get('/editar-curso/{id}', EditarCurso::class)->middleware('can:Editar cursos')->name('editarCursos');
+
+Route::get('/capacitaciones-ind/{id}', AgregarCapacitaciones::class)->middleware('can:Agregar capacitaciones')->name('agregarCapacitacionesInd');

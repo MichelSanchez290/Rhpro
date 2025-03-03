@@ -27,13 +27,13 @@ class Curso extends Model
      // Relación uno a muchos con empresas
      public function empresa()
     {
-        return $this->belongsTo(Empresa::class);
+        return $this->belongsTo(Empresa::class, 'empresas_id');
     }
  
      // Relación uno a muchos con sucursales 
     public function sucursal()
     {
-        return $this->belongsTo(Sucursal::class);
+        return $this->belongsTo(Sucursal::class, 'sucursales_id');
     }
 }
 
