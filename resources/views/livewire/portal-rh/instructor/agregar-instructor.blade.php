@@ -24,8 +24,8 @@
                             class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"/>
 
                         <x-input-error for="nombre" /> 
-                        
                     </div>
+
                     <div class="grid grid-cols-1 mt-5">
                         <label for="apellido_p"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Apellido Paterno
@@ -34,10 +34,8 @@
                             placeholder="Apellido paterno"
                             class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"/>
 
-                        <x-input-error for="apellido_p" /> 
-                        
+                        <x-input-error for="apellido_p" />
                     </div>
-
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
@@ -50,7 +48,6 @@
                             class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"/>
 
                         <x-input-error for="apellido_m" /> 
-                        
                     </div>
 
                     <div class="grid grid-cols-1 mt-5">
@@ -62,9 +59,7 @@
                             class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"/>
 
                         <x-input-error for="user.email" /> 
-                        
                     </div>
-
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
@@ -77,10 +72,29 @@
                             placeholder="Password"
                             class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"/>
 
-                        <x-input-error for="password" /> 
-                        
+                        <x-input-error for="password" />
                     </div>
 
+                    <div class="grid grid-cols-1 mt-5">
+                        <label for="registro_patronal_id"
+                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
+                            Registros Patronales</label>
+                        <select wire:model.defer="instructor.registro_patronal_id" id="registro_patronal_id"
+                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                            <option value=""> --- Seleccione un Registro Patronal --- </option>
+                            @foreach ($registros_patronales as $registro_patronal)
+                                <option value="{{ $registro_patronal->id }}">
+                                    {{ $registro_patronal->registro_patronal }}</option>
+                            @endforeach
+                        </select>
+
+                        <x-input-error for="becario.registro_patronal_id" />
+                        
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
+                    
                     <div class="grid grid-cols-1 mt-5">
                         <label for="empresa"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
@@ -94,19 +108,13 @@
                         </select>
 
                         <x-input-error for="empresa" />
-                        
                     </div>
 
-                    
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
-                    <!--  -->
                     <div class="grid grid-cols-1 mt-5">
-                        <label for="sucursal_id"
+                        <label for="sucursal"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
                             Sucursal</label>
-                        <select wire:model.defer="user.sucursal_id" id="sucursal_id"
+                        <select wire:model.live="sucursal" id="sucursal"
                             class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
                             <option value=""> --- Seleccione una sucursal --- </option>
                             @forelse ($sucursales as $sucursal)
@@ -117,17 +125,79 @@
                                     </option>
                                 @endforeach
 
-                                
-
-                                @empty
+                            @empty
                                 <option value=""> Esta empresa no tiene sucursales </option>
-
                             @endforelse
                         </select>
 
-                        <x-input-error for="user.sucursal_id" />
+                        <x-input-error for="sucursal" />
+                    </div>
+                </div>
+                
+                <!-- ***********************  -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
+                    <!--  -->
+                    <div class="grid grid-cols-1 mt-5">
+                        <label for="departamento"
+                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
+                            Departamento</label>
+                        <select wire:model.live="departamento" id="departamento"
+                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                            <option value=""> --- Seleccione un departamento --- </option>
+                            @forelse ($departamentos as $departamento)
+
+                                @foreach($departamento->departamentos as $mi_depa)
+
+                                    <option value="{{ $mi_depa->id }}">{{ $mi_depa->nombre_departamento }}
+                                    </option>
+                                @endforeach
+
+                            @empty
+                                <option value=""> Esta sucursal no tiene departamentos</option>
+                            @endforelse
+                        </select>
+
+                        <x-input-error for="departamento" />
                     </div>
 
+
+                    <div class="grid grid-cols-1 mt-5">
+                        <label for="puesto_id"
+                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
+                            Puesto</label>
+                        <select wire:model.defer="user.puesto_id" id="puesto_id"
+                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                            <option value=""> --- Seleccione una sucursal --- </option>
+                            @forelse ($puestos as $puesto)
+
+                                @foreach($puesto->puestos as $mi_puesto)
+
+                                    <option value="{{ $mi_puesto->id }}">{{ $mi_puesto->nombre_puesto }}
+                                    </option>
+                                @endforeach
+
+                            @empty
+                                <option value=""> Este departamento no tiene puestos </option>
+                            @endforelse
+                        </select>
+
+                        <x-input-error for="user.puesto_id" />
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 mt-7">
+                    <label for="registroStps"
+                        class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold"> Registro STPS
+                    </label>
+                    <input wire:model.defer="instructor.registroStps" type="text" id="registroStps"
+                        placeholder="Registro STPS"
+                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                
+                    <x-input-error for="instructor.registroStps" />
+                </div>
+
+                <!-- *********** -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
                     <!--  -->
                     <div class="grid grid-cols-1 mt-5">
                         <label for="telefono1"
@@ -139,12 +209,8 @@
                     
                         <x-input-error for="instructor.telefono1" />
                     </div>
-                </div>
-                
 
-                <!-- *********** -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="telefono2"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Telefono 2
                         </label>
@@ -155,22 +221,13 @@
                         <x-input-error for="instructor.telefono2" />
                     </div>
 
-                    <div class="grid grid-cols-1">
-                        <label for="registroStps"
-                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold"> Registro STPS
-                        </label>
-                        <input wire:model.defer="instructor.registroStps" type="text" id="registroStps"
-                            placeholder="Registro STPS"
-                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
                     
-                        <x-input-error for="instructor.registroStps" />
-                    </div>
                 </div>
 
                 <!-- ********************** -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
 
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="rfc"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold"> RFC
                         </label>
@@ -181,7 +238,7 @@
                         <x-input-error for="instructor.rfc" />
                     </div>
 
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="regimen"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
                             Regimen fiscal</label>
@@ -195,7 +252,7 @@
 
                 <!--  -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="estado"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Estado
                         </label>
@@ -206,7 +263,7 @@
                         <x-input-error for="instructor.estado" />    
                     </div>
 
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="municipio"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Municipio
                         </label>
@@ -220,7 +277,7 @@
 
                 <!--  -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="codigopostal"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Código Postal
                         </label>
@@ -231,7 +288,7 @@
                         <x-input-error for="instructor.codigopostal" />
                     </div>
 
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="colonia"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Colonia
                         </label>
@@ -245,7 +302,7 @@
 
                 <!-- ***********************  -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="calle"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Calle </label>
                         <input wire:model.defer="instructor.calle" type="text" id="calle" 
@@ -255,7 +312,7 @@
                         <x-input-error for="instructor.calle" />
                     </div>
 
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="numero"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Número </label>
                         <input wire:model.defer="instructor.numero" type="text" id="numero" 
@@ -294,7 +351,7 @@
 
                 <!-- ***********************  -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="dc5"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">DC5
                         </label>
@@ -305,7 +362,7 @@
                         <x-input-error for="instructor.dc5" />
                     </div>
 
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="cuentabancaria"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Cuenta Bancaria
                         </label>
@@ -319,7 +376,7 @@
 
                 <!-- ***********************  -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="ine"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">INE
                         </label>
@@ -330,7 +387,7 @@
                         <x-input-error for="instructor.ine" />
                     </div>
 
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="curp"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">CURP
                         </label>
@@ -344,7 +401,7 @@
 
                 <!-- ***********************  -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="sat"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">SAT
                         </label>
@@ -355,7 +412,7 @@
                         <x-input-error for="instructor.sat" />
                     </div>
 
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="domicilio"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Domicilio
                         </label>
@@ -369,7 +426,7 @@
 
                 <!-- ***********************  -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="tipoinstructor"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Tipo Instructor
                         </label>
@@ -380,7 +437,7 @@
                         <x-input-error for="instructor.tipoinstructor" />
                     </div>
 
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="nombre_empresa"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Nombre Empresa
                         </label>
@@ -394,7 +451,7 @@
 
                 <!-- ***********************  -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="rfc_empre"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">RFC Empresa
                         </label>
@@ -405,7 +462,7 @@
                         <x-input-error for="instructor.rfc_empre" />
                     </div>
 
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="calle_empre"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Calle Empresa
                         </label>
@@ -419,7 +476,7 @@
 
                 <!-- ***********************  -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="numero_empre"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Número Calle Empresa
                         </label>
@@ -430,7 +487,7 @@
                         <x-input-error for="instructor.numero_empre" />
                     </div>
 
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="colonia_empre"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Colonia Empresa
                         </label>
@@ -444,7 +501,7 @@
 
                 <!-- ***********************  -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="municipio_empre"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Municipio Empresa
                         </label>
@@ -455,7 +512,7 @@
                         <x-input-error for="instructor.municipio_empre" />
                     </div>
 
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="estado_empre"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Estado Empresa
                         </label>
@@ -469,7 +526,7 @@
 
                 <!-- ***********************  -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
-                    <div class="grid grid-cols-1">
+                    <div class="grid grid-cols-1 mt-5">
                         <label for="postal_empre"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Código Postal Empresa
                         </label>
@@ -492,55 +549,7 @@
                     </div> 
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5"> 
-                    <!--  -->
-                    <div class="grid grid-cols-1 mt-5">
-                        <label for="departamento_id"
-                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
-                            Departamentos</label>
-                        <select wire:model.defer="instructor.departamento_id" id="departamento_id"
-                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-                            <option value=""> ---  Seleccione un departamento --- </option>
-                            @foreach ($departamentos as $departament)
-                                <option value="{{ $departament->id }}">{{ $departament->nombre_departamento }}</option>
-                            @endforeach
-                        </select>
-
-                        <x-input-error for="instructor.departamento_id" />
-                    </div>
-
-                    <div class="grid grid-cols-1 mt-5">
-                        <label for="puesto_id"
-                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
-                            Puestos</label>
-                        <select wire:model.defer="instructor.puesto_id" id="puesto_id"
-                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-                            <option value=""> --- Seleccione un puesto --- </option>
-                            @foreach ($puestos as $puesto)
-                                <option value="{{ $puesto->id }}">{{ $puesto->nombre_puesto }}</option>
-                            @endforeach
-                        </select>
-
-                        <x-input-error for="instructor.puesto_id" />
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
-                    <div class="grid grid-cols-1 mt-5">
-                        <label for="registro_patronal_id"
-                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
-                            Registros Patronales</label>
-                        <select wire:model.defer="instructor.registro_patronal_id" id="registro_patronal_id"
-                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-                            <option value=""> ---  Seleccione un Registro Patronal --- </option>
-                            @foreach ($registros_patronales as $registro_patronal)
-                                <option value="{{ $registro_patronal->id }}">{{ $registro_patronal->registro_patronal }}</option>
-                            @endforeach
-                        </select>
-
-                        <x-input-error for="instructor.registro_patronal_id" />
-                    </div>
-                </div>
+                
 
                 
 

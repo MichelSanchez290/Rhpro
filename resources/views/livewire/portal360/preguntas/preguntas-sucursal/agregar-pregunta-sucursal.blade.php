@@ -46,10 +46,9 @@
                 wire:model.live="respuestas.0.texto"
                 rows="3"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-150 ease-in-out"
-                placeholder="Ingrese la respuesta 1..."></textarea>
+                placeholder="Ingrese la respuesta..."></textarea>
             <x-input-error for="respuestas.0.texto" />
         </div>
-
         <div class="mb-6">
             <label for="puntuacion1" class="block text-sm font-medium text-gray-700 mb-2">
                 Puntuación (1-4)
@@ -80,10 +79,9 @@
                 wire:model.live="respuestas.1.texto"
                 rows="3"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-150 ease-in-out"
-                placeholder="Ingrese la respuesta 2..."></textarea>
+                placeholder="Ingrese la respuesta..."></textarea>
             <x-input-error for="respuestas.1.texto" />
         </div>
-
         <div class="mb-6">
             <label for="puntuacion2" class="block text-sm font-medium text-gray-700 mb-2">
                 Puntuación (1-4)
@@ -114,10 +112,9 @@
                 wire:model.live="respuestas.2.texto"
                 rows="3"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-150 ease-in-out"
-                placeholder="Ingrese la respuesta 3..."></textarea>
+                placeholder="Ingrese la respuesta..."></textarea>
             <x-input-error for="respuestas.2.texto" />
         </div>
-
         <div class="mb-6">
             <label for="puntuacion3" class="block text-sm font-medium text-gray-700 mb-2">
                 Puntuación (1-4)
@@ -148,10 +145,9 @@
                 wire:model.live="respuestas.3.texto"
                 rows="3"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-150 ease-in-out"
-                placeholder="Ingrese la respuesta 4..."></textarea>
+                placeholder="Ingrese la respuesta..."></textarea>
             <x-input-error for="respuestas.3.texto" />
         </div>
-
         <div class="mb-6">
             <label for="puntuacion4" class="block text-sm font-medium text-gray-700 mb-2">
                 Puntuación (1-4)

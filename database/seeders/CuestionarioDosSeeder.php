@@ -45,6 +45,14 @@ class CuestionarioDosSeeder extends Seeder
             ['Pregunta' => 'Me informan con claridad cuáles son mis funciones','Categoria' => 'Liderazgo y relaciones en el trabajo','Dominio'=>'Liderazgo','Dimension' => 'Escasa claridad de funciones','Puntuacion'=>0,'cuestionarios_id'=>2],
             ['Pregunta' => 'Me explican claramente los resultados que debo obtener en mi trabajo','Categoria' => 'Liderazgo y relaciones en el trabajo','Dominio'=>'Liderazgo','Dimension' => 'Escasa claridad de funciones','Puntuacion'=>0,'cuestionarios_id'=>2],
             ['Pregunta' => 'Me informan con quién puedo resolver problemas o asuntos de trabajo','Categoria' => 'Liderazgo y relaciones en el trabajo','Dominio'=>'Liderazgo','Dimension' => 'Escasa claridad de funciones','Puntuacion'=>0,'cuestionarios_id'=>2],
+
+            ['Pregunta' => 'Mi jefe tiene en cuenta mis puntos de vista y opiniones','Categoria' => 'Liderazgo y relaciones en el trabajo','Dominio'=>'Liderazgo','Dimension' => 'Características del liderazgo','Puntuacion'=>0,'cuestionarios_id'=>2],
+
+
+            ['Pregunta' => 'Mi jefe ayuda a solucionar los problemas que se presentan en el trabajo','Categoria' => 'Liderazgo y relaciones en el trabajo','Dominio'=>'Liderazgo','Dimension' => 'Características del liderazgo','Puntuacion'=>0,'cuestionarios_id'=>2],
+
+
+
             ['Pregunta' => 'Puedo confiar en mis compañeros de trabajo','Categoria' => 'Liderazgo y relaciones en el trabajo','Dominio'=>'Relaciones en el trabajo','Dimension' => 'Relaciones sociales en el trabajo','Puntuacion'=>0,'cuestionarios_id'=>2],
             ['Pregunta' => 'Cuando tenemos que realizar trabajo de equipo los compañeros colaboran','Categoria' => 'Liderazgo y relaciones en el trabajo','Dominio'=>'Relaciones en el trabajo','Dimension' => 'Relaciones sociales en el trabajo','Puntuacion'=>0,'cuestionarios_id'=>2],
             ['Pregunta' => 'Mis compañeros de trabajo me ayudan cuando tengo dificultades','Categoria' => 'Liderazgo y relaciones en el trabajo','Dominio'=>'Relaciones en el trabajo','Dimension' => 'Relaciones sociales en el trabajo','Puntuacion'=>0,'cuestionarios_id'=>2],

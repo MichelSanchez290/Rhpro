@@ -1,5 +1,5 @@
-<div class="bg-gray-200">
-    <div class="flex min-h-screen items-center justify-center py-3">
+<div>
+    <div class="flex min-h-screen items-start justify-center pt-6">
         <div class="grid bg-white rounded-lg shadow-xl w-full">
             <div class="flex justify-center py-4">
                 <div class="flex bg-blue-200 rounded-full md:p-4 p-2 border-2 border-blue-300">
@@ -24,6 +24,21 @@
                         class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
 
                     <x-input-error for="departamento.nombre_departamento" /> 
+                </div>
+
+                <div class="grid grid-cols-1 mt-5">
+
+                    <label for="sucursal_id"
+                        class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Asociar Sucursal</label>
+                    <select wire:model.defer="sucursal_id" id="sucursal_id"
+                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                        <option value="">Seleccione una Sucursal</option>
+                        @foreach ($sucursales as $sucursal)
+                            <option value="{{ $sucursal->id }}">{{ $sucursal->nombre_sucursal }}</option>
+                        @endforeach
+                    </select>
+
+                    <x-input-error for="sucursal_id" />
                 </div>
 
                 <!-- Botones -->

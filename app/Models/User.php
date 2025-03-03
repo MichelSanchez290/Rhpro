@@ -13,6 +13,9 @@ use App\Models\ActivoFijo\Activos\ActivoUniforme;
 use App\Models\Crm\EsmartLevantamiento;
 use App\Models\Crm\LeadCliente;
 use App\Models\Crm\LeadsCliente;
+use App\Models\Crm\Nom035Levpedido;
+use App\Models\Crm\TrainingLevantamiento;
+use App\Models\Dx035\DatoTrabajador;
 use App\Models\Encuestas360\Asignacion;
 use App\Models\PortalCapacitacion\PerfilPuesto;
 use App\Models\PortalRH\Becari;
@@ -35,7 +38,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use PHPUnit\Framework\MockObject\Stub\ReturnArgument;
 use Spatie\Permission\Traits\HasRoles;
-    
+
 
 class User extends Authenticatable
 {
@@ -100,13 +103,12 @@ class User extends Authenticatable
 
     public function incapacidades()
     {
-        //un becario pertenece a un user
-        return $this->belongsToMany(Incapacidad::class)->withPivot('user_id', 'incapacidad_id');
+        return $this->belongsToMany(Incapacidad::class, 'user_incapacidad', 'user_id', 'incapacidad_id')->withTimestamps();
     }
 
     public function incidencias()
     {
-        return $this->belongsToMany(Incidencia::class)->withPivot('user_id', 'incidencia_id');
+        return $this->belongsToMany(Incidencia::class, 'user_incidencia', 'user_id', 'incidencia_id')->withTimestamps();
     }
 
     public function retardos()
@@ -174,38 +176,48 @@ class User extends Authenticatable
     ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 
     /* RELACIONES MODULO ACTIVO FIJO */
-    public function activomoviliario()
+    public function activosMobiliario()
     {
-        return $this->belongsToMany(ActivoMobiliario::class);
+        return $this->belongsToMany(ActivoMobiliario::class, 'activos_mobiliario_user', 'user_id', 'activos_mobiliarios_id')
+            ->withPivot('fecha_asignacion', 'fecha_devolucion', 'observaciones', 'status', 'foto1')
+            ->withTimestamps();
     }
-    public function activooficina()
+    public function activosOficina()
     {
-        return $this->belongsToMany(ActivoOficina::class);
+        return $this->belongsToMany(ActivoOficina::class, 'activos_oficina_user', 'user_id', 'activos_oficinas_id')
+            ->withPivot('fecha_asignacion', 'fecha_devolucion', 'observaciones', 'status', 'foto')
+            ->withTimestamps();
     }
-    public function activopapeleria()
+    public function activosPapeleria()
     {
-        return $this->belongsToMany(ActivoPapeleria::class);
+        return $this->belongsToMany(ActivoPapeleria::class, 'activos_papeleria_user', 'user_id', 'activos_papelerias_id')
+            ->withPivot('fecha_asignacion', 'fecha_devolucion', 'observaciones', 'status')
+            ->withTimestamps();
     }
-    public function activosouvenir()
+    public function activosSouvenir()
     {
-        return $this->belongsToMany(ActivoSouvenir::class);
+        return $this->belongsToMany(ActivoPapeleria::class, 'activos_souvenir_user', 'user_id', 'activos_souvenirs_id')
+            ->withPivot('fecha_asignacion', 'fecha_devolucion', 'observaciones', 'status')
+            ->withTimestamps();
     }
     public function activosTecnologia()
     {
-        return $this->belongsToMany(ActivoTecnologia::class, 'activos_tecnologia_user')
+        return $this->belongsToMany(ActivoTecnologia::class, 'activos_tecnologia_user', 'user_id', 'activos_tecnologias_id')
             ->withPivot('fecha_asignacion', 'fecha_devolucion', 'observaciones', 'status', 'foto1', 'foto2', 'foto3')
             ->withTimestamps();
     }
 
-    public function activouniformes()
+    public function activosUniforme()
     {
-        return $this->belongsToMany(ActivoUniforme::class);
+        return $this->belongsToMany(ActivoUniforme::class, 'activos_uniforme_user', 'user_id', 'activos_uniformes_id')
+            ->withPivot('fecha_asignacion', 'fecha_devolucion', 'observaciones', 'status', 'foto')
+            ->withTimestamps();
     }
 
     //  /* RELACIONES MODULO CAPACITACION */
     public function empresa()
     {
-        return $this->belongsTo(Empresa::class, 'empresa_id', 'id');
+        return $this->belongsTo(Empresa::class, 'empresa_id');
     }
 
     public function asignacion()
@@ -223,30 +235,36 @@ class User extends Authenticatable
     {
         return $this->perfilesPuestos()->latest()->first();
     }
-    
+
     //Por favor no tocar porque aqui son de mi asignaciones para que mueste el nombre de la empresa y sucursal 
     public function sucursal()
     {
         return $this->belongsTo(Sucursal::class, 'sucursal_id');
     }
 
-    public function puesto()
-    {
-        return $this->belongsTo(Puesto::class, 'puesto_id');
-    }
-
-    public function departamento()
-    {
-        return $this->belongsTo(Departamento::class, 'departamento_id');
-    }
-
-   public function leadcliente()
+    public function leadcliente()
     {
         return $this->hasMany(LeadCliente::class, 'users_id');
     }
 
-    public function esmart_levantamiento()
+    public function esmart_levantamientos()
     {
         return $this->hasMany(EsmartLevantamiento::class);
     }
+
+    public function nom035levpedidos()
+    {
+        return $this->hasMany(Nom035Levpedido::class);
+    }
+
+    public function traininglevantamientos()
+    {
+        return $this->hasMany(TrainingLevantamiento::class);
+    }
+    // Dx035
+    public function datoTrabajadores()
+    {
+        return $this->hasMany(DatoTrabajador::class, 'users_id');
+    }
+
 }

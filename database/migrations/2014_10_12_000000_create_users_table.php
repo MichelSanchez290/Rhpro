@@ -36,7 +36,6 @@ return new class extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             
-
             $table->unsignedBigInteger('departamento_id')->nullable();
             $table->foreign('departamento_id') //Declara que id es una clave foránea.
                 ->references('id') //Indica que esta columna hace referencia a la columna id

@@ -1,4 +1,5 @@
 <div>
+    <!-- Pregunta -->
     <div class="bg-white shadow-md rounded-lg p-6 mx-4 my-6">
         <p class="text-center text-xl font-extrabold text-black md:text-3xl">
             Pregunta
@@ -46,22 +47,22 @@
                 wire:model.live="respuestas.0.texto"
                 rows="3"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-150 ease-in-out"
-                placeholder="Ingrese la respuesta 1..."></textarea>
+                placeholder="Ingrese la respuesta..."></textarea>
             <x-input-error for="respuestas.0.texto" />
         </div>
 
         <div class="mb-6">
             <label for="puntuacion1" class="block text-sm font-medium text-gray-700 mb-2">
-                Puntuación (1-4)
+                Puntuación (0-4)
             </label>
             <input
                 type="number"
                 id="puntuacion1"
                 wire:model.live="respuestas.0.puntuacion"
-                min="1"
+                min="0"
                 max="4"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-150 ease-in-out"
-                placeholder="Ingrese la puntuación (1-4)...">
+                placeholder="Ingrese la puntuación (0-4)...">
             <x-input-error for="respuestas.0.puntuacion" />
         </div>
     </div>
@@ -80,22 +81,22 @@
                 wire:model.live="respuestas.1.texto"
                 rows="3"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-150 ease-in-out"
-                placeholder="Ingrese la respuesta 2..."></textarea>
+                placeholder="Ingrese la respuesta..."></textarea>
             <x-input-error for="respuestas.1.texto" />
         </div>
 
         <div class="mb-6">
             <label for="puntuacion2" class="block text-sm font-medium text-gray-700 mb-2">
-                Puntuación (1-4)
+                Puntuación (0-4)
             </label>
             <input
                 type="number"
                 id="puntuacion2"
                 wire:model.live="respuestas.1.puntuacion"
-                min="1"
+                min="0"
                 max="4"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-150 ease-in-out"
-                placeholder="Ingrese la puntuación (1-4)...">
+                placeholder="Ingrese la puntuación (0-4)...">
             <x-input-error for="respuestas.1.puntuacion" />
         </div>
     </div>
@@ -114,22 +115,22 @@
                 wire:model.live="respuestas.2.texto"
                 rows="3"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-150 ease-in-out"
-                placeholder="Ingrese la respuesta 3..."></textarea>
+                placeholder="Ingrese la respuesta..."></textarea>
             <x-input-error for="respuestas.2.texto" />
         </div>
 
         <div class="mb-6">
             <label for="puntuacion3" class="block text-sm font-medium text-gray-700 mb-2">
-                Puntuación (1-4)
+                Puntuación (0-4)
             </label>
             <input
                 type="number"
                 id="puntuacion3"
                 wire:model.live="respuestas.2.puntuacion"
-                min="1"
+                min="0"
                 max="4"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-150 ease-in-out"
-                placeholder="Ingrese la puntuación (1-4)...">
+                placeholder="Ingrese la puntuación (0-4)...">
             <x-input-error for="respuestas.2.puntuacion" />
         </div>
     </div>
@@ -144,30 +145,66 @@
                 Respuesta 4
             </label>
             <textarea
-                id="respuesta4"
+                id="respuesta4" 
                 wire:model.live="respuestas.3.texto"
                 rows="3"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-150 ease-in-out"
-                placeholder="Ingrese la respuesta 4..."></textarea>
+                placeholder="Ingrese la respuesta..."></textarea>
             <x-input-error for="respuestas.3.texto" />
         </div>
 
         <div class="mb-6">
             <label for="puntuacion4" class="block text-sm font-medium text-gray-700 mb-2">
-                Puntuación (1-4)
+                Puntuación (0-4)
             </label>
             <input
                 type="number"
                 id="puntuacion4"
                 wire:model.live="respuestas.3.puntuacion"
-                min="1"
+                min="0"
                 max="4"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-150 ease-in-out"
-                placeholder="Ingrese la puntuación (1-4)...">
+                placeholder="Ingrese la puntuación (0-4)...">
             <x-input-error for="respuestas.3.puntuacion" />
         </div>
     </div>
 
+    <!-- Campo para seleccionar la empresa -->
+    <div class="bg-white shadow-md rounded-lg p-6 mx-4 my-6">
+        <label for="empresa_id" class="block text-sm font-medium text-gray-700 mb-2">
+            Empresa
+        </label>
+        <select
+            id="empresa_id"
+            wire:model.live="empresa_id"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-150 ease-in-out">
+            <option value="">Seleccione una empresa</option>
+            @foreach($empresas as $empresa)
+                <option value="{{ $empresa->id }}">{{ $empresa->nombre }}</option>
+            @endforeach
+        </select>
+        <x-input-error for="empresa_id" />
+    </div>
+
+    <!-- Campo para seleccionar la sucursal -->
+    <div class="bg-white shadow-md rounded-lg p-6 mx-4 my-6">
+        <label for="sucursal_id" class="block text-sm font-medium text-gray-700 mb-2">
+            Sucursal
+        </label>
+        <select
+            id="sucursal_id"
+            wire:model.live="sucursal_id"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-150 ease-in-out"
+            @if(!$empresa_id) disabled @endif>
+            <option value="">Seleccione una sucursal</option>
+            @foreach($sucursales as $sucursal)
+                <option value="{{ $sucursal->id }}">{{ $sucursal->nombre_sucursal }}</option>
+            @endforeach
+        </select>
+        <x-input-error for="sucursal_id" />
+    </div>
+
+    <!-- Botón para guardar -->
     <div class="bg-white shadow-md rounded-lg p-6 mx-4">
         <div>
             <button

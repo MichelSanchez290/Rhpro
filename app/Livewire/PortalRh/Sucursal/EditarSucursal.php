@@ -6,13 +6,13 @@ use Livewire\Component;
 use App\Models\PortalRH\Sucursal;
 use Illuminate\Support\Facades\Crypt;
 use App\Models\PortalRH\RegistroPatronal;
-
-
+use Illuminate\Support\Facades\DB;
+use App\Models\PortalRH\Empresa;
 
 class EditarSucursal extends Component
 {
     public $sucursal_id, $clave_sucursal, $nombre_sucursal, $zona_economica, $estado, $cuenta_contable, $rfc, $correo, $telefono, $status, $registro_patronal_id;
-    public $regpatronales;
+    public $regpatronales, $empresas, $empresa_id;
 
 
     public function mount($id)
@@ -33,6 +33,10 @@ class EditarSucursal extends Component
         $this->registro_patronal_id = $sucursal->registro_patronal_id;
 
         $this->regpatronales = RegistroPatronal::all();
+        $this->empresas = Empresa::all();
+
+        // Cargar empresa asociada desde la tabla pivote
+        $this->empresa_id = $sucursal->empresas()->first()->id ?? null;
     }
 
     public function actualizarSucursal()
@@ -42,15 +46,17 @@ class EditarSucursal extends Component
             'nombre_sucursal' => 'required',
             'zona_economica' => 'required',
             'estado' => 'required',
-            'cuenta_contable' => 'nullable',
+            'cuenta_contable' => 'required',
             'rfc' => 'required',
             'correo' => 'required|email',
-            'telefono' => 'nullable',
+            'telefono' => 'required|digits:10',
             'status' => 'required',
-            'registro_patronal_id' => 'nullable|integer',
+            'registro_patronal_id' => 'required|integer',
+            'empresa_id' => 'required|exists:empresas,id',
         ]);
 
-        Sucursal::updateOrCreate(['id' => $this->sucursal_id], [
+        $sucursal = Sucursal::findOrFail($this->sucursal_id);
+        $sucursal->update([
             'clave_sucursal' => $this->clave_sucursal,
             'nombre_sucursal' => $this->nombre_sucursal,
             'zona_economica' => $this->zona_economica,
@@ -61,6 +67,14 @@ class EditarSucursal extends Component
             'telefono' => $this->telefono,
             'status' => $this->status,
             'registro_patronal_id' => $this->registro_patronal_id,
+        ]);
+
+        // Actualizar relación en la tabla pivote 
+        $sucursal->empresas()->sync([
+            $this->empresa_id => [
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ]);
 
         return redirect()->route('mostrarsucursal')->with('message', 'Sucursal actualizada correctamente.');

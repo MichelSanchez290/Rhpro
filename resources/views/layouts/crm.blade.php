@@ -12,10 +12,8 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
     <link href="https://fonts.bunny.net/css?family=inter:400,500,700&display=swap" rel="stylesheet">
-    <!-- Toastr CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" />
     <title>Admin Panel</title>
-
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
@@ -1345,6 +1343,10 @@
             }
         }
     </style>
+    @yield('css')
+
+    <!-- Styles -->
+    @livewireStyles
 </head>
 
 <body class="text-gray-800 font-inter">
@@ -1360,234 +1362,297 @@
         </div>
         <!-- End Content -->
     </main>
+
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <!-- Styles -->
-    @livewireStyles
     @livewire('crm\crm-empresa\eliminar.eliminar-empresa', ['showModal' => false, 'empresaToDelete' => false]);
-
     @livewireScripts
+    @livewire('wire-elements-modal')
 
     <!-- jQuery (requerido por Toastr y Select2) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Select2 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
+    <!-- Toastr JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <!-- Script para manejar notificaciones -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <script src="https://unpkg.com/@popperjs/core@2"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
     <script>
-        // start: Sidebar
-        const sidebarToggle = document.querySelector('.sidebar-toggle')
-        const sidebarOverlay = document.querySelector('.sidebar-overlay')
-        const sidebarMenu = document.querySelector('.sidebar-menu')
-        const main = document.querySelector('.main')
-        sidebarToggle.addEventListener('click', function(e) {
-            e.preventDefault()
-            main.classList.toggle('active')
-            sidebarOverlay.classList.toggle('hidden')
-            sidebarMenu.classList.toggle('-translate-x-full')
-        })
-        sidebarOverlay.addEventListener('click', function(e) {
-            e.preventDefault()
-            main.classList.add('active')
-            sidebarOverlay.classList.add('hidden')
-            sidebarMenu.classList.add('-translate-x-full')
-        })
-        document.querySelectorAll('.sidebar-dropdown-toggle').forEach(function(item) {
-            item.addEventListener('click', function(e) {
-                e.preventDefault()
-                const parent = item.closest('.group')
-                if (parent.classList.contains('selected')) {
-                    parent.classList.remove('selected')
-                } else {
-                    document.querySelectorAll('.sidebar-dropdown-toggle').forEach(function(i) {
-                        i.closest('.group').classList.remove('selected')
-                    })
-                    parent.classList.add('selected')
-                }
-            })
-        })
-        // end: Sidebar
-
-
-
-        // start: Popper
-        const popperInstance = {}
-        document.querySelectorAll('.dropdown').forEach(function(item, index) {
-            const popperId = 'popper-' + index
-            const toggle = item.querySelector('.dropdown-toggle')
-            const menu = item.querySelector('.dropdown-menu')
-            menu.dataset.popperId = popperId
-            popperInstance[popperId] = Popper.createPopper(toggle, menu, {
-                modifiers: [{
-                        name: 'offset',
-                        options: {
-                            offset: [0, 8],
-                        },
-                    },
-                    {
-                        name: 'preventOverflow',
-                        options: {
-                            padding: 24,
-                        },
-                    },
-                ],
-                placement: 'bottom-end'
-            });
-        })
-        document.addEventListener('click', function(e) {
-            const toggle = e.target.closest('.dropdown-toggle')
-            const menu = e.target.closest('.dropdown-menu')
-            if (toggle) {
-                const menuEl = toggle.closest('.dropdown').querySelector('.dropdown-menu')
-                const popperId = menuEl.dataset.popperId
-                if (menuEl.classList.contains('hidden')) {
-                    hideDropdown()
-                    menuEl.classList.remove('hidden')
-                    showPopper(popperId)
-                } else {
-                    menuEl.classList.add('hidden')
-                    hidePopper(popperId)
-                }
-            } else if (!menu) {
-                hideDropdown()
-            }
-        })
-
-        function hideDropdown() {
-            document.querySelectorAll('.dropdown-menu').forEach(function(item) {
-                item.classList.add('hidden')
-            })
-        }
-
-        function showPopper(popperId) {
-            popperInstance[popperId].setOptions(function(options) {
-                return {
-                    ...options,
-                    modifiers: [
-                        ...options.modifiers,
-                        {
-                            name: 'eventListeners',
-                            enabled: true
-                        },
-                    ],
-                }
-            });
-            popperInstance[popperId].update();
-        }
-
-        function hidePopper(popperId) {
-            popperInstance[popperId].setOptions(function(options) {
-                return {
-                    ...options,
-                    modifiers: [
-                        ...options.modifiers,
-                        {
-                            name: 'eventListeners',
-                            enabled: false
-                        },
-                    ],
-                }
-            });
-        }
-        // end: Popper
-
-
-
-        // start: Tab
-        document.querySelectorAll('[data-tab]').forEach(function(item) {
-            item.addEventListener('click', function(e) {
-                e.preventDefault()
-                const tab = item.dataset.tab
-                const page = item.dataset.tabPage
-                const target = document.querySelector('[data-tab-for="' + tab + '"][data-page="' + page +
-                    '"]')
-                document.querySelectorAll('[data-tab="' + tab + '"]').forEach(function(i) {
-                    i.classList.remove('active')
-                })
-                document.querySelectorAll('[data-tab-for="' + tab + '"]').forEach(function(i) {
-                    i.classList.add('hidden')
-                })
-                item.classList.add('active')
-                target.classList.remove('hidden')
-            })
-        })
-        // end: Tab
-
-
-
-        // start: Chart
-        new Chart(document.getElementById('order-chart'), {
-            type: 'line',
-            data: {
-                labels: generateNDays(7),
-                datasets: [{
-                        label: 'Active',
-                        data: generateRandomData(7),
-                        borderWidth: 1,
-                        fill: true,
-                        pointBackgroundColor: 'rgb(59, 130, 246)',
-                        borderColor: 'rgb(59, 130, 246)',
-                        backgroundColor: 'rgb(59 130 246 / .05)',
-                        tension: .2
-                    },
-                    {
-                        label: 'Completed',
-                        data: generateRandomData(7),
-                        borderWidth: 1,
-                        fill: true,
-                        pointBackgroundColor: 'rgb(16, 185, 129)',
-                        borderColor: 'rgb(16, 185, 129)',
-                        backgroundColor: 'rgb(16 185 129 / .05)',
-                        tension: .2
-                    },
-                    {
-                        label: 'Canceled',
-                        data: generateRandomData(7),
-                        borderWidth: 1,
-                        fill: true,
-                        pointBackgroundColor: 'rgb(244, 63, 94)',
-                        borderColor: 'rgb(244, 63, 94)',
-                        backgroundColor: 'rgb(244 63 94 / .05)',
-                        tension: .2
-                    },
-                ]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
+        document.addEventListener("DOMContentLoaded", function() {
+            Livewire.on("Eliminar", () => {
+                Swal.fire({
+                    title: "¿Estás seguro?",
+                    text: "¡No podrás revertir esto!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Sí, eliminarlo"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Livewire.dispatch("confirmado"); // Enviar evento de confirmación a Livewire
+                        Swal.fire({
+                            title: "¡Listo!",
+                            text: "Eliminaste correctamente.",
+                            icon: "success"
+                        });
                     }
+                });
+            });
+        });
+    </script>
+    {{-- <script>
+        document.getElementById("Eliminar").addEventListener("click", function() {
+            Swal.fire({
+                title: "¿Estás seguro?",
+                text: "¡No podrás revertir esto!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Sí, eliminarlo"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: "¡Listo!",
+                        text: "Eliminaste correctamente.",
+                        icon: "success"
+                    });
                 }
-            }
+            });
+        });
+    </script> --}}
+    <script>
+        $(document).ready(function() {
+            // Configuración de Toastr
+            toastr.options = {
+                "progressBar": true,
+                "positionClass": "toast-top-right",
+                "closeButton": true,
+                "timeOut": 4000, // Duración de la notificación
+            };
         });
 
-        function generateNDays(n) {
-            const data = []
-            for (let i = 0; i < n; i++) {
-                const date = new Date()
-                date.setDate(date.getDate() - i)
-                data.push(date.toLocaleString('en-US', {
-                    month: 'short',
-                    day: 'numeric'
-                }))
-            }
-            return data
-        }
+        // Escuchar eventos de Livewire para mostrar notificaciones
+        window.addEventListener('toastr-success', event => {
+            toastr.success(event.detail.message);
+        });
 
-        function generateRandomData(n) {
-            const data = []
-            for (let i = 0; i < n; i++) {
-                data.push(Math.round(Math.random() * 10))
-            }
-            return data
-        }
-        // end: Chart
+        window.addEventListener('toastr-error', event => {
+            toastr.error(event.detail.message);
+        });
     </script>
-    @livewire('wire-elements-modal')
+
+    @stack('scripts') <!-- Aquí se incluirán los scripts push -->
 </body>
 
 </html>
+
+
+<script>
+    // start: Sidebar
+    const sidebarToggle = document.querySelector('.sidebar-toggle')
+    const sidebarOverlay = document.querySelector('.sidebar-overlay')
+    const sidebarMenu = document.querySelector('.sidebar-menu')
+    const main = document.querySelector('.main')
+    sidebarToggle.addEventListener('click', function(e) {
+        e.preventDefault()
+        main.classList.toggle('active')
+        sidebarOverlay.classList.toggle('hidden')
+        sidebarMenu.classList.toggle('-translate-x-full')
+    })
+    sidebarOverlay.addEventListener('click', function(e) {
+        e.preventDefault()
+        main.classList.add('active')
+        sidebarOverlay.classList.add('hidden')
+        sidebarMenu.classList.add('-translate-x-full')
+    })
+    document.querySelectorAll('.sidebar-dropdown-toggle').forEach(function(item) {
+        item.addEventListener('click', function(e) {
+            e.preventDefault()
+            const parent = item.closest('.group')
+            if (parent.classList.contains('selected')) {
+                parent.classList.remove('selected')
+            } else {
+                document.querySelectorAll('.sidebar-dropdown-toggle').forEach(function(i) {
+                    i.closest('.group').classList.remove('selected')
+                })
+                parent.classList.add('selected')
+            }
+        })
+    })
+    // end: Sidebar
+
+
+
+    // start: Popper
+    const popperInstance = {}
+    document.querySelectorAll('.dropdown').forEach(function(item, index) {
+        const popperId = 'popper-' + index
+        const toggle = item.querySelector('.dropdown-toggle')
+        const menu = item.querySelector('.dropdown-menu')
+        menu.dataset.popperId = popperId
+        popperInstance[popperId] = Popper.createPopper(toggle, menu, {
+            modifiers: [{
+                    name: 'offset',
+                    options: {
+                        offset: [0, 8],
+                    },
+                },
+                {
+                    name: 'preventOverflow',
+                    options: {
+                        padding: 24,
+                    },
+                },
+            ],
+            placement: 'bottom-end'
+        });
+    })
+    document.addEventListener('click', function(e) {
+        const toggle = e.target.closest('.dropdown-toggle')
+        const menu = e.target.closest('.dropdown-menu')
+        if (toggle) {
+            const menuEl = toggle.closest('.dropdown').querySelector('.dropdown-menu')
+            const popperId = menuEl.dataset.popperId
+            if (menuEl.classList.contains('hidden')) {
+                hideDropdown()
+                menuEl.classList.remove('hidden')
+                showPopper(popperId)
+            } else {
+                menuEl.classList.add('hidden')
+                hidePopper(popperId)
+            }
+        } else if (!menu) {
+            hideDropdown()
+        }
+    })
+
+    function hideDropdown() {
+        document.querySelectorAll('.dropdown-menu').forEach(function(item) {
+            item.classList.add('hidden')
+        })
+    }
+
+    function showPopper(popperId) {
+        popperInstance[popperId].setOptions(function(options) {
+            return {
+                ...options,
+                modifiers: [
+                    ...options.modifiers,
+                    {
+                        name: 'eventListeners',
+                        enabled: true
+                    },
+                ],
+            }
+        });
+        popperInstance[popperId].update();
+    }
+
+    function hidePopper(popperId) {
+        popperInstance[popperId].setOptions(function(options) {
+            return {
+                ...options,
+                modifiers: [
+                    ...options.modifiers,
+                    {
+                        name: 'eventListeners',
+                        enabled: false
+                    },
+                ],
+            }
+        });
+    }
+    // end: Popper
+
+
+
+    // start: Tab
+    document.querySelectorAll('[data-tab]').forEach(function(item) {
+        item.addEventListener('click', function(e) {
+            e.preventDefault()
+            const tab = item.dataset.tab
+            const page = item.dataset.tabPage
+            const target = document.querySelector('[data-tab-for="' + tab + '"][data-page="' + page +
+                '"]')
+            document.querySelectorAll('[data-tab="' + tab + '"]').forEach(function(i) {
+                i.classList.remove('active')
+            })
+            document.querySelectorAll('[data-tab-for="' + tab + '"]').forEach(function(i) {
+                i.classList.add('hidden')
+            })
+            item.classList.add('active')
+            target.classList.remove('hidden')
+        })
+    })
+    // end: Tab
+
+
+
+    // start: Chart
+    new Chart(document.getElementById('order-chart'), {
+        type: 'line',
+        data: {
+            labels: generateNDays(7),
+            datasets: [{
+                    label: 'Active',
+                    data: generateRandomData(7),
+                    borderWidth: 1,
+                    fill: true,
+                    pointBackgroundColor: 'rgb(59, 130, 246)',
+                    borderColor: 'rgb(59, 130, 246)',
+                    backgroundColor: 'rgb(59 130 246 / .05)',
+                    tension: .2
+                },
+                {
+                    label: 'Completed',
+                    data: generateRandomData(7),
+                    borderWidth: 1,
+                    fill: true,
+                    pointBackgroundColor: 'rgb(16, 185, 129)',
+                    borderColor: 'rgb(16, 185, 129)',
+                    backgroundColor: 'rgb(16 185 129 / .05)',
+                    tension: .2
+                },
+                {
+                    label: 'Canceled',
+                    data: generateRandomData(7),
+                    borderWidth: 1,
+                    fill: true,
+                    pointBackgroundColor: 'rgb(244, 63, 94)',
+                    borderColor: 'rgb(244, 63, 94)',
+                    backgroundColor: 'rgb(244 63 94 / .05)',
+                    tension: .2
+                },
+            ]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    function generateNDays(n) {
+        const data = []
+        for (let i = 0; i < n; i++) {
+            const date = new Date()
+            date.setDate(date.getDate() - i)
+            data.push(date.toLocaleString('en-US', {
+                month: 'short',
+                day: 'numeric'
+            }))
+        }
+        return data
+    }
+
+    function generateRandomData(n) {
+        const data = []
+        for (let i = 0; i < n; i++) {
+            data.push(Math.round(Math.random() * 10))
+        }
+        return data
+    }
+    // end: Chart
+</script>

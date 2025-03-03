@@ -60,7 +60,7 @@ class PreguntaBaseTable extends PowerGridComponent
     public function filters(): array
     {
         return [
-            // Define tus filtros aquí si es necesario
+           
         ];
     }
 

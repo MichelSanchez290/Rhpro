@@ -11,10 +11,21 @@ class Pregunta extends Model
 
     protected $table = 'preguntas';
     protected $primaryKey = 'id';
-    protected $fillable = ['id', 'texto', 'descripcion'];
+    protected $fillable = ['id', 'texto', 'descripcion', 'encuesta_id'];
 
     public function respuestas()
     {
         return $this->hasMany(Respuesta::class, 'preguntas_id');
     }
+
+    public function encpres()
+    {
+        return $this->hasMany(Encpre::class, 'preguntas_id');
+    }
+
+    public function encuesta()
+{
+    return $this->belongsTo(Encuesta360::class, 'encuesta_id');
+}
+    
 }

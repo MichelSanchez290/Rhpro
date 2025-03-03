@@ -1,9 +1,13 @@
 <div class="p-6">
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-semibold text-gray-800">Gestión de Roles</h1>
-        <button wire:click="redirigir" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded">
-            Agregar Rol
-        </button>
+        
+        @can('Agregar Rol')
+            <button wire:click="redirigir" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded">
+                Agregar Rol
+            </button>
+        @endcan
+        
     </div>
 
     
@@ -28,8 +32,8 @@
                         d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
                 <h3 class="text-xl font-normal text-gray-500 mt-5 mb-6">¿Estás seguro de que deseas eliminar este
-                    Usuario ?</h3>
-                <button wire:click="deleteUsuario"
+                    Rol?</h3>
+                <button wire:click="deleteRol"
                     class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-base inline-flex items-center px-3 py-2.5 text-center mr-2">
                     Sí, estoy seguro
                 </button>

@@ -3,15 +3,27 @@
 namespace App\Livewire\Portal360\Encuesta\EncuestaSucursal;
 
 use App\Models\Encuestas360\Encuesta360;
+use App\Models\PortalRH\Empresa;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class AgregarEncuestaSucursal extends Component
 {
+
     public $encuesta = [
         'nombre' => '',
         'descripcion' => '',
         'indicaciones' => '',
     ];
+
+
+    public function mount()
+    {
+        $this->encuesta['empresa_id'] = Auth::user()->empresa_id;
+        $this->encuesta['sucursal_id'] = Auth::user()->sucursal_id;     
+        //dd($this->encuesta['sucursal_id']);   // Load companies when component is mounted
+      
+    }
 
     protected $rules = [
         'encuesta.nombre' => 'required|min:3',
@@ -23,6 +35,7 @@ class AgregarEncuestaSucursal extends Component
         'encuesta.nombre.required' => 'El nombre es obligatorio y debe tener al menos 3 caracteres.',
         'encuesta.descripcion.required' => 'La descripción es obligatoria y debe tener al menos 5 caracteres.',
         'encuesta.indicaciones.required' => 'Las indicaciones son obligatorias y deben tener al menos 5 caracteres.',
+
     ];
 
     public function saveEncuestaSucursal()
@@ -39,12 +52,10 @@ class AgregarEncuestaSucursal extends Component
                 'indicaciones' => '',
             ];
 
-            // Notificación de éxito
             $this->dispatch('toastr-success', message: 'Encuesta Guardada Correctamente.');
 
             return redirect()->route('portal360.encuesta.encuesta-sucursal.mostrar-encuesta-sucursal');
         } catch (\Exception $e) {
-            // Notificación de error
             $this->dispatch('toastr-error', message: 'Error al guardar la encuesta: ' . $e->getMessage());
         }
     }

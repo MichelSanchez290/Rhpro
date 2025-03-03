@@ -1,4 +1,4 @@
-<body class="bg-gray-200">
+<div>
     <div class="flex h-screen items-center justify-center">
         <div class="grid bg-white rounded-lg shadow-xl w-full">
             <div class="flex justify-center py-4">
@@ -26,6 +26,8 @@
                             <option value="{{ $sucursal->id }}">{{ $sucursal->nombre_sucursal }}</option>
                         @endforeach
                     </select>
+
+                    <x-input-error for="sucursal_id" />
                 </div>
 
                 <!-- departamento -->
@@ -39,6 +41,8 @@
                             <option value="{{ $departamento->id }}">{{ $departamento->nombre_departamento }}</option>
                         @endforeach
                     </select>
+
+                    <x-input-error for="departamento_id" />
                 </div>
 
                 <!-- Botones -->
@@ -48,8 +52,13 @@
                         class='w-auto bg-blue-500 hover:bg-blue-700 rounded-lg shadow-xl font-medium text-white px-4 py-2'>
                         Actualizar
                     </button>
+
+                    <button type="button" onclick="window.history.back()"
+                        class='w-auto bg-red-500 hover:bg-red-700 rounded-lg shadow-xl font-medium text-white px-4 py-2'>
+                        Cancelar
+                    </button>
                 </div>
             </form>
         </div>
     </div>
-</body>
+</div>

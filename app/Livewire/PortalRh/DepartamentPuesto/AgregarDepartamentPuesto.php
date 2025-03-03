@@ -24,7 +24,7 @@ class AgregarDepartamentPuesto extends Component
     protected $rules = [
         'depaPuest.departamento_id' => 'required',
         'depaPuest.puesto_id' => 'required',
-        'depaPuest.status' => 'required',
+        //'depaPuest.status' => 'required',
         
     ];
 
@@ -32,7 +32,7 @@ class AgregarDepartamentPuesto extends Component
     protected $messages = [
         'depaPuest.departamento_id' => 'El departamento es requerido',
         'depaPuest.puesto_id' => 'El puesto es requerido',
-        'depaPuest.status.required' => 'El status es requerido',
+        //'depaPuest.status.required' => 'El status es requerido',
     ];
 
     public function saveDepaPuest()
@@ -40,10 +40,10 @@ class AgregarDepartamentPuesto extends Component
         $this->validate();
 
         // Insertar en la tabla pivote directamente con DB::table()
-        DB::table('departament_puest')->insert([
+        DB::table('departamento_puesto')->insert([
             'departamento_id' => $this->depaPuest['departamento_id'],
             'puesto_id' => $this->depaPuest['puesto_id'],
-            'status' => $this->depaPuest['status'],
+            //'status' => $this->depaPuest['status'],
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -61,7 +61,7 @@ class AgregarDepartamentPuesto extends Component
     public function render()
     {
         return view('livewire.portal-rh.departament-puesto.agregar-departament-puesto', [
-            'departamentpuest' => DB::table('departament_puest')->get()
+            'departamentpuest' => DB::table('departamento_puesto')->get()
         ])->layout('layouts.client');
     }
 }

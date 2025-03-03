@@ -24,7 +24,7 @@ class Puesto extends Model
 
     public function departamentos()
     {
-        return $this->belongsToMany(Departamento::class)->withPivot('departamento_id', 'puesto_id', 'status');
+        return $this->belongsToMany(Departamento::class)->withPivot('departamento_id', 'puesto_id');
     }
 
     public function becarios()

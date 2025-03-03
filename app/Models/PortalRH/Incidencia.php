@@ -11,7 +11,7 @@ class Incidencia extends Model
     use HasFactory;
 
     //define que este modelo corresponde a la tabla xxx en la base de datos.
-    protected $table = 'incapacidades';
+    protected $table = 'incidencias';
 
     //Define la clave primaria
     protected $primaryKey = 'id';
@@ -19,14 +19,14 @@ class Incidencia extends Model
     //especifica las columnas
     protected $fillable = [
         'id', 
-        'tipo_incidencia', //seleccionar vacaciones, permisos, etc
+        'tipo_incidencia', 
         'fecha_inicio',
         'fecha_final'
     ];
 
-    public function usuarios()
+    // Definir relación muchos a muchos con User
+    public function users()
     {
-        //un becario pertenece a un user
-        return $this->belongsToMany(User::class)->withPivot('user_id', 'incidencia_id');
+        return $this->belongsToMany(User::class, 'user_incidencia', 'incidencia_id', 'user_id')->withTimestamps();
     }
 }

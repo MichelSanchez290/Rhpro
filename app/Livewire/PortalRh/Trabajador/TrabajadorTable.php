@@ -45,8 +45,8 @@ final class TrabajadorTable extends PowerGridComponent
 
         $query = Trabajador::query()
             ->leftJoin('users', 'trabajadores.user_id', '=', 'users.id')
-            ->leftJoin('departamentos', 'trabajadores.departamento_id', '=', 'departamentos.id')
-            ->leftJoin('puestos', 'trabajadores.puesto_id', '=', 'puestos.id')
+            ->leftJoin('departamentos', 'users.departamento_id', '=', 'departamentos.id')
+            ->leftJoin('puestos', 'users.puesto_id', '=', 'puestos.id')
             ->leftJoin('registros_patronales', 'trabajadores.registro_patronal_id', '=', 'registros_patronales.id')
             ->select([
                 'trabajadores.*',
@@ -102,11 +102,12 @@ final class TrabajadorTable extends PowerGridComponent
             ->add('status')
             ->add('user_id')
             ->add('nombre_usuario')
+            ->add('registro_patronal_id')
+            ->add('regpatronal')
             ->add('departamento_id')
             ->add('departamento')
             ->add('puesto_id')
-            ->add('registro_patronal_id')
-            ->add('regpatronal')
+            ->add('puesto')
             ->add('created_at');
     }
 
@@ -121,7 +122,14 @@ final class TrabajadorTable extends PowerGridComponent
 
             Column::make('Usuario', 'nombre_usuario'),
 
-            Column::make('Numero seguridad social', 'numero_seguridad_social')
+            Column::make('Departamento', 'departamento'),
+
+            Column::make('Puesto', 'puesto'),
+
+            Column::make('Reg patronal', 'regpatronal'),
+
+
+            Column::make('NSS', 'numero_seguridad_social')
                 ->sortable()
                 ->searchable(),
 
@@ -219,11 +227,7 @@ final class TrabajadorTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Departamento', 'departamento'),
-
-            Column::make('Puesto id', 'puesto'),
-
-            Column::make('Registro patronal id', 'regpatronal'),
+            
 
             Column::make('Created at', 'created_at')
                 ->sortable()

@@ -48,9 +48,6 @@
                 </div>
 
 
-
-
-
                 <!-- Botones -->
                 <div class='flex items-center justify-center md:gap-8 gap-4 pt-5 pb-5'>
 

@@ -5,6 +5,7 @@ namespace App\Livewire\Portal360\Preguntas\PreguntasEmpresa;
 use App\Models\Encuestas360\Respuesta;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
@@ -37,14 +38,18 @@ final class PreguntasEmpresaTable extends PowerGridComponent
     {
         return Respuesta::query()
             ->join('preguntas', 'preguntas.id', '=', '360_respuestas.preguntas_id')
+            ->join('sucursales', 'sucursales.id', '=', '360_respuestas.sucursal_id') // Cambiado de 'empresas' a 'sucursales'
             ->select([
                 '360_respuestas.id',
                 'preguntas.id as pregunta_id',
                 'preguntas.texto',
                 'preguntas.descripcion',
                 '360_respuestas.texto as respuesta_texto',
-                '360_respuestas.puntuacion'
-            ]);
+                '360_respuestas.puntuacion',
+                'sucursales.nombre_sucursal as sucursal_nombre' // Cambiado de 'empresas.nombre as empresa_nombre'
+            ])
+            ->where('360_respuestas.empresa_id', Auth::user()->empresa_id);
+    
     }
 
     public function relationSearch(): array
@@ -60,7 +65,8 @@ final class PreguntasEmpresaTable extends PowerGridComponent
             ->add('texto')
             ->add('descripcion')
             ->add('respuesta_texto')
-            ->add('puntuacion');
+            ->add('puntuacion')
+            ->add('sucursal_nombre'); // Cambiado de 'empresa_nombre'
     }
 
     public function columns(): array
@@ -83,9 +89,14 @@ final class PreguntasEmpresaTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
+            Column::make('Sucursal', 'sucursal_nombre') // Cambiado de 'Empresa', 'empresa_nombre'
+                ->sortable()
+                ->searchable(),
+
             Column::action('Action')
         ];
     }
+
 
     public function filters(): array
     {
@@ -104,30 +115,18 @@ final class PreguntasEmpresaTable extends PowerGridComponent
 
         return [
 
-           
+
 
             Button::add('edit')
-            ->slot('Editar')
-            ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
-            ->route('editarPreguntaEmpre', ['id' => Crypt::encrypt($preguntaId)]),
+                ->slot('Editar')
+                ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
+                ->route('editarPreguntaEmpre', ['id' => Crypt::encrypt($preguntaId)]),
 
             Button::add('delete')
-            ->slot('Eliminar')
-            ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
-            ->dispatch('confirmarEliminarPreguntaEmpresa', ['id' => Crypt::encrypt($preguntaId)]),
+                ->slot('Eliminar')
+                ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
+                ->dispatch('confirmarEliminarPreguntaEmpresa', ['id' => Crypt::encrypt($preguntaId)]),
 
         ];
     }
-
-    /*
-    public function actionRules($row): array
-    {
-       return [
-            // Hide button edit for ID 1
-            Rule::button('edit')
-                ->when(fn($row) => $row->id === 1)
-                ->hide(),
-        ];
-    }
-    */
 }

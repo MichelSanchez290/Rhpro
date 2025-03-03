@@ -35,18 +35,18 @@
     <!-- Respuesta 1 -->
     <div class="bg-white shadow-md rounded-lg p-6 mx-4 my-6">
         <p class="text-center text-xl font-extrabold text-black md:text-3xl">
-            Respuestas
+            Respuesta 1
         </p>
         <div class="mb-6">
             <label for="respuesta1" class="block text-sm font-medium text-gray-700 mb-2">
-                Respuesta 1
+                Texto
             </label>
             <textarea
                 id="respuesta1"
                 wire:model.live="respuestas.0.texto"
                 rows="3"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-150 ease-in-out"
-                placeholder="Ingrese la respuesta 1..."></textarea>
+                placeholder="Ingrese la respuesta..."></textarea>
             <x-input-error for="respuestas.0.texto" />
         </div>
 
@@ -69,18 +69,18 @@
     <!-- Respuesta 2 -->
     <div class="bg-white shadow-md rounded-lg p-6 mx-4 my-6">
         <p class="text-center text-xl font-extrabold text-black md:text-3xl">
-            Respuestas
+            Respuesta 2
         </p>
         <div class="mb-6">
             <label for="respuesta2" class="block text-sm font-medium text-gray-700 mb-2">
-                Respuesta 2
+                Texto
             </label>
             <textarea
                 id="respuesta2"
                 wire:model.live="respuestas.1.texto"
                 rows="3"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-150 ease-in-out"
-                placeholder="Ingrese la respuesta 2..."></textarea>
+                placeholder="Ingrese la respuesta..."></textarea>
             <x-input-error for="respuestas.1.texto" />
         </div>
 
@@ -103,18 +103,18 @@
     <!-- Respuesta 3 -->
     <div class="bg-white shadow-md rounded-lg p-6 mx-4 my-6">
         <p class="text-center text-xl font-extrabold text-black md:text-3xl">
-            Respuestas
+            Respuesta 3
         </p>
         <div class="mb-6">
             <label for="respuesta3" class="block text-sm font-medium text-gray-700 mb-2">
-                Respuesta 3
+                Texto
             </label>
             <textarea
                 id="respuesta3"
                 wire:model.live="respuestas.2.texto"
                 rows="3"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-150 ease-in-out"
-                placeholder="Ingrese la respuesta 3..."></textarea>
+                placeholder="Ingrese la respuesta..."></textarea>
             <x-input-error for="respuestas.2.texto" />
         </div>
 
@@ -137,18 +137,18 @@
     <!-- Respuesta 4 -->
     <div class="bg-white shadow-md rounded-lg p-6 mx-4 my-6">
         <p class="text-center text-xl font-extrabold text-black md:text-3xl">
-            Respuestas
+            Respuesta 4
         </p>
         <div class="mb-6">
             <label for="respuesta4" class="block text-sm font-medium text-gray-700 mb-2">
-                Respuesta 4
+                Texto
             </label>
             <textarea
                 id="respuesta4"
                 wire:model.live="respuestas.3.texto"
                 rows="3"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-150 ease-in-out"
-                placeholder="Ingrese la respuesta 4..."></textarea>
+                placeholder="Ingrese la respuesta..."></textarea>
             <x-input-error for="respuestas.3.texto" />
         </div>
 
@@ -168,13 +168,33 @@
         </div>
     </div>
 
+    <!-- Campo para seleccionar la sucursal -->
+    <div class="bg-white shadow-md rounded-lg p-6 mx-4 my-6">
+        <label for="sucursal_id" class="block text-sm font-medium text-gray-700 mb-2">
+            Sucursal
+        </label>
+        <select
+            id="sucursal_id"
+            wire:model.live="sucursal_id"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-150 ease-in-out">
+            <option value="">Seleccione una sucursal</option>
+            @foreach($sucursales as $sucursal)
+            <option value="{{ $sucursal->id }}">{{ $sucursal->nombre_sucursal }}</option>
+            @endforeach
+        </select>
+        <x-input-error for="sucursal_id" />
+    </div>
+
+    <!-- Botón para guardar -->
     <div class="bg-white shadow-md rounded-lg p-6 mx-4">
         <div>
             <button
-                wire:click="savePreguntaEmpresa"
+                wire:click="savePreguntaSucursal"
                 class="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out">
                 Guardar Pregunta
             </button>
         </div>
     </div>
 </div>
+
+

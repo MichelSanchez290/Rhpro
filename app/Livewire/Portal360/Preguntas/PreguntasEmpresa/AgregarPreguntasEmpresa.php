@@ -3,39 +3,37 @@
 namespace App\Livewire\Portal360\Preguntas\PreguntasEmpresa;
 
 use App\Models\Encuestas360\Pregunta;
+use App\Models\PortalRH\Empresa;
+use App\Models\PortalRH\Sucursal;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class AgregarPreguntasEmpresa extends Component
 {
+    
     public $pregunta = [
         'texto' => '',
         'descripcion' => ''
     ];
 
-    
     public $respuestas = [];
-    
-    // Inicializar las 4 respuestas
+    public $sucursales = [];
+    public $sucursal_id;
+
     public function mount()
     {
         $this->respuestas = [
-            [
-                'texto' => '',
-                'puntuacion' => ''
-            ],
-            [
-                'texto' => '',
-                'puntuacion' => ''
-            ],
-            [
-                'texto' => '',
-                'puntuacion' => ''
-            ],
-            [
-                'texto' => '',
-                'puntuacion' => ''
-            ]
+            ['texto' => '', 'puntuacion' => ''],
+            ['texto' => '', 'puntuacion' => ''],
+            ['texto' => '', 'puntuacion' => ''],
+            ['texto' => '', 'puntuacion' => '']
         ];
+
+        // Obtener el empresa_id del usuario autenticado y cargar sucursales
+        $empresa = Empresa::find(Auth::user()->empresa_id);
+        $this->sucursales = $empresa->sucursales()
+            ->select('sucursales.id', 'sucursales.nombre_sucursal')
+            ->get();
     }
 
     protected $rules = [
@@ -43,6 +41,7 @@ class AgregarPreguntasEmpresa extends Component
         'pregunta.descripcion' => 'required|max:500',
         'respuestas.*.texto' => 'required|min:5',
         'respuestas.*.puntuacion' => 'required|integer|min:1|max:4',
+        'sucursal_id' => 'required|exists:sucursales,id',
     ];
 
     protected $messages = [
@@ -56,6 +55,8 @@ class AgregarPreguntasEmpresa extends Component
         'respuestas.*.puntuacion.integer' => 'La puntuación debe ser un número entero.',
         'respuestas.*.puntuacion.min' => 'La puntuación debe ser al menos 1.',
         'respuestas.*.puntuacion.max' => 'La puntuación no debe ser mayor a 4.',
+        'sucursal_id.required' => 'Debe seleccionar una sucursal.',
+        'sucursal_id.exists' => 'La sucursal seleccionada no es válida.',
     ];
 
     public function updated($propertyName)
@@ -63,30 +64,30 @@ class AgregarPreguntasEmpresa extends Component
         $this->validateOnly($propertyName);
     }
 
-    public function savePreguntaEmpresa()
+    public function savePreguntaSucursal()
     {
         $this->validate();
 
         try {
+            // Crear la pregunta
             $nuevaPregunta = Pregunta::create([
                 'texto' => $this->pregunta['texto'],
                 'descripcion' => $this->pregunta['descripcion']
             ]);
 
+            // Crear las respuestas asociadas a la pregunta usando el empresa_id del usuario autenticado
             foreach ($this->respuestas as $respuesta) {
                 $nuevaPregunta->respuestas()->create([
                     'texto' => $respuesta['texto'],
-                    'puntuacion' => $respuesta['puntuacion']
+                    'puntuacion' => $respuesta['puntuacion'],
+                    'sucursal_id' => $this->sucursal_id,
+                    'empresa_id' => Auth::user()->empresa_id
                 ]);
             }
 
             // Limpiar los campos después de guardar
-            $this->pregunta = [
-                'texto' => '',
-                'descripcion' => ''
-            ];
-            
-            $this->mount(); // Reinicializar las respuestas
+            $this->reset(['pregunta', 'respuestas', 'sucursal_id']);
+            $this->mount(); // Reinicializar las respuestas y sucursales
 
             $this->dispatch('toastr-success', message: 'Pregunta y respuestas guardadas correctamente.');
             return redirect()->route('portal360.preguntas.preguntas-empresa.mostrar-preguntas-empresa');
@@ -96,7 +97,6 @@ class AgregarPreguntasEmpresa extends Component
             $this->dispatch('toastr-error', message: 'Error al guardar la pregunta: ' . $e->getMessage());
         }
     }
-
 
     public function render()
     {

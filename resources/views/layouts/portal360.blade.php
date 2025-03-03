@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,18 +17,25 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
+
 <body class="font-sans antialiased bg-blue-50">
+    <!-- Incluye el componente Livewire para el menú lateral -->
+    @livewire('portal360.navigation-menu')
+
+    <!-- Incluye la barra de navegación superior (si es necesario) -->
     @include('navigation-menudev')
+    <!-- Mueve la searchbar arriba del main -->
+    @include('searchbar')
+
     <main class="w-full md:w-[calc(100%-256px)] md:ml-64 transition-all main">
-        @include('searchbar')
         <!-- Content -->
-        <div class="pt-5">
+        <div class="pt-5">zz
             <main class="">
                 {{ $slot }}
             </main>
         </div>
-        <!-- End Content -->
     </main>
+
 
     @livewireScripts
     <!-- jQuery (requerido por Toastr y Select2) -->
@@ -62,9 +70,14 @@
         window.addEventListener('toastr-error', event => {
             toastr.error(event.detail.message);
         });
+
+        window.addEventListener('toastr-warning', event => {
+            toastr.warning(event.detail.message);
+        });
     </script>
+    
 
     @stack('scripts') <!-- Aquí se incluirán los scripts push -->
 </body>
-</html>
 
+</html>

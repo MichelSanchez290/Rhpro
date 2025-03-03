@@ -23,14 +23,14 @@ class AgregarEmpresSucursal extends Component
     protected $rules = [
         'empressucursal.empresa_id' => 'required',
         'empressucursal.sucursal_id' => 'required',
-        'empressucursal.status' => 'required',
+        //'empressucursal.status' => 'required',
     ];
 
     // MENSAJES DE VALIDACIÓN
     protected $messages = [
         'empressucursal.empresa_id' => 'La empresa es requerido',
         'empressucursal.sucursal_id' => 'La sucursal es requerida',
-        'empressucursal.status.required' => 'El status es requerido',
+        //'empressucursal.status.required' => 'El status es requerido',
     ];
 
     public function saveEmpresSucursal()
@@ -41,7 +41,7 @@ class AgregarEmpresSucursal extends Component
         DB::table('empresa_sucursal')->insert([
             'empresa_id' => $this->empressucursal['empresa_id'],
             'sucursal_id' => $this->empressucursal['sucursal_id'],
-            'status' => $this->empressucursal['status'],
+            //'status' => $this->empressucursal['status'],
             'created_at' => now(),
             'updated_at' => now(),
         ]);

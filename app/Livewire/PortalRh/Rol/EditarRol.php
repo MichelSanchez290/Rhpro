@@ -5,37 +5,53 @@ namespace App\Livewire\PortalRh\Rol;
 use Livewire\Component;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Illuminate\Support\Facades\Crypt;
 
 class EditarRol extends Component
 {
-    public $rolId;
+    public $rol_id;
     public $nombre;
-    public $permisos = [];
-    public $todosLosPermisos = [];
+    public $selectedPermissions = [];
+    public $permissions = [];
 
     public function mount($id)
     {
+        $id = Crypt::decrypt($id);
         $rol = Role::findOrFail($id);
 
-        $this->rolId = $rol->id;
+        $this->rol_id = $id;
         $this->nombre = $rol->name;
-        $this->permisos = $rol->permissions->pluck('id')->toArray();
-        $this->todosLosPermisos = Permission::all();
+        $this->selectedPermissions = $rol->permissions->pluck('id')->toArray(); // Guardar IDs en lugar de nombres
+
+        $this->permissions = Permission::all();
     }
 
     public function actualizarRol()
     {
-        $rol = Role::findOrFail($this->rolId);
+        $this->validate([
+            'nombre' => 'required|string|unique:roles,name,' . $this->rol_id,
+            'selectedPermissions' => 'array'
+        ]);
+
+        $rol = Role::findOrFail($this->rol_id);
         $rol->name = $this->nombre;
         $rol->save();
 
-        // Sincronizar permisos
-        $rol->syncPermissions($this->permisos);
+        // Obtener los nombres de los permisos seleccionados
+        $permisosNombres = Permission::whereIn('id', $this->selectedPermissions)->pluck('name')->toArray();
 
-        session()->flash('success', 'Rol actualizado correctamente');
+        // Sincronizar permisos con los nombres obtenidos
+        $rol->syncPermissions($permisosNombres);
+
+        session()->flash('message', 'Rol actualizado correctamente.');
+
+        return redirect()->route('mostrarrol');
     }
+    
 
 
+    //return redirect()->route('mostrarrol');
+    
     public function render()
     {
         return view('livewire.portal-rh.rol.editar-rol')->layout('layouts.client');

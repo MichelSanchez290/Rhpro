@@ -6,32 +6,24 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('eject_cotizaciones_aprobadas', function (Blueprint $table) {
             $table->id();
             $table->date('fecha_aprobacion');
-            $table->string('correo_enviado');
-            $table->unsignedBigInteger('serviEjec_id');
-            $table->foreign('serviEjec_id')
-                ->references('id')
-                ->on('servicios_ejecutivos')
+            $table->string('email_enviado');
+            $table->foreignId('servicios_ejecutivos_id')
+                ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::table('eject_cotizaciones_aprobadas', function (Blueprint $table) {
-            $table->dropForeign(['serviEjec_id']);
+            $table->dropForeign(['servicios_ejecutivos_id']);
         });
         Schema::dropIfExists('eject_cotizaciones_aprobadas');
     }

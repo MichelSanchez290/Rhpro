@@ -31,6 +31,7 @@
         </div>
     </div>
 
+    <!-- Resto del código para las respuestas -->
     @foreach ($respuestas as $index => $respuesta)
     <div class="bg-white shadow-md rounded-lg p-6 mx-4 my-6">
         <p class="text-center text-xl font-extrabold text-black md:text-3xl">
@@ -68,7 +69,7 @@
     <div class="bg-white shadow-md rounded-lg p-6 mx-4">
         <div>
             <button
-                wire:click="editarPreguntaSucu"
+                wire:click="editarSucursaldx"
                 class="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out">
                 Guardar Cambios
             </button>

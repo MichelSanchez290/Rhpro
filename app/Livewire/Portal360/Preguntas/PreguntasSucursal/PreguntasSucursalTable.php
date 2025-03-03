@@ -5,6 +5,7 @@ namespace App\Livewire\Portal360\Preguntas\PreguntasSucursal;
 use App\Models\Encuestas360\Respuesta;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
@@ -13,6 +14,7 @@ use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
+
 
 final class PreguntasSucursalTable extends PowerGridComponent
 {
@@ -44,7 +46,8 @@ final class PreguntasSucursalTable extends PowerGridComponent
                 'preguntas.descripcion',
                 '360_respuestas.texto as respuesta_texto',
                 '360_respuestas.puntuacion'
-            ]);
+            ])
+            ->where('360_respuestas.empresa_id', Auth::user()->empresa_id);
     }
 
     public function relationSearch(): array
@@ -100,30 +103,22 @@ final class PreguntasSucursalTable extends PowerGridComponent
 
     public function actions(Respuesta $row): array
     {
+
         $preguntaId = $row->pregunta_id;
 
         return [
             Button::add('edit')
-            ->slot('Editar')
-            ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
-            ->route('editarPreguntaSucu', ['id' => Crypt::encrypt($preguntaId)]),
+                ->slot('Editar')
+                ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
+                ->route('editarSucursaldx', ['id' => Crypt::encrypt($preguntaId)]),
+
+
 
             Button::add('delete')
-            ->slot('Eliminar')
-            ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
-            ->dispatch('confirmarEliminarPreguntaSucursal', ['id' => Crypt::encrypt($preguntaId)]),
-        ];
-    }
+                ->slot('Eliminar')
+                ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
+                ->dispatch('confirmarEliminarPreguntaSucursal', ['id' => Crypt::encrypt($preguntaId)]),
 
-    /*
-    public function actionRules($row): array
-    {
-       return [
-            // Hide button edit for ID 1
-            Rule::button('edit')
-                ->when(fn($row) => $row->id === 1)
-                ->hide(),
         ];
     }
-    */
 }

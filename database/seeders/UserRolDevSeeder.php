@@ -186,16 +186,22 @@ class UserRolDevSeeder extends Seeder
         // Permission - 
         // role1, role2, role3, role8, role10
 
-        Permission::create(['name' => 'Mostrar Rol'])->syncRoles([$role1, $role8, $role10]);
+        Permission::create(['name' => 'Mostrar Rol'])->syncRoles([$role1, $role2]);
+        Permission::create(['name' => 'Ver Permisos'])->syncRoles([$role1, $role2]);
         Permission::create(['name' => 'Agregar Rol'])->syncRoles([$role1]);
         Permission::create(['name' => 'Editar Rol'])->syncRoles([$role1, $role2]);
         Permission::create(['name' => 'Eliminar Rol'])->syncRoles([$role1]);
 
-        Permission::create(['name' => 'Mostrar Usuario'])->syncRoles([$role1, $role8, $role10]);
+        Permission::create(['name' => 'Mostrar Usuario'])->syncRoles([$role1, $role2]);
         Permission::create(['name' => 'Agregar Usuario'])->syncRoles([$role1]);
         Permission::create(['name' => 'Editar Usuario'])->syncRoles([$role1, $role2]);
         Permission::create(['name' => 'Eliminar Usuario'])->syncRoles([$role1]);
 
+        Permission::create(['name' => 'Mostrar Reg Patronales'])->syncRoles([$role1, $role2]);
+        Permission::create(['name' => 'Agregar Reg Patronales'])->syncRoles([$role1]);
+        Permission::create(['name' => 'Editar Reg Patronales'])->syncRoles([$role1, $role2]);
+        Permission::create(['name' => 'Eliminar Reg Patronales'])->syncRoles([$role1]);
+        
         Permission::create(['name' => 'Mostrar Empresas'])->syncRoles([$role1, $role8, $role10]);
         Permission::create(['name' => 'Agregar Empresa'])->syncRoles([$role1]);
         Permission::create(['name' => 'Editar Empresa'])->syncRoles([$role1, $role2]);
@@ -268,6 +274,18 @@ class UserRolDevSeeder extends Seeder
         // ver retardos, incidencias (permisos, vacaciones),  cambio salario, incapacidad
         // $role1, $role2, $role3, $role8, $role10
 
+        Permission::create(['name' => 'Mostrar Incidencias'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Agregar Incidencia'])->syncRoles([$role1, $role2, $role3]);     
+        Permission::create(['name' => 'Editar Incidencia'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Eliminar Incidencia'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Ver Incidencias'])->syncRoles([$role1, $role2, $role3, $role8, $role10]);   
+        
+        
+        Permission::create(['name' => 'Mostrar Incapacidad'])->syncRoles([$role1, $role2, $role3, $role8, $role10]);
+        Permission::create(['name' => 'Agregar Incapacidad'])->syncRoles([$role1, $role2, $role3, $role8, $role10]);
+        Permission::create(['name' => 'Aceptar Incapacidad'])->syncRoles([$role1, $role2, $role3]);        
+        Permission::create(['name' => 'Editar Incapacidad'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Eliminar Incapacidad'])->syncRoles([$role1, $role2, $role3]);   
 
          // ************** MODULO ACTIVO FIJO ***************************************
         // Permission - 
@@ -275,6 +293,7 @@ class UserRolDevSeeder extends Seeder
         Permission::create(['name'=>'Activo tecnologia Admin'])->syncRoles([$role1]);
         Permission::create(['name'=>'Activo tecnologia Empresa'])->syncRoles([$role2]);
         Permission::create(['name'=>'Activo tecnologia Sucursal'])->syncRoles([$role3]);
+        
 
         // Permisos para activo mobiliario
         Permission::create(['name'=>'Activo mobiliario Admin'])->syncRoles([$role1]);
@@ -303,7 +322,10 @@ class UserRolDevSeeder extends Seeder
 
         //Permisos para tipo activo
         Permission::create(['name'=>'Tipo activo'])->syncRoles([$role1]);
-        // ************** FIN MODULO ACTIVO TECNOLOGIA ***************************************
+        
+        //**********************************FIN ACTIVO FIJO****************************** */
+
+
 
 
         // ************** MODULO PORTAL DE CAPACITACIÓN ***************************************
@@ -493,5 +515,35 @@ class UserRolDevSeeder extends Seeder
         Permission::create(['name' => 'Editar evidencias Trabajador'])->syncRoles([$role9, $role10]);
         
         // ************** FIN MODULO PORTAL DE CAPACITACIÓN ***************************************
+        
+        // ************* MODULO DE DX035 *******************
+
+          // Permisos para GoldenAdmin
+          Permission::create(['name' => 'Ver todas las encuestas'])->syncRoles([$role1]);
+          Permission::create(['name' => 'Crear encuestas'])->syncRoles([$role1]);
+          Permission::create(['name' => 'Editar encuestas'])->syncRoles([$role1]);
+          Permission::create(['name' => 'Eliminar encuestas'])->syncRoles([$role1]);
+
+          // Permisos para EmpresaAdmin
+          Permission::create(['name' => 'Ver encuestas de la empresa'])->syncRoles([$role2]);
+          Permission::create(['name' => 'Crear encuestas para la empresa'])->syncRoles([$role2]);
+          Permission::create(['name' => 'Editar encuestas de la empresa'])->syncRoles([$role2]);
+          Permission::create(['name' => 'Eliminar encuestas de la empresa'])->syncRoles([$role2]);
+
+          // Permisos para SucursalAdmin
+          Permission::create(['name' => 'Ver encuestas de la sucursal'])->syncRoles([$role3]);
+          Permission::create(['name' => 'Crear encuestas para la sucursal'])->syncRoles([$role3]);
+          Permission::create(['name' => 'Editar encuestas de la sucursal'])->syncRoles([$role3]);
+          Permission::create(['name' => 'Eliminar encuestas de la sucursal'])->syncRoles([$role3]);
+
+          // Permisos para Trabajador NOM035
+          Permission::create(['name' => 'Ver encuesta asignada'])->syncRoles([$role7]);
+          Permission::create(['name' => 'Responder encuesta asignada'])->syncRoles([$role7]);
+
+          // Permisos para Trabajador GLOBAL
+          Permission::create(['name' => 'Responder encuesta invitada'])->syncRoles([$role10]);
+
+         // ************* FIN MODULO DE DX035 *******************
+        
     }
 }
