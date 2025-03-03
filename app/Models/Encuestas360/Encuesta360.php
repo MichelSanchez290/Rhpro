@@ -24,5 +24,12 @@ class Encuesta360 extends Model
     {
         return $this->belongsTo(Sucursal::class, 'sucursal_id', 'id');
     }
+
+    public function preguntas()
+{
+    return $this->hasMany(Pregunta::class, 'encuesta_id');
+}
+
+
     
 }

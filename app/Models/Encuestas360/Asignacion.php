@@ -47,9 +47,10 @@ class Asignacion extends Model
     }
 
     public function encuesta()
-    {
-        return $this->belongsTo(Encuesta360::class, '360_encuestas_id');
-    }
+{
+    return $this->belongsTo(Encuesta360::class, '360_encuestas_id', 'id');
+}
+
 
     public function empresaSucursal()
     {

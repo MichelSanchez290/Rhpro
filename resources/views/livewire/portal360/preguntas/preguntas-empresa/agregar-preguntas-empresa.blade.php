@@ -31,13 +31,15 @@
             </div>
         </div>
     </div>
+
+    <!-- Respuesta 1 -->
     <div class="bg-white shadow-md rounded-lg p-6 mx-4 my-6">
         <p class="text-center text-xl font-extrabold text-black md:text-3xl">
-            Respuestas
+            Respuesta 1
         </p>
         <div class="mb-6">
             <label for="respuesta1" class="block text-sm font-medium text-gray-700 mb-2">
-                Respuesta 1
+                Texto
             </label>
             <textarea
                 id="respuesta1"
@@ -64,14 +66,14 @@
         </div>
     </div>
 
-    <!-- Respuesta 1 -->
+    <!-- Respuesta 2 -->
     <div class="bg-white shadow-md rounded-lg p-6 mx-4 my-6">
         <p class="text-center text-xl font-extrabold text-black md:text-3xl">
-            Respuestas
+            Respuesta 2
         </p>
         <div class="mb-6">
             <label for="respuesta2" class="block text-sm font-medium text-gray-700 mb-2">
-                Respuesta 2
+                Texto
             </label>
             <textarea
                 id="respuesta2"
@@ -98,13 +100,14 @@
         </div>
     </div>
 
+    <!-- Respuesta 3 -->
     <div class="bg-white shadow-md rounded-lg p-6 mx-4 my-6">
         <p class="text-center text-xl font-extrabold text-black md:text-3xl">
-            Respuestas
+            Respuesta 3
         </p>
         <div class="mb-6">
             <label for="respuesta3" class="block text-sm font-medium text-gray-700 mb-2">
-                Respuesta 3
+                Texto
             </label>
             <textarea
                 id="respuesta3"
@@ -131,16 +134,17 @@
         </div>
     </div>
 
+    <!-- Respuesta 4 -->
     <div class="bg-white shadow-md rounded-lg p-6 mx-4 my-6">
         <p class="text-center text-xl font-extrabold text-black md:text-3xl">
-            Respuestas
+            Respuesta 4
         </p>
         <div class="mb-6">
             <label for="respuesta4" class="block text-sm font-medium text-gray-700 mb-2">
-                Respuesta 4
+                Texto
             </label>
             <textarea
-                id="respuesta3"
+                id="respuesta4"
                 wire:model.live="respuestas.3.texto"
                 rows="3"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-150 ease-in-out"
@@ -164,31 +168,33 @@
         </div>
     </div>
 
-    <!-- Campo para seleccionar la empresa -->
-    <!-- <div class="mb-6"> -->
+    <!-- Campo para seleccionar la sucursal -->
     <div class="bg-white shadow-md rounded-lg p-6 mx-4 my-6">
-        <label for="empresa_id" class="block text-sm font-medium text-gray-700 mb-2">
-            Empresa
+        <label for="sucursal_id" class="block text-sm font-medium text-gray-700 mb-2">
+            Sucursal
         </label>
         <select
-            id="empresa_id"
-            wire:model.live="empresa_id"
+            id="sucursal_id"
+            wire:model.live="sucursal_id"
             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-150 ease-in-out">
-            <option value="">Seleccione una empresa</option>
-            @foreach($empresas as $empresa)
-            <option value="{{ $empresa->id }}">{{ $empresa->nombre }}</option>
+            <option value="">Seleccione una sucursal</option>
+            @foreach($sucursales as $sucursal)
+            <option value="{{ $sucursal->id }}">{{ $sucursal->nombre_sucursal }}</option>
             @endforeach
         </select>
-        <x-input-error for="empresa_id" />
+        <x-input-error for="sucursal_id" />
     </div>
 
+    <!-- Botón para guardar -->
     <div class="bg-white shadow-md rounded-lg p-6 mx-4">
         <div>
             <button
-                wire:click="savePreguntaEmpresa"
+                wire:click="savePreguntaSucursal"
                 class="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out">
                 Guardar Pregunta
             </button>
         </div>
     </div>
 </div>
+
+

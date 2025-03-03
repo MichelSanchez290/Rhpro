@@ -4,6 +4,8 @@ namespace App\Livewire\Portal360\Preguntas\PreguntasEmpresa;
 
 use App\Models\Encuestas360\Pregunta;
 use App\Models\PortalRH\Empresa;
+use App\Models\PortalRH\Sucursal;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Livewire\Component;
 
@@ -16,15 +18,15 @@ class EditarPreguntasEmpresa extends Component
     ];
 
     public $respuestas = [];
-    public $empresas = []; // Lista de empresas
-    public $empresa_id; // Empresa seleccionada
+    public $sucursales = [];
+    public $sucursal_id;
 
     protected $rules = [
         'pregunta.texto' => 'required|min:10',
         'pregunta.descripcion' => 'required|max:500',
         'respuestas.*.texto' => 'required|min:5',
         'respuestas.*.puntuacion' => 'required|integer|min:1|max:4',
-        'empresa_id' => 'required|exists:empresas,id', // Validar la empresa seleccionada
+        'sucursal_id' => 'required|exists:sucursales,id',
     ];
 
     protected $messages = [
@@ -38,8 +40,8 @@ class EditarPreguntasEmpresa extends Component
         'respuestas.*.puntuacion.integer' => 'La puntuación debe ser un número entero.',
         'respuestas.*.puntuacion.min' => 'La puntuación debe ser al menos 1.',
         'respuestas.*.puntuacion.max' => 'La puntuación no debe ser mayor a 4.',
-        'empresa_id.required' => 'Debe seleccionar una empresa.',
-        'empresa_id.exists' => 'La empresa seleccionada no es válida.',
+        'sucursal_id.required' => 'Debe seleccionar una sucursal.',
+        'sucursal_id.exists' => 'La sucursal seleccionada no es válida.',
     ];
 
     public function mount($id)
@@ -61,7 +63,7 @@ class EditarPreguntasEmpresa extends Component
                     'id' => $respuesta->id,
                     'texto' => $respuesta->texto,
                     'puntuacion' => $respuesta->puntuacion,
-                    'empresa_id' => $respuesta->empresa_id // Cargar empresa_id de la respuesta
+                    'sucursal_id' => $respuesta->sucursal_id
                 ];
             })->toArray();
 
@@ -71,16 +73,19 @@ class EditarPreguntasEmpresa extends Component
                     'id' => null,
                     'texto' => '',
                     'puntuacion' => '',
-                    'empresa_id' => null
+                    'sucursal_id' => null
                 ];
             }
 
-            // Cargar la lista de empresas
-            $this->empresas = Empresa::select('id', 'nombre')->get();
+            // Cargar sucursales a través de la relación con Empresa usando Auth
+            $empresa = Empresa::find(Auth::user()->empresa_id);
+            $this->sucursales = $empresa->sucursales()
+                ->select('sucursales.id', 'sucursales.nombre_sucursal')
+                ->get();
 
-            // Establecer la empresa seleccionada (si hay respuestas)
-            if (!empty($this->respuestas[0]['empresa_id'])) {
-                $this->empresa_id = $this->respuestas[0]['empresa_id'];
+            // Establecer la sucursal seleccionada (si hay respuestas)
+            if (!empty($this->respuestas[0]['sucursal_id'])) {
+                $this->sucursal_id = $this->respuestas[0]['sucursal_id'];
             }
         } catch (\Exception $e) {
             $this->dispatch('toastr-error', message: 'Error al cargar la pregunta: ' . $e->getMessage());
@@ -113,7 +118,8 @@ class EditarPreguntasEmpresa extends Component
                         [
                             'texto' => $respuestaData['texto'],
                             'puntuacion' => $respuestaData['puntuacion'],
-                            'empresa_id' => $this->empresa_id // Asignar la empresa seleccionada
+                            'sucursal_id' => $this->sucursal_id,
+                            'empresa_id' => Auth::user()->empresa_id // Usar Auth para empresa_id
                         ]
                     );
                 } else {
@@ -121,23 +127,18 @@ class EditarPreguntasEmpresa extends Component
                     $pregunta->respuestas()->create([
                         'texto' => $respuestaData['texto'],
                         'puntuacion' => $respuestaData['puntuacion'],
-                        'empresa_id' => $this->empresa_id // Asignar la empresa seleccionada
+                        'sucursal_id' => $this->sucursal_id,
+                        'empresa_id' => Auth::user()->empresa_id // Usar Auth para empresa_id
                     ]);
                 }
             }
 
-            // Notificación de éxito
             $this->dispatch('toastr-success', message: 'Pregunta editada correctamente.');
-
-            // Redireccionar a la lista de preguntas
             return redirect()->route('portal360.preguntas.preguntas-empresa.mostrar-preguntas-empresa');
         } catch (\Exception $e) {
-            // Notificación de error
             $this->dispatch('toastr-error', message: 'Error al editar la pregunta: ' . $e->getMessage());
         }
     }
-
-
 
     public function render()
     {

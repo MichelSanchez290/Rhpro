@@ -45,5 +45,10 @@ class Empresa extends Model
         return $this->hasMany(User::class);
     }
 
+    public function sucursaless()
+{
+    return $this->hasMany(Sucursal::class, 'empresa_id', 'id');
+}
+
     
 }

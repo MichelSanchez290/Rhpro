@@ -5,6 +5,7 @@ namespace App\Livewire\Portal360\Preguntas\PreguntasSucursal;
 use App\Models\Encuestas360\Respuesta;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
@@ -38,16 +39,15 @@ final class PreguntasSucursalTable extends PowerGridComponent
     {
         return Respuesta::query()
             ->join('preguntas', 'preguntas.id', '=', '360_respuestas.preguntas_id')
-            ->join('empresas', 'empresas.id', '=', '360_respuestas.empresa_id')
             ->select([
                 '360_respuestas.id',
                 'preguntas.id as pregunta_id',
                 'preguntas.texto',
                 'preguntas.descripcion',
                 '360_respuestas.texto as respuesta_texto',
-                '360_respuestas.puntuacion',
-                'empresas.nombre as empresa_nombre' // Agregar el nombre de la empresa
-            ]);
+                '360_respuestas.puntuacion'
+            ])
+            ->where('360_respuestas.empresa_id', Auth::user()->empresa_id);
     }
 
     public function relationSearch(): array
@@ -63,8 +63,7 @@ final class PreguntasSucursalTable extends PowerGridComponent
             ->add('texto')
             ->add('descripcion')
             ->add('respuesta_texto')
-            ->add('puntuacion')
-            ->add('empresa_nombre');
+            ->add('puntuacion');
     }
 
     public function columns(): array
@@ -87,10 +86,6 @@ final class PreguntasSucursalTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Empresa', 'empresa_nombre') // Agregar columna para el nombre de la empresa
-                ->sortable()
-                ->searchable(),
-
             Column::action('Action')
         ];
     }
@@ -108,40 +103,22 @@ final class PreguntasSucursalTable extends PowerGridComponent
 
     public function actions(Respuesta $row): array
     {
-        $actions = [];
+
         $preguntaId = $row->pregunta_id;
 
-
-        // Verifica el permiso de edición
-
-        if (auth()->check() && auth()->user()->hasPermissionTo('Editar Preguntas ADMIN SUCURSAL')) {
-            $actions[] = Button::add('edit')
+        return [
+            Button::add('edit')
                 ->slot('Editar')
                 ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
-                ->route('editarPreguntaSucu', ['id' => Crypt::encrypt($preguntaId)]);
-            // ... código del botón de editar
-        }
+                ->route('editarSucursaldx', ['id' => Crypt::encrypt($preguntaId)]),
 
-        if (auth()->check() && auth()->user()->hasPermissionTo('Eliminar Preguntas ADMIN SUCURSAL')) {
-            $actions[] = Button::add('delete')
+
+
+            Button::add('delete')
                 ->slot('Eliminar')
                 ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
-                ->dispatch('confirmarEliminarPreguntaSucursal', ['id' => Crypt::encrypt($preguntaId)]);
-            // ... código del botón de eliminar
-        }
+                ->dispatch('confirmarEliminarPreguntaSucursal', ['id' => Crypt::encrypt($preguntaId)]),
 
-        return $actions;
-    }
-
-    /*
-    public function actionRules($row): array
-    {
-       return [
-            // Hide button edit for ID 1
-            Rule::button('edit')
-                ->when(fn($row) => $row->id === 1)
-                ->hide(),
         ];
     }
-    */
 }

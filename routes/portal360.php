@@ -34,6 +34,7 @@ use App\Livewire\Portal360\Encuesta\EncuestaEmpresa\MostrarEncuestaEmpresa;
 use App\Livewire\Portal360\Encuesta\EncuestaSucursal\AgregarEncuestaSucursal;
 use App\Livewire\Portal360\Encuesta\EncuestaSucursal\EditarEncuestaSucursal;
 use App\Livewire\Portal360\Encuesta\EncuestaSucursal\MostrarEncuestaSucursal;
+use App\Livewire\Portal360\Envaluaciones\EnvalaucionesTrabajador\AsignacionesPendientes;
 use App\Livewire\Portal360\Inicio;
 use App\Livewire\Portal360\MostrarRolesDev;
 use App\Livewire\Portal360\NavigationMenu;
@@ -112,8 +113,9 @@ Route::get('/eliminar-preguntas-empresa', EliminarPreguntasEmpresa::class)->midd
 
 //Mostrar Preguntas Sucursal  
 Route::get('/mostrar-pregunta-sucursal', MostrarPreguntaSucursal::class)->middleware('can:Mostrar Preguntas ADMIN SUCURSAL')->name('portal360.preguntas.preguntas-sucursal.mostrar-pregunta-sucursal');
-Route::get('/agregar-pregunta-sucursal', AgregarPreguntaSucursal::class)->middleware('can:Agregar Preguntas ADMIN SUCURSAL')->name('agregarPreguntaSucursal');
-Route::get('/editar-pregunta-sucursal/{id}', EditarPreguntaSucursal::class)->middleware('can:Editar Preguntas ADMIN SUCURSAL')->name('editarPreguntaSucu');
+Route::get('/agregar-pregunta-sucursal', AgregarPreguntaSucursal::class)->name('agregarPreguntaSucursal');
+// Route::get('/agregar-pregunta-sucursal', AgregarPreguntaSucursal::class)->middleware('can:Agregar Preguntas ADMIN SUCURSAL')->name('agregarPreguntaSucursal');
+Route::get('/editar-pregunta-sucursal/{id}', EditarPreguntaSucursal::class)->name('editarSucursaldx');
 Route::get('/eliminar-pregunta-sucursal', EliminarPreguntaSucursal::class)->middleware('can:Eliminar Preguntas ADMIN SUCURSAL')->name('eliminarPreguntaSucursal');
 
 
@@ -136,8 +138,8 @@ Route::get('/eliminar-encuesta-empresa', [MostrarEncuestaEmpresa::class, 'delete
 
 //Mostrar Encuesta Sucursal 
 Route::get('/mostrar-encuesta-sucursal', MostrarEncuestaSucursal::class)->middleware('can:Mostrar Encuesta ADMIN SUCURSAL')->name('portal360.encuesta.encuesta-sucursal.mostrar-encuesta-sucursal');
-Route::get('/agregar-encuesta-sucursal', AgregarEncuestaSucursal::class)->middleware('can:Agregar Encuesta ADMIN SUCURSAL')->name('agregarEncuestaSucursal');
-Route::get('/editar-encuesta-sucursal/{id}',  EditarEncuestaSucursal::class)->middleware('can:Editar Encuesta ADMIN SUCURSAL')->name('editarEncuestaSucursalpro');
+Route::get('/agregar-encuesta-sucursal', AgregarEncuestaSucursal::class)->name('agregarEncuestaSucursal');
+Route::get('/editar-encuesta-sucursal/{id}',  EditarEncuestaSucursal::class)->name('editarEncuestaSucursalpro');
 Route::get('/eliminar-encuesta-sucursal', [MostrarEncuestaSucursal::class, 'deleteEncuestaSucursal'])->middleware('can:Eliminar Encuesta ADMIN SUCURSAL')->name('eliminarEncuestaSucursal');
 
 // Route::get('/eliminar-pregunta', [EncuestaDev::class, 'deleteEncuesta'])->middleware('can:Eliminar Encuesta')->name('eliminarEncuesta');
@@ -180,10 +182,12 @@ Route::get('/eliminar-encuesta-pregunta-encpre-empresa', [MostrarEncuestaPregunt
 
 //Mostrar Encpre Sucursal 
 Route::get('/mostrar-encuesta-pregunta-encpre-sucursal', MostrarEncuestaPreguntaEncpreSucursal::class)->middleware('can:Mostrar Encpre ADMIN SUCURSAL')->name('portal360.encpre.encuesta-pregunta-encpre-sucursal.mostrar-encuesta-pregunta-encpre-sucursal');
-Route::get('/agregar-encuesta-pregunta-encpre-sucursal', AgregarEncuestaPreguntaEncpreSucursal::class)->middleware('can:Agregar Encpre ADMIN SUCURSA')->name('agregarEncpreSucursal');
-Route::get('/editar-encuesta-pregunta-encpre-sucursal/{id}', EditarEncuestaPreguntaEncpreSucursal::class)->middleware('can:Editar Encpre ADMIN SUCURSAL')->name('editarEncuestaSucursal');
+Route::get('/agregar-encuesta-pregunta-encpre-sucursal', AgregarEncuestaPreguntaEncpreSucursal::class)->name('agregarEncpreSucursal');
+Route::get('/editar-encuesta-pregunta-encpre-sucursal/{id}', EditarEncuestaPreguntaEncpreSucursal::class)->name('editarEncuestaSucursal');
 Route::get('/eliminar-encuesta-pregunta-sucursal', [MostrarEncuestaPreguntaEncpreSucursal::class, 'deleteEncpreSucursal'])->middleware('can:Eliminar Encpre ADMIN SUCURSAL')->name('eliminarEncpreSucursal');
 
+//Mostrar Trabajadores 360 
+Route::get('/asignaciones-pendientes', AsignacionesPendientes::class)->name('asignacionesPendientes');
 
 //Despues elimino los roles 
 Route::get('/mostrar-roles-dev', MostrarRolesDev::class)->name('portal360.mostrarRoles');

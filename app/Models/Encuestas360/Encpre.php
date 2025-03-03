@@ -11,7 +11,7 @@ class Encpre extends Model
 
     protected $table = 'encpres';
     protected $primaryKey = 'id';
-    protected $fillable = ['id', 'encuestas_id', 'preguntas_id'];
+    protected $fillable = ['id', 'encuestas_id', 'preguntas_id', 'sucursal_id'];
 
     public function encuesta()
     {
