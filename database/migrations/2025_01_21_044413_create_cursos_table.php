@@ -13,6 +13,18 @@ return new class extends Migration
     {
         Schema::create('cursos', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('empresa_id');
+            $table->foreign('empresa_id')
+                ->references('id')
+                ->on( 'empresas')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->unsignedBigInteger('sucursal_id');
+            $table->foreign('sucursal_id')
+                ->references('id')
+                ->on( 'sucursales')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->string('Cnombre');
             $table->integer('Choras');
             $table->string('Cprecio');
@@ -33,6 +45,12 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('empresa', function (Blueprint $table){
+            $table->dropForeign(['empresa_id']);
+        });
+        Schema::table('sucursal', function (Blueprint $table){
+            $table->dropForeign(['sucursal_id']);
+        });
         Schema::table('cursos', function (Blueprint $table) {
             $table->dropForeign(['tematicas_id']);
         });

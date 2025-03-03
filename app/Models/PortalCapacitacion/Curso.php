@@ -16,12 +16,24 @@ class Curso extends Model
     protected $primaryKey = 'id';
 
     // Columnas asignables masivamente
-    protected $fillable = ['id','CNombre', 'CHoras', 'CPrecio', 'Ctipoestatus', 'tematicas_id', 'Modalidad'];
+    protected $fillable = ['id','empresa_id', 'sucursal_id', 'nombre', 'horas', 'precio', 'tipoestatus', 'tematicas_id', 'modalidad'];
 
     // Relación inversa (pertenece a una temática)
     public function tematicas()
     {
         return $this->belongsToMany(Tematica::class, 'tematicas_id');
+    }
+
+     // Relación uno a muchos con empresas
+     public function empresa()
+    {
+        return $this->belongsTo(Empresa::class);
+    }
+ 
+     // Relación uno a muchos con sucursales 
+    public function sucursal()
+    {
+        return $this->belongsTo(Sucursal::class);
     }
 }
 

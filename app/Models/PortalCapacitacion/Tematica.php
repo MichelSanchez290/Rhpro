@@ -16,11 +16,23 @@ class Tematica extends Model
     protected $primaryKey = 'id';
 
     // Columnas asignables masivamente
-    protected $fillable = ['id', 'TENombre'];
+    protected $fillable = ['id', 'empresa_id', 'sucursal_id','nombre'];
 
     // Relación uno a muchos con cursos
     public function cursos()
     {
         return $this->hasMany(Curso::class);
     }
+
+     // Relación uno a muchos con empresas
+     public function empresa()
+     {
+         return $this->belongsTo(Empresa::class);
+     }
+ 
+     // Relación uno a muchos con sucursales 
+     public function sucursal()
+     {
+         return $this->belongsTo(Sucursal::class);
+     }
 }
