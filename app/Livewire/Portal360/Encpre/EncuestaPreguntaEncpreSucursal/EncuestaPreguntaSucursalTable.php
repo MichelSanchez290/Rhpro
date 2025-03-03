@@ -5,6 +5,7 @@ namespace App\Livewire\Portal360\Encpre\EncuestaPreguntaEncpreSucursal;
 use App\Models\Encuestas360\Encpre;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
@@ -39,7 +40,8 @@ final class EncuestaPreguntaSucursalTable extends PowerGridComponent
                 'encpres.*',
                 '360_encuestas.nombre as encuesta_nombre',
                 'preguntas.texto as pregunta_texto'
-            ]);
+            ])
+            ->where('360_encuestas.empresa_id', Auth::user()->empresa_id);
     }
 
     public function relationSearch(): array
@@ -86,37 +88,40 @@ final class EncuestaPreguntaSucursalTable extends PowerGridComponent
 
     public function actions(Encpre $row): array
     {
-       
-        $actions = [];
+        return [
 
-        if (auth()->check()) {
-            if (auth()->user()->hasPermissionTo('Editar Encpre ADMIN SUCURSAL')) {
-                $actions[] = Button::add('edit')
+            Button::add('edit')
                 ->slot('Editar')  // Usando slot() en lugar de caption()
                 ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
-                ->route('editarEncuestaSucursal', ['id' => Crypt::encrypt($row->id)]);
-            }
+                ->route('editarEncuestaSucursal', ['id' => Crypt::encrypt($row->id)]),
 
-            if (auth()->user()->hasPermissionTo('Eliminar Encpre ADMIN SUCURSAL')) {
-                $actions[] = Button::add('delete')
+
+            Button::add('delete')
                 ->slot('Eliminar')
                 ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
-                ->dispatch('confirmarEliminarEncriptSucursal', ['id' => Crypt::encrypt($row->id)]);
-            }
-        }
-
-        return $actions;
-    }
-
-    /*
-    public function actionRules($row): array
-    {
-       return [
-            // Hide button edit for ID 1
-            Rule::button('edit')
-                ->when(fn($row) => $row->id === 1)
-                ->hide(),
+                ->dispatch('confirmarEliminarEncriptSucursal', ['id' => Crypt::encrypt($row->id)]),
         ];
+
+
+        // $actions = [];
+
+        // if (auth()->check()) {
+        //     if (auth()->user()->hasPermissionTo('Editar Encpre ADMIN SUCURSAL')) {
+        //         $actions[] = Button::add('edit')
+        //         ->slot('Editar')  // Usando slot() en lugar de caption()
+        //         ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
+        //         ->route('editarEncuestaSucursal', ['id' => Crypt::encrypt($row->id)]);
+        //     }
+
+        //     if (auth()->user()->hasPermissionTo('Eliminar Encpre ADMIN SUCURSAL')) {
+        //         $actions[] = Button::add('delete')
+        //         ->slot('Eliminar')
+        //         ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
+        //         ->dispatch('confirmarEliminarEncriptSucursal', ['id' => Crypt::encrypt($row->id)]);
+        //     }
+        // }
+
+        // return $actions;
     }
-    */
+
 }

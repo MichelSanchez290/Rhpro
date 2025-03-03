@@ -5,7 +5,7 @@
             Agregar Relaciones 
         </button>
     </div>
-    <section class="antialiased bg-gray-100 text-gray-600 mt-6 px-4">
+    <section class="antialiased  text-gray-600 mt-6 px-4">
         <div class="flex flex-col justify-center h-full">
             <div class="w-full mx-auto bg-white shadow-lg rounded-lg border border-gray-200">
                 <header class="px-5 py-4 border-b border-gray-100 flex justify-between items-center">

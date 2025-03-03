@@ -75,59 +75,7 @@
             toastr.warning(event.detail.message);
         });
     </script>
-   <script>
-        document.addEventListener('DOMContentLoaded', function() {
-    const sidebar = document.getElementById('sidebar');
-    const sidebarToggle = document.getElementById('sidebarToggle');
-
-    // Leer el estado del menú desde localStorage al cargar la página
-    const isSidebarOpen = localStorage.getItem('isSidebarOpen') === 'true';
-
-    // Aplicar el estado inicial del menú
-    if (isSidebarOpen) {
-        sidebar.classList.remove('-translate-x-full');
-        sidebar.classList.add('translate-x-0');
-    } else {
-        sidebar.classList.remove('translate-x-0');
-        sidebar.classList.add('-translate-x-full');
-    }
-
-    sidebarToggle.addEventListener('click', function() {
-        const isOpen = sidebar.classList.contains('translate-x-0');
-        
-        // Alternar el estado del menú
-        if (isOpen) {
-            sidebar.classList.remove('translate-x-0');
-            sidebar.classList.add('-translate-x-full');
-        } else {
-            sidebar.classList.remove('-translate-x-full');
-            sidebar.classList.add('translate-x-0');
-        }
-
-        // Guardar el estado del menú en localStorage
-        localStorage.setItem('isSidebarOpen', !isOpen);
-
-        // Enviar el estado a Livewire (opcional, si es necesario)
-        Livewire.emit('sidebarToggled', !isOpen);
-    });
-});
-
-function toggleUsuarios() {
-    const menu = document.getElementById('usuariosMenu');
-    const icon = document.getElementById('usuariosIcon');
-
-    menu.classList.toggle('hidden');
-    icon.classList.toggle('rotate-180');
-}
-
-function toggleEncuesta() {
-    const menu = document.getElementById('usuariosMenudev');
-    const icon = document.getElementById('usuariosIcondev');
-
-    menu.classList.toggle('hidden');
-    icon.classList.toggle('rotate-180');
-}
-    </script>
+    
 
     @stack('scripts') <!-- Aquí se incluirán los scripts push -->
 </body>

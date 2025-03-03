@@ -5,6 +5,7 @@ namespace App\Livewire\Portal360\Encuesta\EncuestaSucursal;
 use App\Models\Encuestas360\Encuesta360;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
@@ -34,7 +35,8 @@ final class EncuestaSucursalTable extends PowerGridComponent
     {
         return Encuesta360::query()
             ->join('empresas', 'empresas.id', '=', '360_encuestas.empresa_id')
-            ->select('360_encuestas.*', 'empresas.nombre as empresa_nombre');
+            ->select('360_encuestas.*', 'empresas.nombre as empresa_nombre')
+            ->where('360_encuestas.empresa_id', Auth::user()->empresa_id);
     }
 
     public function relationSearch(): array
@@ -49,14 +51,12 @@ final class EncuestaSucursalTable extends PowerGridComponent
             ->add('nombre')
             ->add('descripcion')
             ->add('indicaciones')
-            ->add('empresa_nombre')
             ->add('created_at');
     }
 
     public function columns(): array
     {
         return [
-            Column::make('Id', 'id'),
             Column::make('Id', 'id'),
             Column::make('Nombre', 'nombre')
                 ->sortable()
@@ -67,10 +67,6 @@ final class EncuestaSucursalTable extends PowerGridComponent
                 ->searchable(),
 
             Column::make('Indicaciones', 'indicaciones')
-                ->sortable()
-                ->searchable(),
-
-            Column::make('Empresa', 'empresa_nombre')
                 ->sortable()
                 ->searchable(),
 
@@ -92,25 +88,42 @@ final class EncuestaSucursalTable extends PowerGridComponent
 
     public function actions(Encuesta360 $row): array
     {
-        $actions = [];
+        // $actions = [];
 
-        if (auth()->check()) {
-            if (auth()->user()->hasPermissionTo('Editar Encuesta ADMIN SUCURSAL')) {
-                $actions[] = Button::add('edit')
-                    ->slot('Editar')
-                    ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
-                    ->route('editarEncuestaSucursalpro', ['id' => Crypt::encrypt($row->id)]);
-            }
+        // if (auth()->check()) {
+        //     if (auth()->user()->hasPermissionTo('Editar Encuesta ADMIN SUCURSAL')) {
+        //         $actions[] = Button::add('edit')
+        //             ->slot('Editar')
+        //             ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
+        //             ->route('editarEncuestaSucursalpro', ['id' => Crypt::encrypt($row->id)]);
+        //     }
 
-            if (auth()->user()->hasPermissionTo('Eliminar Encuesta ADMIN SUCURSAL')) {
-                $actions[] = Button::add('delete')
-                    ->slot('Eliminar')
-                    ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
-                    ->dispatch('confirmarEliminarEncuestaSucursal', ['id' => Crypt::encrypt($row->id)]);
-            }
-        }
+        //     if (auth()->user()->hasPermissionTo('Eliminar Encuesta ADMIN SUCURSAL')) {
+        //         $actions[] = Button::add('delete')
+        //             ->slot('Eliminar')
+        //             ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
+        //             ->dispatch('confirmarEliminarEncuestaSucursal', ['id' => Crypt::encrypt($row->id)]);
+        //     }
+        // }
 
-        return $actions;
+        // return $actions;
+
+
+        return [
+
+            Button::add('edit')
+                ->slot('Editar')
+                ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
+                ->route('editarEncuestaSucursalpro', ['id' => Crypt::encrypt($row->id)]),
+
+
+
+            Button::add('delete')
+                ->slot('Eliminar')
+                ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
+                ->dispatch('confirmarEliminarEncuestaSucursal', ['id' => Crypt::encrypt($row->id)]),
+
+        ];
     }
 
     /*

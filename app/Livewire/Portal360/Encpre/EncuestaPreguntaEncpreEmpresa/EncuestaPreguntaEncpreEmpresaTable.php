@@ -5,6 +5,7 @@ namespace App\Livewire\Portal360\Encpre\EncuestaPreguntaEncpreEmpresa;
 use App\Models\Encuestas360\Encpre;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
@@ -39,7 +40,8 @@ final class EncuestaPreguntaEncpreEmpresaTable extends PowerGridComponent
                 'encpres.*',
                 '360_encuestas.nombre as encuesta_nombre',
                 'preguntas.texto as pregunta_texto'
-            ]);
+            ])
+            ->where('360_encuestas.empresa_id', Auth::user()->empresa_id);
     }
 
     public function relationSearch(): array
