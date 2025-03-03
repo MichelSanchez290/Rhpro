@@ -9,15 +9,19 @@ class Respuesta extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['ValorRespuesta', 'preguntasbases_id', 'trabajadores_encuestas_id'];
+    protected $fillable = [
+        'ValorRespuesta',
+        'preguntasbases_id',
+        'dato_trabajadores_id', // Asegúrate de que esté incluido
+    ];
 
     public function preguntaBase()
     {
         return $this->belongsTo(PreguntaBase::class, 'preguntasbases_id');
     }
 
-    public function trabajadorEncuesta()
+    public function datoTrabajador()
     {
-        return $this->belongsTo(TrabajadorEncuesta::class, 'trabajadores_encuestas_id');
+        return $this->belongsTo(DatoTrabajador::class, 'dato_trabajadores_id');
     }
 }

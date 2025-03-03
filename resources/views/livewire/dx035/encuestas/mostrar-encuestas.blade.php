@@ -46,6 +46,9 @@
                                             Avance
                                         </th>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Informe
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Acciones
                                         </th>
                                     </tr>
@@ -67,14 +70,10 @@
                                                 @endforeach
                                             </td>
                                             <td>
-                                                <!-- Botón Copiar Clave -->
                                                 <button onclick="copiarClave('{{ $encuesta->Clave }}')" class="text-green-600 hover:text-green-900 ml-4">
-                                                    <i class="fas fa-copy"></i> Copiar Clave
+                                                    <i class="fas fa-copy"></i> Copiar
                                                 </button>
-
                                                 <br>
-                                                
-                                                <!-- Botón Compartir Enlace -->
                                                 <a href="{{ route('encuesta.invitar', ['clave' => $encuesta->Clave]) }}" class="text-purple-600 hover:text-purple-900 ml-4">
                                                     <i class="fas fa-share"></i> Compartir
                                                 </a>
@@ -102,20 +101,25 @@
                                                     <span class="ml-2 text-sm font-medium text-gray-700">{{ number_format($avance, 2) }}%</span>
                                                 </div>
                                             </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                                <!-- Botón Editar -->
-                                                <a href="{{ route('encuestas.edit', $encuesta->id) }}" class="text-blue-600 hover:text-blue-900">
-                                                    <i class="fas fa-edit"></i> Editar
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                <a href="{{ route('reporte.generar', $encuesta->id) }}" class="text-red-600 hover:text-red-900">
+                                                    <i class="fas fa-file-pdf"></i> Estadístico
                                                 </a>
-                                                <!-- Botón Eliminar -->
-                                                <button wire:click="confirmDelete({{ $encuesta->id }})" class="text-red-600 hover:text-red-900 ml-4">
-                                                    <i class="fas fa-trash"></i> Eliminar
-                                                </button>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                                @if(Auth::user()->hasRole('GoldenAdmin') || Auth::user()->hasRole('EmpresaAdmin'))
+                                                    <a href="{{ route('encuestas.edit', $encuesta->id) }}" class="text-blue-600 hover:text-blue-900">
+                                                        <i class="fas fa-edit"></i> Editar
+                                                    </a>
+                                                    <button wire:click="confirmDelete({{ $encuesta->id }})" class="text-red-600 hover:text-red-900 ml-4">
+                                                        <i class="fas fa-trash"></i> Eliminar
+                                                    </button>
+                                                @endif
                                             </td>
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="8" class="px-6 py-4 text-center text-sm text-gray-500">
+                                            <td colspan="10" class="px-6 py-4 text-center text-sm text-gray-500">
                                                 No se encontraron encuestas.
                                             </td>
                                         </tr>
@@ -147,43 +151,33 @@
         </div>
     </div>
     <div>
-        <!-- Incluir FontAwesome para los íconos -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
-        <!-- Incluir clipboard.js -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
         <script>
-            // Función para copiar la clave al portapapeles
             function copiarClave(clave) {
                 if (navigator.clipboard) {
-                    // Usar navigator.clipboard si está disponible
                     navigator.clipboard.writeText(clave)
                         .then(() => alert("Clave copiada al portapapeles: " + clave))
                         .catch(() => fallbackCopyText(clave));
                 } else {
-                    // Método alternativo si navigator.clipboard no está disponible
                     fallbackCopyText(clave);
                 }
             }
 
-            // Función para compartir el enlace
             function compartirEnlace(enlace) {
                 if (navigator.clipboard) {
-                    // Usar navigator.clipboard si está disponible
                     navigator.clipboard.writeText(enlace)
                         .then(() => alert("Enlace copiado al portapapeles: " + enlace))
                         .catch(() => fallbackCopyText(enlace));
                 } else {
-                    // Método alternativo si navigator.clipboard no está disponible
                     fallbackCopyText(enlace);
                 }
             }
 
-            // Método alternativo para copiar texto al portapapeles
             function fallbackCopyText(text) {
                 const textarea = document.createElement('textarea');
                 textarea.value = text;
-                textarea.style.position = 'fixed'; // Evitar que se desplace la página
+                textarea.style.position = 'fixed';
                 document.body.appendChild(textarea);
                 textarea.select();
 

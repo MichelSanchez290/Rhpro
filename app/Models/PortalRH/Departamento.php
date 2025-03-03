@@ -56,4 +56,10 @@ class Departamento extends Model
         return $this->hasMany(Instructor::class);
     }
 
+    // Relación con DatoTrabajador
+    public function datoTrabajadores()
+    {
+        return $this->hasMany(DatoTrabajador::class, 'departamento_id');
+    }
+
 }

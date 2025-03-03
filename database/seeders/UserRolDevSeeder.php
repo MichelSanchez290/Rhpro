@@ -516,5 +516,34 @@ class UserRolDevSeeder extends Seeder
         
         // ************** FIN MODULO PORTAL DE CAPACITACIÓN ***************************************
         
+        // ************* MODULO DE DX035 *******************
+
+          // Permisos para GoldenAdmin
+          Permission::create(['name' => 'Ver todas las encuestas'])->syncRoles([$role1]);
+          Permission::create(['name' => 'Crear encuestas'])->syncRoles([$role1]);
+          Permission::create(['name' => 'Editar encuestas'])->syncRoles([$role1]);
+          Permission::create(['name' => 'Eliminar encuestas'])->syncRoles([$role1]);
+
+          // Permisos para EmpresaAdmin
+          Permission::create(['name' => 'Ver encuestas de la empresa'])->syncRoles([$role2]);
+          Permission::create(['name' => 'Crear encuestas para la empresa'])->syncRoles([$role2]);
+          Permission::create(['name' => 'Editar encuestas de la empresa'])->syncRoles([$role2]);
+          Permission::create(['name' => 'Eliminar encuestas de la empresa'])->syncRoles([$role2]);
+
+          // Permisos para SucursalAdmin
+          Permission::create(['name' => 'Ver encuestas de la sucursal'])->syncRoles([$role3]);
+          Permission::create(['name' => 'Crear encuestas para la sucursal'])->syncRoles([$role3]);
+          Permission::create(['name' => 'Editar encuestas de la sucursal'])->syncRoles([$role3]);
+          Permission::create(['name' => 'Eliminar encuestas de la sucursal'])->syncRoles([$role3]);
+
+          // Permisos para Trabajador NOM035
+          Permission::create(['name' => 'Ver encuesta asignada'])->syncRoles([$role7]);
+          Permission::create(['name' => 'Responder encuesta asignada'])->syncRoles([$role7]);
+
+          // Permisos para Trabajador GLOBAL
+          Permission::create(['name' => 'Responder encuesta invitada'])->syncRoles([$role10]);
+
+         // ************* FIN MODULO DE DX035 *******************
+        
     }
 }

@@ -15,6 +15,7 @@ use App\Models\Crm\LeadCliente;
 use App\Models\Crm\LeadsCliente;
 use App\Models\Crm\Nom035Levpedido;
 use App\Models\Crm\TrainingLevantamiento;
+use App\Models\Dx035\DatoTrabajador;
 use App\Models\Encuestas360\Asignacion;
 use App\Models\PortalCapacitacion\PerfilPuesto;
 use App\Models\PortalRH\Becari;
@@ -216,7 +217,7 @@ class User extends Authenticatable
     //  /* RELACIONES MODULO CAPACITACION */
     public function empresa()
     {
-        return $this->belongsTo(Empresa::class, 'empresa_id', 'id');
+        return $this->belongsTo(Empresa::class, 'empresa_id');
     }
 
     public function asignacion()
@@ -260,4 +261,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(TrainingLevantamiento::class);
     }
+    // Dx035
+    public function datoTrabajadores()
+    {
+        return $this->hasMany(DatoTrabajador::class, 'users_id');
+    }
+
 }

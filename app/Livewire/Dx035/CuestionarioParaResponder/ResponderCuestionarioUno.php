@@ -9,8 +9,26 @@ use App\Models\Dx035\TrabajadorEncuesta;
 use App\Models\Dx035\Respuesta;
 use Illuminate\Support\Facades\Session;
 
+use App\Models\Dx035\DatoTrabajador;
+
+use App\Models\PortalRH\Empresa;
+use App\Models\PortalRH\Sucursal;
+use App\Models\PortalRH\SucursalDepartamento;
+use App\Models\PortalRH\EmpresSucursal;
+use App\Models\PortalRH\Departamento;
+
 class ResponderCuestionarioUno extends Component
 {
+
+    public $currentStep = 0; // Nuevo paso 0 para datos personales
+    public $nombre, $apellidoPaterno, $apellidoMaterno, $sexo, $edad, $estadoCivil, $estudios, $ocupacion, $departamento, $tipoPuesto, $contratacion, $tipoPersonal, $jornadaTrabajo, $rotacionTurnos, $experiencia, $tiempoPuesto;
+
+    public $sinFormacion;
+    public $estudiosPrimaria;
+    public $estudiosSecundaria;
+
+    public $departamentos = [];
+
     public $encuesta;
     public $preguntas;
     public $respuestas = [];
@@ -19,8 +37,62 @@ class ResponderCuestionarioUno extends Component
     public $atencionClientes = null; // Pregunta clave: Atención a clientes
     public $esJefe = null; // Pregunta clave: Es jefe
 
-    public $currentStep = 1;
+   // public $currentStep = 1;
     public $avance = 0;
+
+    // Reglas de validación para los datos personales
+    protected $rules = [
+        'nombre' => 'nullable|string|max:45',
+        'apellidoPaterno' => 'nullable|string|max:45',
+        'apellidoMaterno' => 'nullable|string|max:45',
+        'sexo' => 'nullable|string|max:45',
+        'edad' => 'nullable|string|max:45',
+        'estadoCivil' => 'nullable|string|max:45',
+        'estudios' => 'nullable|string|max:45',
+        'ocupacion' => 'nullable|string|max:45',
+        'departamento' => 'nullable|string|max:45',
+        'tipoPuesto' => 'nullable|string|max:45',
+        'contratacion' => 'nullable|string|max:45',
+        'tipoPersonal' => 'nullable|string|max:45',
+        'jornadaTrabajo' => 'nullable|string|max:45',
+        'rotacionTurnos' => 'nullable|string|max:45',
+        'experiencia' => 'nullable|string|max:45',
+        'tiempoPuesto' => 'nullable|string|max:45',
+    ];
+
+    // Método para guardar los datos personales
+    public function saveDatosPersonales()
+    {
+        $this->validate();
+
+        // Crear un nuevo registro en la tabla dato_trabajadores
+        $datoTrabajador = DatoTrabajador::create([
+            'Nombre' => $this->nombre,
+            'ApellidoPaterno' => $this->apellidoPaterno,
+            'ApellidoMaterno' => $this->apellidoMaterno,
+            'Sexo' => $this->sexo,
+            'Edad' => $this->edad,
+            'EstadoCivil' => $this->estadoCivil,
+            'Estudios' => $this->estudios,
+            'Ocupacion' => $this->ocupacion,
+            'Departamento' => $this->departamento,
+            'TipoPuesto' => $this->tipoPuesto,
+            'Contratacion' => $this->contratacion,
+            'TipoPersonal' => $this->tipoPersonal,
+            'JornadaTrabajo' => $this->jornadaTrabajo,
+            'RotacionTurnos' => $this->rotacionTurnos,
+            'Experiencia' => $this->experiencia,
+            'TiempoPuesto' => $this->tiempoPuesto,
+            'encuestas_id' => $this->encuesta->id,
+            'users_id' => auth()->id(),
+        ]);
+
+        // Guardar el ID del dato_trabajador en la sesión para usarlo más tarde
+        Session::put('dato_trabajador_id', $datoTrabajador->id);
+
+        // Ir al siguiente paso (cuestionarios)
+        $this->currentStep++;
+    }
 
     private function calcularAvance()
     {
@@ -28,8 +100,8 @@ class ResponderCuestionarioUno extends Component
         $totalEncuestas = $this->encuesta->NumeroEncuestas;
     
         // Obtener el número de respuestas guardadas en la base de datos
-        $respuestasGuardadas = Respuesta::whereHas('trabajadorEncuesta', function ($query) {
-            $query->where('encuesta_id', $this->encuesta->id);
+        $respuestasGuardadas = Respuesta::whereHas('datoTrabajador', function ($query) {
+            $query->where('encuestas_id', $this->encuesta->id);
         })->count();
     
         // Obtener el número de respuestas en progreso
@@ -55,14 +127,17 @@ class ResponderCuestionarioUno extends Component
         // Obtener los IDs de los cuestionarios seleccionados
         $cuestionariosIds = $this->encuesta->cuestionarios->pluck('id')->toArray();
     
-        // Asignar el cuestionarioId
-        // $this->cuestionarioId = $cuestionariosIds[0] ?? null;
+        // Asignar el cuestionarioId (asumiendo que el primer cuestionario es el 1)
+        $this->cuestionarioId = $cuestionariosIds[0] ?? null;
     
         // Cargar las preguntas de los cuestionarios seleccionados
         $this->preguntas = PreguntaBase::whereIn('cuestionarios_id', $cuestionariosIds)->get();
     
         // Recuperar respuestas de la sesión si existen
         $this->respuestas = Session::get('respuestas_' . $this->encuesta->id, []);
+
+         // Obtener los departamentos desde la base de datos
+        $this->departamentos = Departamento::all(); 
 
         $this->calcularAvance();
     }
@@ -132,28 +207,63 @@ class ResponderCuestionarioUno extends Component
             'esJefe' => 'required_if:cuestionarioId,2|in:0,1', // Validar pregunta clave del cuestionario 2
         ]);
 
+            // Validar los datos personales
+        $this->validate([
+            'nombre' => 'nullable|string|max:45',
+            'apellidoPaterno' => 'nullable|string|max:45',
+            'apellidoMaterno' => 'nullable|string|max:45',
+            'sexo' => 'nullable|string|max:45',
+            'edad' => 'nullable|string|max:45',
+            'estadoCivil' => 'nullable|string|max:45',
+            'estudios' => 'nullable|string|max:45',
+            'ocupacion' => 'nullable|string|max:45',
+            'departamento' => 'nullable|string|max:45',
+            'tipoPuesto' => 'nullable|string|max:45',
+            'contratacion' => 'nullable|string|max:45',
+            'tipoPersonal' => 'nullable|string|max:45',
+            'jornadaTrabajo' => 'nullable|string|max:45',
+            'rotacionTurnos' => 'nullable|string|max:45',
+            'experiencia' => 'nullable|string|max:45',
+            'tiempoPuesto' => 'nullable|string|max:45',
+        ]);
+        
+
         // Calcular el avance
         $this->avance = $this->calcularAvance();
 
         // Guardar las respuestas en la base de datos
-        $trabajadorEncuesta = TrabajadorEncuesta::create([
-            'encuesta_id' => $this->encuesta->id,
-            'users_id' => auth()->id(),
-            'fecha_fin_encuesta' => now(),
-            'Avance' => $this->avance, // Guardar el avance calculado
-            'requiere_atencion_clinica' => $this->requiereAtencionClinica ?? false, // Guardar si requiere atención clínica
+        // Guardar los datos del trabajador en la tabla dato_trabajadores
+        $datoTrabajador = DatoTrabajador::create([
+            'Nombre' => $this->nombre,
+            'ApellidoPaterno' => $this->apellidoPaterno,
+            'ApellidoMaterno' => $this->apellidoMaterno,
+            'Sexo' => $this->sexo,
+            'Edad' => $this->edad,
+            'EstadoCivil' => $this->estadoCivil,
+            'Estudios' => $this->estudios,
+            'Ocupacion' => $this->ocupacion,
+            'Departamento' => $this->departamento,
+            'TipoPuesto' => $this->tipoPuesto,
+            'Contratacion' => $this->contratacion,
+            'TipoPersonal' => $this->tipoPersonal,
+            'JornadaTrabajo' => $this->jornadaTrabajo,
+            'RotacionTurnos' => $this->rotacionTurnos,
+            'Experiencia' => $this->experiencia,
+            'TiempoPuesto' => $this->tiempoPuesto,
+            'Avance' => $this->avance,
+            'encuestas_id' => $this->encuesta->id, // Relación con la encuesta
+            'users_id' => auth()->id(), // Relación con el usuario autenticado
         ]);
 
-        // Guardar las respuestas en la base de datos
         foreach ($this->respuestas as $preguntaId => $respuesta) {
             if (!PreguntaBase::where('id', $preguntaId)->exists()) {
                 continue;
             }
-
+        
             Respuesta::create([
                 'ValorRespuesta' => $respuesta,
                 'preguntasbases_id' => $preguntaId,
-                'trabajadores_encuestas_id' => $trabajadorEncuesta->id,
+                'dato_trabajadores_id' => $datoTrabajador->id, // Asegúrate de que $datoTrabajador->id tenga un valor
             ]);
         }
 
@@ -196,7 +306,7 @@ class ResponderCuestionarioUno extends Component
             }
 
             // Guardar resultados
-            $trabajadorEncuesta->update([
+            $datoTrabajador->update([
                 'calificacion_final' => $calificacionFinal,
                 'nivel_riesgo_final' => $nivelRiesgoFinal,
                 'resultados_categorias' => json_encode($resultadosCategorias),
@@ -216,6 +326,24 @@ class ResponderCuestionarioUno extends Component
 
     public function nextStep()
     {
+        if ($this->currentStep == 1 && $this->cuestionarioId == 1) {
+            // Verificar si se deben mostrar las secciones adicionales
+            $seccionI = $this->preguntas
+                ->where('Seccion', 'Acontecimiento traumático severo')
+                ->pluck('id')
+                ->toArray();
+    
+            $respuestasSeccionI = array_intersect_key($this->respuestas, array_flip($seccionI));
+    
+            $this->mostrarSeccionesAdicionales = in_array(1, $respuestasSeccionI);
+    
+            if (!$this->mostrarSeccionesAdicionales) {
+                // Saltar directamente al siguiente paso si no se necesitan las secciones adicionales
+                $this->currentStep = 3; // Ajusta este valor según tu flujo de pasos
+                return;
+            }
+        }
+    
         $this->currentStep++;
     }
 
