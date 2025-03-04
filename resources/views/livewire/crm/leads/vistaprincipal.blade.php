@@ -13,7 +13,7 @@
                 </label>
                 <input
                     class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                    wire:model.defer="lead.nombre_cliente" type="text">
+                    wire:model.defer="lead.nombre_cliente" type="text" {{ $isDisabled ? 'disabled' : '' }}>
                 <x-input-error for="lead.nombre_cliente" />
             </div>
             {{-- Medios CESRH --}}
@@ -23,7 +23,7 @@
                 </label>
                 <input
                     class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                    wire:model.defer="lead.medios_cesrh" type="text">
+                    wire:model.defer="lead.medios_cesrh" type="text" {{ $isDisabled ? 'disabled' : '' }}>
                 <x-input-error for="lead.medios_cesrh" />
             </div>
             {{-- Numero del lead --}}
@@ -41,9 +41,9 @@
                 <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
                     Nombre de empresa
                 </label>
-                <select wire:model="lead.crm_empresas_id"
+                <select wire:model="lead.crm_empresas_id" {{ $isDisabled ? 'disabled' : '' }}
                     class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500">
-                    <option value="">Seleccione una empresa</option>
+                    <option value="" disabled>Seleccione una empresa</option>
                     @foreach ($empresas as $empresa)
                         <option value="{{ $empresa->id }}">{{ $empresa->nombre }}</option>
                     @endforeach
@@ -58,7 +58,7 @@
                 </label>
                 <input
                     class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                    wire:model.defer="lead.puesto" type="text">
+                    wire:model.defer="lead.puesto" type="text" {{ $isDisabled ? 'disabled' : '' }}>
                 <x-input-error for="lead.puesto" />
             </div>
             {{-- Telefono --}}
@@ -68,7 +68,7 @@
                 </label>
                 <input
                     class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                    wire:model.defer="lead.telefono" type="number">
+                    wire:model.defer="lead.telefono" type="number" {{ $isDisabled ? 'disabled' : '' }}>
                 <x-input-error for="lead.telefono" />
             </div>
             {{-- Correo --}}
@@ -78,7 +78,7 @@
                 </label>
                 <input
                     class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                    wire:model.defer="lead.correo" type="email">
+                    wire:model.defer="lead.correo" type="email" {{ $isDisabled ? 'disabled' : '' }}>
                 <x-input-error for="lead.correo" />
             </div>
         </div>
@@ -98,7 +98,7 @@
                 </label>
                 <input
                     class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                    wire:model.defer="lead.nombre_contacto_2" type="text">
+                    wire:model.defer="lead.nombre_contacto_2" type="text" {{ $isDisabled ? 'disabled' : '' }}>
                 <x-input-error for="lead.nombre_contacto_2" />
             </div>
             <div class="mx-2 text-center">
@@ -108,7 +108,7 @@
                 </label>
                 <input
                     class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                    wire:model.defer="lead.puesto_contacto_2" type="text">
+                    wire:model.defer="lead.puesto_contacto_2" type="text" {{ $isDisabled ? 'disabled' : '' }}>
                 <x-input-error for="lead.puesto_contacto_2" />
             </div>
         </div>
@@ -120,7 +120,7 @@
                 </label>
                 <input
                     class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                    wire:model.defer="lead.correo_2" type="email">
+                    wire:model.defer="lead.correo_2" type="email" {{ $isDisabled ? 'disabled' : '' }}>
                 <x-input-error for="lead.correo_2" />
             </div>
             {{-- Telefono --}}
@@ -130,7 +130,7 @@
                 </label>
                 <input
                     class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                    wire:model.defer="lead.telefono_2" type="number">
+                    wire:model.defer="lead.telefono_2" type="number" {{ $isDisabled ? 'disabled' : '' }}>
                 <x-input-error for="lead.telefono_2" />
             </div>
         </div>
@@ -157,28 +157,25 @@
     <div class="w-full bg-white border-2 rounded-lg mt-4">
         <div class="p-4">
             <div class="flex text-center">
-                <button onclick="Livewire.dispatch('openModal', { component: 'crm.leads.modal.seleccion ' })"
-                    wire:click='uno'
+                <button wire:click='uno'
                     class="flex-1 px-4 py-2 mx-2 border-2 border-gray-900 rounded-md shadow-md shadow-gray-900 active:shadow-none">
                     E-Smart
                 </button>
-                {{-- <a href="#form1" wire:click="uno"
-                    class="flex-1 px-4 py-2 mx-2 transition-all duration-300 border-2 border-gray-900 rounded-md shadow-md shadow-gray-900 hover:shadow-none">
-                    E-Smart
-                </a> --}}
                 <a href="#form2" wire:click="dos"
                     class="flex-1 px-4 py-2 mx-2 border-2 border-gray-900 rounded-md shadow-md shadow-gray-900 active:shadow-none">
                     Training
                 </a>
-                <a href="#form3"
-                    onclick="Livewire.dispatch('openModal', { component: 'crm.leads.modal.seleccion ' })"
-                    wire:click="tres"
+                <a href="#form3" wire:click="tres"
                     class="flex-1 px-4 py-2 mx-2 border-2 border-gray-900 rounded-md shadow-md shadow-gray-900 active:shadow-none">
                     HeadHunting
                 </a>
                 <a href="#form4" wire:click="cuatro"
                     class="flex-1 px-4 py-2 mx-2 border-2 border-gray-900 rounded-md shadow-md shadow-gray-900 active:shadow-none">
                     Nom 035
+                </a>
+                <a href="#form5" wire:click="quinto"
+                    class="flex-1 px-4 py-2 mx-2 border-2 border-gray-900 rounded-md shadow-md shadow-gray-900 active:shadow-none">
+                    Otros
                 </a>
             </div>
         </div>
@@ -221,16 +218,6 @@
                                 wire:model.defer="university.departamentos_participan" type="text">
                             <x-input-error for="university.departamentos_participan" />
                         </div>
-                        {{-- <div class="mx-2">
-                            <label
-                                class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase">
-                                Numero de pedido
-                            </label>
-                            <input
-                                class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                                wire:model.defer="numeroPedido" type="number" disabled readonly>
-                            <x-input-error for="numeroPedido" />
-                        </div> --}}
                     </div>
                     <div class="grid justify-center w-full grid-cols-4 gap-2 px-10 bg-white rounded-lg mb-7">
                         <div class="mx-2 text-center">
@@ -427,7 +414,7 @@
                 <div class="flex justify-center bg-white rounded-lg">
                     <button wire:click = "guardarTraining" wire:loading.attr="disabled"
                         class="p-2 my-6 mr-10 font-semibold text-white bg-green-600 rounded-md shadow-md shadow-gray-500 active:shadow-none active:bg-green-800 ">
-                        Guardar y Salir
+                        Guardar y Agregar
                     </button>
                 </div>
             </div>
@@ -569,118 +556,246 @@
     @endif
 
     @if ($paginacion == 4)
-        <div id="form4">
-            <div class="m-4 bg-white rounded-lg shadow-md shadow-gray-300">
-                @for ($i = 0; $i < $duplicados; $i++)
+        <div>
+            @for ($i = 0; $i < $duplicados; $i++)
+                <div class="m-4 bg-white rounded-lg shadow-md shadow-gray-300">
                     <div class="text-center">
                         <h1 class="p-10 text-3xl font-bold">
-                            Formulario de NOM 035
+                            Nom 035
                         </h1>
                     </div>
-                    <div class="grid justify-center w-full px-10 py-4 bg-white rounded-lg shadow-lg">
-                        {{-- Tipo de servicio --}}
-                        <div class="mx-2">
-                            <label class="mb-2 text-base font-bold tracking-wide text-center text-gray-700 uppercase ">
-                                Tipo de servicio
+                    <div class="grid justify-center w-full grid-cols-3 gap-2 px-10 bg-white rounded-lg mb-7">
+                        <div class="mx-2 text-center">
+                            <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                                Nombre del curso
                             </label>
-                            <input name="Operativos" class="focus:outline-none focus:bg-white focus:border-gray-500"
-                                wire:model.defer="nom035.tipo_servicio.operativos" type="checkbox">
-                            <label for="Operativos">Operativos</label>
-                            <x-input-error for="nom035.tipo_servicio.operativos" />
-                            <input name="especializados"
-                                class="focus:outline-none focus:bg-white focus:border-gray-500"
-                                wire:model.defer="nom035.tipo_servicio.especializados" type="checkbox">
-                            <x-input-error for="nom035.tipo_servicio.especializados" />
-                            <label for="especializados">Especializados</label>
-                            <input name="Ejecutivos" class="focus:outline-none focus:bg-white focus:border-gray-500"
-                                wire:model.defer="nom035.tipo_servicio.ejecutivos" type="checkbox">
-                            <label for="Ejecutivos">Ejecutivos</label>
-                            <x-input-error for="nom035.tipo_servicio.ejecutivos" />
+                            <input
+                                class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                                wire:model.defer="university.nombre_curso" type="text">
+                            <x-input-error for="university.nombre_curso" />
+                        </div>
+                        <div class="mx-2 text-center">
+                            <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                                Cuantos participantes son?
+                            </label>
+                            <input
+                                class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                                wire:model.defer="university.participantes" type="text">
+                            <x-input-error for="university.participantes" />
+                        </div>
+                        <div class="mx-2 text-center">
+                            <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                                Departamentos participantes
+                            </label>
+                            <input
+                                class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                                wire:model.defer="university.departamentos_participan" type="text">
+                            <x-input-error for="university.departamentos_participan" />
                         </div>
                     </div>
-                    <div class="grid justify-center w-full grid-cols-3 gap-4 px-10 py-4 bg-white rounded-lg shadow-lg">
-                        {{-- Operativos --}}
-                        <div class="mx-2">
-                            <label
-                                class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
-                                Operativos
+                    <div class="grid justify-center w-full grid-cols-4 gap-2 px-10 bg-white rounded-lg mb-7">
+                        <div class="mx-2 text-center">
+                            <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                                Fecha habilitada
                             </label>
                             <input
                                 class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                                wire:model.defer="nom035.operativos" type="number">
-                            <x-input-error for="nom035.operativos" />
+                                wire:model.defer="university.fecha_habilitada" type="date">
+                            <x-input-error for="university.fecha_habilitada" />
                         </div>
-                        {{-- Especializados --}}
-                        <div class="mx-2">
-                            <label
-                                class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
-                                Especializados
+                        <div class="mx-2 text-center">
+                            <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                                Dc3 Requerida?
                             </label>
-                            <input
-                                class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                                wire:model.defer="nom035.especializados" type="number">
-                            <x-input-error for="nom035.especializados" />
+                            <select wire:model.defer="university.dc3_requieren"
+                                class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500">
+                                <option value="" disabled>---</option>
+                                <option value="si">Si</option>
+                                <option value="no">No</option>
+                            </select>
                         </div>
-                        {{-- Ejecutivos --}}
-                        <div class="mx-2">
-                            <label
-                                class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
-                                Ejecutivos
+                        <div class="mx-2 text-center">
+                            <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                                Que puestos participan?
                             </label>
                             <input
                                 class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                                wire:model.defer="nom035.ejecutivos" type="number">
-                            <x-input-error for="nom035.ejecutivos" />
+                                wire:model.defer="university.puestos_participan" type="text">
+                            <x-input-error for="university.puestos_participan" />
+                        </div>
+                        <div class="mx-2 text-center">
+                            <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                                Nuevo o Existente
+                            </label>
+                            <select wire:model.live='curso'
+                                class="curso block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500">
+                                <option value="" disabled>------------</option>
+                                <option value="existente">Existente</option>
+                                <option value="nuevo">Nuevo</option>
+                            </select>
                         </div>
                     </div>
-                    <div class="grid justify-center w-full grid-cols-3 gap-4 px-10 py-4 bg-white rounded-lg shadow-lg">
-                        {{-- Numero de pedido --}}
-                        <div class="mx-2">
-                            <label
-                                class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
-                                Numero de pedido
+                    @if ($curso == 'nuevo')
+                        <div class="grid justify-center w-full grid-cols-3 gap-2 px-10 bg-white rounded-lg mb-7">
+                            <div class="mx-2 text-center">
+                                <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                                    Nombre del nuevo curso
+                                </label>
+                                <input
+                                    class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                                    wire:model.defer="university.nuevo_curso" type="text">
+                                <x-input-error for="university.nuevo_curso" />
+                            </div>
+                            <div class="mx-2 text-center">
+                                <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                                    Horas
+                                </label>
+                                <input
+                                    class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                                    wire:model.defer="university.horas_nuevo" type="number">
+                                <x-input-error for="university.horas_nuevo" />
+                            </div>
+                            <div class="mx-2 text-center">
+                                <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                                    Tipo de curso
+                                </label>
+                                <input
+                                    class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                                    wire:model.defer="university.tipo_curso" type="text">
+                                <x-input-error for="university.tipo_curso" />
+                            </div>
+                        </div>
+                    @endif
+                    <div class="flex justify-center bg-white rounded-lg">
+                        <button wire:click = "guardarEsmart()" wire:loading.attr="disabled"
+                            class="p-2 my-6 mr-10 font-semibold text-white bg-green-600 rounded-md shadow-md shadow-gray-500 active:shadow-none active:bg-green-800 ">
+                            Guardar y Agregar
+                        </button>
+                    </div>
+                </div>
+            @endfor
+        </div>
+    @endif
+
+    @if ($paginacion == 5)
+        <div>
+            @for ($i = 0; $i < $duplicados; $i++)
+                <div class="m-4 bg-white rounded-lg shadow-md shadow-gray-300">
+                    <div class="text-center">
+                        <h1 class="p-10 text-3xl font-bold">
+                            Formulario de E-Smart
+                        </h1>
+                    </div>
+                    <div class="grid justify-center w-full grid-cols-3 gap-2 px-10 bg-white rounded-lg mb-7">
+                        <div class="mx-2 text-center">
+                            <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                                Nombre del curso
                             </label>
                             <input
                                 class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                                wire:model.defer="nom035.numero_pedido" type="text">
-                            <x-input-error for="nom035.numero_pedido" />
+                                wire:model.defer="university.nombre_curso" type="text">
+                            <x-input-error for="university.nombre_curso" />
                         </div>
-                        {{-- Total de Vacantes --}}
-                        <div class="mx-2">
-                            <label
-                                class="block mb-2 text-xs font-bold tracking-wide text-center text-gray-700 uppercase ">
-                                Total de Vacantes
+                        <div class="mx-2 text-center">
+                            <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                                Cuantos participantes son?
                             </label>
                             <input
                                 class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
-                                wire:model.defer="nom035.total_vacantes" type="text" readonly>
-                            <x-input-error for="nom035.total_vacantes" />
+                                wire:model.defer="university.participantes" type="text">
+                            <x-input-error for="university.participantes" />
+                        </div>
+                        <div class="mx-2 text-center">
+                            <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                                Departamentos participantes
+                            </label>
+                            <input
+                                class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                                wire:model.defer="university.departamentos_participan" type="text">
+                            <x-input-error for="university.departamentos_participan" />
                         </div>
                     </div>
-                    {{-- Botones --}}
-                    <div class="flex items-center justify-center">
-                        <div x-data="{ show: true }" x-show="show" x-transition x-init="@this.on('message', () => {
-                            show = false;
-                        });">
-                            <button wire:click="saveLead()"
-                                class="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 m-2">
-                                Agregar
-                            </button>
-                            <a href="{{ url('/crm/crm-inicio') }}" x-data x-show="!show" x-transition
-                                class="px-4 py-2 font-bold text-white bg-red-500 rounded btn hover:bg-red-700 m-2">
-                                Ir a inicio
-                            </a>
+                    <div class="grid justify-center w-full grid-cols-4 gap-2 px-10 bg-white rounded-lg mb-7">
+                        <div class="mx-2 text-center">
+                            <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                                Fecha habilitada
+                            </label>
+                            <input
+                                class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                                wire:model.defer="university.fecha_habilitada" type="date">
+                            <x-input-error for="university.fecha_habilitada" />
                         </div>
-                        <div x-data="{ show: false }" x-show="show" x-transition x-init="@this.on('message', () => {
-                            show = true;
-                        });"
-                            class="justify-center flexed bottom-4 left-1/2 transform -translate-x-1/2  bg-green-100 border-t border-b border-green-500 text-green-700 px-4 py-3"
-                            role="alert">
-                            <p class="text-sm">Lead registado con éxito</p>
+                        <div class="mx-2 text-center">
+                            <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                                Dc3 Requerida?
+                            </label>
+                            <select wire:model.defer="university.dc3_requieren"
+                                class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500">
+                                <option value="" disabled>---</option>
+                                <option value="si">Si</option>
+                                <option value="no">No</option>
+                            </select>
+                        </div>
+                        <div class="mx-2 text-center">
+                            <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                                Que puestos participan?
+                            </label>
+                            <input
+                                class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                                wire:model.defer="university.puestos_participan" type="text">
+                            <x-input-error for="university.puestos_participan" />
+                        </div>
+                        <div class="mx-2 text-center">
+                            <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                                Nuevo o Existente
+                            </label>
+                            <select wire:model.live='curso'
+                                class="curso block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500">
+                                <option value="" disabled>------------</option>
+                                <option value="existente">Existente</option>
+                                <option value="nuevo">Nuevo</option>
+                            </select>
                         </div>
                     </div>
-                @endfor
-            </div>
+                    @if ($curso == 'nuevo')
+                        <div class="grid justify-center w-full grid-cols-3 gap-2 px-10 bg-white rounded-lg mb-7">
+                            <div class="mx-2 text-center">
+                                <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                                    Nombre del nuevo curso
+                                </label>
+                                <input
+                                    class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                                    wire:model.defer="university.nuevo_curso" type="text">
+                                <x-input-error for="university.nuevo_curso" />
+                            </div>
+                            <div class="mx-2 text-center">
+                                <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                                    Horas
+                                </label>
+                                <input
+                                    class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                                    wire:model.defer="university.horas_nuevo" type="number">
+                                <x-input-error for="university.horas_nuevo" />
+                            </div>
+                            <div class="mx-2 text-center">
+                                <label class="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase">
+                                    Tipo de curso
+                                </label>
+                                <input
+                                    class="block w-full px-4 py-3 leading-tight text-gray-700 bg-gray-200 border-2 border-black rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500"
+                                    wire:model.defer="university.tipo_curso" type="text">
+                                <x-input-error for="university.tipo_curso" />
+                            </div>
+                        </div>
+                    @endif
+                    <div class="flex justify-center bg-white rounded-lg">
+                        <button wire:click = "guardarEsmart()" wire:loading.attr="disabled"
+                            class="p-2 my-6 mr-10 font-semibold text-white bg-green-600 rounded-md shadow-md shadow-gray-500 active:shadow-none active:bg-green-800 ">
+                            Guardar y Agregar
+                        </button>
+                    </div>
+                </div>
+            @endfor
         </div>
     @endif
 </div>

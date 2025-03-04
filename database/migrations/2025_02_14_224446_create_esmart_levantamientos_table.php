@@ -13,7 +13,7 @@ return new class extends Migration {
             $table->date('fecha');
             $table->time('hora');
             $table->integer('numero_pedido');
-            $table->foreignId('leads_clientes_id')->nullable()
+            $table->foreignId('leads_clientes_id')
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
@@ -30,18 +30,17 @@ return new class extends Migration {
                 ->onUpdate('cascade')
                 ->onDelete('cascade');   
             // Leads -----------------------------------
-            $table->string('numero_lead');
-            $table->string('nombre_cliente');
-            $table->string('medios_cesrh');
-            $table->string('puesto');
-            $table->string('correo');
-            $table->string('correo_2')->nullable();
-            $table->string('telefono');
-            $table->string('telefono_2')->nullable();
-            $table->string('nombre_contacto_2')->nullable();
-            $table->string('puesto_contacto_2')->nullable();
-            $table->string('tipo')->default('lead');
-
+            // $table->string('numero_lead');
+            // $table->string('nombre_cliente');
+            // $table->string('medios_cesrh');
+            // $table->string('puesto');
+            // $table->string('correo');
+            // $table->string('correo_2')->nullable();
+            // $table->string('telefono');
+            // $table->string('telefono_2')->nullable();
+            // $table->string('nombre_contacto_2')->nullable();
+            // $table->string('puesto_contacto_2')->nullable();
+            // $table->string('tipo')->default('lead');
             // ------------------------------------------
             $table->timestamps();
         });

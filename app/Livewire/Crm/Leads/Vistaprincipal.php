@@ -26,6 +26,7 @@ use function PHPUnit\Framework\isNull;
 
 class Vistaprincipal extends Component
 {
+    public $isDisabled = false;
     public $guardarlead, $nuevoEsmart = [];
     public $paginacion;
     public $duplicados = 1;
@@ -35,7 +36,7 @@ class Vistaprincipal extends Component
     public $empresas;
     //variable gobal para almacenar lead
     public $empresaSeleccionada, $fechaseleccionada;
-    public $hh = [], $nom035 = [], $lead = [], $esmart = [], $training = [];
+    public $hh = [], $nom035 = [], $lead = [], $esmart = [], $training = [], $university = [];
     public $datosfis;
     public $consultahh;
     public $consultanom035;
@@ -47,6 +48,7 @@ class Vistaprincipal extends Component
     public $totalvacantes, $consultasumahh;
     public $curso = [];
     public $v;
+    public $ultimoID;
 
     protected $rules = [
         //TABLA LEADSCLIENTES
@@ -154,6 +156,7 @@ class Vistaprincipal extends Component
 
         $this->empresas = CrmEmpresa::all();
 
+        $this->lead['fecha_y_hora'] = Carbon::now()->format('Y-m-d H:s:i');
         $this->lead['users_id'] = Auth::user()->id;
         $this->training['fecha_y_hora'] = Carbon::now()->format('Y-m-d H:s:i');
         $this->lead['tipo'] = 'Lead';
@@ -170,25 +173,34 @@ class Vistaprincipal extends Component
         $this->hh['users_id'] = Auth::user()->id;
         $this->hh['tipo'] = 'Lead';
         $this->hh['total_vacantes'] = 1;
-
+        
         $this->paginacion = 0;
         $this->curso = 0;
     }
 
+    public function saveLead()
+    {
+        $this->validate([
+            'lead.numero_lead' => 'required',
+            'lead.nombre_cliente' => 'required',
+            'lead.medios_cesrh' => 'required',
+            'lead.fecha_y_hora' => 'required',
+            'lead.crm_empresas_id' => 'required',
+            'lead.puesto' => 'required',
+            'lead.correo' => 'required',
+            'lead.telefono' => 'required',
+        ]);
+
+        $AgregarLead = new LeadCliente($this->lead);
+        $AgregarLead->save();
+        $this->recuperarLead = $AgregarLead;
+        $this->isDisabled = true;
+        $this->dispatch('message');
+    }
+    
     public function guardarEsmart()
     {
         $this->validate([
-            'lead.nombre_cliente' => 'required|string|max:255',
-            'lead.medios_cesrh' => 'required|string|max:255',
-            'lead.numero_lead' => 'required|numeric',
-            'lead.crm_empresas_id' => 'required|exists:crm_empresas,id',
-            'lead.puesto' => 'required|string|max:255',
-            'lead.telefono' => 'required|numeric',
-            'lead.correo' => 'required|email|max:255',
-            'lead.nombre_contacto_2' => 'nullable|string|max:255',
-            'lead.puesto_contacto_2' => 'nullable|string|max:255',
-            'lead.correo_2' => 'nullable|email|max:255',
-            'lead.telefono_2' => 'nullable|numeric',
             'university.nombre_curso' => 'required|string|max:255',
             'university.participantes' => 'required|string|max:255',
             'university.departamentos_participan' => 'required|string|max:255',
@@ -208,73 +220,66 @@ class Vistaprincipal extends Component
         $numeroPedido = $ultimoPedido -> numero_pedido + 1;
        }
 
+        $ultimoID = LeadCliente::max('id');
 
         $fechaActual = Carbon::now()->toDateString();
         $horaActual = Carbon::now()->toTimeString();
         // Asignar el ID generado a EsmartUniversity
-        //  $this->university['esmart_levantamientos_id'] = $lead->id;
-        EsmartLevantamiento::create([
+        $levantamiento = EsmartLevantamiento::create([
             'fecha'=> $fechaActual,
             'hora'=> $horaActual,
-            // 'leads_clientes_id'=> $this->lead['leads_clientes_id'],
             // 'sucursales_id'=> auth()->user()->id,
             // 'empresa_id'=> auth()->user()->id,
             'users_id'=> auth()->user()->id,
+            'leads_clientes_id' => $ultimoID,
             'numero_pedido' => $numeroPedido,
-            'nombre_cliente' => $this->lead['nombre_cliente'] ?? null,
-            'medios_cesrh'=> $this->lead['medios_cesrh'] ?? null,
-            'numero_lead'=> $this->lead['numero_lead'] ?? null,
-            'crm_empresas_id'=> $this->lead['crm_empresas_id'] ?? null,
-            'puesto'=> $this->lead['puesto'] ?? null,
-            'telefono'=> $this->lead['telefono'] ?? null,
-            'correo'=> $this->lead['correo'] ?? null,
-            'nombre_contacto_2'=> $this->lead['nombre_contacto_2'] ?? null,
-            'puesto_contacto_2'=> $this->lead['puesto_contacto_2'] ?? null,
-            'correo_2'=> $this->lead['correo_2'] ?? null,
-            'telefono_2'=> $this->lead['telefono_2'] ?? null,
+            // 'nombre_cliente' => $this->lead['nombre_cliente'] ?? null,
+            // 'medios_cesrh'=> $this->lead['medios_cesrh'] ?? null,
+            // 'numero_lead'=> $this->lead['numero_lead'] ?? null,
+            // 'crm_empresas_id'=> $this->lead['crm_empresas_id'] ?? null,
+            // 'puesto'=> $this->lead['puesto'] ?? null,
+            // 'telefono'=> $this->lead['telefono'] ?? null,
+            // 'correo'=> $this->lead['correo'] ?? null,
+            // 'nombre_contacto_2'=> $this->lead['nombre_contacto_2'] ?? null,
+            // 'puesto_contacto_2'=> $this->lead['puesto_contacto_2'] ?? null,
+            // 'correo_2'=> $this->lead['correo_2'] ?? null,
+            // 'telefono_2'=> $this->lead['telefono_2'] ?? null,
         ]);
 
         // $Uni = EsmartUniversity::create($this->university);
         EsmartUniversity::create([
-            'nombre_curso'=> $this->university['nombre_curso'] ?? null,
-            'participantes'=> $this->university['participantes'] ?? null,
-            'departamentos_participan'=> $this->university['departamentos_participan'] ?? null,
-            'puestos_participan'=> $this->university['puestos_participan'] ?? null,
-            'fecha_habilitada'=> $this->university['fecha_habilitada'] ?? null,
-            'dc3_requieren'=> $this->university['dc3_requieren'] ?? null,
-            'nuevo_existente'=> $this->university['nuevo_existente'] ?? null,
+            'esmart_levantamientos_id' => $levantamiento -> id,
+            'nombre_curso'=> $this->university['nombre_curso'],
+            'participantes'=> $this->university['participantes'],
+            'departamentos_participan'=> $this->university['departamentos_participan'],
+            'puestos_participan'=> $this->university['puestos_participan'],
+            'fecha_habilitada'=> $this->university['fecha_habilitada'],
+            'dc3_requieren'=> $this->university['dc3_requieren'],
+            'nuevo_existente'=> $this->curso,
             'nuevo_curso'=> $this->university['nuevo_curso'] ?? null,
             'horas_nuevo'=> $this->university['horas_nuevo'] ?? null,
             'tipo_curso'=> $this->university['tipo_curso'] ?? null,
-            // 'esmart_levantamiento_id' => $lead->id,
         ]);
 
         session()->flash('message', 'Datos guardados correctamente');
         $this->reset(['university']);
     }
 
-    // public function eliminarEsmart($indexR)
-    // {
-    //     unset($this->esmart[$indexR]);
-    //     $this->esmart = array_values($this->esmart);
-    //     $this->duplicados--;
-    // }
-
     public function guardarTraining()
     {
         // dd($this->training);
         $this->validate([
-            'lead.nombre_cliente' => 'required|string|max:255',
-            'lead.medios_cesrh' => 'required|string|max:255',
-            'lead.numero_lead' => 'required|numeric',
-            'lead.crm_empresas_id' => 'required|exists:crm_empresas,id',
-            'lead.puesto' => 'required|string|max:255',
-            'lead.telefono' => 'required|numeric',
-            'lead.correo' => 'required|email|max:255',
-            'lead.nombre_contacto_2' => 'nullable|string|max:255',
-            'lead.puesto_contacto_2' => 'nullable|string|max:255',
-            'lead.correo_2' => 'nullable|email|max:255',
-            'lead.telefono_2' => 'nullable|numeric',
+            // 'lead.nombre_cliente' => 'required|string|max:255',
+            // 'lead.medios_cesrh' => 'required|string|max:255',
+            // 'lead.numero_lead' => 'required|numeric',
+            // 'lead.crm_empresas_id' => 'required|exists:crm_empresas,id',
+            // 'lead.puesto' => 'required|string|max:255',
+            // 'lead.telefono' => 'required|numeric',
+            // 'lead.correo' => 'required|email|max:255',
+            // 'lead.nombre_contacto_2' => 'nullable|string|max:255',
+            // 'lead.puesto_contacto_2' => 'nullable|string|max:255',
+            // 'lead.correo_2' => 'nullable|email|max:255',
+            // 'lead.telefono_2' => 'nullable|numeric',
             'training.nombre_curso' => 'required|string|max:255',
             'training.modalidad' => 'required|string|max:255',
             'training.participantes' => 'required|string|max:255',
@@ -286,6 +291,7 @@ class Vistaprincipal extends Component
             'training.fecha_tentativa' => 'required|date',
             'training.presupuesto' => 'required|string|max:255',
         ]);
+
         $ultimoPedido = TrainingLevantamiento::orderBy('numero_pedido','desc')->first();
         if (empty($ultimoPedido)) {
             $numeroPedido = 1;
@@ -293,31 +299,34 @@ class Vistaprincipal extends Component
             $numeroPedido = $ultimoPedido -> numero_pedido + 1;
         }
 
+        $ultimoID = LeadCliente::max('id');
 
         $fechaActual = Carbon::now()->toDateString();
         $horaActual = Carbon::now()->toTimeString();
 
-        TrainingLevantamiento::create([
+        $trainig = TrainingLevantamiento::create([
             'fecha' => $fechaActual,
             'hora'=> $horaActual,
             // 'sucursales_id'=> auth()->user()->id,
             // 'empresa_id'=> auth()->user()->id,
-            'numero_pedido' => $numeroPedido,
+            'numero_pedido' => $ultimoID,
+            'leads_clientes_id'=> $numeroPedido,
             'users_id'=> auth()->user()->id,
-            'nombre_cliente' => $this->lead['nombre_cliente'] ?? null,
-            'medios_cesrh'=> $this->lead['medios_cesrh'] ?? null,
-            'numero_lead'=> $this->lead['numero_lead'] ?? null,
-            'crm_empresas_id'=> $this->lead['crm_empresas_id'] ?? null,
-            'puesto'=> $this->lead['puesto'] ?? null,
-            'telefono'=> $this->lead['telefono'] ?? null,
-            'correo'=> $this->lead['correo'] ?? null,
-            'nombre_contacto_2'=> $this->lead['nombre_contacto_2'] ?? null,
-            'puesto_contacto_2'=> $this->lead['puesto_contacto_2'] ?? null,
-            'correo_2'=> $this->lead['correo_2'] ?? null,
-            'telefono_2'=> $this->lead['telefono_2'] ?? null,
+            // 'nombre_cliente' => $this->lead['nombre_cliente'] ?? null,
+            // 'medios_cesrh'=> $this->lead['medios_cesrh'] ?? null,
+            // 'numero_lead'=> $this->lead['numero_lead'] ?? null,
+            // 'crm_empresas_id'=> $this->lead['crm_empresas_id'] ?? null,
+            // 'puesto'=> $this->lead['puesto'] ?? null,
+            // 'telefono'=> $this->lead['telefono'] ?? null,
+            // 'correo'=> $this->lead['correo'] ?? null,
+            // 'nombre_contacto_2'=> $this->lead['nombre_contacto_2'] ?? null,
+            // 'puesto_contacto_2'=> $this->lead['puesto_contacto_2'] ?? null,
+            // 'correo_2'=> $this->lead['correo_2'] ?? null,
+            // 'telefono_2'=> $this->lead['telefono_2'] ?? null,
         ]);
 
         CrmCurso::create([
+            'training_levantamientos_id'=> $trainig -> id,
             'nombre_curso'=> $this->training['nombre_curso'] ?? null,
             'modalidad'=> $this->training['modalidad'] ?? null,
             'participantes'=> $this->training['participantes'] ?? null,
@@ -333,14 +342,6 @@ class Vistaprincipal extends Component
         session()->flash('message', 'Datos guardados correctamente');
         $this->reset(['training']);
     }
-
-    // public function eliminarTraining($indexR)
-    // {
-    //     unset($this->training[$indexR]);
-    //     $this->training = array_values($this->training);
-    //     $this->duplicados--;
-    // }
-
 
     public function botonborrar()
     {
@@ -378,25 +379,9 @@ class Vistaprincipal extends Component
         $this->paginacion = 4;
     }
 
-    public function saveLead()
+    public function quinto()
     {
-        $this->validate([
-            'lead.numero_lead' => 'required',
-            'lead.nombre_cliente' => 'required',
-            'lead.medios_cesrh' => 'required',
-            'lead.fecha_y_hora' => 'required',
-            'lead.crm_empresas_id' => 'required',
-            'lead.puesto' => 'required',
-            'lead.correo' => 'required',
-            'lead.telefono' => 'required',
-        ]);
-        $AgregarLead = new LeadCliente($this->lead);
-        $AgregarLead->save();
-        $this->recuperarLead = $AgregarLead;
-        // return redirect()->route('Leads');
-
-        //para poder ocupar elemento banner que dice que ya agrego
-        $this->dispatch('message');
+        $this->paginacion = 5;
     }
 
     public function saveHead()
@@ -435,13 +420,7 @@ class Vistaprincipal extends Component
             $AgregarLeadenHead = new HeadLevantamientosPedido($head);
             $AgregarLeadenHead->save();
         }
-        // foreach($this->hh as $index => $vacante){
-        //     $this->v=$vacante['total_vacantes']=$vacante['operativos']+$vacante['especializados']+$vacante['ejecutivos'];
-        // }
-        // $this->op = $this->hh['operativos'];
-        // $this->esp = $this->hh['especializados'];
-        // $this->eje = $this->hh['ejecutivos'];
-        // $this->hh['total_vacantes']=$this->sumacampos;
+        
         $AgregarHead = new HeadLevantamientosPedido();
         $AgregarHead->save();
     }

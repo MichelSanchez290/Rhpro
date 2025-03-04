@@ -20,8 +20,9 @@ class TrainingLevantamiento extends Model
     //especifica las columnas
     protected $fillable = [
     'id','fecha', 'hora', 'numero_pedido', 'users_id', 'leads_clientes_id', 'sucursales_id', 'empresa_id',
-    'numero_lead', 'nombre_cliente','medios_cesrh','fecha_y_hora','puesto','correo','correo_2','telefono','telefono_2',
-    'nombre_contacto_2','puesto_contacto_2','tipo',
+    'numero_lead', 
+    // 'nombre_cliente','medios_cesrh','fecha_y_hora','puesto','correo','correo_2','telefono','telefono_2',
+    // 'nombre_contacto_2','puesto_contacto_2','tipo',
     ];
 
     public function LeadsCliente()
