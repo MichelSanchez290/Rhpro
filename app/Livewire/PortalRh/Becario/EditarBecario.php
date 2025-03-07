@@ -145,7 +145,7 @@ class EditarBecario extends Component
             'lugar_nacimiento' => $this->lugar_nacimiento,
             'estado' => $this->estado,
             'codigo_postal' => $this->codigo_postal,
-            'ocupacion' => $this->sexo,
+            'ocupacion' => $this->ocupacion,
             'sexo' => $this->sexo,
             'curp' => $this->curp,
             'rfc' => $this->rfc,

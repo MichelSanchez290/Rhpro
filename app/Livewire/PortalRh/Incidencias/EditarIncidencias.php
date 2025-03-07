@@ -13,6 +13,7 @@ use App\Models\PortalRH\Departamento;
 class EditarIncidencias extends Component
 {
     public $incidencia_id, $tipo_incidencia, $fecha_inicio, $fecha_final;
+
     public $sucursales=[], $departamentos=[], $users=[];
     public $empresas, $empresa, $sucursal, $departamento, $nombre_usuario;
 
@@ -68,7 +69,6 @@ class EditarIncidencias extends Component
         //$incidencia->users()->sync([$this->user_id]);
 
         session()->flash('message', 'Incidencia actualizada exitosamente.');
-        return redirect()->route('mostrarincidencia');
     }
 
     public function render()

@@ -54,13 +54,11 @@ class Instructor extends Model
     ];
 
     //alcanze con el modelo 
-    public function usuarios()
+    public function user()
     {
         //cada trabajador pertenece a 
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
-
-    
 
     public function registrosPatronales()
     {

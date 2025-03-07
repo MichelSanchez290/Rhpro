@@ -20,9 +20,6 @@ return new class extends Migration
             $table->string('pais_origen', 45);
             $table->string('representante_legal', 255);
             $table->string('url_constancia_situacion_fiscal', 255);
-
-            
-
             $table->timestamps();
         });
     }

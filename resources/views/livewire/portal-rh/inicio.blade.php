@@ -14,10 +14,10 @@
                 <h1 class="text-3xl xl:text-4xl font-bold text-gray-100 tracking-wider">¡Bienvenido!</h1>
             </div>
             <p class="text-gray-300 mt-4 px-16 text-center">
-                Accede al panel de administración para gestionar usuarios, roles y más.
+                Accediste al panel de Portal de Recursos Humanos para gestionar tu usuario, tu empesa, sucursal, departamento y puesto
             </p>
             <p class="text-gray-300 mt-4 px-16 text-center">
-                Organiza tu empresa de forma sencilla y eficiente.
+                Organiza tu empresa de forma sencilla y eficiente, ve tus permisos, retardos, incidencias y más.
             </p>
             <a href="#"
                 class="mt-6 bg-gray-100 hover:bg-gray-200 px-6 py-2 rounded text-sm uppercase text-gray-900 transition duration-150">

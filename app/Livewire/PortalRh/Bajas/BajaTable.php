@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Livewire\PortalRh\Empres;
+namespace App\Livewire\PortalRh\Bajas;
 
-//use App\Models\PortalRh\Empres;
-use App\Models\PortalRH\Empresa;
+use App\Models\User;
+use App\Models\PortalRh\Baja;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
@@ -19,11 +19,10 @@ use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Auth;
 
-
-final class EmpresTable extends PowerGridComponent
+final class BajaTable extends PowerGridComponent
 {
     use WithExport;
-    public string $tableName = 'empres-table-u4eqeo-table';
+    public string $tableName = 'baja-table-nvgkac-table';
 
     public function setUp(): array
     {
@@ -35,22 +34,37 @@ final class EmpresTable extends PowerGridComponent
             PowerGrid::footer()
                 ->showPerPage()
                 ->showRecordCount(),
-            PowerGrid::exportable(fileName: 'empresas')
+            PowerGrid::exportable(fileName: 'bajas')
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
         ];
     }
 
     public function datasource(): Builder
     {
-        $user = Auth::user();
+        $user = Auth::user(); // Obtener el usuario autenticado
+        $query = Baja::query()->with('user'); // Cargar relación con User
 
-        // Si el usuario es administrador, devolver todos los departamentos
         if ($user->hasRole('GoldenAdmin')) {
-            return Empresa::query();
+            // GoldenAdmin ve todos los registros
+            return $query;
         }
 
-        // Si el usuario es trabajador o practicante, devolver solo su departamento
-        return Empresa::where('id', $user->empresa_id);
+        if ($user->hasRole('EmpresaAdmin')) {
+            // EmpresaAdmin ve solo los registros de su empresa
+            return $query->whereHas('user', function ($q) use ($user) {
+                $q->where('empresa_id', $user->empresa_id);
+            });
+        }
+
+        if ($user->hasRole('SucursalAdmin')) {
+            // SucursalAdmin ve solo los registros de su sucursal
+            return $query->whereHas('user', function ($q) use ($user) {
+                $q->where('sucursal_id', $user->sucursal_id);
+            });
+        }
+
+        // Si no tiene un rol válido, no devuelve registros
+        return $query->whereNull('id');
     }
 
     public function relationSearch(): array
@@ -63,19 +77,17 @@ final class EmpresTable extends PowerGridComponent
         return PowerGrid::fields()
             ->add('id')
             ->add('id')
-            ->add('nombre')
-            ->add('razon_social')
-            ->add('rfc')
-            ->add('nombre_comercial')
-            ->add('pais_origen')
-            ->add('representante_legal')
-
-            ->add('url_constancia_situacion_fiscal', function (Empresa $model) {
-                return '<a href="' . asset('PortalRH/Empresas/' . basename($model->url_constancia_situacion_fiscal)) . '" target="_blank" class="text-blue-600 hover:underline">Ver PDF</a>';
+            ->add('fecha_baja_formatted', fn (Baja $model) => Carbon::parse($model->fecha_baja)->format('d/m/Y'))
+            ->add('motivo_baja')
+            ->add('tipo_baja')
+            ->add('observaciones')
+            ->add('user.name')
+            ->add('created_at')
+            ->add('updated_at')
+            ->add('documento', function (Baja $model) {
+                return '<a href="' . asset('PortalRH/Bajas/' . basename($model->documento)) . '" target="_blank" class="text-blue-600 hover:underline">Ver PDF</a>';
             })
-            
-            
-            ->add('created_at');
+            ;
     }
 
     public function columns(): array
@@ -83,70 +95,66 @@ final class EmpresTable extends PowerGridComponent
         return [
             Column::make('Id', 'id'),
 
-            Column::make('Nombre', 'nombre')
+            Column::make('Usuario', 'user.name')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Razon social', 'razon_social')
+            Column::make('Fecha baja', 'fecha_baja_formatted', 'fecha_baja')
+                ->sortable(),
+
+            Column::make('Motivo baja', 'motivo_baja')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Rfc', 'rfc')
+            Column::make('Tipo baja', 'tipo_baja')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Nombre comercial', 'nombre_comercial')
+            Column::make('Documento', 'documento')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Pais origen', 'pais_origen')
+            Column::make('Observaciones', 'observaciones')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Representante legal', 'representante_legal')
+            Column::make('Creado el', 'created_at')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Url constancia situacion fiscal', 'url_constancia_situacion_fiscal')
-                ->sortable()
-                ->searchable(),
-
-
-
-            Column::make('Created at', 'created_at')
+            Column::make('Actualizado el', 'updated_at')
                 ->sortable()
                 ->searchable(),
 
             Column::action('Action')
-
         ];
     }
 
     public function filters(): array
     {
         return [
+            Filter::datepicker('fecha_baja'),
         ];
     }
 
     #[\Livewire\Attributes\On('edit')]
-
     public function edit($rowId): void
     {
         $this->js('alert('.$rowId.')');
     }
 
-    public function actions(Empresa $row): array
+    public function actions(Baja $row): array
     {
         $actions = [];
 
-        if (Gate::allows('Editar Empresa')) {
+        if (Gate::allows('Editar Baja')) {
             $actions[] = Button::add('edit')
                 ->slot('Editar')
                 ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
-                ->route('editarempresa', ['id' => Crypt::encrypt($row->id)]);
+                ->route('editarbaja', ['id' => Crypt::encrypt($row->id)]);
         }
 
-        if (Gate::allows('Eliminar Empresa')) {
+        if (Gate::allows('Eliminar Baja')) {
             $actions[] = Button::add('delete')
                 ->slot('Eliminar')
                 ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
