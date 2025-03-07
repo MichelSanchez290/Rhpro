@@ -8,25 +8,40 @@ return new class extends Migration {
     public function up()
     {
         Schema::create('esmart_levantamientos', function (Blueprint $table) {
+
             $table->id(); // Clave primaria
-            $table->string('nombre_cliente', 255);
-            $table->string('nombre_empresa', 255);
-            $table->string('giro_empresa', 255);
-            $table->string('ubicacion_empresa', 255);
-            $table->string('tamaño_empresa', 45);
-            $table->string('primera_o_recompra', 45);
-            $table->string('medio_cesrh', 255);
-            $table->string('responsable_comercial', 255);
             $table->date('fecha');
-            $table->string('correo_cliente', 255);
-            $table->string('telefono_cliente', 10);
-            $table->unsignedBigInteger('leadcliente_id');
-            $table->unsignedBigInteger('users_id');
-
-            // Claves foráneas (ajusta según tus necesidades)
-            $table->foreign('leadcliente_id')->references('id')->on('leads_clientes')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('users_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
-
+            $table->time('hora');
+            $table->decimal('numero_pedido');
+            $table->foreignId('leads_clientes_id')
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->foreignId('users_id')
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->foreignId('sucursales_id')
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');            
+            $table->foreignId('empresa_id')
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');   
+            // Leads -----------------------------------
+            $table->string('numero_lead');
+            $table->string('nombre_cliente');
+            $table->string('medios_cesrh');
+            $table->string('puesto');
+            $table->string('correo');
+            $table->string('correo_2')->nullable();
+            $table->string('telefono');
+            $table->string('telefono_2')->nullable();
+            $table->string('nombre_contacto_2')->nullable();
+            $table->string('puesto_contacto_2')->nullable();
+            $table->string('tipo');
+            // ------------------------------------------
             $table->timestamps();
         });
     }
@@ -34,8 +49,10 @@ return new class extends Migration {
     public function down()
     {
         Schema::table('esmart_levantamientos', function (Blueprint $table) {
-            $table->dropForeign(['leadcliente_id']);
-            $table->dropForeign(['users_id']);
+            $table->dropColumn('users_id');
+            $table->dropForeign(['empresa_id']);
+            $table->dropColumn('leads_clientes_id');
+            $table->dropForeign(['sucursales_id']);
         });
         Schema::dropIfExists('esmart_levantamientos');
     }

@@ -39,15 +39,15 @@ final class SucursalDepaTable extends PowerGridComponent
     public function datasource(): Builder
     {
         return SucursalDepartamento::query()
-        ->leftJoin('sucursales', 'sucursal_departament.sucursal_id', '=', 'sucursales.id')
-        ->leftJoin('departamentos', 'sucursal_departament.departamento_id', '=', 'departamentos.id')
+        ->leftJoin('sucursales', 'departamento_sucursal.sucursal_id', '=', 'sucursales.id')
+        ->leftJoin('departamentos', 'departamento_sucursal.departamento_id', '=', 'departamentos.id')
         ->select([
-            'sucursal_departament.id', // Incluir el ID de la tabla pivote
-            'sucursal_departament.sucursal_id',
-            'sucursal_departament.departamento_id',
+            'departamento_sucursal.id', // Incluir el ID de la tabla pivote
+            'departamento_sucursal.sucursal_id',
+            'departamento_sucursal.departamento_id',
             'sucursales.nombre_sucursal as sucursal_nombre',
             'departamentos.nombre_departamento as departamento_nombre',
-            'sucursal_departament.created_at' // created_at también hya que seleccionarlo
+            'departamento_sucursal.created_at' // created_at también hya que seleccionarlo
         ]);
 
 

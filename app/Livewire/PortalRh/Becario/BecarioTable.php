@@ -15,6 +15,9 @@ use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use Illuminate\Support\Facades\Crypt;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
+
 
 final class BecarioTable extends PowerGridComponent
 {
@@ -38,18 +41,27 @@ final class BecarioTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Becario::query()
-        ->leftJoin('users', 'becarios.user_id', '=', 'users.id')
-        ->leftJoin('departamentos', 'becarios.departamento_id', '=', 'departamentos.id')
-        ->leftJoin('puestos', 'becarios.puesto_id', '=', 'puestos.id')
-        ->leftJoin('registros_patronales', 'becarios.registro_patronal_id', '=', 'registros_patronales.id')
-        ->select([
-            'becarios.*',
-            'users.name as nombre_usuario',
-            'departamentos.nombre_departamento as departamento',
-            'puestos.nombre_puesto as puesto',
-            'registros_patronales.registro_patronal as regpatronal'
-        ]);
+        $user = Auth::user();
+    
+        $query = Becario::query()
+            ->leftJoin('users', 'becarios.user_id', '=', 'users.id')
+            ->leftJoin('registros_patronales', 'becarios.registro_patronal_id', '=', 'registros_patronales.id')
+            ->leftJoin('departamentos', 'users.departamento_id', '=', 'departamentos.id')
+            ->leftJoin('puestos', 'users.puesto_id', '=', 'puestos.id')
+            ->select([
+                'becarios.*',
+                'users.name as nombre_usuario',
+                'registros_patronales.registro_patronal as regpatronal',
+                'departamentos.nombre_departamento as departamento',
+                'puestos.nombre_puesto as puesto',
+            ]);
+
+        // 🔹 Filtrar por departamento si es Trabajador PORTAL RH, Trabajador GLOBAL o Practicante
+        if ($user->hasRole(['Trabajador PORTAL RH', 'Trabajador GLOBAL', 'Practicante'])) {
+            $query->where('becarios.departamento_id', $user->departamento_id);
+        }
+
+        return $query;
     }
 
     public function relationSearch(): array
@@ -79,12 +91,12 @@ final class BecarioTable extends PowerGridComponent
             ->add('colonia')
             ->add('user_id')
             ->add('nombre_usuario')
+            ->add('registro_patronal_id')
+            ->add('regpatronal')
             ->add('departamento_id')
             ->add('departamento')
             ->add('puesto_id')
             ->add('puesto')
-            ->add('registro_patronal_id')
-            ->add('regpatronal')
             ->add('created_at');
     }
 
@@ -97,7 +109,13 @@ final class BecarioTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
             
-            Column::make('User id', 'nombre_usuario'),
+            Column::make('Usuario', 'nombre_usuario'),
+
+            Column::make('Departamento', 'departamento'),
+
+            Column::make('Puesto', 'puesto'),
+
+            Column::make('Registro patronal', 'regpatronal'),
 
             Column::make('Numero seguridad social', 'numero_seguridad_social')
                 ->sortable()
@@ -153,12 +171,6 @@ final class BecarioTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Departamento id', 'departamento'),
-
-            Column::make('Puesto id', 'puesto'),
-
-            Column::make('Registro patronal id', 'regpatronal'),
-
             Column::make('Created at', 'created_at')
                 ->sortable()
                 ->searchable(),
@@ -183,17 +195,23 @@ final class BecarioTable extends PowerGridComponent
 
     public function actions(Becario $row): array
     {
-        return [
-            Button::add('edit')
+        $actions = [];
+
+        if (Gate::allows('Editar Becario')) {
+            $actions[] = Button::add('edit')
                 ->slot('Editar')
                 ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
-                ->route('editarbecario', ['id' => Crypt::encrypt($row->id)]),
-            
-            Button::add('delete')
+                ->route('editarbecario', ['id' => Crypt::encrypt($row->id)]);
+        }
+
+        if (Gate::allows('Eliminar Becario')) {
+            $actions[] = Button::add('delete')
                 ->slot('Eliminar')
                 ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
-                ->dispatch('confirmDelete', ['id' => $row->id]),
-        ];
+                ->dispatch('confirmDelete', ['id' => $row->id]); 
+        }
+
+        return $actions;
     }
 
     /*

@@ -2,6 +2,10 @@
 
 namespace App\Models\PortalRH;
 
+use App\Models\Crm\EsmartLevantamiento;
+use App\Models\Crm\HeadLevantamientosPedido;
+use App\Models\Crm\Nom035Levpedido;
+use App\Models\Crm\TrainingLevantamiento;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -33,12 +37,13 @@ class Sucursal extends Model
 
     public function empresas()
     {
-        return $this->belongsToMany(Empresa::class)->withPivot('empresa_id', 'sucursal_id', 'status');
+        return $this->belongsToMany(Empresa::class)->withPivot('empresa_id', 'sucursal_id');
     }
+
 
     public function departamentos() //, 'sucursal_departament', 'sucursal_id', 'departamento_id'
     {
-        return $this->belongsToMany(Departamento::class,'sucursal_departament','sucursal_id','departamento_id')->withPivot('sucursal_id', 'departamento_id', 'status');
+        return $this->belongsToMany(Departamento::class)->withPivot('sucursal_id', 'departamento_id');
     }
 
     public function users()
@@ -81,16 +86,33 @@ class Sucursal extends Model
         return $this->hasMany(Instructor::class);
     }
 
-
     public function contactoSucursal()
     {
         return $this->belongsToMany(ContactoSucursal::class);
     }
 
+    public function esmartlevantamientos()
+    {
+        return $this->hasMany(EsmartLevantamiento::class);
+    }
+    
+    public function traininglevantamientos()
+    {
+        return $this->hasMany(TrainingLevantamiento::class);
+    }
+    
+    public function headlevantamientospedidos()
+    {
+        return $this->hasMany(HeadLevantamientosPedido::class);
+    }
+
+    public function nom035levpedidos()
+    {
+        return $this->hasMany(Nom035Levpedido::class);
+    }
+    
     public function empresa()
     {
         return $this->belongsTo(Empresa::class, 'empresa_id', 'id');
     }
-
-    
 }

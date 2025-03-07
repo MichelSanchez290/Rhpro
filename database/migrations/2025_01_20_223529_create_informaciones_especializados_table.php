@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('servicio');
             $table->string('ubicacion');
             $table->string('puesto');
-            $table->string('cantidad');
+            $table->decimal('cantidad');
             $table->string('sueldomensual');
             $table->string('comision');
             $table->string('pu_por_vacante');

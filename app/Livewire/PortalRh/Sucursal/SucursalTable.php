@@ -15,6 +15,8 @@ use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use Illuminate\Support\Facades\Crypt;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport; 
 use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
 
 final class SucursalTable extends PowerGridComponent
 {
@@ -31,36 +33,28 @@ final class SucursalTable extends PowerGridComponent
             PowerGrid::footer()
                 ->showPerPage()
                 ->showRecordCount(),
-            PowerGrid::exportable(fileName: 'sucursales-export-file') 
+            PowerGrid::exportable(fileName: 'Sucursales') 
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
         ];
     }
 
     public function datasource(): Builder
     {
-        return Sucursal::query()
-        ->leftJoin('registros_patronales', 'sucursales.registro_patronal_id', '=', 'registros_patronales.id')
-        ->select([
-            'sucursales.*',
-            'registros_patronales.registro_patronal as nombre_registro_patronal'
+        $user = Auth::user();
+
+        $query = Sucursal::query()
+            ->leftJoin('registros_patronales', 'sucursales.registro_patronal_id', '=', 'registros_patronales.id')
+            ->select([
+                'sucursales.*',
+                'registros_patronales.registro_patronal as nombre_registro_patronal'
         ]);
 
-        /*
-        ->leftJoin('registros_patronales', 'sucursales.registro_patronal_id', '=', 'registros_patronales.id')
-        ->select([
-            'sucursales.*',
-            'registros_patronales.registro_patronal as nombre_registro_patronal'
-        ]);
+        // 🔹 Filtrar por sucursal si el usuario es Trabajador o Practicante
+        if ($user->hasRole(['Trabajador PORTAL RH', 'Trabajador GLOBAL', 'Practicante'])) {
+            $query->where('sucursales.id', $user->sucursal_id);
+        }
 
-
-        $sucursaldepartament = DB::table('sucursal_departament')
-            ->join('sucursales', 'sucursal_departament.sucursal_id', '=', 'sucursales.id')
-            ->join('departamentos', 'sucursal_departament.departamento_id', '=', 'departamentos.id')
-            ->select(
-                'sucursales.nombre_sucursal as sucursal_nombre',
-                'departamentos.nombre_departamento as departamento_nombre'
-            );
-        */
+        return $query;
     }
 
     public function relationSearch(): array
@@ -156,17 +150,23 @@ final class SucursalTable extends PowerGridComponent
 
     public function actions(Sucursal $row): array
     {
-        return [
-            Button::add('edit')
+        $actions = [];
+
+        if (Gate::allows('Editar Sucursal')) {
+            $actions[] = Button::add('edit')
                 ->slot('Editar')
                 ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
-                ->route('editarsucursal', ['id' => Crypt::encrypt($row->id)]),
-            
-            Button::add('delete')
+                ->route('editarsucursal', ['id' => Crypt::encrypt($row->id)]);
+        }
+
+        if (Gate::allows('Eliminar Sucursal')) {
+            $actions[] = Button::add('delete')
                 ->slot('Eliminar')
                 ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
-                ->dispatch('confirmDelete', ['id' => $row->id]),
-        ];
+                ->dispatch('confirmDelete', ['id' => $row->id]); 
+        }
+
+        return $actions;
     }
 
     /*

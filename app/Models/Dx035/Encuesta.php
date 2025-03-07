@@ -58,7 +58,7 @@ class Encuesta extends Model
     }
 
     // Método para calcular el avance de la encuesta
-    public function avance()
+    public function calcularAvance()
     {
         if ($this->NumeroEncuestas > 0) {
             return ($this->EncuestasContestadas / $this->NumeroEncuestas) * 100;
@@ -73,8 +73,21 @@ class Encuesta extends Model
     }
 
     // Relación con TrabajadorEncuesta
-    public function trabajadoresEncuestas()
+    public function datoTrabajadores()
     {
-        return $this->hasMany(TrabajadorEncuesta::class, 'Clave', 'Clave');
+        return $this->hasMany(DatoTrabajador::class, 'encuestas_id');
     }
+
+    // Relación con la empresa
+    public function empresa()
+    {
+        return $this->belongsTo(Empresa::class, 'empresa_id');
+    }
+
+    // Relación con la sucursal
+    public function sucursal()
+    {
+        return $this->belongsTo(Sucursal::class, 'sucursal_id');
+    }
+
 }

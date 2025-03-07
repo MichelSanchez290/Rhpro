@@ -41,7 +41,7 @@ class ActivoMobiliario extends Model
 
     public function tipoactivo()
     {
-        return $this->belongsTo(Tipoactivo::class,'tipo_activo_id','id');
+        return $this->belongsTo(Tipoactivo::class, 'tipo_activo_id', 'id');
     }
 
     public function anioEstimado()
@@ -56,9 +56,8 @@ class ActivoMobiliario extends Model
     }
     public function usuarios()
     {
-        return $this->belongsToMany(User::class, 'activos_tecnologia_user')
-            ->withPivot('fecha_asignacion', 'fecha_devolucion', 'observaciones', 'status', 'foto1', 'foto2', 'foto3')
+        return $this->belongsToMany(User::class, 'activos_mobiliario_user', 'activos_mobiliarios_id', 'user_id')
+            ->withPivot('fecha_asignacion', 'fecha_devolucion', 'observaciones', 'status', 'foto1')
             ->withTimestamps();
     }
-
 }

@@ -27,8 +27,6 @@ return new class extends Migration
                     ->on('registros_patronales')
                     ->onDelete('cascade')
                     ->onUpdate('cascade');
-
-            $table->string('status', 45);
             $table->timestamps();
         });
     }

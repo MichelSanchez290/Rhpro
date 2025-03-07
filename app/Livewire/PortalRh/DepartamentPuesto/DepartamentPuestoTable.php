@@ -39,15 +39,15 @@ final class DepartamentPuestoTable extends PowerGridComponent
     public function datasource(): Builder
     {
         return DepartamentoPuesto::query()
-        ->leftJoin('departamentos', 'departament_puest.departamento_id', '=', 'departamentos.id')
-        ->leftJoin('puestos', 'departament_puest.puesto_id', '=', 'puestos.id')
+        ->leftJoin('departamentos', 'departamento_puesto.departamento_id', '=', 'departamentos.id')
+        ->leftJoin('puestos', 'departamento_puesto.puesto_id', '=', 'puestos.id')
         ->select([
-            'departament_puest.id', // Incluir el ID de la tabla pivote
-            'departament_puest.departamento_id',
-            'departament_puest.puesto_id',
+            'departamento_puesto.id', // Incluir el ID de la tabla pivote
+            'departamento_puesto.departamento_id',
+            'departamento_puesto.puesto_id',
             'departamentos.nombre_departamento as departamento_nombre',
             'puestos.nombre_puesto as puesto_nombre', 
-            'departament_puest.created_at' // created_at también hya que seleccionarlo
+            'departamento_puesto.created_at' // created_at también hya que seleccionarlo
         ]);
     }
 

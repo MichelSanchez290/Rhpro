@@ -1,4 +1,4 @@
-<body class="bg-gray-200">
+<div>
     <div class="flex h-screen items-center justify-center">
         <div class="grid bg-white rounded-lg shadow-xl w-full">
             <div class="flex justify-center py-4">
@@ -26,6 +26,8 @@
                             <option value="{{ $departamento->id }}">{{ $departamento->nombre_departamento }}</option>
                         @endforeach
                     </select>
+
+                    <x-input-error for="departamento_id" />
                 </div>
 
                 <!-- puesto -->
@@ -39,21 +41,8 @@
                             <option value="{{ $puest->id }}">{{ $puest->nombre_puesto }}</option>
                         @endforeach
                     </select>
-                </div>
 
-                <!-- Status -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
-                    
-                    <div class="grid grid-cols-1">
-                        <label for="status"
-                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Status</label>
-                        <select wire:model.defer="status" id="status"
-                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-                            <option value="" selected>-- Selecciona una opción --</option>
-                            <option value="Activo">Activo</option>
-                            <option value="Inactivo">Inactivo</option>
-                        </select>
-                    </div>
+                    <x-input-error for="puesto_id" />
                 </div>
 
                 <!-- Botones -->
@@ -63,8 +52,13 @@
                         class='w-auto bg-blue-500 hover:bg-blue-700 rounded-lg shadow-xl font-medium text-white px-4 py-2'>
                         Actualizar
                     </button>
+
+                    <button type="button" onclick="window.history.back()"
+                        class='w-auto bg-red-500 hover:bg-red-700 rounded-lg shadow-xl font-medium text-white px-4 py-2'>
+                        Cancelar
+                    </button>
                 </div>
             </form>
         </div>
     </div>
-</body>
+</div>

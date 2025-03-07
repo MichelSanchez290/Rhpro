@@ -56,8 +56,9 @@ class ActivoTecnologia extends Model
 
     public function usuarios()
     {
-        return $this->belongsToMany(User::class, 'activos_tecnologia_user')
-            ->withPivot('fecha_asignacion', 'fecha_devolucion', 'observaciones', 'status', 'foto1', 'foto2', 'foto3')
-            ->withTimestamps();
+        return $this->belongsToMany(User::class, 'activos_tecnologia_user', 'activos_tecnologias_id', 'user_id')
+                ->withPivot('fecha_asignacion', 'fecha_devolucion', 'observaciones', 'status', 'foto1', 'foto2', 'foto3')
+                ->withTimestamps();
     }
+    
 }

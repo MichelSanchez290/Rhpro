@@ -14,13 +14,6 @@
             margin-bottom: 0.8cm !important;
         }
 
-        html,
-        body {
-            margin: 0;
-            /* Anchura Carta en puntos */
-        }
-
-        /* Contenedor que cubre toda la página */
         .contenedor {
             height: 100vh;
             width: 100vw;
@@ -52,166 +45,454 @@
             page-break-before: always;
         }
 
-
-        fieldset {
-            padding: 1em;
-            border-color: rgb(7, 65, 107);
-            border-style: solid;
-            border-width: 2px;
-            background: #fff;
+        /* Estilos generales */
+        .contenedor3 {
+            font-family: 'Nourd', sans-serif;
+            width: 90%;
+            margin: auto;
         }
 
-        legend {
+        /* Título */
+        .titulo {
             color: rgb(7, 65, 107);
-            padding: 0.3em 0.6em;
-            border: 1px solid rgb(7, 65, 107);
-            background: #fff;
-            font-size: 1.3em;
+            font-size: 20pt;
+            font-weight: bold;
+            margin-bottom: 5px;
+            margin-top: 1cm;
         }
 
-        legend.radio {
-            border-radius: 50px;
+        /* Línea separadora */
+        .separador {
+            border-top: 4px solid rgb(7, 65, 107);
+            margin-bottom: 1cm;
         }
 
-        th,
-        td {
-            border: 1px solid rgb(7, 65, 107);
-            padding: 6px;
-            text-align: center;
+                /* Asegurar que la tabla tenga bordes redondeados */
+        .tabla-evaluacion {
+            font-size: 13pt;
+            border-collapse: separate; /* Necesario para aplicar border-radius */
+            border-spacing: 0; /* Elimina espacios entre las celdas */
+            width: 100%;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px; /* Esquinas redondeadas */
+            overflow: hidden; /* Evita que las esquinas se vean cuadradas en algunos navegadores */
         }
 
-        th {
+        /* Redondear solo las esquinas del encabezado */
+        .tabla-evaluacion thead tr:first-child th:first-child {
+            border-top-left-radius: 10px;
+        }
+
+        .tabla-evaluacion thead tr:first-child th:last-child {
+            border-top-right-radius: 10px;
+        }
+
+        /* Redondear solo las esquinas del footer */
+        .tabla-evaluacion tfoot tr:last-child td:first-child {
+            border-bottom-left-radius: 10px;
+        }
+
+        .tabla-evaluacion tfoot tr:last-child td:last-child {
+            border-bottom-right-radius: 10px;
+        }
+
+        /* Encabezado */
+        .tabla-evaluacion thead tr {
             background-color: rgb(7, 65, 107);
+            color: white;
+            text-align: left;
         }
 
-
-
-        /* Enfasis en las celdas */
-        td:nth-child(5n+1),
-        th:nth-child(5n+1) {
-            background-color: rgb(7, 65, 107);
+        /* Celdas */
+        .tabla-evaluacion th, 
+        .tabla-evaluacion td {
+            padding: 10px;
+            border: 1px solid rgb(255, 255, 255);
         }
 
-        /* Estilo adicional */
-
-        .container1 {
-            background-color: #8cc2db;
-            padding: 1em 1em 1em;
-            box-sizing: border-box;
-            opacity: 0.7;
+        /* Filas alternas */
+        .tabla-evaluacion tbody tr:nth-child(odd) {
+            background-color: #ecf5ff;
         }
 
-        .container1 ul {
-            margin-top: 0;
-            padding-left: 0em;
+        /* Footer */
+        .tabla-evaluacion tfoot {
+            background-color: #d9d9da;
+            font-weight: bold;
         }
-
-        .container1 ul li {
-            list-style-type: none;
-        }
-
-        .container1 ul+ul {
-            margin-bottom: 0;
-        }
-
-        .container1 ul+ul>li+li label {
-            margin-bottom: 0;
-        }
-
-        .page-break {
-            page-break-before: always;
-        }
-        
     </style>
 
 </head>
 <body>         
     <!-- Portada -->
     <div class="contenedor">
-        <img src="{{ asset('img/borde.png') }}" class="full-page" alt="portada">
-        <!--<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOa-NXzx-mmUk3IdQOC7ep03bvzV1ZjoHzEw&s" alt="Logo" style="position: absolute; top: 3cm; left: 9cm; width: 150px; height: 120px;">-->
+        <img src="{{ asset('img/doc.png') }}" class="full-page" alt="portada">
+         <!--<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOa-NXzx-mmUk3IdQOC7ep03bvzV1ZjoHzEw&s" alt="Logo" style="position: absolute; top: 3cm; left: 9cm; width: 150px; height: 110px;"> -->
         <div
-            style="position: absolute; top: 9cm; left: 1cm; color: rgb(7, 65, 107); font-size: 15pt; font-family: 'Nourd', sans-serif;">
-            {{ \Carbon\Carbon::parse($fecha)->format('d/m/Y') }}
+            style="position: absolute; top: 11cm; left: 0.5cm; color: rgb(7, 65, 107); font-size: 15pt; font-family: 'Nourd', sans-serif;">
+            Fecha de evaluación: {{ \Carbon\Carbon::parse($fecha)->format('d/m/Y') }}
         </div>
-        <div style="position: absolute; top: 10cm; left: 1cm;">
+        <div style="position: absolute; top: 12cm; left: 0.5cm;">
             <div style="color: rgb(7, 65, 107); font-size: 36pt; font-family: 'Nourd', sans-serif; font-weight: 700;">
                 Reporte de Evaluación
             </div>
-            <br>
-            <div style="border-top: 0.3cm solid rgb(7, 65, 107); width: 70%;"></div>
         </div>
-        <div style="position: absolute; top: 16cm; left: 11cm;">
+        <div style="position: absolute; top: 20.5cm; left: 11cm;">
             <div style="color: rgb(7, 65, 107); font-size: 18pt; font-family: 'Nourd', sans-serif; font-weight: 700;">
-               Análisis de desempeño y
+                Registro de Calificaciones Individual
             </div>
-            <div style="color: rgb(7, 65, 107); font-size: 18pt; font-family: 'Nourd', sans-serif; font-weight: 700;">
-                evaluación de criterios
-             </div>
-             <br>
-            <div style="border-top: 0.1cm solid rgb(7, 65, 107); width: 70%;"></div>
+            <div style="color: rgb(7, 65, 107); font-size: 15pt; font-family: 'Nourd', sans-serif;">
+                Privado y Confidencial
+            </div>
         </div>
     </div>
 
     <div class="page-break"></div>
+    
+    <div style="font-family: 'Arial', sans-serif; margin: 0; padding: 20px; background-color: #ffffff;">
+        <h2 class="titulo">Información del Evaluado</h2>
+        <div class="separador"></div>
 
-    <div class="contenedor2" style="font-family: 'Nourd', sans-serif;">
-        <!-- Contenido de la segunda página -->
-        <div style=" width: 90%;text-align: justify;">
-            <p style="font-weight: bold; color: rgb(7, 65, 107); font-size: 20pt; margin-bottom: 5px;">Información del
-                Evaluado:
-            </p>
-            <div style="border-top: 0.1cm solid rgb(7, 65, 107); "></div>
-            <div style="position: relative; font-size: 13pt; margin-top: 1cm;">
-                <div style="width: 60%;">
-                    <div style="position: absolute; top: 50px; left: 65%; z-index: 1;">
-                        <img src="https://ui-avatars.com/api/?name={{ urlencode($usuario->name ?? 'Usuario') }}&background=random" 
-                            alt="Foto de {{ $usuario->name ?? 'Usuario' }}" style="max-width: 100%; height: auto;">
-                    </div>
-                    <div style="position: relative; z-index: 0;">
-                        @if ($usuario->tipo_user == 'Trabajador')
+        <div>
+            @if($usuario->tipo_user == 'Becario')
+                <div style="display: flex; justify-content: center; align-items: center; height: 100vh; background: url('{{ asset('img/fondo.jpg') }}') no-repeat center center/cover;">
+                    <!-- Tarjeta contenedora -->
+                    <div style="display: flex; justify-content: center; align-items: center; height: 90vh; width: 80%; margin-left: 10%; background-color: rgb(255, 255, 255) border-radius: 15px; border: 2px">
                         
-                        <p style="margin: 0;"> <b>{{ $trabajador->clave_trabajador}}</b></p>
-                            
-                        @elseif ($usuario->tipo_user == 'Becario')
+                        <!-- Imagen de usuario flotante arriba -->
+                        <div style="justify-items: center; justify-content: center; margin-left: 40%">
+                            <img src="https://www.shutterstock.com/image-photo/attractive-elegant-young-asian-business-260nw-2401137563.jpg" class="imagenPerfil"
+                                alt="Foto" style="width: 200px; height: 200px; border-radius: 50%; border: 5px solid white; box-shadow: 0px 4px 8px rgba(0,0,0,0.2);">
+                        </div>
                         
-                        <p style="margin: 0;"> <b>{{ $becario->clave_becario }}</b></p>
-
-                        @elseif ($usuario->tipo_user == 'Practicante')  
-                        <p style="margin: 0;"> <b>{{ $practicante->clave_practicante}}</b></p>
-                        
-                        @elseif ($usuario->tipo_user == 'Instructor')
-                        <p style="margin: 0;"> <b>{{ $instructor->rfc }}</b></p>
-
-                        @endif
-                        <p style="color: rgb(7, 65, 107); font-size: 14pt; margin: 0;">Nombre del evaluado:</p>
-                        <p style="margin: 0;"> <b>{{ $usuario->name }}</b></p>
-                        <p style="color: rgb(7, 65, 107); font-size: 14pt;">Clave del trabajador:</p>
-                        <p><b></b></p>
-                        <p style="color: rgb(7, 65, 107); font-size: 14pt;">Curp:</p>
-                        <p><b></b>{{ $usuario->curp }}</p>
-                        <p style="color: rgb(7, 65, 107); font-size: 14pt;">RFC:</p>
-                        <p><b></b></p>
-                        <p style="color: rgb(7, 65, 107); font-size: 14pt;">Número de celular:</p>
-                        <p><b></b></p>
-                        <p style="color: rgb(7, 65, 107); font-size: 14pt;">Ocupación:</p>
-                        <p><b></b></p>
-                        <p style="color: rgb(7, 65, 107); font-size: 14pt;">Puesto:</p>
-                        <p><b>{{ $usuario->perfilActual()?->nombre_puesto ?? 'Sin asignar' }}</b></p>
-                        <p style="color: rgb(7, 65, 107); font-size: 14pt;">Número de celular:</p>
-                        <p><b></b></p>
-                        <p style="color: rgb(7, 65, 107); font-size: 14pt;">Sexo:</p>
-                        <p><b></b></p>
-                        <p style="color: rgb(7, 65, 107); font-size: 14pt;">Sucursal:</p>
-                        <p><b></b></p>
-                        <p style="color: rgb(7, 65, 107); font-size: 14pt;">Departamento:</p>
-                        <p><b></b></p>
+                        <!-- Información principal -->
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 15px;">
+                            <tr>
+                                <td style="padding: 10px; text-align: left; text-align: center; ">
+                                    <p style="font-size: 14pt; font-weight: bold; color: #07416B;">Nombre:</p>
+                                    <p style="font-size: 14pt; color: #333;">{{ $usuario->name }}</p>
+                                    <p style="font-size: 14pt; font-weight: bold; color: #07416B;">Clave Becario:</p>
+                                    <p style="font-size: 14pt; color: #333;">{{ $becario->clave_becario }}</p>
+                                </td>
+                            </tr>
+                        </table>
+                
+                        <!-- Tarjeta de información adicional -->
+                        <div style="padding: 8px; border-radius: 10px; text-align: center; background: #e3efff; margin-top: 15px;">
+                            <table style="width: 100%;">
+                                <tr>
+                                    <td style="width: 50%; text-align: center;">
+                                        <p style="font-size: 12pt; font-weight: bold; color: #07416B;">RFC:</p>
+                                        <p style="color: #333;">{{ $becario->rfc }}</p>
+                                    </td>
+                                    <td style="width: 50%; text-align: center;">
+                                        <p style="font-size: 12pt; font-weight: bold; color: #07416B;">CURP:</p>
+                                        <p style="color: #333;">{{ $becario->curp }}</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 50%; text-align: center;">
+                                        <p style="font-size: 12pt; font-weight: bold; color: #07416B;">Teléfono:</p>
+                                        <p style="color: #333;">{{ $becario->numero_celular }}</p>
+                                    </td>
+                                    <td style="width: 50%; text-align: center;">
+                                        <p style="font-size: 12pt; font-weight: bold; color: #07416B;">Sexo:</p>
+                                        <p style="color: #333;">
+                                            {{ $becario->sexo == 'F' ? 'Femenino' : ($becario->sexo == 'M' ? 'Masculino' : $becario->sexo) }}
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 50%; text-align: center;">
+                                        <p style="font-size: 12pt; font-weight: bold; color: #07416B;">Ocupación:</p>
+                                        <p style="color: #333;">{{ $becario->ocupacion }}</p>
+                                    </td>
+                                    <td style="width: 50%; text-align: center;">
+                                        <p style="font-size: 12pt; font-weight: bold; color: #07416B;">Puesto:</p>
+                                        <p style="color: #333;">
+                                            {{ $usuario->puesto->nombre_puesto }}
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                
+                        <!-- Tarjeta de empresa -->
+                        <div style="padding: 8px; border-radius: 10px; text-align: center;">
+                            <p style="font-size: 14pt; font-weight: bold; color: #07416B;">Empresa:</p>
+                            <p style="font-size: 13pt; color: #333;">{{ $usuario->empresa->nombre }}</p>
+                            <p style="font-size: 14pt; font-weight: bold; color: #07416B;">Sucursal:</p>
+                            <p style="font-size: 13pt; color: #333;">{{ $usuario->sucursal->nombre_sucursal }}</p>
+                            <p style="font-size: 14pt; font-weight: bold; color: #07416B;">Departamento:</p>
+                            <p style="font-size: 13pt; color: #333;">{{ $usuario->departamento->nombre_departamento }}</p>
+                        </div>
                     </div>
                 </div>
-            </div>
+
+            @elseif($usuario->tipo_user == 'Trabajador')
+                <div style="display: flex; justify-content: center; align-items: center; height: 100vh; background: url('{{ asset('img/fondo.jpg') }}') no-repeat center center/cover;">
+                    <!-- Tarjeta contenedora -->
+                    <div style="display: flex; justify-content: center; align-items: center; height: 90vh; width: 80%; margin-left: 10%; background-color: rgb(255, 255, 255) border-radius: 15px; border: 2px">
+                        
+                        <!-- Imagen de usuario flotante arriba -->
+                        <div style="justify-items: center; justify-content: center; margin-left: 40%">
+                            <img src="https://i.pinimg.com/474x/33/b1/fc/33b1fc52945e5d3c5e22c003c2fe2a03.jpg" class="imagenPerfil"
+                                alt="Foto" style="width: 200px; height: 200px; border-radius: 50%; border: 5px solid white; box-shadow: 0px 4px 8px rgba(0,0,0,0.2);">
+                        </div>
+                        
+                        <!-- Información principal -->
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 15px;">
+                            <tr>
+                                <td style="padding: 10px; text-align: left; text-align: center; ">
+                                    <p style="font-size: 14pt; font-weight: bold; color: #07416B;">Nombre:</p>
+                                    <p style="font-size: 14pt; color: #333;">{{ $usuario->name }}</p>
+                                    <p style="font-size: 14pt; font-weight: bold; color: #07416B;">Clave Trabajador:</p>
+                                    <p style="font-size: 14pt; color: #333;">{{ $trabajador->clave_trabajador }}</p>
+                                </td>
+                            </tr>
+                        </table>
+                
+                        <!-- Tarjeta de información adicional -->
+                        <div style="padding: 8px; border-radius: 10px; text-align: center; background: #e3efff; margin-top: 15px;">
+                            <table style="width: 100%;">
+                                <tr>
+                                    <td style="width: 50%; text-align: center;">
+                                        <p style="font-size: 12pt; font-weight: bold; color: #07416B;">RFC:</p>
+                                        <p style="color: #333;">{{ $trabajador->rfc }}</p>
+                                    </td>
+                                    <td style="width: 50%; text-align: center;">
+                                        <p style="font-size: 12pt; font-weight: bold; color: #07416B;">CURP:</p>
+                                        <p style="color: #333;">{{ $trabajador->curp }}</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 50%; text-align: center;">
+                                        <p style="font-size: 12pt; font-weight: bold; color: #07416B;">Teléfono:</p>
+                                        <p style="color: #333;">{{ $trabajador->numero_celular }}</p>
+                                    </td>
+                                    <td style="width: 50%; text-align: center;">
+                                        <p style="font-size: 12pt; font-weight: bold; color: #07416B;">Sexo:</p>
+                                        <p style="color: #333;">
+                                            {{ $trabajador->sexo == 'F' ? 'Femenino' : ($trabajador->sexo == 'M' ? 'Masculino' : $trabajador->sexo) }}
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 50%; text-align: center;">
+                                        <p style="font-size: 12pt; font-weight: bold; color: #07416B;">Ocupación:</p>
+                                        <p style="color: #333;">{{ $trabajador->ocupacion }}</p>
+                                    </td>
+                                    <td style="width: 50%; text-align: center;">
+                                        <p style="font-size: 12pt; font-weight: bold; color: #07416B;">Puesto:</p>
+                                        <p style="color: #333;">
+                                            {{ $usuario->puesto->nombre_puesto }}
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                
+                        <!-- Tarjeta de empresa -->
+                        <div style="padding: 8px; border-radius: 10px; text-align: center;">
+                            <p style="font-size: 14pt; font-weight: bold; color: #07416B;">Empresa:</p>
+                            <p style="font-size: 13pt; color: #333;">{{ $usuario->empresa->nombre }}</p>
+                            <p style="font-size: 14pt; font-weight: bold; color: #07416B;">Sucursal:</p>
+                            <p style="font-size: 13pt; color: #333;">{{ $usuario->sucursal->nombre_sucursal }}</p>
+                            <p style="font-size: 14pt; font-weight: bold; color: #07416B;">Departamento:</p>
+                            <p style="font-size: 13pt; color: #333;">{{ $usuario->departamento->nombre_departamento }}</p>
+                        </div>
+                    </div>
+                </div>
+            
+            @elseif($usuario->tipo_user == 'Practicante')
+                <div style="display: flex; justify-content: center; align-items: center; height: 100vh; background: url('{{ asset('img/fondo.jpg') }}') no-repeat center center/cover;">
+                    <!-- Tarjeta contenedora -->
+                    <div style="display: flex; justify-content: center; align-items: center; height: 90vh; width: 80%; margin-left: 10%; background-color: rgb(255, 255, 255) border-radius: 15px; border: 2px">
+                        
+                        <!-- Imagen de usuario flotante arriba -->
+                        <div style="justify-items: center; justify-content: center; margin-left: 40%">
+                            <img src="https://www.shutterstock.com/image-photo/attractive-elegant-young-asian-business-260nw-2401137563.jpg" class="imagenPerfil"
+                                alt="Foto" style="width: 200px; height: 200px; border-radius: 50%; border: 5px solid white; box-shadow: 0px 4px 8px rgba(0,0,0,0.2);">
+                        </div>
+                        
+                        <!-- Información principal -->
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 15px;">
+                            <tr>
+                                <td style="padding: 10px; text-align: left; text-align: center; ">
+                                    <p style="font-size: 14pt; font-weight: bold; color: #07416B;">Nombre:</p>
+                                    <p style="font-size: 14pt; color: #333;">{{ $usuario->name }}</p>
+                                    <p style="font-size: 14pt; font-weight: bold; color: #07416B;">Clave Practicante:</p>
+                                    <p style="font-size: 14pt; color: #333;">{{ $practicante->clave_practicante }}</p>
+                                </td>
+                            </tr>
+                        </table>
+                
+                        <!-- Tarjeta de información adicional -->
+                        <div style="padding: 8px; border-radius: 10px; text-align: center; background: #e3efff; margin-top: 15px;">
+                            <table style="width: 100%;">
+                                <tr>
+                                    <td style="width: 50%; text-align: center;">
+                                        <p style="font-size: 12pt; font-weight: bold; color: #07416B;">RFC:</p>
+                                        <p style="color: #333;">{{ $practicante->rfc }}</p>
+                                    </td>
+                                    <td style="width: 50%; text-align: center;">
+                                        <p style="font-size: 12pt; font-weight: bold; color: #07416B;">CURP:</p>
+                                        <p style="color: #333;">{{ $practicante->curp }}</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 50%; text-align: center;">
+                                        <p style="font-size: 12pt; font-weight: bold; color: #07416B;">Teléfono:</p>
+                                        <p style="color: #333;">{{ $practicante->numero_celular }}</p>
+                                    </td>
+                                    <td style="width: 50%; text-align: center;">
+                                        <p style="font-size: 12pt; font-weight: bold; color: #07416B;">Sexo:</p>
+                                        <p style="color: #333;">
+                                            {{ $practicante->sexo == 'F' ? 'Femenino' : ($practicante->sexo == 'M' ? 'Masculino' : $practicante->sexo) }}
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 50%; text-align: center;">
+                                        <p style="font-size: 12pt; font-weight: bold; color: #07416B;">Ocupación:</p>
+                                        <p style="color: #333;">{{ $practicante->ocupacion }}</p>
+                                    </td>
+                                    <td style="width: 50%; text-align: center;">
+                                        <p style="font-size: 12pt; font-weight: bold; color: #07416B;">Puesto:</p>
+                                        <p style="color: #333;">
+                                            {{ $usuario->puesto->nombre_puesto }}
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                
+                        <!-- Tarjeta de empresa -->
+                        <div style="padding: 8px; border-radius: 10px; text-align: center;">
+                            <p style="font-size: 14pt; font-weight: bold; color: #07416B;">Empresa:</p>
+                            <p style="font-size: 13pt; color: #333;">{{ $usuario->empresa->nombre }}</p>
+                            <p style="font-size: 14pt; font-weight: bold; color: #07416B;">Sucursal:</p>
+                            <p style="font-size: 13pt; color: #333;">{{ $usuario->sucursal->nombre_sucursal }}</p>
+                            <p style="font-size: 14pt; font-weight: bold; color: #07416B;">Departamento:</p>
+                            <p style="font-size: 13pt; color: #333;">{{ $usuario->departamento->nombre_departamento }}</p>
+                        </div>
+                    </div>
+                </div>
+
+            @elseif($usuario->tipo_user == 'Instructor')
+                <div style="display: flex; justify-content: center; align-items: center; height: 100vh; background: url('{{ asset('img/fondo.jpg') }}') no-repeat center center/cover;">
+                    <!-- Tarjeta contenedora -->
+                    <div style="display: flex; justify-content: center; align-items: center; height: 90vh; width: 80%; margin-left: 10%; background-color: rgb(255, 255, 255) border-radius: 15px; border: 2px">
+                        
+                        <!-- Imagen de usuario flotante arriba -->
+                        <div style="justify-items: center; justify-content: center; margin-left: 40%">
+                            <img src="https://www.shutterstock.com/image-photo/attractive-elegant-young-asian-business-260nw-2401137563.jpg" class="imagenPerfil"
+                                alt="Foto" style="width: 200px; height: 200px; border-radius: 50%; border: 5px solid white; box-shadow: 0px 4px 8px rgba(0,0,0,0.2);">
+                        </div>
+                        
+                        <!-- Información principal -->
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 15px;">
+                            <tr>
+                                <td style="padding: 10px; text-align: left; text-align: center; ">
+                                    <p style="font-size: 14pt; font-weight: bold; color: #07416B;">Nombre:</p>
+                                    <p style="font-size: 14pt; color: #333;">{{ $usuario->name }}</p>
+                                    <p style="font-size: 14pt; font-weight: bold; color: #07416B;">Clave Instructor:</p>
+                                    <p style="font-size: 14pt; color: #333;">{{ $instructor->clave_instructor }}</p>
+                                </td>
+                            </tr>
+                        </table>
+                
+                        <!-- Tarjeta de información adicional -->
+                        <div style="padding: 8px; border-radius: 10px; text-align: center; background: #e3efff; margin-top: 15px;">
+                            <table style="width: 100%;">
+                                <tr>
+                                    <td style="width: 50%; text-align: center;">
+                                        <p style="font-size: 12pt; font-weight: bold; color: #07416B;">RFC:</p>
+                                        <p style="color: #333;">{{ $instructor->rfc }}</p>
+                                    </td>
+                                    <td style="width: 50%; text-align: center;">
+                                        <p style="font-size: 12pt; font-weight: bold; color: #07416B;">CURP:</p>
+                                        <p style="color: #333;">{{ $instructor->curp }}</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 50%; text-align: center;">
+                                        <p style="font-size: 12pt; font-weight: bold; color: #07416B;">Teléfono:</p>
+                                        <p style="color: #333;">{{ $instructor->numero_celular }}</p>
+                                    </td>
+                                    <td style="width: 50%; text-align: center;">
+                                        <p style="font-size: 12pt; font-weight: bold; color: #07416B;">Sexo:</p>
+                                        <p style="color: #333;">
+                                            {{ $instructor->sexo == 'F' ? 'Femenino' : ($instructor->sexo == 'M' ? 'Masculino' : $instructor->sexo) }}
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 50%; text-align: center;">
+                                        <p style="font-size: 12pt; font-weight: bold; color: #07416B;">Ocupación:</p>
+                                        <p style="color: #333;">{{ $instructor->ocupacion }}</p>
+                                    </td>
+                                    <td style="width: 50%; text-align: center;">
+                                        <p style="font-size: 12pt; font-weight: bold; color: #07416B;">Puesto:</p>
+                                        <p style="color: #333;">
+                                            {{ $usuario->puesto->nombre_puesto }}
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                
+                        <!-- Tarjeta de empresa -->
+                        <div style="padding: 8px; border-radius: 10px; text-align: center;">
+                            <p style="font-size: 14pt; font-weight: bold; color: #07416B;">Empresa:</p>
+                            <p style="font-size: 13pt; color: #333;">{{ $usuario->empresa->nombre }}</p>
+                            <p style="font-size: 14pt; font-weight: bold; color: #07416B;">Sucursal:</p>
+                            <p style="font-size: 13pt; color: #333;">{{ $usuario->sucursal->nombre_sucursal }}</p>
+                            <p style="font-size: 14pt; font-weight: bold; color: #07416B;">Departamento:</p>
+                            <p style="font-size: 13pt; color: #333;">{{ $usuario->departamento->nombre_departamento }}</p>
+                        </div>
+                    </div>
+                </div>
+            @endif
         </div>
+    </div>    
+
+    <div class="page-break"></div> 
+
+    <div class="contenedor3">
+        <h2 class="titulo">Evaluación</h2>
+        <div class="separador"></div>
+        <table class="tabla-evaluacion">
+            <thead>
+                <tr>
+                    <th>Criterio</th>
+                    <th>Calificación</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($evaluaciones as $evaluacion)
+                    <tr>
+                        <td>{{ $evaluacion->criterio }}</td>
+                        <td>{{ $evaluacion->calificacion_desempeno }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td><strong>Calificación Final:</strong></td>
+                    <td><strong>{{ number_format($evaluaciones->avg('calificacion_desempeno'), 2) }}</strong></td>
+                </tr>
+                @if($evaluaciones->isNotEmpty())
+                    <tr>
+                        <td colspan="2"><strong>Comentarios:</strong> {{ $evaluaciones->first()->comentarios }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><strong>Recomendaciones:</strong> {{ $evaluaciones->first()->recomendaciones }}</td>
+                    </tr>
+                @endif
+            </tfoot>
+        </table>
     </div>
-    
     
 </body>
 </html>

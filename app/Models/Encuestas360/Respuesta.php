@@ -24,5 +24,10 @@ class Respuesta extends Model
         return $this->belongsTo(Empresa::class, 'empresa_id', 'id');
     }
 
+    public function respuestasUsuarios()
+    {
+        return $this->hasMany(RespuestaUsuario::class, 'respuestas_id');
+    }
+
     
 }

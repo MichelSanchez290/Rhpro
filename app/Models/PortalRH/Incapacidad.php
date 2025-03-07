@@ -19,18 +19,18 @@ class Incapacidad extends Model
     //especifica las columnas
     protected $fillable = [
         'id', 
+        'tipo',
+        'motivo',
         'fecha_inicio', 
         'fecha_final',
-        'motivo',
-        'tipo',
         'documento',
         'status',
         'observaciones'
     ];
 
 
-    public function usuarios()
+    public function users()
     {
-        return $this->belongsToMany(User::class)->withPivot('user_id', 'incapacidad_id');
+        return $this->belongsToMany(User::class, 'user_incapacidad', 'incapacidad_id', 'user_id')->withTimestamps();
     }
 }

@@ -13,6 +13,21 @@ use App\Livewire\Dx035\Cuestionarios\EditarPreguntaBase;
 
 use App\Livewire\Dx035\CuestionarioUno\ResponderCuestionario;
 
+use App\Livewire\Dx035\CuestionarioParaResponder\ResponderCuestionarioUno;
+
+use App\Livewire\Dx035\Encuestas\InvitarEncuesta;
+
+use App\Http\Controllers\ReporteController;
+
+use App\Livewire\Dx035\Rol\MostrarRol;
+use App\Livewire\Dx035\Rol\AgregarRol;
+use App\Livewire\Dx035\Rol\EditarRol;
+use App\Livewire\Dx035\Rol\AsignarRol;
+
+use App\Livewire\Dx035\Usuario\MostrarRolUsuario;
+use App\Livewire\Dx035\Usuario\AsignarRolUsuario;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -63,3 +78,24 @@ Route::get('/survey/show/{key}', function ($key) {
     // Mostrar una vista simple con la información de la encuesta
     return view('survey.show', compact('encuesta'));
 })->name('survey.show');
+
+Route::get('/survey/{key}', ResponderCuestionarioUno::class)->name('survey.show');
+
+Route::get('/encuesta/invitar/{clave}', InvitarEncuesta::class)->name('encuesta.invitar');
+
+Route::get('/dx035/survey/thankyou', function () {
+    return view('livewire.dx035.surveyuno.thankyouuno');
+})->name('survey.thankyou');
+
+Route::get('/reporte/{encuestaId}', [ReporteController::class, 'generarReporte'])->name('reporte.generar');
+
+// Rutas para la gestión de roles
+Route::get('/roles', MostrarRol::class)->name('mostrarrol'); // Mostrar tabla de roles
+Route::get('/roles/agregar', AgregarRol::class)->name('agregarrol'); // Agregar un nuevo rol
+Route::get('/roles/editar/{id}', EditarRol::class)->name('editarrol'); // Editar un rol existente
+
+// Ruta para mostrar la tabla de usuarios
+Route::get('/usuarios', MostrarRolUsuario::class)->name('usuarios');
+
+// Ruta para asignar roles a un usuario
+Route::get('/usuarios/{id}/asignar-rol', AsignarRolUsuario::class)->name('asignarroluser');

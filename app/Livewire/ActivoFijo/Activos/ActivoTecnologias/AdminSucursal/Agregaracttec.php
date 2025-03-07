@@ -9,24 +9,25 @@ use App\Models\ActivoFijo\Anioestimado;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+
 class Agregaracttec extends Component
 {
     use WithFileUploads;
-    public $consulta,$empresa;
-    public $activo=[],$tipos=[],$anios=[];
-    public $subirfoto1,$subirfoto2,$subirfoto3;
+    public $consulta, $empresa;
+    public $activo = [], $tipos = [], $anios = [];
+    public $subirfoto1, $subirfoto2, $subirfoto3;
 
     protected $rules = [
-        'activo.nombre'=>'required',
-        'activo.descripcion'=>'required',
-        'activo.num_serie'=>'required',
-        'activo.num_activo'=>'required',
-        'activo.ubicacion_fisica'=>'required',
-        'activo.fecha_adquisicion'=>'required',
+        'activo.nombre' => 'required',
+        'activo.descripcion' => 'required',
+        'activo.num_serie' => 'required',
+        'activo.num_activo' => 'required',
+        'activo.ubicacion_fisica' => 'required',
+        'activo.fecha_adquisicion' => 'required',
         'activo.fecha_baja' => 'nullable|date',
-        'activo.tipo_activo_id'=>'required',
-        'activo.precio_adquisicion'=>'required',
-        'activo.aniosestimado_id'=>'required',
+        'activo.tipo_activo_id' => 'required',
+        'activo.precio_adquisicion' => 'required',
+        'activo.aniosestimado_id' => 'required',
 
     ];
 
@@ -46,14 +47,11 @@ class Agregaracttec extends Component
     {
         //ejemplo de consulta
         $this->consulta = ActivoTecnologia::get();
-        $this->activo['tipo_activo_id'] = Tipoactivo::where('nombre_activo','Activo Tecnologias')->value('id');
+        $this->activo['tipo_activo_id'] = Tipoactivo::where('nombre_activo', 'Activo Tecnologias')->value('id');
         //dd($this->activo['tipo_activo_id']);
         $this->anios = Anioestimado::pluck('vida_util_año', 'id')->toArray();
-        $this->activo['empresa_id']=Auth::user()->empresa_id;
-        $this->activo['sucursal_id']=Auth::user()->sucursal_id;
-        
-        
-        
+        // $this->activo['empresa_id'] = Auth::user()->empresa_id;
+        // $this->activo['sucursal_id'] = Auth::user()->sucursal_id;
     }
 
     public function saveActivoTec()
@@ -63,24 +61,34 @@ class Agregaracttec extends Component
             'subirfoto2' => 'nullable|image|max:2048',
             'subirfoto3' => 'nullable|image|max:2048',
         ]);
-        $this->subirfoto1->storeAs('ImagenTecnologia1',$this->activo['nombre']."-imagen.png",'subirDocs');
-        $this->activo['foto1']="ImagenTecnologia1/".$this->activo['nombre']."-imagen.png";
 
-        $this->subirfoto2->storeAs('ImagenTecnologia2',$this->activo['nombre']."-imagen.png",'subirDocs');
-        $this->activo['foto2']="ImagenTecnologia2/".$this->activo['nombre']."-imagen.png";
+        // Asignar sucursal del usuario autenticado
+        $this->activo['empresa_id'] = Auth::user()->empresa_id;
+        $this->activo['sucursal_id'] = Auth::user()->sucursal_id;
 
-        $this->subirfoto3->storeAs('ImagenTecnologia3',$this->activo['nombre']."-imagen.png",'subirDocs');
-        $this->activo['foto3']="ImagenTecnologia3/".$this->activo['nombre']."-imagen.png";
-        // Crear una nueva instancia de Sale y asignar los valores
+        $this->subirfoto1->storeAs('ImagenTecnologia1', $this->activo['nombre'] . "-imagen.png", 'subirDocs');
+        $this->activo['foto1'] = "ImagenTecnologia1/" . $this->activo['nombre'] . "-imagen.png";
+
+        if ($this->subirfoto2) {
+            $this->subirfoto2->storeAs('ImagenTecnologia2', $this->activo['nombre'] . "-imagen.png", 'subirDocs');
+            $this->activo['foto2'] = "ImagenTecnologia2/" . $this->activo['nombre'] . "-imagen.png";
+        }
+
+        if ($this->subirfoto3) {
+            $this->subirfoto3->storeAs('ImagenTecnologia3', $this->activo['nombre'] . "-imagen.png", 'subirDocs');
+            $this->activo['foto3'] = "ImagenTecnologia3/" . $this->activo['nombre'] . "-imagen.png";
+        }
+
+        // Guardar el activo con sucursal asignada
         $AgregarActivo = new ActivoTecnologia($this->activo);
         $AgregarActivo->save();
-    
-        // Limpiar los datos de la venta después de guardar
+
+        // Limpiar los datos después de guardar
         $this->activo = [];
-        $this->subirfoto1=NULL ;
-        $this->subirfoto2=NULL ;
-        $this->subirfoto3=NULL ;
-        
+        $this->subirfoto1 = null;
+        $this->subirfoto2 = null;
+        $this->subirfoto3 = null;
+
         return redirect()->route('mostraracttec');
     }
 

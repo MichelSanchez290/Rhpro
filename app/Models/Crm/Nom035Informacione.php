@@ -16,4 +16,9 @@ class Nom035Informacione extends Model
 
     //especifica las columnas
     protected $fillable = ['id', 'cuantos_participantes', 'cuantos_centros_trabajo', 'primera_vez', 'integral_o_software', 'inspeccion'];
+
+    public function Nom035Levpedido()
+    {
+        return $this->hasMany(Nom035Levpedido::class);
+    }
 }

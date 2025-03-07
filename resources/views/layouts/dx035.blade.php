@@ -65,6 +65,8 @@
                 <!-- Sección de Encuestas -->
                 <h2 class="text-lg font-bold text-gray-700 mt-8">Encuestas</h2>
                 <ul class="space-y-4 mt-4">
+                    <!-- GoldenAdmin puede ver todo -->
+                    @can('Ver todas las encuestas')
                     <li>
                         <a href="{{ route('encuesta.create') }}" class="flex items-center text-gray-600 hover:text-blue-600 transition-all hover:scale-105">
                             <span class="material-icons mr-3">add_circle</span>
@@ -77,24 +79,59 @@
                             Listar Encuestas
                         </a>
                     </li>
+                    @endcan
+
+                    @can('Ver encuestas de la empresa')
+                    <li>
+                        <a href="{{ route('encuesta.index') }}" class="flex items-center text-gray-600 hover:text-blue-600 transition-all hover:scale-105">
+                            <span class="material-icons mr-3">list</span>
+                            Encuestas de mi empresa
+                        </a>
+                    </li>
+                    @endcan
+
+                    <!-- SucursalAdmin solo puede ver encuestas de su sucursal -->
+                    @can('Ver encuestas de la sucursal')
+                    <li>
+                        <a href="{{ route('encuesta.sucursal') }}" class="flex items-center text-gray-600 hover:text-blue-600 transition-all hover:scale-105">
+                            <span class="material-icons mr-3">list</span>
+                            Encuestas de mi sucursal
+                        </a>
+                    </li>
+                    @endcan
                 </ul>
 
                 <!-- Sección de Usuarios -->
                 <h2 class="text-lg font-bold text-gray-700 mt-8">Usuarios</h2>
                 <ul class="space-y-4 mt-4">
                     <li>
-                        <a href="#" class="flex items-center text-gray-600 hover:text-blue-600 transition-all hover:scale-105">
+                        <a href="{{ route('usuarios') }}" class="flex items-center text-gray-600 hover:text-blue-600 transition-all hover:scale-105">
                             <span class="material-icons mr-3">group</span>
-                            Usuarios Activos
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="flex items-center text-gray-600 hover:text-blue-600 transition-all hover:scale-105">
-                            <span class="material-icons mr-3">group_off</span>
-                            Usuarios Inactivos
+                            Lista de Usuarios
                         </a>
                     </li>
                 </ul>
+
+           
+                <!-- Sección de Roles -->
+                @can('Ver todas las encuestas')
+                <h2 class="text-lg font-bold text-gray-700 mt-8">Roles</h2>
+                <ul class="space-y-4 mt-4">
+                    <li>
+                        <a href="{{ route('mostrarrol') }}" class="flex items-center text-gray-600 hover:text-blue-600 transition-all hover:scale-105">
+                            <span class="material-icons mr-3">manage_accounts</span>
+                            Gestión de Roles
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('asignarroluser', ['id' => Crypt::encrypt(auth()->id())]) }}" class="flex items-center text-gray-600 hover:text-blue-600 transition-all hover:scale-105">
+                            <span class="material-icons mr-3">assignment_ind</span>
+                            Asignar Roles
+                        </a>
+                    </li>
+                </ul>
+                @endcan
+
 
                 <!-- Sección de Cuestionarios (Actualizada con las nuevas rutas) -->
                 <h2 class="text-lg font-bold text-gray-700 mt-8">Cuestionarios</h2>
@@ -116,18 +153,6 @@
                 <!-- Sección de Encuestas -->
                 <h2 class="text-lg font-bold text-gray-700 mt-8">Encuestas</h2>
                 <ul class="space-y-4 mt-4">
-                    <li>
-                        <a href="{{ route('encuesta.create') }}" class="flex items-center text-gray-600 hover:text-blue-600 transition-all hover:scale-105">
-                            <span class="material-icons mr-3">add_circle</span>
-                            Crear Encuesta
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('encuesta.index') }}" class="flex items-center text-gray-600 hover:text-blue-600 transition-all hover:scale-105">
-                            <span class="material-icons mr-3">list</span>
-                            Listar Encuestas
-                        </a>
-                    </li>
                     <li>
                         <form action="{{ route('responder-cuestionario') }}" method="GET" class="flex items-center">
                             <input type="text" name="encuesta_clave" placeholder="Ingresar clave" class="border rounded-lg p-2" required>

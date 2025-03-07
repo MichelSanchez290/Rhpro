@@ -16,4 +16,9 @@ class TrainingInformacione extends Model
 
     //especifica las columnas
     protected $fillable = ['id', 'id_servicio', 'nombre', 'modalidad', 'ubicacion', 'curso', 'duracionTotalHoras', 'numSesiones', 'cupoMaxPerson', 'grupos', 'precioPorGrupo', 'descuentoEspecial', 'precioConDescuento', 'precioSinIVa'];
+
+    public function trainingservicio()
+    {
+        return $this->hasMany(TrainingServicio::class);
+    }
 }

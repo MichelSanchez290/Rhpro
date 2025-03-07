@@ -15,6 +15,9 @@ use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport; 
 use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable; 
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
+
 
 final class EmpresTable extends PowerGridComponent
 {
@@ -38,7 +41,15 @@ final class EmpresTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Empresa::query();
+        $user = Auth::user();
+
+        // Si el usuario es administrador, devolver todos los departamentos
+        if ($user->hasRole('GoldenAdmin')) {
+            return Empresa::query();
+        }
+
+        // Si el usuario es trabajador o practicante, devolver solo su departamento
+        return Empresa::where('id', $user->empresa_id);
     }
 
     public function relationSearch(): array
@@ -57,7 +68,12 @@ final class EmpresTable extends PowerGridComponent
             ->add('nombre_comercial')
             ->add('pais_origen')
             ->add('representante_legal')
-            ->add('url_constancia_situacion_fiscal')
+
+            ->add('url_constancia_situacion_fiscal', function (Empresa $model) {
+                return '<a href="' . asset('PortalRH/Empresas/' . basename($model->url_constancia_situacion_fiscal)) . '" target="_blank" class="text-blue-600 hover:underline">Ver PDF</a>';
+            })
+            
+            
             ->add('created_at');
     }
 
@@ -94,6 +110,8 @@ final class EmpresTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
+
+
             Column::make('Created at', 'created_at')
                 ->sortable()
                 ->searchable(),
@@ -118,22 +136,23 @@ final class EmpresTable extends PowerGridComponent
 
     public function actions(Empresa $row): array
     {
-        return [
-            Button::add('edit')
+        $actions = [];
+
+        if (Gate::allows('Editar Empresa')) {
+            $actions[] = Button::add('edit')
                 ->slot('Editar')
                 ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
-                ->route('editarempresa', ['id' => Crypt::encrypt($row->id)]),
+                ->route('editarempresa', ['id' => Crypt::encrypt($row->id)]);
+        }
 
-
-            Button::add('delete')
+        if (Gate::allows('Eliminar Empresa')) {
+            $actions[] = Button::add('delete')
                 ->slot('Eliminar')
                 ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
-                // ->confirm('Are you sure you want to edit?'),
-                ->dispatch('confirmDelete', ['id' => $row->id]), // Emitir evento Livewire
-        ];
+                ->dispatch('confirmDelete', ['id' => $row->id]); 
+        }
 
-
-
+        return $actions;
     }
 
     /*

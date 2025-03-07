@@ -15,15 +15,24 @@ class ServiciosEspecializado extends Model
     protected $primaryKey = 'id';
 
     //especifica las columnas
-    protected $fillable = ['id', 'head_asesor', 'correo', 'telefono', 'num_cotizacion', 'cotizacion_emitida', 'cotizacion_valida_hasta', 'levantamientoPed_id', 'primera_vez_o_recompra', 'medio_cesrh', 'numero_vacantes', 'operativas', 'especializadas', 'ejecutivas', 'correo_cliente', 'telefono', 'status', 'leadCli_id'];
+    protected $fillable = [
+        'id', 'head_asesor', 'correo', 'telefono', 'num_cotizacion', 
+        'cotizacion_emitida', 'cotizacion_valida_hasta', 'levantamientoPed_id', 
+    ];
 
-    public function serviciosejecutivo()
+
+    public function aprobadoespecializados()
     {
-        return $this->hasMany(ServiciosEjecutivo::class);
+        return $this->hasMany(AprobadoEspecializado::class);
     }
 
-    public function leadscliente()
+    public function informacionesespecializados()
     {
-        return $this->belongsTo(LeadCliente::class);
+        return $this->belongsTo(InformacionesEspecializado::class);
+    }
+
+    public function levantamientopedidos()
+    {
+        return $this->belongsTo(HeadLevantamientosPedido::class);
     }
 }

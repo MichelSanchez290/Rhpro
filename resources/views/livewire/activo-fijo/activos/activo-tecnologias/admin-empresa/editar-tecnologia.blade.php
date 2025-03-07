@@ -15,30 +15,39 @@
         }
     </style>
 @endsection
+
 @section('js')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.js"></script>
+    <!-- Asegúrate de cargar primero jQuery y luego Select2 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Inicializa Select2
-            $('#sucursall').select2({
-                placeholder: 'Selecciona la sucursal', // Mensaje de placeholder
-                allowClear: true // Permite borrar la selección
+            function initializeSelect2() {
+                $('#sucursall').select2({
+                    placeholder: 'Selecciona la sucursal',
+                    allowClear: true
+                });
+
+                // Obtener el valor de sucursal desde Blade y aplicarlo a Select2
+                let selectedValue = @json($sucursal);
+
+                if (selectedValue) {
+                    $('#sucursall').val(selectedValue).trigger('change');
+                }
+
+                // Sincronizar Select2 con Livewire al cambiar la selección
+                $('#sucursall').on('change', function() {
+                    @this.set('sucursal', this.value);
+                });
+            }
+
+            initializeSelect2();
+
+            // Reaplicar Select2 y actualizar valor después de cada actualización de Livewire
+            Livewire.hook('message.processed', (message, component) => {
+                initializeSelect2();
             });
-
-            // Establece el valor seleccionado en Select2
-            $('#sucursall').val(@this.sucursal).trigger('change');
-
-            // Escucha cambios en el select
-            $('#sucursall').on('change', function() {
-                @this.set('sucursal', this.value);
-            });
-        });
-
-        // Reinicializa Select2 cuando Livewire actualiza el componente
-        Livewire.on('sucursalUpdated', function() {
-            $('#sucursall').select2();
         });
     </script>
 @endsection
@@ -56,8 +65,8 @@
                         <label for="nombre" class="text-gray-700 font-bold text-xl">Sucursal</label>
                     </div>
                     <div wire:ignore>
-                        <select wire:model="sucursal">
-                            <option>Selecciona la sucursal</option>
+                        <select id="sucursall" class="select2" wire:model="sucursal">
+                            <option value="">Selecciona la sucursal</option>
                             @foreach ($sucursales as $id => $nombre_sucursal)
                                 <option value="{{ $id }}">{{ $nombre_sucursal }}</option>
                             @endforeach
@@ -104,17 +113,6 @@
                             id="fechaba">
                     </div>
                     <div class="my-2">
-                        <label for="tipo" class="text-gray-700 font-bold text-xl">Tipo de Activo</label>
-                        <select wire:model="tipo"
-                            class="block w-full border-2 px-2 py-2 text-sm sm:text-md rounded-md my-2 text-gray-500"
-                            id="tipo">
-                            <option value="">Seleccione el tipo de activo</option>
-                            @foreach ($tipos as $id => $nombre)
-                                <option value="{{ $id }}">{{ $nombre }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="my-2">
                         <label for="anio" class="text-gray-700 font-bold text-xl">Año Estimado</label>
                         <select wire:model="anio"
                             class="block w-full border-2 px-2 py-2 text-sm sm:text-md rounded-md my-2 text-gray-500"
@@ -125,7 +123,7 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="my-2 sm:col-span-2">
+                    <div class="my-2">
                         <label for="precioad" class="text-gray-700 font-bold text-xl">Precio de Adquisición</label>
                         <input type="number" wire:model="precioad"
                             class="block w-full border-2 px-2 py-2 text-sm sm:text-md rounded-md my-2 text-black"

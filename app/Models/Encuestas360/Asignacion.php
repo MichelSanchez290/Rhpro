@@ -62,7 +62,7 @@ class Asignacion extends Model
     //     return $this->belongsTo()
     // } 
 
-
+    
 
    
  

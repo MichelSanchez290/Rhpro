@@ -13,24 +13,9 @@
                 <span class="text-sm">Dashboard</span>
             </a>
         </li>
-        {{-- <li class="mb-1 group">
-            <a href="" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100 sidebar-dropdown-toggle">
-                <i class='bx bx-user mr-3 text-lg'></i>
-                <span class="text-sm">Activo Tecnologia</span>
-                <i class="ri-arrow-right-s-line ml-auto group-[.selected]:rotate-90"></i>
-            </a>
-            <ul class="pl-7 mt-2 hidden group-[.selected]:block">
-                <li class="mb-4">
-                    <a href="{{route('agregartec')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">All</a>
-                </li>
-                <li class="mb-4">
-                    <a href="" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Roles</a>
-                </li>
-            </ul>
-        </li> --}}
         <li class="mb-1 group">
             @can('Tipo activo')
-            <a href="" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+            <a href="{{route('mostrartipoactivo')}}" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
                 <i class='fas fa-boxes mr-3 text-lg'></i>
                 <span class="text-sm">Inventario</span>
             </a>
@@ -46,12 +31,22 @@
             <ul class="pl-7 mt-2 hidden group-[.selected]:block">
                 @can('Activo tecnologia Admin')
                 <li class="mb-4">
-                    <a href="" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Administrador</a>
+                    <a href="{{route('mostrartecad')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Administrador</a>
+                </li>
+                @endcan
+                @can('Activo tecnologia Admin')
+                <li class="mb-4">
+                    <a href="{{route('mostrarasignaad')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Asignaciones</a>
                 </li>
                 @endcan
                 @can('Activo tecnologia Empresa')
                 <li class="mb-4">
                     <a href="{{route('mostrartec')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Empresa</a>
+                </li>
+                @endcan
+                @can('Activo tecnologia Empresa')
+                <li class="mb-4">
+                    <a href="{{route('mostrarasigntecem')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Asignaciones</a>
                 </li>
                 @endcan
                 @can('Activo tecnologia Sucursal')
@@ -70,7 +65,12 @@
             <ul class="pl-7 mt-2 hidden group-[.selected]:block">
                 @can('Activo mobiliario Admin')
                 <li class="mb-4">
-                    <a href="" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Administrador</a>
+                    <a href="{{route('mostrarmobad')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Administrador</a>
+                </li>
+                @endcan
+                @can('Activo mobiliario Admin')
+                <li class="mb-4">
+                    <a href="{{route('mostrarasignmobad')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Asignaciones</a>
                 </li>
                 @endcan
                 @can('Activo mobiliario Empresa')
@@ -94,7 +94,12 @@
             <ul class="pl-7 mt-2 hidden group-[.selected]:block">
                 @can('Activo oficina Admin')
                 <li class="mb-4">
-                    <a href="" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Administrador</a>
+                    <a href="{{route('mostrarofiad')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Administrador</a>
+                </li>
+                @endcan
+                @can('Activo oficina Admin')
+                <li class="mb-4">
+                    <a href="{{route('mostrarasignofiad')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Asignaciones</a>
                 </li>
                 @endcan
                 @can('Activo oficina Empresa')
@@ -118,7 +123,12 @@
             <ul class="pl-7 mt-2 hidden group-[.selected]:block">
                 @can('Activo uniforme Admin')
                 <li class="mb-4">
-                    <a href="" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Administrador</a>
+                    <a href="{{route('mostraruniad')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Administrador</a>
+                </li>
+                @endcan
+                @can('Activo uniforme Admin')
+                <li class="mb-4">
+                    <a href="{{route('mostrarasignuniad')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Asignaciones</a>
                 </li>
                 @endcan
                 @can('Activo uniforme Empresa')
@@ -142,7 +152,12 @@
             <ul class="pl-7 mt-2 hidden group-[.selected]:block">
                 @can('Activo papeleria Admin')
                 <li class="mb-4">
-                    <a href="" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Administrador</a>
+                    <a href="{{route('mostrarpapead')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Administrador</a>
+                </li>
+                @endcan
+                @can('Activo papeleria Admin')
+                <li class="mb-4">
+                    <a href="{{route('mostrarasignpapead')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Asignaciones</a>
                 </li>
                 @endcan
                 @can('Activo papeleria Empresa')
@@ -166,7 +181,12 @@
             <ul class="pl-7 mt-2 hidden group-[.selected]:block">
                 @can('Activo souvenir Admin')
                 <li class="mb-4">
-                    <a href="" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Administrador</a>
+                    <a href="{{route('mostrarsouad')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Administrador</a>
+                </li>
+                @endcan
+                @can('Activo souvenir Admin')
+                <li class="mb-4">
+                    <a href="{{route('mostrarasignsouad')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Asignaciones</a>
                 </li>
                 @endcan
                 @can('Activo souvenir Empresa')
@@ -187,7 +207,7 @@
                 <span class="text-sm">Archive</span>
             </a>
         </li> --}}
-        <span class="text-gray-400 font-bold">PERSONAL</span>
+        {{-- <span class="text-gray-400 font-bold">PERSONAL</span>
         <li class="mb-1 group">
             <a href="" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
                 <i class='bx bx-bell mr-3 text-lg' ></i>
@@ -201,7 +221,7 @@
                 <span class="text-sm">Mensajes</span>
                 <span class=" md:block px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-green-600 bg-green-200 rounded-full">2 New</span>
             </a>
-        </li>
+        </li> --}}
     </ul>
 </div>
 <div class="fixed top-0 left-0 w-full h-full bg-black/50 z-40 md:hidden sidebar-overlay"></div>

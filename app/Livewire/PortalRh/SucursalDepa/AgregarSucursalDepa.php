@@ -24,14 +24,14 @@ class AgregarSucursalDepa extends Component
     protected $rules = [
         'sucursaldepa.sucursal_id' => 'required',
         'sucursaldepa.departamento_id' => 'required',
-        'sucursaldepa.status' => 'required',
+        //'sucursaldepa.status' => 'required',
     ];
 
     // MENSAJES DE VALIDACIÓN
     protected $messages = [
         'sucursaldepa.sucursal_id' => 'La sucursal es requerida',
         'sucursaldepa.departamento_id' => 'El departamento es requerido',
-        'sucursaldepa.status.required' => 'El status es requerido',
+        //'sucursaldepa.status.required' => 'El status es requerido',
     ];
 
     public function saveSucursalDepa()
@@ -42,7 +42,7 @@ class AgregarSucursalDepa extends Component
         DB::table('sucursal_departament')->insert([
             'sucursal_id' => $this->sucursaldepa['sucursal_id'],
             'departamento_id' => $this->sucursaldepa['departamento_id'],
-            'status' => $this->sucursaldepa['status'],
+            //'status' => $this->sucursaldepa['status'],
             'created_at' => now(),
             'updated_at' => now(),
         ]);

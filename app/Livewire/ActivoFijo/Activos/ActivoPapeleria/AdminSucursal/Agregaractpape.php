@@ -7,6 +7,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\ActivoFijo\Anioestimado;
 use App\Models\ActivoFijo\Tipoactivo;
+use Illuminate\Support\Facades\Auth;
 
 class Agregaractpape extends Component
 {
@@ -50,7 +51,8 @@ class Agregaractpape extends Component
     {
         //ejemplo de consulta
         $this->consulta = ActivoPapeleria::get();
-        $this->tipos = Tipoactivo::pluck('nombre_activo', 'id')->toArray();
+        $this->activo['tipo_activo_id'] = Tipoactivo::where('nombre_activo', 'Activo Papelerias')->value('id');
+        //dd($this->activo['tipo_activo_id']);
         $this->anios = Anioestimado::pluck('vida_util_año', 'id')->toArray();
     }
 
@@ -61,6 +63,10 @@ class Agregaractpape extends Component
             'subirfoto2' => 'nullable|image|max:2048',
             'subirfoto3' => 'nullable|image|max:2048',
         ]);
+
+        $this->activo['empresa_id'] = Auth::user()->empresa_id;
+        $this->activo['sucursal_id'] = Auth::user()->sucursal_id;
+
         $this->subirfoto1->storeAs('ImagenPapeleria1',$this->activo['nombre']."-imagen.png",'subirDocs');
         $this->activo['foto1']="ImagenPapeleria1/".$this->activo['nombre']."-imagen.png";
 

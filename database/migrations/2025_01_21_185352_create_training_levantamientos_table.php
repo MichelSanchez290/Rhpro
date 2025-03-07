@@ -13,29 +13,39 @@ return new class extends Migration
     {
         Schema::create('training_levantamientos', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre_cliente');
-            $table->string('nombre_empresa');
-            $table->string('giro_empresa');
-            $table->string('ubicacion_empresa');
-            $table->string('tamano_empresa');
-            $table->string('primera_vez_o_recompra');
-            $table->string('medio_cesrh');
-            $table->string('responsable_comercial');
+             // Leads -----------------------------------
+             $table->string('numero_lead');
+             $table->string('nombre_cliente');
+             $table->string('medios_cesrh');
+             $table->datetime('fecha_y_hora');
+             $table->string('puesto');
+             $table->string('correo');
+             $table->string('correo_2')->nullable();
+             $table->string('telefono');
+             $table->string('telefono_2')->nullable();
+             $table->string('nombre_contacto_2')->nullable();
+             $table->string('puesto_contacto_2')->nullable();
+             $table->string('tipo');
+             // ------------------------------------------
             $table->date('fecha');
-            $table->string('correo_cliente');
-            $table->string('telefono_cliente');
-            $table->unsignedBigInteger('leadsCli_id');
-            $table->foreign('leadsCli_id')
-                ->references('id')
-                ->on('leads_clientes')
+            $table->time('hora');
+            $table->string('numero_pedido');
+            $table->foreignId('users_id')
+                ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->unsignedBigInteger('users_id');
-            $table->foreign('users_id')
-                ->references('id')
-                ->on('users')
+            $table->foreignId('leads_clientes_id')
+                ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
+            $table->foreignId('sucursales_id')
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');            
+            $table->foreignId('empresa_id')
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');   
             $table->timestamps();
         });
     }
@@ -44,10 +54,12 @@ return new class extends Migration
      * Reverse the migrations.
      */
     public function down(): void
-    {
-        Schema::table('training_levantamietos', function (Blueprint $table) {
-            $table->dropForeign(['leadsCli_id']);
-            $table->dropForeign(['users_id']);
+    {   
+        Schema::table('esmart_levantamientos', function (Blueprint $table) {
+            $table->dropForeign(['user_id']);
+            $table->dropForeign(['leads_clientes_id']);
+            $table->dropForeign(['empresa_id']);
+            $table->dropForeign(['sucursales_id']);
         });
         Schema::dropIfExists('training_levantamietos');
     }

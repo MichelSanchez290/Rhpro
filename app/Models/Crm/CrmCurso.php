@@ -16,4 +16,9 @@ class CrmCurso extends Model
 
     //especifica las columnas
     protected $fillable = ['id', 'id_servicio', 'nombre', 'modalidad', 'ubicacion', 'curso', 'duracionTotalHoras', 'numSesiones', 'cupoMaxPerson', 'grupos', 'precioPorGrupo', 'descuentoEspecial', 'precioConDescuento', 'precioSinIVa'];
+
+    public function traininglevantamiento()
+    {
+        return $this->belongsTo(TrainingLevantamiento::class);
+    }
 }

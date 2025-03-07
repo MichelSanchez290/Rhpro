@@ -45,7 +45,8 @@ class AgregarUniforme extends Component
     public function mount()
     {
         $this->consulta = ActivoUniforme::get();
-        $this->activo['tipo_activo_id'] = Tipoactivo::where('nombre_activo', 'Activo Tecnologias')->value('id');
+        $this->activo['tipo_activo_id'] = Tipoactivo::where('nombre_activo', 'Activo Uniformes')->value('id');
+        //dd($this->activo['tipo_activo_id']);
         $this->activo['empresa_id'] = Auth::user()->empresa_id;
         $this->sucursales = Sucursal::whereHas('empresas', function ($query) {
             $query->where('empresa_id', Auth::user()->empresa_id);
@@ -77,7 +78,7 @@ class AgregarUniforme extends Component
         $this->subirfoto2=NULL ;
         $this->subirfoto3=NULL ;
         
-        return redirect()->route('mostraractuni');
+        return redirect()->route('mostraruni');
     }
     public function render()
     {

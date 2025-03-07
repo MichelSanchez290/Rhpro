@@ -36,9 +36,18 @@ return new class extends Migration
                     ->on( 'users')  // Define que la relación es con la tabla xxx
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
-            
-            
 
+            //donde almacenara el id de la relacion
+            $table->unsignedBigInteger('registro_patronal_id');
+            $table->foreign('registro_patronal_id') //Declara que id es una clave foránea.
+                    ->references('id') //Indica que esta columna hace referencia a la columna id
+                    ->on( 'registros_patronales')  // Define que la relación es con la tabla xxx
+                    ->onUpdate('cascade')
+                    ->onDelete('cascade');
+
+            $table->timestamps();
+
+            /*
             //donde almacenara el id de la relacion
             $table->unsignedBigInteger('departamento_id');
             $table->foreign('departamento_id') //Declara que id es una clave foránea.
@@ -53,17 +62,7 @@ return new class extends Migration
                     ->references('id') //Indica que esta columna hace referencia a la columna id
                     ->on( 'puestos')  // Define que la relación es con la tabla xxx
                     ->onUpdate('cascade')
-                    ->onDelete('cascade');
-
-            //donde almacenara el id de la relacion
-            $table->unsignedBigInteger('registro_patronal_id');
-            $table->foreign('registro_patronal_id') //Declara que id es una clave foránea.
-                    ->references('id') //Indica que esta columna hace referencia a la columna id
-                    ->on( 'registros_patronales')  // Define que la relación es con la tabla xxx
-                    ->onUpdate('cascade')
-                    ->onDelete('cascade');
-
-            $table->timestamps();
+                    ->onDelete('cascade'); */
         });
     }
 
@@ -75,8 +74,9 @@ return new class extends Migration
         // Eliminar las claves foráneas explícitamente
         Schema::table('becarios', function (Blueprint $table) {
             $table->dropForeign(['user_id']);
-            $table->dropForeign(['sucursal_id']);
-            $table->dropForeign(['departamento_id']);
+            $table->dropForeign(['registro_patronal_id']);
+            //$table->dropForeign(['sucursal_id']);
+            //$table->dropForeign(['departamento_id']);
         });
         
 

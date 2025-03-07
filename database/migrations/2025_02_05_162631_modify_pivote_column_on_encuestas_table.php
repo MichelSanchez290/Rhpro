@@ -21,7 +21,7 @@ return new class extends Migration
             // Definir la clave foránea
             $table->foreign('sucursal_departament_id')
                 ->references('id')
-                ->on('sucursal_departament')
+                ->on('departamento_sucursal')
                 ->onDelete('set null'); // Si se elimina la relación, se establece como nulo
         });
     }

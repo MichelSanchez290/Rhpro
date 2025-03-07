@@ -9,6 +9,7 @@ use App\Livewire\PortalRh\Usuario\AsignarRolUsuario;
 use App\Livewire\PortalRh\Rol\MostrarRol;
 use App\Livewire\PortalRh\Rol\AgregarRol;
 use App\Livewire\PortalRh\Rol\EditarRol;
+use App\Livewire\PortalRh\Rol\VerPermisos;
 
 use App\Livewire\PortalRh\Empres\MostrarEmpres;
 use App\Livewire\PortalRh\Empres\AgregarEmpres;
@@ -74,6 +75,17 @@ use App\Livewire\PortalRh\Practicante\MostrarCardPracticante;
 use App\Livewire\PortalRh\Practicante\CardPracticante;
 
 
+use App\Livewire\PortalRh\Incidencias\MostrarIncidencias;
+use App\Livewire\PortalRh\Incidencias\AgregarIncidencias;
+use App\Livewire\PortalRh\Incidencias\EditarIncidencias;
+use App\Livewire\PortalRh\Incidencias\VerIncidencias;
+
+use App\Livewire\PortalRh\Incapacidad\MostrarIncapacidad;
+use App\Livewire\PortalRh\Incapacidad\AgregarIncapacidad;
+use App\Livewire\PortalRh\Incapacidad\AceptarIncapacidad;
+use App\Livewire\PortalRh\Incapacidad\EditarIncapacidad;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -108,7 +120,12 @@ Route::get(
             EditarRol::class
     )->name('editarrol');
 
-    // USER ---------------------------------------------------------------
+    Route::get( 
+        '/permisos/{id}',
+            VerPermisos::class
+    )->name('mostrarpermisos');
+
+    // USER  ---------------------------------------------------------------
     Route::get( 
         '/usuarios',
             MostrarUsuario::class
@@ -355,3 +372,45 @@ Route::get(
             CardPracticante::class
     )->name('cardpracticante');
     
+
+    // INCIDENCIAS ---------------------------------------------------------------
+    Route::get( 
+        '/incidencias',
+            MostrarIncidencias::class
+    )->name('mostrarincidencia');
+
+    Route::get( 
+        '/create-incidencia',
+            AgregarIncidencias::class
+    )->name('agregarincidencia');
+
+    Route::get( 
+        '/edit-incidencia/{id}',
+            EditarIncidencias::class
+    )->name('editarincidencia');
+
+    Route::get( 
+        '/mis-incidencias',
+            VerIncidencias::class
+    )->name('verincidencia');
+
+    // INCAPACIDAD ---------------------------------------------------------------
+    Route::get( 
+        '/incapacidad',
+            MostrarIncapacidad::class
+    )->name('mostrarincapacidad');
+
+    Route::get( 
+        '/create-incapacidad',
+            AgregarIncapacidad::class
+    )->name('agregarincapacidad');
+
+    Route::get( 
+        '/edit-incapacidad/{id}',
+            EditarIncapacidad::class
+    )->name('editarincapacidad');
+
+    Route::get( 
+        '/aceptar-incapacidad',
+            AceptarIncapacidad::class
+    )->name('aceptarincapacidad');

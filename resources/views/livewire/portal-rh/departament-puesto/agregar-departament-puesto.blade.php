@@ -1,4 +1,4 @@
-<div class="bg-gray-200">
+<div>
     <div class="flex min-h-screen items-center justify-center py-3">
         <div class="grid bg-white rounded-lg shadow-xl w-full">
             <div class="flex justify-center py-4">
@@ -45,18 +45,7 @@
                     <x-input-error for="depaPuest.puesto_id" />
                 </div>
 
-                <div class="grid grid-cols-1  mt-5">
-                    <label for="status"
-                        class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Status</label>
-                    <select wire:model.defer="depaPuest.status" id="status"
-                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-                        <option value="" selected>-- Selecciona una opción --</option>
-                        <option value="Activo">Activo</option>
-                        <option value="Inactivo">Inactivo</option>
-                    </select>
-
-                    <x-input-error for="depaPuest.status" />
-                </div>
+                
 
                 <!-- Botones -->
                 <div class='flex items-center justify-center md:gap-8 gap-4 pt-5 pb-5'>

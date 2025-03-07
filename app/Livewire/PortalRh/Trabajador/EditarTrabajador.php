@@ -6,12 +6,22 @@ use Livewire\Component;
 use App\Models\PortalRH\Trabajador;
 use App\Models\PortalRH\Puesto;
 use App\Models\PortalRH\Departamento;
+use App\Models\PortalRH\Sucursal;
 use App\Models\PortalRH\RegistroPatronal;
+use App\Models\PortalRH\Empresa;
 use App\Models\User;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Hash;
+
 
 class EditarTrabajador extends Component
 {
+    public $sucursales = [], $departamentos=[], $puestos = [], $user = [];
+    
+    public $usuarios, $registros_patronales, 
+    $empresas, $empresa, $sucursal,
+    $departamento, $password;
+
     public $trabajador_id, 
         $clave_trabajador, 
         $numero_seguridad_social, 
@@ -39,14 +49,10 @@ class EditarTrabajador extends Component
         $colonia, 
         $numero, 
         $status, 
+
         $user_id,
-        $departamento_id,
-        $puesto_id,
         $registro_patronal_id
     ;
-    
-
-    public $usuarios, $departamentos, $puestos, $registros_patronales;
 
 
     public function mount($id)
@@ -81,16 +87,37 @@ class EditarTrabajador extends Component
         $this->colonia = $trabajador->colonia;
         $this->numero = $trabajador->numero;
         $this->status = $trabajador->status;
-
-        $this->user_id = $trabajador->user_id;
-        $this->departamento_id = $trabajador->departamento_id;
-        $this->puesto_id = $trabajador->puesto_id;
         $this->registro_patronal_id = $trabajador->registro_patronal_id;
+        $this->user_id = $trabajador->user_id;
+
+        $this->trabajador = $trabajador->toArray();
+        $this->user = User::findOrFail($trabajador->user_id)->toArray();
+        $this->empresa = $this->user['empresa_id'] ?? null;
+        $this->sucursal = $this->user['sucursal_id'] ?? null;
+        $this->departamento = $this->user['departamento_id'] ?? null;
 
         $this->usuarios = User::all();
-        $this->departamentos = Departamento::all();
-        $this->puestos = Puesto::all();
         $this->registros_patronales = RegistroPatronal::all();
+        $this->empresas = Empresa::all();
+
+        $this->updatedEmpresa();
+        $this->updatedDepartamento();
+        $this->updatedSucursal();
+    }
+
+    public function updatedEmpresa()
+    {
+        $this->sucursales = Empresa::with('sucursales')->where('id', $this->empresa)->get();
+    }
+
+    public function updatedSucursal()
+    {
+        $this->departamentos = Sucursal::with('departamentos')->where('id', $this->sucursal)->get();
+    }
+
+    public function updatedDepartamento()
+    {
+        $this->puestos = Departamento::with('puestos')->where('id', $this->departamento)->get();
     }
 
     public function actualizarTrabajador()
@@ -122,10 +149,29 @@ class EditarTrabajador extends Component
             'colonia' => 'required',
             'numero' => 'required',
             'status' => 'required',
-            'user_id' => 'required|exists:users,id',
-            'departamento_id' => 'required|exists:departamentos,id',
-            'puesto_id' => 'required|exists:puestos,id',
             'registro_patronal_id' => 'required|exists:registros_patronales,id',
+            'user_id' => 'required|exists:users,id',
+
+            'user.name' => 'required',
+            'user.email' => 'required',
+            'password' => 'nullable',
+            'empresa' => 'required',
+            'sucursal' => 'required',
+            'departamento' => 'required',
+            'user.puesto_id' => 'required|exists:puestos,id',
+            
+        ]);
+
+        $user = User::findOrFail($this->user['id']);
+        $user->update([
+            'name' => $this->user['name'],
+            'email' => $this->user['email'],
+            'empresa_id' => $this->empresa,
+            'departamento_id' => $this->departamento,
+            'sucursal_id' => $this->sucursal,
+            'puesto_id' => $this->user['puesto_id'],
+            'tipo_user' => 'Trabajador',
+            'password' => $this->password ? Hash::make($this->password) : $user->password,
         ]);
 
         Trabajador::updateOrCreate(['id' => $this->trabajador_id], [
@@ -155,9 +201,8 @@ class EditarTrabajador extends Component
             'colonia' => $this->colonia,
             'numero' => $this->numero,
             'status' => $this->status,
+
             'user_id' => $this->user_id,
-            'departamento_id' => $this->departamento_id,
-            'puesto_id' => $this->puesto_id,
             'registro_patronal_id' => $this->registro_patronal_id,
         ]);
 

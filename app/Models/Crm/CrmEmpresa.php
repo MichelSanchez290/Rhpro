@@ -15,7 +15,7 @@ class CrmEmpresa extends Model
     protected $primaryKey = 'id';
 
     //especifica las columnas
-    protected $fillable = ['id', 'nombre', 'tamano_empresa', 'pagina_web', 'logotipo', 'clasificacion'];
+    protected $fillable = ['id',  'nombre', 'giro_empresa', 'calle', 'numero_exterior', 'numero_interior', 'colonia', 'municipio', 'localidad', 'estado', 'pais', 'codigo_postal', 'tamano_empresa', 'pagina_web', 'logotipo', 'clasificacion'];
 
     public function datosfiscales()
     {

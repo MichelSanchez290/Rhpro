@@ -15,6 +15,8 @@ use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use Illuminate\Support\Facades\Crypt;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
 
 final class PracticanteTable extends PowerGridComponent
 {
@@ -38,18 +40,27 @@ final class PracticanteTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Practicante::query()
-        ->leftJoin('users', 'practicantes.user_id', '=', 'users.id')
-        ->leftJoin('departamentos', 'practicantes.departamento_id', '=', 'departamentos.id')
-        ->leftJoin('puestos', 'practicantes.puesto_id', '=', 'puestos.id')
-        ->leftJoin('registros_patronales', 'practicantes.registro_patronal_id', '=', 'registros_patronales.id')
-        ->select([
-            'practicantes.*',
-            'users.name as nombre_usuario',
-            'departamentos.nombre_departamento as departamento',
-            'puestos.nombre_puesto as puesto',
-            'registros_patronales.registro_patronal as regpatronal'
-        ]);
+        $user = Auth::user();
+
+        $query = Practicante::query()
+            ->leftJoin('users', 'practicantes.user_id', '=', 'users.id')
+            ->leftJoin('departamentos', 'users.departamento_id', '=', 'departamentos.id')
+            ->leftJoin('puestos', 'users.puesto_id', '=', 'puestos.id')
+            ->leftJoin('registros_patronales', 'practicantes.registro_patronal_id', '=', 'registros_patronales.id')
+            ->select([
+                'practicantes.*',
+                'users.name as nombre_usuario',
+                'departamentos.nombre_departamento as departamento',
+                'puestos.nombre_puesto as puesto',
+                'registros_patronales.registro_patronal as regpatronal'
+            ]);
+
+        // Filtrar por departamento si el usuario es Trabajador o Practicante
+        if ($user->hasRole(['Trabajador PORTAL RH', 'Trabajador GLOBAL', 'Practicante'])) {
+            $query->where('practicantes.departamento_id', $user->departamento_id);
+        }
+
+        return $query;
     }
 
     public function relationSearch(): array
@@ -88,10 +99,18 @@ final class PracticanteTable extends PowerGridComponent
     {
         return [
             Column::make('Id', 'id'),
-            Column::make('Id', 'id'),
+
             Column::make('Clave practicante', 'clave_practicante')
                 ->sortable()
                 ->searchable(),
+
+            Column::make('User', 'nombre_usuario'),
+
+            Column::make('Departamento', 'departamento'),
+
+            Column::make('Puesto', 'puesto'),
+
+            Column::make('Registro patronal', 'regpatronal'),
 
             Column::make('Numero seguridad social', 'numero_seguridad_social')
                 ->sortable()
@@ -132,10 +151,7 @@ final class PracticanteTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('User id', 'nombre_usuario'),
-            Column::make('Departamento id', 'departamento'),
-            Column::make('Puesto id', 'puesto'),
-            Column::make('Registro patronal id', 'regpatronal'),
+            
             
 
             Column::make('Created at', 'created_at')
@@ -161,17 +177,23 @@ final class PracticanteTable extends PowerGridComponent
 
     public function actions(Practicante $row): array
     {
-        return [
-            Button::add('edit')
+        $actions = [];
+
+        if (Gate::allows('Editar Practicante')) {
+            $actions[] = Button::add('edit')
                 ->slot('Editar')
                 ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
-                ->route('editarpracticante', ['id' => Crypt::encrypt($row->id)]),
-            
-            Button::add('delete')
+                ->route('editarpracticante', ['id' => Crypt::encrypt($row->id)]);
+        }
+
+        if (Gate::allows('Eliminar Practicante')) {
+            $actions[] = Button::add('delete')
                 ->slot('Eliminar')
                 ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
-                ->dispatch('confirmDelete', ['id' => $row->id]),
-        ];
+                ->dispatch('confirmDelete', ['id' => $row->id]); 
+        }
+
+        return $actions;
     }
 
     /*
