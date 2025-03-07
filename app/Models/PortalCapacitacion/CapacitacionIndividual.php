@@ -23,12 +23,13 @@ class CapacitacionIndividual extends Model
 
     public function curso()
     {
-        return $this->belongsToMany(Curso::class);
+        return $this->belongsTo(Curso::class, 'cursos_id');
     }
 
+     // Relación many-to-many con Evidencia
     public function evidencias()
     {
-        return $this->belongsToMany(Evidencia::class);
+        return $this->belongsToMany(Evidencia::class, 'evidencia_cap_individual', 'caps_individuales_id', 'evidencias_id');
     }
 
     public function usuarios()

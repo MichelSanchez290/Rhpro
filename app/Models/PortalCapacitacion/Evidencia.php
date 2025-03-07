@@ -21,7 +21,7 @@ class Evidencia extends Model
     // Relación muchos a muchos con CapacitacionesIndividuales
     public function capacitacionesIndividuales()
     {
-        return $this->belongsToMany(CapacitacionIndividual::class);
+        return $this->belongsToMany(CapacitacionIndividual::class, 'evidencia_cap_individual', 'evidencias_id', 'caps_individuales_id');
     }
 
     // Relación muchos a muchos con Participantes

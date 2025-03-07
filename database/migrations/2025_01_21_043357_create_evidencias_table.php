@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('evidencias', function (Blueprint $table) {
             $table->id();
-            $table->string('evidencias', 45);
+            $table->string('evidencias', 2000);
             $table->string('comentarios', 2000);
             $table->string('status', 45);
             $table->date('fecha');

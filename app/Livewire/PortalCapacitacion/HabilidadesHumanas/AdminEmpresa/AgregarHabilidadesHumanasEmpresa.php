@@ -59,6 +59,6 @@ class AgregarHabilidadesHumanasEmpresa extends Component
 
     public function render()
     {
-        return view('livewire.portal-capacitacion.habilidades-humanas.admim-empresa.agregar-habilidades-humanas-empresa')->layout("layouts.portal_capacitacion");
+        return view('livewire.portal-capacitacion.habilidades-humanas.admin-empresa.agregar-habilidades-humanas-empresa')->layout("layouts.portal_capacitacion");
     }
 }

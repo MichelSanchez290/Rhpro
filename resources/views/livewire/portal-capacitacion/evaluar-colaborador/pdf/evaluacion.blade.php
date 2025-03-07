@@ -360,7 +360,7 @@
                                     <td style="width: 50%; text-align: center;">
                                         <p style="font-size: 12pt; font-weight: bold; color: #07416B;">Puesto:</p>
                                         <p style="color: #333;">
-                                            {{ $usuario->puesto->nombre_puesto }}
+                                            No se
                                         </p>
                                     </td>
                                 </tr>
@@ -374,7 +374,7 @@
                             <p style="font-size: 14pt; font-weight: bold; color: #07416B;">Sucursal:</p>
                             <p style="font-size: 13pt; color: #333;">{{ $usuario->sucursal->nombre_sucursal }}</p>
                             <p style="font-size: 14pt; font-weight: bold; color: #07416B;">Departamento:</p>
-                            <p style="font-size: 13pt; color: #333;">{{ $usuario->departamento->nombre_departamento }}</p>
+                            <p style="font-size: 13pt; color: #333;">no se</p>
                         </div>
                     </div>
                 </div>

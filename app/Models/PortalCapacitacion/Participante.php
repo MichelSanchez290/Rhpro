@@ -37,7 +37,7 @@ class Participante extends Model
     // Relación con la tabla users (muchos a muchos)
     public function users()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class, 'participante_user', 'participantes_id', 'users_id');
     }
 }
 
