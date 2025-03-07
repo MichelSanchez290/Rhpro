@@ -1,7 +1,6 @@
 <?php
 
-use App\Livewire\Dx035\Encuestas\AgregarEncuesta;
-use App\Livewire\Portal360\AgregarRolesDev;
+
 use App\Livewire\Portal360\Asignaciones\AsignacionesAdministrador\AgregarAsignacionesAdministrador;
 use App\Livewire\Portal360\Asignaciones\AsignacionesAdministrador\EditarAsignacionesAdministrador;
 use App\Livewire\Portal360\Asignaciones\AsignacionesAdministrador\MostrarAsignacionesAdministrador;
@@ -11,8 +10,7 @@ use App\Livewire\Portal360\Asignaciones\AsignacionesEmpresa\MostrarAsignacionesE
 use App\Livewire\Portal360\Asignaciones\AsignacionesSucursal\AgregarAsignacionSucursal;
 use App\Livewire\Portal360\Asignaciones\AsignacionesSucursal\EditarAsignacionSucursal;
 use App\Livewire\Portal360\Asignaciones\AsignacionesSucursal\MostrarAsignacionSucursal;
-use App\Livewire\Portal360\EditarRolesDev;
-use App\Livewire\Portal360\EliminarRolesDev;
+use App\Livewire\Portal360\Bienvenido;
 use App\Livewire\Portal360\Empresa\EmpresaAdministrador\MostrarEmpresaAdministrador;
 use App\Livewire\Portal360\Empresa\EmpresaEmpresa\MostrarEmpresaEmpresa;
 use App\Livewire\Portal360\Empresa\EmpresaSucursal\MostrarEmpresaSucursal;
@@ -35,8 +33,9 @@ use App\Livewire\Portal360\Encuesta\EncuestaSucursal\AgregarEncuestaSucursal;
 use App\Livewire\Portal360\Encuesta\EncuestaSucursal\EditarEncuestaSucursal;
 use App\Livewire\Portal360\Encuesta\EncuestaSucursal\MostrarEncuestaSucursal;
 use App\Livewire\Portal360\Envaluaciones\EnvalaucionesTrabajador\AsignacionesPendientes;
+use App\Livewire\Portal360\Envaluaciones\EnvalaucionesTrabajador\EncuestaEnvaluacionPregunta;
+use App\Livewire\Portal360\Envaluaciones\ResultadosTrabajador\ResultadosTrabajadorMostrar;
 use App\Livewire\Portal360\Inicio;
-use App\Livewire\Portal360\MostrarRolesDev;
 use App\Livewire\Portal360\NavigationMenu;
 use App\Livewire\Portal360\Preguntas\PreguntasAdministrador\AgregarPreguntasAdministrador;
 use App\Livewire\Portal360\Preguntas\PreguntasAdministrador\EditarPreguntasAdministrador;
@@ -187,11 +186,20 @@ Route::get('/editar-encuesta-pregunta-encpre-sucursal/{id}', EditarEncuestaPregu
 Route::get('/eliminar-encuesta-pregunta-sucursal', [MostrarEncuestaPreguntaEncpreSucursal::class, 'deleteEncpreSucursal'])->middleware('can:Eliminar Encpre ADMIN SUCURSAL')->name('eliminarEncpreSucursal');
 
 //Mostrar Trabajadores 360 
-Route::get('/asignaciones-pendientes', AsignacionesPendientes::class)->name('asignacionesPendientes');
+Route::get('/portal360.envaluaciones.envalauciones-trabajador.asignaciones-pendientes', AsignacionesPendientes::class)->name('portal360.envaluaciones.envalauciones-trabajador.asignaciones-pendientes');
+
+//Mostrar Resultados de 360 
+Route::get('/portal360.envaluaciones.resultados-trabajador.resultados-trabajador-mostrar',ResultadosTrabajadorMostrar::class)->name('portal360.envaluaciones.resultados-trabajador.resultados-trabajador-mostrar'); 
 
 //Despues elimino los roles 
-Route::get('/mostrar-roles-dev', MostrarRolesDev::class)->name('portal360.mostrarRoles');
-Route::get('/agregar-roles-dev', AgregarRolesDev::class)->name('agregarRoles');
-Route::get('/eliminar-roles-dev', EliminarRolesDev::class)->name('eliminarRoles');
-Route::get('/editar-roles-dev{id}', EditarRolesDev::class)->name('editRolesdev');
+// Route::get('/mostrar-roles-dev', MostrarRolesDev::class)->name('portal360.mostrarRoles');
+// Route::get('/agregar-roles-dev', AgregarRolesDev::class)->name('agregarRoles');
+// Route::get('/eliminar-roles-dev', EliminarRolesDev::class)->name('eliminarRoles');
+// Route::get('/editar-roles-dev{id}', EditarRolesDev::class)->name('editRolesdev');
 
+//Mostrar la Bienvenida para trabajadores 360 
+Route::get('/bienvenido', Bienvenido::class)->name('bienvenido');
+
+Route::get('/encuesta-envaluacion-pregunta/{asignacionId}', EncuestaEnvaluacionPregunta::class)
+    ->name('encuesta-envaluacion-pregunta')
+    ->middleware('auth');
