@@ -8,6 +8,7 @@ use App\Models\PortalRH\Empresa;
 use App\Models\PortalRH\Sucursal;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -58,12 +59,14 @@ class Asignartec extends Component
 
     public function updatedSucursalId($sucursalId)
     {
-        // Obtén los activos de tecnología relacionados con la sucursal seleccionada
         if ($sucursalId) {
-            $this->activosFiltrados = ActivoTecnologia::where('sucursal_id', $sucursalId)->get();
+            // Filtrar solo los activos con status 'Activo'
+            $this->activosFiltrados = ActivoTecnologia::where('sucursal_id', $sucursalId)
+                ->where('status', 'Activo')
+                ->get();
             $this->usuariosFiltrados = User::where('sucursal_id', $sucursalId)->get();
         } else {
-            $this->activosFiltrados = []; // Si no se selecciona una sucursal, vacía el listado de activos
+            $this->activosFiltrados = [];
             $this->usuariosFiltrados = [];
         }
     }
@@ -74,40 +77,57 @@ class Asignartec extends Component
             'usuarioSeleccionado' => 'required|exists:users,id',
             'activoSeleccionado' => 'required|exists:activos_tecnologias,id',
             'observaciones' => 'required|string',
-            'subirfoto1' => 'nullable|image|max:1024', // 1MB max
+            'subirfoto1' => 'nullable|image|max:1024',
             'subirfoto2' => 'nullable|image|max:1024',
             'subirfoto3' => 'nullable|image|max:1024',
         ]);
-    
+
         $usuario = User::find($this->usuarioSeleccionado);
         $activo = ActivoTecnologia::find($this->activoSeleccionado);
-    
+
+        // Verificar que el activo está disponible (status = 'Activo')
+        if ($activo->status !== 'Activo') {
+            session()->flash('error', 'El activo seleccionado no está disponible para asignación.');
+            return;
+        }
+
         // Definir la ruta base para las imágenes
         $rutaBase = 'ActivoFijo/Activos/ActivoTecnologia/Asignaciones/Admin';
-        $nombreActivo = $activo->nombre ?? 'activo_' . $activo->id; // Usar el nombre del activo o su ID si no hay nombre
-    
+        $nombreActivo = $activo->nombre ?? 'activo_' . $activo->id;
+
         // Manejar el almacenamiento de las imágenes
-        $foto1Path = $this->subirfoto1 
-            ? $this->subirfoto1->storeAs($rutaBase, "{$nombreActivo}-foto1.png", 'public') 
+        $foto1Path = $this->subirfoto1
+            ? $this->subirfoto1->storeAs($rutaBase, "{$nombreActivo}-foto1.png", 'public')
             : null;
-        $foto2Path = $this->subirfoto2 
-            ? $this->subirfoto2->storeAs($rutaBase, "{$nombreActivo}-foto2.png", 'public') 
+        $foto2Path = $this->subirfoto2
+            ? $this->subirfoto2->storeAs($rutaBase, "{$nombreActivo}-foto2.png", 'public')
             : null;
-        $foto3Path = $this->subirfoto3 
-            ? $this->subirfoto3->storeAs($rutaBase, "{$nombreActivo}-foto3.png", 'public') 
+        $foto3Path = $this->subirfoto3
+            ? $this->subirfoto3->storeAs($rutaBase, "{$nombreActivo}-foto3.png", 'public')
             : null;
-    
-        // Asignar el activo al usuario con las rutas de las imágenes
-        $usuario->activosTecnologia()->attach($activo->id, [
-            'fecha_asignacion' => now(),
-            'fecha_devolucion' => null,
-            'observaciones' => $this->observaciones,
-            'status' => 1,
-            'foto1' => $foto1Path,
-            'foto2' => $foto2Path,
-            'foto3' => $foto3Path,
-        ]);
-    
+
+        // Usar una transacción para asegurar consistencia
+        DB::transaction(function () use ($usuario, $activo, $foto1Path, $foto2Path, $foto3Path) {
+            // Asignar el activo al usuario con status 1 (entero para activos_tecnologia_user)
+            $usuario->activosTecnologia()->attach($activo->id, [
+                'fecha_asignacion' => now(),
+                'fecha_devolucion' => null,
+                'observaciones' => $this->observaciones,
+                'status' => 1, // 1 = Asignado (entero)
+                'foto1' => $foto1Path,
+                'foto2' => $foto2Path,
+                'foto3' => $foto3Path,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            // Actualizar el status del activo a 'Asignado' (string para activos_tecnologias)
+            $activo->update([
+                'status' => 'Asignado',
+                'updated_at' => now(),
+            ]);  
+        });
+
         // Resetear campos después de la asignación
         $this->reset([
             'usuarioSeleccionado',
@@ -115,10 +135,11 @@ class Asignartec extends Component
             'observaciones',
             'subirfoto1',
             'subirfoto2',
-            'subirfoto3'
+            'subirfoto3',
         ]);
-    
-        // Redirigir con mensaje de éxito
+
+        // Mensaje de éxito y redirección
+        session()->flash('message', 'Activo asignado correctamente.');
         return redirect()->route('mostrarasignaad');
     }
 

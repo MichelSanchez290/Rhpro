@@ -149,6 +149,17 @@ final class ActivotecTable extends PowerGridComponent
                         'activo_id' => $row->id
                     ]
                 ]),
+
+            Button::add('baja')
+                ->icon('default-baja')
+                ->class('btn btn-danger')
+                ->dispatch('openModal', [
+                    'component' => 'activo-fijo.modales.baja-activo',
+                    'arguments' => [
+                        'vista' => 'mostraracttec', // Nombre de la vista actual
+                        'activo_id' => $row->id
+                    ]
+                ]),
         ];
     }
 

@@ -1,6 +1,6 @@
 <div class="fixed left-0 top-0 w-64 h-full bg-[#f8f4f3] p-4 z-50 sidebar-menu transition-transform">
     <a href="#" class="flex flex-col items-center pb-4">
-        <img src="https://scontent.fpbc1-2.fna.fbcdn.net/v/t39.30808-6/407291034_133560303184134_4267188829384916885_n.png?_nc_cat=103&ccb=1-7&_nc_sid=cc71e4&_nc_eui2=AeFpiqeqNw_DJAnz42n7KluxyL2MVu4qc4vIvYxW7ipziwzQGP7Ra_Tj8xeIACcnAKr3ak2JHRgCuvUbhdn1nR1A&_nc_ohc=Y6t8Ker0p74Q7kNvgGbYdzc&_nc_oc=AdjS-lICL_aEAbgvEBl72pSHeaAmARaPVIDQtpM6CO_d66Xdomop9j2mgNNsQSXMFfIhun2ChPjv87A9xORv_Vpb&_nc_zt=23&_nc_ht=scontent.fpbc1-2.fna&_nc_gid=AsRWmll27Kr-7QgGkcB0o-6&oh=00_AYBi4z0T1QFBZ6j6aWwyv4IcDRiCmr6a25M5WJxBJ_2mZQ&oe=67B20AF0"
+        <img src="/ModuloActivo/recursos/logoaf.png"
             alt="Inventario" class="w-49 h-50 object-scale-down p-2">
     </a>
     <div class="w-full h-1 bg-gradient-to-r from-[#1763A6] to-[#1EA4D9]"></div>
@@ -48,10 +48,15 @@
                 <li class="mb-4">
                     <a href="{{route('mostrarasigntecem')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Asignaciones</a>
                 </li>
-                @endcan
+                @endcan 
                 @can('Activo tecnologia Sucursal')
                 <li class="mb-4">
                     <a href="{{route('mostraracttec')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Sucursal</a>
+                </li>
+                @endcan
+                @can('Activo tecnologia Sucursal')
+                <li class="mb-4">
+                    <a href="{{route('mostrarasigntecsu')}}" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Asignaciones</a>
                 </li>
                 @endcan
             </ul>

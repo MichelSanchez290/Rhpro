@@ -135,17 +135,28 @@ final class AsignacionesuniTable extends PowerGridComponent
     public function devolver($rowId): void
     {
         $registro = DB::table('activos_uniforme_user')->where('id', $rowId)->first();
-        if ($registro->status == 0) {
+        if ($registro->status == 0) { // Comparar con entero
             return; // No hacer nada si ya está devuelto
         }
 
-        DB::table('activos_uniforme_user')
-            ->where('id', $rowId)
-            ->update([
-                'status' => 0,
-                'fecha_devolucion' => now(),
-                'updated_at' => now(),
-            ]);
+        DB::transaction(function () use ($rowId, $registro) {
+            // Actualizar la asignación a 0 (Devuelto)
+            DB::table('activos_uniforme_user')
+                ->where('id', $rowId)
+                ->update([
+                    'status' => 0, // 0 = Devuelto (entero)
+                    'fecha_devolucion' => now(),
+                    'updated_at' => now(),
+                ]);
+
+            // Actualizar el activo en activos_tecnologias a 'Activo'
+            DB::table('activos_uniformes')
+                ->where('id', $registro->activos_uniformes_id)
+                ->update([
+                    'status' => 'Activo', // String para activos_tecnologias
+                    'updated_at' => now(),
+                ]);
+        });
 
         session()->flash('message', 'Activo marcado como devuelto correctamente.');
         $this->refresh();
@@ -154,15 +165,11 @@ final class AsignacionesuniTable extends PowerGridComponent
     #[\Livewire\Attributes\On('deleteAsignacion')]
     public function deleteAsignacion($rowId): void
     {
-        // Eliminar la asignación directamente de la tabla pivote
         DB::table('activos_uniforme_user')
             ->where('id', $rowId)
             ->delete();
 
-        // Mostrar mensaje de éxito
         session()->flash('message', 'Asignación eliminada correctamente.');
-
-        // Refrescar la tabla
         $this->refresh();
     }
 

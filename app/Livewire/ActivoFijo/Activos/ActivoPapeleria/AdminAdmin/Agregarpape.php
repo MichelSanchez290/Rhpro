@@ -62,6 +62,7 @@ class Agregarpape extends Component
         $this->empresaSeleccionada = Auth::user()->empresa_id;
 
         $this->updatedEmpresaSeleccionada($this->empresaSeleccionada);
+        $this->activo['status'] ='Activo';
     }
 
     public function hydrate()

@@ -66,20 +66,18 @@ final class AsignacionestecTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('id')
-            ->add('usuario') // Campo del join con users.name
-            ->add('activo')  // Campo del join con activos_tecnologias.nombre
-            ->add('sucursal')  // Añadido
+            ->add('usuario')
+            ->add('activo')
+            ->add('sucursal')
             ->add('empresa')
             ->add('fecha_asignacion')
             ->add('fecha_asignacion_formatted', fn($model) => Carbon::parse($model->fecha_asignacion)->format('d/m/Y'))
             ->add('fecha_devolucion')
             ->add('fecha_devolucion_formatted', fn($model) => $model->fecha_devolucion ? Carbon::parse($model->fecha_devolucion)->format('d/m/Y') : 'No definida')
             ->add('observaciones')
-            ->add('status', fn($model) => $model->status ? 'Asignado' : 'Devuelto')
-            // ->add('foto1', fn($model) => $model->foto1 ? '<img src="' . Storage::url($model->foto1) . '" width="50" height="50" alt="Foto 1">' : 'Sin imagen')
-            // ->add('foto2', fn($model) => $model->foto2 ? '<img src="' . Storage::url($model->foto2) . '" width="50" height="50" alt="Foto 2">' : 'Sin imagen')
-            // ->add('foto3', fn($model) => $model->foto3 ? '<img src="' . Storage::url($model->foto3) . '" width="50" height="50" alt="Foto 3">' : 'Sin imagen')
-            ->add('created_at')
+            ->add('status_formatted', fn($model) => $model->status == 1
+            ? '<span class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600"><span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>Asignado</span>'
+            : '<span class="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-600"><span class="h-1.5 w-1.5 rounded-full text-blue-600"></span>Devuelto</span>')
             ->add('created_at_formatted', fn($model) => Carbon::parse($model->created_at)->format('d/m/Y H:i'))
             ->add('updated_at')
             ->add('updated_at_formatted', fn($model) => Carbon::parse($model->updated_at)->format('d/m/Y H:i'));
@@ -118,21 +116,7 @@ final class AsignacionestecTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Estado', 'status')
-                ->sortable()
-                ->searchable(),
-
-            // Column::make('Foto 1', 'foto1')
-            //     ->sortable()
-            //     ->searchable(),
-
-            // Column::make('Foto 2', 'foto2')
-            //     ->sortable()
-            //     ->searchable(),
-
-            // Column::make('Foto 3', 'foto3')
-            //     ->sortable()
-            //     ->searchable(),
+            Column::make('Estado', 'status_formatted')->sortable()->searchable(), // Usar el campo formateado
 
             Column::make('Creado', 'created_at_formatted', 'created_at')
                 ->sortable(),
@@ -156,17 +140,28 @@ final class AsignacionestecTable extends PowerGridComponent
     public function devolver($rowId): void
     {
         $registro = DB::table('activos_tecnologia_user')->where('id', $rowId)->first();
-        if ($registro->status == 0) {
+        if ($registro->status == 0) { // Comparar con entero
             return; // No hacer nada si ya está devuelto
         }
 
-        DB::table('activos_tecnologia_user')
-            ->where('id', $rowId)
-            ->update([
-                'status' => 0,
-                'fecha_devolucion' => now(),
-                'updated_at' => now(),
-            ]);
+        DB::transaction(function () use ($rowId, $registro) {
+            // Actualizar la asignación a 0 (Devuelto)
+            DB::table('activos_tecnologia_user')
+                ->where('id', $rowId)
+                ->update([
+                    'status' => 0, // 0 = Devuelto (entero)
+                    'fecha_devolucion' => now(),
+                    'updated_at' => now(),
+                ]);
+
+            // Actualizar el activo en activos_tecnologias a 'Activo'
+            DB::table('activos_tecnologias')
+                ->where('id', $registro->activos_tecnologias_id)
+                ->update([
+                    'status' => 'Activo', // String para activos_tecnologias
+                    'updated_at' => now(),
+                ]);
+        });
 
         session()->flash('message', 'Activo marcado como devuelto correctamente.');
         $this->refresh();
@@ -175,15 +170,11 @@ final class AsignacionestecTable extends PowerGridComponent
     #[\Livewire\Attributes\On('deleteAsignacion')]
     public function deleteAsignacion($rowId): void
     {
-        // Eliminar la asignación directamente de la tabla pivote
         DB::table('activos_tecnologia_user')
             ->where('id', $rowId)
             ->delete();
 
-        // Mostrar mensaje de éxito
         session()->flash('message', 'Asignación eliminada correctamente.');
-
-        // Refrescar la tabla
         $this->refresh();
     }
 
@@ -191,9 +182,9 @@ final class AsignacionestecTable extends PowerGridComponent
     {
         return [
             Button::add('devolver')
-                ->icon('default-asign') // Manteniendo el ícono
+                ->icon('default-asign')
                 ->id()
-                ->class('btn btn-primary' . ($row->status == 0 ? ' disabled' : '')) // Clase condicional
+                ->class('btn btn-primary' . ($row->status == 0 ? ' disabled' : '')) // Condición con entero
                 ->dispatch('devolver', ['rowId' => $row->id]),
 
             Button::add('delete')

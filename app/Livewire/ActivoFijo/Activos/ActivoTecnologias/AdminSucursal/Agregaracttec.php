@@ -50,6 +50,7 @@ class Agregaracttec extends Component
         $this->activo['tipo_activo_id'] = Tipoactivo::where('nombre_activo', 'Activo Tecnologias')->value('id');
         //dd($this->activo['tipo_activo_id']);
         $this->anios = Anioestimado::pluck('vida_util_año', 'id')->toArray();
+        $this->activo['status'] ='Activo';
         // $this->activo['empresa_id'] = Auth::user()->empresa_id;
         // $this->activo['sucursal_id'] = Auth::user()->sucursal_id;
     }

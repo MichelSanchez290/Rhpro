@@ -43,6 +43,7 @@ return new class extends Migration
             $table->string('foto3')->nullable();
             $table->string('empresa_id')->nullable();
             $table->string('sucursal_id')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

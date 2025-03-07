@@ -21,6 +21,6 @@
 
     <!-- Contenedor de la tabla con fondo blanco y sombras -->
     <div class="bg-white rounded-b-lg shadow-2xl p-6 mt-2">
-        <livewire:activotec-table />
+        <livewire:activofijo.tablaspower.sucursal.activotec-table/>
     </div>
 </div>

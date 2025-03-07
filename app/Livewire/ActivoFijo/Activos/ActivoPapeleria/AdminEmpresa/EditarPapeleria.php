@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Storage;
 class EditarPapeleria extends Component
 {
     use WithFileUploads;
-    public $activopape_id, $codigo, $nombre, $marca, $tipo, $cantidad, $estado, $disponible, $fechaad, $fechaba, $tipoact, $anio, $color, $preciouni,$sucursal;
+    public $activopape_id, $codigo, $nombre, $marca, $tipo, $cantidad, $estado, $disponible, $fechaad, $fechaba, $tipoact, $anio, $color, $preciouni,$sucursal,$status;
     public $tipos, $anios,$sucursales;
     public $foto1, $foto2, $foto3;
     public $subirfoto1, $subirfoto2, $subirfoto3;
@@ -57,10 +57,10 @@ class EditarPapeleria extends Component
         $this->color = $item->color;
         $this->preciouni = $item->precio_unitario;
         $this->sucursal = $item->sucursal_id; // Asegúrate de que esto esté correcto
-
         $this->foto1 = $item->foto1;
         $this->foto2 = $item->foto2;
         $this->foto3 = $item->foto3;
+        $this->status = $item->status;
 
         $this->tipos = Tipoactivo::all()->pluck('nombre_activo', 'id');
         $this->anios = Anioestimado::all()->pluck('vida_util_año', 'id');
@@ -125,6 +125,7 @@ class EditarPapeleria extends Component
             'foto1'=> $this->foto1,
             'foto2'=> $this->foto2,
             'foto3'=> $this->foto3,
+            'status' => $this->status,
         ]);
         $this->dispatch('sucursalUpdated');
 

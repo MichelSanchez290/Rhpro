@@ -155,6 +155,14 @@
                             @endforeach
                         </select>
                     </div>
+
+                    <div class="my-2 sm:col-span-2">
+                        <label for="status" class="text-gray-700 font-bold text-xl">Status</label>
+                        <select wire:model="status" class="block w-full border-2 px-2 py-2 text-sm sm:text-md rounded-md my-2 text-gray-500" id="status">
+                            <option value="Activo">Activo</option>
+                            <option value="Baja">Baja</option>
+                        </select>   
+                    </div>
     
                     <div class="my-2 sm:col-span-2">
                         <label for="descripcion" class="text-gray-700 font-bold text-xl">Descripcion</label>

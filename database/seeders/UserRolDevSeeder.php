@@ -20,7 +20,7 @@ class UserRolDevSeeder extends Seeder
         $role3 = Role::create(['name' => 'SusursalAdmin']);
         //Este rol es solo para tener acceso a Modulo crm
         $role4=Role::create(['name'=>'Trabajador CRM']);
-        //Este rol es solo para tener acceso a Modulo activo fijo
+        //Este rol es solo para tener acceso a Modulo activo fijo 
         $role5=Role::create(['name'=>'Trabajador ACTIVO FIJO']);
         //Este rol es solo para tener acceso a Modulo encuesta 360   
         $role6=Role::create(['name'=>'Trabajador ENCUESTA 360']);
@@ -287,38 +287,43 @@ class UserRolDevSeeder extends Seeder
         Permission::create(['name' => 'Editar Incapacidad'])->syncRoles([$role1, $role2, $role3]);
         Permission::create(['name' => 'Eliminar Incapacidad'])->syncRoles([$role1, $role2, $role3]);   
 
-         // ************** MODULO ACTIVO FIJO ***************************************
+         // **************************** MODULO ACTIVO FIJO ***************************************
         // Permission - 
         // Permisos para activo tecnologia
         Permission::create(['name'=>'Activo tecnologia Admin'])->syncRoles([$role1]);
         Permission::create(['name'=>'Activo tecnologia Empresa'])->syncRoles([$role2]);
         Permission::create(['name'=>'Activo tecnologia Sucursal'])->syncRoles([$role3]);
-        
+        Permission::create(['name'=>'Activo tecnologia Trabajador'])->syncRoles([$role10,$role5]);
 
         // Permisos para activo mobiliario
         Permission::create(['name'=>'Activo mobiliario Admin'])->syncRoles([$role1]);
         Permission::create(['name'=>'Activo mobiliario Empresa'])->syncRoles([$role2]);
         Permission::create(['name'=>'Activo mobiliario Sucursal'])->syncRoles([$role3]);
+        Permission::create(['name'=>'Activo mobiliario Trabajador'])->syncRoles([$role10,$role5]);
 
-        // Permisos para activo oficina
+        // Permisos para activo ofici$role5na
         Permission::create(['name'=>'Activo oficina Admin'])->syncRoles([$role1]);
-        Permission::create(['name'=>'Activo oficina Empresa'])->syncRoles([$role2]);
+        Permission::create(['name'=>'Activo oficina Empresa'])->syncRoles([$role2]); 
         Permission::create(['name'=>'Activo oficina Sucursal'])->syncRoles([$role3]);
+        Permission::create(['name'=>'Activo oficina Trabajador'])->syncRoles([$role10,$role5]);
 
         // Permisos para activo uniforme
         Permission::create(['name'=>'Activo uniforme Admin'])->syncRoles([$role1]);
         Permission::create(['name'=>'Activo uniforme Empresa'])->syncRoles([$role2]);
         Permission::create(['name'=>'Activo uniforme Sucursal'])->syncRoles([$role3]);
+        Permission::create(['name'=>'Activo uniforme Trabajador'])->syncRoles([$role10,$role5]);
 
         // Permisos para activo papeleria
         Permission::create(['name'=>'Activo papeleria Admin'])->syncRoles([$role1]);
         Permission::create(['name'=>'Activo papeleria Empresa'])->syncRoles([$role2]);
         Permission::create(['name'=>'Activo papeleria Sucursal'])->syncRoles([$role3]);
+        Permission::create(['name'=>'Activo papeleria Trabajador'])->syncRoles([$role10,$role5]);
 
         // Permisos para activo souvenir
         Permission::create(['name'=>'Activo souvenir Admin'])->syncRoles([$role1]);
         Permission::create(['name'=>'Activo souvenir Empresa'])->syncRoles([$role2]);
         Permission::create(['name'=>'Activo souvenir Sucursal'])->syncRoles([$role3]);
+        Permission::create(['name'=>'Activo souvenir Trabajador'])->syncRoles([$role10,$role5]);
 
         //Permisos para tipo activo
         Permission::create(['name'=>'Tipo activo'])->syncRoles([$role1]);

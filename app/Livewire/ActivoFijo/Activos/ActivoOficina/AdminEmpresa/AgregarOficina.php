@@ -53,6 +53,7 @@ class AgregarOficina extends Component
         $this->sucursales = Sucursal::whereHas('empresas', function ($query) {
             $query->where('empresa_id', Auth::user()->empresa_id);
         })->with('empresas')->get();
+        $this->activo['status'] ='Activo';
     }
 
     public function saveActivoOf()

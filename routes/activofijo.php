@@ -55,8 +55,10 @@ use App\Livewire\ActivoFijo\Activos\ActivoTecnologias\AdminEmpresa\EditarTecnolo
 use App\Livewire\ActivoFijo\Activos\ActivoTecnologias\AdminEmpresa\Mostrarasigntec;
 use App\Livewire\ActivoFijo\Activos\ActivoTecnologias\AdminEmpresa\MostrarTecnologia;
 use App\Livewire\ActivoFijo\Activos\ActivoTecnologias\AdminSucursal\Agregaracttec;
+use App\Livewire\ActivoFijo\Activos\ActivoTecnologias\AdminSucursal\Asignartecsu;
 use App\Livewire\ActivoFijo\Activos\ActivoTecnologias\AdminSucursal\Editaracttec;
 use App\Livewire\ActivoFijo\Activos\ActivoTecnologias\AdminSucursal\Mostraracttec;
+use App\Livewire\ActivoFijo\Activos\ActivoTecnologias\AdminSucursal\Mostrartecsu;
 use App\Livewire\ActivoFijo\Activos\ActivoUniforme\AdminAdmin\Agregaruni;
 use App\Livewire\ActivoFijo\Activos\ActivoUniforme\AdminAdmin\Asignaruni;
 use App\Livewire\ActivoFijo\Activos\ActivoUniforme\AdminAdmin\Editaruni;
@@ -106,10 +108,12 @@ Route::get('af/mostrarasigntecem', Mostrarasigntec::class)->middleware('can:Acti
 
 
 
-
+//Admin Sucursal Tecnologia
 Route::get('af/mostraractivotec', Mostraracttec::class)->middleware('can:Activo tecnologia Sucursal')->name('mostraracttec');
 Route::get('af/agregaractivotec', Agregaracttec::class)->middleware('can:Activo tecnologia Sucursal')->name('agregaracttec');
 Route::get('af/editaractivotec/{id}', Editaracttec::class)->middleware('can:Activo tecnologia Sucursal')->name('editaracttec');
+Route::get('af/asignartecsu', Asignartecsu::class)->middleware('can:Activo tecnologia Sucursal')->name('asignartecsu');
+Route::get('af/mostrarasigntecsu', Mostrartecsu::class)->middleware('can:Activo tecnologia Sucursal')->name('mostrarasigntecsu');
 
 //Administrador general Oficina
 Route::get('af/mostraractivoofiad', Mostrarofi::class)->middleware('can:Activo oficina Admin')->name('mostrarofiad');

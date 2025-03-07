@@ -93,6 +93,11 @@ class Asignarmob extends Component
             'foto1' => $foto1Path,
         ]);
 
+        $activo->update([
+            'status' => 'Asignado',
+            'updated_at' => now(),
+        ]);
+
         // Resetear campos después de la asignación
         $this->reset([
             'usuarioSeleccionado',

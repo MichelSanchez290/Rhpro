@@ -71,8 +71,9 @@ final class AsignacionessouTable extends PowerGridComponent
             ->add('fecha_devolucion')
             ->add('fecha_devolucion_formatted', fn($model) => $model->fecha_devolucion ? Carbon::parse($model->fecha_devolucion)->format('d/m/Y') : 'No definida')
             ->add('observaciones')
-            ->add('status', fn($model) => $model->status ? 'Asignado' : 'Devuelto')
-            ->add('created_at')
+            ->add('status_formatted', fn($model) => $model->status == 1
+                ? '<span class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600"><span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>Asignado</span>'
+                : '<span class="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-600"><span class="h-1.5 w-1.5 rounded-full text-blue-600"></span>Devuelto</span>')->add('created_at')
             ->add('created_at_formatted', fn($model) => Carbon::parse($model->created_at)->format('d/m/Y H:i'))
             ->add('updated_at')
             ->add('updated_at_formatted', fn($model) => Carbon::parse($model->updated_at)->format('d/m/Y H:i'));
@@ -107,9 +108,8 @@ final class AsignacionessouTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Estado', 'status')
-                ->sortable()
-                ->searchable(),
+            Column::make('Estado', 'status_formatted')->sortable()->searchable(), // Usar el campo formateado
+
 
             Column::make('Creado', 'created_at_formatted', 'created_at')
                 ->sortable(),
@@ -134,17 +134,28 @@ final class AsignacionessouTable extends PowerGridComponent
     public function devolver($rowId): void
     {
         $registro = DB::table('activos_souvenir_user')->where('id', $rowId)->first();
-        if ($registro->status == 0) {
+        if ($registro->status == 0) { // Comparar con entero
             return; // No hacer nada si ya está devuelto
         }
 
-        DB::table('activos_souvenir_user')
-            ->where('id', $rowId)
-            ->update([
-                'status' => 0,
-                'fecha_devolucion' => now(),
-                'updated_at' => now(),
-            ]);
+        DB::transaction(function () use ($rowId, $registro) {
+            // Actualizar la asignación a 0 (Devuelto)
+            DB::table('activos_souvenir_user')
+                ->where('id', $rowId)
+                ->update([
+                    'status' => 0, // 0 = Devuelto (entero)
+                    'fecha_devolucion' => now(),
+                    'updated_at' => now(),
+                ]);
+
+            // Actualizar el activo en activos_tecnologias a 'Activo'
+            DB::table('activos_souvenirs')
+                ->where('id', $registro->activos_souvenirs_id)
+                ->update([
+                    'status' => 'Activo', // String para activos_tecnologias
+                    'updated_at' => now(),
+                ]);
+        });
 
         session()->flash('message', 'Activo marcado como devuelto correctamente.');
         $this->refresh();
@@ -153,15 +164,11 @@ final class AsignacionessouTable extends PowerGridComponent
     #[\Livewire\Attributes\On('deleteAsignacion')]
     public function deleteAsignacion($rowId): void
     {
-        // Eliminar la asignación directamente de la tabla pivote
         DB::table('activos_souvenir_user')
             ->where('id', $rowId)
             ->delete();
 
-        // Mostrar mensaje de éxito
         session()->flash('message', 'Asignación eliminada correctamente.');
-
-        // Refrescar la tabla
         $this->refresh();
     }
 

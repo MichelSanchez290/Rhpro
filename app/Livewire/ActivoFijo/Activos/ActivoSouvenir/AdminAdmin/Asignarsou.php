@@ -88,6 +88,11 @@ class Asignarsou extends Component
             'observaciones' => $this->observaciones,
             'status' => 1,
         ]);
+
+        $activo->update([
+            'status' => 'Asignado',
+            'updated_at' => now(),
+        ]);
     
         // Resetear campos después de la asignación
         $this->reset([

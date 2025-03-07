@@ -57,7 +57,7 @@ class AgregarTecnologia extends Component
         //dd($this->sucursales);
         //$this->activo['sucursal_id']=Auth::user()->sucursal_id;
 
-
+        $this->activo['status'] ='Activo';
 
     }
 
