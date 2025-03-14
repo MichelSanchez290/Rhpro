@@ -14,7 +14,7 @@ export default {
         // './vendor/wireui/wireui/ts/**/*.ts',
         // './vendor/wireui/wireui/src/View/**/*.php',
         // './app/Livewire/**/*Table.php',
-        // './vendor/power-components/livewire-powergrid/resources/views/**/*.php',
+        // './vendor/power-componen0ts/livewire-powergrid/resources/views/**/*.php',
         // './vendor/power-components/livewire-powergrid/src/Themes/Tailwind.php'
     ],
 

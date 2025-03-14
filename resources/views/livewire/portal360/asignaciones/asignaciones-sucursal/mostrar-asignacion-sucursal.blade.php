@@ -1,15 +1,18 @@
-<div class="p-6 ">
-    <div class="flex justify-between items-center mb-6">
-        <button wire:click="redirigirAsignacionSucursal()" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded">
-            Agregar Asignación
-        </button>
-    </div>
-
-    <div>
-        <livewire:portal360.asignaciones.asignacionessucursal.asignaciones-sucursal-table />
+<div>
+    <div class="p-6">
+        <div class="bg-white shadow-lg rounded-lg p-6">
+            <div class="flex justify-between items-center border-b border-gray-300 pb-4">
+                <h2 class="text-xl font-bold text-gray-900">Gestión de Asignacion</h2>
+            </div>
+            <div class="relative">
+                <button wire:click="redirigirAsignacionSucursal()" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow mb-4 absolute top-3 left-10"> Agregar Asignación </button>
+            </div>
+            <div class="overflow-x-auto rounded-md">
+                <livewire:portal360.asignaciones.asignacionessucursal.asignaciones-sucursal-table class="table-borderless" />
+            </div>
+        </div>
     </div>
 </div>
-
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
@@ -25,7 +28,9 @@
                 cancelButtonText: "Cancelar"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    Livewire.dispatch('eliminarAsignacionSucursal', { id: data.id });
+                    Livewire.dispatch('eliminarAsignacionSucursal', {
+                        id: data.id
+                    });
                 }
             });
         });
@@ -53,5 +58,3 @@
         });
     });
 </script>
-
-
