@@ -13,7 +13,7 @@ use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 
 use Illuminate\Support\Facades\Crypt;
-use PowerComponents\LivewirePowerGrid\Traits\WithExport; 
+use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
 use Illuminate\Support\Facades\Gate;
 
@@ -38,19 +38,19 @@ final class RolTable extends PowerGridComponent
     public function datasource(): Builder
     {
         $user = auth()->user();
-    
+
         if ($user->hasRole('GoldenAdmin')) {
             return Role::query(); // GoldenAdmin ve todos los roles
         }
-    
+
         if ($user->hasRole('EmpresaAdmin')) {
             return Role::where('name', 'EmpresaAdmin'); // EmpresaAdmin solo ve su rol
         }
-    
+
         if ($user->hasRole('SucursalAdmin')) {
             return Role::where('name', 'SucursalAdmin'); // SucursalAdmin solo ve su rol
         }
-    
+
         return Role::where('id', 0); // No mostrar nada por defecto
     }
 
@@ -106,7 +106,7 @@ final class RolTable extends PowerGridComponent
         ];
     }
 
-    
+
 
     /*
     public function actionRules($row): array

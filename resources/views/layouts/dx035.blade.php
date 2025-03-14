@@ -112,9 +112,9 @@
                     </li>
                 </ul>
 
-           
+
                 <!-- Sección de Roles -->
-                @can('Ver todas las encuestas')
+                <!-- @can('Ver todas las encuestas') -->
                 <h2 class="text-lg font-bold text-gray-700 mt-8">Roles</h2>
                 <ul class="space-y-4 mt-4">
                     <li>
@@ -130,7 +130,7 @@
                         </a>
                     </li>
                 </ul>
-                @endcan
+                <!-- @endcan -->
 
 
                 <!-- Sección de Cuestionarios (Actualizada con las nuevas rutas) -->
