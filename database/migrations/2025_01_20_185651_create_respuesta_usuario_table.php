@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('respuesta_usuario', function (Blueprint $table) {
+        Schema::create('respuestas_usuarios', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('respuesta360_id');
             $table->foreign('respuesta360_id')->references('id')->on('360_respuestas')->onUpdate('cascade')->onDelete('cascade');
@@ -29,11 +29,11 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('respuesta_usuario', function (Blueprint $table) {
+        Schema::table('respuestas_usuarios', function (Blueprint $table) {
             $table->dropForeign(['respuestas360_id']);
             $table->dropForeign(['asignaciones_id']);
         });
-        Schema::dropIfExists('respuesta_usuario');
+        Schema::dropIfExists('respuestas_usuarios');
 
 
     }

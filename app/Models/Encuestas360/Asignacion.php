@@ -47,9 +47,9 @@ class Asignacion extends Model
     }
 
     public function encuesta()
-{
-    return $this->belongsTo(Encuesta360::class, '360_encuestas_id', 'id');
-}
+    {
+        return $this->belongsTo(Encuesta360::class, '360_encuestas_id', 'id');
+    }
 
 
     public function empresaSucursal()
@@ -62,10 +62,15 @@ class Asignacion extends Model
     //     return $this->belongsTo()
     // } 
 
-    
+    public function sucursal()
+    {
+        return $this->belongsTo(Sucursal::class, 'sucursal_id');
+    }
 
-   
- 
-    
+    public function respuestasUsuario()
+    {
+        return $this->hasMany(RespuestaUsuario::class, 'asignaciones_id');
+    }
 }
+
 

@@ -13,8 +13,7 @@ use Livewire\Component;
 
 class EditarAsignacionesAdministrador extends Component
 {
-   
-    public $asignacionId; // Parámetro que se recibe desde la ruta
+    public $asignacionId;
     public $empresa_id = '';
     public $sucursal_id = '';
     public $tipo_user_calificador = '';
@@ -23,7 +22,8 @@ class EditarAsignacionesAdministrador extends Component
     public $calificado_id = '';
     public $relacion_id = '';
     public $encuesta_id = '';
-    public $realizada;
+    public $realizada; // Datetime string from the form (bound to fecha)
+    public $resetRealizada = true; // New property for the checkbox
 
     public $usuarios;
     public $usuarios_calificador;
@@ -39,15 +39,12 @@ class EditarAsignacionesAdministrador extends Component
         'Practicante'
     ];
 
-    // Recibe el parámetro $asignacionId desde la ruta
     public function mount($id)
     {
-        // Desencripta el ID
         $this->asignacionId = Crypt::decrypt($id);
         $this->cargarDatosAsignacion();
     }
 
-    // Carga los datos de la asignación
     protected function cargarDatosAsignacion()
     {
         $asignacion = Asignacion::with('calificador', 'calificado')->findOrFail($this->asignacionId);
@@ -55,25 +52,23 @@ class EditarAsignacionesAdministrador extends Component
         $this->calificador_id = $asignacion->calificador_id;
         $this->calificado_id = $asignacion->calificado_id;
 
-        // Obtener los datos de la empresa y sucursal desde el usuario calificador
         $calificador = User::with('empresa', 'sucursal')->findOrFail($this->calificador_id);
         $this->empresa_id = $calificador->empresa_id;
         $this->sucursal_id = $calificador->sucursal_id;
         $this->tipo_user_calificador = $calificador->tipo_user;
 
-        // Obtener los datos del usuario calificado
         $calificado = User::with('empresa', 'sucursal')->findOrFail($this->calificado_id);
         $this->tipo_user_calificado = $calificado->tipo_user;
 
         $this->relacion_id = $asignacion->relaciones_id;
         $this->encuesta_id = $asignacion->encuesta_id;
         $this->realizada = Carbon::parse($asignacion->fecha)->format('Y-m-d\TH:i');
+        $this->resetRealizada = false; // Default to false, so it doesn’t reset unless explicitly checked
 
         $this->empresas = Empresa::all();
         $this->relaciones = Relacion::all();
         $this->encuestas = Encuesta360::where('empresa_id', $this->empresa_id)->get();
 
-        // Cargar usuarios basados en la empresa y sucursal
         $this->usuarios = User::where('empresa_id', $this->empresa_id)
                             ->where('sucursal_id', $this->sucursal_id)
                             ->get();
@@ -81,7 +76,6 @@ class EditarAsignacionesAdministrador extends Component
         $this->usuarios_calificador = $this->usuarios->where('tipo_user', $this->tipo_user_calificador);
         $this->usuarios_calificado = $this->usuarios->where('tipo_user', $this->tipo_user_calificado);
 
-        // Cargar las sucursales basadas en la empresa del usuario calificador
         $empresa = Empresa::with('sucursales')->find($this->empresa_id);
         if ($empresa) {
             $this->sucursales = $empresa->sucursales;
@@ -101,14 +95,12 @@ class EditarAsignacionesAdministrador extends Component
                 $empresa = Empresa::with('sucursales')->findOrFail($value);
                 $this->sucursales = $empresa->sucursales;
 
-                // Filtrar encuestas según la empresa seleccionada
                 $this->encuestas = Encuesta360::where('empresa_id', $value)->get();
 
                 if ($this->sucursales->isEmpty()) {
                     $this->dispatch('toastr-error', message: 'No se encontraron sucursales para esta empresa');
                 }
 
-                // Resetear los campos relacionados
                 $this->reset([
                     'sucursal_id',
                     'tipo_user_calificador',
@@ -118,7 +110,6 @@ class EditarAsignacionesAdministrador extends Component
                     'encuesta_id'
                 ]);
 
-                // Cargar usuarios de la empresa
                 $this->usuarios = User::where('empresa_id', $value)->get();
             } catch (\Exception $e) {
                 $this->dispatch('toastr-error', message: 'Error al cargar las sucursales y encuestas: ' . $e->getMessage());
@@ -145,7 +136,6 @@ class EditarAsignacionesAdministrador extends Component
     {
         if (!empty($value)) {
             try {
-                // Cargar usuarios de la sucursal o de la empresa si no hay usuarios en la sucursal
                 $usuarios_sucursal = User::where('sucursal_id', $value)
                     ->where('empresa_id', $this->empresa_id)
                     ->get();
@@ -177,7 +167,6 @@ class EditarAsignacionesAdministrador extends Component
             $this->reset('calificador_id');
         }
     }
-
     public function updatedCalificadorId($value)
     {
         if (!empty($value)) {
@@ -237,14 +226,20 @@ class EditarAsignacionesAdministrador extends Component
                 'calificado_id' => $this->calificado_id,
                 'relaciones_id' => $this->relacion_id,
                 '360_encuestas_id' => $this->encuesta_id,
+                'realizada' => $this->resetRealizada ? 0 : $asignacion->realizada, // Use checkbox value
                 'fecha' => Carbon::parse($this->realizada),
                 'empresa_id' => $this->empresa_id,
                 'sucursal_id' => $this->sucursal_id,
             ]);
-            $this->dispatch('toastr-success', message: 'Asignación actualizada correctamente');
+
+            $message = 'Asignación actualizada correctamente.';
+            if ($this->resetRealizada) {
+                $message .= ' El estado de la encuesta se ha restablecido para poder contestarla nuevamente.';
+            }
+            $this->dispatch('toastr-success', message: $message);
             return redirect()->route('portal360.asignaciones.asignaciones-administrador.mostrar-asignaciones-administrador');
         } catch (\Exception $e) {
-            session()->flash('error', 'Error al actualizar la asignación: ' . $e->getMessage());
+            $this->dispatch('toastr-error', message: 'Error al actualizar la asignación: ' . $e->getMessage());
         }
     }
 

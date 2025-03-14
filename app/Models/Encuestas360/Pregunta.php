@@ -11,7 +11,7 @@ class Pregunta extends Model
 
     protected $table = 'preguntas';
     protected $primaryKey = 'id';
-    protected $fillable = ['id', 'texto', 'descripcion', 'encuesta_id'];
+    protected $fillable = ['id', 'texto', 'descripcion', 'encuestas_id'];
 
     public function respuestas()
     {
@@ -25,7 +25,9 @@ class Pregunta extends Model
 
     public function encuesta()
 {
-    return $this->belongsTo(Encuesta360::class, 'encuesta_id');
+    return $this->belongsTo(Encuesta360::class, 'encuestas_id');
 }
+
+
     
 }
