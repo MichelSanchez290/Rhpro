@@ -13,11 +13,18 @@ return new class extends Migration
     {
         Schema::create('escaneardcs', function (Blueprint $table) {
             $table->id();
-            $table->string('urlEsca');
-            $table->unsignedBigInteger('grupocursos_capacitaciones_id');
+            $table->string('urlEsca')->nullable();
+            $table->unsignedBigInteger('grupocursos_capacitaciones_id')->nullable();
             $table->foreign('grupocursos_capacitaciones_id')
                 ->references('id')
                 ->on( 'grupocursos_capacitaciones')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            // Agregar la columna evidencia_id con clave foránea
+            $table->unsignedBigInteger('evidencia_id')->nullable();
+            $table->foreign('evidencia_id')
+                ->references('id')
+                ->on('evidencias')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->timestamps();
@@ -31,6 +38,7 @@ return new class extends Migration
     {
         Schema::table('escaneardcs', function (Blueprint $table) {
             $table->dropForeign(['grupocursos_capacitaciones_id']);
+            $table->dropForeign(['evidencia_id']);
         });
         Schema::dropIfExists('escaneardcs');
     }

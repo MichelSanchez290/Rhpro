@@ -16,7 +16,7 @@
                 Editar Curso
             </h1>
 
-            <form class="mt-5 space-y-4">
+            <form class="mt-5 space-y-4" wire:submit.prevent="store">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <!-- Selección de Empresa -->
                     <div>
@@ -77,6 +77,19 @@
                         </select>
                     </div>
 
+                    <div>
+                        <label class="block text-gray-700 font-medium">Temática</label>
+                        <select wire:model.live="tematicas_id"
+                            class="mt-1 block w-full h-12 rounded-lg shadow-sm px-4 focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out transform hover:scale-105">
+                            <option value="">Seleccione</option>
+                            @foreach($tematicas as $tematica)
+                                <option value="{{ $tematica->id }}">{{ $tematica->nombre }}</option>
+                            @endforeach
+                        </select>
+                        @error('tematica_id')
+                            <span class="text-red-500 text-sm">{{ $message }}</span> 
+                        @enderror
+                    </div>
 
                     <!-- Modalidad -->
                     <div class="col-span-2">
@@ -91,22 +104,11 @@
                         </select>
                     </div>
                     
-                    <!-- Campo adicional si se elige "Otro" en Modalidad -->
-                    @if($modalidad === 'Otro')
-                        <div class="col-span-2">
-                            <label class="block text-gray-700 font-medium">Especifique la Modalidad</label>
-                            <input type="text" wire:model="otra_modalidad"
-                                placeholder="Ingrese la modalidad"
-                                class="mt-1 block w-full h-10 rounded-lg shadow-sm px-3 focus:ring-2 focus:ring-blue-400">
-                        </div>
-                    @endif
-                    
                 </div>
 
                 <!-- Botón Guardar -->
                 <div class="pt-4">
-                    <button 
-                        wire:model= "store()"
+                    <button type="submit"
                         class="bg-blue-500 w-full py-3 rounded-lg text-white font-semibold shadow-md 
                         hover:bg-blue-600 focus:outline-none transition duration-300 transform hover:scale-105">
                         Guardar

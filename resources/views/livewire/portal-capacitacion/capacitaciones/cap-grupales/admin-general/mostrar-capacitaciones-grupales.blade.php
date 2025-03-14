@@ -11,7 +11,7 @@
     </div>
 
     <div class="flex justify-between items-center mb-4">
-        <button onclick="window.location.href='{{ route('agregarCapacitacionesGru')}}'"
+        <button onclick="window.location.href='{{ route('agregarCapacitacionesGru') }}'"
             class="bg-green-500 text-white px-2 py-1 rounded-lg shadow-md hover:bg-green-600 
             flex items-center gap-2 transition-all duration-300 transform hover:scale-105">
             <i class="fas fa-plus"></i>
@@ -33,7 +33,7 @@
             <select id="empresa_id" wire:model.live="empresa_id"
                 class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200">
                 <option value="">Selecciona una empresa</option>
-                @foreach($empresas as $empresa)
+                @foreach ($empresas as $empresa)
                     <option value="{{ $empresa->id }}">{{ $empresa->nombre }}</option>
                 @endforeach
             </select>
@@ -44,123 +44,104 @@
             <label for="sucursal_id" class="block text-sm font-medium text-gray-700">Sucursal</label>
             <select id="sucursal_id" wire:model.live="sucursal_id"
                 class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200"
-                @if(!$empresa_id) disabled @endif>
+                @if (!$empresa_id) disabled @endif>
                 <option value="">Selecciona una sucursal</option>
-                @foreach($sucursales as $sucursal)
+                @foreach ($sucursales as $sucursal)
                     <option value="{{ $sucursal->id }}">{{ $sucursal->nombre_sucursal }}</option>
                 @endforeach
             </select>
         </div>
     </div>
 
-    <div class="flex justify-between items-center mb-4">
-        <select wire:model="selectedYear"
-            class="px-5 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200">
-            <option value="">Seleccionar año</option>
-            @foreach ($years as $year)
-                <option value="{{ $year }}">{{ $year }}</option>
-            @endforeach
-        </select>
-
-        <button onclick="validateAndExport()" wire:loading.attr="disabled"
-            wire:target="exportarTodasCapacitaciones"
-            class="ml-2 bg-red-500 text-white px-2 py-1 rounded-lg shadow-md hover:bg-red-600 
-                flex items-center gap-2 transition-all duration-300 transform hover:scale-105">
-            <span wire:loading.remove wire:target="exportarTodasCapacitaciones" class="flex items-center gap-2">
-                <i class="fas fa-file-pdf"></i>
-                Exportar todo
-            </span>
-            <span wire:loading.flex wire:target="exportarTodasCapacitaciones" class="flex items-center gap-2">
-                <i class="fa-solid fa-spinner animate-spin text-lg text-white"></i>
-                Procesando...
-            </span>
-        </button>
-    </div>
-
-    <!-- Mensaje de error si no se selecciona año -->
-    <div id="year-error" class="text-red-500 bg-red-100 p-2 rounded-md text-center hidden">
-        Por favor, selecciona un año antes de exportar.
-    </div>
-
     <!-- Mostrar capacitaciones solo si se ha seleccionado empresa y sucursal -->
     @if ($empresa_id && $sucursal_id)
         @if ($capacitaciones->isEmpty())
-            <p class="mt-2 text-gray-600 text-center">No hay capacitaciones disponibles para esta empresa y sucursal.</p>
+            <p class="mt-2 text-gray-600 text-center">No hay capacitaciones disponibles para esta empresa y sucursal.
+            </p>
         @else
             @foreach ($capacitaciones as $capacitacion)
-            <div class="mt-8 p-6 border border-gray-300 rounded-lg shadow-md hover:shadow-lg transition-all relative bg-white">
-                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center">
-                    <div class="mb-4 sm:mb-0">
-                        <h2 class="text-2xl text-gray-800 font-bold">{{ $capacitacion->nombreCapacitacion }}</h2>
-                        <p class="text-gray-700 font-semibold mt-3">Grupo: {{ $capacitacion->nombreGrupo }}</p>
+                <div
+                    class="mt-8 p-6 border border-gray-300 rounded-lg shadow-md hover:shadow-lg transition-all relative bg-white">
+                    <div class="flex justify-between items-center">
+                        <span class="font-light text-gray-600"><strong>Fecha inicio:
+                            </strong>{{ $capacitacion->fechaIni }}</span>
+                        <span class="font-light text-gray-600"><strong>Fecha fin:
+                            </strong>{{ $capacitacion->fechaFin }}</span>
                     </div>
-                    <div class="text-sm text-gray-600 flex flex-col sm:flex-row sm:gap-4">
-                        <span><strong>Fecha inicio:</strong> {{ $capacitacion->fechaIni }}</span>
-                        <span><strong>Fecha fin:</strong> {{ $capacitacion->fechaFin }}</span>
+                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mt-6">
+                        <div class="mb-4 sm:mb-0">
+                            <h2 class="text-2xl text-gray-800 font-bold">{{ $capacitacion->nombreCapacitacion }}</h2>
+                            <p class="text-gray-700 font-semibold mt-3">Grupo: {{ $capacitacion->nombreGrupo }}</p>
+                        </div>
+                    </div>
+
+                    <p class="mt-4 text-gray-600">Objetivo: {{ $capacitacion->objetivo_capacitacion }}</p>
+                    <p class="text-gray-700 font-semibold mt-2">Curso: {{ $capacitacion->curso->nombre }}</p>
+
+                    <div class="flex justify-between items-center mt-6 border-t pt-4">
+                        <div class="flex gap-3">
+                            <div x-data="{ show: false }" class="relative">
+                                <button wire:click="confirmDelete({{ $capacitacion->id }})" @mouseover="show = true"
+                                    @mouseleave="show = false"
+                                    class="text-red-500 hover:text-red-700 p-2 rounded-full transition-all duration-300 transform hover:scale-110 focus:scale-110">
+                                    <i class="fas fa-trash-alt text-xl"></i>
+                                </button>
+                                <div x-show="show"
+                                    class="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs rounded py-1 px-2">
+                                    Eliminar Curso</div>
+                            </div>
+
+                            <div x-data="{ show: false }" class="relative">
+                                <button
+                                    onclick="window.location.href='{{ route('editarCapacitacionesGru', Crypt::encrypt($capacitacion->id)) }}'"
+                                    @mouseover="show = true" @mouseleave="show = false"
+                                    class="text-blue-500 hover:text-blue-700 p-2 rounded-full transition-all duration-300 transform hover:scale-110 focus:scale-110">
+                                    <i class="fas fa-edit text-xl"></i>
+                                </button>
+                                <div x-show="show"
+                                    class="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs rounded py-1 px-2">
+                                    Editar Curso</div>
+                            </div>
+
+                            <div x-data="{ show: false }" class="relative">
+                                <button
+                                    onclick="window.location.href='{{ route('agregarTrabajadorCapacitacionGrupal', Crypt::encrypt($capacitacion->id)) }}'"
+                                    @mouseover="show = true" @mouseleave="show = false"
+                                    class="text-pink-500 hover:text-pink-700 p-2 rounded-full transition-all duration-300 transform hover:scale-110 focus:scale-110">
+                                    <i class="fa-solid fa-user-plus text-xl"></i>
+                                </button>
+                                <div x-show="show"
+                                    class="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs rounded py-1 px-2">
+                                    Agregar Trabajadores</div>
+                            </div>
+
+                            <div x-data="{ show: false }" class="relative">
+                                <button
+                                    onclick="window.location.href='{{ route('editarTrabajadorCapacitacionGrupal', Crypt::encrypt($capacitacion->id)) }}'"
+                                    @mouseover="show = true" @mouseleave="show = false"
+                                    class="text-green-500 hover:text-green-700 p-2 rounded-full transition-all duration-300 transform hover:scale-110 focus:scale-110">
+                                    <i class="fa-solid fa-user-pen text-xl"></i>
+                                </button>
+                                <div x-show="show"
+                                    class="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs rounded py-1 px-2">
+                                    Editar Trabajadores</div>
+                            </div>
+
+                            <div x-data="{ show: false }" class="relative">
+                                <button
+                                    onclick="window.location.href='{{ route('verEvidenciasGruGeneral', Crypt::encrypt($capacitacion->id)) }}'"
+                                    @mouseover="show = true" @mouseleave="show = false"
+                                    class="text-orange-500 hover:text-orange-700 p-2 rounded-full transition-all duration-300 transform hover:scale-110 focus:scale-110">
+                                    <i class="fa-solid fa-eye text-xl"></i>
+                                </a>
+                                <div x-show="show"
+                                    class="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs rounded py-1 px-2">Ver evidencias</div>
+                            </div>
+
+                        </div>
+
                     </div>
                 </div>
-                
-                <p class="mt-4 text-gray-600">Objetivo: {{ $capacitacion->objetivo_capacitacion }}</p>
-                <p class="text-gray-700 font-semibold mt-2">Curso: {{ $capacitacion->curso->nombre }}</p>
-                
-                <div class="flex justify-between items-center mt-6 border-t pt-4">
-                    <div class="flex gap-3">
-                        <div x-data="{ show: false }" class="relative">
-                            <button wire:click="confirmDelete({{ $capacitacion->id }})"
-                                @mouseover="show = true" @mouseleave="show = false"
-                                class="text-red-500 hover:text-red-700 p-2 rounded-full transition-all duration-300 transform hover:scale-110 focus:scale-110">
-                                <i class="fas fa-trash-alt text-xl"></i>
-                            </button>
-                            <div x-show="show" class="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs rounded py-1 px-2">Eliminar Curso</div>
-                        </div>
-                        
-                        <div x-data="{ show: false }" class="relative">
-                            <button onclick="window.location.href='{{ route('editarCapacitacionesGru', Crypt::encrypt($capacitacion->id)) }}'"
-                                @mouseover="show = true" @mouseleave="show = false"
-                                class="text-blue-500 hover:text-blue-700 p-2 rounded-full transition-all duration-300 transform hover:scale-110 focus:scale-110">
-                                <i class="fas fa-edit text-xl"></i>
-                            </button>
-                            <div x-show="show" class="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs rounded py-1 px-2">Editar Curso</div>
-                        </div>
-                        
-                        <div x-data="{ show: false }" class="relative">
-                            <button onclick="window.location.href='{{ route('agregarTrabajadorCapacitacionGrupal', Crypt::encrypt($capacitacion->id)) }}'"
-                                @mouseover="show = true" @mouseleave="show = false"
-                                class="text-blue-500 hover:text-blue-700 p-2 rounded-full transition-all duration-300 transform hover:scale-110 focus:scale-110">
-                                <i class="fa-solid fa-user-plus text-xl"></i>
-                            </button>
-                            <div x-show="show" class="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs rounded py-1 px-2">Agregar Trabajadores</div>
-                        </div>
-                        
-                        <div x-data="{ show: false }" class="relative">
-                            <button onclick="window.location.href='{{ route('editarTrabajadorCapacitacionGrupal', Crypt::encrypt($capacitacion->id)) }}'"
-                                @mouseover="show = true" @mouseleave="show = false"
-                                class="text-green-500 hover:text-green-700 p-2 rounded-full transition-all duration-300 transform hover:scale-110 focus:scale-110">
-                                <i class="fa-solid fa-user-pen text-xl"></i>
-                            </button>
-                            <div x-show="show" class="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs rounded py-1 px-2">Editar Trabajadores</div>
-                        </div>
-                    </div>
-                    <div class="flex gap-3">
-                        <button wire:click="exportarPDF({{ $capacitacion->id }})" wire:loading.attr="disabled" wire:target="exportarPDF" class="bg-blue-500 text-white px-3 py-1.5 rounded-lg shadow-md hover:bg-blue-600 flex items-center gap-2 transition-all duration-300 transform hover:scale-105">
-                            <span wire:loading.remove wire:target="exportarPDF">
-                                <i class="fas fa-file-pdf"></i>
-                                Exportar PDF
-                            </span>
-                            <span wire:loading.flex wire:target="exportarPDF">
-                                <i class="fa-solid fa-spinner animate-spin text-lg text-white"></i>
-                                Procesando...
-                            </span>
-                        </button>
-                        <a class="bg-green-500 text-white px-3 py-1.5 rounded-lg hover:bg-green-600 transition-all duration-300 transform hover:scale-105 flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m5.231 13.481L15 17.25m-4.5-15H5.625c-.621 0-1.125.504-1.125 1.125v16.5c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Zm3.75 11.625a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
-                              </svg> Evidencias
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
             @endforeach
         @endif
     @endif

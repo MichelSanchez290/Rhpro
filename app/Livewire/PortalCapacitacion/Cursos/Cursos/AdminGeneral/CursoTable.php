@@ -39,20 +39,22 @@ final class CursoTable extends PowerGridComponent
     public function datasource(): Builder
     {
         return Curso::query()
-            ->join('empresas', 'empresas.id', 'cursos.empresa_id')
-            ->join('sucursales', 'sucursales.id', 'cursos.sucursal_id')
+            ->join('empresas', 'empresas.id', '=', 'cursos.empresa_id')
+            ->join('sucursales', 'sucursales.id', '=', 'cursos.sucursal_id')
+            ->join('tematicas', 'tematicas.id', '=', 'cursos.tematicas_id') // 🔹 Usa LEFT JOIN por si hay cursos sin temática
             ->select([
                 'cursos.id',
                 'cursos.nombre',
                 'cursos.horas',
                 'cursos.precio',
                 'cursos.tipoestatus',
-                'cursos.tematicas_id',
                 'cursos.modalidad',
                 'empresas.nombre as empresa_nombre',
-                'sucursales.nombre_sucursal as sucursal_nombre']);
-            
+                'sucursales.nombre_sucursal as sucursal_nombre',
+                'tematicas.nombre as tematicas_nombre' // 🔹 Asegúrate de que el campo existe
+            ]);
     }
+
 
     public function relationSearch(): array
     {
@@ -66,10 +68,10 @@ final class CursoTable extends PowerGridComponent
             ->add('horas')
             ->add('precio')
             ->add('tipoestatus')
-            ->add('tematicas_id')
             ->add('modalidad')
             ->add('empresa_nombre')
-            ->add('sucursal_nombre');
+            ->add('sucursal_nombre')
+            ->add('tematica_nombre'); // 🔹 Agregar el nombre de la temática en lugar del ID
     }
 
     public function columns(): array
@@ -87,7 +89,7 @@ final class CursoTable extends PowerGridComponent
             Column::make('Tipo Estatus', 'tipoestatus')
                 ->sortable()
                 ->searchable(),
-            Column::make('Tematicas id', 'tematicas_id')
+            Column::make('Tematicas id', 'tematicas_nombre')
                 ->sortable()
                 ->searchable(),
             Column::make('Modalidad', 'modalidad')

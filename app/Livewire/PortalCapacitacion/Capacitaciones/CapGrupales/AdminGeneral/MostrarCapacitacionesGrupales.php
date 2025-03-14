@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\PortalCapacitacion\GrupocursoCapacitacion;
 use App\Models\PortalRH\Sucursal;
 use App\Models\PortalRH\EmpresaSucursal;
+use Illuminate\Support\Facades\Crypt;
 
 class MostrarCapacitacionesGrupales extends Component
 {
@@ -31,6 +32,7 @@ class MostrarCapacitacionesGrupales extends Component
     public $empresas = [];
     public $sucursales = [];
     public $capacitaciones = [];
+    public $userSeleccionado;
 
     protected $listeners = [
         'confirmDelete' => 'confirmDelete', // Captura el evento
@@ -59,6 +61,7 @@ class MostrarCapacitacionesGrupales extends Component
 
     public function mount()
     {
+
         $this->empresas = Empresa::all();
         $this->sucursales = collect();
         $this->capacitaciones = GrupocursoCapacitacion::all();

@@ -4,6 +4,9 @@ namespace App\Models\PortalCapacitacion;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\PortalCapacitacion\Curso;
+use App\Models\PortalCapacitacion\Evidencia;
+use App\Models\User;
 
 class GrupocursoCapacitacion extends Model
 {
@@ -53,6 +56,19 @@ class GrupocursoCapacitacion extends Model
     public function sucursal()
     {
         return $this->belongsTo(Sucursal::class, 'sucursal_id'); // Cambio aquí
+    }
+
+    public function evidencias()
+    {
+        return $this->belongsToMany(Evidencia::class, 'evidencia_cap_individual', 'caps_individuales_id', 'evidencias_id');
+    }
+
+    public function usuarios()
+    {
+        return $this->belongsToMany(User::class, 
+            'participante_user',
+            'users_id', 
+            'grupocursos_capacitaciones_id');
     }
 
 }

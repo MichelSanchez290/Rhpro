@@ -19,10 +19,17 @@ class Escaneardc extends Model
     protected $fillable = [
         'id',
         'urlEsca',
-        'grupocursos_capacitaciones_id'
+        'grupocursos_capacitaciones_id',
+        'evidencia_id', // Asegúrate de que esto esté en el $fillable
     ];
 
-    // Relación con la tabla Escaneardc3s (uno a muchos)
+    // Relación con la tabla 'evidencias'
+    public function evidencia()
+    {
+        return $this->belongsTo(Evidencia::class, 'evidencia_id');
+    }
+
+    // Relación con la tabla 'grupocursos_capacitaciones'
     public function grupocursos_capacitaciones()
     {
         return $this->hasMany(GrupocursoCapacitacion::class, 'grupocursos_capacitaciones_id');
