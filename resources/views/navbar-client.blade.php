@@ -65,7 +65,7 @@
             A
         </div>
         <div class="p-4 text-lg font-bold border-b border-gray-600">
-            Administrador
+            Recursos Humanos
         </div>
         <nav class="mt-4">
             <ul class="space-y-2">
@@ -120,9 +120,6 @@
                     </li>
                 @endcan
 
-
-
-
                 <!-- Registros Patronales -->
                 <li class="opcion-con-desplegable">
                     <div class="flex items-center justify-between px-2 py-2 hover:bg-gray-700 cursor-pointer">
@@ -146,6 +143,7 @@
                         </li>
                     </ul>
                 </li>
+
                 <!-- Empresas -->
                 @can('Mostrar Empresas')
                     <li class="opcion-con-desplegable">
@@ -337,12 +335,41 @@
                                     </a>
                                 </li>
                             @endcan
-                            
+
                             @can('Ver Incidencias')
                                 <li>
-                                    <a href="{{ route('verincidencia') }}"
-                                        class="p-2 hover:bg-gray-700 flex items-center">
+                                    <a href="{{ route('verincidencia') }}" class="p-2 hover:bg-gray-700 flex items-center">
                                         <i class="mr-2 text-xs"></i> Mis Incidencias
+                                    </a>
+                                </li>
+                            @endcan
+                        </ul>
+                    </li>
+                @endcan
+
+                <!-- Empresas -->
+                @can('Mostrar Baja')
+                    <li class="opcion-con-desplegable">
+                        <div class="flex items-center justify-between px-2 py-2 hover:bg-gray-700 cursor-pointer">
+                            <svg class="mr-2" xmlns="http://www.w3.org/2000/svg" height="14" width="17.5"
+                                viewBox="0 0 640 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                                <path fill="#ffffff"
+                                    d="M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304l91.4 0C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7L29.7 512C13.3 512 0 498.7 0 482.3zM471 143c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z" />
+                            </svg>
+                            <span class="flex-1">Bajas</span>
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </div>
+                        <ul class="desplegable ml-8 hidden">
+                            <li>
+                                <a href="{{ route('mostrarbaja') }}" class="p-2 hover:bg-gray-700 flex items-center">
+                                    <i class="mr-2 text-xs"></i> Mostrar Bajas
+                                </a>
+                            </li>
+
+                            @can('Agregar Baja')
+                                <li>
+                                    <a href="{{ route('agregarbaja') }}" class="p-2 hover:bg-gray-700 flex items-center">
+                                        <i class="mr-2 text-xs"></i> Agregar Baja
                                     </a>
                                 </li>
                             @endcan

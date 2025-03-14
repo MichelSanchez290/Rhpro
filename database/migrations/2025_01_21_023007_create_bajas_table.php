@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('bajas', function (Blueprint $table) {
             $table->id();
             $table->date('fecha_baja');
-            $table->string('motivo_baja', 255);
+            $table->text('motivo_baja');
             $table->string('tipo_baja', 45);
             $table->string('documento', 255);
-            $table->string('observaciones', 255);
+            $table->text('observaciones')->nullable();
 
             //donde almacenara el id de la relacion
             $table->unsignedBigInteger('user_id');

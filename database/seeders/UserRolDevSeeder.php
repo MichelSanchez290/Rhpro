@@ -247,6 +247,7 @@ class UserRolDevSeeder extends Seeder
         Permission::create(['name' => 'Eliminar Practicante'])->syncRoles([$role1, $role2, $role3]);
 
         //Relaciones
+        /*
         Permission::create(['name' => 'Mostrar Relaciones'])->syncRoles([$role1, $role2, $role3]);
 
         Permission::create(['name' => 'Mostrar asignación Sucursal a Empresa'])->syncRoles([$role1, $role2]);
@@ -263,7 +264,7 @@ class UserRolDevSeeder extends Seeder
         Permission::create(['name' => 'Agregar asignación Puesto a Departamento'])->syncRoles([$role1, $role2, $role3]);
         Permission::create(['name' => 'Editar asignación Puesto a Departamento'])->syncRoles([$role1, $role2, $role3]);
         Permission::create(['name' => 'Eliminar asignación Puesto a Departamento'])->syncRoles([$role1, $role2, $role3]);
-
+        */
 
         //solicitar retardos, incidencias (permisos, vacaciones), cambio salario, incapacidad
         // $role1, $role2, $role3, $role8, $role10
@@ -285,7 +286,14 @@ class UserRolDevSeeder extends Seeder
         Permission::create(['name' => 'Agregar Incapacidad'])->syncRoles([$role1, $role2, $role3, $role8, $role10]);
         Permission::create(['name' => 'Aceptar Incapacidad'])->syncRoles([$role1, $role2, $role3]);        
         Permission::create(['name' => 'Editar Incapacidad'])->syncRoles([$role1, $role2, $role3]);
-        Permission::create(['name' => 'Eliminar Incapacidad'])->syncRoles([$role1, $role2, $role3]);   
+        Permission::create(['name' => 'Eliminar Incapacidad'])->syncRoles([$role1, $role2, $role3]);  
+        
+        
+        Permission::create(['name' => 'Mostrar Baja'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Agregar Baja'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Editar Baja'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Eliminar Baja'])->syncRoles([$role1, $role2, $role3]);
+
 
          // **************************** MODULO ACTIVO FIJO ***************************************
         // Permission - 
@@ -549,6 +557,7 @@ class UserRolDevSeeder extends Seeder
           Permission::create(['name' => 'Responder encuesta invitada'])->syncRoles([$role10]);
 
          // ************* FIN MODULO DE DX035 *******************
+        
         
     }
 }

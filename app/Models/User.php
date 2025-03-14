@@ -30,6 +30,7 @@ use App\Models\PortalRH\Retardo;
 use App\Models\PortalRH\Sucursal;
 use App\Models\PortalRH\Departamento;
 use App\Models\PortalRH\Puesto;
+use App\Models\PortalRH\Baja;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -127,12 +128,13 @@ class User extends Authenticatable
         return $this->belongsTo(Puesto::class);
     }
 
-    /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public function bajas()
     {
         //un user tiene una baja
         return $this->hasMany(Baja::class);
     }
+    /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
 
     public function infonavitCreditos()
     {

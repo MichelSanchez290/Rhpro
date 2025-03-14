@@ -49,15 +49,14 @@
 
                 </div>
             </div>
-
-
-
+            
             <form class="mt-5 mx-7">
                 <h1 class="uppercase md:text-sm text-xs text-gray-900 text-light font-semibold"> 
                     Seleccione su Empresa, Sucursal y Departamento para hallar más rápido al usuario
                 </h1>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
+                    
                     <div class="grid grid-cols-1 mt-5">
                         <label for="empresa" class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
                             Empresa</label>
@@ -149,10 +148,83 @@
                 <div class="grid grid-cols-1 mt-5">
                     <label for="tipo_incidencia"
                         class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
-                        Tipo de Incidencia</label>
-                    <input wire:model.defer="incidencia.tipo_incidencia" type="text" id="tipo_incidencia"
-                        placeholder="Agrega la incidencia ocurrida"
-                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                        Tipo de Incidencia
+                    </label>
+                    <select wire:model.defer="incidencia.tipo_incidencia" id="tipo_incidencia"
+                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                        <option value="" selected>-- Selecciona una opción --</option>
+
+                        <option value="Falta injustificada">
+                            Falta injustificada
+                        </option>
+                        <option value="Salida anticipada sin permiso">
+                            Salida anticipada sin permiso
+                        </option>
+                        <option value="Olvido de marcar entrada/salida">
+                            Olvido de marcar entrada/salida
+                        </option>
+                        <option value="Intento de marcar asistencia por otro trabajador">
+                            Intento de marcar asistencia por otro trabajador
+                        </option>
+                        <option value="Bajo rendimiento laboral">
+                            Bajo rendimiento laboral
+                        </option>
+                        <option value="Incumplimiento de metas u objetivos">
+                            Incumplimiento de metas u objetivos
+                        </option>
+                        <option value="Errores recurrentes en tareas asignadas">
+                            Errores recurrentes en tareas asignadas
+                        </option>
+                        <option value="Retrasos constantes en la entrega de trabajos">
+                            Retrasos constantes en la entrega de trabajos
+                        </option>
+                        <option value="Falsificación de justificantes médicos">
+                            Falsificación de justificantes médicos
+                        </option>
+                        <option value="Enfermedad contagiosa sin aviso previo">
+                            Enfermedad contagiosa sin aviso previo
+                        </option>
+                        <option value="Uso inadecuado de recursos o herramientas de la empresa">
+                            Uso inadecuado de recursos o herramientas de la empresa
+                        </option>
+                        <option value="Desobediencia a instrucciones superiores">
+                            Desobediencia a instrucciones superiores
+                        </option>
+                        <option value="Falta de respeto a compañeros o superiores">
+                            Falta de respeto a compañeros o superiores
+                        </option>
+                        <option value="Uso indebido del tiempo laboral (uso de redes sociales, celular, etc.)">
+                            Uso indebido del tiempo laboral (uso de redes sociales, celular, etc.)
+                        </option>
+                        <option value="Realización de actividades personales en horario laboral">
+                            Realización de actividades personales en horario laboral
+                        </option>
+                        <option value="Uso de lenguaje ofensivo o agresivo">
+                            Uso de lenguaje ofensivo o agresivo
+                        </option>
+                        <option value="Divulgación de información confidencial">
+                            Divulgación de información confidencial
+                        </option>
+                        <option value="Hurto o robo dentro de la empresa">
+                            Hurto o robo dentro de la empresa
+                        </option>
+                        <option value="Fraude o alteración de documentos">
+                            Fraude o alteración de documentos
+                        </option>
+                        <option value="Violencia física o amenazas en el trabajo">
+                            Violencia física o amenazas en el trabajo
+                        </option>
+                        <option value="Consumo de alcohol o drogas en horario laboral">
+                            Consumo de alcohol o drogas en horario laboral
+                        </option>
+                        <option value="Acoso sexual o discriminación">
+                            Acoso sexual o discriminación
+                        </option>
+                        <option value="Uso indebido de credenciales o accesos restringidos">
+                            Uso indebido de credenciales o accesos restringidos
+                        </option>
+                        
+                    </select>
 
                     <x-input-error for="incidencia.tipo_incidencia" />
                 </div>

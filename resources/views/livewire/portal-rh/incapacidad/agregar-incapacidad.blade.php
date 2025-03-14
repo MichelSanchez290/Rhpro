@@ -56,7 +56,6 @@
 
 
             <form class="mt-5 mx-7">
-                <!-- Nombre del puesto -->
                 <div class="grid grid-cols-1">
                     <label for="tipo"
                         class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">

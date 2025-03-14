@@ -66,7 +66,7 @@ use App\Livewire\PortalRh\Becario\AgregarBecario;
 use App\Livewire\PortalRh\Becario\EditarBecario;
 use App\Livewire\PortalRh\Becario\MostrarCardBecario;
 use App\Livewire\PortalRh\Becario\CardBecario;
-
+use App\Livewire\PortalRh\Becario\ReporteBecario;
 
 use App\Livewire\PortalRh\Practicante\MostrarPracticante;
 use App\Livewire\PortalRh\Practicante\AgregarPracticante;
@@ -84,6 +84,10 @@ use App\Livewire\PortalRh\Incapacidad\MostrarIncapacidad;
 use App\Livewire\PortalRh\Incapacidad\AgregarIncapacidad;
 use App\Livewire\PortalRh\Incapacidad\AceptarIncapacidad;
 use App\Livewire\PortalRh\Incapacidad\EditarIncapacidad;
+
+use App\Livewire\PortalRh\Bajas\MostrarBaja;
+use App\Livewire\PortalRh\Bajas\AgregarBaja;
+use App\Livewire\PortalRh\Bajas\EditarBaja;
 
 
 /*
@@ -414,3 +418,19 @@ Route::get(
         '/aceptar-incapacidad',
             AceptarIncapacidad::class
     )->name('aceptarincapacidad');
+
+    // Bajas ---------------------------------------------------------------
+    Route::get( 
+        '/bajas',
+            MostrarBaja::class
+    )->name('mostrarbaja');
+
+    Route::get( 
+        '/create-baja',
+            AgregarBaja::class
+    )->name('agregarbaja');
+
+    Route::get( 
+        '/edit-baja/{id}',
+            EditarBaja::class
+    )->name('editarbaja');

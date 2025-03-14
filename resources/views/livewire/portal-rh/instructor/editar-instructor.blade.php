@@ -71,7 +71,6 @@
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
-                    <!--  -->
                     <div class="grid grid-cols-1 mt-5">
                         <label for="empresa"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
@@ -86,7 +85,7 @@
 
                         <x-input-error for="empresa" />
                     </div>
-
+                    <!--  -->
                     <div class="grid grid-cols-1 mt-5">
                         <label for="sucursal"
                             class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
@@ -109,6 +108,8 @@
 
                         <x-input-error for="sucursal" />
                     </div>
+
+                    
                 </div>
 
                 <!-- ***********************  -->
@@ -145,7 +146,7 @@
                             Puesto</label>
                         <select wire:model.defer="user.puesto_id" id="puesto_id"
                             class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-                            <option value=""> --- Seleccione una sucursal --- </option>
+                            <option value=""> --- Seleccione un puesto --- </option>
                             @forelse ($puestos as $puesto)
 
                                 @foreach($puesto->puestos as $mi_puesto)
@@ -155,7 +156,7 @@
                                 @endforeach
 
                             @empty
-                                <option value=""> Esta empresa no tiene sucursales </option>
+                                <option value=""> Este departamento no tiene puestos </option>
                             @endforelse
                         </select>
 
