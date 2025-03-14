@@ -71,7 +71,13 @@ final class OficinaTable extends PowerGridComponent
         ->add('precio_adquisicion')
         ->add('anioEstimado', fn(ActivoOficina $model) => $model->anioEstimado->vida_util_año ?? 'No asignado')
         ->add('created_at_formatted', fn(ActivoOficina $model) => $model->created_at->format('d/m/Y H:i'))
-        ->add('sucursal_nombre', fn (ActivoOficina $model) => optional(Sucursal::where('id', $model->sucursal_id)->first())->nombre_sucursal ?? 'No asignado');
+        ->add('sucursal_nombre', fn (ActivoOficina $model) => optional(Sucursal::where('id', $model->sucursal_id)->first())->nombre_sucursal ?? 'No asignado')
+        ->add('status_formatted', fn($model) => match ($model->status) {
+            'Activo' => '<span class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600"><span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>Activo</span>',
+            'Asignado' => '<span class="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-600"><span class="h-1.5 w-1.5 rounded-full bg-blue-600"></span>Asignado</span>',
+            'Baja' => '<span class="inline-flex items-center gap-1 rounded-full bg-red-50 px-2 py-1 text-xs font-semibold text-red-600"><span class="h-1.5 w-1.5 rounded-full bg-red-600"></span>Baja</span>',
+            default => '<span class="inline-flex items-center gap-1 rounded-full bg-gray-50 px-2 py-1 text-xs font-semibold text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-600"></span>' . $model->status . '</span>'
+        });
 
     }
 
@@ -94,6 +100,9 @@ final class OficinaTable extends PowerGridComponent
             Column::make('Sucursal', 'sucursal_nombre')
             ->sortable()
             ->searchable(),
+            Column::make('Estado', 'status_formatted')
+                ->sortable()
+                ->searchable(),
             Column::action('Action')
         ];
     }

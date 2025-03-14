@@ -97,7 +97,7 @@ class Asignarsouem extends Component
         $rutaBase = 'ActivoFijo/Activos/ActivoSouvenir/Asignaciones/AdminEmpresa';
         $nombreActivo = $activo->nombre ?? 'activo_' . $activo->id;
 
-        $usuario->activosTecnologia()->attach($activo->id, [
+        $usuario->activosSouvenir()->attach($activo->id, [
             'fecha_asignacion' => now(),
             'fecha_devolucion' => null,
             'observaciones' => $this->observaciones,
@@ -117,7 +117,7 @@ class Asignarsouem extends Component
         ]);
 
         session()->flash('message', 'Activo tecnológico asignado correctamente.');
-        return redirect()->route('mostrarasigntecem');
+        return redirect()->route('mostrarasignsouem');
     }
     public function render()
     {

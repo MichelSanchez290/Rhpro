@@ -16,8 +16,26 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Inicializa Select2 para ambos desplegables
             $('#activo').select2({ width: '100%' });
             $('#usuario').select2({ width: '100%' });
+
+            // Cuando Select2 cambie, dispara un evento 'change' nativo para sincronizar con Livewire
+            $('#activo').on('change', function (e) {
+                // Obtiene el elemento select nativo
+                const nativeSelect = document.querySelector('#activo');
+                // Despacha un evento 'change' nativo
+                const event = new Event('change', { bubbles: true });
+                nativeSelect.dispatchEvent(event);
+            });
+
+            $('#usuario').on('change', function (e) {
+                // Obtiene el elemento select nativo
+                const nativeSelect = document.querySelector('#usuario');
+                // Despacha un evento 'change' nativo
+                const event = new Event('change', { bubbles: true });
+                nativeSelect.dispatchEvent(event);
+            });
         });
     </script>
 @endsection
@@ -143,7 +161,7 @@
 
                 <!-- Botón de Guardar -->
                 <div class="flex justify-center mt-4 py-3">
-                    <button wire:click="asignarActivo"
+                    <button wire:click="asignarActivo()"
                         class="bg-gradient-to-r from-[#1763A6] to-[#1EA4D9] text-white px-6 py-2 rounded-lg shadow-lg font-bold hover:bg-[#1763A6]">Asignar</button>
                 </div>
             </div>

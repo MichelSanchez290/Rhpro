@@ -76,8 +76,8 @@ final class AsignacionestecTable extends PowerGridComponent
             ->add('fecha_devolucion_formatted', fn($model) => $model->fecha_devolucion ? Carbon::parse($model->fecha_devolucion)->format('d/m/Y') : 'No definida')
             ->add('observaciones')
             ->add('status_formatted', fn($model) => $model->status == 1
-            ? '<span class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600"><span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>Asignado</span>'
-            : '<span class="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-600"><span class="h-1.5 w-1.5 rounded-full text-blue-600"></span>Devuelto</span>')
+                ? '<span class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600"><span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>Asignado</span>'
+                : '<span class="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-600"><span class="h-1.5 w-1.5 rounded-full text-blue-600"></span>Devuelto</span>')
             ->add('created_at_formatted', fn($model) => Carbon::parse($model->created_at)->format('d/m/Y H:i'))
             ->add('updated_at')
             ->add('updated_at_formatted', fn($model) => Carbon::parse($model->updated_at)->format('d/m/Y H:i'));
@@ -197,6 +197,10 @@ final class AsignacionestecTable extends PowerGridComponent
                         'activo_id' => $row->id // ID de la asignación
                     ]
                 ]),
+                Button::add('export-pdf')
+                ->icon('default-download')
+                ->class('btn btn-success')
+                ->route('export.asignacion.pdf', ['asignacionId' => $row->id]),
         ];
     }
 }
