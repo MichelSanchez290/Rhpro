@@ -52,16 +52,16 @@
 
         <div class="mb-6">
             <label for="puntuacion1" class="block text-sm font-medium text-gray-700 mb-2">
-                Puntuación (1-4)
+                Puntuación (0-4) <!-- Updated label -->
             </label>
             <input
                 type="number"
                 id="puntuacion1"
                 wire:model.live="respuestas.0.puntuacion"
-                min="1"
+                min="0"
                 max="4"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-150 ease-in-out"
-                placeholder="Ingrese la puntuación (1-4)...">
+                placeholder="Ingrese la puntuación (0-4)..."> <!-- Updated placeholder -->
             <x-input-error for="respuestas.0.puntuacion" />
         </div>
     </div>
@@ -86,16 +86,16 @@
 
         <div class="mb-6">
             <label for="puntuacion2" class="block text-sm font-medium text-gray-700 mb-2">
-                Puntuación (1-4)
+                Puntuación (0-4) <!-- Updated label -->
             </label>
             <input
                 type="number"
                 id="puntuacion2"
                 wire:model.live="respuestas.1.puntuacion"
-                min="1"
+                min="0" 
                 max="4"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-150 ease-in-out"
-                placeholder="Ingrese la puntuación (1-4)...">
+                placeholder="Ingrese la puntuación (0-4)..."> <!-- Updated placeholder -->
             <x-input-error for="respuestas.1.puntuacion" />
         </div>
     </div>
@@ -120,16 +120,16 @@
 
         <div class="mb-6">
             <label for="puntuacion3" class="block text-sm font-medium text-gray-700 mb-2">
-                Puntuación (1-4)
+                Puntuación (0-4) <!-- Updated label -->
             </label>
             <input
                 type="number"
                 id="puntuacion3"
                 wire:model.live="respuestas.2.puntuacion"
-                min="1"
+                min="0"
                 max="4"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-150 ease-in-out"
-                placeholder="Ingrese la puntuación (1-4)...">
+                placeholder="Ingrese la puntuación (0-4)..."> <!-- Updated placeholder -->
             <x-input-error for="respuestas.2.puntuacion" />
         </div>
     </div>
@@ -154,16 +154,16 @@
 
         <div class="mb-6">
             <label for="puntuacion4" class="block text-sm font-medium text-gray-700 mb-2">
-                Puntuación (1-4)
+                Puntuación (0-4) <!-- Updated label -->
             </label>
             <input
                 type="number"
                 id="puntuacion4"
                 wire:model.live="respuestas.3.puntuacion"
-                min="1"
+                min="0" 
                 max="4"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-150 ease-in-out"
-                placeholder="Ingrese la puntuación (1-4)...">
+                placeholder="Ingrese la puntuación (0-4)..."> <!-- Updated placeholder -->
             <x-input-error for="respuestas.3.puntuacion" />
         </div>
     </div>
@@ -196,5 +196,3 @@
         </div>
     </div>
 </div>
-
-

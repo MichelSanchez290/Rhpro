@@ -37,7 +37,7 @@
             <span class="text-red-500 text-sm">{{ $message }}</span>
             @enderror
         </div>
-        {{-- Select de Tipo Usuario Calificador --}}
+
         <div class="mb-6">
             <label for="tipo_user_calificador" class="block text-sm font-medium text-gray-700 mb-2">
                 Tipo de Usuario Calificador
@@ -55,7 +55,6 @@
             @enderror
         </div>
 
-        {{-- Select de Calificador --}}
         <div class="mb-6">
             <label for="calificador_id" class="block text-sm font-medium text-gray-700 mb-2">
                 Seleccionar Calificador
@@ -73,7 +72,6 @@
             @enderror
         </div>
 
-        {{-- Select de Tipo Usuario Calificado --}}
         <div class="mb-6">
             <label for="tipo_user_calificado" class="block text-sm font-medium text-gray-700 mb-2">
                 Tipo de Usuario Calificado
@@ -91,7 +89,6 @@
             @enderror
         </div>
 
-        {{-- Select de Calificado --}}
         <div class="mb-6">
             <label for="calificado_id" class="block text-sm font-medium text-gray-700 mb-2">
                 Seleccionar Calificado
@@ -109,7 +106,6 @@
             @enderror
         </div>
 
-        {{-- Select de Relación --}}
         <div class="mb-6">
             <label for="relacion_id" class="block text-sm font-medium text-gray-700 mb-2">
                 Seleccionar Relación
@@ -127,7 +123,6 @@
             @enderror
         </div>
 
-        {{-- Select de Encuesta --}}
         <div class="mb-6">
             <label for="encuesta_id" class="block text-sm font-medium text-gray-700 mb-2">
                 Seleccionar Encuesta
@@ -145,7 +140,6 @@
             @enderror
         </div>
 
-        {{-- Fecha de Realización --}}
         <div class="mb-6">
             <label for="realizada" class="block text-sm font-medium text-gray-700 mb-2">
                 Fecha de Realización
@@ -159,7 +153,14 @@
             @enderror
         </div>
 
-        {{-- Botón Guardar --}}
+        <!-- Checkbox for resetting realizada -->
+        <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                <input type="checkbox" wire:model.live="resetRealizada" class="mr-2 focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                Restablecer estado de la encuesta (permitir contestarla nuevamente)
+            </label>
+        </div>
+
         <div>
             <button
                 wire:click="saveAsignacionAdministrador"
@@ -169,7 +170,6 @@
             </button>
         </div>
 
-        {{-- Mensajes de éxito/error --}}
         @if (session()->has('success'))
         <div class="mt-4 p-4 bg-green-100 text-green-700 rounded">
             {{ session('success') }}

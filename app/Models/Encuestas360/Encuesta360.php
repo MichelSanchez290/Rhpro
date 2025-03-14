@@ -27,8 +27,9 @@ class Encuesta360 extends Model
 
     public function preguntas()
 {
-    return $this->hasMany(Pregunta::class, 'encuesta_id');
+    return $this->hasMany(Pregunta::class, 'encuestas_id');
 }
+
 
 
     
