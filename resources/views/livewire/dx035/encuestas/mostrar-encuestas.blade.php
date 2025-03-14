@@ -85,7 +85,7 @@
                                                 {{ $encuesta->FechaFinal ? \Carbon\Carbon::parse($encuesta->FechaFinal)->format('d/m/Y') : 'N/A' }}
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
-                                                <span class="px-2 py-1 text-sm font-semibold rounded-full 
+                                                <span class="px-2 py-1 text-sm font-semibold rounded-full
                                                     {{ $encuesta->Estado ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
                                                     {{ $encuesta->Estado ? 'Activa' : 'Inactiva' }}
                                                 </span>
@@ -102,9 +102,13 @@
                                                 </div>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                <a href="{{ route('reporte.generar', $encuesta->id) }}" class="text-red-600 hover:text-red-900">
-                                                    <i class="fas fa-file-pdf"></i> Estadístico
-                                                </a>
+                                                <select wire:model="tipoReporte" class="border border-gray-300 rounded-md px-2 py-1 text-sm">
+                                                    <option value="general">General</option>
+                                                    <option value="estadistico">Estadístico</option>
+                                                </select>
+                                                <button wire:click="generarReporte({{ $encuesta->id }})" class="text-red-600 hover:text-red-900 ml-2">
+                                                    <i class="fas fa-file-pdf"></i> Generar
+                                                </button>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                                 @if(Auth::user()->hasRole('GoldenAdmin') || Auth::user()->hasRole('EmpresaAdmin'))
