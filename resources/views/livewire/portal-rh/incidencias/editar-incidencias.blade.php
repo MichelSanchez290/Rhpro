@@ -52,6 +52,14 @@
 
             <form class="mt-5 mx-7">
                 <div class="grid grid-cols-1 mt-5">
+                    <label for="nombre_usuario" class="uppercase md:text-sm text-xs text-gray-500 font-semibold">
+                        Usuario
+                    </label>
+                    <input type="text" id="nombre_usuario" value="{{ $nombre_usuario }}" disabled
+                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none" />
+                </div>
+                
+                <div class="grid grid-cols-1 mt-5">
                     <label for="tipo_incidencia"
                         class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
                         Tipo de Incidencia

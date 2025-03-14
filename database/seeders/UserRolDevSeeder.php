@@ -17,7 +17,7 @@ class UserRolDevSeeder extends Seeder
         //ROLES ADMINISTRADORES
         $role1 = Role::create(['name' => 'GoldenAdmin']);
         $role2 = Role::create(['name' => 'EmpresaAdmin']);
-        $role3 = Role::create(['name' => 'SusursalAdmin']);
+        $role3 = Role::create(['name' => 'SucursalAdmin']);
 
         //Este rol es solo para tener acceso a Modulo crm
         $role4=Role::create(['name'=>'Trabajador CRM']);
@@ -136,7 +136,7 @@ class UserRolDevSeeder extends Seeder
         // $role1, $role2, $role3,
 
         // ver retardos, incidencias (permisos, vacaciones),  cambio salario, incapacidad
-        // $role1, $role2, $role3, $role8, $role10
+        // $role1, $role2, $role3, $role8, $role10 Ver Cumpleaños
 
         Permission::create(['name' => 'Mostrar Incidencias'])->syncRoles([$role1, $role2, $role3]);
         Permission::create(['name' => 'Agregar Incidencia'])->syncRoles([$role1, $role2, $role3]);     
@@ -155,6 +155,19 @@ class UserRolDevSeeder extends Seeder
         Permission::create(['name' => 'Agregar Baja'])->syncRoles([$role1, $role2, $role3]);
         Permission::create(['name' => 'Editar Baja'])->syncRoles([$role1, $role2, $role3]);
         Permission::create(['name' => 'Eliminar Baja'])->syncRoles([$role1, $role2, $role3]);
+
+        Permission::create(['name' => 'Ver Cumpleaños'])->syncRoles([$role1, $role2, $role3]);
+
+        Permission::create(['name' => 'Mostrar Retardos'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Agregar Retardo'])->syncRoles([$role1, $role2, $role3]);     
+        Permission::create(['name' => 'Editar Retardo'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Eliminar Retardo'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Ver Retardos'])->syncRoles([$role1, $role2, $role3, $role8, $role10]);
+
+        Permission::create(['name' => 'Mostrar Cambio Salario'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Agregar Cambio Salario'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Editar Cambio Salario'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Eliminar Cambio Salario'])->syncRoles([$role1, $role2, $role3]);
 
     }
 }

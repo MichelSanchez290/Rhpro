@@ -84,8 +84,9 @@ class User extends Authenticatable
 
     public function cambioSalario()
     {
-        return $this->belongsToMany(CambioSalario::class)->withPivot('user_id', 'cambio_salario_id', 'fecha');
+        return $this->belongsToMany(CambioSalario::class, 'user_cambio_salario', 'user_id', 'cambio_salario_id')->withTimestamps();
     }
+
 
     public function documentos()
     {
@@ -104,7 +105,7 @@ class User extends Authenticatable
 
     public function retardos()
     {
-        return $this->belongsToMany(Retardo::class)->withPivot('user_id', 'retardo_id');
+        return $this->belongsToMany(Retardo::class, 'user_retardo', 'retardo_id', 'user_id')->withTimestamps();
     }
 
     public function departamento()

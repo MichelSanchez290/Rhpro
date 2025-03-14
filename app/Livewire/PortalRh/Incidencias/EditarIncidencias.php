@@ -29,7 +29,6 @@ class EditarIncidencias extends Component
         $this->fecha_inicio    = $incidencia->fecha_inicio;
         $this->fecha_final     = $incidencia->fecha_final;
 
-        // Asumimos que en la tabla incidencias se guardan estos campos
         $this->empresa = $incidencia->empresa_id;
         $this->sucursal = $incidencia->sucursal_id;
         $this->departamento = $incidencia->departamento_id;
