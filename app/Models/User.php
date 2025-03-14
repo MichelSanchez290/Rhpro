@@ -18,6 +18,7 @@ use App\Models\Crm\TrainingLevantamiento;
 use App\Models\Dx035\DatoTrabajador;
 use App\Models\Encuestas360\Asignacion;
 use App\Models\PortalCapacitacion\PerfilPuesto;
+use App\Models\PortalCapacitacion\CapacitacionIndividual;
 use App\Models\PortalRH\Becari;
 use App\Models\PortalRH\Becario;
 use App\Models\PortalRH\CambioSalario;
@@ -267,4 +268,8 @@ class User extends Authenticatable
         return $this->hasMany(DatoTrabajador::class, 'users_id');
     }
 
+    public function capacitaciones()
+    {
+        return $this->belongsToMany(CapacitacionIndividual::class, 'cap_individual_user', 'users_id', 'caps_individuales_id');
+    }
 }

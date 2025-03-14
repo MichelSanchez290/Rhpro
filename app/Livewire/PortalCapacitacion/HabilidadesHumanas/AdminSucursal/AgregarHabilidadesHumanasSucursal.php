@@ -49,6 +49,7 @@ class AgregarHabilidadesHumanasSucursal extends Component
 
     public function render()
     {
-        return view('livewire.portal-capacitacion.habilidades-humanas.admim-sucursal.agregar-habilidades-humanas-sucursal')->layout("layouts.portal_capacitacion");
+        return view('livewire.portal-capacitacion.habilidades-humanas.admin-sucursal.agregar-habilidades-humanas-sucursal')->layout("layouts.portal_capacitacion");
+   
     }
 }

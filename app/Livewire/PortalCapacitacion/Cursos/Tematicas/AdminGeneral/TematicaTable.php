@@ -56,23 +56,23 @@ final class TematicaTable extends PowerGridComponent
     public function fields(): PowerGridFields
     {
         return PowerGrid::fields()
+            ->add('nombre')
             ->add('empresa_nombre')
-            ->add('sucursal_nombre')
-            ->add('nombre');
+            ->add('sucursal_nombre');
     }
 
     public function columns(): array
     {
         return [
+            Column::make('Nombre', 'nombre')
+                ->sortable()
+                ->searchable(),
+
             Column::make('Empresa id', 'empresa_nombre')
                 ->sortable(),
 
             Column::make('Sucursal id', 'sucursal_nombre')
                 ->sortable(),
-
-            Column::make('Nombre', 'nombre')
-                ->sortable()
-                ->searchable(),
 
             Column::action('Action')
         ];

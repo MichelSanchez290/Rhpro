@@ -1,9 +1,9 @@
 <div class="flex flex-col items-center min-h-screen relative mx-auto bg-gray-100 shadow-lg rounded-lg p-6 border border-gray-200 py-10 px-4">
     <div class="text-center mb-8">
-        <h2 class="text-3xl font-bold text-blue-900 sm:text-4xl">Usuarios Registrados</h2>
+        <h2 class="text-3xl font-bold text-blue-900 sm:text-4xl">Mi Perfil de Puesto</h2>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-3xl">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-3xl justify-center">
         @if($user) 
         <div class="bg-white rounded-xl shadow-lg overflow-hidden transition-transform transform hover:scale-105"> 
             <!-- Imagen de portada -->

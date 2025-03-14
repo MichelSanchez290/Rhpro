@@ -11,6 +11,10 @@ class MostrarCurso extends Component
     public $showModal = false; // Control para ventana emergente
     public $funcionToDelete;
 
+    public function redirigir(){
+        return redirect()->route('agregarCursos');
+    }
+
     protected $listeners = [
         'confirmDelete' => 'confirmDelete', // Captura el evento
     ]; 
@@ -25,7 +29,7 @@ class MostrarCurso extends Component
     {
         if ($this->funcionToDelete) {
             Curso::find($this->funcionToDelete)->delete();
-            session()->flash('message', 'TCurso eliminado exitosamente.');
+            session()->flash('message', 'Curso eliminado exitosamente.');
         }
 
         $this->funcionToDelete = null;

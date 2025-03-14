@@ -1,7 +1,7 @@
 <div class="container mx-auto px-4 sm:px-6 lg:px-8">
     <!-- Botón Agregar -->
 <div class="mt-4 flex justify-end">
-    <button  class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors">
+    <button wire:click="redirigir()" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors">
        Agregar
     </button>
 </div>
