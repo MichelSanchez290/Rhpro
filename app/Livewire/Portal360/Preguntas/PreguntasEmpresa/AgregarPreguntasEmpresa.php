@@ -10,7 +10,6 @@ use Livewire\Component;
 
 class AgregarPreguntasEmpresa extends Component
 {
-    
     public $pregunta = [
         'texto' => '',
         'descripcion' => ''
@@ -40,7 +39,7 @@ class AgregarPreguntasEmpresa extends Component
         'pregunta.texto' => 'required|min:10',
         'pregunta.descripcion' => 'required|max:500',
         'respuestas.*.texto' => 'required|min:5',
-        'respuestas.*.puntuacion' => 'required|integer|min:1|max:4',
+        'respuestas.*.puntuacion' => 'required|integer|min:0|max:4', // Updated to 0-4
         'sucursal_id' => 'required|exists:sucursales,id',
     ];
 
@@ -53,7 +52,7 @@ class AgregarPreguntasEmpresa extends Component
         'respuestas.*.texto.min' => 'El texto de la respuesta debe tener al menos 5 caracteres.',
         'respuestas.*.puntuacion.required' => 'La puntuación es obligatoria.',
         'respuestas.*.puntuacion.integer' => 'La puntuación debe ser un número entero.',
-        'respuestas.*.puntuacion.min' => 'La puntuación debe ser al menos 1.',
+        'respuestas.*.puntuacion.min' => 'La puntuación debe ser al menos 0.', // Updated message
         'respuestas.*.puntuacion.max' => 'La puntuación no debe ser mayor a 4.',
         'sucursal_id.required' => 'Debe seleccionar una sucursal.',
         'sucursal_id.exists' => 'La sucursal seleccionada no es válida.',
@@ -97,7 +96,6 @@ class AgregarPreguntasEmpresa extends Component
             $this->dispatch('toastr-error', message: 'Error al guardar la pregunta: ' . $e->getMessage());
         }
     }
-
     public function render()
     {
         return view('livewire.portal360.preguntas.preguntas-empresa.agregar-preguntas-empresa')->layout('layouts.portal360');

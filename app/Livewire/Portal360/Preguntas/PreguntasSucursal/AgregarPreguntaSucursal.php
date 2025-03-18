@@ -9,7 +9,6 @@ use Livewire\Component;
 
 class AgregarPreguntaSucursal extends Component
 {
-
     public $pregunta = [
         'texto' => '',
         'descripcion' => '',
@@ -38,7 +37,7 @@ class AgregarPreguntaSucursal extends Component
         'pregunta.empresa_id' => 'required|exists:empresas,id',
         'pregunta.sucursal_id' => 'required|exists:sucursales,id',
         'respuestas.*.texto' => 'required|min:5',
-        'respuestas.*.puntuacion' => 'required|integer|min:1|max:4',
+        'respuestas.*.puntuacion' => 'required|integer|min:0|max:4', // Updated to 0-4
     ];
 
     protected $messages = [
@@ -54,7 +53,7 @@ class AgregarPreguntaSucursal extends Component
         'respuestas.*.texto.min' => 'El texto de la respuesta debe tener al menos 5 caracteres.',
         'respuestas.*.puntuacion.required' => 'La puntuación es obligatoria.',
         'respuestas.*.puntuacion.integer' => 'La puntuación debe ser un número entero.',
-        'respuestas.*.puntuacion.min' => 'La puntuación debe ser al menos 1.',
+        'respuestas.*.puntuacion.min' => 'La puntuación debe ser al menos 0.', // Updated message
         'respuestas.*.puntuacion.max' => 'La puntuación no debe ser mayor a 4.',
     ];
 

@@ -17,7 +17,7 @@ class AgregarEncuestaPreguntaEncpreEmpresa extends Component
     public $formData = [
         'sucursal_id' => '',
         'encuestas_id' => '',
-        'preguntas_id' => ''
+        'preguntas_id' => [], // Changed to array for multiple selections
     ];
 
     public $sucursales = [];
@@ -27,7 +27,8 @@ class AgregarEncuestaPreguntaEncpreEmpresa extends Component
     protected $rules = [
         'formData.sucursal_id' => 'required|exists:sucursales,id',
         'formData.encuestas_id' => 'required|exists:360_encuestas,id',
-        'formData.preguntas_id' => 'required|exists:preguntas,id',
+        'formData.preguntas_id' => 'required|array|min:1', // Updated for array
+        'formData.preguntas_id.*' => 'exists:preguntas,id', // Validation for each item
     ];
 
     protected $messages = [
@@ -35,8 +36,10 @@ class AgregarEncuestaPreguntaEncpreEmpresa extends Component
         'formData.sucursal_id.exists' => 'La sucursal seleccionada no es válida.',
         'formData.encuestas_id.required' => 'Debe seleccionar una encuesta.',
         'formData.encuestas_id.exists' => 'La encuesta seleccionada no es válida.',
-        'formData.preguntas_id.required' => 'Debe seleccionar una pregunta.',
-        'formData.preguntas_id.exists' => 'La pregunta seleccionada no es válida.'
+        'formData.preguntas_id.required' => 'Debe seleccionar al menos una pregunta.',
+        'formData.preguntas_id.array' => 'Las preguntas deben ser un arreglo válido.',
+        'formData.preguntas_id.min' => 'Debe seleccionar al menos una pregunta.',
+        'formData.preguntas_id.*.exists' => 'Una o más preguntas seleccionadas no son válidas.',
     ];
 
     public function mount()
@@ -54,7 +57,7 @@ class AgregarEncuestaPreguntaEncpreEmpresa extends Component
     public function updatedFormDataSucursalId($value)
     {
         $this->formData['encuestas_id'] = '';
-        $this->formData['preguntas_id'] = '';
+        $this->formData['preguntas_id'] = [];
         $this->encuestas = collect();
         $this->preguntas = collect();
 
@@ -74,7 +77,7 @@ class AgregarEncuestaPreguntaEncpreEmpresa extends Component
 
     public function updatedFormDataEncuestasId($value)
     {
-        $this->formData['preguntas_id'] = '';
+        $this->formData['preguntas_id'] = [];
         $this->preguntas = collect();
 
         if (!empty($value)) {
@@ -99,32 +102,34 @@ class AgregarEncuestaPreguntaEncpreEmpresa extends Component
         $this->validate();
 
         try {
-            // Verificar si la combinación ya existe
-            $existe = Encpre::where('encuestas_id', $this->formData['encuestas_id'])
-                ->where('preguntas_id', $this->formData['preguntas_id'])
-                ->exists();
+            foreach ($this->formData['preguntas_id'] as $preguntaId) {
+                // Verificar si la combinación ya existe
+                $existe = Encpre::where('encuestas_id', $this->formData['encuestas_id'])
+                    ->where('preguntas_id', $preguntaId)
+                    ->exists();
 
-            if ($existe) {
-                $this->dispatch('toastr-warning', message: 'Esta combinación de encuesta y pregunta ya existe.');
-                return;
+                if ($existe) {
+                    $this->dispatch('toastr-warning', message: "La pregunta con ID $preguntaId ya está asociada a esta encuesta.");
+                    continue;
+                }
+
+                // Crear nueva relación
+                Encpre::create([
+                    'encuestas_id' => $this->formData['encuestas_id'],
+                    'preguntas_id' => $preguntaId,
+                ]);
             }
-
-            // Crear nueva relación
-            Encpre::create([
-                'encuestas_id' => $this->formData['encuestas_id'],
-                'preguntas_id' => $this->formData['preguntas_id']
-            ]);
 
             // Resetear formulario
             $this->formData = [
                 'sucursal_id' => '',
                 'encuestas_id' => '',
-                'preguntas_id' => ''
+                'preguntas_id' => []
             ];
             $this->encuestas = collect();
             $this->preguntas = collect();
 
-            $this->dispatch('toastr-success', message: 'Relación guardada correctamente.');
+            $this->dispatch('toastr-success', message: 'Relaciones guardadas correctamente.');
             return redirect()->route('portal360.encpre.encuesta-pregunta-encpre-empresa.mostrar-encuesta-pregunta-encpre-empresa');
         } catch (\Exception $e) {
             Log::error('Error al guardar: ' . $e->getMessage());

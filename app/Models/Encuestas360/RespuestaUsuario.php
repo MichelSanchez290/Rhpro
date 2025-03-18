@@ -9,7 +9,7 @@ class RespuestaUsuario extends Model
 {
     use HasFactory;
 
-    protected $table = 'respuesta_usuario';
+    protected $table = 'respuestas_usuarios';
     protected $primaryKey = 'id';
     protected $fillable = ['respuesta360_id', 'asignaciones_id'];
     

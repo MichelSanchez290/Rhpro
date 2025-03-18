@@ -3,7 +3,7 @@
         <div class="max-w-7xl mx-auto">
             <div class="mb-8">
                 <h1 class="text-2xl font-semibold text-gray-900">Editar Pregunta de Encuesta</h1>
-                <p class="mt-2 text-sm text-gray-700">Modifique la encuesta y la pregunta según sea necesario.</p>
+                <p class="mt-2 text-sm text-gray-700">Modifique la encuesta y las preguntas según sea necesario.</p>
             </div>
 
             <div class="bg-white shadow rounded-lg p-6">
@@ -29,27 +29,32 @@
                             @enderror
                         </div>
 
-                        <!-- Pregunta Selector -->
+                        <!-- Preguntas Checkboxes -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">
-                                2. Seleccionar Pregunta
+                                2. Seleccionar Preguntas
                             </label>
-                            <div class="relative">
-                                <select
-                                    wire:model.live="formData.preguntas_id"
-                                    class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 rounded-md"
-                                    @if(empty($formData['encuestas_id'])) disabled @endif>
-                                    <option value="">Seleccione una pregunta</option>
-                                    @foreach($preguntas as $pregunta)
-                                    <option value="{{ $pregunta->id }}">{{ $pregunta->texto }}</option>
+                            <div class="mt-2 space-y-2 max-h-64 overflow-y-auto border rounded-md p-2">
+                                @if(empty($formData['encuestas_id']))
+                                    <p class="text-sm text-gray-500">Primero seleccione una encuesta</p>
+                                @elseif($preguntas->isEmpty())
+                                    <p class="text-sm text-amber-600">No hay preguntas disponibles</p>
+                                @else
+                                    @foreach($preguntas as $index => $pregunta)
+                                    <div class="flex items-center">
+                                        <input
+                                            type="checkbox"
+                                            wire:model.live="formData.preguntas_id"
+                                            value="{{ $pregunta->id }}"
+                                            id="pregunta_{{ $pregunta->id }}"
+                                            class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                        <label for="pregunta_{{ $pregunta->id }}" class="ml-2 text-sm text-gray-900">
+                                            {{ $index + 1 }}. {{ $pregunta->texto }}
+                                        </label>
+                                    </div>
                                     @endforeach
-                                </select>
+                                @endif
                             </div>
-                            @if(empty($formData['encuestas_id']))
-                            <p class="mt-1 text-sm text-gray-500">Primero seleccione una encuesta</p>
-                            @elseif($preguntas->isEmpty())
-                            <p class="mt-1 text-sm text-amber-600">No hay preguntas disponibles</p>
-                            @endif
                             @error('formData.preguntas_id')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
@@ -66,7 +71,7 @@
                             wire:click="editarEncuestaSucursal"
                             type="submit"
                             wire:loading.attr="disabled"
-                            @if(empty($formData['preguntas_id'])) disabled @endif
+                            @if(empty($formData['encuestas_id']) || $preguntas->isEmpty()) disabled @endif
                             class="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed">
                             <span wire:loading.remove>Actualizar</span>
                             <span wire:loading>Actualizando...</span>

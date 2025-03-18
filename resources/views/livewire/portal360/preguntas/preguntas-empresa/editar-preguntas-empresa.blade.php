@@ -51,16 +51,16 @@
         </div>
         <div class="mb-6">
             <label for="puntuacion{{ $index + 1 }}" class="block text-sm font-medium text-gray-700 mb-2">
-                Puntuación (1-4)
+                Puntuación (0-4) <!-- Updated label -->
             </label>
             <input
                 type="number"
                 id="puntuacion{{ $index + 1 }}"
                 wire:model.live="respuestas.{{ $index }}.puntuacion"
-                min="1"
+                min="0"
                 max="4"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-150 ease-in-out"
-                placeholder="Ingrese la puntuación (1-4)...">
+                placeholder="Ingrese la puntuación (0-4)..."> <!-- Updated placeholder -->
             <x-input-error for="respuestas.{{ $index }}.puntuacion" />
         </div>
     </div>
