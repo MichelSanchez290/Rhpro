@@ -98,7 +98,7 @@ class Asignarpapeem extends Component
         $rutaBase = 'ActivoFijo/Activos/ActivoPapeleria/Asignaciones/AdminEmpresa';
         $nombreActivo = $activo->nombre ?? 'activo_' . $activo->id;
 
-        $usuario->activosTecnologia()->attach($activo->id, [
+        $usuario->activosPapeleria()->attach($activo->id, [
             'fecha_asignacion' => now(),
             'fecha_devolucion' => null,
             'observaciones' => $this->observaciones,
@@ -118,7 +118,7 @@ class Asignarpapeem extends Component
         ]);
 
         session()->flash('message', 'Activo tecnológico asignado correctamente.');
-        return redirect()->route('mostrarasigntecem');
+        return redirect()->route('mostrarasignpapeem');
     }
     public function render()
     {

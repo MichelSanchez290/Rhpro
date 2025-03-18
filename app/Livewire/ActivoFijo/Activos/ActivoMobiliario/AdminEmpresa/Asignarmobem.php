@@ -103,7 +103,7 @@ class Asignarmobem extends Component
             ? $this->subirfoto1->storeAs($rutaBase, "{$nombreActivo}-foto1.png", 'public') 
             : null;
 
-        $usuario->activosTecnologia()->attach($activo->id, [
+        $usuario->activosMobiliario()->attach($activo->id, [
             'fecha_asignacion' => now(),
             'fecha_devolucion' => null,
             'observaciones' => $this->observaciones,

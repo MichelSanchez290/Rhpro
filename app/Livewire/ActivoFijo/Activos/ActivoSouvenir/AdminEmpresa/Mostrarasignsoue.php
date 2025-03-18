@@ -8,6 +8,6 @@ class Mostrarasignsoue extends Component
 {
     public function render()
     {
-        return view('livewire.activo-fijo.activos.activo-souvenir.admin-empresa.mostrarasignsoue');
+        return view('livewire.activo-fijo.activos.activo-souvenir.admin-empresa.mostrarasignsoue')->layout('layouts.navactivos');
     }
 }

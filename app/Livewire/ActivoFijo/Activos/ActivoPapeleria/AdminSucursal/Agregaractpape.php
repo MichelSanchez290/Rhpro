@@ -54,6 +54,7 @@ class Agregaractpape extends Component
         $this->activo['tipo_activo_id'] = Tipoactivo::where('nombre_activo', 'Activo Papelerias')->value('id');
         //dd($this->activo['tipo_activo_id']);
         $this->anios = Anioestimado::pluck('vida_util_año', 'id')->toArray();
+        $this->activo['status'] ='Activo';
     }
 
     public function saveActivoPape()

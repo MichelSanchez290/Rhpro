@@ -96,14 +96,14 @@ class Asignaruniem extends Component
             return;
         }
 
-        $rutaBase = 'ActivoFijo/Activos/ActivoTecnologia/Asignaciones/AdminEmpresa';
+        $rutaBase = 'ActivoFijo/Activos/ActivoUniforme/Asignaciones/AdminEmpresa';
         $nombreActivo = $activo->nombre ?? 'activo_' . $activo->id;
 
         $foto1Path = $this->subirfoto1 
             ? $this->subirfoto1->storeAs($rutaBase, "{$nombreActivo}-foto1.png", 'public') 
             : null;
 
-        $usuario->activosTecnologia()->attach($activo->id, [
+        $usuario->activosUniforme()->attach($activo->id, [
             'fecha_asignacion' => now(),
             'fecha_devolucion' => null,
             'observaciones' => $this->observaciones,
@@ -126,7 +126,7 @@ class Asignaruniem extends Component
         ]);
 
         session()->flash('message', 'Activo tecnológico asignado correctamente.');
-        return redirect()->route('mostrarasigntecem');
+        return redirect()->route('mostrarasignuniem');
     }
 
     public function render()
