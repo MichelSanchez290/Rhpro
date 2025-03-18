@@ -28,9 +28,9 @@ class Retardo extends Model
     ];
 
 
-    public function usuarios()
+    public function users()
     {
         //un becario pertenece a un user
-        return $this->belongsToMany(User::class)->withPivot('user_id', 'retardo_id');
+        return $this->belongsToMany(User::class, 'user_retardo', 'retardo_id', 'user_id')->withTimestamps();
     }
 }

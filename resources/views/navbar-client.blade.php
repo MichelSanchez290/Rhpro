@@ -347,7 +347,48 @@
                     </li>
                 @endcan
 
-                <!-- Empresas -->
+                <!-- Retardos -->
+                @can('Mostrar Retardos')
+                    <li class="opcion-con-desplegable">
+                        <div class="flex items-center justify-between px-2 py-2 hover:bg-gray-700 cursor-pointer">
+                            <!-- Icono -->
+                            <svg class="mr-2" xmlns="http://www.w3.org/2000/svg" height="14" width="14"
+                                viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                                <path fill="#ffffff"
+                                    d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z" />
+                            </svg>
+                            <span class="flex-1">Retardos</span>
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </div>
+                        <ul class="desplegable ml-8 hidden">
+                            @can('Agregar Retardo')
+                                <li>
+                                    <a href="{{ route('mostrarretardo') }}" class="p-2 hover:bg-gray-700 flex items-center">
+                                        <i class="mr-2 text-xs"></i> Mostrar Retardos
+                                    </a>
+                                </li>
+                            @endcan
+
+                            @can('Agregar Retardo')
+                                <li>
+                                    <a href="{{ route('agregarretardo') }}" class="p-2 hover:bg-gray-700 flex items-center">
+                                        <i class="mr-2 text-xs"></i> Agregar Retardo
+                                    </a>
+                                </li>
+                            @endcan
+
+                            @can('Ver Retardos')
+                                <li>
+                                    <a href="{{ route('verretardo') }}" class="p-2 hover:bg-gray-700 flex items-center">
+                                        <i class="mr-2 text-xs"></i> Mis Retardos
+                                    </a>
+                                </li>
+                            @endcan
+                        </ul>
+                    </li>
+                @endcan
+
+                <!-- Bajas -->
                 @can('Mostrar Baja')
                     <li class="opcion-con-desplegable">
                         <div class="flex items-center justify-between px-2 py-2 hover:bg-gray-700 cursor-pointer">
@@ -373,6 +414,59 @@
                                     </a>
                                 </li>
                             @endcan
+                        </ul>
+                    </li>
+                @endcan
+
+                <!-- Cambio salario class="mr-2" -->
+                @can('Mostrar Cambio Salario')
+                    <li class="opcion-con-desplegable">
+                        <div class="flex items-center justify-between px-2 py-2 hover:bg-gray-700 cursor-pointer">
+                            <svg class="mr-2" xmlns="http://www.w3.org/2000/svg" height="14" width="8.75"
+                                viewBox="0 0 320 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                                <path fill="#ffffff"
+                                    d="M160 0c17.7 0 32 14.3 32 32l0 35.7c1.6 .2 3.1 .4 4.7 .7c.4 .1 .7 .1 1.1 .2l48 8.8c17.4 3.2 28.9 19.9 25.7 37.2s-19.9 28.9-37.2 25.7l-47.5-8.7c-31.3-4.6-58.9-1.5-78.3 6.2s-27.2 18.3-29 28.1c-2 10.7-.5 16.7 1.2 20.4c1.8 3.9 5.5 8.3 12.8 13.2c16.3 10.7 41.3 17.7 73.7 26.3l2.9 .8c28.6 7.6 63.6 16.8 89.6 33.8c14.2 9.3 27.6 21.9 35.9 39.5c8.5 17.9 10.3 37.9 6.4 59.2c-6.9 38-33.1 63.4-65.6 76.7c-13.7 5.6-28.6 9.2-44.4 11l0 33.4c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-34.9c-.4-.1-.9-.1-1.3-.2l-.2 0s0 0 0 0c-24.4-3.8-64.5-14.3-91.5-26.3c-16.1-7.2-23.4-26.1-16.2-42.2s26.1-23.4 42.2-16.2c20.9 9.3 55.3 18.5 75.2 21.6c31.9 4.7 58.2 2 76-5.3c16.9-6.9 24.6-16.9 26.8-28.9c1.9-10.6 .4-16.7-1.3-20.4c-1.9-4-5.6-8.4-13-13.3c-16.4-10.7-41.5-17.7-74-26.3l-2.8-.7s0 0 0 0C119.4 279.3 84.4 270 58.4 253c-14.2-9.3-27.5-22-35.8-39.6c-8.4-17.9-10.1-37.9-6.1-59.2C23.7 116 52.3 91.2 84.8 78.3c13.3-5.3 27.9-8.9 43.2-11L128 32c0-17.7 14.3-32 32-32z" />
+                            </svg>
+                            <span class="flex-1">Cambios de Salario</span>
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </div>
+                        <ul class="desplegable ml-8 hidden">
+                            <li>
+                                <a href="{{ route('mostrarcambiosal') }}"
+                                    class="p-2 hover:bg-gray-700 flex items-center">
+                                    <i class="mr-2 text-xs"></i> Mostrar Cambios de Salario
+                                </a>
+                            </li>
+
+                            @can('Agregar Cambio Salario')
+                                <li>
+                                    <a href="{{ route('agregarcambiosal') }}"
+                                        class="p-2 hover:bg-gray-700 flex items-center">
+                                        <i class="mr-2 text-xs"></i> Agregar Cambio de Salario
+                                    </a>
+                                </li>
+                            @endcan
+                        </ul>
+                    </li>
+                @endcan
+
+                @can('Ver Cumpleaños')
+                    <li class="opcion-con-desplegable">
+                        <div class="flex items-center justify-between px-2 py-2 hover:bg-gray-700 cursor-pointer">
+                            <svg class="mr-2" xmlns="http://www.w3.org/2000/svg" height="14" width="12.25"
+                                viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                                <path fill="#ffffff"
+                                    d="M86.4 5.5L61.8 47.6C58 54.1 56 61.6 56 69.2L56 72c0 22.1 17.9 40 40 40s40-17.9 40-40l0-2.8c0-7.6-2-15-5.8-21.6L105.6 5.5C103.6 2.1 100 0 96 0s-7.6 2.1-9.6 5.5zm128 0L189.8 47.6c-3.8 6.5-5.8 14-5.8 21.6l0 2.8c0 22.1 17.9 40 40 40s40-17.9 40-40l0-2.8c0-7.6-2-15-5.8-21.6L233.6 5.5C231.6 2.1 228 0 224 0s-7.6 2.1-9.6 5.5zM317.8 47.6c-3.8 6.5-5.8 14-5.8 21.6l0 2.8c0 22.1 17.9 40 40 40s40-17.9 40-40l0-2.8c0-7.6-2-15-5.8-21.6L361.6 5.5C359.6 2.1 356 0 352 0s-7.6 2.1-9.6 5.5L317.8 47.6zM128 176c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 48c-35.3 0-64 28.7-64 64l0 71c8.3 5.2 18.1 9 28.8 9c13.5 0 27.2-6.1 38.4-13.4c5.4-3.5 9.9-7.1 13-9.7c1.5-1.3 2.7-2.4 3.5-3.1c.4-.4 .7-.6 .8-.8l.1-.1s0 0 0 0s0 0 0 0s0 0 0 0s0 0 0 0c3.1-3.2 7.4-4.9 11.9-4.8s8.6 2.1 11.6 5.4c0 0 0 0 0 0s0 0 0 0l.1 .1c.1 .1 .4 .4 .7 .7c.7 .7 1.7 1.7 3.1 3c2.8 2.6 6.8 6.1 11.8 9.5c10.2 7.1 23 13.1 36.3 13.1s26.1-6 36.3-13.1c5-3.5 9-6.9 11.8-9.5c1.4-1.3 2.4-2.3 3.1-3c.3-.3 .6-.6 .7-.7l.1-.1c3-3.5 7.4-5.4 12-5.4s9 2 12 5.4l.1 .1c.1 .1 .4 .4 .7 .7c.7 .7 1.7 1.7 3.1 3c2.8 2.6 6.8 6.1 11.8 9.5c10.2 7.1 23 13.1 36.3 13.1s26.1-6 36.3-13.1c5-3.5 9-6.9 11.8-9.5c1.4-1.3 2.4-2.3 3.1-3c.3-.3 .6-.6 .7-.7l.1-.1c2.9-3.4 7.1-5.3 11.6-5.4s8.7 1.6 11.9 4.8c0 0 0 0 0 0s0 0 0 0s0 0 0 0l.1 .1c.2 .2 .4 .4 .8 .8c.8 .7 1.9 1.8 3.5 3.1c3.1 2.6 7.5 6.2 13 9.7c11.2 7.3 24.9 13.4 38.4 13.4c10.7 0 20.5-3.9 28.8-9l0-71c0-35.3-28.7-64-64-64l0-48c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 48-64 0 0-48c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 48-64 0 0-48zM448 394.6c-8.5 3.3-18.2 5.4-28.8 5.4c-22.5 0-42.4-9.9-55.8-18.6c-4.1-2.7-7.8-5.4-10.9-7.8c-2.8 2.4-6.1 5-9.8 7.5C329.8 390 310.6 400 288 400s-41.8-10-54.6-18.9c-3.5-2.4-6.7-4.9-9.4-7.2c-2.7 2.3-5.9 4.7-9.4 7.2C201.8 390 182.6 400 160 400s-41.8-10-54.6-18.9c-3.7-2.6-7-5.2-9.8-7.5c-3.1 2.4-6.8 5.1-10.9 7.8C71.2 390.1 51.3 400 28.8 400c-10.6 0-20.3-2.2-28.8-5.4L0 480c0 17.7 14.3 32 32 32l384 0c17.7 0 32-14.3 32-32l0-85.4z" />
+                            </svg>
+                            <span class="flex-1">Cumpleaños</span>
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </div>
+                        <ul class="desplegable ml-8 hidden">
+                            <li>
+                                <a href="{{ route('vercumple') }}" class="p-2 hover:bg-gray-700 flex items-center">
+                                    <i class="mr-2 text-xs"></i> Ver Cumpleaños
+                                </a>
+                            </li>
                         </ul>
                     </li>
                 @endcan
@@ -533,6 +627,8 @@
                         </ul>
                     </li>
                 @endcan
+
+
 
             </ul>
         </nav>

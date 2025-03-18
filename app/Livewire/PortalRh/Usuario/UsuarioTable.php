@@ -147,7 +147,7 @@ final class UsuarioTable extends PowerGridComponent
             Button::add('edit')
                 ->slot('Editar Rol')
                 ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
-                ->route('editarrol', ['id' => Crypt::encrypt($row->id)]),
+                ->route('agregarroluser', ['id' => Crypt::encrypt($row->id)]),
             
             Button::add('delete')
                 ->slot('Eliminar')

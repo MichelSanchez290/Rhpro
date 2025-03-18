@@ -27,9 +27,9 @@ class CambioSalario extends Model
         'observaciones'
     ];
 
-    public function usuarios()
+    public function users()
     {
-        //un becario pertenece a un user
-        return $this->belongsToMany(User::class)->withPivot('user_id', 'cambio_salario_id', 'fecha');
+        return $this->belongsToMany(User::class, 'user_cambio_salario', 'cambio_salario_id', 'user_id')->withTimestamps();
     }
+
 }

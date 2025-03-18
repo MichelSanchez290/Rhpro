@@ -28,9 +28,6 @@ return new class extends Migration
                     ->on( 'cambio_salarios')  // Define que la relación es con la tabla xxx
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
-            
-
-            $table->date('fecha');
             $table->timestamps();
         });
     }
@@ -46,6 +43,6 @@ return new class extends Migration
             $table->dropForeign(['cambio_salario_id']);
         });
 
-        Schema::dropIfExists('user_cambio_salari');
+        Schema::dropIfExists('user_cambio_salario');
     }
 };

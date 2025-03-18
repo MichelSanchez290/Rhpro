@@ -48,7 +48,7 @@ class AgregarEmpres extends Component
         $this->empresa = [];
         $this->pdfConstancia=NULL;
         //$this->emit('showAnimatedToast', 'Empresa guardada correctamente.');
-        return redirect()->route('mostrarempresas');
+        session()->flash('message', 'Empresa agregada');
     }
 
     public function redirigir()
