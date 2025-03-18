@@ -3,15 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Capacitación {{ $capacitacion->fechaIni}}</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
+    <style>
         @page {
             margin-left: 0.8cm !important;
             margin-right: 0.8cm !important;
             margin-top: 0.8cm !important;
             margin-bottom: 0.8cm !important;
+        }
+
+        html, body {
+            font-family: 'DejaVu Sans', sans-serif;
+            margin: 0;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            color: #0e0138;
+            padding-bottom: 10px;
+            display: inline-block;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            text-align: left;
+        }
+
+        .header {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .capacitacion {
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #0056b3;
+        }
+
+        .capacitacion:nth-child(even) {
+            background-color: #f8f9fa; /* Alternar colores */
+        }
+
+        .capacitacion h2 {
+            font-size: 28px;
+            color: #000;
+            margin: 0 0 10px 0;
+            font-weight: bold;
+            text-transform: capitalize;
+        }
+
+        .info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 10px;
+            padding: 8px 0;
+            border-bottom: 1px dashed #ddd;
+            font-style: italic;
+        }
+
+        .info span {
+            margin: 0 10px;
+        }
+
+        .label {
+            font-weight: bold;
+            color: #0056b3;
+        }
+
+        .bold {
+            font-weight: bold;
+            color: #333;
+        }
+
+        p {
+            margin: 8px 0;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        @page {
+            margin: 1cm;
+        }
+
+        .tarjetas {
+            width: 100%;
+            margin: 0 auto;
+            padding: 40px;
+        }
+
+        .page-break {
+            page-break-before: always;
+        }
+
+        .titulo {
+            color: rgb(7, 65, 107);
+            font-size: 20pt;
+            font-weight: bold;
+            margin-bottom: 5px;
+            margin-top: 1cm;
+        }
+
+        .separador {
+            border-top: 4px solid rgb(7, 65, 107);
+            margin-bottom: 1cm;
         }
 
         .contenedor {
@@ -31,21 +131,6 @@
             width: 100%;
             object-fit: cover;
         }
-
-        .titulo {
-            color: rgb(7, 65, 107);
-            font-size: 20pt;
-            font-weight: bold;
-            margin-bottom: 5px;
-            margin-top: 1cm;
-        }
-
-        .separador {
-            border-top: 4px solid rgb(7, 65, 107);
-            margin-bottom: 1cm;
-        }
-
-
     </style>
 </head>
 <body>
@@ -54,19 +139,19 @@
          <!--<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOa-NXzx-mmUk3IdQOC7ep03bvzV1ZjoHzEw&s" alt="Logo" style="position: absolute; top: 3cm; left: 9cm; width: 150px; height: 110px;"> -->
         <div
             style="position: absolute; top: 11cm; left: 0.5cm; color: rgb(7, 65, 107); font-size: 15pt; font-family: 'Nourd', sans-serif;">
-            Fecha de Capacitación: {{ \Carbon\Carbon::parse($capacitacion->fechaIni )->format('d/m/Y') }}
+            Fecha de Capacitación: {{ $capacitacion->fechaIni }} - {{ $capacitacion->fechaFin }}
         </div>
         <div style="position: absolute; top: 12cm; left: 0.5cm;">
             <div style="color: rgb(7, 65, 107); font-size: 36pt; font-family: 'Nourd', sans-serif; font-weight: 700;">
                 Reporte de Capacitación
             </div>
         </div>
-        <div style="position: absolute; top: 20.5cm; left: 11cm;">
+        <div style="position: absolute; top: 19.5cm; left: 11cm;">
             <div style="color: rgb(7, 65, 107); font-size: 18pt; font-family: 'Nourd', sans-serif; font-weight: 700;">
-                Mejora tus habilidades con
+                Reporte de Capacitaciones Individuales
             </div>
             <div style="color: rgb(7, 65, 107); font-size: 15pt; font-family: 'Nourd', sans-serif;">
-                Cada curso
+                {{ $usuario->name }}
             </div>
         </div>
     </div>
@@ -160,7 +245,7 @@
                         
                         <!-- Imagen de usuario flotante arriba -->
                         <div style="justify-items: center; justify-content: center; margin-left: 40%">
-                            <img src="https://i.pinimg.com/474x/33/b1/fc/33b1fc52945e5d3c5e22c003c2fe2a03.jpg" class="imagenPerfil"
+                            <img src="https://www.shutterstock.com/image-photo/attractive-elegant-young-asian-business-260nw-2401137563.jpg" class="imagenPerfil"
                                 alt="Foto" style="width: 200px; height: 200px; border-radius: 50%; border: 5px solid white; box-shadow: 0px 4px 8px rgba(0,0,0,0.2);">
                         </div>
                         
@@ -284,7 +369,7 @@
                                     <td style="width: 50%; text-align: center;">
                                         <p style="font-size: 12pt; font-weight: bold; color: #07416B;">Puesto:</p>
                                         <p style="color: #333;">
-                                            No se
+                                            {{ $usuario->puesto->nombre_puesto }}
                                         </p>
                                     </td>
                                 </tr>
@@ -298,7 +383,7 @@
                             <p style="font-size: 14pt; font-weight: bold; color: #07416B;">Sucursal:</p>
                             <p style="font-size: 13pt; color: #333;">{{ $usuario->sucursal->nombre_sucursal }}</p>
                             <p style="font-size: 14pt; font-weight: bold; color: #07416B;">Departamento:</p>
-                            <p style="font-size: 13pt; color: #333;">no se</p>
+                            <p style="font-size: 13pt; color: #333;">{{ $usuario->departamento->nombre_departamento }}</p>
                         </div>
                     </div>
                 </div>
@@ -379,15 +464,25 @@
                 </div>
             @endif
         </div>
-    </div>   
+    </div>
 
-    <div class="contenedor1">
-        <h1>Reporte de Capacitación</h1>
-        <p><strong>Nombre:</strong> {{ $capacitacion->nombreCapacitacion }}</p>
-        <p><strong>Objetivo:</strong> {{ $capacitacion->objetivoCapacitacion }}</p>
-        <p><strong>Fecha de Inicio:</strong> {{ $capacitacion->fechaIni }}</p>
-        <p><strong>Fecha de Fin:</strong> {{ $capacitacion->fechaFin }}</p>
-        <p><strong>Curso:</strong> {{ $capacitacion->curso->nombre }}</p>
+    <div class="page-break"></div>
+
+    <div class="tarjetas">
+        <div class="header">
+            <h1>Reporte de Capacitación Individual</h1>
+            <div class="separador"></div>
+        </div>
+
+            <div class="capacitacion">
+                <div class="info">
+                    <span>Fecha inicio: {{ $capacitacion->fechaIni }}</span>
+                    <span>Fecha fin: {{ $capacitacion->fechaFin }}</span>
+                </div>
+                <h2>{{ $capacitacion->nombreCapacitacion }}</h2>
+                <p><span class="bold">Objetivo:</span> {{ $capacitacion->objetivoCapacitacion }}</p>
+                <p><span class="bold">Curso:</span> {{ $capacitacion->curso->nombre }}</p>
+            </div>
     </div>
 </body>
 </html>

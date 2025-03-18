@@ -19,6 +19,8 @@ use App\Models\Dx035\DatoTrabajador;
 use App\Models\Encuestas360\Asignacion;
 use App\Models\PortalCapacitacion\PerfilPuesto;
 use App\Models\PortalCapacitacion\CapacitacionIndividual;
+use App\Models\PortalCapacitacion\GrupocursoCapacitacion;
+use App\Models\PortalCapacitacion\Participante;
 use App\Models\PortalRH\Becari;
 use App\Models\PortalRH\Becario;
 use App\Models\PortalRH\CambioSalario;
@@ -223,26 +225,27 @@ class User extends Authenticatable
         return $this->belongsTo(Empresa::class, 'empresa_id');
     }
 
-    public function asignacion()
-    {
-        //un user peertence a un becario
-        return $this->hasMany(Asignacion::class);
-    }
-
-    public function perfilesPuestos(): BelongsToMany
-    {
-        return $this->belongsToMany(PerfilPuesto::class, 'perfil_puesto_user', 'users_id', 'perfiles_puestos_id')->withPivot(['status', 'fecha_inicio', 'fecha_final', 'motivo_cambio']);
-    }
-
-    public function perfilActual()
-    {
-        return $this->perfilesPuestos()->latest()->first();
-    }
-
+    
     //Por favor no tocar porque aqui son de mi asignaciones para que mueste el nombre de la empresa y sucursal 
     public function sucursal()
     {
         return $this->belongsTo(Sucursal::class, 'sucursal_id');
+    }
+
+    public function departamento()
+    {
+        return $this->belongsTo(Departamento::class, 'departamento_id');
+    }
+
+    public function puesto()
+    {
+        return $this->belongsTo(Puesto::class, 'puesto_id');
+    }
+
+    public function asignacion()
+    {
+        //un user peertence a un becario
+        return $this->hasMany(Asignacion::class);
     }
 
     public function leadcliente()
@@ -270,8 +273,30 @@ class User extends Authenticatable
         return $this->hasMany(DatoTrabajador::class, 'users_id');
     }
 
+    //PORTAL DE CAPACITACIONES
+    public function perfilesPuestos(): BelongsToMany
+    {
+        return $this->belongsToMany(PerfilPuesto::class, 'perfil_puesto_user', 'users_id', 'perfiles_puestos_id')->withPivot(['status', 'fecha_inicio', 'fecha_final', 'motivo_cambio']);
+    }
+
+    public function perfilActual()
+    {
+        return $this->perfilesPuestos()->latest()->first();
+    }
+
+    public function capacitacionesGrupales()
+    {
+        return $this->belongsToMany(
+            GrupocursoCapacitacion::class, 
+            'participante_user', // Nombre de la tabla pivote
+            'users_id', // Clave foránea en la tabla pivote que referencia a "users"
+            'grupocursos_capacitaciones_id' // Clave foránea en la tabla pivote que referencia a "grupocursos_capacitaciones"
+        );
+    }
+
     public function capacitaciones()
     {
         return $this->belongsToMany(CapacitacionIndividual::class, 'cap_individual_user', 'users_id', 'caps_individuales_id');
     }
+
 }

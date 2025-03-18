@@ -21,17 +21,16 @@ class MostrarCapacitacionesTrabajador extends Component
 {
     use WithPagination;
 
-    public $usuario_id;
+    public $userSeleccionado;
     public $user;
-    public $showModal = false; // Control para ventana emergente
-    public $funcionToDelete;
     public $years = [];
     public $selectedYear = null; 
+    
 
     public function mount($id)
     {
-        $this->usuario_id = Crypt::decrypt($id);
-        $this->user = User::find($this->usuario_id);
+        $this->userSeleccionado = Crypt::decrypt($id);
+        $this->user = User::find($this->userSeleccionado);
 
         // Cargar años disponibles desde la BD
         $this->loadAvailableYears();
@@ -40,7 +39,7 @@ class MostrarCapacitacionesTrabajador extends Component
     public function loadAvailableYears()
     {
         $this->years = CapacitacionIndividual::whereHas('usuarios', function ($query) {
-                $query->where('users.id', $this->usuario_id);
+                $query->where('users.id', $this->userSeleccionado);
             })
             ->selectRaw('YEAR(fechaIni) as year')
             ->distinct()
@@ -77,7 +76,7 @@ class MostrarCapacitacionesTrabajador extends Component
     
         // Obtener capacitaciones del usuario filtradas por año seleccionado
         $capacitaciones = CapacitacionIndividual::whereHas('usuarios', function ($query) {
-                $query->where('users.id', $this->usuario_id);
+                $query->where('users.id', $this->userSeleccionado);
             })
             ->whereYear('fechaIni', $this->selectedYear)
             ->with('curso')
@@ -99,8 +98,7 @@ class MostrarCapacitacionesTrabajador extends Component
             fn () => print($pdf->output()),
             "capacitaciones_{$this->selectedYear}.pdf"
         );
-    }
-    
+    }    
 
     public function render()
     {

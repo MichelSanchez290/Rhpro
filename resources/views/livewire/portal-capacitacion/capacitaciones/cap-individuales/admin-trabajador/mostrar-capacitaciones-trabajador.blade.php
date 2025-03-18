@@ -1,20 +1,41 @@
 <div class="max-w-4xl px-10 my-6 py-8 bg-white rounded-lg shadow-md mx-auto relative">
     <div class="flex justify-between items-center mb-8">
         <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-800 text-center w-full">
+            📚
             <span class="bg-gradient-to-r from-blue-500 to-blue-400 text-transparent bg-clip-text">
-                📚 Mis Capacitaciones 
+                 Mis Capacitaciones Individuales
             </span>
             <span class="block text-sm text-gray-500 mt-2 uppercase tracking-widest">
                 Mejora tus habilidades con cada curso
             </span>
         </h1>
-        <button onclick="window.history.back()"
+        <a href="{{route('vermasUsuariosTrabajador', Crypt::encrypt($userSeleccionado))}}"
             class="absolute top-4 right-4 text-gray-700 hover:text-blue-500 focus:text-blue-500 
             p-6 rounded-full transition-all duration-300 transform hover:scale-110 focus:scale-110 z-50">
             <i class="fas fa-sign-out-alt text-3xl"></i>
-        </button>
+        </a>
+    </div>
+    
+    <!-- Tabs para seleccionar capacitaciones individuales o grupales -->
+    @php
+    $rutaActual = request()->route()->getName();
+    @endphp
+
+    <div class="flex space-x-4 border-b border-gray-300 mb-6">
+    <a href="{{ route('verCapacitacionesIndTrabajador', Crypt::encrypt($userSeleccionado))}}"
+        class="px-6 py-3 border-b-2 transition-all duration-300 
+        {{ $rutaActual === 'verCapacitacionesIndTrabajador' ? 'border-blue-500 text-blue-600 font-semibold' : 'border-transparent text-gray-600 hover:text-blue-500' }}">
+        📌 Individuales
+    </a>
+
+    <a href="{{ route('verCapacitacionesGruTrabajador', Crypt::encrypt($userSeleccionado))}}"
+        class="px-6 py-3 border-b-2 transition-all duration-300 
+        {{ $rutaActual === 'verCapacitacionesGruTrabajador' ? 'border-blue-500 text-blue-600 font-semibold' : 'border-transparent text-gray-600 hover:text-blue-500' }}">
+        👥 Grupales
+    </a>
     </div>
 
+    
     <div class="flex justify-between items-center mb-4">
         <select wire:model="selectedYear"
             class="px-8 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200">
@@ -38,6 +59,7 @@
             </span>
         </button>
     </div>
+
     @if (session()->has('error'))
         <div class="text-red-500 bg-red-100 p-2 rounded-md text-center">
             {{ session('error') }}
@@ -53,8 +75,7 @@
                     <span class="font-light text-gray-600"><strong>Fecha inicio:
                         </strong>{{ $capacitacion->fechaIni }}</span>
                     <span class="font-light text-gray-600"><strong>Fecha fin:
-                        </strong>{{ $capacitacion->fechaFin }}</span>                       
-
+                        </strong>{{ $capacitacion->fechaFin }}</span>                        
                 </div>
                 <div class="mt-2">
                     <h2 class="text-xl text-gray-700 font-bold">{{ $capacitacion->nombreCapacitacion }}</h2>
@@ -89,5 +110,4 @@
     <div class="mt-6 flex justify-center">
         {{ $capacitaciones->onEachSide(1)->links('vendor.pagination.tailwind') }}
     </div>
-
 </div>

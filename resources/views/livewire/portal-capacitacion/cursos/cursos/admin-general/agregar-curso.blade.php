@@ -28,6 +28,9 @@
                                 <option value="{{ $empresa->id }}">{{ $empresa->nombre }}</option>
                             @endforeach
                         </select>
+                        @error('empresa_id')
+                            <span class="text-red-500 text-sm">{{ $message }}</span> 
+                        @enderror
                     </div>
 
                     <!-- Selección de Sucursal -->
@@ -40,6 +43,9 @@
                                 <option value="{{ $sucursal->id }}">{{ $sucursal->nombre_sucursal }}</option>
                             @endforeach
                         </select>
+                        @error('sucursal_id')
+                            <span class="text-red-500 text-sm">{{ $message }}</span> 
+                        @enderror
                     </div>
 
                     <!-- Nombre del Curso -->
@@ -48,6 +54,9 @@
                         <input type="text" wire:model="curso.nombre"
                             placeholder="Nombre del curso"
                             class="mt-1 block w-full h-12 rounded-lg shadow-sm px-4 focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out transform hover:scale-105">
+                        @error('curso.nombre')
+                            <span class="text-red-500 text-sm">{{ $message }}</span> 
+                        @enderror
                     </div>
 
                     <!-- Horas -->
@@ -56,6 +65,9 @@
                         <input type="text" wire:model="curso.horas"
                             placeholder="Horas"
                             class="mt-1 block w-full h-12 rounded-lg shadow-sm px-4 focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out transform hover:scale-105">
+                        @error('curso.horas')
+                            <span class="text-red-500 text-sm">{{ $message }}</span> 
+                        @enderror
                     </div>
 
                     <!-- Precio -->
@@ -64,6 +76,9 @@
                         <input type="text" wire:model="curso.precio"
                             placeholder="Precio"
                             class="mt-1 block w-full h-12 rounded-lg shadow-sm px-4 focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out transform hover:scale-105">
+                        @error('curso.precio')
+                            <span class="text-red-500 text-sm">{{ $message }}</span> 
+                        @enderror
                     </div>
 
                     <!-- Status -->
@@ -75,42 +90,40 @@
                             <option value="activo">Activo</option>
                             <option value="inactivo">Inactivo</option>
                         </select>
+                        @error('curso.tipoestatus')
+                            <span class="text-red-500 text-sm">{{ $message }}</span> 
+                        @enderror
                     </div>
 
                     <!-- Temática -->
                     <div>
                         <label class="block text-gray-700 font-medium">Temática</label>
-                        <select wire:model="tematica_id"
+                        <select wire:model.live="tematicas_id"
                             class="mt-1 block w-full h-12 rounded-lg shadow-sm px-4 focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out transform hover:scale-105">
                             <option value="">Seleccione</option>
                             @foreach($tematicas as $tematica)
                                 <option value="{{ $tematica->id }}">{{ $tematica->nombre }}</option>
                             @endforeach
                         </select>
+                        @error('tematica_id')
+                            <span class="text-red-500 text-sm">{{ $message }}</span> 
+                        @enderror
                     </div>
 
                     <!-- Modalidad -->
                     <div class="col-span-2">
                         <label class="block text-gray-700 font-medium">Modalidad</label>
-                        <select wire:model="modalidad" 
+                        <select wire:model.live="curso.modalidad" 
                             class="mt-1 block w-full h-12 rounded-lg shadow-sm px-4 focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out transform hover:scale-105">
                             <option value="">Seleccione</option>
                             <option value="Presencial">Presencial</option>
                             <option value="Virtual">Virtual</option>
                             <option value="Mixta">Mixta</option>
-                            <option value="Otro">Otro</option>
                         </select>
+                        @error('curso.modalidad')
+                            <span class="text-red-500 text-sm">{{ $message }}</span> 
+                        @enderror
                     </div>
-                    
-                    <!-- Campo adicional si se elige "Otro" en Modalidad -->
-                    @if($modalidad === 'Otro')
-                        <div class="col-span-2">
-                            <label class="block text-gray-700 font-medium">Especifique la Modalidad</label>
-                            <input type="text" wire:model="otra_modalidad"
-                                placeholder="Ingrese la modalidad"
-                                class="mt-1 block w-full h-12 rounded-lg shadow-sm px-4 focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out transform hover:scale-105">
-                        </div>
-                    @endif
                     
                 </div>
 
@@ -126,12 +139,5 @@
         </div>
     </div>
 
-    <!-- Notificación de éxito con fade-out -->
-    @if (session()->has('message'))
-        <div class="fixed top-5 right-5 bg-green-600 text-white text-lg px-6 py-3 rounded-lg shadow-lg transition-opacity duration-500"
-            style="z-index: 1000;"
-            x-data="{ show: true }" x-init="setTimeout(() => show = false, 3000)" x-show="show">
-            ✅ {{ session('message') }}
-        </div>
-    @endif
+    
 </div>

@@ -303,7 +303,8 @@
             Salir
         </button>
 
-        <button class="px-6 py-2 text-white bg-green-600 rounded-lg shadow-md hover:bg-green-700 transition">
+        <button onclick="window.location.href='{{ route('agregarCapacitacionesIndEmpresa', Crypt::encrypt($userSeleccionado->id)) }}'" 
+            class="px-6 py-2 text-white bg-green-600 rounded-lg shadow-md hover:bg-green-700 transition">
             Asignar Capacitación
         </button>
     </div>

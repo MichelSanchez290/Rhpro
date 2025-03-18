@@ -1,18 +1,38 @@
 <div class="max-w-4xl px-10 my-6 py-8 bg-white rounded-lg shadow-md mx-auto relative">
     <div class="flex justify-between items-center mb-8">
         <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-800 text-center w-full">
+            📚
             <span class="bg-gradient-to-r from-blue-500 to-blue-400 text-transparent bg-clip-text">
-                📚 Capacitaciones
+                Capacitaciones Individuales
             </span>
             <span class="block text-sm text-gray-500 mt-2 uppercase tracking-widest">
                 Mejora tus habilidades con cada curso
             </span>
         </h1>
-        <button onclick="window.history.back()"
+        <a href="{{route('vermasUsuarios', Crypt::encrypt($userSeleccionado))}}"
             class="absolute top-4 right-4 text-gray-700 hover:text-blue-500 focus:text-blue-500 
             p-6 rounded-full transition-all duration-300 transform hover:scale-110 focus:scale-110 z-50">
             <i class="fas fa-sign-out-alt text-3xl"></i>
-        </button>
+    </a>
+    </div>
+
+        <!-- Tabs para seleccionar capacitaciones individuales o grupales -->
+    @php
+    $rutaActual = request()->route()->getName();
+    @endphp
+
+    <div class="flex space-x-4 border-b border-gray-300 mb-6">
+        <a href="{{ route('verCapacitacionesInd', Crypt::encrypt($userSeleccionado)) }}"
+            class="px-6 py-3 border-b-2 transition-all duration-300 
+        {{ $rutaActual === 'verCapacitacionesInd' ? 'border-blue-500 text-blue-600 font-semibold' : 'border-transparent text-gray-600 hover:text-blue-500' }}">
+            📌 Individuales
+        </a>
+
+        <a href="{{ route('verCapacitacionesGruGeneral', Crypt::encrypt($userSeleccionado)) }}"
+            class="px-6 py-3 border-b-2 transition-all duration-300 
+        {{ $rutaActual === 'verCapacitacionesGruGeneral' ? 'border-blue-500 text-blue-600 font-semibold' : 'border-transparent text-gray-600 hover:text-blue-500' }}">
+            👥 Grupales
+        </a>
     </div>
 
     <div class="flex justify-between items-center mb-4">
@@ -40,7 +60,7 @@
             </button>
         </div>
 
-        <button onclick="window.location.href='#'"
+        <button onclick="window.location.href='{{ route('agregarCapacitacionesInd', Crypt::encrypt($userSeleccionado)) }}'" 
             class="bg-green-500 text-white px-2 py-1 rounded-lg shadow-md hover:bg-green-600 
             flex items-center gap-2 transition-all duration-300 transform hover:scale-105">
             <i class="fas fa-plus"></i>
@@ -85,7 +105,7 @@
                 </div>
                 <div class="mt-2">
                     <h2 class="text-xl text-gray-700 font-bold">{{ $capacitacion->nombreCapacitacion }}</h2>
-                    <p class="mt-2 text-gray-600">{{ $capacitacion->objetivoCapacitacion }}</p>
+                    <p class="mt-2 text-gray-600"><strong>Objetivo: </strong>{{ $capacitacion->objetivoCapacitacion }}</p>
                     <a class="text-gray-700 text-gr"><strong>Curso: {{ $capacitacion->curso->nombre }}</strong></a>
                 </div>
                 <div class="flex justify-between items-center mt-4">
@@ -102,18 +122,18 @@
                             Procesando...
                         </span>
                     </button>
-                    <a
-                        class="bg-green-500 text-white px-2 py-1 rounded-lg hover:bg-green-600 transition-all duration-300 transform hover:scale-105">
-                        <i class="fas fa-upload mr-2"></i> Subir Evidencia
-                    </a>
+                    <a href="{{ route('verEvidenciasIndTrabajador', Crypt::encrypt($capacitacion->id)) }}"
+                        class="bg-green-600 text-white px-2 py-1 rounded-lg hover:bg-green-700 transition-transform transform hover:scale-105 flex items-center gap-2 shadow-md">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                          </svg>
+                           Ver Evidencia
+                     </a>
                 </div>
             </div>
         @endforeach
     @endif
-
-    <div class="mt-6 flex justify-center">
-        {{ $capacitaciones->onEachSide(1)->links('vendor.pagination.tailwind') }}
-    </div>
 
     <!-- Modal de confirmación -->
     <div id="modalConfirm"

@@ -66,7 +66,7 @@
                         
                         <div class="pt-4">
                             <button 
-                                wire:submit="store"
+                                wire:click="store()"
                                 class="bg-blue-500 w-full py-3 rounded-xl text-white font-semibold shadow-md 
                                 hover:bg-blue-600 focus:outline-none transition duration-300 transform hover:scale-105">
                                 Guardar

@@ -21,21 +21,21 @@ class MostrarCapacitaciones extends Component
 {
     use WithPagination;
 
-    public $usuario_id;
+    public $userSeleccionado;
     public $user;
     public $showModal = false; 
     public $funcionToDelete;
     public $years = [];
     public $selectedYear = null; 
-    public $userSeleccionado,$trabajador,
+    public $trabajador,
         $becario,
         $practicante,
         $instructor;
 
     public function mount($id)
     {
-        $this->usuario_id = Crypt::decrypt($id);
-        $this->user = User::find($this->usuario_id);
+        $this->userSeleccionado = Crypt::decrypt($id);
+        $this->user = User::find($this->userSeleccionado);
 
         // Cargar años disponibles desde la BD
         $this->loadAvailableYears();
@@ -44,14 +44,13 @@ class MostrarCapacitaciones extends Component
     public function loadAvailableYears()
     {
         $this->years = CapacitacionIndividual::whereHas('usuarios', function ($query) {
-                $query->where('users.id', $this->usuario_id);
+                $query->where('users.id', $this->userSeleccionado);
             })
             ->selectRaw('YEAR(fechaIni) as year')
             ->distinct()
             ->orderBy('year', 'desc')
             ->pluck('year')
             ->toArray();
-    
     }
 
     protected $listeners = [
@@ -76,39 +75,34 @@ class MostrarCapacitaciones extends Component
         $this->funcionToDelete = null;
         $this->showModal = false;
 
-        return redirect()->route('verCapacitacionesInd', ['id' => $this->usuario_id]); // Redirigir después de eliminar
+        return redirect()->route('verCapacitacionesInd', ['id' => $this->userSeleccionado]); // Redirigir después de eliminar
     }
 
     public function exportarPDF($id)
     {
         $capacitacion = CapacitacionIndividual::with('curso')->find($id);
 
-        $this->trabajador = Trabajador::where('user_id', $this->userSeleccionado->id)->first();
-        $this->becario = Becario::where('user_id', $this->userSeleccionado->id)->first();
-        $this->practicante = Practicante::where('user_id', $this->userSeleccionado->id)->first();
-        $this->instructor= Instructor::where('user_id', $this->userSeleccionado->id)->first();
-        $this->userSeleccionado = User::with('empresa')->find($this->userSeleccionado->id);
-        $this->userSeleccionado = User::with('sucursal')->find($this->userSeleccionado->id);
-
-        if (!$capacitacion) {
-            session()->flash('error', 'Capacitación no encontrada.');
-            return;
-        }
-
+        $this->trabajador = Trabajador::where('user_id', $this->user->id)->first();
+        $this->becario = Becario::where('user_id', $this->user->id)->first();
+        $this->practicante = Practicante::where('user_id', $this->user->id)->first();
+        $this->instructor = Instructor::where('user_id', $this->user->id)->first();
+        $this->user = User::with(['empresa', 'sucursal'])->find($this->user->id);
+        
         $pdf = Pdf::setOptions(['dpi' => 150, 'isRemoteEnabled' => true])
             ->loadView('livewire.portal-capacitacion.capacitaciones.pdf.capacitaciones', [
                 'capacitacion' => $capacitacion,
-                'usuario' => $this->userSeleccionado,
                 'curso' => $capacitacion->curso,
+                'usuario' => $this->user,
                 'trabajador' => $this->trabajador,
                 'becario' => $this->becario,
                 'practicante' => $this->practicante,
                 'instructor' => $this->instructor,
-            ] ,compact('capacitacion'))->setPaper('A4', 'portrait');
+            ])->setPaper('A4', 'portrait');
         
         return response()->streamDownload(function () use ($pdf) {
             echo $pdf->stream();
-        }, 'Capacitacion_' . $capacitacion->id . '.pdf');
+        }, "Capacitacion_Individual.pdf"
+        );
     }
 
     public function exportarTodasCapacitaciones()
@@ -118,39 +112,51 @@ class MostrarCapacitaciones extends Component
             session()->flash('error', 'Debes seleccionar un año antes de exportar.');
             return;
         }
-    
+
         // Obtener capacitaciones del usuario filtradas por año seleccionado
         $capacitaciones = CapacitacionIndividual::whereHas('usuarios', function ($query) {
-                $query->where('users.id', $this->usuario_id);
+                $query->where('users.id', $this->userSeleccionado); // Cambiado a userSeleccionado
             })
             ->whereYear('fechaIni', $this->selectedYear)
             ->with('curso')
             ->get();
-    
+
         // Verificar si hay datos
         if ($capacitaciones->isEmpty()) {
             session()->flash('error', 'No hay capacitaciones disponibles para el año seleccionado.');
             return;
         }
-    
-        // Generar PDF
-        $pdf = Pdf::loadView('livewire.portal-capacitacion.capacitaciones.pdf.capacitaciones-todas', [
-            'capacitaciones' => $capacitaciones,
-            'selectedYear' => $this->selectedYear, // Ahora sí está definida
-        ]);
-    
-        return response()->streamDownload(
-            fn () => print($pdf->output()),
-            "capacitaciones_{$this->selectedYear}.pdf"
+
+        $this->trabajador = Trabajador::where('user_id', $this->user->id)->first();
+        $this->becario = Becario::where('user_id', $this->user->id)->first();
+        $this->practicante = Practicante::where('user_id', $this->user->id)->first();
+        $this->instructor = Instructor::where('user_id', $this->user->id)->first();
+        $this->user = User::with(['empresa', 'sucursal'])->find($this->user->id);
+        
+        $pdf = Pdf::setOptions(['dpi' => 150, 'isRemoteEnabled' => true])
+            ->loadView('livewire.portal-capacitacion.capacitaciones.pdf.capacitaciones-todas', [
+                'capacitaciones' => $capacitaciones,
+                'selectedYear' => $this->selectedYear,
+                'usuario' => $this->user,
+                'trabajador' => $this->trabajador,
+                'becario' => $this->becario,
+                'practicante' => $this->practicante,
+                'instructor' => $this->instructor,
+            ])->setPaper('A4', 'portrait');
+
+            return response()->streamDownload(function () use ($pdf) {
+                echo $pdf->stream();
+            }, "Capacitaciones_Individuales_{$this->selectedYear}.pdf"
         );
     }
+
     
 
     public function render()
     {
         return view('livewire.portal-capacitacion.capacitaciones.cap-individuales.admin-general.mostrar-capacitaciones', [
             'capacitaciones' => $this->user 
-                ? $this->user->capacitaciones()->with('curso')->paginate(3) 
+                ? $this->user->capacitaciones()->with('curso')->paginate(10) 
                 : collect(),
             'years' => $this->years,   // Años disponibles en la vista
             'selectedYear' => $this->selectedYear, // Variable corregida

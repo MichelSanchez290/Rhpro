@@ -69,104 +69,30 @@ class UserSeeder extends Seeder
         ])->assignRole('GoldenAdmin','Trabajador ACTIVO FIJO');
 
         $user=User::create([
-            'name'=>'Carlos Jimenez',
-            'email'=>'carlos@gmail.com',
-            'password' => Hash::make('12345678'),
+            'name'=>'Adan Leyva Rodrigez',
+            'email'=>'adan@gmail.com',
+            'password' => Hash::make('prodiangelo$$$'),
             'empresa_id' => 1,
             'sucursal_id' => 1,
             'tipo_user' => 'Practicante'
-        ])->assignRole('EmpresaAdmin','Trabajador ACTIVO FIJO');
+        ])->assignRole('Trabajador PORTAL CAPACITACION');
 
         $user=User::create([
-            'name'=>'Ruben Perez',
-            'email'=>'ruben@gmail.com',
-            'password' => Hash::make('12345678'),
+            'name'=>'Elisa Refugio',
+            'email'=>'elisa@gmail.com',
+            'password' => Hash::make('123sucursal'),
             'empresa_id' => 1,
             'sucursal_id' => 1,
-            'tipo_user' => 'Practicante'
-        ])->assignRole('SusursalAdmin','Trabajador ACTIVO FIJO');
+            'tipo_user' => 'Trabajador'
+        ])->assignRole('Trabajador PORTAL CAPACITACION');
 
         $user=User::create([
-            'name'=>'Karen Rodriguez',
-            'email'=>'karen@gmail.com',
-            'password' => Hash::make('12345678'),
+            'name'=>'ADMIN Eli',
+            'email'=>'eli@gmail.com',
+            'password' => Hash::make('123456789'),
             'empresa_id' => 1,
             'sucursal_id' => 1,
-            'tipo_user' => 'Practicante'
-        ])->assignRole('Trabajador GLOBAL','Trabajador ACTIVO FIJO');
-
-        //Empresa 2
-        $user=User::create([
-            'name'=>'Mariana Lopez',
-            'email'=>'mari@gmail.com',
-            'password' => Hash::make('12345678'),
-            'empresa_id' => 2,
-            'sucursal_id' => 3,
-            'tipo_user' => 'Practicante'
-        ])->assignRole('GoldenAdmin','Trabajador ACTIVO FIJO');
-
-        $user=User::create([
-            'name'=>'Javier Solis',
-            'email'=>'javi@gmail.com',
-            'password' => Hash::make('12345678'),
-            'empresa_id' => 2,
-            'sucursal_id' => 3,
-            'tipo_user' => 'Practicante'
-        ])->assignRole('EmpresaAdmin','Trabajador ACTIVO FIJO');
-
-        $user=User::create([
-            'name'=>'Ricardo Gonzalez',
-            'email'=>'ricar@gmail.com',
-            'password' => Hash::make('12345678'),
-            'empresa_id' => 2,
-            'sucursal_id' => 3,
-            'tipo_user' => 'Practicante'
-        ])->assignRole('SusursalAdmin','Trabajador ACTIVO FIJO');
-
-        $user=User::create([
-            'name'=>'Paulina Reyes',
-            'email'=>'pau@gmail.com',
-            'password' => Hash::make('12345678'),
-            'empresa_id' => 2,
-            'sucursal_id' => 3,
-            'tipo_user' => 'Practicante'
-        ])->assignRole('Trabajador GLOBAL','Trabajador ACTIVO FIJO');
-
-        //Empresa 3
-        $user=User::create([
-            'name'=>'Veronica Flores',
-            'email'=>'vero@gmail.com',
-            'password' => Hash::make('12345678'),
-            'empresa_id' => 3,
-            'sucursal_id' => 5,
-            'tipo_user' => 'Practicante'
-        ])->assignRole('GoldenAdmin','Trabajador ACTIVO FIJO');
-
-        $user=User::create([
-            'name'=>'Ismael Gutierrez',
-            'email'=>'isma@gmail.com',
-            'password' => Hash::make('12345678'),
-            'empresa_id' => 3,
-            'sucursal_id' => 5,
-            'tipo_user' => 'Practicante'
-        ])->assignRole('EmpresaAdmin','Trabajador ACTIVO FIJO');
-
-        $user=User::create([
-            'name'=>'Aldo Gutierrez',
-            'email'=>'aldo@gmail.com',
-            'password' => Hash::make('12345678'),
-            'empresa_id' => 3,
-            'sucursal_id' => 5,
-            'tipo_user' => 'Practicante'
-        ])->assignRole('SusursalAdmin','Trabajador ACTIVO FIJO');
-
-        $user=User::create([
-            'name'=>'Karla Velazco',
-            'email'=>'karla@gmail.com',
-            'password' => Hash::make('12345678'),
-            'empresa_id' => 3,
-            'sucursal_id' => 5,
-            'tipo_user' => 'Practicante'
-        ])->assignRole('Trabajador GLOBAL','Trabajador ACTIVO FIJO');
+            'tipo_user' => 'Trabajador'
+        ])->assignRole('Trabajador PORTAL CAPACITACION');
     }
 }

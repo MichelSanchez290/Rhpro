@@ -43,25 +43,24 @@ class EditarTematica extends Component
     }
 
     public function store()
-{
-    $this->validate([
-        'nombre' => 'required',
-        'empresa_id' => 'required',
-        'sucursal_id' => 'required',
-    ]);
+    {
+        $this->validate([
+            'nombre' => 'required',
+            'empresa_id' => 'required',
+            'sucursal_id' => 'required',
+        ]);
 
-    // Buscar la tematica existente y actualizarla
-    $tematica = Tematica::findOrFail($this->tematicas_id);
-    $tematica->update([
-        'nombre' => $this->nombre,
-        'empresa_id' => $this->empresa_id,
-        'sucursal_id' => $this->sucursal_id,
-    ]);
+        // Buscar la tematica existente y actualizarla
+        Tematica::updateOrCreate(['id' => $this->tematicas_id], [
+            'nombre' => $this->nombre,
+            'empresa_id' => $this->empresa_id,
+            'sucursal_id' => $this->sucursal_id,
+        ]);
 
-    session()->flash('success', 'Temática actualizada exitosamente.');
+        session()->flash('success', 'Temática actualizada exitosamente.');
 
-    return redirect()->route('verTematicas');
-}
+        return redirect()->route('verTematicas');
+    }
 
 
     public function render()
