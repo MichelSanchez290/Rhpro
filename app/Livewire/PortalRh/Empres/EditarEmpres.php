@@ -68,10 +68,6 @@ class EditarEmpres extends Component
         return redirect()->route('mostrarempresas');
     }
 
-    public function redirigir()
-    {
-        return redirect()->route('mostrarempresas');
-    }
 
     public function render()
     {

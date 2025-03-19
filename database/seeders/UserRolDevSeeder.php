@@ -60,10 +60,10 @@ class UserRolDevSeeder extends Seeder
         Permission::create(['name' => 'Editar Usuario'])->syncRoles([$role1, $role2]);
         Permission::create(['name' => 'Eliminar Usuario'])->syncRoles([$role1]);
 
-        Permission::create(['name' => 'Mostrar Reg Patronales'])->syncRoles([$role1, $role2]);
-        Permission::create(['name' => 'Agregar Reg Patronales'])->syncRoles([$role1]);
-        Permission::create(['name' => 'Editar Reg Patronales'])->syncRoles([$role1, $role2]);
-        Permission::create(['name' => 'Eliminar Reg Patronales'])->syncRoles([$role1]);
+        Permission::create(['name' => 'Mostrar Reg Patronal'])->syncRoles([$role1, $role2]);
+        Permission::create(['name' => 'Agregar Reg Patronal'])->syncRoles([$role1]);
+        Permission::create(['name' => 'Editar Reg Patronal'])->syncRoles([$role1, $role2]);
+        Permission::create(['name' => 'Eliminar Reg Patronal'])->syncRoles([$role1]);
         
         Permission::create(['name' => 'Mostrar Empresas'])->syncRoles([$role1, $role8, $role10]);
         Permission::create(['name' => 'Agregar Empresa'])->syncRoles([$role1]);

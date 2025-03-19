@@ -123,7 +123,11 @@
                 <!-- Registros Patronales -->
                 <li class="opcion-con-desplegable">
                     <div class="flex items-center justify-between px-2 py-2 hover:bg-gray-700 cursor-pointer">
-                        <i class="fas fa-file-alt mr-2"></i>
+                        <svg class="mr-2" xmlns="http://www.w3.org/2000/svg" height="14" width="10.5"
+                            viewBox="0 0 384 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                            <path fill="#ffffff"
+                                d="M64 0C28.7 0 0 28.7 0 64L0 448c0 35.3 28.7 64 64 64l256 0c35.3 0 64-28.7 64-64l0-288-128 0c-17.7 0-32-14.3-32-32L224 0 64 0zM256 0l0 128 128 0L256 0zM80 64l64 0c8.8 0 16 7.2 16 16s-7.2 16-16 16L80 96c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64l64 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-64 0c-8.8 0-16-7.2-16-16s7.2-16 16-16zm16 96l192 0c17.7 0 32 14.3 32 32l0 64c0 17.7-14.3 32-32 32L96 352c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32zm0 32l0 64 192 0 0-64L96 256zM240 416l64 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-64 0c-8.8 0-16-7.2-16-16s7.2-16 16-16z" />
+                        </svg>
                         <span class="flex-1">Registros Patronales</span>
                         <i class="fas fa-chevron-down text-xs"></i>
                     </div>
@@ -138,7 +142,7 @@
                         <li>
                             <a href="{{ route('agregarregpatronal') }}"
                                 class="p-2 hover:bg-gray-700 flex items-center">
-                                <i class="mr-2 text-xs"></i> Mostrar
+                                <i class="mr-2 text-xs"></i> Agregar Reg Patronal
                             </a>
                         </li>
                     </ul>
