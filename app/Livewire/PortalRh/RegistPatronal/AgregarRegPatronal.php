@@ -9,11 +9,9 @@ class AgregarRegPatronal extends Component
 {
     public $registro = [];
 
-    
-
     protected $rules = [
         'registro.registro_patronal' => 'required',
-        'registro.rfc' => 'required|size:13',
+        'registro.rfc' => 'required|size:13|unique:registros_patronales,rfc',
         'registro.nombre_o_razon_social' => 'required',
         'registro.regimen_capital' => 'required',
         'registro.regimen_fiscal' => 'required',
@@ -45,6 +43,7 @@ class AgregarRegPatronal extends Component
     protected $messages = [
         'registro.*.required' => 'Este campo es obligatorio.',
         'registro.rfc.size' => 'El RFC debe tener exactamente 13 caracteres.',
+        'registro.rfc.unique' => 'Este RFC ya esta asignada a otro registro patronal.',
         'registro.imms_codigo_postal.digits' => 'El código postal debe tener 5 dígitos.',
         'registro.imms_telefono.digits' => 'El teléfono debe tener 10 dígitos.',
         //'registro.prima_año.digits' => 'El año de prima debe tener 4 dígitos.',
@@ -53,17 +52,17 @@ class AgregarRegPatronal extends Component
         
     ];
 
-
-
     // Método para guardar el registro patronal
     public function saveRegistro()
     {
         $this->validate();
-
         RegistroPatronal::create($this->registro);
-
         $this->registro = [];
-        //$this->emit('showAnimatedToast', 'Registro patronal guardado correctamente.');
+        session()->flash('message', 'Registro patronal agregado');
+    }
+
+    public function redirigir()
+    {
         return redirect()->route('mostrarregpatronal');
     }
 

@@ -77,7 +77,7 @@ class EditarSucursal extends Component
             ],
         ]);
 
-        return redirect()->route('mostrarsucursal')->with('message', 'Sucursal actualizada correctamente.');
+        session()->flash('message', 'Sucursal actualizada.'); //mostrarsucursal
     }
 
 

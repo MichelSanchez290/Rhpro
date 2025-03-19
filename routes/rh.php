@@ -185,6 +185,11 @@ Route::get(
             AgregarSucursal::class
     )->name('agregarsucursal');
 
+    Route::get( 
+        '/edit-sucursal/{id}',
+            EditarSucursal::class
+    )->name('editarsucursal');
+
 
     // Reg Patronal ---------------------------------------------------------------
     Route::get( 
@@ -199,9 +204,9 @@ Route::get(
 
 
     Route::get( 
-        '/edit-sucursal/{id}',
-            EditarSucursal::class
-    )->name('editarsucursal');
+        '/edit-regpatronal/{id}',
+            EditarRegPatronal::class
+    )->name('editarregpatronal');
 
     // DEPARTAMENTOS  ---------------------------------------------------------------
     Route::get( 
