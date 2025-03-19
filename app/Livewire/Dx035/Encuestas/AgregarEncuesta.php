@@ -11,7 +11,7 @@ use App\Models\Dx035\Cuestionario;
 use App\Models\PortalRH\Empresa;
 use App\Models\PortalRH\Sucursal;
 use App\Models\PortalRH\SucursalDepartamento;
-use App\Models\PortalRH\EmpresSucursal;
+use App\Models\PortalRH\EmpresaSucursal;
 use App\Models\PortalRH\Departamento;
 
 use Illuminate\Support\Str;
@@ -69,39 +69,39 @@ class AgregarEncuesta extends Component
     public function submit()
     {
         $this->validate();
-    
+
         // Obtener la relación sucursal-departamento
         $sucursalDepartamento = SucursalDepartamento::where('sucursal_id', $this->sucursal)
             ->where('departamento_id', $this->departamento)
             ->first();
-    
+
         if (!$sucursalDepartamento) {
             session()->flash('error', 'No se encontró la relación sucursal-departamento.');
             return;
         }
-    
+
         // Generar la clave automáticamente
         $clave = Str::uuid()->toString();
-    
+
         // Guardar el logo si se proporciona
         $rutaLogo = null;
         if ($this->logo) {
             $rutaLogo = $this->logo->store('logos', 'public');
         }
-    
+
         // Crear la encuesta
         $encuesta = Encuesta::create([
             'Clave' => $clave,
-            'Empresa' => Empresa::find($this->empresa)->nombre,
+            'Empresa' => Empresa::find($this->empresa)->nombre, // Guardar el nombre de la empresa
             'Actividades' => $this->Actividades,
-            'sucursal_departament_id' => $sucursalDepartamento->id,
+            'sucursal_departament_id' => $sucursalDepartamento->id, // Asignar el ID de la relación sucursal-departamento
             'FechaInicio' => $this->FechaInicio,
             'FechaFinal' => $this->FechaFinal,
             'NumeroEncuestas' => $this->numtrabajadores,
             'RutaLogo' => $rutaLogo,
             'Estado' => 1,
         ]);
-    
+
         // Obtener los IDs de los cuestionarios seleccionados
         $cuestionariosSeleccionadosIds = [];
         foreach ($this->cuestionariosSeleccionados as $cuestionarioId => $seleccionado) {
@@ -109,10 +109,10 @@ class AgregarEncuesta extends Component
                 $cuestionariosSeleccionadosIds[] = $cuestionarioId;
             }
         }
-    
+
         // Guardar los cuestionarios seleccionados en la tabla pivote
         $encuesta->cuestionarios()->attach($cuestionariosSeleccionadosIds);
-    
+
         session()->flash('message', 'Encuesta creada correctamente.');
         return redirect()->route('encuesta.index');
     }
@@ -151,7 +151,7 @@ class AgregarEncuesta extends Component
 
     public function updatedSelectoruno()
     {
-        
+
     }
 
     public function updatedSelectordos()
