@@ -5,49 +5,26 @@
         <!-- Input de Archivo (Evidencias) -->
         <div class="space-y-3">
             <label for="evidencias" class="block text-lg font-semibold text-gray-700">📷 Evidencias</label>
-            <input type="file" wire:model="evidencias" id="evidencias" 
+            <input type="file" wire:model="evidencias" multiple 
                    class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-300 hover:scale-105 bg-gray-50"
                    accept="image/*">
             @error('evidencias') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
 
             <!-- Previsualización de la imagen (Reducida) -->
-            @if ($evidencias)
-                <div class="mt-3 flex justify-center">
-                    <img src="{{ $evidencias->temporaryUrl() }}" 
-                         alt="Evidencia Preview" 
-                         class="max-w-48 max-h-48 object-cover rounded-lg shadow-md border border-gray-300">
+            <div class="mt-4">
+                <h3 class="text-lg font-bold">Imágenes seleccionadas:</h3>
+                <div class="grid grid-cols-3 gap-4 mt-2">
+                    @foreach ($evidenciasPreview as $index => $image)
+                        <div class="relative">
+                            <img src="{{ $image }}" class="max-w-48 max-h-48 object-cover rounded-lg shadow-md border border-gray-300">
+                            <button type="button" wire:click.prevent="removeImage({{ $index }})"
+                                class="absolute top-0 right-0 bg-red-500 text-white px-2 py-1 text-xs rounded">
+                                X
+                            </button>
+                        </div>
+                    @endforeach
                 </div>
-            @endif
-        </div>
-
-        <!-- Textarea de Comentarios -->
-        <div class="space-y-3">
-            <label for="comentarios" class="block text-lg font-semibold text-gray-700">💬 Comentarios</label>
-            <textarea wire:model="comentarios" id="comentarios" 
-                      class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 hover:scale-105 bg-gray-50"
-                      placeholder="Escribe algún comentario (opcional)"></textarea>
-            @error('comentarios') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-        </div>
-
-        <!-- Select de Estado -->
-        <div class="space-y-3">
-            <label for="status" class="block text-lg font-semibold text-gray-700">📌 Estado</label>
-            <select wire:model="status" id="status"
-                    class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition duration-300 hover:scale-105 bg-gray-50">
-                    <option value="pendiente">Selecciona un estado</option>
-                    <option value="pendiente">Pendiente</option>
-                    <option value="completado">Completado</option>
-                    <option value="en_proceso">En proceso</option>
-            </select>
-            @error('status') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-        </div>
-
-        <!-- Input de Fecha -->
-        <div class="space-y-3">
-            <label for="fecha" class="block text-lg font-semibold text-gray-700">📅 Fecha</label>
-            <input type="date" wire:model="fecha" id="fecha"
-                   class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition duration-300 hover:scale-105 bg-gray-50">
-            @error('fecha') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+            </div>
         </div>
 
         <div class="flex justify-center gap-4">

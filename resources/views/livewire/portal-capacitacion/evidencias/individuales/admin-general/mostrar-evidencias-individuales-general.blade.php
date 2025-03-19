@@ -1,14 +1,7 @@
 <div class="container mx-auto p-6">
     <h2 class="text-3xl font-bold text-gray-800 mb-6">📁 Evidencias de la Capacitación Individual</h2>
-    <div class="flex space-x-4">
-        <div class="flex space-x-4">
-            <a href="{{ route('agregarEvidenciasIndTrabajador', Crypt::encrypt($caps_individuales_id)) }}"
-                class="bg-green-600 text-white px-5 py-2 rounded-md shadow-md hover:bg-green-700 hover:shadow-lg 
-                    flex items-center gap-2 transition-all duration-300 transform hover:scale-105 focus:outline-none">
-                ⬆️ <span class="font-medium">Subir Evidencia</span>
-            </a>
-        </div>
 
+    <div class="flex space-x-4">
         @if ($tieneEvidenciasAprobadas)
             <!-- Botón de Descargar Reconocimiento -->
             <a href="{{ route('descargar.reconocimiento.ind', Crypt::encrypt($caps_individuales_id)) }}"
@@ -29,6 +22,29 @@
         @if ($evidenciasPendientes->count() > 0)
             <div class="bg-white shadow-md rounded-xl p-6 border-l-4 border-yellow-400">
                 <h3 class="text-xl font-semibold text-yellow-600">⚠️ Evidencias Pendientes</h3>
+
+                <div class="flex space-x-4 mb-6 mt-3">
+                    <button wire:click="aprobarEvidencias"
+                        class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition">✅
+                        Aprobar</button>
+                    <button onclick="document.getElementById('comentarioModal').classList.remove('hidden')"
+                        class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">❌
+                        Rechazar</button>
+                </div>
+                <!-- Modal de Comentario -->
+                <div id="comentarioModal"
+                    class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                    <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+                        <h3 class="text-lg font-bold mb-2">Motivo del rechazo</h3>
+                        <textarea id="comentarioInput" class="w-full p-2 border rounded-lg" placeholder="Escribe el motivo..."></textarea>
+                        <div class="mt-4 flex justify-end space-x-2">
+                            <button onclick="document.getElementById('comentarioModal').classList.add('hidden')"
+                                class="bg-gray-400 text-white px-4 py-2 rounded-lg">Cancelar</button>
+                            <button wire:click="rechazarEvidencias(document.getElementById('comentarioInput').value)"
+                                class="bg-red-500 text-white px-4 py-2 rounded-lg">Enviar</button>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     @foreach ($evidenciasPendientes as $evidencia)
