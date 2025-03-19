@@ -15,7 +15,7 @@ use App\Models\Dx035\DatoTrabajador;
 use Barryvdh\DomPDF\Facade\Pdf;
 use IcehouseVentures\LaravelChartjs\Builder;
 use ChartJsNodeCanvas\ChartJsNodeCanvas;
-use App\Services\ChartService; // Importar el servicio
+use App\Services\ChartService;
 use App\Http\Controllers\ReporteController;
 
 use Illuminate\Support\Facades\Log;
@@ -252,7 +252,7 @@ class MostrarEncuestas extends Component
                     'datasets' => [
                         [
                             'label' => 'Puntajes',
-                            'data' => [$iniValue, $finValue, 100], // Asegúrate de pasar valores numéricos
+                            'data' => [$iniValue, $finValue, 100],
                             'backgroundColor' => ['#1a8901', '#0c3fb5'],
                         ],
                     ],
@@ -359,6 +359,7 @@ class MostrarEncuestas extends Component
         }
     }
 
+
     private function guardarGraficaLocal($chartConfig, $nombreArchivo)
     {
         try {
@@ -377,7 +378,7 @@ class MostrarEncuestas extends Component
             // Verificar si la respuesta fue exitosa
             if ($response->successful()) {
                 // Crear la carpeta si no existe
-                $carpeta = storage_path('app/public/graficas');
+                $carpeta = public_path('storage/graficas');
                 if (!file_exists($carpeta)) {
                     mkdir($carpeta, 0777, true);
                 }
@@ -385,6 +386,13 @@ class MostrarEncuestas extends Component
                 // Guardar la imagen en el servidor
                 $rutaArchivo = $carpeta . '/' . $nombreArchivo . '.png';
                 file_put_contents($rutaArchivo, $response->body());
+
+                // Verificar si el archivo se guardó correctamente
+                if (file_exists($rutaArchivo)) {
+                    Log::info('Gráfica guardada correctamente en:', ['ruta' => $rutaArchivo]);
+                } else {
+                    Log::error('Error: La gráfica no se guardó en la ruta especificada.');
+                }
 
                 // Devolver la ruta pública del archivo
                 return asset('storage/graficas/' . $nombreArchivo . '.png');
@@ -493,7 +501,7 @@ class MostrarEncuestas extends Component
                 'options' => [
                     'title' => [
                         'display' => true,
-                        'text' => 'Gráfica de Pastel',
+                        'text' => '',
                         'fontSize' => 20,
                     ],
                     'legend' => [
@@ -540,7 +548,7 @@ class MostrarEncuestas extends Component
                 'options' => [
                     'title' => [
                         'display' => true,
-                        'text' => 'Distribución de Género',
+                        'text' => '',
                         'fontSize' => 20,
                     ],
                     'legend' => [

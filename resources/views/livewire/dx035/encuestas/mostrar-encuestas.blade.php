@@ -27,6 +27,12 @@
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Empresa
                                         </th>
+                                        <!-- Mostrar columna de Sucursal solo para SucursalAdmin -->
+                                        @if(Auth::user()->hasRole('SucursalAdmin'))
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                {{ $encuesta->sucursalDepartamento->sucursal->nombre_sucursal ?? 'N/A' }}
+                                            </td>
+                                        @endif
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Cuestionario
                                         </th>
@@ -62,6 +68,13 @@
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                                 {{ $encuesta->Empresa }}
                                             </td>
+                                            <!-- Mostrar columna de Sucursal solo para SucursalAdmin -->
+                                            @if(Auth::user()->hasRole('SucursalAdmin'))
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                    {{ $encuesta->sucursalDepartamento->sucursal->nombre_sucursal ?? 'N/A' }}
+                                                </td>
+                                            @endif
+
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                                 @foreach($encuesta->cuestionarios as $cuestionario)
                                                     <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded">
@@ -104,7 +117,7 @@
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                                 <select wire:model="tipoReporte" class="border border-gray-300 rounded-md px-2 py-1 text-sm">
                                                     <option value="general">General</option>
-                                                    <option value="estadistico">Estadístico</option>
+                                                    <option value="estadistico">Estadistico</option>
                                                 </select>
                                                 <button wire:click="generarReporte({{ $encuesta->id }})" class="text-red-600 hover:text-red-900 ml-2">
                                                     <i class="fas fa-file-pdf"></i> Generar
@@ -112,6 +125,10 @@
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                                 @if(Auth::user()->hasRole('GoldenAdmin') || Auth::user()->hasRole('EmpresaAdmin'))
+                                                    <!-- Ícono de gráficas de barras -->
+                                                    <a href="{{ route('encuesta.estadisticas', $encuesta->id) }}" class="text-green-600 hover:text-green-900">
+                                                        <i class="fas fa-chart-bar"></i> <!-- Ícono de gráficas de barras -->
+                                                    </a>
                                                     <a href="{{ route('encuestas.edit', $encuesta->id) }}" class="text-blue-600 hover:text-blue-900">
                                                         <i class="fas fa-edit"></i> Editar
                                                     </a>
@@ -123,7 +140,7 @@
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="10" class="px-6 py-4 text-center text-sm text-gray-500">
+                                            <td colspan="{{ Auth::user()->hasRole('SucursalAdmin') ? 11 : 10 }}" class="px-6 py-4 text-center text-sm text-gray-500">
                                                 No se encontraron encuestas.
                                             </td>
                                         </tr>
@@ -198,3 +215,4 @@
         </script>
     </div>
 </div>
+
