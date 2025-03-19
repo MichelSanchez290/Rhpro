@@ -8,7 +8,7 @@
             class="bg-green-600 text-white px-4 py-2 rounded-md shadow-md hover:bg-green-700 hover:shadow-lg 
                 flex items-center gap-2 transition-all duration-300 transform hover:scale-105 focus:outline-none">
             <i class="fas fa-plus text-lg"></i>
-            <span class="text-sm font-semibold">Agregar evidencia</span>
+            <span class="text-sm font-semibold">Subir evidencia</span>
         </button>
 
         @if ($tieneEvidenciasAprobadas)

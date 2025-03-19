@@ -119,6 +119,7 @@ use App\Livewire\PortalCapacitacion\Capacitaciones\CapGrupales\AdminEmpresa\Edit
 use App\Livewire\PortalCapacitacion\Capacitaciones\CapGrupales\AdminSucursal\MostrarCapacitacionesGrupalesSucursal;
 use App\Livewire\PortalCapacitacion\Capacitaciones\CapGrupales\AdminSucursal\AgregarCapacitacionesGrupalesSucursal;
 use App\Livewire\PortalCapacitacion\Capacitaciones\CapGrupales\AdminSucursal\EditarCapacitacionesGrupalesSucursal;
+use App\Livewire\PortalCapacitacion\Evidencias\Individuales\AdminGeneral\MostrarEvidenciasIndividualesGeneral;
 use App\Livewire\PortalCapacitacion\Evidencias\Individuales\AdminTrabajador\MostrarEvidenciasIndividuales;
 use App\Livewire\PortalCapacitacion\Evidencias\Individuales\AdminTrabajador\AgregarEvidenciasIndividuales;
 use App\Livewire\PortalCapacitacion\Evidencias\Individuales\AdminTrabajador\EditarEvidenciasIndividuales;
@@ -133,6 +134,7 @@ use App\Livewire\PortalCapacitacion\Participantes\AdminEmpresa\AgregarParticipan
 use App\Livewire\PortalCapacitacion\Participantes\AdminSucursal\EditarParticipantesCapacitacionSucursal;
 use App\Livewire\PortalCapacitacion\Participantes\AdminSucursal\AgregarParticipantesCapacitacionSucursal;
 use App\Livewire\PortalCapacitacion\Capacitaciones\CapGrupales\ReconocimientoController;
+use App\Livewire\PortalCapacitacion\Capacitaciones\CapIndividuales\ReconocimientoControllerInd;
 
 Route::get('/inicio', Inicio::class)->name('inicio-capacitacion');
 
@@ -315,6 +317,8 @@ Route::get('/editar-trabajador-capacitacion-grupal-sucursal/{id}', EditarPartici
 
 
 //Evidencias individuales
+Route::get('/ver-evidencias-ind-general/{id}', MostrarEvidenciasIndividualesGeneral::class)->middleware('can:Ver evidencias')->name('verEvidenciasInd');
+//--------------------------------------------------------------------------------------------------------------------------------
 Route::get('/ver-evidencias-ind/{id}', MostrarEvidenciasIndividuales::class)->middleware('can:Ver evidencias Trabajador')->name('verEvidenciasIndTrabajador');
 Route::get('/agregar-evidencias-ind/{id}', AgregarEvidenciasIndividuales::class)->name('agregarEvidenciasIndTrabajador');
 
@@ -325,3 +329,4 @@ Route::get('/ver-evidencias-gru/{id}', MostrarEvidenciasTrabajadorGrupales::clas
 Route::get('/agregar-evidencias-gru/{id}', AgregarEvidenciasTrabajadorGrupales::class)->name('agregarEvidenciasGruTrabajador');
 
 Route::get('/descargar-reconocimiento/{id}', [ReconocimientoController::class, 'descargar'])->name('descargar.reconocimiento');
+Route::get('/descargar-reconocimiento-ind/{id}', [ReconocimientoControllerInd::class, 'descargar'])->name('descargar.reconocimiento.ind');
