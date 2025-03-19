@@ -93,7 +93,6 @@ class User extends Authenticatable
 
 
 
-<<<<<<< HEAD
 
     /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public function cambioSalario()
@@ -183,8 +182,6 @@ class User extends Authenticatable
     ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 
     /* RELACIONES MODULO ACTIVO FIJO */
-=======
->>>>>>> dcbdfe7735e694a344192d1165bd33a464ed4479
     public function activosMobiliario()
     {
         return $this->belongsToMany(ActivoMobiliario::class, 'activos_mobiliario_user', 'user_id', 'activos_mobiliarios_id')
@@ -229,31 +226,28 @@ class User extends Authenticatable
         return $this->belongsTo(Empresa::class, 'empresa_id');
     }
 
-<<<<<<< HEAD
     
-=======
     // public function asignacion()
     // {
     //     //un user peertence a un becario
     //     return $this->hasMany(Asignacion::class);
     // }
 
-    public function asignacion()
-{
-    return $this->hasMany(Asignacion::class, 'calificado_id', 'id');
-}
+//     public function asignacion()
+// {
+//     return $this->hasMany(Asignacion::class, 'calificado_id', 'id');
+// }
 
-    public function perfilesPuestos(): BelongsToMany
-    {
-        return $this->belongsToMany(PerfilPuesto::class, 'perfil_puesto_user', 'users_id', 'perfiles_puestos_id')->withPivot(['status', 'fecha_inicio', 'fecha_final', 'motivo_cambio']);
-    }
+//     public function perfilesPuestos(): BelongsToMany
+//     {
+//         return $this->belongsToMany(PerfilPuesto::class, 'perfil_puesto_user', 'users_id', 'perfiles_puestos_id')->withPivot(['status', 'fecha_inicio', 'fecha_final', 'motivo_cambio']);
+//     }
 
-    public function perfilActual()
-    {
-        return $this->perfilesPuestos()->latest()->first();
-    }
+//     public function perfilActual()
+//     {
+//         return $this->perfilesPuestos()->latest()->first();
+//     }
 
->>>>>>> dcbdfe7735e694a344192d1165bd33a464ed4479
     //Por favor no tocar porque aqui son de mi asignaciones para que mueste el nombre de la empresa y sucursal 
     public function sucursal()
     {
@@ -301,9 +295,8 @@ class User extends Authenticatable
         return $this->hasMany(DatoTrabajador::class, 'users_id');
     }
 
-<<<<<<< HEAD
     //PORTAL DE CAPACITACIONES
-    public function perfilesPuestos(): BelongsToMany
+    public function perfilesPuestos()
     {
         return $this->belongsToMany(PerfilPuesto::class, 'perfil_puesto_user', 'users_id', 'perfiles_puestos_id')->withPivot(['status', 'fecha_inicio', 'fecha_final', 'motivo_cambio']);
     }
@@ -327,17 +320,4 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(CapacitacionIndividual::class, 'cap_individual_user', 'users_id', 'caps_individuales_id');
     }
-
-=======
-    
-    public function departamento()
-    {
-        return $this->belongsTo(Departamento::class, 'departamento_id');
-    }
-
-    public function puesto()
-{
-    return $this->belongsTo(Puesto::class, 'puesto_id');
-}
->>>>>>> dcbdfe7735e694a344192d1165bd33a464ed4479
 }

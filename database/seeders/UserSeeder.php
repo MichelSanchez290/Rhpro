@@ -58,44 +58,6 @@ class UserSeeder extends Seeder
             'sucursal_id' => 1,
             'tipo_user' => 'Practicante'
         ])->assignRole('Trabajador GLOBAL');
-<<<<<<< HEAD
-        
-        $user=User::create([
-            'name'=>'Carmela Vazquez',
-            'email'=>'carme@gmail.com',
-            'password' => Hash::make('12345678'),
-            'empresa_id' => 1,
-            'sucursal_id' => 1,
-            'tipo_user' => 'Practicante'
-        ])->assignRole('GoldenAdmin','Trabajador ACTIVO FIJO');
-
-        $user=User::create([
-            'name'=>'Adan Leyva Rodrigez',
-            'email'=>'adan@gmail.com',
-            'password' => Hash::make('prodiangelo$$$'),
-            'empresa_id' => 1,
-            'sucursal_id' => 1,
-            'tipo_user' => 'Practicante'
-        ])->assignRole('Trabajador PORTAL CAPACITACION');
-
-        $user=User::create([
-            'name'=>'Elisa Refugio',
-            'email'=>'elisa@gmail.com',
-            'password' => Hash::make('123sucursal'),
-            'empresa_id' => 1,
-            'sucursal_id' => 1,
-            'tipo_user' => 'Trabajador'
-        ])->assignRole('Trabajador PORTAL CAPACITACION');
-
-        $user=User::create([
-            'name'=>'ADMIN Eli',
-            'email'=>'eli@gmail.com',
-            'password' => Hash::make('123456789'),
-            'empresa_id' => 1,
-            'sucursal_id' => 1,
-            'tipo_user' => 'Trabajador'
-        ])->assignRole('Trabajador PORTAL CAPACITACION');
-=======
         // $user=User::create([
         //     'name'=>'Trabajador PORTAL CAPACITACION',
         //     'email'=>'portal@gmail.com',
@@ -131,6 +93,5 @@ class UserSeeder extends Seeder
         //     'sucursal_id' => 2,
         //     'tipo_user' => 'Trabajador'
         // ])->assignRole('EmpresaAdmin');
->>>>>>> dcbdfe7735e694a344192d1165bd33a464ed4479
     }
 }
