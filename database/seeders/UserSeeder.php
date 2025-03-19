@@ -18,8 +18,8 @@ class UserSeeder extends Seeder
             'name'=>'ADMINISTRADOR',
             'email'=> 'admin@gmail.com',
             'password' => Hash::make('123456789'),
-            'empresa_id' => null,
-            'sucursal_id' => null,
+            'empresa_id' => 1,
+            'sucursal_id' => 1,
             'tipo_user' => 'Trabajador'
         ])->assignRole('GoldenAdmin');
 
@@ -27,8 +27,8 @@ class UserSeeder extends Seeder
             'name'=>'ADMINISTRADOR EMPRESA',
             'email'=>'empresaadmin@gmail.com',
             'password' => Hash::make('123456789$$$'),
-            'empresa_id' => null,
-            'sucursal_id' => null,
+            'empresa_id' => 1,
+            'sucursal_id' => 1,
             'tipo_user' => 'Trabajador'
         ])->assignRole('EmpresaAdmin');
 
@@ -36,8 +36,8 @@ class UserSeeder extends Seeder
             'name'=>'ADMINISTRADOR SUCURSAL',
             'email'=>'sucursal@gmail.com',
             'password' => Hash::make('123sucursal$$$'),
-            'empresa_id' => null,
-            'sucursal_id' => null,
+            'empresa_id' => 1,
+            'sucursal_id' => 1,
             'tipo_user' => 'Trabajador'
         ])->assignRole('SucursalAdmin');
 
@@ -45,8 +45,8 @@ class UserSeeder extends Seeder
             'name'=>'Trabajador ENCUESTA 360',
             'email'=>'becartio@gmail.com',
             'password' => Hash::make('123encuesta360$$$'),
-            'empresa_id' => null,
-            'sucursal_id' => null,
+            'empresa_id' => 1,
+            'sucursal_id' => 1,
             'tipo_user' => 'Becario'
         ])->assignRole('Trabajador ENCUESTA 360');
 
@@ -54,8 +54,8 @@ class UserSeeder extends Seeder
             'name'=>'Trabajador Global',
             'email'=>'practicante@gmail.com',
             'password' => Hash::make('prodiangelo$$$'),
-            'empresa_id' => null,
-            'sucursal_id' => null,
+            'empresa_id' => 1,
+            'sucursal_id' => 1,
             'tipo_user' => 'Practicante'
         ])->assignRole('Trabajador GLOBAL');
         // $user=User::create([
