@@ -123,9 +123,9 @@ class User extends Authenticatable
         //un user tiene una baja
         return $this->hasMany(Baja::class);
     }
+
     /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     
-
     public function infonavitCreditos()
     {
         //un user peertence a un becario
