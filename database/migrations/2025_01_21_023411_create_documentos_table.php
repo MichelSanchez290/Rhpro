@@ -15,20 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('archivo', 255);
             $table->date('fecha_subida');
-            $table->string('status', 45);
-            $table->string('numero', 1000);
-            $table->string('original', 45);
-            $table->string('comentarios', 1000);
-
-            //donde almacenara el id de la relacion
-            $table->unsignedBigInteger('tipodocumento_id');
-            $table->foreign('tipodocumento_id') //Declara que id es una clave foránea.
-                    ->references('id') //Indica que esta columna hace referencia a la columna id
-                    ->on( 'tiposdocumentos')  // Define que la relación es con la tabla xxx
-                    ->onUpdate('cascade')
-                    ->onDelete('cascade');
-            
-
+            $table->string('status', 255);
+            $table->text('numero');
+            $table->string('original', 255);
+            $table->text('comentarios')->nullable();
+            $table->string('tipo_documento', 255);
             $table->timestamps();
         });
     }
@@ -38,12 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        // Eliminar las claves foráneas explícitamente
-        Schema::table('documentos', function (Blueprint $table) {
-            $table->dropForeign(['tipodocumento_id']);
-        });
-
-
         Schema::dropIfExists('documentos');
     }
 };

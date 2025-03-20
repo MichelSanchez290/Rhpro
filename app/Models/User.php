@@ -90,7 +90,7 @@ class User extends Authenticatable
 
     public function documentos()
     {
-        return $this->belongsToMany(Documento::class)->withPivot('documento_id', 'user_id', 'status');
+        return $this->belongsToMany(Documento::class, 'user_documento', 'documento_id', 'user_id')->withTimestamps();
     }
 
     public function incapacidades()

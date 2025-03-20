@@ -99,6 +99,10 @@ use App\Livewire\PortalRh\CambioSalario\MostrarCambioSalario;
 use App\Livewire\PortalRh\CambioSalario\AgregarCambioSalario;
 use App\Livewire\PortalRh\CambioSalario\EditarCambioSalario;
 
+use App\Livewire\PortalRh\Documentos\MostrarDocumento;
+use App\Livewire\PortalRh\Documentos\AgregarDocumento;
+use App\Livewire\PortalRh\Documentos\EditarDocumento;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -201,7 +205,6 @@ Route::get(
         '/create-regpatronal',
             AgregarRegPatronal::class
     )->name('agregarregpatronal');
-
 
     Route::get( 
         '/edit-regpatronal/{id}',
@@ -492,9 +495,23 @@ Route::get(
             EditarCambioSalario::class
     )->name('editarcambiosal');
 
+    // Documentos  ---------------------------------------------------------------
+    Route::get( 
+        '/documentos',
+            MostrarDocumento::class
+    )->name('mostrardoc');
+
+    Route::get( 
+        '/create-documento',
+            AgregarDocumento::class
+    )->name('agregardoc');
+
+    Route::get( 
+        '/edit-documento/{id}',
+            EditarDocumento::class
+    )->name('editardoc');
+
 
     /*
-    use App\Livewire\PortalRh\CambioSalario\MostrarCambioSalario;
-use App\Livewire\PortalRh\CambioSalario\AgregarCambioSalario;
-use App\Livewire\PortalRh\CambioSalario\EditarCambioSalario;
+
     */

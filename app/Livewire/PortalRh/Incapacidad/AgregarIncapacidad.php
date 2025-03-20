@@ -32,7 +32,7 @@ class AgregarIncapacidad extends Component
     public function saveIncapacidad()
     {
         //dd();
-        //$this->validate();
+        $this->validate();
         $this->documento->storeAs('PortalRH/Incapacidades', $this->incapacidad['motivo'].".pdf", 'subirDocs');
         $this->incapacidad['documento'] = "PortalRH/Incapacidades/" . $this->incapacidad['motivo'] .".pdf";
 
