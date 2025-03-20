@@ -309,6 +309,11 @@ class UserRolDevSeeder extends Seeder
         Permission::create(['name' => 'Editar Cambio Salario'])->syncRoles([$role1, $role2, $role3]);
         Permission::create(['name' => 'Eliminar Cambio Salario'])->syncRoles([$role1, $role2, $role3]);
 
+        Permission::create(['name' => 'Mostrar Documento'])->syncRoles([$role1, $role2, $role3, $role8, $role10]);
+        Permission::create(['name' => 'Agregar Documento'])->syncRoles([$role1, $role2, $role3, $role8, $role10]);
+        Permission::create(['name' => 'Editar Documento'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Eliminar Documento'])->syncRoles([$role1, $role2, $role3]);
+
 
          // **************************** MODULO ACTIVO FIJO ***************************************
         // Permission - 
@@ -572,5 +577,7 @@ class UserRolDevSeeder extends Seeder
           Permission::create(['name' => 'Responder encuesta invitada'])->syncRoles([$role10]);
 
          // ************* FIN MODULO DE DX035 *******************
+        
+
     }
 }

@@ -90,11 +90,6 @@ class User extends Authenticatable
         return $this->hasMany(Becario::class);
     }
 
-
-
-
-
-    /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public function cambioSalario()
     {
         return $this->belongsToMany(CambioSalario::class, 'user_cambio_salario', 'user_id', 'cambio_salario_id')->withTimestamps();
@@ -103,7 +98,7 @@ class User extends Authenticatable
 
     public function documentos()
     {
-        return $this->belongsToMany(Documento::class)->withPivot('documento_id', 'user_id', 'status');
+        return $this->belongsToMany(Documento::class, 'user_documento', 'documento_id', 'user_id')->withTimestamps();
     }
 
     public function incapacidades()
@@ -136,50 +131,45 @@ class User extends Authenticatable
         //un user tiene una baja
         return $this->hasMany(Baja::class);
     }
-    /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     
 
-    public function infonavitCreditos()
-    {
-        //un user peertence a un becario
-        return $this->hasMany(Practicant::class);
-    }
+    // public function infonavitCreditos()
+    // {
+    //     //un user peertence a un becario
+    //     return $this->hasMany(Practicant::class);
+    // }
 
 
-    public function regPatronales()
-    {
-        //cada trabajador pertenece a
-        return $this->hasMany(RegisPatronal::class);
-    }
+    // public function regPatronales()
+    // {
+    //     //cada trabajador pertenece a
+    //     return $this->hasMany(RegisPatronal::class);
+    // }
 
-    public function departamentos()
-    {
-        return $this->belongsTo(Departament::class);
-    }
+    // public function departamentos()
+    // {
+    //     return $this->belongsTo(Departament::class);
+    // }
 
-    public function puesto()
-    {
-        return $this->belongsTo(Puest::class);
-    }
+    
 
-    public function trabajador()
-    {
-        //un user peertence a un becario
-        return $this->hasMany(Trabajador::class);
-    }
+    // public function trabajador()
+    // {
+    //     //un user peertence a un becario
+    //     return $this->hasMany(Trabajador::class);
+    // }
 
-    public function becario()
-    {
-        //un user peertence a un becario
-        return $this->hasMany(Becari::class);
-    }
+    // public function becario()
+    // {
+    //     //un user peertence a un becario
+    //     return $this->hasMany(Becari::class);
+    // }
 
-    public function practicantes()
-    {
-        //un user peertence a un becario
-        return $this->hasMany(Practicant::class);
-    }
-    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+    // public function practicantes()
+    // {
+    //     //un user peertence a un becario
+    //     return $this->hasMany(Practicant::class);
+    // }
 
     /* RELACIONES MODULO ACTIVO FIJO */
     public function activosMobiliario()
@@ -252,16 +242,6 @@ class User extends Authenticatable
     public function sucursal()
     {
         return $this->belongsTo(Sucursal::class, 'sucursal_id');
-    }
-
-    public function departamento()
-    {
-        return $this->belongsTo(Departamento::class, 'departamento_id');
-    }
-
-    public function puesto()
-    {
-        return $this->belongsTo(Puesto::class, 'puesto_id');
     }
 
     public function asignacion()

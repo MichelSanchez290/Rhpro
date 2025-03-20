@@ -12,7 +12,7 @@ class Documento extends Model
     use HasFactory;
 
     //define que este modelo corresponde a la tabla xxx en la base de datos.
-    protected $table = 'becarios';
+    protected $table = 'documentos';
 
     //Define la clave primaria
     protected $primaryKey = 'id';
@@ -26,17 +26,12 @@ class Documento extends Model
         'numero',
         'original',
         'comentarios',
-        'tipodocumento_id'
+        'tipo_documento'
     ];
 
-    //alcanze con el modelo User
-    public function tipoDoc()
-    {
-        return $this->belongsTo(TipoDocumento::class);
-    }
 
-    public function usuarios()
+    public function users()
     {
-        return $this->belongsToMany(User::class)->withPivot('documento_id', 'user_id', 'status');
+        return $this->belongsToMany(User::class, 'user_documento', 'documento_id', 'user_id')->withTimestamps();
     }
 }

@@ -90,14 +90,15 @@ Route::get('/dx035/survey/thankyou', function () {
 Route::get('/reporte/{encuestaId}', [ReporteController::class, 'generarReporte'])->name('reporte.generar');
 
 // Rutas para la gestión de roles
-Route::get('/roles', MostrarRol::class)->name('mostrarrol'); // Mostrar tabla de roles
-Route::get('/roles/agregar', AgregarRol::class)->name('agregarrol'); // Agregar un nuevo rol
-Route::get('/roles/editar/{id}', EditarRol::class)->name('editarrol'); // Editar un rol existente
+// Route::get('/roles', MostrarRol::class)->name('mostrarrol'); // Mostrar tabla de roles
+// Route::get('/roles/agregar', AgregarRol::class)->name('agregarrol'); // Agregar un nuevo rol
+
+//Route::get('/roles/editar/{id}', EditarRol::class)->name('editarrol'); // Editar un rol existente
 
 // Ruta para mostrar la tabla de usuarios
-Route::get('/usuarios', MostrarRolUsuario::class)->name('usuarios');
+//Route::get('/usuarios', MostrarRolUsuario::class)->name('usuarios');
 
 // Ruta para asignar roles a un usuario
-Route::get('/usuarios/{id}/asignar-rol', AsignarRolUsuario::class)->name('asignarroluser');
+//Route::get('/usuarios/{id}/asignar-rol', AsignarRolUsuario::class)->name('asignarroluser');
 
 Route::get('/survey/{key}', [SurveyController::class, 'show'])->name('survey.show');

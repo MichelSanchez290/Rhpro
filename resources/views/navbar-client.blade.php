@@ -121,32 +121,37 @@
                 @endcan
 
                 <!-- Registros Patronales -->
-                <li class="opcion-con-desplegable">
-                    <div class="flex items-center justify-between px-2 py-2 hover:bg-gray-700 cursor-pointer">
-                        <svg class="mr-2" xmlns="http://www.w3.org/2000/svg" height="14" width="10.5"
-                            viewBox="0 0 384 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
-                            <path fill="#ffffff"
-                                d="M64 0C28.7 0 0 28.7 0 64L0 448c0 35.3 28.7 64 64 64l256 0c35.3 0 64-28.7 64-64l0-288-128 0c-17.7 0-32-14.3-32-32L224 0 64 0zM256 0l0 128 128 0L256 0zM80 64l64 0c8.8 0 16 7.2 16 16s-7.2 16-16 16L80 96c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64l64 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-64 0c-8.8 0-16-7.2-16-16s7.2-16 16-16zm16 96l192 0c17.7 0 32 14.3 32 32l0 64c0 17.7-14.3 32-32 32L96 352c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32zm0 32l0 64 192 0 0-64L96 256zM240 416l64 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-64 0c-8.8 0-16-7.2-16-16s7.2-16 16-16z" />
-                        </svg>
-                        <span class="flex-1">Registros Patronales</span>
-                        <i class="fas fa-chevron-down text-xs"></i>
-                    </div>
-                    <ul class="desplegable ml-8 hidden">
-                        <li>
-                            <a href="{{ route('mostrarregpatronal') }}"
-                                class="p-2 hover:bg-gray-700 flex items-center">
-                                <i class="mr-2 text-xs"></i> Mostrar
-                            </a>
-                        </li>
+                @can('Mostrar Reg Patronal')
+                    <li class="opcion-con-desplegable">
+                        <div class="flex items-center justify-between px-2 py-2 hover:bg-gray-700 cursor-pointer">
+                            <svg class="mr-2" xmlns="http://www.w3.org/2000/svg" height="14" width="10.5"
+                                viewBox="0 0 384 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                                <path fill="#ffffff"
+                                    d="M64 0C28.7 0 0 28.7 0 64L0 448c0 35.3 28.7 64 64 64l256 0c35.3 0 64-28.7 64-64l0-288-128 0c-17.7 0-32-14.3-32-32L224 0 64 0zM256 0l0 128 128 0L256 0zM80 64l64 0c8.8 0 16 7.2 16 16s-7.2 16-16 16L80 96c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64l64 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-64 0c-8.8 0-16-7.2-16-16s7.2-16 16-16zm16 96l192 0c17.7 0 32 14.3 32 32l0 64c0 17.7-14.3 32-32 32L96 352c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32zm0 32l0 64 192 0 0-64L96 256zM240 416l64 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-64 0c-8.8 0-16-7.2-16-16s7.2-16 16-16z" />
+                            </svg>
+                            <span class="flex-1">Registros Patronales</span>
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </div>
+                        <ul class="desplegable ml-8 hidden">
+                            <li>
+                                <a href="{{ route('mostrarregpatronal') }}"
+                                    class="p-2 hover:bg-gray-700 flex items-center">
+                                    <i class="mr-2 text-xs"></i> Mostrar Reg Patronales
+                                </a>
+                            </li>
 
-                        <li>
-                            <a href="{{ route('agregarregpatronal') }}"
-                                class="p-2 hover:bg-gray-700 flex items-center">
-                                <i class="mr-2 text-xs"></i> Agregar Reg Patronal
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                            @can('Agregar Reg Patronal')
+                                <li>
+                                    <a href="{{ route('agregarregpatronal') }}"
+                                        class="p-2 hover:bg-gray-700 flex items-center">
+                                        <i class="mr-2 text-xs"></i> Agregar Reg Patronal
+                                    </a>
+                                </li>
+                            @endcan
+                        </ul>
+                    </li>
+                @endcan
+
 
                 <!-- Empresas -->
                 @can('Mostrar Empresas')
@@ -447,6 +452,35 @@
                                     <a href="{{ route('agregarcambiosal') }}"
                                         class="p-2 hover:bg-gray-700 flex items-center">
                                         <i class="mr-2 text-xs"></i> Agregar Cambio de Salario
+                                    </a>
+                                </li>
+                            @endcan
+                        </ul>
+                    </li>
+                @endcan
+
+                @can('Mostrar Documento')
+                    <li class="opcion-con-desplegable">
+                        <div class="flex items-center justify-between px-2 py-2 hover:bg-gray-700 cursor-pointer">
+                            <svg class="mr-2" xmlns="http://www.w3.org/2000/svg" height="14" width="15.75"
+                                viewBox="0 0 576 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                                <path fill="#ffffff"
+                                    d="M88.7 223.8L0 375.8 0 96C0 60.7 28.7 32 64 32l117.5 0c17 0 33.3 6.7 45.3 18.7l26.5 26.5c12 12 28.3 18.7 45.3 18.7L416 96c35.3 0 64 28.7 64 64l0 32-336 0c-22.8 0-43.8 12.1-55.3 31.8zm27.6 16.1C122.1 230 132.6 224 144 224l400 0c11.5 0 22 6.1 27.7 16.1s5.7 22.2-.1 32.1l-112 192C453.9 474 443.4 480 432 480L32 480c-11.5 0-22-6.1-27.7-16.1s-5.7-22.2 .1-32.1l112-192z" />
+                            </svg>
+                            <span class="flex-1">Documentos</span>
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </div>
+                        <ul class="desplegable ml-8 hidden">
+                            <li>
+                                <a href="{{ route('mostrardoc') }}" class="p-2 hover:bg-gray-700 flex items-center">
+                                    <i class="mr-2 text-xs"></i> Mostrar Documentos
+                                </a>
+                            </li>
+
+                            @can('Agregar Documento')
+                                <li>
+                                    <a href="{{ route('agregardoc') }}" class="p-2 hover:bg-gray-700 flex items-center">
+                                        <i class="mr-2 text-xs"></i> Agregar Documento
                                     </a>
                                 </li>
                             @endcan
