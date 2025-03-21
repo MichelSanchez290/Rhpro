@@ -58,7 +58,6 @@ class UserSeeder extends Seeder
             'sucursal_id' => 1,
             'tipo_user' => 'Practicante'
         ])->assignRole('Trabajador GLOBAL');
-<<<<<<< HEAD
         
         $user=User::create([
             'name'=>'Carmela Vazquez',
@@ -95,7 +94,6 @@ class UserSeeder extends Seeder
             'sucursal_id' => 1,
             'tipo_user' => 'Trabajador'
         ])->assignRole('Trabajador PORTAL CAPACITACION');
-=======
         // $user=User::create([
         //     'name'=>'Trabajador PORTAL CAPACITACION',
         //     'email'=>'portal@gmail.com',
@@ -131,6 +129,5 @@ class UserSeeder extends Seeder
         //     'sucursal_id' => 2,
         //     'tipo_user' => 'Trabajador'
         // ])->assignRole('EmpresaAdmin');
->>>>>>> dcbdfe7735e694a344192d1165bd33a464ed4479
     }
 }

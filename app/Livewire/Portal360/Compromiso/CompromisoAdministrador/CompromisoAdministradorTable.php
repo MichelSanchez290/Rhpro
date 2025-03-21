@@ -8,20 +8,25 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Crypt;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
+use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
+use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 
 final class CompromisoAdministradorTable extends PowerGridComponent
 {
     public string $tableName = 'compromiso-administrador-table-qhvs6b-table';
+    use WithExport; // Agregar el trait WithExport
 
     public function setUp(): array
     {
         $this->showCheckBox();
 
         return [
+            PowerGrid::exportable('Compromisos_Administrador_' . now()->format('Ymd_His')) // Configurar exportación
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV), // Formatos XLS y CSV
             PowerGrid::header()
                 ->showSearchInput(),
             PowerGrid::footer()
@@ -39,20 +44,23 @@ final class CompromisoAdministradorTable extends PowerGridComponent
 
     public function relationSearch(): array
     {
-        return [];
+        return [
+            'user' => ['name'], // Buscar en la relación user por nombre
+            'pregunta' => ['texto'], // Buscar en la relación pregunta por texto
+        ];
     }
 
     public function fields(): PowerGridFields
     {
         return PowerGrid::fields()
-            ->add('id')
-            ->add('alta_formatted', fn(Compromiso $model) => Carbon::parse($model->alta)->format('d/m/Y'))
-            ->add('vencimiento_formatted', fn(Compromiso $model) => Carbon::parse($model->vencimiento)->format('d/m/Y'))
-            ->add('compromiso')
-            ->add('verificado')
-            ->add('user_name', fn(Compromiso $model) => $model->user ? $model->user->name : 'Sin usuario') // Nombre del usuario
-            ->add('pregunta_texto', fn(Compromiso $model) => $model->pregunta ? $model->pregunta->texto : 'Sin pregunta') // Texto de la pregunta
-            ->add('created_at');
+        ->add('id')
+        ->add('alta_formatted', fn(Compromiso $model) => Carbon::parse($model->alta)->format('d/m/Y'))
+        ->add('vencimiento_formatted', fn(Compromiso $model) => Carbon::parse($model->vencimiento)->format('d/m/Y'))
+        ->add('compromiso')
+        ->add('verificado', fn(Compromiso $model) => $model->verificado ? 'Sí' : 'No') // Transforma 0/1 a No/Sí
+        ->add('user_name', fn(Compromiso $model) => $model->user ? $model->user->name : 'Sin usuario')
+        ->add('pregunta_texto', fn(Compromiso $model) => $model->pregunta ? $model->pregunta->texto : 'Sin pregunta')
+        ->add('created_at');
     }
 
     public function columns(): array
@@ -92,8 +100,8 @@ final class CompromisoAdministradorTable extends PowerGridComponent
     public function filters(): array
     {
         return [
-            Filter::datepicker('alta'),
-            Filter::datepicker('vencimiento'),
+            // Filter::datepicker('alta'),
+            // Filter::datepicker('vencimiento'),
         ];
     }
 
