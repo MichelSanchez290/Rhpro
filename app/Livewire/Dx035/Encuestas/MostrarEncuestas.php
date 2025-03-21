@@ -12,6 +12,8 @@ use App\Mail\InvitacionEncuesta;
 use App\Models\Dx035\Respuesta;
 use App\Models\Dx035\DatoTrabajador;
 
+use App\Models\Dx035\PreguntaBase;
+
 use Barryvdh\DomPDF\Facade\Pdf;
 use IcehouseVentures\LaravelChartjs\Builder;
 use ChartJsNodeCanvas\ChartJsNodeCanvas;
@@ -20,6 +22,12 @@ use App\Http\Controllers\ReporteController;
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
+
+use App\Models\PortalRH\Empresa;
+use App\Models\PortalRH\Sucursal;
+use App\Models\PortalRH\SucursalDepartamento;
+use App\Models\PortalRH\EmpresaSucursal;
+use App\Models\PortalRH\Departamento;
 
 class MostrarEncuestas extends Component
 {
@@ -39,9 +47,9 @@ class MostrarEncuestas extends Component
 
     public $prueba;
 
-
     protected $listeners = [
         'confirmDelete' => 'confirmDelete',
+        'deleteEncuesta' => 'deleteEncuesta',
         'copiarClave' => 'copiarClave',
         'compartirEnlace' => 'compartirEnlace',
     ];
@@ -57,17 +65,29 @@ class MostrarEncuestas extends Component
         return ($encuesta->EncuestasContestadas / $encuesta->NumeroEncuestas) * 100;
     }
 
-    public function deleteEncuesta()
+    public function deleteEncuesta($id)
     {
-        if ($this->encuestaToDelete) {
-            $encuesta = Encuesta::findOrFail($this->encuestaToDelete);
-            $encuesta->delete();
-            session()->flash('message', 'Encuesta eliminada correctamente.');
-        }
+        \Log::info("Intentando eliminar la encuesta con ID: $id"); // Log para depuración
 
-        $this->encuestaToDelete = null;
-        $this->showModal = false;
-        return redirect()->route('encuesta.index');
+        try {
+            $encuesta = Encuesta::findOrFail($id);
+            $encuesta->delete();
+
+            \Log::info("Encuesta eliminada correctamente"); // Log para depuración
+
+            // Mostrar un mensaje de éxito
+            session()->flash('message', 'Encuesta eliminada correctamente.');
+
+            // Cerrar el modal
+            $this->showModal = false;
+
+            // Redirigir a la tabla de encuestas
+            return redirect()->route('encuesta.index');
+        } catch (\Exception $e) {
+            \Log::error("Error al eliminar la encuesta: " . $e->getMessage()); // Log para depuración
+            session()->flash('error', 'Hubo un error al eliminar la encuesta.');
+            $this->showModal = false;
+        }
     }
 
     public function copiarClave($clave)
@@ -359,7 +379,6 @@ class MostrarEncuestas extends Component
         }
     }
 
-
     private function guardarGraficaLocal($chartConfig, $nombreArchivo)
     {
         try {
@@ -378,7 +397,7 @@ class MostrarEncuestas extends Component
             // Verificar si la respuesta fue exitosa
             if ($response->successful()) {
                 // Crear la carpeta si no existe
-                $carpeta = public_path('storage/graficas');
+                $carpeta = storage_path('app/public/graficas');
                 if (!file_exists($carpeta)) {
                     mkdir($carpeta, 0777, true);
                 }
@@ -386,13 +405,6 @@ class MostrarEncuestas extends Component
                 // Guardar la imagen en el servidor
                 $rutaArchivo = $carpeta . '/' . $nombreArchivo . '.png';
                 file_put_contents($rutaArchivo, $response->body());
-
-                // Verificar si el archivo se guardó correctamente
-                if (file_exists($rutaArchivo)) {
-                    Log::info('Gráfica guardada correctamente en:', ['ruta' => $rutaArchivo]);
-                } else {
-                    Log::error('Error: La gráfica no se guardó en la ruta especificada.');
-                }
 
                 // Devolver la ruta pública del archivo
                 return asset('storage/graficas/' . $nombreArchivo . '.png');
@@ -501,7 +513,7 @@ class MostrarEncuestas extends Component
                 'options' => [
                     'title' => [
                         'display' => true,
-                        'text' => '',
+                        'text' => 'Gráfica de Pastel',
                         'fontSize' => 20,
                     ],
                     'legend' => [
@@ -548,7 +560,7 @@ class MostrarEncuestas extends Component
                 'options' => [
                     'title' => [
                         'display' => true,
-                        'text' => '',
+                        'text' => 'Distribución de Género',
                         'fontSize' => 20,
                     ],
                     'legend' => [
@@ -794,10 +806,460 @@ class MostrarEncuestas extends Component
         ];
     }
 
+    private function generarGraficaBarrasHorizontales($labels, $data, $nombreArchivo)
+    {
+        try {
+            // Configuración de la gráfica de barras horizontales
+            $chartConfig = [
+                'type' => 'horizontalBar',
+                'data' => [
+                    'labels' => $labels,
+                    'datasets' => [
+                        [
+                            'label' => 'Puntaje',
+                            'data' => $data,
+                            'backgroundColor' => ['#36a2eb', '#ff6384', '#4bc0c0', '#ff9f40', '#9966ff'],
+                        ],
+                    ],
+                ],
+                'options' => [
+                    'scales' => [
+                        'x' => [
+                            'beginAtZero' => true,
+                        ],
+                    ],
+                ],
+            ];
+
+            // Guardar la gráfica localmente y obtener la ruta
+            return $this->guardarGraficaLocal($chartConfig, $nombreArchivo);
+        } catch (\Exception $e) {
+            Log::error('Error al generar la gráfica de barras horizontales:', ['error' => $e->getMessage()]);
+            return null;
+        }
+    }
+
+    private function calcularCalificacionFinal($respuestas)
+    {
+        $puntaje = 0;
+
+        foreach ($respuestas as $respuesta) {
+            // Asegúrate de que $respuesta sea un objeto y accede a su propiedad ValorRespuesta
+            $valorRespuesta = $respuesta->ValorRespuesta;
+
+            // Aplicar la lógica de calificación según el cuestionario 2
+            if (in_array($respuesta->preguntasbases_id, range(18, 33))) {
+                $puntaje += $valorRespuesta; // Siempre=0, Casi siempre=1, etc.
+            } elseif (in_array($respuesta->preguntasbases_id, array_merge(range(1, 17), range(34, 46)))) {
+                $puntaje += (4 - $valorRespuesta); // Siempre=4, Casi siempre=3, etc.
+            }
+        }
+
+        return $puntaje;
+    }
+
+    // private function determinarNivelRiesgo($calificacionFinal)
+    // {
+    //     if ($calificacionFinal < 20) {
+    //         return 'Nulo o despreciable';
+    //     } elseif ($calificacionFinal >= 20 && $calificacionFinal < 45) {
+    //         return 'Bajo';
+    //     } elseif ($calificacionFinal >= 45 && $calificacionFinal < 70) {
+    //         return 'Medio';
+    //     } elseif ($calificacionFinal >= 70 && $calificacionFinal < 90) {
+    //         return 'Alto';
+    //     } else {
+    //         return 'Muy alto';
+    //     }
+    // }
+
+    private function calcularPuntuacionPorCategoria($categoria, $respuestas)
+    {
+        $puntaje = 0;
+
+        // Obtener las preguntas de la categoría
+        $preguntasCategoria = PreguntaBase::where('Categoria', $categoria)->pluck('id')->toArray();
+
+        foreach ($respuestas as $respuesta) {
+            // Asegúrate de que $respuesta sea un objeto y accede a su propiedad ValorRespuesta
+            if ($respuesta instanceof \App\Models\Dx035\Respuesta) {
+                $preguntaId = $respuesta->preguntasbases_id;
+                $valorRespuesta = $respuesta->ValorRespuesta;
+
+                // Verificar si la pregunta pertenece a la categoría
+                if (in_array($preguntaId, $preguntasCategoria)) {
+                    // Verificar si la pregunta tiene respuestas invertidas
+                    $preguntasInvertidas = [2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 29, 54, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72];
+
+                    if (in_array($preguntaId, $preguntasInvertidas)) {
+                        // Invertir la respuesta: 0=4, 1=3, 2=2, 3=1, 4=0
+                        $puntaje += (4 - $valorRespuesta);
+                    } else {
+                        // Respuesta normal: 0=0, 1=1, 2=2, 3=3, 4=4
+                        $puntaje += $valorRespuesta;
+                    }
+                }
+            } else {
+                throw new \Exception("El objeto de respuesta no es válido.");
+            }
+        }
+
+        return $puntaje;
+    }
+
+    private function determinarNivelRiesgoCategoria($puntaje, $categoria)
+    {
+        $rangos = [
+            'Ambiente de trabajo' => ['Nulo o despreciable' => 3, 'Bajo' => 5, 'Medio' => 7, 'Alto' => 9],
+            'Factores propios de la actividad' => ['Nulo o despreciable' => 10, 'Bajo' => 20, 'Medio' => 30, 'Alto' => 40],
+            'Organización del tiempo de trabajo' => ['Nulo o despreciable' => 4, 'Bajo' => 6, 'Medio' => 9, 'Alto' => 12],
+            'Liderazgo y relaciones en el trabajo' => ['Nulo o despreciable' => 10, 'Bajo' => 18, 'Medio' => 28, 'Alto' => 38],
+        ];
+
+        if ($puntaje < $rangos[$categoria]['Nulo o despreciable']) {
+            return 'Nulo o despreciable';
+        } elseif ($puntaje < $rangos[$categoria]['Bajo']) {
+            return 'Bajo';
+        } elseif ($puntaje < $rangos[$categoria]['Medio']) {
+            return 'Medio';
+        } elseif ($puntaje < $rangos[$categoria]['Alto']) {
+            return 'Alto';
+        } else {
+            return 'Muy alto';
+        }
+    }
+
+    private function calcularCuestionario1($respuestas)
+    {
+        // Convertir la colección de respuestas en un array
+        $respuestasArray = $respuestas->toArray();
+
+        // Extraer las secciones del cuestionario 1
+        $seccionI = array_slice($respuestasArray, 0, 5); // Preguntas 1-5
+        $seccionII = array_slice($respuestasArray, 5, 5); // Preguntas 6-10
+        $seccionIII = array_slice($respuestasArray, 10, 5); // Preguntas 11-15
+        $seccionIV = array_slice($respuestasArray, 15, 6); // Preguntas 16-21
+
+        $requiereAtencionClinica = false;
+
+        // Verificar Sección I
+        if (in_array('SÍ', array_column($seccionI, 'ValorRespuesta'))) {
+            // Verificar Sección II
+            if (in_array('SÍ', array_column($seccionII, 'ValorRespuesta'))) {
+                $requiereAtencionClinica = true;
+            }
+
+            // Verificar Sección III
+            if (count(array_filter(array_column($seccionIII, 'ValorRespuesta'), function ($respuesta) {
+                return $respuesta === 'SÍ';
+            })) >= 3) {
+                $requiereAtencionClinica = true;
+            }
+
+            // Verificar Sección IV
+            if (count(array_filter(array_column($seccionIV, 'ValorRespuesta'), function ($respuesta) {
+                return $respuesta === 'SÍ';
+            })) >= 2) {
+                $requiereAtencionClinica = true;
+            }
+        }
+
+        return $requiereAtencionClinica;
+    }
+
+    private function calcularCuestionario2($respuestas)
+    {
+        $puntuaciones = [
+            'Ambiente de trabajo' => 0,
+            'Factores propios de la actividad' => 0,
+            'Organización del tiempo de trabajo' => 0,
+            'Liderazgo y relaciones en el trabajo' => 0,
+        ];
+
+        // Definir preguntas por categoría
+        $categorias = [
+            'Ambiente de trabajo' => [22, 23, 24, 25, 26],
+            'Factores propios de la actividad' => [27, 28, 29, 30, 31],
+            'Organización del tiempo de trabajo' => [32, 33, 34, 35],
+            'Liderazgo y relaciones en el trabajo' => [36, 37, 38, 39, 40],
+        ];
+
+        // Calcular puntuaciones por categoría
+        foreach ($categorias as $categoria => $preguntas) {
+            foreach ($preguntas as $pregunta) {
+                $respuesta = $respuestas->where('preguntasbases_id', $pregunta)->first();
+
+                if ($respuesta) {
+                    $puntuaciones[$categoria] += $this->calcularPuntuacionPregunta($pregunta, $respuesta->ValorRespuesta);
+                }
+            }
+        }
+
+        // Calcular calificación final
+        $calificacionFinal = array_sum($puntuaciones);
+
+        // Determinar nivel de riesgo
+        $nivelRiesgo = $this->determinarNivelRiesgo($calificacionFinal);
+
+        return [
+            'puntuaciones' => $puntuaciones,
+            'calificacionFinal' => $calificacionFinal,
+            'nivelRiesgo' => $nivelRiesgo,
+        ];
+    }
+
+    private function calcularCuestionario3($respuestas)
+    {
+        $puntuaciones = [
+            'Ambiente de trabajo' => 0,
+            'Factores propios de la actividad' => 0,
+            'Organización del tiempo de trabajo' => 0,
+            'Liderazgo y relaciones en el trabajo' => 0,
+            'Entorno organizacional' => 0,
+        ];
+
+        // Definir preguntas por categoría
+        $categorias = [
+            'Ambiente de trabajo' => [68, 69, 70, 71, 72],
+            'Factores propios de la actividad' => [73, 74, 75, 76, 77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97],
+            'Organización del tiempo de trabajo' => [98, 99, 100, 101,102,103],
+            'Liderazgo y relaciones en el trabajo' => [104, 105, 106, 107, 108, 109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129],
+            'Entorno organizacional' => [130, 131, 132, 133, 134,135,136,137,138,139],
+        ];
+
+        // Calcular puntuaciones por categoría
+        foreach ($categorias as $categoria => $preguntas) {
+            foreach ($preguntas as $pregunta) {
+                $respuesta = $respuestas->where('preguntasbases_id', $pregunta)->first();
+
+                if ($respuesta) {
+                    $puntuaciones[$categoria] += $this->calcularPuntuacionPregunta($pregunta, $respuesta->ValorRespuesta);
+                }
+            }
+        }
+
+        // Calcular calificación final
+        $calificacionFinal = array_sum($puntuaciones);
+
+        // Determinar nivel de riesgo
+        $nivelRiesgo = $this->determinarNivelRiesgo($calificacionFinal);
+
+        return [
+            'puntuaciones' => $puntuaciones,
+            'calificacionFinal' => $calificacionFinal,
+            'nivelRiesgo' => $nivelRiesgo,
+        ];
+    }
+
+    private function calcularPuntuacionPregunta($pregunta, $valorRespuesta)
+    {
+        // Preguntas 18-33
+        if ($pregunta >= 18 && $pregunta <= 33) {
+            return $valorRespuesta; // 0-Siempre, 1-Casi siempre, etc.
+        }
+
+        // Preguntas 1-17 y 34-46
+        return 4 - $valorRespuesta; // 4-Siempre, 3-Casi siempre, etc.
+    }
+
+    private function determinarNivelRiesgo($calificacionFinal)
+    {
+        if ($calificacionFinal < 20) {
+            return 'Nulo o despreciable';
+        } elseif ($calificacionFinal < 45) {
+            return 'Bajo';
+        } elseif ($calificacionFinal < 70) {
+            return 'Medio';
+        } elseif ($calificacionFinal < 90) {
+            return 'Alto';
+        } else {
+            return 'Muy alto';
+        }
+    }
+
+    public function generarReporteCompletoEstadistico($encuestaId)
+    {
+        try {
+            Log::debug('Iniciando generación de reporte completo (estadístico) para la encuesta:', ['encuestaId' => $encuestaId]);
+
+            // Obtener la encuesta
+            $encuesta = Encuesta::findOrFail($encuestaId)->toArray();
+            Log::debug('Encuesta obtenida:', ['encuesta' => $encuesta]);
+
+            // Obtener las respuestas de los trabajadores
+            $respuestas = Respuesta::whereHas('datoTrabajador', function ($query) use ($encuestaId) {
+                $query->where('encuestas_id', $encuestaId);
+            })->get();
+            Log::debug('Respuestas obtenidas:', ['count' => $respuestas->count()]);
+
+            // Validar el tipo de cuestionario seleccionado en la encuesta
+            $cuestionario = $encuesta['tipo_cuestionario']; // Asegúrate de que este campo exista en tu tabla de encuestas
+
+            // Inicializar variables
+            $requiereAtencionClinica = null;
+            $resultadosCuestionario2 = null;
+            $resultadosCuestionario3 = null;
+            $calificacionFinal = null;
+            $nivelRiesgo = null;
+            $resultadosCategorias = [];
+
+            // Realizar cálculos según el tipo de cuestionario
+            if ($cuestionario === 'Cuestionario1') {
+                // Solo calcular el Cuestionario 1
+                $requiereAtencionClinica = $this->calcularCuestionario1($respuestas);
+                Log::debug('Resultado del Cuestionario 1:', ['requiereAtencionClinica' => $requiereAtencionClinica]);
+            } elseif ($cuestionario === 'Cuestionario2') {
+                // Calcular el Cuestionario 2
+                $resultadosCuestionario2 = $this->calcularCuestionario2($respuestas);
+                Log::debug('Resultados del Cuestionario 2:', ['resultadosCuestionario2' => $resultadosCuestionario2]);
+
+                // Calcular la calificación final y el nivel de riesgo general
+                $calificacionFinal = $this->calcularCalificacionFinal($respuestas);
+                $nivelRiesgo = $this->determinarNivelRiesgo($calificacionFinal);
+                Log::debug('Calificación final y nivel de riesgo:', [
+                    'calificacionFinal' => $calificacionFinal,
+                    'nivelRiesgo' => $nivelRiesgo,
+                ]);
+                //dd($nivelRiesgo);
+
+                // Calcular puntuaciones por categoría
+                $categorias = ['Ambiente de trabajo', 'Factores propios de la actividad', 'Organización del tiempo de trabajo', 'Liderazgo y relaciones en el trabajo'];
+                foreach ($categorias as $categoria) {
+                    $puntajeCategoria = $this->calcularPuntuacionPorCategoria($categoria, $respuestas);
+                    $nivelRiesgoCategoria = $this->determinarNivelRiesgoCategoria($puntajeCategoria, $categoria);
+                    $resultadosCategorias[$categoria] = $nivelRiesgoCategoria;
+                }
+                Log::debug('Resultados por categoría:', ['resultadosCategorias' => $resultadosCategorias]);
+            } elseif ($cuestionario === 'Cuestionario3') {
+                // Calcular el Cuestionario 3
+                $resultadosCuestionario3 = $this->calcularCuestionario3($respuestas);
+                Log::debug('Resultados del Cuestionario 3:', ['resultadosCuestionario3' => $resultadosCuestionario3]);
+            } else {
+                throw new \Exception('Tipo de cuestionario no válido.');
+            }
+
+            // Generar las gráficas del perfil de los participantes (siempre se muestran)
+            $graficas = [
+                'participacion' => $this->generarGraficaParticipacion($encuesta),
+                'genero' => $this->generarGraficaGenero($encuestaId),
+                'edades' => $this->generarGraficaEdades($encuestaId),
+                'estadoCivil' => $this->generarGraficaEstadoCivil($encuestaId),
+                'tipoPuesto' => $this->generarGraficaTipoPuesto($encuestaId),
+                'contratacion' => $this->generarGraficaContratacion($encuestaId),
+                'tipoPersonal' => $this->generarGraficaTipoPersonal($encuestaId),
+                'jornadaLaboral' => $this->generarGraficaJornadaLaboral($encuestaId),
+                'rotacionTurnos' => $this->generarGraficaRotacionTurnos($encuestaId),
+                'experiencia' => $this->generarGraficaExperiencia($encuestaId),
+                'tiempoPuesto' => $this->generarGraficaTiempoPuesto($encuestaId),
+            ];
+
+            // Generar la gráfica horizontal de categorías (solo para Cuestionario 2)
+            $graficaCategorias = null;
+            if ($cuestionario === 'Cuestionario2') {
+                $graficaCategorias = $this->generarGraficaCategorias($resultadosCategorias);
+            }
+
+            // Renderizar la vista del PDF
+            Log::debug('Renderizando la vista del PDF...');
+            $pdf = Pdf::loadView('reporte.general', [
+                'encuesta' => $encuesta,
+                'requiereAtencionClinica' => $requiereAtencionClinica,
+                'resultadosCuestionario2' => $resultadosCuestionario2,
+                'resultadosCuestionario3' => $resultadosCuestionario3,
+                'calificacionFinal' => $calificacionFinal,
+                'nivelRiesgo' => $nivelRiesgo,
+                'resultadosCategorias' => $resultadosCategorias,
+                'graficas' => $graficas,
+                'graficaCategorias' => $graficaCategorias,
+                'cuestionario' => $cuestionario, // Pasar el tipo de cuestionario a la vista
+            ]);
+
+            // Descargar el archivo
+            Log::debug('Generando el PDF...');
+            return response()->streamDownload(function () use ($pdf) {
+                echo $pdf->stream();
+            }, "reporte_general_{$encuesta['id']}.pdf");
+        } catch (\Exception $e) {
+            Log::error('Error al generar el reporte completo (estadístico):', ['error' => $e->getMessage()]);
+            return response()->json(['error' => 'Ocurrió un error al generar el reporte completo (estadístico).'], 500);
+        }
+    }
+
+    private function generarGraficaCategorias($resultadosCategorias)
+    {
+        // Aquí debes generar la gráfica horizontal usando una librería como Chart.js, Highcharts, etc.
+        // Este es un ejemplo básico de cómo podrías estructurar los datos para la gráfica.
+        $datos = [];
+        $colores = [
+            'Nulo' => '#ADD8E6', // Azul clarito
+            'Bajo' => '#90EE90', // Verde
+            'Medio' => '#FFFF00', // Amarillo
+            'Alto' => '#FFA500', // Naranja
+            'Muy Alto' => '#FF0000', // Rojo
+        ];
+
+        foreach ($resultadosCategorias as $categoria => $nivel) {
+            $datos[] = [
+                'categoria' => $categoria,
+                'nivel' => $nivel,
+                'color' => $colores[$nivel] ?? '#ADD8E6', // Default a azul clarito si no se encuentra el nivel
+            ];
+        }
+
+        // Aquí deberías generar la imagen de la gráfica y devolver la ruta de la imagen.
+        // Por simplicidad, este ejemplo devuelve un array con los datos.
+        return $datos;
+    }
+
+    public function generarReporte2($encuestaId)
+    {
+        Log::debug('Método generarReporte2 ejecutado.', ['encuestaId' => $encuestaId]);
+        Log::debug('Valor de tipoReporte:', ['tipoReporte' => $this->tipoReporte]);
+
+        try {
+            // Verificar el tipo de reporte seleccionado
+            if ($this->tipoReporte === 'general') {
+                Log::debug('Generando reporte completo (estadístico).');
+                return $this->generarReporteCompletoEstadistico($encuestaId);
+            } elseif ($this->tipoReporte === 'estadistico') {
+                Log::debug('Generando reporte de datos generales (estadístico).');
+                return $this->generarReporte($encuestaId);
+            } else {
+                throw new \Exception("Tipo de reporte no válido.");
+            }
+        } catch (\Exception $e) {
+            Log::error('Error en generarReporte2:', ['error' => $e->getMessage()]);
+            return response()->json(['error' => 'Ocurrió un error al generar el reporte.'], 500);
+        }
+    }
+
+    // public function descargarReporte($encuestaId)
+    // {
+    //     $encuesta = Encuesta::findOrFail($encuestaId);
+    //     $respuestas = Respuesta::whereHas('datoTrabajador', function ($query) use ($encuestaId) {
+    //         $query->where('encuestas_id', $encuestaId);
+    //     })->get();
+
+    //     $html = view('reporte.general', [
+    //         'encuesta' => $encuesta,
+    //         'respuestas' => $respuestas,
+    //     ])->render();
+
+    //     $pdf = Pdf::loadHTML($html);
+    //     return $pdf->download("reporte_general_{$encuesta->id}.pdf");
+    // }
+
     public function render()
     {
         $user = Auth::user();
         $query = Encuesta::query();
+
+        // Actualizar el estado de todas las encuestas
+        $encuestas = Encuesta::all();
+        foreach ($encuestas as $encuesta) {
+            $estado = (strtotime($encuesta->FechaFinal) < strtotime(now())) ? 0 : 1; // 0 = Inactiva, 1 = Activa
+            $encuesta->update(['Estado' => $estado]);
+        }
 
         if ($user->hasRole('GoldenAdmin')) {
             // GoldenAdmin puede ver todas las encuestas
@@ -856,5 +1318,4 @@ class MostrarEncuestas extends Component
             'avances' => $this->avances,
         ])->layout('layouts.dx035');
     }
-
 }

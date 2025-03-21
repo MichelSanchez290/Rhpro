@@ -12,17 +12,21 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('encuestas', function (Blueprint $table) {
-            // Primero, eliminamos la columna 'Dep' si ya no la necesitamos
-            $table->dropColumn('Dep');
+            // Verificar si la columna 'Dep' existe antes de eliminarla
+            if (Schema::hasColumn('encuestas', 'Dep')) {
+                $table->dropColumn('Dep');
+            }
 
-            // agregamos la nueva columna para la clave foránea
-            $table->unsignedBigInteger('sucursal_departament_id')->nullable();
+            // Verificar si la columna 'sucursal_departament_id' ya existe antes de agregarla
+            if (!Schema::hasColumn('encuestas', 'sucursal_departament_id')) {
+                $table->unsignedBigInteger('sucursal_departament_id')->nullable();
 
-            // Definir la clave foránea
-            $table->foreign('sucursal_departament_id')
-                ->references('id')
-                ->on('departamento_sucursal')
-                ->onDelete('set null'); // Si se elimina la relación, se establece como nulo
+                // Definir la clave foránea
+                $table->foreign('sucursal_departament_id')
+                    ->references('id')
+                    ->on('sucursal_departament')
+                    ->onDelete('set null'); // Si se elimina la relación, se establece como nulo
+            }
         });
     }
 
@@ -33,13 +37,15 @@ return new class extends Migration
     {
         Schema::table('encuestas', function (Blueprint $table) {
             // Si revertimos la migración, eliminamos la clave foránea
-            $table->dropForeign(['sucursal_departament_id']);
-
-            // Y eliminamos la columna 'sucursal_departament_id'
-            $table->dropColumn('sucursal_departament_id');
+            if (Schema::hasColumn('encuestas', 'sucursal_departament_id')) {
+                $table->dropForeign(['sucursal_departament_id']);
+                $table->dropColumn('sucursal_departament_id');
+            }
 
             // Restauramos la columna 'Dep' en caso de que queramos revertir completamente
-            $table->string('Dep')->nullable();
+            if (!Schema::hasColumn('encuestas', 'Dep')) {
+                $table->string('Dep')->nullable();
+            }
         });
     }
 };
