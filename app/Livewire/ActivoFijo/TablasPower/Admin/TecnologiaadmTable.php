@@ -75,8 +75,7 @@ final class TecnologiaadmTable extends PowerGridComponent
                 'Asignado' => '<span class="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-600"><span class="h-1.5 w-1.5 rounded-full bg-blue-600"></span>Asignado</span>',
                 'Baja' => '<span class="inline-flex items-center gap-1 rounded-full bg-red-50 px-2 py-1 text-xs font-semibold text-red-600"><span class="h-1.5 w-1.5 rounded-full bg-red-600"></span>Baja</span>',
                 default => '<span class="inline-flex items-center gap-1 rounded-full bg-gray-50 px-2 py-1 text-xs font-semibold text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-600"></span>' . $model->status . '</span>'
-            })
-            ->add('created_at');
+            });
     }
 
     public function columns(): array
@@ -124,10 +123,6 @@ final class TecnologiaadmTable extends PowerGridComponent
                 ->searchable(),
 
             Column::make('Sucursal', 'sucursal_nombre') // Columna para el nombre de la sucursal
-                ->sortable()
-                ->searchable(),
-
-            Column::make('Created at', 'created_at')
                 ->sortable()
                 ->searchable(),
 

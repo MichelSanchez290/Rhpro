@@ -19,6 +19,7 @@ use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
 final class AsignofieTable extends PowerGridComponent
 {
     public string $tableName = 'asignofie-table-dgexxl-table';
+    protected $listeners = ['refreshPowerGrid' => '$refresh'];
 
     public function setUp(): array
     {

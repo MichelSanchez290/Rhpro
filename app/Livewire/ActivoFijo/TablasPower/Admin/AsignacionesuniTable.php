@@ -18,7 +18,7 @@ use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
 final class AsignacionesuniTable extends PowerGridComponent
 {
     public string $tableName = 'asignacionesuni-table-egoibi-table';
-
+    protected $listeners = ['refreshPowerGrid' => '$refresh'];
     public function setUp(): array
     {
         $this->showCheckBox();
@@ -72,7 +72,9 @@ final class AsignacionesuniTable extends PowerGridComponent
             ->add('fecha_devolucion')
             ->add('fecha_devolucion_formatted', fn($model) => $model->fecha_devolucion ? Carbon::parse($model->fecha_devolucion)->format('d/m/Y') : 'No definida')
             ->add('observaciones')
-            ->add('status', fn($model) => $model->status ? 'Asignado' : 'Devuelto')
+            ->add('status_formatted', fn($model) => $model->status == 1
+            ? '<span class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600"><span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>Asignado</span>'
+            : '<span class="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-600"><span class="h-1.5 w-1.5 rounded-full text-blue-600"></span>Devuelto</span>')
             ->add('created_at')
             ->add('created_at_formatted', fn($model) => Carbon::parse($model->created_at)->format('d/m/Y H:i'))
             ->add('updated_at')
@@ -108,7 +110,7 @@ final class AsignacionesuniTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Estado', 'status')
+                Column::make('Estado', 'status_formatted')
                 ->sortable()
                 ->searchable(),
 
