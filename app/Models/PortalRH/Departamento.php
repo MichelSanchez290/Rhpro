@@ -5,7 +5,7 @@ namespace App\Models\PortalRH;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User; // Importa el modelo User
-
+use App\Models\PortalRH\Practicante;
 class Departamento extends Model
 {
     use HasFactory;
@@ -56,7 +56,10 @@ class Departamento extends Model
         return $this->hasMany(Instructor::class);
     }
 
-
-    
+    // Relación con DatoTrabajador
+    public function datoTrabajadores()
+    {
+        return $this->hasMany(DatoTrabajador::class, 'departamento_id');
+    }
 
 }

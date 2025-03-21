@@ -41,6 +41,7 @@
     {{-- @include('layouts.footer.footer-client') --}}
 
     <!-- Scripts -->
+    @yield('js')
     @livewireScripts
     <script src="{{ asset('js/client.js') }}"></script>
 </body>

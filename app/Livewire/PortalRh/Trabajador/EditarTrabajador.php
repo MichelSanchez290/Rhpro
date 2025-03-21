@@ -206,7 +206,7 @@ class EditarTrabajador extends Component
             'registro_patronal_id' => $this->registro_patronal_id,
         ]);
 
-        return redirect()->route('mostrartrabajador')->with('message', 'Trabajador actualizado correctamente.');
+        session()->flash('message', 'Trabajador Actualizado.');
     }
 
     public function render()

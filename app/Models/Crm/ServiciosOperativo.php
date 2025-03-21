@@ -19,6 +19,16 @@ class ServiciosOperativo extends Model
 
     public function levantamientospedidos()
     {
-        return $this->belongsTO(levantamientospedidos::class);
+        return $this->belongsTO(HeadLevantamientosPedido::class);
+    }
+
+    public function informacionesoperativos()
+    {
+        return $this->belongsTO(InformacionesOperativo::class);
+    }
+
+    public function aprobadaoperativos()
+    {
+        return $this->hasMany(AprobadaOperativo::class);
     }
 }

@@ -17,6 +17,8 @@ class PerfilPuesto extends Model
     // Columnas asignables masivamente
     protected $fillable = ['id', 
             'nombre_puesto',
+            'empresa_id',
+            'sucursal_id',
             'area', 
             'proceso',
             'mision',
@@ -69,6 +71,11 @@ class PerfilPuesto extends Model
     public function usuarios(){
         return $this->belongsToMany(User::class, 'perfil_puesto_user', 'perfiles_puestos_id', 'users_id')
             ->withPivot(['status', 'fecha_inicio', 'fecha_final', 'motivo_cambio']);
+    }
+
+    public function evaluaciones()
+    {
+        return $this->belongsToMany(Evaluacion::class, 'evaluacion_perfil_puesto', 'evaluaciones_id', 'perfiles_puestos_id');
     }
 
 

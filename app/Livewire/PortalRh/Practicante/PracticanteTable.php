@@ -44,24 +44,40 @@ final class PracticanteTable extends PowerGridComponent
 
         $query = Practicante::query()
             ->leftJoin('users', 'practicantes.user_id', '=', 'users.id')
+            ->leftJoin('empresas', 'users.empresa_id', '=', 'empresas.id')
+            ->leftJoin('sucursales', 'users.sucursal_id', '=', 'sucursales.id')
             ->leftJoin('departamentos', 'users.departamento_id', '=', 'departamentos.id')
             ->leftJoin('puestos', 'users.puesto_id', '=', 'puestos.id')
             ->leftJoin('registros_patronales', 'practicantes.registro_patronal_id', '=', 'registros_patronales.id')
             ->select([
                 'practicantes.*',
                 'users.name as nombre_usuario',
-                'departamentos.nombre_departamento as departamento',
-                'puestos.nombre_puesto as puesto',
+                \DB::raw('COALESCE(empresas.nombre, "Sin Empresa") as empresa'),
+                \DB::raw('COALESCE(sucursales.nombre_sucursal, "Sin Sucursal") as sucursal'),
+                \DB::raw('COALESCE(departamentos.nombre_departamento, "Sin departamento") as departamento'),
+                \DB::raw('COALESCE(puestos.nombre_puesto, "Sin Puesto") as puesto'),
                 'registros_patronales.registro_patronal as regpatronal'
             ]);
 
-        // Filtrar por departamento si el usuario es Trabajador o Practicante
-        if ($user->hasRole(['Trabajador PORTAL RH', 'Trabajador GLOBAL', 'Practicante'])) {
-            $query->where('practicantes.departamento_id', $user->departamento_id);
+        // Aplicar filtros según el rol del usuario autenticado
+        if ($user->hasRole('GoldenAdmin')) { // GoldenAdmin: sin filtro, ve todos los registros.
+
+        } elseif ($user->hasRole('EmpresaAdmin')) { 
+            // EmpresaAdmin: se limita a los usuarios de la misma empresa.
+            $query->where('users.empresa_id', $user->empresa_id);
+
+        } elseif ($user->hasRole('SucursalAdmin')) {
+            // SucursalAdmin: se limita a los usuarios de la misma sucursal.
+            $query->where('users.sucursal_id', $user->sucursal_id);
+
+        } elseif ($user->hasRole(['Trabajador PORTAL RH', 'Trabajador GLOBAL'])) {
+            // Trabajador PORTAL RH y Trabajador GLOBAL: verán únicamente su propio registro.
+            $query->where('users.id', $user->id);
         }
 
         return $query;
     }
+
 
     public function relationSearch(): array
     {

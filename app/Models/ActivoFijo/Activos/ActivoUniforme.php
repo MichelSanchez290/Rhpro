@@ -30,6 +30,9 @@ class ActivoUniforme extends Model
         'foto1',
         'foto2',
         'foto3',
+        'empresa_id',
+        'sucursal_id',
+        'status'
     ];
 
     public function tipoactivo()
@@ -38,6 +41,8 @@ class ActivoUniforme extends Model
     }
     public function usuarios()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class, 'activos_tecnologia_user')
+            ->withPivot('fecha_asignacion', 'fecha_devolucion', 'observaciones', 'status', 'foto1', 'foto2', 'foto3')
+            ->withTimestamps();
     }
 }

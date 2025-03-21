@@ -2,6 +2,9 @@
 
 namespace App\Models\Crm;
 
+use App\Models\Empresa;
+use App\Models\PortalRH\Sucursal;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,20 +18,39 @@ class TrainingLevantamiento extends Model
     protected $primaryKey = 'id';
 
     //especifica las columnas
-    protected $fillable = ['id', 'nombre_cliente', 'nombre_empresa', 'giro_empresa', 'ubicacion_empresa', 'tamano_empresa', 'primera_vez_o_recompra', 'medio_cesrh', 'responsable_comercial', 'fecha', 'correo_cliente', 'telefono_cliente', 'leadsCli_id', 'users_id'];
+    protected $fillable = [
+    'id','fecha', 'hora', 'numero_pedido', 'users_id', 'leads_clientes_id', 'sucursales_id', 'empresa_id',
+    'numero_lead', 'nombre_cliente','medios_cesrh','fecha_y_hora','puesto','correo','correo_2','telefono','telefono_2',
+    'nombre_contacto_2','puesto_contacto_2','tipo',
+    ];
 
-    public function LeadsClientes()
+    public function LeadsCliente()
     {
-        return $this->belongsTo(LeadsClientes::class);
+        return $this->belongsTo(LeadCliente::class);
     }
 
     public function Users()
     {
-        return $this->belongsTo(Users::class);
+        return $this->belongsTo(User::class);
     }
 
-    public function trainingservicio()
+    public function trainingservicios()
     {
         return $this->hasMany(trainingservicio::class);
+    }
+
+    public function crmcursos()
+    {
+        return $this->hasMany(CrmCurso::class);
+    }
+
+    public function empresa()
+    {
+        return $this->hasMany(Empresa::class);
+    }
+
+    public function sucursal()
+    {
+        return $this->hasMany(Sucursal::class);
     }
 }

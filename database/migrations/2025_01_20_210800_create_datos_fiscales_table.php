@@ -13,19 +13,19 @@ return new class extends Migration
     {
         Schema::create('datos_fiscales', function (Blueprint $table) {
             $table->id();
-            $table->string('razonSocial');
+            $table->string('razon_social');
             $table->string('rfc');
             $table->string('calle');
-            $table->string('numeroExterior');
-            $table->string('numeroInterior')->nullable();
+            $table->string('numero_exterior');
+            $table->string('numero_interior')->nullable();
             $table->string('colonia');
             $table->string('municipio');
             $table->string('localidad');
             $table->string('estado');
             $table->string('pais');
-            $table->string('codigoPostal');
-            $table->unsignedBigInteger('crmEmpresas_id');
-            $table->foreign('crmEmpresas_id')
+            $table->string('codigo_postal');
+            $table->unsignedBigInteger('crm_empresas_id');
+            $table->foreign('crm_empresas_id')
                 ->references('id')
                 ->on('crm_empresas')
                 ->onUpdate('cascade')
@@ -40,7 +40,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('datos_fiscales', function (Blueprint $table) {
-            $table->dropForeign(['crmEmpresas_id']);
+            $table->dropForeign(['crm_empresasid']);
         });
         Schema::dropIfExists('datos_fiscales');
     }

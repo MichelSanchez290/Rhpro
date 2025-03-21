@@ -15,10 +15,10 @@ class EjectCotizacionesAprobada extends Model
     protected $primaryKey = 'id';
 
     //especifica las columnas
-    protected $fillable = ['id', 'fecha_aprobacion', 'correo_enviado', 'serviEjec_id'];
+    protected $fillable = ['id', 'fecha_aprobacion', 'correo_enviado', 'servicios_ejecutivos_id'];
 
-    public function ServiciosEjecutivos()
+    public function serviciosejecutivo()
     {
-        return $this->belongsTo(ServiciosEjecutivos::class);
+        return $this->belongsTo(ServiciosEjecutivo::class);
     }
 }

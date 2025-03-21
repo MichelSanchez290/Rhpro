@@ -54,8 +54,8 @@ class AgregarCambioSalario extends Component
 
     protected $messages = [
         'salario.*.required' => 'Este campo es obligatorio.',
-        'salario.salario_anterior.decimal' => 'Ingrese solo números.',
-        'salario.salario_nuevo.decimal' => 'Ingrese solo números.',
+        'salario.salario_anterior.numeric' => 'Ingrese solo números.',
+        'salario.salario_nuevo.numeric' => 'Ingrese solo números.',
         'documento.file' => 'Adjunta un archivo en formato PDF.',
 
         'empresa.required' => 'Por favor seleccione una empresa.',
@@ -80,7 +80,7 @@ class AgregarCambioSalario extends Component
         $this->salario = [];
         $this->documento=NULL;
 
-        session()->flash('message', 'Cambio de salario agregado');
+        session()->flash('message', 'Cambio de Salario Agregado.');
     }
 
     public function redirigirSalario()

@@ -33,12 +33,15 @@ class ActivoTecnologia extends Model
         'aniosestimado_id',
         'foto1',
         'foto2',
-        'foto3'
+        'foto3',
+        'empresa_id',
+        'sucursal_id',
+        'status'
     ];
 
     public function tipoactivo()
     {
-        return $this->belongsTo(Tipoactivo::class,'tipo_activo_id','id');
+        return $this->belongsTo(Tipoactivo::class, 'tipo_activo_id', 'id');
     }
 
     public function anioEstimado()
@@ -54,6 +57,9 @@ class ActivoTecnologia extends Model
 
     public function usuarios()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class, 'activos_tecnologia_user', 'activos_tecnologias_id', 'user_id')
+                ->withPivot('fecha_asignacion', 'fecha_devolucion', 'observaciones', 'status', 'foto1', 'foto2', 'foto3')
+                ->withTimestamps();
     }
+    
 }

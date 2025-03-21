@@ -3,6 +3,7 @@
 namespace App\Models\Encuestas360;
 
 use App\Models\PortalRH\Empres;
+use App\Models\PortalRH\EmpresaSucursal;
 use App\Models\PortalRH\EmpresSucursal;
 use App\Models\PortalRH\RegistPatronal;
 use App\Models\PortalRH\Sucursal;
@@ -47,12 +48,13 @@ class Asignacion extends Model
 
     public function encuesta()
     {
-        return $this->belongsTo(Encuesta360::class, '360_encuestas_id');
+        return $this->belongsTo(Encuesta360::class, '360_encuestas_id', 'id');
     }
+
 
     public function empresaSucursal()
     {
-        return $this->belongsTo(EmpresSucursal::class, 'empresa_sucursal_id');
+        return $this->belongsTo(EmpresaSucursal::class, 'empresa_sucursal_id');
     }
 
     // public function sucursal()
@@ -60,10 +62,15 @@ class Asignacion extends Model
     //     return $this->belongsTo()
     // } 
 
+    public function sucursal()
+    {
+        return $this->belongsTo(Sucursal::class, 'sucursal_id');
+    }
 
-
-   
- 
-    
+    public function respuestasUsuario()
+    {
+        return $this->hasMany(RespuestaUsuario::class, 'asignaciones_id');
+    }
 }
+
 

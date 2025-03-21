@@ -63,9 +63,7 @@ class EditarEmpres extends Component
             'url_constancia_situacion_fiscal' => $this->url_constancia_situacion_fiscal,
         ]);
 
-        
-        //$this->emit('editBann', 'Empresa editada correctamente');
-        return redirect()->route('mostrarempresas');
+        session()->flash('message', 'Empresa Actualizada.');
     }
 
 

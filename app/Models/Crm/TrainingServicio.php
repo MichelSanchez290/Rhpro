@@ -21,4 +21,15 @@ class TrainingServicio extends Model
     {
         return $this->belongsTo(TrainingLevantamiento::class);
     }
+
+    public function aprobadatrainings()
+    {
+        return $this->hasMany(AprobadaTraining::class);
+    }
+
+    public function traininginformaciones()
+    {
+        return $this->belongsTo(TrainingInformacione::class);
+    }
 }
+ 

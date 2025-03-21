@@ -5,6 +5,7 @@ namespace App\Models\PortalRH;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User; // Importa el modelo User
+use App\Models\PortalRH\Departamento;
 
 class Practicante extends Model
 {

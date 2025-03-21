@@ -159,8 +159,7 @@ class EditarBecario extends Component
             'registro_patronal_id' => $this->registro_patronal_id,
         ]);
 
-        //session()->flash('message', 'Becario actualizado correctamente.');
-        return redirect()->route('mostrarbecario');
+        session()->flash('message', 'Becario Actualizado.');
     }
 
     public function render()

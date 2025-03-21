@@ -15,13 +15,10 @@ return new class extends Migration
             // Primero, eliminamos la columna 'Dep' si ya no la necesitamos
             $table->dropColumn('Dep');
 
-            // agregamos la nueva columna para la clave foránea
-            $table->unsignedBigInteger('sucursal_departament_id')->nullable();
-
             // Definir la clave foránea
             $table->foreign('sucursal_departament_id')
                 ->references('id')
-                ->on('sucursal_departament')
+                ->on('departamento_sucursal')
                 ->onDelete('set null'); // Si se elimina la relación, se establece como nulo
         });
     }

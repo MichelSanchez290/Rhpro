@@ -27,8 +27,8 @@
                         </svg>
                         <div class="flex-1">
                             <p class="font-bold">{{ session('message') }}</p>
-                            @if (session('message') == 'Registro Patronal actualizado')
-                                <p class="text-sm">Registro patronal actualizado exitosamente</p>
+                            @if (session('message') == 'Registro Patronal Actualizado.')
+                                <p class="text-sm">El Registro Patronal ha sido actualizado correctamente</p>
                             @endif
                         </div>
                         <button @click="show = false" class="text-white hover:text-gray-300 focus:outline-none">

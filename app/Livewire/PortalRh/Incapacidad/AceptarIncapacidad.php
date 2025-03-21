@@ -13,7 +13,7 @@ class AceptarIncapacidad extends Component
 
     public function mount()
     {
-        // Obtener incidencias con status "Pendiente"
+        // Obtener incapacidades con status "Pendiente"
         $this->incapacidades_pendientes = Incapacidad::with('users')
         ->where('status', 'Pendiente')
         ->get();
@@ -23,7 +23,7 @@ class AceptarIncapacidad extends Component
     {
         $incapacidad = Incapacidad::findOrFail($incapacidadId);
 
-        // Actualizar status de la incidencia a 'Aprobada'
+        // Actualizar status de la incapacidades a 'Aprobada'
         $incapacidad->status = 'Aprobada';
         $incapacidad->save();
 
@@ -37,7 +37,7 @@ class AceptarIncapacidad extends Component
     {
         $incapacidad = Incapacidad::findOrFail($incapacidadId);
 
-        // Actualizar status de la incidencia a 'Rechazada'
+        // Actualizar status de la incapacidades a 'Rechazada'
         $incapacidad->status = 'Rechazada';
         $incapacidad->save();
 

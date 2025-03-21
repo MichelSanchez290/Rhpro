@@ -9,11 +9,17 @@ class InformacionesEjecutivo extends Model
 {
     use HasFactory;
 
-    protected $table = 'datos_fiscales';
+    protected $table = 'informaciones_ejecutivos';
 
     //Define la clave primaria
     protected $primaryKey = 'id';
 
     //especifica las columnas
     protected $fillable = ['id', 'numeroCotizacion', 'servicio', 'ubicacion', 'puesto', 'cantidad', 'sueldoMensual', 'comision', 'puPorVacante', 'puSinIva'];
+
+    public function serviciosejecutivo()
+    {
+        return $this->hasMany(ServiciosEjecutivo::class);
+    }
+    
 }

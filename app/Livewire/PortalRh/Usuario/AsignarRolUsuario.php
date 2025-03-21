@@ -39,9 +39,7 @@ class AsignarRolUsuario extends Component
         $role = Role::findOrFail($this->rol);
         $user->syncRoles([$role]); // Reemplaza cualquier rol anterior con el nuevo
 
-        session()->flash('message', 'Rol asignado correctamente.');
-
-        return redirect()->route('mostraruser');
+        session()->flash('message', 'Rol Asignado.');
     }
 
     public function render()

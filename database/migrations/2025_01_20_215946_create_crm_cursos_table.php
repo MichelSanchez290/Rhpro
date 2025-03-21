@@ -11,27 +11,34 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('crm_cursos', function (Blueprint $table) {
+        Schema::create("crm_cursos", function (Blueprint $table) {
             $table->id();
-            $table->string('nombreCurso');
+            
+            $table->string('nombre_curso');
             $table->string('modalidad');
             $table->string('participantes');
             $table->string('grupos');
-            $table->string('puestosParticipar');
-            $table->string('cuentanExperiencia');
-            $table->string('cual');
-            $table->string('objetivo');
-            $table->date('fechaTentativa');
-            $table->string('puestoAsignado');
+            $table->string('puestos_participantes');
+            $table->string('experiencia');
+            $table->string('cual')->nullable();
+            $table->string('objetivo_curso');
+            $table->date('fecha_tentativa');
+            $table->decimal('presupuesto');
+            $table->unsignedBigInteger('training_levantamientos_id')
+                ->references('id')
+                ->on('training_levantamientos')
+                ->onDelete('cascade')
+                ->onDelete('cascade');
+            
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
+        Schema::table('crm_cursos', function (Blueprint $table) {
+            $table->dropColumn(['training_levantamientos_id']);
+        });
         Schema::dropIfExists('crm_cursos');
     }
 };

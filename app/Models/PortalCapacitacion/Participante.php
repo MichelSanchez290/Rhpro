@@ -5,6 +5,8 @@ namespace App\Models\PortalCapacitacion;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\User;
+
 class Participante extends Model
 {
     use HasFactory;
@@ -31,13 +33,24 @@ class Participante extends Model
     // Relación con la tabla evidencias (muchos a muchos)
     public function evidencias()
     {
-        return $this->belongsToMany(Evidencia::class);
+        return $this->belongsToMany(
+            Evidencia::class, 
+            'participante_evidencia',
+            'participantes_id',
+            'evidencias_id'
+        );
     }
 
     // Relación con la tabla users (muchos a muchos)
     public function users()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class, 'participante_user', 'participantes_id', 'users_id');
     }
+
+    public function capacitacion()
+    {
+        return $this->belongsTo(GrupocursoCapacitacion::class, 'grupocursos_capacitaciones_id');
+    }
+
 }
 

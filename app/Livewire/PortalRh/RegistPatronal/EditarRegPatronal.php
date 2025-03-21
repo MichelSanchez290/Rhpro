@@ -115,7 +115,7 @@ class EditarRegPatronal extends Component
             'cuenta_contable' => $this->cuenta_contable,
         ]);
     
-        session()->flash('message', 'Registro Patronal actualizado');
+        session()->flash('message', 'Registro Patronal Actualizado.');
     }
 
     public function render()

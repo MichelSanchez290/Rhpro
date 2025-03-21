@@ -38,8 +38,16 @@ final class ActivotecTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
+        $user = auth()->user();
+
+        // Si el usuario no tiene sucursal, no mostrar nada
+        if (!$user->sucursal_id) {
+            return ActivoTecnologia::query()->whereRaw('1 = 0'); // Devuelve una consulta vacía
+        }
+
         return ActivoTecnologia::query()
-            ->with(['tipoActivo', 'anioEstimado']);
+            ->with(['tipoActivo', 'anioEstimado'])
+            ->where('sucursal_id', $user->sucursal_id);
     }
 
     public function relationSearch(): array
@@ -61,8 +69,14 @@ final class ActivotecTable extends PowerGridComponent
             ->add('tipo_activo_nombre', fn(ActivoTecnologia $model) => $model->tipoActivo->nombre_activo ?? 'N/A')
 
             ->add('precio_adquisicion')
-            ->add('anioEstimado', fn(ActivoTecnologia $model) => $model->anioEstimado->vida_util_año ?? 'No asignado');
-    }
+            ->add('anioEstimado', fn(ActivoTecnologia $model) => $model->anioEstimado->vida_util_año ?? 'No asignado')
+            ->add('status_formatted', fn($model) => match ($model->status) {
+                'Activo' => '<span class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600"><span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>Activo</span>',
+                'Asignado' => '<span class="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-600"><span class="h-1.5 w-1.5 rounded-full bg-blue-600"></span>Asignado</span>',
+                'Baja' => '<span class="inline-flex items-center gap-1 rounded-full bg-red-50 px-2 py-1 text-xs font-semibold text-red-600"><span class="h-1.5 w-1.5 rounded-full bg-red-600"></span>Baja</span>',
+                default => '<span class="inline-flex items-center gap-1 rounded-full bg-gray-50 px-2 py-1 text-xs font-semibold text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-600"></span>' . $model->status . '</span>'
+            });
+        }
 
     public function columns(): array
     {
@@ -103,12 +117,12 @@ final class ActivotecTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Vida Útil (años)', 'vida_util_anio')
+
+            Column::make('Vida Util(años)', 'anioEstimado')->sortable()->searchable(),
+
+            Column::make('Estado', 'status_formatted')
                 ->sortable()
                 ->searchable(),
-
-            //Column::make('Aniosestimado id', 'aniosestimado_id'),
-
             Column::action('Action')
         ];
     }
@@ -131,10 +145,10 @@ final class ActivotecTable extends PowerGridComponent
     {
         return [
             Button::add('edit')
-                ->slot('Editar')
+                ->icon('default-edit')
                 ->class('btn btn-primary')
                 ->route('editaracttec', ['id' => $row->id]),
-                Button::add('delete')
+            Button::add('delete')
                 ->icon('default-trash')
                 ->class('btn btn-danger')
                 ->dispatch('openModal', [

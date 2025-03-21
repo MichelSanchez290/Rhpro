@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('num_activo');
             $table->string('ubicacion_fisica');
             $table->date('fecha_adquisicion');
-            $table->date('fecha_baja')->nulleable();
+            $table->date('fecha_baja')->nullable();
             $table->unsignedBigInteger('tipo_activo_id');
             $table->foreign('tipo_activo_id')
                 //Indica que esta columna hace referencia a la columna id
@@ -41,6 +41,9 @@ return new class extends Migration
             $table->string('foto2')->nullable();
             $table->string('foto3')->nullable();
             $table->string('foto4')->nullable();
+            $table->string('empresa_id')->nullable();
+            $table->string('sucursal_id')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

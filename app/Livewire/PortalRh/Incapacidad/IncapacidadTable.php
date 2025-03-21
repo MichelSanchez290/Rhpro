@@ -43,30 +43,27 @@ final class IncapacidadTable extends PowerGridComponent
     {
         $user = Auth::user();
 
+        $query = Incapacidad::query()
+            ->select([
+                'incapacidades.*',
+                'incapacidades.status as status',
+                'users.name as nombre_usuario'
+            ])
+            ->join('user_incapacidad', 'incapacidades.id', '=', 'user_incapacidad.incapacidad_id')
+            ->join('users', 'user_incapacidad.user_id', '=', 'users.id');
+
         if ($user->hasRole('GoldenAdmin')) {
-            // Si es un administrador, mostrar todas las incapacidades
-            $query = Incapacidad::query()
-                ->leftJoin('user_incapacidad', 'incapacidades.id', '=', 'user_incapacidad.incapacidad_id')
-                ->leftJoin('users', 'users.id', '=', 'user_incapacidad.user_id')
-                ->select([
-                    'incapacidades.*',
-                    'incapacidades.status as stat',
-                    DB::raw("COALESCE(users.name, 'PENDIENTE DE APROBACIÓN') as nombre_usuario"),
-                ]);
-        } elseif ($user->hasRole(['Trabajador PORTAL RH', 'Trabajador GLOBAL', 'Practicante'])) {
-            // Si es un trabajador, mostrar solo sus incapacidades
-            $query = Incapacidad::query()
-                ->join('user_incapacidad', 'incapacidades.id', '=', 'user_incapacidad.incapacidad_id')
-                ->join('users', 'users.id', '=', 'user_incapacidad.user_id')
-                ->select([
-                    'incapacidades.*',
-                    'incapacidades.status as stat',
-                    'users.name as nombre_usuario'
-                ])
-                ->where('user_incapacidad.user_id', $user->id);
-        } else {
-            // Si no tiene ninguno de estos roles, devolver solo las incapacidades sin relaciones
-            $query = Incapacidad::query()->select('incapacidades.*');
+            // GoldenAdmin: sin filtro, ve todos los registros.
+            return $query;
+        } elseif ($user->hasRole('EmpresaAdmin')) {
+            // EmpresaAdmin: se limita a los registros asociados a la misma empresa.
+            $query->where('users.empresa_id', $user->empresa_id);
+        } elseif ($user->hasRole('SucursalAdmin')) {
+            // SucursalAdmin: se limita a los registros vinculados a la misma sucursal.
+            $query->where('users.sucursal_id', $user->sucursal_id);
+        } elseif ($user->hasRole(['Trabajador PORTAL RH', 'Trabajador GLOBAL'])) {
+            // Trabajador PORTAL RH y Trabajador GLOBAL: verán únicamente su propio registro,
+            $query->where('users.id', $user->id);
         }
 
         return $query;
@@ -138,8 +135,8 @@ final class IncapacidadTable extends PowerGridComponent
     public function filters(): array
     {
         return [
-            Filter::datepicker('fecha_inicio'),
-            Filter::datepicker('fecha_final'),
+            //Filter::datepicker('fecha_inicio'),
+            //Filter::datepicker('fecha_final'),
         ];
     }
 
