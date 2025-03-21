@@ -48,17 +48,23 @@ class ReconocimientoControllerInd
             ->select('fechaIni', 'fechaFin')
             ->first();
     
-        // Obtener el nombre del usuario autenticado
-        $user = auth()->user();
-        $empresa = DB::table('empresas')->where('id', $user->empresa_id)->select('nombre')->first();
+        // 🔥 Obtener el usuario correcto desde la tabla pivote
+        $user = DB::table('users')
+            ->join('cap_individual_user', 'users.id', '=', 'cap_individual_user.users_id')
+            ->where('cap_individual_user.caps_individuales_id', $capsIndividualesId)
+            ->select('users.id', 'users.name')
+            ->first();
+
+        if (!$user) {
+            return redirect()->back()->with('error', 'No se encontró el usuario asociado a esta capacitación.');
+        }
     
         // Generar el PDF con los datos del curso, fechas y usuario
-        $pdf = Pdf::loadView('livewire.portal-capacitacion.capacitaciones.cap-grupales.reconocimiento', [
+        $pdf = Pdf::loadView('livewire.portal-capacitacion.capacitaciones.reconocimiento', [
             'id' => $capsIndividualesId,
             'curso' => $curso,
             'fechas' => $fechas,
             'user' => $user,
-            'empresa' => $empresa,
         ])->setPaper('a4', 'landscape');
     
         return $pdf->download('Reconocimiento.pdf');

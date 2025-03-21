@@ -131,11 +131,12 @@
                                 <button
                                     onclick="window.location.href='{{ route('verEvidenciasGruGeneral', Crypt::encrypt($capacitacion->id)) }}'"
                                     @mouseover="show = true" @mouseleave="show = false"
-                                    class="text-orange-500 hover:text-orange-700 p-2 rounded-full transition-all duration-300 transform hover:scale-110 focus:scale-110">
+                                    class="text-blue-800 hover:text-blue-900 p-2 rounded-full transition-all duration-300 transform hover:scale-110 focus:scale-110">
                                     <i class="fa-solid fa-eye text-xl"></i>
                                 </a>
                                 <div x-show="show"
-                                    class="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs rounded py-1 px-2">Ver evidencias</div>
+                                    class="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs rounded py-1 px-2">
+                                    Ver evidencias</div>
                             </div>
 
                         </div>

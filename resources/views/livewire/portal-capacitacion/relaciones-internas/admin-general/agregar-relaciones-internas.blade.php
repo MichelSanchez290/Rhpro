@@ -14,10 +14,8 @@
             </div>
 
             <!-- Título -->
-            <h1 class="text-2xl mt-2 sm:text-3xl font-extrabold text-gray-800 text-center uppercase tracking-wide
-                bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 text-transparent bg-clip-text drop-shadow-md pb-4 border-b-4 border-blue-400">
-                Agregar Relaciones Internas
-            </h1>
+            <!-- Título centrado que abarca ambos lados -->
+            <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-300 md:text-3xl lg:text-4xl dark:text-gray">Agregar <span class="text-blue-600 dark:text-blue-500">Relaciones Internas</span></h1>
             <div class="w-full mt-6">
                 <div class="relative p-6 rounded-2xl shadow-md w-full">
                     <form class="space-y-5" wire:submit.prevent="agregarInterna">
