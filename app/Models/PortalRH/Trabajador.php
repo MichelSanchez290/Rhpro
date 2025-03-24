@@ -63,6 +63,12 @@ class Trabajador extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function usuarios()
+    {
+        //cada trabajador pertenece a 
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
     public function registrosPatronales()
     {
         //cada trabajador pertenece a 

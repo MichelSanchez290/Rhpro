@@ -5,15 +5,6 @@
             Agregar
         </button>
 
-        <div class="flex justify-center my-4">
-            <label class="mr-2 font-semibold text-gray-700">Sucursal:</label>
-            <select wire:model.live="sucursal_id" class="p-2 border border-gray-300 rounded-lg">
-                <option value="">Seleccione una sucursal</option>
-                @foreach($sucursales as $sucursal)
-                    <option value="{{ $sucursal->id }}">{{ $sucursal->nombre_sucursal }}</option>
-                @endforeach
-            </select>
-        </div>
     </div>
 
     <!-- Barra de búsqueda -->

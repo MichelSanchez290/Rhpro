@@ -29,10 +29,10 @@
 
     <div class="space-y-8 mt-6">
         <!-- 📌 Evidencias Aprobadas Agrupadas -->
-        @if ($evidencias_aprobadas->count() > 0)
+        @if ($evidenciasAprobadas->count() > 0)
             <div class="bg-white shadow-md rounded-xl p-6 border-l-4 border-green-500">
                 <h3 class="text-xl font-semibold text-green-600">✅ Evidencias Aprobadas</h3>
-                @foreach ($evidencias_aprobadas->groupBy('comentarios') as $comentario => $grupoEvidencias)
+                @foreach ($evidenciasAprobadas->groupBy('comentarios') as $comentario => $grupoEvidencias)
                     <div class="bg-gray-50 p-4 rounded-lg shadow-sm mb-4">
                         <p class="text-gray-600 text-gr">📅 <span class="font-semibold">Fecha:</span>
                             {{ $grupoEvidencias->first()->fecha }}</p>
@@ -60,10 +60,10 @@
         @endif
 
         <!-- 📌 Evidencias Rechazadas Agrupadas -->
-        @if ($evidencias_rechazadas->count() > 0)
+        @if ($evidenciasRechazadas->count() > 0)
             <div class="bg-white shadow-md rounded-xl p-6 border-l-4 border-red-500">
                 <h3 class="text-xl font-semibold text-red-600">❌ Evidencias Rechazadas</h3>
-                @foreach ($evidencias_rechazadas->groupBy('comentarios') as $comentario => $grupoEvidencias)
+                @foreach ($evidenciasRechazadas->groupBy('comentarios') as $comentario => $grupoEvidencias)
                     <div class="bg-gray-50 p-4 rounded-lg shadow-sm mb-4">
                         <p class="text-gray-700 font-medium">📝 <span class="font-semibold">Comentario:</span>
                             {{ $comentario }}</p>
@@ -93,12 +93,12 @@
         @endif
 
         <!-- 📌 Evidencias Pendientes -->
-        @if ($evidencias_pendientes->count() > 0)
+        @if ($evidenciasPendientes->count() > 0)
             <div class="bg-white shadow-md rounded-xl p-6 border-l-4 border-yellow-400">
                 <h3 class="text-xl font-semibold text-yellow-600">⚠️ Evidencias Pendientes</h3>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    @foreach ($evidencias_pendientes as $evidencia)
+                    @foreach ($evidenciasPendientes as $evidencia)
                         <div class="bg-gray-100 p-4 rounded-lg shadow">
                             <img src="{{ asset('storage/' . $evidencia->evidencias) }}"
                                 class="w-full h-40 object-cover rounded-lg">

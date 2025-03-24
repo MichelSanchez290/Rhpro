@@ -124,6 +124,7 @@ use App\Livewire\PortalCapacitacion\Evidencias\Individuales\AdminTrabajador\Most
 use App\Livewire\PortalCapacitacion\Evidencias\Individuales\AdminTrabajador\AgregarEvidenciasIndividuales;
 use App\Livewire\PortalCapacitacion\Evidencias\Individuales\AdminTrabajador\EditarEvidenciasIndividuales;
 use App\Livewire\PortalCapacitacion\Evidencias\Grupales\AdminGeneral\MostrarEvidenciasGeneralGrupales;
+use App\Livewire\PortalCapacitacion\Evidencias\Grupales\AdminGeneral\AgregarEvidenciasGrupalesAdmin;
 use App\Livewire\PortalCapacitacion\Evidencias\Grupales\AdminTrabajador\MostrarEvidenciasTrabajadorGrupales;
 use App\Livewire\PortalCapacitacion\Evidencias\Grupales\AdminTrabajador\AgregarEvidenciasTrabajadorGrupales;
 use App\Livewire\PortalCapacitacion\Evidencias\Grupales\AdminTrabajador\EditarEvidenciasTrabajadorGrupales;
@@ -134,7 +135,10 @@ use App\Livewire\PortalCapacitacion\Participantes\AdminEmpresa\AgregarParticipan
 use App\Livewire\PortalCapacitacion\Participantes\AdminSucursal\EditarParticipantesCapacitacionSucursal;
 use App\Livewire\PortalCapacitacion\Participantes\AdminSucursal\AgregarParticipantesCapacitacionSucursal;
 use App\Livewire\PortalCapacitacion\Capacitaciones\CapGrupales\ReconocimientoController;
+use App\Livewire\PortalCapacitacion\Capacitaciones\CapGrupales\ReconocimientoControllerAdmin;
 use App\Livewire\PortalCapacitacion\Capacitaciones\CapIndividuales\ReconocimientoControllerInd;
+use App\Livewire\PortalCapacitacion\Capacitaciones\CapIndividuales\DC3Controller;
+use App\Livewire\PortalCapacitacion\Capacitaciones\CapGrupales\DC3GrupoController;
 
 Route::get('/inicio', Inicio::class)->name('inicio-capacitacion');
 
@@ -319,14 +323,23 @@ Route::get('/editar-trabajador-capacitacion-grupal-sucursal/{id}', EditarPartici
 //Evidencias individuales
 Route::get('/ver-evidencias-ind-general/{id}', MostrarEvidenciasIndividualesGeneral::class)->middleware('can:Ver evidencias')->name('verEvidenciasInd');
 //--------------------------------------------------------------------------------------------------------------------------------
-Route::get('/ver-evidencias-ind/{id}', MostrarEvidenciasIndividuales::class)->middleware('can:Ver evidencias Trabajador')->name('verEvidenciasIndTrabajador');
+Route::get('/ver-evidencias-ind/{id}', MostrarEvidenciasIndividuales::class)->name('verEvidenciasIndTrabajador');
 Route::get('/agregar-evidencias-ind/{id}', AgregarEvidenciasIndividuales::class)->name('agregarEvidenciasIndTrabajador');
 
 //Evidencias Grupales
 Route::get('/ver-evidencias-gru-general/{id}', MostrarEvidenciasGeneralGrupales::class)->middleware('can:Ver evidencias')->name('verEvidenciasGruGeneral');
+Route::get('/agregar-evidencias-gru-admin/{id}', AgregarEvidenciasGrupalesAdmin::class)->name('agregarEvidenciasGru');
 //--------------------------------------------------------------------------------------------------------------------------------
 Route::get('/ver-evidencias-gru/{id}', MostrarEvidenciasTrabajadorGrupales::class)->middleware('can:Ver evidencias Trabajador')->name('verEvidenciasGruTrabajador');
-Route::get('/agregar-evidencias-gru/{id}', AgregarEvidenciasTrabajadorGrupales::class)->name('agregarEvidenciasGruTrabajador');
+Route::get('/agregar-evidencias-gru/{id}', AgregarEvidenciasTrabajadorGrupales::class)->middleware('can:Ver evidencias Trabajador')->name('agregarEvidenciasGruTrabajador');
 
+//Reconocimientos
 Route::get('/descargar-reconocimiento/{id}', [ReconocimientoController::class, 'descargar'])->name('descargar.reconocimiento');
 Route::get('/descargar-reconocimiento-ind/{id}', [ReconocimientoControllerInd::class, 'descargar'])->name('descargar.reconocimiento.ind');
+Route::get('/descargar-reconocimiento/{caps_grupales_id}/{participante_id}', [ReconocimientoControllerAdmin::class, 'descargar'])
+    ->name('descargar.reconocimiento.admin');
+
+//DC3 
+Route::get('/descargar/dc3/{id}', [DC3Controller::class, 'descargar'])->name('descargar.dc3');
+Route::get('/descargar/dc3/grupal/{id}', [DC3GrupoController::class, 'descargar'])->name('descargar.dc3.grupo');
+

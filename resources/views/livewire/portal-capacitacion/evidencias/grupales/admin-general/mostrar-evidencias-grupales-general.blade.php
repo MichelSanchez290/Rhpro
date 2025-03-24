@@ -1,24 +1,154 @@
 <div class="container mx-auto p-6">
     <h2 class="text-3xl font-bold text-gray-800 mb-6">📂 Evidencias del Grupo</h2>
 
-    <div class="flex space-x-4">
+    <div class="flex justify-between items-center">
+        <!-- Botón de Subir Evidencia (izquierda) -->
+        <button onclick="window.location.href='{{ route('agregarEvidenciasGru', Crypt::encrypt($caps_grupales_id)) }}'"
+            class="bg-green-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-green-700 hover:shadow-lg 
+                flex items-center gap-2 transition-all duration-300 transform hover:scale-105 focus:outline-none 
+                focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+            <i class="fas fa-plus text-lg"></i>
+            <span class="text-sm font-semibold">Subir evidencia</span>
+        </button>
+
         @if ($tieneEvidenciasAprobadas)
-            <!-- Botón de Descargar Reconocimiento -->
-            <a href="{{ route('descargar.reconocimiento', Crypt::encrypt($caps_grupales_id)) }}"
-                class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-all transform hover:scale-105 
-                flex items-center gap-2 shadow-md hover:shadow-lg focus:outline-none">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="w-5 h-5">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                </svg>
-                <span class="text-sm font-semibold">Descargar Reconocimiento</span>
-            </a>
+            <!-- Contenedor para el Select y el Botón de Descargar (derecha) -->
+            <div class="flex items-center gap-4">
+                <!-- Selector de Participante -->
+                <div class="flex flex-col gap-1">
+                    <select id="participante"
+                        class="border border-gray-300 rounded-lg p-2 w-49 shadow-sm focus:outline-none 
+                        focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 hover:shadow-md hover:scale-105 cursor-pointer bg-white">
+
+
+                        <option value=""> Selecciona un participante</option>
+                        @foreach ($participantes as $participante)
+                            <option value="{{ Crypt::encrypt($participante->user_id) }}">{{ $participante->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <!-- Botón de Descargar Reconocimiento -->
+                <a id="descargarBtn" href="#" onclick="return validarSeleccion()"
+                    class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-all transform hover:scale-105 
+                    flex items-center gap-2 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 
+                    focus:ring-offset-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M9 8.25H7.5a2.25 2.25 0 0 0-2.25 2.25v9a2.25 2.25 0 0 0 2.25 2.25h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25H15M9 12l3 3m0 0 3-3m-3 3V2.25" />
+                    </svg>
+                    <span class="text-sm font-semibold">Descargar Reconocimiento</span>
+                </a>
+            </div>
+
+            <!-- Modal -->
+            <div id="modal"
+                class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+                <div class="bg-white rounded-lg shadow-lg p-6 max-w-sm w-full text-center">
+                    <h2 class="text-lg font-semibold text-red-600 mb-4">⚠️ Advertencia</h2>
+                    <p class="text-gray-700 mb-4">Por favor, selecciona un participante antes de descargar el
+                        reconocimiento.</p>
+                    <button onclick="cerrarModal()"
+                        class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 
+                        transition-all transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 
+                        focus:ring-offset-2">
+                        Cerrar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Botón para abrir el modal -->
+            <button onclick="openModal()"
+                class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-all transform hover:scale-105">
+                Descargar DC3 Grupo
+            </button>
+
+            <!-- Modal para capturar datos -->
+            <div id="dc3Modal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center hidden">
+                <div class="bg-white p-6 rounded-md shadow-lg w-96">
+                    <h2 class="text-lg font-bold mb-4">Datos adicionales para DC3</h2>
+
+                    <label class="block mb-2">Nombre del Instructor:</label>
+                    <input type="text" id="instructor" class="w-full border p-2 rounded-md">
+
+                    <label class="block mt-2 mb-2">Patrón o Representante Legal:</label>
+                    <input type="text" id="patron" class="w-full border p-2 rounded-md">
+
+                    <label class="block mt-2 mb-2">Representante de los Trabajadores:</label>
+                    <input type="text" id="representante" class="w-full border p-2 rounded-md">
+
+                    <div class="mt-4 flex justify-end">
+                        <button onclick="closeModal()"
+                            class="bg-gray-500 text-white px-4 py-2 rounded-md mr-2">Cancelar</button>
+                        <button onclick="descargarDC3Grupo()"
+                            class="bg-blue-600 text-white px-4 py-2 rounded-md">Descargar</button>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                function openModal() {
+                    document.getElementById('dc3Modal').classList.remove('hidden');
+                }
+
+                function closeModal() {
+                    document.getElementById('dc3Modal').classList.add('hidden');
+                }
+
+                function descargarDC3Grupo() {
+                    let instructor = document.getElementById('instructor').value;
+                    let patron = document.getElementById('patron').value;
+                    let representante = document.getElementById('representante').value;
+
+                    if (!instructor || !patron || !representante) {
+                        alert("Todos los campos son obligatorios.");
+                        return;
+                    }
+
+                    let url = `{{ route('descargar.dc3.grupo', Crypt::encrypt($caps_grupales_id)) }}`;
+                    url +=
+                        `?instructor=${encodeURIComponent(instructor)}&patron=${encodeURIComponent(patron)}&representante=${encodeURIComponent(representante)}`;
+
+                    window.location.href = url;
+                    closeModal();
+                }
+
+                function actualizarEnlace() {
+                    let participanteId = document.getElementById("participante").value;
+                    let descargarBtn = document.getElementById("descargarBtn");
+
+                    if (participanteId) {
+                        let baseUrl =
+                            "{{ route('descargar.reconocimiento.admin', ['caps_grupales_id' => Crypt::encrypt($caps_grupales_id), 'participante_id' => 'PARTICIPANTE_ID']) }}";
+                        descargarBtn.href = baseUrl.replace('PARTICIPANTE_ID', participanteId);
+                    } else {
+                        descargarBtn.href = "#";
+                    }
+                }
+
+                function validarSeleccion() {
+                    let participanteId = document.getElementById("participante").value;
+                    if (!participanteId) {
+                        mostrarModal();
+                        return false;
+                    }
+                    return true;
+                }
+
+                function mostrarModal() {
+                    document.getElementById("modal").classList.remove("hidden");
+                }
+
+                function cerrarModal() {
+                    document.getElementById("modal").classList.add("hidden");
+                }
+            </script>
         @endif
     </div>
 
-    <div class="space-y-8">
+    <div class="space-y-8 mt-5">
         <!-- 📌 Evidencias Aprobadas Agrupadas -->
         @if ($evidencias_aprobadas->count() > 0)
             <div class="bg-white shadow-md rounded-xl p-6 border-l-4 border-green-500">
@@ -119,6 +249,18 @@
                         </div>
                     @endforeach
                 </div>
+                @php
+                    $documentosAsociados = $documentos->whereIn('evidencia_id', $grupoEvidencias->pluck('id'));
+                @endphp
+                @if ($documentosAsociados->count() > 0)
+                    <h4 class="text-md font-semibold mt-3">📄 Documentos PDF</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-2">
+                        @foreach ($documentosAsociados as $doc)
+                            <iframe src="{{ asset('storage/' . $doc->urlEsca) }}"
+                                class="w-full h-48 border rounded-lg"></iframe>
+                        @endforeach
+                    </div>
+                @endif
             </div>
         @endif
     </div>
