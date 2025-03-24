@@ -19,6 +19,81 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     @livewireStyles
+
+    <style>
+        /* Estilos para las alertas */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 9999;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .loading-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .success-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 9999;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .success-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .alert-image {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1rem;
+        }
+
+        .alert-message {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+
+        .alert-button {
+            padding: 0.5rem 1.5rem;
+            background-color: #3b82f6;
+            color: white;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .alert-button:hover {
+            background-color: #2563eb;
+        }
+    </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
 
@@ -180,25 +255,96 @@
         <p class="text-sm">Dx035 - Todos los derechos reservados © {{ date('Y') }}</p>
     </footer>
 
+    <!-- Modales para alertas -->
+    <div id="loadingAlert" class="loading-overlay">
+        <div class="loading-content">
+            <img src="https://i.gifer.com/ZZ5H.gif" alt="Cargando..." class="alert-image">
+            <p class="alert-message">Generando reporte, por favor espere...</p>
+        </div>
+    </div>
+
+    <div id="successAlert" class="success-overlay">
+        <div class="success-content">
+            <img src="https://cdn.pixabay.com/animation/2022/07/29/03/42/03-42-11-849_512.gif" alt="Éxito" class="alert-image">
+            <p class="alert-message">¡Reporte generado con éxito!</p>
+            <button onclick="hideSuccessAlert()" class="alert-button">Aceptar</button>
+        </div>
+    </div>
+
     @livewireScripts
     <!-- Scripts de JavaScript -->
     @vite(['resources/js/app.js'])
     <script>
-    // Escuchar el evento para copiar la clave
-    Livewire.on('copiar-clave', function (data) {
-        const clave = data.clave;
-        navigator.clipboard.writeText(clave)
-            .then(() => alert("Clave copiada al portapapeles: " + clave))
-            .catch(() => alert("Error al copiar la clave"));
-    });
+        // Funciones para controlar las alertas
+        function showLoadingAlert() {
+            const loadingElement = document.getElementById('loadingAlert');
+            loadingElement.style.display = 'flex';
+            loadingElement.offsetHeight; // Forzar reflow
+        }
 
-    // Escuchar el evento para compartir el enlace
-    Livewire.on('compartir-enlace', function (data) {
-        const enlace = data.enlace;
-        navigator.clipboard.writeText(enlace)
-            .then(() => alert("Enlace copiado al portapapeles: " + enlace))
-            .catch(() => alert("Error al copiar el enlace"));
-    });
-</script>
+        function hideLoadingAlert() {
+            document.getElementById('loadingAlert').style.display = 'none';
+        }
+
+        function showSuccessAlert() {
+            const successElement = document.getElementById('successAlert');
+            successElement.style.display = 'flex';
+            successElement.offsetHeight; // Forzar reflow
+        }
+
+        function hideSuccessAlert() {
+            document.getElementById('successAlert').style.display = 'none';
+        }
+
+        // Escuchar eventos de Livewire
+        document.addEventListener('livewire:init', function() {
+            Livewire.on('show-loading', () => {
+                showLoadingAlert();
+            });
+
+            Livewire.on('hide-loading', () => {
+                hideLoadingAlert();
+            });
+
+            Livewire.on('show-success', () => {
+                hideLoadingAlert();
+                showSuccessAlert();
+                setTimeout(hideSuccessAlert, 3000);
+            });
+
+            Livewire.on('report-error', (message) => {
+                hideLoadingAlert();
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: message,
+                    confirmButtonColor: '#3b82f6'
+                });
+            });
+
+            Livewire.on('start-download', (url) => {
+                const link = document.createElement('a');
+                link.href = url;
+                link.target = '_blank';
+                link.download = 'reporte.pdf';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            });
+        });
+
+        // Funciones existentes para copiar clave y compartir enlace
+        Livewire.on('copiar-clave', function (data) {
+            navigator.clipboard.writeText(data.clave)
+                .then(() => alert("Clave copiada al portapapeles: " + data.clave))
+                .catch(() => alert("Error al copiar la clave"));
+        });
+
+        Livewire.on('compartir-enlace', function (data) {
+            navigator.clipboard.writeText(data.enlace)
+                .then(() => alert("Enlace copiado al portapapeles: " + data.enlace))
+                .catch(() => alert("Error al copiar el enlace"));
+        });
+    </script>
 </body>
 </html>
