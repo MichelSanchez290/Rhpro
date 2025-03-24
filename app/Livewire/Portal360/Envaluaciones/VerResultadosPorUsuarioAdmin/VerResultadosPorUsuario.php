@@ -6,6 +6,7 @@ use App\Models\Encuestas360\Asignacion;
 use App\Models\Encuestas360\RespuestaUsuario;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class VerResultadosPorUsuario extends Component
@@ -36,9 +37,9 @@ class VerResultadosPorUsuario extends Component
         $this->loadAsignacionData();
         if ($this->realizada) {
             $this->calcularPromedioFinal();
+            $this->datosTabla = $this->obtenerDatosTabla();
             $this->datosGrafica = $this->obtenerDatosGrafica();
             $this->chartBase64 = $this->generateChartBase64();
-            $this->datosTabla = $this->obtenerDatosTabla();
         }
     }
 
@@ -172,27 +173,62 @@ class VerResultadosPorUsuario extends Component
             'promedioDiferencia' => round($promedioDiferencia, 1),
         ];
     }
+    
     private function obtenerDatosGrafica(): array
     {
-        $respuestas = RespuestaUsuario::where('asignaciones_id', $this->asignacionId)
-            ->with('respuesta360.pregunta')
-            ->get();
-
-        if ($respuestas->isEmpty()) {
+        // Obtener el calificado_id de la asignación actual
+        $asignacion = Asignacion::find($this->asignacionId);
+        if (!$asignacion) {
             return [];
         }
 
+        // Buscar todas las asignaciones donde el usuario es calificado
+        $asignaciones = Asignacion::where('calificado_id', $asignacion->calificado_id)
+            ->where('realizada', 1)
+            ->with('respuestasUsuario.respuesta360.pregunta')
+            ->get();
+
+        if ($asignaciones->isEmpty()) {
+            return [];
+        }
+
+        $preguntasAgrupadas = [];
+
+        foreach ($asignaciones as $asignacion) {
+            $esAutoevaluacion = $asignacion->calificador_id === $asignacion->calificado_id;
+
+            foreach ($asignacion->respuestasUsuario as $respuesta) {
+                $preguntaId = $respuesta->respuesta360->preguntas_id;
+                $puntuacion = $respuesta->respuesta360->puntuacion;
+                $preguntaTexto = $respuesta->respuesta360->pregunta->texto;
+
+                if (!isset($preguntasAgrupadas[$preguntaId])) {
+                    $preguntasAgrupadas[$preguntaId] = [
+                        'texto' => $preguntaTexto,
+                        'autoevaluacion' => null,
+                        'sumaOtros' => 0,
+                        'conteoOtros' => 0,
+                    ];
+                }
+
+                if ($esAutoevaluacion) {
+                    $preguntasAgrupadas[$preguntaId]['autoevaluacion'] = $puntuacion;
+                } else {
+                    $preguntasAgrupadas[$preguntaId]['sumaOtros'] += $puntuacion;
+                    $preguntasAgrupadas[$preguntaId]['conteoOtros']++;
+                }
+            }
+        }
+
         $datosGrafica = [];
-        foreach ($respuestas->groupBy('respuesta360.preguntas_id') as $preguntaId => $respuestasPregunta) {
-            $pregunta = $respuestasPregunta->first()->respuesta360->pregunta;
-            $totalPuntuacion = $respuestasPregunta->sum(function ($respuestaUsuario) {
-                return $respuestaUsuario->respuesta360->puntuacion;
-            });
-            $promedioPuntuacion = $totalPuntuacion / $respuestasPregunta->count();
+        foreach ($preguntasAgrupadas as $preguntaId => $data) {
+            $autoevaluacion = $data['autoevaluacion'] ?? 0;
+            $promedioOtros = $data['conteoOtros'] > 0 ? $data['sumaOtros'] / $data['conteoOtros'] : 0;
 
             $datosGrafica[] = [
-                'pregunta' => $pregunta->texto,
-                'puntuacion' => round($promedioPuntuacion, 2),
+                'pregunta' => $data['texto'],
+                'puntuacion' => round($promedioOtros, 2),
+                'autoevaluacion' => round($autoevaluacion, 2),
             ];
         }
 
@@ -207,7 +243,8 @@ class VerResultadosPorUsuario extends Component
         }
 
         $labels = array_column($this->datosGrafica, 'pregunta');
-        $data = array_column($this->datosGrafica, 'puntuacion');
+        $dataPuntuacion = array_column($this->datosGrafica, 'puntuacion');
+        $dataAutoevaluacion = array_column($this->datosGrafica, 'autoevaluacion');
 
         $chartConfig = [
             'type' => 'horizontalBar',
@@ -215,10 +252,16 @@ class VerResultadosPorUsuario extends Component
                 'labels' => $labels,
                 'datasets' => [
                     [
-                        'label' => 'Puntuación',
-                        'data' => $data,
+                        'label' => 'Promedio',
+                        'data' => $dataPuntuacion,
                         'backgroundColor' => 'gold',
-                        'barThickness' => 30,
+                        'barThickness' => 15,
+                    ],
+                    [
+                        'label' => 'Autoevaluación',
+                        'data' => $dataAutoevaluacion,
+                        'backgroundColor' => 'skyblue',
+                        'barThickness' => 15,
                     ],
                 ],
             ],
@@ -254,7 +297,12 @@ class VerResultadosPorUsuario extends Component
                     ],
                 ],
                 'legend' => [
-                    'display' => false,
+                    'display' => true,
+                    'position' => 'top',
+                    'labels' => [
+                        'fontColor' => 'black',
+                        'fontSize' => 12
+                    ]
                 ],
             ],
         ];

@@ -14,11 +14,13 @@ use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
+use PowerComponents\LivewirePowerGrid\Traits\WithExport;
+
 
 final class PreguntasEmpresaTable extends PowerGridComponent
 {
     public string $tableName = 'preguntas-empresa-table-nllzw2-table';
-
+    use WithExport;
     public function setUp(): array
     {
         $this->showCheckBox();
@@ -54,7 +56,18 @@ final class PreguntasEmpresaTable extends PowerGridComponent
 
     public function relationSearch(): array
     {
-        return [];
+        return [
+            'pregunta' => [ // Relación con la tabla 'preguntas' (usando el nombre correcto de la relación)
+                'texto',       // Columna en la tabla 'preguntas'
+                'descripcion', // Columna en la tabla 'preguntas'
+            ],
+            'empresa' => [ // Relación con la tabla 'empresas'
+                'nombre',     // Columna en la tabla 'empresas'
+            ],
+            'sucursal' => [ // Relación con la tabla 'sucursales'
+                'nombre_sucursal', // Columna en la tabla 'sucursales'
+            ],
+        ];
     }
 
     public function fields(): PowerGridFields

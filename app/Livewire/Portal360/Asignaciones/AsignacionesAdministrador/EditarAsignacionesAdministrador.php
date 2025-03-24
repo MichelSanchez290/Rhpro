@@ -48,34 +48,34 @@ class EditarAsignacionesAdministrador extends Component
     protected function cargarDatosAsignacion()
     {
         $asignacion = Asignacion::with('calificador', 'calificado')->findOrFail($this->asignacionId);
-
+    
         $this->calificador_id = $asignacion->calificador_id;
         $this->calificado_id = $asignacion->calificado_id;
-
+    
         $calificador = User::with('empresa', 'sucursal')->findOrFail($this->calificador_id);
         $this->empresa_id = $calificador->empresa_id;
         $this->sucursal_id = $calificador->sucursal_id;
         $this->tipo_user_calificador = $calificador->tipo_user;
-
+    
         $calificado = User::with('empresa', 'sucursal')->findOrFail($this->calificado_id);
         $this->tipo_user_calificado = $calificado->tipo_user;
-
+    
         $this->relacion_id = $asignacion->relaciones_id;
-        $this->encuesta_id = $asignacion->encuesta_id;
+        $this->encuesta_id = $asignacion->{'360_encuestas_id'}; // Corrige aquí
         $this->realizada = Carbon::parse($asignacion->fecha)->format('Y-m-d\TH:i');
-        $this->resetRealizada = false; // Default to false, so it doesn’t reset unless explicitly checked
-
+        $this->resetRealizada = false;
+    
         $this->empresas = Empresa::all();
         $this->relaciones = Relacion::all();
         $this->encuestas = Encuesta360::where('empresa_id', $this->empresa_id)->get();
-
+    
         $this->usuarios = User::where('empresa_id', $this->empresa_id)
                             ->where('sucursal_id', $this->sucursal_id)
                             ->get();
-
+    
         $this->usuarios_calificador = $this->usuarios->where('tipo_user', $this->tipo_user_calificador);
         $this->usuarios_calificado = $this->usuarios->where('tipo_user', $this->tipo_user_calificado);
-
+    
         $empresa = Empresa::with('sucursales')->find($this->empresa_id);
         if ($empresa) {
             $this->sucursales = $empresa->sucursales;

@@ -170,34 +170,52 @@ class ResultadosTrabajadorMostrar extends Component
     private function obtenerDatosGrafica(): array
     {
         $userId = auth()->id();
-        $asignaciones = DB::table('asignaciones')
-            ->where('calificado_id', $userId)
+        $asignaciones = Asignacion::where('calificado_id', $userId)
             ->where('realizada', 1)
-            ->pluck('id');
+            ->with('respuestasUsuario.respuesta360.pregunta')
+            ->get();
 
         if ($asignaciones->isEmpty()) {
             return [];
         }
 
-        $respuestas = RespuestaUsuario::whereIn('asignaciones_id', $asignaciones)
-            ->with('respuesta360.pregunta')
-            ->get();
+        $preguntasAgrupadas = [];
 
-        if ($respuestas->isEmpty()) {
-            return [];
+        foreach ($asignaciones as $asignacion) {
+            $esAutoevaluacion = $asignacion->calificador_id === $asignacion->calificado_id;
+
+            foreach ($asignacion->respuestasUsuario as $respuesta) {
+                $preguntaId = $respuesta->respuesta360->preguntas_id;
+                $puntuacion = $respuesta->respuesta360->puntuacion;
+                $preguntaTexto = $respuesta->respuesta360->pregunta->texto;
+
+                if (!isset($preguntasAgrupadas[$preguntaId])) {
+                    $preguntasAgrupadas[$preguntaId] = [
+                        'texto' => $preguntaTexto,
+                        'autoevaluacion' => null,
+                        'sumaOtros' => 0,
+                        'conteoOtros' => 0,
+                    ];
+                }
+
+                if ($esAutoevaluacion) {
+                    $preguntasAgrupadas[$preguntaId]['autoevaluacion'] = $puntuacion;
+                } else {
+                    $preguntasAgrupadas[$preguntaId]['sumaOtros'] += $puntuacion;
+                    $preguntasAgrupadas[$preguntaId]['conteoOtros']++;
+                }
+            }
         }
 
         $datosGrafica = [];
-        foreach ($respuestas->groupBy('respuesta360.preguntas_id') as $preguntaId => $respuestasPregunta) {
-            $pregunta = $respuestasPregunta->first()->respuesta360->pregunta;
-            $totalPuntuacion = $respuestasPregunta->sum(function ($respuestaUsuario) {
-                return $respuestaUsuario->respuesta360->puntuacion;
-            });
-            $promedioPuntuacion = $totalPuntuacion / $respuestasPregunta->count();
+        foreach ($preguntasAgrupadas as $preguntaId => $data) {
+            $autoevaluacion = $data['autoevaluacion'] ?? 0;
+            $promedioOtros = $data['conteoOtros'] > 0 ? $data['sumaOtros'] / $data['conteoOtros'] : 0;
 
             $datosGrafica[] = [
-                'pregunta' => $pregunta->texto,
-                'puntuacion' => round($promedioPuntuacion, 2),
+                'pregunta' => $data['texto'],
+                'puntuacion' => round($promedioOtros, 2),
+                'autoevaluacion' => round($autoevaluacion, 2),
             ];
         }
 
@@ -212,7 +230,8 @@ class ResultadosTrabajadorMostrar extends Component
         }
 
         $labels = array_column($this->datosGrafica, 'pregunta');
-        $data = array_column($this->datosGrafica, 'puntuacion');
+        $dataPuntuacion = array_column($this->datosGrafica, 'puntuacion');
+        $dataAutoevaluacion = array_column($this->datosGrafica, 'autoevaluacion');
 
         $chartConfig = [
             'type' => 'horizontalBar',
@@ -220,10 +239,16 @@ class ResultadosTrabajadorMostrar extends Component
                 'labels' => $labels,
                 'datasets' => [
                     [
-                        'label' => 'Puntuación',
-                        'data' => $data,
+                        'label' => 'Promedio',
+                        'data' => $dataPuntuacion,
                         'backgroundColor' => 'gold',
-                        'barThickness' => 30,
+                        'barThickness' => 15,
+                    ],
+                    [
+                        'label' => 'Autoevaluación',
+                        'data' => $dataAutoevaluacion,
+                        'backgroundColor' => 'skyblue',
+                        'barThickness' => 15,
                     ],
                 ],
             ],
@@ -259,7 +284,12 @@ class ResultadosTrabajadorMostrar extends Component
                     ],
                 ],
                 'legend' => [
-                    'display' => false,
+                    'display' => true,
+                    'position' => 'top',
+                    'labels' => [
+                        'fontColor' => 'black',
+                        'fontSize' => 12
+                    ]
                 ],
             ],
         ];

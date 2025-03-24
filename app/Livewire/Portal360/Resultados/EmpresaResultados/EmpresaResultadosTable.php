@@ -1,32 +1,27 @@
 <?php
 
-namespace App\Livewire\Portal360\Resultados\AdministradorResultados;
+namespace App\Livewire\Portal360\Resultados\EmpresaResultados;
 
-use App\Models\Encuestas360\Asignacion;
 use App\Models\PortalRH\EmpresaSucursal;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
-use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
-use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 
-final class AdministradorResultadosTable extends PowerGridComponent
+final class EmpresaResultadosTable extends PowerGridComponent
 {
-    public string $tableName = 'administrador-resultados-table-jtzuoo-table';
-    use WithExport; // Agregamos el trait para exportación
+    public string $tableName = 'empresa-resultados-table-sqmaqk-table';
 
     public function setUp(): array
     {
         $this->showCheckBox();
 
         return [
-            PowerGrid::exportable('Resultados_Administrador_' . now()->format('Ymd_His')) // Configuración de exportación
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV), // Formatos XLS y CSV
             PowerGrid::header()
                 ->showSearchInput(),
             PowerGrid::footer()
@@ -38,39 +33,37 @@ final class AdministradorResultadosTable extends PowerGridComponent
     public function datasource(): Builder
     {
         return EmpresaSucursal::query()
-            ->join('empresas', 'empresa_sucursal.empresa_id', '=', 'empresas.id')
-            ->select('empresa_sucursal.*', 'empresas.nombre as empresa_nombre');
+            ->join('sucursales', 'empresa_sucursal.sucursal_id', '=', 'sucursales.id')
+            ->where('empresa_sucursal.empresa_id', Auth::user()->empresa_id)
+            ->select('empresa_sucursal.*', 'sucursales.nombre_sucursal');
     }
 
     public function relationSearch(): array
     {
-        return [
-            'empresa' => ['nombre'], // Habilitamos búsqueda en la relación empresa
-        ];
+        return [];
     }
 
     public function fields(): PowerGridFields
     {
         return PowerGrid::fields()
             ->add('id')
-            ->add('empresa_nombre', fn(EmpresaSucursal $model) => $model->empresa->nombre);
+            ->add('sucursal_nombre', fn(EmpresaSucursal $model) => $model->sucursal->nombre_sucursal);
     }
 
     public function columns(): array
     {
         return [
             Column::make('Id', 'id'),
-            Column::make('Nombre Empresa', 'empresa_nombre')
+            Column::make('Nombre Sucursal', 'sucursal_nombre')
                 ->sortable(),
+
             Column::action('Action')
         ];
     }
 
     public function filters(): array
     {
-        return [
-            Filter::datepicker('fecha'),
-        ];
+        return [];
     }
 
     #[\Livewire\Attributes\On('edit')]
@@ -83,13 +76,11 @@ final class AdministradorResultadosTable extends PowerGridComponent
     {
         return [
             Button::add('vizualizar')
-                ->slot('Visualizar')
-                ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-                ->route('VizualizarResultadosGeneralesAdministrador', ['SucursalId' => $row->id]),
+            ->slot('Visualizar')
+            ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
+            ->route('VizualizarResultadosGeneralesEmpresa', ['SucursalId' => $row->id]),
         ];
     }
-
-
 
     /*
     public function actionRules($row): array

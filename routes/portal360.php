@@ -14,6 +14,7 @@ use App\Livewire\Portal360\Bienvenido;
 use App\Livewire\Portal360\Compromiso\CompromisoAdministrador\AgregarCompromisoAdministrador;
 use App\Livewire\Portal360\Compromiso\CompromisoAdministrador\EditarCompromisoAdministrador;
 use App\Livewire\Portal360\Compromiso\CompromisoAdministrador\MostrarCompromisoAdministrador;
+use App\Livewire\Portal360\Compromiso\CompromisoTrabajador\AgregarCompromisoTrabajador;
 use App\Livewire\Portal360\Compromiso\CompromisoTrabajador\MostrarCompromisoTrabajador;
 use App\Livewire\Portal360\Empresa\EmpresaAdministrador\MostrarEmpresaAdministrador;
 use App\Livewire\Portal360\Empresa\EmpresaEmpresa\MostrarEmpresaEmpresa;
@@ -70,6 +71,8 @@ use App\Livewire\Portal360\Relaciones\RelacionesSucursal\EliminarRelacionesSucur
 use App\Livewire\Portal360\Relaciones\RelacionesSucursal\MostrarRelacionesSucursales;
 use App\Livewire\Portal360\Resultados\AdministradorResultados\MostrarEmpresaAdministradorResultadosvs;
 use App\Livewire\Portal360\Resultados\AdministradorResultados\MostrarSucursalesAdministradorResultadosvs;
+use App\Livewire\Portal360\Resultados\EmpresaResultados\MostrarEmpresaResultado;
+use App\Livewire\Portal360\Resultados\EmpresaResultados\MostrarResultadosEmpresasv;
 use Illuminate\Support\Facades\Route;
 
 
@@ -224,7 +227,11 @@ Route::get('/editar-compromiso-administrador/{id}', EditarCompromisoAdministrado
 Route::get('/eliminar-compromiso-administrador', [MostrarCompromisoAdministrador::class, 'deleteCompromisoAdministrador'])->name('eliminarCompromisoAdministrador');
 
 Route::get('/mostrar-compromiso-trabajador', MostrarCompromisoTrabajador::class)->name('portal360.compromiso.compromiso-trabajador.mostrar-compromiso-trabajador');
+Route::get('/agregar-compromiso-trabajador', AgregarCompromisoTrabajador::class)->name('agregarCompromisoTrabajador');
 
 // Route::get('/mostrar-empresa-administrador', MostrarEmpresaAdministrador)
 Route::get('/mostrar-empresa-administrador-resultadosvs', MostrarEmpresaAdministradorResultadosvs::class)->name('portal360.resultados.administrador-resultados.mostrar-empresa-administrador-resultadosvs');
 Route::get('/mostrar-sucursales-administrador-resultadosvs/{SucursalId}', MostrarSucursalesAdministradorResultadosvs::class)->name('VizualizarResultadosGeneralesAdministrador');
+
+Route::get('/mostrar-empresa-resultado', MostrarEmpresaResultado::class)->name('portal360.resultados.empresa-resultados.mostrar-empresa-resultado');
+Route::get('/mostrar-resultados-empresasv/{SucursalId}', MostrarResultadosEmpresasv::class)->name('VizualizarResultadosGeneralesEmpresa');

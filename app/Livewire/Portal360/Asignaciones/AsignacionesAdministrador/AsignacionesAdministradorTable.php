@@ -82,46 +82,6 @@ final class AsignacionesAdministradorTable extends PowerGridComponent
         ];
     }
 
-    // public function fields(): PowerGridFields
-    // {
-    //     return PowerGrid::fields()
-    //         ->add('id')
-    //         ->add('realizada', fn(Asignacion $model) => $model->realizada ? 'Sí' : 'No')
-    //         ->add('fecha_formatted')
-    //         ->add('calificador_nombre')
-    //         ->add('calificado_nombre')
-    //         ->add('relacion_nombre')
-    //         ->add('encuesta_nombre')
-    //         ->add('empresa_nombre')
-    //         ->add('sucursal_nombre');
-    // }
-
-    // public function fields(): PowerGridFields
-    // {
-    //     return PowerGrid::fields()
-    //         ->add('id')
-    //         ->add('calificador_name')
-    //         ->add('calificado_name')
-    //         ->add('relacion_nombre')
-    //         ->add('encuesta_nombre')
-    //         ->add('realizada_formatted', fn(Asignacion $model) => $model->realizada ? 'Completada' : 'Pendiente')
-    //         ->add('fecha_formatted', fn(Asignacion $model) => Carbon::parse($model->fecha)->format('d/m/Y'))
-    //         ->add('estatus_personalizado', function (Asignacion $model) {
-    //             $hoy = Carbon::today();
-    //             $fechaAsignacion = Carbon::parse($model->fecha)->startOfDay();
-
-    //             if ($model->realizada) {
-    //                 return 'Completada';
-    //             } elseif ($hoy->equalTo($fechaAsignacion)) {
-    //                 return 'Disponible hoy';
-    //             } elseif ($hoy->lessThan($fechaAsignacion)) {
-    //                 return 'Futura';
-    //             } else {
-    //                 return 'Expirada';
-    //             }
-    //         });
-    // }
-
 
     public function fields(): PowerGridFields
     {

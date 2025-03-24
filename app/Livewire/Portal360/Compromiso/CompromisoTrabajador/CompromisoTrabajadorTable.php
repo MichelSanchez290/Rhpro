@@ -27,7 +27,7 @@ final class CompromisoTrabajadorTable extends PowerGridComponent
 
         return [
             PowerGrid::exportable('Compromisos_Trabajador_' . now()->format('Ymd_His')) 
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV), // Formatos XLS y CSV
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             PowerGrid::header()
                 ->showSearchInput(),
             PowerGrid::footer()
@@ -38,7 +38,6 @@ final class CompromisoTrabajadorTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        // Filter commitments for the current authenticated worker
         return Compromiso::query()
             ->where('users_id', Auth::id())
             ->with(['pregunta']);
@@ -47,7 +46,7 @@ final class CompromisoTrabajadorTable extends PowerGridComponent
     public function relationSearch(): array
     {
         return [
-            'pregunta' => ['texto'], // Habilitamos búsqueda en la relación pregunta
+            'pregunta' => ['texto'],
         ];
     }
 
@@ -60,17 +59,38 @@ final class CompromisoTrabajadorTable extends PowerGridComponent
             ->add('compromiso')
             ->add('verificado', fn (Compromiso $model) => $model->verificado ? 'Sí' : 'No')
             ->add('pregunta_texto', fn (Compromiso $model) => $model->pregunta ? $model->pregunta->texto : 'Sin pregunta')
-            ->add('promedio_final', function (Compromiso $model) {
+            ->add('autoevaluacion', function (Compromiso $model) {
                 if ($model->preguntas_id) {
-                    $average = RespuestaUsuario::whereHas('respuesta360', function ($query) use ($model) {
-                        $query->where('preguntas_id', $model->preguntas_id); // Changed from pregunta_id to preguntas_id
+                    $autoevaluacion = RespuestaUsuario::whereHas('respuesta360', function ($query) use ($model) {
+                        $query->where('preguntas_id', $model->preguntas_id);
+                    })
+                    ->whereHas('asignacion', function ($query) use ($model) {
+                        $query->where('calificador_id', Auth::id())
+                              ->where('calificado_id', Auth::id());
+                    })
+                    ->with('respuesta360')
+                    ->first();
+
+                    return $autoevaluacion ? number_format($autoevaluacion->respuesta360->puntuacion, 2) : 'N/A';
+                }
+                return 'N/A';
+            })
+            ->add('promedio_otros', function (Compromiso $model) {
+                if ($model->preguntas_id) {
+                    $promedio = RespuestaUsuario::whereHas('respuesta360', function ($query) use ($model) {
+                        $query->where('preguntas_id', $model->preguntas_id);
+                    })
+                    ->whereHas('asignacion', function ($query) use ($model) {
+                        $query->where('calificado_id', Auth::id())
+                              ->where('calificador_id', '!=', Auth::id());
                     })
                     ->with('respuesta360')
                     ->get()
                     ->avg(function ($respuestaUsuario) {
                         return $respuestaUsuario->respuesta360->puntuacion;
                     });
-                    return number_format($average, 2) ?? 'N/A';
+
+                    return $promedio ? number_format($promedio, 2) : '0';
                 }
                 return 'N/A';
             })
@@ -81,37 +101,30 @@ final class CompromisoTrabajadorTable extends PowerGridComponent
     {
         return [
             Column::make('Pregunta', 'pregunta_texto')
-                ->sortable()
                 ->searchable(),
 
-            Column::make('Promedio Final', 'promedio_final')
-                ->sortable(),
+            Column::make('Autoevaluación', 'autoevaluacion'),
 
-            Column::make('Fecha Inicio', 'alta_formatted', 'alta')
-                ->sortable(),
+            Column::make('Promedio', 'promedio_otros'),
 
-            Column::make('Fecha Término', 'vencimiento_formatted', 'vencimiento')
-                ->sortable(),
+            Column::make('Fecha Inicio', 'alta_formatted', 'alta'),
+
+            Column::make('Fecha Término', 'vencimiento_formatted', 'vencimiento'),
 
             Column::make('Compromiso', 'compromiso')
-                ->sortable()
                 ->searchable(),
 
             Column::make('Cumplido', 'verificado')
-                ->sortable()
                 ->searchable(),
-
-            // Column::action('Action')
         ];
     }
 
     public function filters(): array
     {
-        return [
-            // Filter::datepicker('alta'),
-            // Filter::datepicker('vencimiento'),
-        ];
+        return [];
     }
+
+    
     #[\Livewire\Attributes\On('edit')]
     public function edit($rowId): void
     {

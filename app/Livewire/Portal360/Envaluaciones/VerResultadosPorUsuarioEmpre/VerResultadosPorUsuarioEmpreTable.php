@@ -1,32 +1,26 @@
 <?php
 
-namespace App\Livewire\Portal360\Resultados\AdministradorResultados;
+namespace App\Livewire\Portal360\Envaluaciones\VerResultadosPorUsuarioEmpre;
 
 use App\Models\Encuestas360\Asignacion;
-use App\Models\PortalRH\EmpresaSucursal;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
-use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
-use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 
-final class AdministradorResultadosTable extends PowerGridComponent
+final class VerResultadosPorUsuarioEmpreTable extends PowerGridComponent
 {
-    public string $tableName = 'administrador-resultados-table-jtzuoo-table';
-    use WithExport; // Agregamos el trait para exportación
+    public string $tableName = 'ver-resultados-por-usuario-empre-table-ykbzzd-table';
 
     public function setUp(): array
     {
         $this->showCheckBox();
 
         return [
-            PowerGrid::exportable('Resultados_Administrador_' . now()->format('Ymd_His')) // Configuración de exportación
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV), // Formatos XLS y CSV
             PowerGrid::header()
                 ->showSearchInput(),
             PowerGrid::footer()
@@ -37,31 +31,49 @@ final class AdministradorResultadosTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return EmpresaSucursal::query()
-            ->join('empresas', 'empresa_sucursal.empresa_id', '=', 'empresas.id')
-            ->select('empresa_sucursal.*', 'empresas.nombre as empresa_nombre');
+        return Asignacion::query();
     }
 
     public function relationSearch(): array
     {
-        return [
-            'empresa' => ['nombre'], // Habilitamos búsqueda en la relación empresa
-        ];
+        return [];
     }
 
     public function fields(): PowerGridFields
     {
         return PowerGrid::fields()
             ->add('id')
-            ->add('empresa_nombre', fn(EmpresaSucursal $model) => $model->empresa->nombre);
+            ->add('calificador_id')
+            ->add('calificado_id')
+            ->add('relaciones_id')
+            ->add('360_encuestas_id')
+            ->add('realizada')
+            ->add('fecha_formatted', fn (Asignacion $model) => Carbon::parse($model->fecha)->format('d/m/Y'))
+            ->add('created_at');
     }
 
     public function columns(): array
     {
         return [
             Column::make('Id', 'id'),
-            Column::make('Nombre Empresa', 'empresa_nombre')
+            Column::make('Calificador id', 'calificador_id'),
+            Column::make('Calificado id', 'calificado_id'),
+            Column::make('Relaciones id', 'relaciones_id'),
+            Column::make('360 encuestas id', '360_encuestas_id'),
+            Column::make('Realizada', 'realizada')
+                ->sortable()
+                ->searchable(),
+
+            Column::make('Fecha', 'fecha_formatted', 'fecha')
                 ->sortable(),
+
+            Column::make('Created at', 'created_at_formatted', 'created_at')
+                ->sortable(),
+
+            Column::make('Created at', 'created_at')
+                ->sortable()
+                ->searchable(),
+
             Column::action('Action')
         ];
     }
@@ -76,20 +88,19 @@ final class AdministradorResultadosTable extends PowerGridComponent
     #[\Livewire\Attributes\On('edit')]
     public function edit($rowId): void
     {
-        $this->js('alert(' . $rowId . ')');
+        $this->js('alert('.$rowId.')');
     }
 
-    public function actions(EmpresaSucursal $row): array
+    public function actions(Asignacion $row): array
     {
         return [
-            Button::add('vizualizar')
-                ->slot('Visualizar')
+            Button::add('edit')
+                ->slot('Edit: '.$row->id)
+                ->id()
                 ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-                ->route('VizualizarResultadosGeneralesAdministrador', ['SucursalId' => $row->id]),
+                ->dispatch('edit', ['rowId' => $row->id])
         ];
     }
-
-
 
     /*
     public function actionRules($row): array
