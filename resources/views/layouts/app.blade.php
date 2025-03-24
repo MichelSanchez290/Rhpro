@@ -20,16 +20,11 @@
     <!-- Define your gradient here - use online tools to find a gradient matching your branding-->
     <style>
         /* Contenido principal */
-        .content {
-            margin-left: 250px; /* Espacio igual al ancho de la barra lateral */
-            margin-top: 100px; /* Espacio bajo la barra superior */
-            padding: 20px;
-            flex: 1; /* Se expande automáticamente para ocupar el espacio restante */
-            overflow-x: auto;
-        }
+        
         .gradient {
-            background: linear-gradient(90deg, #3387d5 0%, #083144 100%);
-        }
+            background: linear-gradient(90deg, #3387d5 0%, #104e6b 100%);
+        }    margin-left: 250px; /* Espacio igual al ancho de la barra lateral */
+        
     </style>
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -167,7 +162,11 @@
                                     </div>
         
                                     <x-dropdown-link href="{{ route('profile.show') }}">
-                                        {{ __('Profile') }}
+                                        {{ __('Perfil') }}
+                                    </x-dropdown-link>
+
+                                    <x-dropdown-link href="{{ route('dashboard') }}">
+                                        {{ __('Inicio') }}
                                     </x-dropdown-link>
         
                                     @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
@@ -184,7 +183,7 @@
         
                                         <x-dropdown-link href="{{ route('logout') }}"
                                                  @click.prevent="$root.submit();">
-                                            {{ __('Log Out') }}
+                                            {{ __('Cerrar Sesión') }}
                                         </x-dropdown-link>
                                     </form>
                                 </x-slot>
