@@ -50,14 +50,18 @@ class EditarTematica extends Component
             'sucursal_id' => 'required',
         ]);
 
+        // Buscar la tematica existente y actualizarla
         Tematica::updateOrCreate(['id' => $this->tematicas_id], [
             'nombre' => $this->nombre,
             'empresa_id' => $this->empresa_id,
             'sucursal_id' => $this->sucursal_id,
         ]);
 
+        session()->flash('success', 'Temática actualizada exitosamente.');
+
         return redirect()->route('verTematicas');
     }
+
 
     public function render()
     {

@@ -61,21 +61,26 @@ final class SouvenirTable extends PowerGridComponent
     public function fields(): PowerGridFields
     {
         return PowerGrid::fields()
-        ->add('id')
-        ->add('codigo')
-        ->add('productos')
-        ->add('descripcion')
-        ->add('color')
-        ->add('medida')
-        ->add('marca')
-        ->add('precio')
-        ->add('estado')
-        ->add('disponible')
-        ->add('fecha_adquisicion_formatted', fn(ActivoSouvenir $model) => Carbon::parse($model->fecha_adquisicion)->format('d/m/Y'))
-        ->add('tipo_activo_nombre', fn(ActivoSouvenir $model) => $model->tipoActivo->nombre_activo ?? 'N/A')
-        ->add('anioEstimado', fn(ActivoSouvenir $model) => $model->anioEstimado->vida_util_año ?? 'No asignado')
-        ->add('sucursal_nombre', fn (ActivoSouvenir $model) => optional(Sucursal::where('id', $model->sucursal_id)->first())->nombre_sucursal ?? 'No asignado');
-
+            ->add('id')
+            ->add('codigo')
+            ->add('productos')
+            ->add('descripcion')
+            ->add('color')
+            ->add('medida')
+            ->add('marca')
+            ->add('precio')
+            ->add('estado')
+            ->add('disponible')
+            ->add('fecha_adquisicion_formatted', fn(ActivoSouvenir $model) => Carbon::parse($model->fecha_adquisicion)->format('d/m/Y'))
+            ->add('tipo_activo_nombre', fn(ActivoSouvenir $model) => $model->tipoActivo->nombre_activo ?? 'N/A')
+            ->add('anioEstimado', fn(ActivoSouvenir $model) => $model->anioEstimado->vida_util_año ?? 'No asignado')
+            ->add('sucursal_nombre', fn(ActivoSouvenir $model) => optional(Sucursal::where('id', $model->sucursal_id)->first())->nombre_sucursal ?? 'No asignado')
+            ->add('status_formatted', fn($model) => match ($model->status) {
+                'Activo' => '<span class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600"><span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>Activo</span>',
+                'Asignado' => '<span class="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-600"><span class="h-1.5 w-1.5 rounded-full bg-blue-600"></span>Asignado</span>',
+                'Baja' => '<span class="inline-flex items-center gap-1 rounded-full bg-red-50 px-2 py-1 text-xs font-semibold text-red-600"><span class="h-1.5 w-1.5 rounded-full bg-red-600"></span>Baja</span>',
+                default => '<span class="inline-flex items-center gap-1 rounded-full bg-gray-50 px-2 py-1 text-xs font-semibold text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-600"></span>' . $model->status . '</span>'
+            });
     }
 
 
@@ -119,17 +124,20 @@ final class SouvenirTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-                Column::make('Fecha adquisicion', 'fecha_adquisicion_formatted', 'fecha_adquisicion')
+            Column::make('Fecha adquisicion', 'fecha_adquisicion_formatted', 'fecha_adquisicion')
                 ->sortable(),
 
-                Column::make('Tipo Activo', 'tipo_activo_nombre')
+            Column::make('Tipo Activo', 'tipo_activo_nombre')
                 ->sortable()
                 ->searchable(),
             Column::make('Año Estimado', 'anioEstimado')->sortable()->searchable(),
             Column::make('Color', 'color')
                 ->sortable()
                 ->searchable(),
-                Column::make('Sucursal', 'sucursal_nombre')
+            Column::make('Sucursal', 'sucursal_nombre')
+                ->sortable()
+                ->searchable(),
+            Column::make('Estado', 'status_formatted')
                 ->sortable()
                 ->searchable(),
             Column::action('Action')
@@ -158,7 +166,7 @@ final class SouvenirTable extends PowerGridComponent
     #[\Livewire\Attributes\On('edit')]
     public function edit($rowId): void
     {
-        $this->js('alert('.$rowId.')');
+        $this->js('alert(' . $rowId . ')');
     }
 
     public function actions(ActivoSouvenir $row): array

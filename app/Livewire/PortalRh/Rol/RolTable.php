@@ -88,7 +88,7 @@ final class RolTable extends PowerGridComponent
 
         if (Gate::allows('Ver Permisos')) {
             $actions[] = Button::add('ver')
-                ->slot('Permisos')
+                ->slot('Ver Permisos')
                 ->class('bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded')
                 ->route('mostrarpermisos', ['id' => Crypt::encrypt($row->id)]);
         }
@@ -96,7 +96,7 @@ final class RolTable extends PowerGridComponent
 
         if (Gate::allows('Editar Rol')) {
             $actions[] = Button::add('edit')
-                ->slot('Editar')
+                ->slot('Editar Permisos')
                 ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
                 ->route('editarrol', ['id' => Crypt::encrypt($row->id)]);
         }

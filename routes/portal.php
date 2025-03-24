@@ -96,6 +96,43 @@ use App\Livewire\PortalCapacitacion\Cursos\Tematicas\AdminGeneral\MostrarTematic
 use App\Livewire\PortalCapacitacion\Cursos\Tematicas\AdminGeneral\AgregarTematica;
 use App\Livewire\PortalCapacitacion\Cursos\Tematicas\AdminGeneral\EditarTematica;
 use App\Livewire\PortalCapacitacion\Cursos\Cursos\AdminGeneral\MostrarCurso;
+use App\Livewire\PortalCapacitacion\Cursos\Cursos\AdminGeneral\AgregarCurso;
+use App\Livewire\PortalCapacitacion\Cursos\Cursos\AdminGeneral\EditarCurso;
+use App\Livewire\PortalCapacitacion\Capacitaciones\CapIndividuales\AdminGeneral\MostrarCapacitaciones;
+use App\Livewire\PortalCapacitacion\Capacitaciones\CapIndividuales\AdminGeneral\AgregarCapacitaciones;
+use App\Livewire\PortalCapacitacion\Capacitaciones\CapIndividuales\AdminGeneral\EditarCapacitaciones;
+use App\Livewire\PortalCapacitacion\Capacitaciones\CapIndividuales\AdminEmpresa\MostrarCapacitacionesEmpresa;
+use App\Livewire\PortalCapacitacion\Capacitaciones\CapIndividuales\AdminEmpresa\AgregarCapacitacionesEmpresa;
+use App\Livewire\PortalCapacitacion\Capacitaciones\CapIndividuales\AdminEmpresa\EditarCapacitacionesEmpresa;
+use App\Livewire\PortalCapacitacion\Capacitaciones\CapIndividuales\AdminSucursal\MostrarCapacitacionesSucursal;
+use App\Livewire\PortalCapacitacion\Capacitaciones\CapIndividuales\AdminSucursal\AgregarCapacitacionesSucursal;
+use App\Livewire\PortalCapacitacion\Capacitaciones\CapIndividuales\AdminSucursal\EditarCapacitacionesSucursal;
+use App\Livewire\PortalCapacitacion\Capacitaciones\CapIndividuales\AdminTrabajador\MostrarCapacitacionesTrabajador;
+use App\Livewire\PortalCapacitacion\Capacitaciones\CapGrupales\AdminTrabajador\MostrarCapacitacionesGruTrabajador;
+use App\Livewire\PortalCapacitacion\Capacitaciones\CapGrupales\AdminGeneral\MostrarCapacitacionesGrupales;
+use App\Livewire\PortalCapacitacion\Capacitaciones\CapGrupales\AdminGeneral\MostrarCapacitacionesGrupalesGeneral;
+use App\Livewire\PortalCapacitacion\Capacitaciones\CapGrupales\AdminGeneral\AgregarCapacitacionesGrupales;
+use App\Livewire\PortalCapacitacion\Capacitaciones\CapGrupales\AdminGeneral\EditarCapacitacionesGrupales;
+use App\Livewire\PortalCapacitacion\Capacitaciones\CapGrupales\AdminEmpresa\MostrarCapacitacionesGrupalesEmpresa;
+use App\Livewire\PortalCapacitacion\Capacitaciones\CapGrupales\AdminEmpresa\AgregarCapacitacionesGrupalesEmpresa;
+use App\Livewire\PortalCapacitacion\Capacitaciones\CapGrupales\AdminEmpresa\EditarCapacitacionesGrupalesEmpresa;
+use App\Livewire\PortalCapacitacion\Capacitaciones\CapGrupales\AdminSucursal\MostrarCapacitacionesGrupalesSucursal;
+use App\Livewire\PortalCapacitacion\Capacitaciones\CapGrupales\AdminSucursal\AgregarCapacitacionesGrupalesSucursal;
+use App\Livewire\PortalCapacitacion\Capacitaciones\CapGrupales\AdminSucursal\EditarCapacitacionesGrupalesSucursal;
+use App\Livewire\PortalCapacitacion\Evidencias\Individuales\AdminTrabajador\MostrarEvidenciasIndividuales;
+use App\Livewire\PortalCapacitacion\Evidencias\Individuales\AdminTrabajador\AgregarEvidenciasIndividuales;
+use App\Livewire\PortalCapacitacion\Evidencias\Individuales\AdminTrabajador\EditarEvidenciasIndividuales;
+use App\Livewire\PortalCapacitacion\Evidencias\Grupales\AdminGeneral\MostrarEvidenciasGeneralGrupales;
+use App\Livewire\PortalCapacitacion\Evidencias\Grupales\AdminTrabajador\MostrarEvidenciasTrabajadorGrupales;
+use App\Livewire\PortalCapacitacion\Evidencias\Grupales\AdminTrabajador\AgregarEvidenciasTrabajadorGrupales;
+use App\Livewire\PortalCapacitacion\Evidencias\Grupales\AdminTrabajador\EditarEvidenciasTrabajadorGrupales;
+use App\Livewire\PortalCapacitacion\Participantes\AdminGeneral\EditarParticipantesCapacitacion;
+use App\Livewire\PortalCapacitacion\Participantes\AdminGeneral\AgregarParticipantesCapacitacion;
+use App\Livewire\PortalCapacitacion\Participantes\AdminEmpresa\EditarParticipantesCapacitacionEmpresa;
+use App\Livewire\PortalCapacitacion\Participantes\AdminEmpresa\AgregarParticipantesCapacitacionEmpresa;
+use App\Livewire\PortalCapacitacion\Participantes\AdminSucursal\EditarParticipantesCapacitacionSucursal;
+use App\Livewire\PortalCapacitacion\Participantes\AdminSucursal\AgregarParticipantesCapacitacionSucursal;
+use App\Livewire\PortalCapacitacion\Capacitaciones\CapGrupales\ReconocimientoController;
 
 Route::get('/inicio', Inicio::class)->name('inicio-capacitacion');
 
@@ -211,10 +248,10 @@ Route::get('/evaluar-colaborador/{id}', FormEvaluar::class)->middleware('can:Eva
 Route::get('/evaluar-colaborador-empresa/{id}', FormEvaluarEmpresa::class)->middleware('can:Evaluar Trabajador Empresa')->name('evaluarColaboradorEmpresa');
 Route::get('/evaluar-colaborador-sucursal/{id}', FormEvaluarSucursal::class)->middleware('can:Evaluar Trabajador Sucursal')->name('evaluarColaboradorSucursal');
 //------------------------------------------------------------------------------------------------
-Route::get('/historial-evaluaciones/{id}', HistorialEvaluaciones::class)->middleware('can:VerHistorial Evaluaciones')->name('historialEvalaciones');
-Route::get('/historial-evaluaciones-empresa/{id}', HistorialEvaluacionesEmpresa::class)->middleware('can:Ver Historial de Evaluaciones Empresa')->name('historialEvalacionesEmpresa');
-Route::get('/historial-evaluaciones-sucursal/{id}', HistorialEvaluacionesSucursal::class)->middleware('can:Ver Historial de Evaluaciones Sucursal')->name('historialEvalacionesSucursal');
-Route::get('/historial-evaluaciones-trabajador/{id}', HistorialEvaluacionesTrabajador::class)->middleware('can:Ver Historial de Evaluaciones Trabajador')->name('historialEvalacionesTrabajador');
+Route::get('/historial-evaluaciones/{id}', HistorialEvaluaciones::class)->name('historialEvalaciones');
+Route::get('/historial-evaluaciones-empresa/{id}', HistorialEvaluacionesEmpresa::class)->name('historialEvalacionesEmpresa');
+Route::get('/historial-evaluaciones-sucursal/{id}', HistorialEvaluacionesSucursal::class)->name('historialEvalacionesSucursal');
+Route::get('/historial-evaluaciones-trabajador/{id}', HistorialEvaluacionesTrabajador::class)->name('historialEvalacionesTrabajador');
 
 //asociar puesto para trabajadores
 Route::get('/asociar-perfil-puesto', AsociarPuestoTrabajador::class)->middleware('can:Asociar Puesto Trabajador')->name('asociarPuestoTrabajador');
@@ -230,4 +267,61 @@ Route::get('/tematicas', MostrarTematica::class)->middleware('can:Ver tematicas'
 Route::get('/agregar-tematicas', AgregarTematica::class)->middleware('can:Agregar tematicas')->name('agregarTematicas');
 Route::get('/editar-tematicas/{id}', EditarTematica::class)->middleware('can:Editar tematicas')->name('editarTematicas');
 
+//Cursos
 Route::get('/curso', MostrarCurso::class)->middleware('can:Ver cursos')->name('verCursos');
+Route::get('/agregar-curso', AgregarCurso::class)->middleware('can:Agregar cursos')->name('agregarCursos');
+Route::get('/editar-curso/{id}', EditarCurso::class)->middleware('can:Editar cursos')->name('editarCursos');
+
+//Capacitaciones INDIVIDUALES
+Route::get('/ver-capacitaciones-ind/{id}', MostrarCapacitaciones::class)->middleware('can:Ver capacitaciones')->name('verCapacitacionesInd');
+Route::get('/agregar-capacitaciones-ind/{id}', AgregarCapacitaciones::class)->middleware('can:Agregar capacitaciones')->name('agregarCapacitacionesInd');
+Route::get('/editar-capacitaciones-ind/{id}', EditarCapacitaciones::class)->middleware('can:Editar capacitaciones')->name('editarCapacitacionesInd');
+//--------------------------------------------------------------------------------------------------------
+Route::get('/ver-capacitaciones-ind-empresa/{id}', MostrarCapacitacionesEmpresa::class)->middleware('can:Ver capacitaciones Empresa')->name('verCapacitacionesIndEmpresa');
+Route::get('/agregar-capacitaciones-ind-empresa/{id}', AgregarCapacitacionesEmpresa::class)->middleware('can:Agregar capacitaciones Empresa')->name('agregarCapacitacionesIndEmpresa');
+Route::get('/editar-capacitaciones-ind-empresa/{id}', EditarCapacitacionesEmpresa::class)->middleware('can:Editar capacitaciones Empresa')->name('editarCapacitacionesIndEmpresa');
+//--------------------------------------------------------------------------------------------------------
+Route::get('/ver-capacitaciones-ind-sucursal/{id}', MostrarCapacitacionesSucursal::class)->middleware('can:Ver capacitaciones Sucursal')->name('verCapacitacionesIndSucursal');
+Route::get('/agregar-capacitaciones-ind-sucursal/{id}', AgregarCapacitacionesSucursal::class)->middleware('can:Agregar capacitaciones Sucursal')->name('agregarCapacitacionesIndSucursal');
+Route::get('/editar-capacitaciones-ind-sucursal/{id}', EditarCapacitacionesSucursal::class)->middleware('can:Editar capacitaciones Sucursal')->name('editarCapacitacionesIndSucursal');
+//--------------------------------------------------------------------------------------------------------
+Route::get('/ver-capacitaciones-ind-trabajador/{id}', MostrarCapacitacionesTrabajador::class)->middleware('can:Ver capacitaciones Trabajador')->name('verCapacitacionesIndTrabajador');
+
+//Capacitaciones GRUPALES
+Route::get('/ver-capacitaciones-gru', MostrarCapacitacionesGrupales::class)->middleware('can:Ver capacitaciones')->name('verCapacitacionesGru');
+Route::get('/ver-capacitaciones-gru-general/{id}', MostrarCapacitacionesGrupalesGeneral::class)->middleware('can:Ver capacitaciones')->name('verCapacitacionesGruGeneral');
+Route::get('/agregar-capacitaciones-gru', AgregarCapacitacionesGrupales::class)->middleware('can:Agregar capacitaciones')->name('agregarCapacitacionesGru');
+Route::get('/editar-capacitaciones-gru/{id}', EditarCapacitacionesGrupales::class)->middleware('can:Editar capacitaciones')->name('editarCapacitacionesGru');
+//------------------------------------------------------------------------------------------------------------------------------------
+Route::get('/ver-capacitaciones-gru-empresa', MostrarCapacitacionesGrupalesEmpresa::class)->middleware('can:Ver capacitaciones Empresa')->name('verCapacitacionesGruEmpresa');
+Route::get('/agregar-capacitaciones-gru-empresa', AgregarCapacitacionesGrupalesEmpresa::class)->middleware('can:Agregar capacitaciones Empresa')->name('agregarCapacitacionesGruEmpresa');
+Route::get('/editar-capacitaciones-gru-empresa/{id}', EditarCapacitacionesGrupalesEmpresa::class)->middleware('can:Editar capacitaciones Empresa')->name('editarCapacitacionesGruEmpresa');
+//------------------------------------------------------------------------------------------------------------------------------------
+Route::get('/ver-capacitaciones-gru-sucursal', MostrarCapacitacionesGrupalesSucursal::class)->middleware('can:Ver capacitaciones Sucursal')->name('verCapacitacionesGruSucursal');
+Route::get('/agregar-capacitaciones-gru-sucursal', AgregarCapacitacionesGrupalesSucursal::class)->middleware('can:Agregar capacitaciones Sucursal')->name('agregarCapacitacionesGruSucursal');
+Route::get('/editar-capacitaciones-gru-sucursal/{id}', EditarCapacitacionesGrupalesSucursal::class)->middleware('can:Editar capacitaciones Sucursal')->name('editarCapacitacionesGruSucursal');
+//------------------------------------------------------------------------------------------------------------------------------------
+Route::get('/ver-capacitaciones-gru-trabajador/{id}', MostrarCapacitacionesGruTrabajador::class)->middleware('can:Ver capacitaciones Trabajador')->name('verCapacitacionesGruTrabajador');
+
+//Participantes
+Route::get('/agregar-trabajador-capacitacion-grupal/{id}', AgregarParticipantesCapacitacion::class)->middleware('can:Ver capacitaciones')->name('agregarTrabajadorCapacitacionGrupal');
+Route::get('/editar-trabajador-capacitacion-grupal/{id}', EditarParticipantesCapacitacion::class)->middleware('can:Ver capacitaciones')->name('editarTrabajadorCapacitacionGrupal');
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Route::get('/agregar-trabajador-capacitacion-grupal-empresa/{id}', AgregarParticipantesCapacitacionEmpresa::class)->middleware('can:Ver capacitaciones Empresa')->name('agregarTrabajadorCapacitacionGrupalEmpresa');
+Route::get('/editar-trabajador-capacitacion-grupal-empresa/{id}', EditarParticipantesCapacitacionEmpresa::class)->middleware('can:Ver capacitaciones Empresa')->name('editarTrabajadorCapacitacionGrupalEmpresa');
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Route::get('/agregar-trabajador-capacitacion-grupal-sucursal/{id}', AgregarParticipantesCapacitacionSucursal::class)->middleware('can:Ver capacitaciones Sucursal')->name('agregarTrabajadorCapacitacionGrupalSucursal');
+Route::get('/editar-trabajador-capacitacion-grupal-sucursal/{id}', EditarParticipantesCapacitacionSucursal::class)->middleware('can:Ver capacitaciones Sucursal')->name('editarTrabajadorCapacitacionGrupalSucursal');
+
+
+//Evidencias individuales
+Route::get('/ver-evidencias-ind/{id}', MostrarEvidenciasIndividuales::class)->middleware('can:Ver evidencias Trabajador')->name('verEvidenciasIndTrabajador');
+Route::get('/agregar-evidencias-ind/{id}', AgregarEvidenciasIndividuales::class)->name('agregarEvidenciasIndTrabajador');
+
+//Evidencias Grupales
+Route::get('/ver-evidencias-gru-general/{id}', MostrarEvidenciasGeneralGrupales::class)->middleware('can:Ver evidencias')->name('verEvidenciasGruGeneral');
+//--------------------------------------------------------------------------------------------------------------------------------
+Route::get('/ver-evidencias-gru/{id}', MostrarEvidenciasTrabajadorGrupales::class)->middleware('can:Ver evidencias Trabajador')->name('verEvidenciasGruTrabajador');
+Route::get('/agregar-evidencias-gru/{id}', AgregarEvidenciasTrabajadorGrupales::class)->name('agregarEvidenciasGruTrabajador');
+
+Route::get('/descargar-reconocimiento/{id}', [ReconocimientoController::class, 'descargar'])->name('descargar.reconocimiento');

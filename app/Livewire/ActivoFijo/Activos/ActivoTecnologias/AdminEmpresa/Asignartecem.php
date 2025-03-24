@@ -38,20 +38,18 @@ class Asignartecem extends Component
             ->get();
     }
 
-    public function updatedSucursalId($sucursalId)
+    public function updatedSucursalId($sucursalId)  
     {
         if ($sucursalId) {
-            // Filtrar activos tecnológicos por sucursal_id sin usar relaciones
-            $this->activosFiltrados = ActivoTecnologia::join('sucursales', 'activos_tecnologias.sucursal_id', '=', 'sucursales.id')
-                ->join('empresa_sucursal', 'sucursales.id', '=', 'empresa_sucursal.sucursal_id')
-                ->where('activos_tecnologias.sucursal_id', $sucursalId)
-                ->where('empresa_sucursal.empresa_id', Auth::user()->empresa_id)
-                ->select('activos_tecnologias.*')
+            $this->activosFiltrados = ActivoTecnologia::where('sucursal_id', $sucursalId)
+                ->where('status', 'Activo')
                 ->get();
 
-            // Filtrar usuarios por sucursal_id y empresa_id usando las relaciones de User
             $this->usuariosFiltrados = User::where('sucursal_id', $sucursalId)
                 ->where('empresa_id', Auth::user()->empresa_id)
+                ->whereHas('roles', function ($query) {
+                    $query->where('name', 'SusursalAdmin');
+                })
                 ->get();
         } else {
             $this->activosFiltrados = [];
@@ -74,6 +72,10 @@ class Asignartecem extends Component
         $usuario = User::find($this->usuarioSeleccionado);
         $activo = ActivoTecnologia::find($this->activoSeleccionado);
 
+        if ($activo->status !== 'Activo') {
+            session()->flash('error', 'El activo seleccionado no está disponible para asignación.');
+            return;
+        }
         if (!$usuario || !$activo) {
             session()->flash('error', 'Usuario o activo no encontrado.');
             return;
@@ -118,6 +120,11 @@ class Asignartecem extends Component
             'foto2' => $foto2Path,
             'foto3' => $foto3Path,
         ]);
+        
+        $activo->update([
+            'status' => 'Asignado',
+            'updated_at' => now(),
+        ]);  
 
         $this->reset([
             'sucursal_id',

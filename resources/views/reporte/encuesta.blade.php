@@ -83,20 +83,15 @@
 <body>
     <!-- Portada -->
     <div class="portada">
-        <!-- Logo izquierda -->
+        <!-- Logos y título -->
         <img src="{{ asset('public/Imagenes/Logos/CESRH-logo.png') }}" alt="Logo CESRH" class="logo-left">
-        <!-- Logo derecha -->
         <img src="{{ asset('public/Imagenes/Logos/CESRH-logo.png') }}" alt="Logo CESRH" class="logo-right">
-        <!-- Logo centro -->
         <img src="{{ asset('public/Imagenes/Logos/CESRH-logo.png') }}" alt="Logo CESRH" class="logo-center">
-        <!-- Título del reporte -->
         <h1 class="titulo-reporte">Reporte de la Norma 035</h1>
-        <!-- Texto confidencial -->
         <h2 class="confidencial">Privado y confidencial</h2>
-        <!-- Cuadro azul con texto -->
         <div class="cuadro-azul">
             <h3>CESRH CONSULTORÍA Y COACHING</h3>
-            <h3>Reporte General</h3>
+            <h3>Reporte Estadístico</h3>
             <p>Periodo de aplicación: {{ $encuesta->FechaInicio }} al {{ $encuesta->FechaFinal }}</p>
         </div>
     </div>
@@ -120,7 +115,9 @@
         <p>Conoce el índice de participación de tu encuesta y el perfil de los participantes.</p>
         <h4>Índice de Participación</h4>
         <p>De {{ $indiceParticipacion['contestadas'] + $indiceParticipacion['sin_contestar'] }} trabajadores</p>
-        <img src="{{ asset('images/grafica_participacion.png') }}" alt="Gráfica de Participación" class="grafica">
+        <div class="grafica">
+            {!! $graficaParticipacion->render() !!}
+        </div>
         <p>Periodo de aplicación: {{ $encuesta->FechaInicio }} al {{ $encuesta->FechaFinal }}</p>
         <p>Días totales: {{ \Carbon\Carbon::parse($encuesta->FechaInicio)->diffInDays($encuesta->FechaFinal) }}</p>
     </div>
@@ -129,10 +126,18 @@
     <div class="perfil-participantes page-break">
         <h4>Perfil de los participantes</h4>
         <p>Tenga en cuenta que al tratarse de una encuesta de carácter confidencial, esta encuesta fue llenada libremente por cada uno de los participantes.</p>
-        <img src="{{ asset('images/grafica_genero.png') }}" alt="Gráfica de Género" class="grafica">
-        <img src="{{ asset('images/grafica_edad.png') }}" alt="Gráfica de Edad" class="grafica">
-        <img src="{{ asset('images/grafica_estado_civil.png') }}" alt="Gráfica de Estado Civil" class="grafica">
-        <img src="{{ asset('images/grafica_estudios.png') }}" alt="Gráfica de Estudios" class="grafica">
+        <div class="grafica">
+            {!! $graficaGenero->render() !!}
+        </div>
+        <div class="grafica">
+            {!! $graficaEdad->render() !!}
+        </div>
+        <div class="grafica">
+            {!! $graficaEstadoCivil->render() !!}
+        </div>
+        <div class="grafica">
+            {!! $graficaEstudios->render() !!}
+        </div>
     </div>
 
     <!-- Resultados Generales -->

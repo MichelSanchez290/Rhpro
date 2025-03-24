@@ -4,6 +4,9 @@ namespace App\Models\PortalCapacitacion;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\PortalCapacitacion\Curso;
+use App\Models\PortalCapacitacion\Evidencia;
+use App\Models\User;
 
 class GrupocursoCapacitacion extends Model
 {
@@ -18,28 +21,54 @@ class GrupocursoCapacitacion extends Model
     // Columnas asignables masivamente
     protected $fillable = [
         'id',
-        'NombreGrupo',
-        'FechaIni',
-        'FechaFin',
+        'empresa_id',
+        'sucursal_id',
+        'nombreGrupo',
+        'nombreCapacitacion',
+        'fechaIni',
+        'fechaFin',
+        'cursos_id',
         'objetivo_capacitacion',
-        'cursos_id'
     ];
 
-    // Relación con la tabla Cursos (muchos a uno)
     public function curso()
     {
-        return $this->belongsToMnay(Curso::class, 'cursos_id');
+        return $this->belongsTo(Curso::class, 'cursos_id');
     }
 
     // Relación con la tabla Participantes (uno a muchos)
     public function participantes()
     {
-        return $this->TobelongsMany(Participante::class, 'grupocursos_capacitaciones_id');
+        return $this->hasMany(Participante::class, 'grupocursos_capacitaciones_id');
     }
 
     // Relación con la tabla Escaneardc3s (uno a muchos)
     public function escaneos()
     {
-        return $this->TobelongsMany(Escaneardc::class, 'grupocursos_capacitaciones_id');
+        return $this->hasMany(Escaneardc::class, 'grupocursos_capacitaciones_id');
     }
+
+    public function empresa()
+    {
+        return $this->belongsTo(Empresa::class, 'empresa_id'); // Cambio aquí
+    }
+
+    public function sucursal()
+    {
+        return $this->belongsTo(Sucursal::class, 'sucursal_id'); // Cambio aquí
+    }
+
+    public function evidencias()
+    {
+        return $this->belongsToMany(Evidencia::class, 'evidencia_cap_individual', 'caps_individuales_id', 'evidencias_id');
+    }
+
+    public function usuarios()
+    {
+        return $this->belongsToMany(User::class, 
+            'participante_user',
+            'users_id', 
+            'grupocursos_capacitaciones_id');
+    }
+
 }

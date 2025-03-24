@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('evidencias', function (Blueprint $table) {
             $table->id();
-            $table->string('evidencias', 45);
-            $table->string('comentarios', 2000);
-            $table->string('status', 45);
-            $table->date('fecha');
+            $table->string('evidencias', 2000);
+            $table->string('comentarios', 2000)->nullable();
+            $table->string('status', 45)->nullable();
+            $table->date('fecha')->nullable();
             $table->timestamps();
         });
     }

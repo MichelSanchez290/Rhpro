@@ -4,6 +4,6 @@
 
     <div class="mt-4 flex justify-end space-x-2">
         <button wire:click="closeModal" class="px-4 py-2 bg-[#1763A6] rounded text-white">Cancelar</button>
-        <button wire:click="delete" class="px-4 py-2 bg-red-600 text-white rounded">Eliminar</button>
+        <button wire:click="delete()" class="px-4 py-2 bg-red-600 text-white rounded">Eliminar</button>
     </div>
 </div>

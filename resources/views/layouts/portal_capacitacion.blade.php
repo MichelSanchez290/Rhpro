@@ -13,11 +13,12 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="//unpkg.com/alpinejs" defer></script>
     <script src="https://cdn.tailwindcss.com"></script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     @livewireStyles
-    <title>Admin Panel</title>
+    <title>Portal de Capacitación</title>
 </head>
 <body class="text-gray-800 font-inter">
     <!--sidenav -->
@@ -36,7 +37,7 @@
             <li class="mb-1 group">
                 <a href="#" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100 sidebar-dropdown-toggle">
                     <i class='bx bx-list-ul mr-3 text-lg'></i>                
-                    <span class="text-sm">Portal de Capacitación</span>
+                    <span class="text-sm">Perfil de Puesto</span>
                     <i class="ri-arrow-right-s-line ml-auto group-[.selected]:rotate-90"></i>
                 </a>
                 <ul class="pl-7 mt-2 hidden group-[.selected]:block">
@@ -188,7 +189,7 @@
                 @can('Mostrar Usuarios Trabajador') 
                     <a href="{{ route('mostrarUsuariosTrabajador') }}" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
                         <i class='bx bx-user mr-3 text-lg'></i>              
-                        <span class="text-sm">Users Trabajador</span>
+                        <span class="text-sm">Mi Perfil</span>
                     </a>
                 @endcan
           </li>
@@ -210,6 +211,30 @@
                     <a href="{{ route('asociarPuestoTrabajadorSucursal') }}" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
                         <i class='bx bx-archive mr-3 text-lg'></i>                
                         <span class="text-sm">Asociar un Perfil de Puesto Sucursal</span>
+                    </a>
+                @endcan
+                @can('Ver capacitaciones')
+                    <a href="{{ route('verCapacitacionesGru') }}" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 mr-2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 6.878V6a2.25 2.25 0 0 1 2.25-2.25h7.5A2.25 2.25 0 0 1 18 6v.878m-12 0c.235-.083.487-.128.75-.128h10.5c.263 0 .515.045.75.128m-12 0A2.25 2.25 0 0 0 4.5 9v.878m13.5-3A2.25 2.25 0 0 1 19.5 9v.878m0 0a2.246 2.246 0 0 0-.75-.128H5.25c-.263 0-.515.045-.75.128m15 0A2.25 2.25 0 0 1 21 12v6a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 18v-6c0-.98.626-1.813 1.5-2.122" />
+                        </svg>               
+                        <span class="text-sm">Capacitaciones Grupales</span>
+                    </a>
+                @endcan
+                @can('Ver capacitaciones Empresa')
+                    <a href="{{ route('verCapacitacionesGruEmpresa') }}" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 mr-2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 6.878V6a2.25 2.25 0 0 1 2.25-2.25h7.5A2.25 2.25 0 0 1 18 6v.878m-12 0c.235-.083.487-.128.75-.128h10.5c.263 0 .515.045.75.128m-12 0A2.25 2.25 0 0 0 4.5 9v.878m13.5-3A2.25 2.25 0 0 1 19.5 9v.878m0 0a2.246 2.246 0 0 0-.75-.128H5.25c-.263 0-.515.045-.75.128m15 0A2.25 2.25 0 0 1 21 12v6a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 18v-6c0-.98.626-1.813 1.5-2.122" />
+                        </svg>               
+                        <span class="text-sm">Capacitaciones Grupales Empresa</span>
+                    </a>
+                @endcan
+                @can('Ver capacitaciones Sucursal')
+                    <a href="{{ route('verCapacitacionesGruSucursal') }}" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 mr-2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 6.878V6a2.25 2.25 0 0 1 2.25-2.25h7.5A2.25 2.25 0 0 1 18 6v.878m-12 0c.235-.083.487-.128.75-.128h10.5c.263 0 .515.045.75.128m-12 0A2.25 2.25 0 0 0 4.5 9v.878m13.5-3A2.25 2.25 0 0 1 19.5 9v.878m0 0a2.246 2.246 0 0 0-.75-.128H5.25c-.263 0-.515.045-.75.128m15 0A2.25 2.25 0 0 1 21 12v6a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 18v-6c0-.98.626-1.813 1.5-2.122" />
+                        </svg>               
+                        <span class="text-sm">Capacitaciones Grupales Sucursal</span>
                     </a>
                 @endcan
             </li>
@@ -237,7 +262,6 @@
                         @endcan    
                     </ul>
                 </li>
-
             
             <span class="text-gray-400 font-bold">PERSONAL</span>
             <li class="mb-1 group">

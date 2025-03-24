@@ -78,25 +78,25 @@
         });
     </script>
 
-<script>
-    $(document).ready(function() {
-        // Configuración de Toastr
-        toastr.options = {
-            "progressBar": true,
-            "positionClass": "toast-top-right",
-            "closeButton": true,
-            "timeOut": 4000,
-        };
+    <script>
+        $(document).ready(function() {
+            // Configuración de Toastr
+            toastr.options = {
+                "progressBar": true,
+                "positionClass": "toast-top-right",
+                "closeButton": true,
+                "timeOut": 4000,
+            };
 
-        // Inicialización de Select2
-        $('.select2').select2({
-            placeholder: "Selecciona una opción",
-            allowClear: true
+            // Inicialización de Select2
+            $('.select2').select2({
+                placeholder: "Selecciona una opción",
+                allowClear: true
+            });
         });
-    });
-</script>
+    </script>
 
-
+    @yield('content')
     @stack('scripts') <!-- Aquí se incluirán los scripts push -->
 </body>
 

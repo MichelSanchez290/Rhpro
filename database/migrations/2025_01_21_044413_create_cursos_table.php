@@ -25,10 +25,10 @@ return new class extends Migration
                 ->on( 'sucursales')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->string('Cnombre');
-            $table->integer('Choras');
-            $table->string('Cprecio');
-            $table->string('Ctipoestatus', 45);
+            $table->string('nombre');
+            $table->integer('horas');
+            $table->string('precio');
+            $table->string('tipoestatus', 45);
             $table->unsignedBigInteger('tematicas_id');
             $table->foreign('tematicas_id')
                 ->references('id')

@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Storage;
 class EditarSouvenir extends Component
 {
     use WithFileUploads;
-    public $activosou_id, $codigo, $productos, $descripcion, $color, $medida, $marca, $precio, $estado, $disponible, $fechaad, $tipo, $anio, $sucursal;
+    public $activosou_id, $codigo, $productos, $descripcion, $color, $medida, $marca, $precio, $estado, $disponible, $fechaad, $tipo, $anio, $sucursal,$status;
     public $tipos, $anios, $sucursales;
     public $foto1, $foto2, $foto3;
     public $subirfoto1, $subirfoto2, $subirfoto3;
@@ -55,6 +55,7 @@ class EditarSouvenir extends Component
         $this->tipo = $item->tipo_activo_id;
         $this->anio = $item->aniosestimado_id;
         $this->foto1 = $item->foto1;
+        $this->status = $item->status;
         
         $this->tipos = Tipoactivo::all()->pluck('nombre_activo', 'id');
         $this->anios = Anioestimado::all()->pluck('vida_util_año', 'id');
@@ -117,7 +118,8 @@ class EditarSouvenir extends Component
             'sucursal_id' => $this->sucursal,
             'foto1' => $this->foto1,
             'foto2' => $this->foto2,
-            'foto3' => $this->foto3,  // agregar la imagen3 al modelo activosouvenir.php para que funcione con el storage
+            'foto3' => $this->foto3,
+            'status' => $this->status,  // agregar la imagen3 al modelo activosouvenir.php para que funcione con el storage
         ]);
 
         $this->dispatch('sucursalUpdated');

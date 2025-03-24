@@ -31,7 +31,7 @@ final class CursoTable extends PowerGridComponent
             PowerGrid::footer()
                 ->showPerPage()
                 ->showRecordCount(),
-            PowerGrid::exportable(fileName: 'tematicas-export-file') 
+            PowerGrid::exportable(fileName: 'cursos-export-file') 
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV), 
         ];
     }
@@ -39,20 +39,22 @@ final class CursoTable extends PowerGridComponent
     public function datasource(): Builder
     {
         return Curso::query()
-            ->join('empresas', 'empresas.id', 'cursos.empresa_id')
-            ->join('sucursales', 'sucursales.id', 'cursos.sucursal_id')
+            ->join('empresas', 'empresas.id', '=', 'cursos.empresa_id')
+            ->join('sucursales', 'sucursales.id', '=', 'cursos.sucursal_id')
+            ->join('tematicas', 'tematicas.id', '=', 'cursos.tematicas_id') // 🔹 Usa LEFT JOIN por si hay cursos sin temática
             ->select([
                 'cursos.id',
                 'cursos.nombre',
                 'cursos.horas',
                 'cursos.precio',
                 'cursos.tipoestatus',
-                'cursos.tematicas_id',
                 'cursos.modalidad',
                 'empresas.nombre as empresa_nombre',
-                'sucursales.nombre_sucursal as sucursal_nombre']);
-            
+                'sucursales.nombre_sucursal as sucursal_nombre',
+                'tematicas.nombre as tematicas_nombre' // 🔹 Asegúrate de que el campo existe
+            ]);
     }
+
 
     public function relationSearch(): array
     {
@@ -62,41 +64,40 @@ final class CursoTable extends PowerGridComponent
     public function fields(): PowerGridFields
     {
         return PowerGrid::fields()
-            ->add('empresa_nombre')
-            ->add('sucursal_nombre')
             ->add('nombre')
             ->add('horas')
             ->add('precio')
             ->add('tipoestatus')
-            ->add('tematicas_id')
-            ->add('modalidad');
+            ->add('modalidad')
+            ->add('empresa_nombre')
+            ->add('sucursal_nombre')
+            ->add('tematica_nombre'); // 🔹 Agregar el nombre de la temática en lugar del ID
     }
 
     public function columns(): array
     {
         return [
-            Column::make('Empresa id', 'empresa_nombre'),
-            Column::make('Sucursal id', 'sucursal_nombre'),
-            Column::make('Modalidad', 'modalidad')
+            Column::make('Nombre', 'nombre')
                 ->sortable()
                 ->searchable(),
-            Column::make('Nombre', 'nombre')
-            ->sortable()
-            ->searchable(),
             Column::make('Horas', 'horas')
-            ->sortable()
-            ->searchable(),
+                ->sortable()
+                ->searchable(),
             Column::make('Precio', 'precio')
-            ->sortable()
-            ->searchable(),
+                ->sortable()
+                ->searchable(),
             Column::make('Tipo Estatus', 'tipoestatus')
-            ->sortable()
-            ->searchable(),
-            Column::make('Temáticas id', 'tematicas_id')
-            ->sortable()
-            ->searchable(),
+                ->sortable()
+                ->searchable(),
+            Column::make('Tematicas id', 'tematicas_nombre')
+                ->sortable()
+                ->searchable(),
             Column::make('Modalidad', 'modalidad')
-            ->sortable(),
+                ->sortable(),
+            Column::make('Empresa id', 'empresa_nombre')
+                ->sortable(),
+            Column::make('Sucursal id', 'sucursal_nombre')
+                ->sortable(),
             Column::action('Action')
         ];
     }
@@ -117,10 +118,14 @@ final class CursoTable extends PowerGridComponent
     {
         return [
             Button::add('edit')
-                ->slot('Edit: '.$row->id)
-                ->id()
-                ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-                ->dispatch('edit', ['rowId' => $row->id])
+                ->slot('Editar')
+                ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
+                ->route('editarCursos', ['id' => Crypt::encrypt($row->id)]),
+
+            Button::add('delete')
+                ->slot('Eliminar')
+                ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
+                ->dispatch('confirmDelete', ['id' => $row->id]),
         ];
     }
 

@@ -18,6 +18,9 @@ use App\Models\Crm\TrainingLevantamiento;
 use App\Models\Dx035\DatoTrabajador;
 use App\Models\Encuestas360\Asignacion;
 use App\Models\PortalCapacitacion\PerfilPuesto;
+use App\Models\PortalCapacitacion\CapacitacionIndividual;
+use App\Models\PortalCapacitacion\GrupocursoCapacitacion;
+use App\Models\PortalCapacitacion\Participante;
 use App\Models\PortalRH\Becari;
 use App\Models\PortalRH\Becario;
 use App\Models\PortalRH\CambioSalario;
@@ -29,6 +32,7 @@ use App\Models\PortalRH\Retardo;
 use App\Models\PortalRH\Sucursal;
 use App\Models\PortalRH\Departamento;
 use App\Models\PortalRH\Puesto;
+use App\Models\PortalRH\Baja;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -89,6 +93,95 @@ class User extends Authenticatable
 
 
 
+
+    /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public function cambioSalario()
+    {
+        return $this->belongsToMany(CambioSalario::class, 'user_cambio_salario', 'user_id', 'cambio_salario_id')->withTimestamps();
+    }
+
+
+    public function documentos()
+    {
+        return $this->belongsToMany(Documento::class)->withPivot('documento_id', 'user_id', 'status');
+    }
+
+    public function incapacidades()
+    {
+        return $this->belongsToMany(Incapacidad::class, 'user_incapacidad', 'user_id', 'incapacidad_id')->withTimestamps();
+    }
+
+    public function incidencias()
+    {
+        return $this->belongsToMany(Incidencia::class, 'user_incidencia', 'user_id', 'incidencia_id')->withTimestamps();
+    }
+
+    public function retardos()
+    {
+        return $this->belongsToMany(Retardo::class, 'user_retardo', 'retardo_id', 'user_id')->withTimestamps();
+    }
+
+    public function departamento()
+    {
+        return $this->belongsTo(Departamento::class);
+    }
+
+    public function puesto()
+    {
+        return $this->belongsTo(Puesto::class);
+    }
+
+    public function bajas()
+    {
+        //un user tiene una baja
+        return $this->hasMany(Baja::class);
+    }
+    /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+
+    public function infonavitCreditos()
+    {
+        //un user peertence a un becario
+        return $this->hasMany(Practicant::class);
+    }
+
+
+    public function regPatronales()
+    {
+        //cada trabajador pertenece a
+        return $this->hasMany(RegisPatronal::class);
+    }
+
+    public function departamentos()
+    {
+        return $this->belongsTo(Departament::class);
+    }
+
+    public function puesto()
+    {
+        return $this->belongsTo(Puest::class);
+    }
+
+    public function trabajador()
+    {
+        //un user peertence a un becario
+        return $this->hasMany(Trabajador::class);
+    }
+
+    public function becario()
+    {
+        //un user peertence a un becario
+        return $this->hasMany(Becari::class);
+    }
+
+    public function practicantes()
+    {
+        //un user peertence a un becario
+        return $this->hasMany(Practicant::class);
+    }
+    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+
+    /* RELACIONES MODULO ACTIVO FIJO */
     public function activosMobiliario()
     {
         return $this->belongsToMany(ActivoMobiliario::class, 'activos_mobiliario_user', 'user_id', 'activos_mobiliarios_id')
@@ -133,6 +226,7 @@ class User extends Authenticatable
         return $this->belongsTo(Empresa::class, 'empresa_id');
     }
 
+    
     // public function asignacion()
     // {
     //     //un user peertence a un becario
@@ -160,6 +254,22 @@ class User extends Authenticatable
         return $this->belongsTo(Sucursal::class, 'sucursal_id');
     }
 
+    // public function departamento()
+    // {
+    //     return $this->belongsTo(Departamento::class, 'departamento_id');
+    // }
+
+    // public function puesto()
+    // {
+    //     return $this->belongsTo(Puesto::class, 'puesto_id');
+    // }
+
+    // public function asignacion()
+    // {
+    //     //un user peertence a un becario
+    //     return $this->hasMany(Asignacion::class);
+    // }
+
     public function leadcliente()
     {
         return $this->hasMany(LeadCliente::class, 'users_id');
@@ -183,6 +293,32 @@ class User extends Authenticatable
     public function datoTrabajadores()
     {
         return $this->hasMany(DatoTrabajador::class, 'users_id');
+    }
+
+    //PORTAL DE CAPACITACIONES
+    // public function perfilesPuestos(): BelongsToMany
+    // {
+    //     return $this->belongsToMany(PerfilPuesto::class, 'perfil_puesto_user', 'users_id', 'perfiles_puestos_id')->withPivot(['status', 'fecha_inicio', 'fecha_final', 'motivo_cambio']);
+    // }
+
+    // public function perfilActual()
+    // {
+    //     return $this->perfilesPuestos()->latest()->first();
+    // }
+
+    public function capacitacionesGrupales()
+    {
+        return $this->belongsToMany(
+            GrupocursoCapacitacion::class, 
+            'participante_user', // Nombre de la tabla pivote
+            'users_id', // Clave foránea en la tabla pivote que referencia a "users"
+            'grupocursos_capacitaciones_id' // Clave foránea en la tabla pivote que referencia a "grupocursos_capacitaciones"
+        );
+    }
+
+    public function capacitaciones()
+    {
+        return $this->belongsToMany(CapacitacionIndividual::class, 'cap_individual_user', 'users_id', 'caps_individuales_id');
     }
 
     

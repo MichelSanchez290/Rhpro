@@ -37,23 +37,11 @@ class Practicante extends Model
     ];
 
     //alcanze con el modelo 
-    public function usuarios()
+    public function user()
     {
+        //cada trabajador pertenece a 
         return $this->belongsTo(User::class, 'user_id');
     }
-
-    public function departamento()
-    {
-        //cada trabajador pertenece a 
-        return $this->belongsTo(Departamento::class, 'departamento_id');
-    }
-
-    public function puestos()
-    {
-        //cada trabajador pertenece a 
-        return $this->belongsTo(Puesto::class);
-    }
-    
 
     public function registrosPatronales()
     {

@@ -31,7 +31,8 @@ class ActivoUniforme extends Model
         'foto2',
         'foto3',
         'empresa_id',
-        'sucursal_id'
+        'sucursal_id',
+        'status'
     ];
 
     public function tipoactivo()

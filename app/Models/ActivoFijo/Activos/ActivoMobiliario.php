@@ -35,7 +35,8 @@ class ActivoMobiliario extends Model
         'foto3',
         'foto4',
         'empresa_id',
-        'sucursal_id'
+        'sucursal_id',
+        'status'
 
     ];
 

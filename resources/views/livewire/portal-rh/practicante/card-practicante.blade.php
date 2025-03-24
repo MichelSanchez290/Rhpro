@@ -12,45 +12,51 @@
 <body>
     <div class="h-full bg-gray-200 p-8">
         <div class="bg-white rounded-lg shadow-xl pb-8">
-            
-            <div class="w-full h-[250px]">
-                <img src="https://vojislavd.com/ta-template-demo/assets/img/profile-background.jpg" class="w-full h-full rounded-tl-lg rounded-tr-lg">
-            </div>
-            <div class="flex flex-col items-center -mt-20">
-                <img src="https://vojislavd.com/ta-template-demo/assets/img/profile.jpg" class="w-40 border-4 border-white rounded-full">
-                <div class="flex items-center space-x-2 mt-2">
 
+            <div class="w-full h-[250px]">
+                <img src="https://vojislavd.com/ta-template-demo/assets/img/profile-background.jpg"
+                    class="w-full h-full rounded-tl-lg rounded-tr-lg">
+            </div>
+            <div class="flex flex-col items-center -mt-10"> <!-- Reducimos el -mt para que baje la imagen -->
+                <div class="relative mx-auto w-32 h-32 -mt-5">
+                    <!-- Círculo blanco detrás de la imagen -->
+                    <div class="absolute inset-0 w-32 h-32 bg-white rounded-full"></div>
+                
+                    <!-- Imagen del usuario -->
+                    <img src="{{ asset('img/user.png') }}" class="relative object-cover object-center h-32 w-32 rounded-full">
+                </div>
+
+                <div class="flex items-center space-x-2 mt-2">
                     <p class="text-2xl">{{ $usuario->name ?? 'Sin Nombre' }}</p>
                     <span class="bg-blue-500 rounded-full p-1" title="Verified">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="text-gray-100 h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M5 13l4 4L19 7"></path>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="text-gray-100 h-2.5 w-2.5" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M5 13l4 4L19 7">
+                            </path>
                         </svg>
                     </span>
-
                 </div>
+
+                <p class="text-gray-700">{{ $practicante->clave_practicante }}</p>
                 <p class="text-gray-700">{{ $practicante->ocupacion }}</p>
                 <p class="text-sm text-gray-500">{{ $practicante->lugar_nacimiento }}, {{ $practicante->estado }}</p>
             </div>
 
-            <!-- Botones 
+
             <div class="flex-1 flex flex-col items-center lg:items-end justify-end px-8 mt-2">
                 <div class="flex items-center space-x-4 mt-2">
-                    <button class="flex items-center bg-blue-600 hover:bg-blue-700 text-gray-100 px-4 py-2 rounded text-sm space-x-2 transition duration-100">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"></path>
-                        </svg>
-                        <span>Connect</span>
-                    </button>
-                    <button class="flex items-center bg-blue-600 hover:bg-blue-700 text-gray-100 px-4 py-2 rounded text-sm space-x-2 transition duration-100">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd"></path>
-                        </svg>
-                        <span>Message</span>
-                    </button>
-                </div>
-            </div> 
-            -->
 
+                    <button wire:click.prevent="generatePDF({{ $practicante->id }})"
+                        wire:loading.attr="disabled"
+                        class='w-auto bg-blue-500 hover:bg-blue-700 rounded-lg shadow-xl font-medium text-white px-4 py-2' transition ease-in duration-300">
+                    <span wire:loading.remove>Generar Reporte</span>
+                    <span wire:loading>
+                        <i class="fa-solid fa-spinner animate-spin text-lg text-white mr-3"></i>
+                        Procesando...
+                    </span>
+                </button>
+                </div>
+            </div>
         </div>
 
         <div class="my-4 flex flex-col 2xl:flex-row space-y-4 2xl:space-y-0 2xl:space-x-4">
@@ -107,19 +113,104 @@
                             <span class="text-gray-700"> +52 | {{ $practicante->numero_celular }}</span>
                         </li>
                         <li class="flex border-b py-2">
-                            <span class="font-bold w-44">Puesto:</span>
-                            <span class="text-gray-700">{{ $puesto->nombre_puesto ?? 'Sin Sucursal' }}</span>
+                            <span class="font-bold w-44">Registro Patronal:</span>
+                            <span
+                                class="text-gray-700">{{ $registro_patronal->registro_patronal ?? 'Sin Registro Patronal' }}</span>
+                        </li>
+                        <li class="flex border-b py-2">
+                            <span class="font-bold w-44">Empresa:</span>
+                            <span class="text-gray-700">{{ $empresa->nombre ?? 'Sin Empresa' }}</span>
+                        </li>
+                        <li class="flex border-b py-2">
+                            <span class="font-bold w-44">Sucursal:</span>
+                            <span class="text-gray-700">{{ $sucursal->nombre_sucursal ?? 'Sin Sucursal' }}</span>
                         </li>
                         <li class="flex border-b py-2">
                             <span class="font-bold w-44">Departamento:</span>
-                            <span class="text-gray-700">{{ $departamento->nombre_departamento ?? 'Sin Departamento' }}</span>
+                            <span
+                                class="text-gray-700">{{ $departamento->nombre_departamento ?? 'Sin Departamento' }}</span>
                         </li>
                         <li class="flex border-b py-2">
-                            <span class="font-bold w-44">Registro Patronal:</span>
-                            <span class="text-gray-700">{{ $registro_patronal->registro_patronal ?? 'Sin Departamento' }}</span>
+                            <span class="font-bold w-44">Puesto:</span>
+                            <span class="text-gray-700">{{ $puesto->nombre_puesto ?? 'Sin Puesto' }}</span>
                         </li>
-                    </ul>
+                    </ul> <br>
 
+                    <h4 class="text-xl text-gray-900 font-bold">Incapacidades</h4>
+                    
+                    <div class="mt-5 mx-7">
+                        @if ($incapacidades->isEmpty())
+                            <div class="p-6 text-center text-gray-600">
+                                <p>Sin incapacidades actualmente</p>
+                            </div>
+                        @else
+                            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-6">
+                                @foreach ($incapacidades as $incapacidad)
+                                    <div class="w-full mx-auto bg-white shadow-xl rounded-lg text-gray-900 p-4">
+                                        <div class="rounded-t-lg h-32 overflow-hidden">
+                                            <img class="object-cover object-top w-full" src="{{ asset('img/cesrh.jpeg') }}"
+                                                alt="Background">
+                                        </div>
+            
+                                        <div class="text-center mt-2">
+                                            <h2><strong>Usuario:</strong>
+                                                {{ $incapacidad->users->first() ? $incapacidad->users->first()->name : 'Sin asignar' }}
+                                            </h2>
+                                            <p><strong>Tipo de incapacidad:</strong> {{ $incapacidad->tipo }}</p>
+                                            <p><strong>Motivo:</strong> {{ $incapacidad->motivo }}</p>
+                                            <p class="my-2">
+                                                <strong>Status:</strong> 
+                                                <span class="py-1 px-3 rounded text-white 
+                                                    {{ $incapacidad->status === 'Pendiente' ? 'bg-yellow-500' : 
+                                                       ($incapacidad->status === 'Aprobada' ? 'bg-green-500' : 'bg-red-500') }}">
+                                                    {{ $incapacidad->status }}
+                                                </span>
+                                            </p>                                            
+                                            <p><strong>Fecha inicio:</strong> {{ $incapacidad->fecha_inicio }}</p>
+                                            <p><strong>Fecha final:</strong> {{ $incapacidad->fecha_final }}</p>
+                                        </div>
+            
+                                        <div class="flex gap-4 mt-4">
+                                            <!-- Aquí pueden ir botones o acciones -->
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
+                    </div>
+
+                    <h4 class="text-xl text-gray-900 font-bold">Incidencias</h4>
+                    <div class="mt-5 mx-7">
+                        @if ($incidencias->isEmpty())
+                            <div class="p-6 text-center text-gray-600">
+                                <p>Sin incidencias actualmente</p>
+                            </div>
+                        @else
+                            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-6">
+                                @foreach ($incidencias as $incidencia)
+                                    <div class="w-full mx-auto bg-white shadow-xl rounded-lg text-gray-900 p-4">
+                                        <div class="rounded-t-lg h-32 overflow-hidden">
+                                            <img class="object-cover object-top w-full" src="{{ asset('img/cesrh.jpeg') }}"
+                                                alt="Background">
+                                        </div>
+            
+                                        <div class="text-center mt-2">
+                                            <h2><strong>Usuario:</strong>
+                                                {{ $incidencia->users->first() ? $incidencia->users->first()->name : 'Sin asignar' }}
+                                            </h2>
+                                            <p><strong>Tipo de incidencia:</strong> {{ $incidencia->tipo_incidencia }}</p>
+                                            <p><strong>Fecha inicio:</strong> {{ $incidencia->fecha_inicio }}</p>
+                                            <p><strong>Fecha final:</strong> {{ $incidencia->fecha_final }}</p>
+                                        </div>
+            
+                                        <div class="flex gap-4 mt-4">
+                                            <!-- Aquí pueden ir botones o acciones -->
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
+                    </div>
 
                     <div class='flex items-center justify-center md:gap-8 gap-4 pt-5 pb-5'>
                         <button type="button" onclick="window.history.back()"

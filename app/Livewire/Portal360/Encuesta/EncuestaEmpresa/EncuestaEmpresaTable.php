@@ -13,10 +13,13 @@ use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use Illuminate\Support\Facades\Auth;
+use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
+use PowerComponents\LivewirePowerGrid\Traits\WithExport; // Agregado para exportación
 
 final class EncuestaEmpresaTable extends PowerGridComponent
 {
     public string $tableName = 'encuesta-empresa-table-1ffata-table';
+    use WithExport; // Agrega el trait para habilitar la exportación
 
     public function setUp(): array
     {
@@ -28,6 +31,8 @@ final class EncuestaEmpresaTable extends PowerGridComponent
             PowerGrid::footer()
                 ->showPerPage()
                 ->showRecordCount(),
+            PowerGrid::exportable('encuestas_empresa') // Agrega exportación con nombre de archivo
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV), // Formatos Excel y CSV
         ];
     }
 
@@ -41,7 +46,11 @@ final class EncuestaEmpresaTable extends PowerGridComponent
 
     public function relationSearch(): array
     {
-        return [];
+        return [
+            'sucursal' => [
+                'nombre_sucursal',
+            ],
+        ];
     }
 
     public function fields(): PowerGridFields

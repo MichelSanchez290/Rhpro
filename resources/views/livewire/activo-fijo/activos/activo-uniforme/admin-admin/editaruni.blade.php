@@ -169,8 +169,16 @@
                             <span class="text-red-500 text-xs">{{ $message }}</span>
                         @enderror
                     </div>
+
+                    <div class="my-2">
+                        <label for="status" class="text-gray-700 font-bold text-xl">Estado</label>
+                        <select wire:model="activo.status" class="block w-full border-2 px-2 py-2 text-sm sm:text-md rounded-md my-2 text-gray-500" id="status">
+                            <option value="Activo">Activo</option>
+                            <option value="Baja">Baja</option>
+                        </select>   
+                    </div>
                     <!-- codigo del Producto -->
-                    <div class="my-2 sm:col-span-2">
+                    <div class="my-2">
                         <label for="descripcion" class="text-gray-700 font-bold text-xl">Descripcion del uniforme</label>
                         <input type="text" wire:model="activo.descripcion"
                             class="block w-full border-2 px-2 py-2 text-sm sm:text-md rounded-md my-2 text-black"

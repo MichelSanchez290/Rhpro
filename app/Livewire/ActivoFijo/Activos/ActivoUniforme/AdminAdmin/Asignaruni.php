@@ -95,6 +95,11 @@ class Asignaruni extends Component
             'status' => 1,
             'foto' => $foto1Path,
         ]);
+
+        $activo->update([
+            'status' => 'Asignado',
+            'updated_at' => now(),
+        ]);
     
         // Resetear campos después de la asignación
         $this->reset([

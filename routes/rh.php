@@ -5,6 +5,7 @@ use App\Livewire\PortalRh\Inicio;
 
 use App\Livewire\PortalRh\Usuario\MostrarUsuario;
 use App\Livewire\PortalRh\Usuario\AsignarRolUsuario;
+use App\Livewire\PortalRh\Cumpleanios\VerCumpleanios;
 
 use App\Livewire\PortalRh\Rol\MostrarRol;
 use App\Livewire\PortalRh\Rol\AgregarRol;
@@ -66,7 +67,7 @@ use App\Livewire\PortalRh\Becario\AgregarBecario;
 use App\Livewire\PortalRh\Becario\EditarBecario;
 use App\Livewire\PortalRh\Becario\MostrarCardBecario;
 use App\Livewire\PortalRh\Becario\CardBecario;
-
+use App\Livewire\PortalRh\Becario\ReporteBecario;
 
 use App\Livewire\PortalRh\Practicante\MostrarPracticante;
 use App\Livewire\PortalRh\Practicante\AgregarPracticante;
@@ -85,6 +86,18 @@ use App\Livewire\PortalRh\Incapacidad\AgregarIncapacidad;
 use App\Livewire\PortalRh\Incapacidad\AceptarIncapacidad;
 use App\Livewire\PortalRh\Incapacidad\EditarIncapacidad;
 
+use App\Livewire\PortalRh\Bajas\MostrarBaja;
+use App\Livewire\PortalRh\Bajas\AgregarBaja;
+use App\Livewire\PortalRh\Bajas\EditarBaja;
+
+use App\Livewire\PortalRh\Retardos\MostrarRetardos;
+use App\Livewire\PortalRh\Retardos\AgregarRetardos;
+use App\Livewire\PortalRh\Retardos\EditarRetardos;
+use App\Livewire\PortalRh\Retardos\VerRetardos;
+
+use App\Livewire\PortalRh\CambioSalario\MostrarCambioSalario;
+use App\Livewire\PortalRh\CambioSalario\AgregarCambioSalario;
+use App\Livewire\PortalRh\CambioSalario\EditarCambioSalario;
 
 /*
 |--------------------------------------------------------------------------
@@ -135,6 +148,11 @@ Route::get(
         '/asig-rol-user/{id}',
             AsignarRolUsuario::class
     )->name('agregarroluser');
+
+    Route::get( 
+        '/ver-cumpleaños',
+            VerCumpleanios::class
+    )->name('vercumple');
 
 
     // EMPRESAS ---------------------------------------------------------------
@@ -414,3 +432,64 @@ Route::get(
         '/aceptar-incapacidad',
             AceptarIncapacidad::class
     )->name('aceptarincapacidad');
+
+    // Bajas ---------------------------------------------------------------
+    Route::get( 
+        '/bajas',
+            MostrarBaja::class
+    )->name('mostrarbaja');
+
+    Route::get( 
+        '/create-baja',
+            AgregarBaja::class
+    )->name('agregarbaja');
+
+    Route::get( 
+        '/edit-baja/{id}',
+            EditarBaja::class
+    )->name('editarbaja');
+
+    // RETARDOS ---------------------------------------------------------------
+     Route::get( 
+        '/retardos',
+            MostrarRetardos::class
+    )->name('mostrarretardo');
+
+    Route::get( 
+        '/create-retardo',
+            AgregarRetardos::class
+    )->name('agregarretardo');
+
+    Route::get( 
+        '/edit-retardo/{id}',
+            EditarRetardos::class
+    )->name('editarretardo');
+
+    Route::get( 
+        '/mis-retardos',
+            VerRetardos::class
+    )->name('verretardo');
+
+
+    // CAMBIO SALARIO ---------------------------------------------------------------
+    Route::get( 
+        '/cambio-salario',
+            MostrarCambioSalario::class
+    )->name('mostrarcambiosal');
+
+    Route::get( 
+        '/create-cambio-salario',
+            AgregarCambioSalario::class
+    )->name('agregarcambiosal');
+
+    Route::get( 
+        '/edit-cambio-salario/{id}',
+            EditarCambioSalario::class
+    )->name('editarcambiosal');
+
+
+    /*
+    use App\Livewire\PortalRh\CambioSalario\MostrarCambioSalario;
+use App\Livewire\PortalRh\CambioSalario\AgregarCambioSalario;
+use App\Livewire\PortalRh\CambioSalario\EditarCambioSalario;
+    */

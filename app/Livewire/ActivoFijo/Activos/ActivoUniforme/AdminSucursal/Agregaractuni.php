@@ -46,6 +46,7 @@ class Agregaractuni extends Component
         $this->consulta = ActivoUniforme::get();
         $this->activo['tipo_activo_id'] = Tipoactivo::where('nombre_activo', 'Activo Uniformes')->value('id');
         //dd($this->activo['tipo_activo_id']);
+        $this->activo['status'] ='Activo';
     }
 
     public function saveActivoUni()

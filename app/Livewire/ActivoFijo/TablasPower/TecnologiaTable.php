@@ -73,7 +73,13 @@ final class TecnologiaTable extends PowerGridComponent
             ->add('tipo_activo_nombre', fn(ActivoTecnologia $model) => $model->tipoActivo->nombre_activo ?? 'N/A')
             ->add('precio_adquisicion')
             ->add('anioEstimado', fn(ActivoTecnologia $model) => $model->anioEstimado->vida_util_año ?? 'No asignado')
-            ->add('sucursal_nombre', fn(ActivoTecnologia $model) => Sucursal::where('id', $model->sucursal_id)->first(['nombre_sucursal'])->nombre_sucursal);
+            ->add('sucursal_nombre', fn(ActivoTecnologia $model) => Sucursal::where('id', $model->sucursal_id)->first(['nombre_sucursal'])->nombre_sucursal)
+            ->add('status_formatted', fn($model) => match ($model->status) {
+                'Activo' => '<span class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600"><span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>Activo</span>',
+                'Asignado' => '<span class="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-600"><span class="h-1.5 w-1.5 rounded-full bg-blue-600"></span>Asignado</span>',
+                'Baja' => '<span class="inline-flex items-center gap-1 rounded-full bg-red-50 px-2 py-1 text-xs font-semibold text-red-600"><span class="h-1.5 w-1.5 rounded-full bg-red-600"></span>Baja</span>',
+                default => '<span class="inline-flex items-center gap-1 rounded-full bg-gray-50 px-2 py-1 text-xs font-semibold text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-600"></span>' . $model->status . '</span>'
+            });
     }
 
     public function columns(): array
@@ -122,10 +128,13 @@ final class TecnologiaTable extends PowerGridComponent
 
             Column::make('Año Estimado', 'anioEstimado')->sortable()->searchable(),
 
-
             Column::make('Sucursal', 'sucursal_nombre')
                 ->sortable()
                 ->searchable(), // Mostrar el nombre de la sucursal
+            
+                Column::make('Estado', 'status_formatted')
+                ->sortable()
+                ->searchable(),
 
             Column::action('Action')
         ];

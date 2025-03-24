@@ -13,6 +13,7 @@ use App\Models\PortalRH\Departamento;
 class EditarIncidencias extends Component
 {
     public $incidencia_id, $tipo_incidencia, $fecha_inicio, $fecha_final;
+
     public $sucursales=[], $departamentos=[], $users=[];
     public $empresas, $empresa, $sucursal, $departamento, $nombre_usuario;
 
@@ -28,7 +29,6 @@ class EditarIncidencias extends Component
         $this->fecha_inicio    = $incidencia->fecha_inicio;
         $this->fecha_final     = $incidencia->fecha_final;
 
-        // Asumimos que en la tabla incidencias se guardan estos campos
         $this->empresa = $incidencia->empresa_id;
         $this->sucursal = $incidencia->sucursal_id;
         $this->departamento = $incidencia->departamento_id;
@@ -68,7 +68,6 @@ class EditarIncidencias extends Component
         //$incidencia->users()->sync([$this->user_id]);
 
         session()->flash('message', 'Incidencia actualizada exitosamente.');
-        return redirect()->route('mostrarincidencia');
     }
 
     public function render()

@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Storage;
 class EditarMobiliario extends Component
 {
     use WithFileUploads;
-    public $activotec_id, $nombre, $descripcion, $numser, $numact, $ubicacion, $fechaad, $fechaba, $tipo, $precioad, $anio, $sucursal;
+    public $activotec_id, $nombre, $descripcion, $numser, $numact, $ubicacion, $fechaad, $fechaba, $tipo, $precioad, $anio, $sucursal,$status;
     public $tipos, $anios, $sucursales;
     public $foto1, $foto2, $foto3, $foto4;
     public $subirfoto1, $subirfoto2, $subirfoto3, $subirfoto4;
@@ -57,6 +57,7 @@ class EditarMobiliario extends Component
         $this->foto2 = $item->foto2;
         $this->foto3 = $item->foto3;
         $this->foto4 = $item->foto4;
+        $this->status = $item->status;
 
         $this->tipos = Tipoactivo::all()->pluck('nombre_activo', 'id');
         $this->anios = Anioestimado::all()->pluck('vida_util_año', 'id');
@@ -130,6 +131,7 @@ class EditarMobiliario extends Component
             'foto2' => $this->foto2,
             'foto3' => $this->foto3,
             'foto4' => $this->foto4,
+            'status' => $this->status,
         ]);
         $this->dispatch('sucursalUpdated');
         return redirect()->route('mostrarmob');

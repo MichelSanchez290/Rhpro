@@ -19,16 +19,20 @@ class MostrarEncuestaPreguntaEncpreAdministrador extends Component
     {
         try {
             $decryptedId = Crypt::decrypt($id);
-
             $encpre = Encpre::findOrFail($decryptedId);
-            $encpre->delete();
-
+            
+            // Obtener el ID de la encuesta
+            $encuestaId = $encpre->encuestas_id;
+            
+            // Eliminar todas las relaciones que pertenecen a la misma encuesta
+            Encpre::where('encuestas_id', $encuestaId)->delete();
+            
             // Mostrar mensaje de éxito con SweetAlert2
-            $this->dispatch('swal-success', message: 'Encuesta y preguunta eliminada correctamente.');
-
+            $this->dispatch('swal-success', message: 'Todas las preguntas de la encuesta fueron eliminadas correctamente.');
+            
             return redirect()->route('portal360.encpre.encuesta-pregunta-encpre-administrador.mostrar-encuesta-pregunta-encpre-administrador');
         } catch (\Exception $e) {
-            $this->dispatch('swal-error', message: 'Error al eliminar la relación.');
+            $this->dispatch('swal-error', message: 'Error al eliminar las relaciones: ' . $e->getMessage());
         }
     }
 

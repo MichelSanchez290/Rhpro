@@ -5,13 +5,11 @@ namespace App\Livewire\PortalCapacitacion\RelacionesExternas\AdminGeneral;
 use Livewire\Component;
 use App\Models\PortalCapacitacion\RelacionExterna;
 use Illuminate\Support\Facades\Crypt;
-use Livewire\WithFileUploads;
 use App\Models\PortalRh\Empresa;
 use App\Models\PortalRh\Sucursal;
 
 class EditarRelacionesExternas extends Component
 {
-    use WithFileUploads;
     public $nombre, $razon_motivo, $frecuencia, $externa_id;
     public $empresa_id, $sucursal_id;
     public $empresas = [], $sucursales = [];
