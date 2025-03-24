@@ -136,8 +136,8 @@ class AgregarInstructor extends Component
 
         Instructor::create($this->instructor);
         $this->instructor = [];
-
-        session()->flash('message', 'Instructor Agregado.');
+        //$this->emit('showAnimatedToast', 'Registro patronal guardado correctamente.');
+        return redirect()->route('mostrarinstructor');
     }
 
     public function redirigirInstructor()

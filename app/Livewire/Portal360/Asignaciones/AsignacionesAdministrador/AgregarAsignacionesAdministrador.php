@@ -198,28 +198,28 @@ public function updatedSucursalId($value)
    }
 
    public function saveAsignacionAdministradordev()
-{
-    $this->validate();
+   {
+       $this->validate();
 
-    try {
-        $asignacion = Asignacion::create([
-            'calificador_id' => $this->calificador_id,
-            'calificado_id' => $this->calificado_id,
-            'relaciones_id' => $this->relacion_id,
-            '360_encuestas_id' => $this->encuesta_id,
-            'realizada' => false,
-            'fecha' => Carbon::parse($this->realizada),
-            'empresa_id' => $this->empresa_id,
-            'sucursal_id' => $this->sucursal_id,
-        ]);
+       try {
+           Asignacion::create([
+               'calificador_id' => $this->calificador_id,
+               'calificado_id' => $this->calificado_id,
+               'relaciones_id' => $this->relacion_id,
+               '360_encuestas_id' => $this->encuesta_id,
+               'realizada' => 0,
+               'fecha' => Carbon::parse($this->realizada),
+               'empresa_id' => $this->empresa_id,
+               'sucursal_id' => $this->sucursal_id,
+           ]);
 
-        $this->dispatch('toastr-success', message: 'Asignación creada correctamente');
-        return redirect()->route('portal360.asignaciones.asignaciones-administrador.mostrar-asignaciones-administrador');
-    } catch (\Exception $e) {
-        logger($e->getMessage());
-        $this->dispatch('toastr-error', message: 'Error al guardar la Asignación: ' . $e->getMessage());
-    }
-}
+           $this->dispatch('toastr-success', message: 'Asignación creada correctamente');
+           return redirect()->route('portal360.asignaciones.asignaciones-administrador.mostrar-asignaciones-administrador');
+       } catch (\Exception $e) {
+           logger($e->getMessage());
+           $this->dispatch('toastr-error', message: 'Error al guardar la Asignación: ' . $e->getMessage());
+       }
+   }
 
    public function render()
    {

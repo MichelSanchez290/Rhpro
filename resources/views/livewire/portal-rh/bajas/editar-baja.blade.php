@@ -35,8 +35,8 @@
                                 {{ session('message') }}
                             </p>
                             <!-- Mensaje extra, opcional -->
-                            @if (session('message') == 'Baja Actualizada.')
-                                <p class="text-sm">La baja ha sido actualizada exitosamente</p>
+                            @if (session('message') == 'Notificación')
+                                <p class="text-sm">Baja actualizada exitosamente</p>
                             @endif
                         </div>
                         <button @click="show = false" class="text-white hover:text-gray-300 focus:outline-none">

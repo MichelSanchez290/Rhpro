@@ -3,11 +3,10 @@
     <div class="flex space-x-4">
         <div class="flex space-x-4">
             <a href="{{ route('agregarEvidenciasIndTrabajador', Crypt::encrypt($caps_individuales_id)) }}"
-            class="bg-green-600 text-white px-4 py-2 rounded-md shadow-md hover:bg-green-700 hover:shadow-lg 
-                flex items-center gap-2 transition-all duration-300 transform hover:scale-105 focus:outline-none">
-            <i class="fas fa-plus text-lg"></i>
-            <span class="text-sm font-semibold">Subir evidencia</span>
-        </a>
+                class="bg-green-600 text-white px-5 py-2 rounded-md shadow-md hover:bg-green-700 hover:shadow-lg 
+                    flex items-center gap-2 transition-all duration-300 transform hover:scale-105 focus:outline-none">
+                ⬆️ <span class="font-medium">Subir Evidencia</span>
+            </a>
         </div>
 
         @if ($tieneEvidenciasAprobadas)

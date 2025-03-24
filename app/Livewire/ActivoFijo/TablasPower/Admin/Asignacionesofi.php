@@ -17,7 +17,7 @@ use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
 final class Asignacionesofi extends PowerGridComponent
 {
     public string $tableName = 'asignacionesofi-encyum-table';
-    protected $listeners = ['refreshPowerGrid' => '$refresh'];
+
     public function setUp(): array
     {
         $this->showCheckBox();

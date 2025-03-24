@@ -45,8 +45,9 @@ class EditarDepartament extends Component
                 'updated_at' => now(),
             ],
         ]);
-        
-        session()->flash('message', 'Departamento Actualizado.');
+
+        //$this->emit('editBann', 'Departamento editado correctamente');
+        return redirect()->route('mostrardepa');
     }
 
     public function redirigir()

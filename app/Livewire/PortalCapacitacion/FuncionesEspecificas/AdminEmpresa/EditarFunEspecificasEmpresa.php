@@ -47,7 +47,6 @@ class EditarFunEspecificasEmpresa extends Component
         ]);
 
         return redirect()->route('mostrarFuncionesEspecificasEmpresa');
-        session()->flash('message', 'Función específica editada correctamente.');
     }
 
     public function render()

@@ -19,7 +19,6 @@ use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
 final class AsignsoueTable extends PowerGridComponent
 {
     public string $tableName = 'asignsoue-table-ihvphv-table';
-    protected $listeners = ['refreshPowerGrid' => '$refresh'];
 
     public function setUp(): array
     {

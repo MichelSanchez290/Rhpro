@@ -68,7 +68,7 @@ class EditarBaja extends Component
             'documento' => $this->documento,
         ]);
 
-        session()->flash('message', 'Baja Actualizada.');
+        session()->flash('message', 'Notificación');
     }
 
     public function render()

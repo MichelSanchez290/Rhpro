@@ -73,7 +73,8 @@ class AgregarSucursal extends Component
         // Limpiar los datos del formulario
         $this->reset(['sucursal', 'empresa_id']);
 
-        session()->flash('message', 'Sucursal Agregada.');
+        //$this->emit('showAnimatedToast', 'Sucursal guardada correctamente');
+        return redirect()->route('mostrarsucursal');
     }
 
     public function redirigirSuc()

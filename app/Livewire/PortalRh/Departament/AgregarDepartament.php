@@ -41,7 +41,8 @@ class AgregarDepartament extends Component
         // Limpiar los datos del formulario
         $this->reset(['departamento', 'sucursal_id']);
         
-        session()->flash('message', 'Departamento Agregado.');
+        //$this->emit('showAnimatedToast', 'Departamento guardado correctamente.');
+        return redirect()->route('mostrardepa');
     }
 
     public function redirigir()

@@ -31,8 +31,8 @@
                         </svg>
                         <div class="flex-1">
                             <p class="font-bold">{{ session('message') }}</p>
-                            @if (session('message') == 'Retardo Actualizado.')
-                                <p class="text-sm">El retardo ha sido actualizado correctamente</p>
+                            @if (session('message') == 'Retardo actualizado.')
+                                <p class="text-sm">El retardo fue actualizado exitosamente</p>
                             @endif
                         </div>
                         <button @click="show = false" class="text-white hover:text-gray-300 focus:outline-none">
@@ -114,7 +114,7 @@
                 <div class="grid grid-cols-1 mt-5">
                     <label for="motivo"
                         class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
-                        Motivo del  retardo
+                        Motivo del  retardo (NA - si no aplica)
                     </label>
                     <input wire:model.defer="motivo" type="text" id="motivo"
                         placeholder="Tráfico"

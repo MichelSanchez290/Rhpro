@@ -3,7 +3,6 @@
 namespace App\Models\Encuestas360;
 
 use App\Models\PortalRH\Empresa;
-use App\Models\PortalRH\Sucursal;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -30,14 +29,5 @@ class Respuesta extends Model
         return $this->hasMany(RespuestaUsuario::class, 'respuestas_id');
     }
 
-    public function respuestas()
-    {
-        return $this->hasMany(Respuesta::class, 'preguntas_id');
-    }
-
-    public function sucursal()
-{
-    return $this->belongsTo(Sucursal::class, 'sucursal_id', 'id');
-}
-
+    
 }

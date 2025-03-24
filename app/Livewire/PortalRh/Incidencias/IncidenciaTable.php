@@ -43,26 +43,29 @@ final class IncidenciaTable extends PowerGridComponent
     {
         $user = Auth::user();
 
-        $query = Incidencia::query()
-            ->select([
-                'incidencias.*',
-                'users.name as nombre_usuario'
-            ])
-            ->join('user_incidencia', 'incidencias.id', '=', 'user_incidencia.incidencia_id')
-            ->join('users', 'user_incidencia.user_id', '=', 'users.id');
-
-        if ($user->hasRole('GoldenAdmin')) {
-            // GoldenAdmin: sin filtro, ve todos los registros.
-            return $query;
-        } elseif ($user->hasRole('EmpresaAdmin')) {
-            // EmpresaAdmin: se limita a los registros asociados a la misma empresa.
-            $query->where('users.empresa_id', $user->empresa_id);
-        } elseif ($user->hasRole('SucursalAdmin')) {
-            // SucursalAdmin: se limita a los registros vinculados a la misma sucursal.
-            $query->where('users.sucursal_id', $user->sucursal_id);
-        } elseif ($user->hasRole(['Trabajador PORTAL RH', 'Trabajador GLOBAL'])) {
-            // Trabajador PORTAL RH y Trabajador GLOBAL: verán únicamente su propio registro.
-            $query->where('users.id', $user->id);
+        if ($user->hasRole('GoldenAdmin')) { // Ajusta el nombre del rol según corresponda
+            // Para Admin, mostramos TODAS las incidencias usando leftJoin para obtener el nombre del usuario,
+            // o un mensaje por defecto si no hay registro en la tabla pivote.
+            $query = Incidencia::query()
+                ->leftJoin('user_incidencia', 'incidencias.id', '=', 'user_incidencia.incidencia_id')
+                ->leftJoin('users', 'users.id', '=', 'user_incidencia.user_id')
+                ->select([
+                    'incidencias.*',
+                    'users.name as nombre_usuario'
+                ]);
+        } elseif ($user->hasRole(['Trabajador PORTAL RH', 'Trabajador GLOBAL', 'Practicante'])) {
+            // Para estos roles, usamos inner join y filtramos por su user_id
+            $query = Incidencia::query()
+                ->join('user_incidencia', 'incidencias.id', '=', 'user_incidencia.incidencia_id')
+                ->join('users', 'users.id', '=', 'user_incidencia.user_id')
+                ->select([
+                    'incidencias.*',
+                    'users.name as nombre_usuario'
+                ])
+                ->where('user_incidencia.user_id', $user->id);
+        } else {
+            // Consulta por defecto
+            $query = Incidencia::query()->select('incidencias.*');
         }
 
         return $query;
@@ -98,10 +101,10 @@ final class IncidenciaTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Fecha inicio',  'fecha_inicio')
+            Column::make('Fecha inicio', 'fecha_inicio_formatted', 'fecha_inicio')
                 ->sortable(),
 
-            Column::make('Fecha final', 'fecha_final')
+            Column::make('Fecha final', 'fecha_final_formatted', 'fecha_final')
                 ->sortable(),
 
             Column::action('Action')

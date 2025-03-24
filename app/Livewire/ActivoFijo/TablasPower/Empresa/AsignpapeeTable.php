@@ -18,7 +18,6 @@ use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
 final class AsignpapeeTable extends PowerGridComponent
 {
     public string $tableName = 'asignpapee-table-cjux0y-table';
-    protected $listeners = ['refreshPowerGrid' => '$refresh'];
 
     public function setUp(): array
     {

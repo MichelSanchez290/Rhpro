@@ -69,7 +69,7 @@ class AgregarRetardos extends Component
         // Asociar el usuario seleccionado en la tabla pivote
         $nuevoRetardo->users()->attach($this->user_id);
 
-        session()->flash('message', 'Retardo Agregado.');
+        session()->flash('message', 'Retardo agregado');
     }
 
     public function redirigirRetardo()

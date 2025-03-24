@@ -58,8 +58,7 @@ class AgregarRegPatronal extends Component
         $this->validate();
         RegistroPatronal::create($this->registro);
         $this->registro = [];
-        
-        session()->flash('message', 'Registro Patronal Agregado.');
+        session()->flash('message', 'Registro patronal agregado');
     }
 
     public function redirigir()

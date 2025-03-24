@@ -43,7 +43,9 @@ class EditarRol extends Component
         // Sincronizar permisos con los nombres obtenidos
         $rol->syncPermissions($permisosNombres);
 
-        session()->flash('message', 'Rol actualizado.');
+        session()->flash('message', 'Rol actualizado correctamente.');
+
+        return redirect()->route('mostrarrol');
     }
     
 

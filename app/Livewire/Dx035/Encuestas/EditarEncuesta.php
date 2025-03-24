@@ -6,7 +6,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\Dx035\Encuesta;
 use App\Models\Dx035\Cuestionario;
-use App\Models\PortalRH\SucursalDepartamento;
+use App\Models\PortalRH\SucursalDepartament;
 use Illuminate\Support\Facades\Storage;
 
 class EditarEncuesta extends Component
@@ -14,7 +14,7 @@ class EditarEncuesta extends Component
     use WithFileUploads;
 
     public $encuesta;
-    public $Empresa, $Actividades, $sucursalDepartamentoId;
+    public $Empresa, $Actividades, $sucursalDepartamentId;
     public $FechaInicio, $FechaFinal, $NumeroEncuestas;
     public $cuestionariosSeleccionados = [];
     public $logo;
@@ -23,7 +23,7 @@ class EditarEncuesta extends Component
     protected $rules = [
         'Empresa' => 'required|string',
         'Actividades' => 'required|string',
-        'sucursalDepartamentoId' => 'required|exists:sucursal_departament,id',
+        'sucursalDepartamentId' => 'required|exists:sucursal_departament,id',
         'FechaInicio' => 'required|date',
         'FechaFinal' => 'required|date|after_or_equal:FechaInicio',
         'NumeroEncuestas' => 'required|integer|min:1',
@@ -39,14 +39,11 @@ class EditarEncuesta extends Component
         // Inicializar los valores del formulario
         $this->Empresa = $this->encuesta->Empresa;
         $this->Actividades = $this->encuesta->Actividades;
-        $this->sucursalDepartamentoId = $this->encuesta->sucursal_departament_id;
+        $this->sucursalDepartamentId = $this->encuesta->sucursal_departament_id;
         $this->FechaInicio = $this->encuesta->FechaInicio;
         $this->FechaFinal = $this->encuesta->FechaFinal;
         $this->NumeroEncuestas = $this->encuesta->NumeroEncuestas;
         $this->logo = $this->encuesta->RutaLogo;
-
-        // Obtener la relación sucursal-departamento
-        $this->sucursalDepartamento = SucursalDepartamento::find($this->sucursalDepartamentoId);
 
         // Inicializar los cuestionarios seleccionados
         $cuestionarios = Cuestionario::all();
@@ -59,9 +56,7 @@ class EditarEncuesta extends Component
     public function submit()
     {
         $this->validate();
-
-        $estado = (strtotime($this->FechaFinal) < strtotime(now())) ? 0 : 1; // 0 = Cerrado, 1 = Activo
-
+    
         // Actualizar el logo si se proporciona uno nuevo
         if ($this->nuevoLogo) {
             // Eliminar el logo anterior si existe
@@ -70,7 +65,7 @@ class EditarEncuesta extends Component
             }
             $this->logo = $this->nuevoLogo->store('logos', 'public');
         }
-
+    
         // Obtener los IDs de los cuestionarios seleccionados
         $cuestionariosSeleccionadosIds = [];
         foreach ($this->cuestionariosSeleccionados as $cuestionarioId => $seleccionado) {
@@ -78,22 +73,21 @@ class EditarEncuesta extends Component
                 $cuestionariosSeleccionadosIds[] = $cuestionarioId;
             }
         }
-
+    
         // Actualizar la encuesta
         $this->encuesta->update([
             'Empresa' => $this->Empresa,
             'Actividades' => $this->Actividades,
-            'sucursal_departament_id' => $this->sucursalDepartamentoId,
+            'sucursal_departament_id' => $this->sucursalDepartamentId,
             'FechaInicio' => $this->FechaInicio,
             'FechaFinal' => $this->FechaFinal,
             'NumeroEncuestas' => $this->NumeroEncuestas,
             'RutaLogo' => $this->logo,
-            'Estado' => $estado, // Estado se actualiza automáticamente
         ]);
-
+    
         // Sincronizar los cuestionarios seleccionados en la tabla pivote
         $this->encuesta->cuestionarios()->sync($cuestionariosSeleccionadosIds);
-
+    
         session()->flash('message', 'Encuesta actualizada correctamente.');
         return redirect()->route('encuesta.index');
     }
@@ -101,12 +95,12 @@ class EditarEncuesta extends Component
     public function render()
     {
         // Obtener todas las relaciones sucursal-departamento
-        $sucursalDepartamentos = SucursalDepartamento::all();
+        $sucursalDepartamentos = SucursalDepartament::all();
 
         // Obtener las sucursales y departamentos relacionados manualmente
         foreach ($sucursalDepartamentos as $sucursalDepartamento) {
             $sucursal = \App\Models\PortalRH\Sucursal::find($sucursalDepartamento->sucursal_id);
-            $departamento = \App\Models\PortalRH\Departamento::find($sucursalDepartamento->departamento_id);
+            $departamento = \App\Models\PortalRH\Departament::find($sucursalDepartamento->departamento_id);
 
             if ($sucursal && $departamento) {
                 $sucursalDepartamento->sucursal_nombre = $sucursal->nombre_sucursal;
@@ -119,10 +113,7 @@ class EditarEncuesta extends Component
 
         $cuestionarios = Cuestionario::all();
 
-        return view('livewire.dx035.encuestas.editar-encuesta', [
-            'sucursalDepartamentos' => $sucursalDepartamentos,
-            'cuestionarios' => $cuestionarios,
-            'sucursalDepartamento' => $this->sucursalDepartamento, // Pasar la relación sucursal-departamento a la vista
-        ])->layout('layouts.dx035');
+        return view('livewire.dx035.encuestas.editar-encuesta', compact('sucursalDepartamentos', 'cuestionarios'))
+            ->layout('layouts.dx035');
     }
 }

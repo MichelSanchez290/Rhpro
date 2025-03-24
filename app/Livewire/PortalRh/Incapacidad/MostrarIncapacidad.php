@@ -32,12 +32,13 @@ class MostrarIncapacidad extends Component
     {
         if ($this->incapacidadToDelete) {
             Incapacidad::find($this->incapacidadToDelete)->delete();
+            session()->flash('message', 'Incapacidad eliminada exitosamente.');
         }
 
         $this->incapacidadToDelete = null;
         $this->showModal = false;
 
-        session()->flash('message', 'Incapacidad Eliminada.');
+        return redirect()->route('mostrarincapacidad');
     }
 
     public function render()

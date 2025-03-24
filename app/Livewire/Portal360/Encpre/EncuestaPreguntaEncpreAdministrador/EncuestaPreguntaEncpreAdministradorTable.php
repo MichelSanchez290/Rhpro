@@ -8,25 +8,21 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Crypt;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
-use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
-use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 
 
 final class EncuestaPreguntaEncpreAdministradorTable extends PowerGridComponent
 {
     public string $tableName = 'encuesta-pregunta-encpre-administrador-table-d1kgqz-table';
-    use WithExport;
+
     public function setUp(): array
     {
         $this->showCheckBox();
 
         return [
-            PowerGrid::exportable('Encuesta_Pregunta_Encpre_Administrador_' . now()->format('Ymd_His'))
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             PowerGrid::header()
                 ->showSearchInput(),
             PowerGrid::footer()
@@ -49,14 +45,7 @@ final class EncuestaPreguntaEncpreAdministradorTable extends PowerGridComponent
 
     public function relationSearch(): array
     {
-        return [
-            'encuesta' => [ // Relación con la tabla '360_encuestas'
-                'nombre', // Columna en la tabla '360_encuestas'
-            ],
-            'pregunta' => [ // Relación con la tabla 'preguntas'
-                'texto', // Columna en la tabla 'preguntas'
-            ],
-        ];
+        return [];
     }
 
     public function fields(): PowerGridFields

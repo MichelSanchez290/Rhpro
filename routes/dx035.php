@@ -27,12 +27,6 @@ use App\Livewire\Dx035\Rol\AsignarRol;
 use App\Livewire\Dx035\Usuario\MostrarRolUsuario;
 use App\Livewire\Dx035\Usuario\AsignarRolUsuario;
 
-use App\Livewire\Dx035\Encuestas\EstadisticasEncuesta;
-
-
-use App\Http\Controllers\EncuestaController2;
-
-
 
 
 /*
@@ -102,20 +96,9 @@ Route::get('/reporte/{encuestaId}', [ReporteController::class, 'generarReporte']
 //Route::get('/roles/editar/{id}', EditarRol::class)->name('editarrol'); // Editar un rol existente
 
 // Ruta para mostrar la tabla de usuarios
-Route::get('/usuarios', MostrarRolUsuario::class)->name('usuarios');
+//Route::get('/usuarios', MostrarRolUsuario::class)->name('usuarios');
 
 // Ruta para asignar roles a un usuario
-Route::get('/usuarios/{id}/asignar-rol', AsignarRolUsuario::class)->name('asignarroluser');
+//Route::get('/usuarios/{id}/asignar-rol', AsignarRolUsuario::class)->name('asignarroluser');
 
-Route::get('/encuestas/sucursal', MostrarEncuestas::class)
-    ->name('encuesta.sucursal')
-    ->middleware('can:Ver encuestas de la sucursal');
-
-
-//Route::get('/encuesta/estadisticas/{id}', EstadisticasEncuesta::class)->name('encuesta.estadisticas');
-
-// Route::get('/descargar-reporte/{encuestaId}', MostrarEncuestas::class, 'descargarReporte');
-
-Route::delete('/encuestas/{id}', [EncuestaController2::class, 'destroy'])->name('encuestas.destroy');
-
-Route::delete('/encuestas/{id}', [MostrarEncuestas::class, 'deleteEncuesta'])->name('encuestas.delete');
+Route::get('/survey/{key}', [SurveyController::class, 'show'])->name('survey.show');

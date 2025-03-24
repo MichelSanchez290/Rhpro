@@ -30,12 +30,13 @@ class MostarDepartament extends Component
     {
         if ($this->depaToDelete) {
             Departamento::find($this->depaToDelete)->delete();
+            session()->flash('message', 'Departamento eliminado exitosamente.');
         }
 
         $this->depaToDelete = null;
         $this->showModal = false;
 
-        session()->flash('message', 'Departamento Eliminado.');
+        return redirect()->route('mostrardepa');
     }
 
     public function render()

@@ -13,8 +13,9 @@
         <!-- Campo: Empresa -->
         <div>
             <label for="Empresa" class="block text-sm font-semibold text-gray-700">Empresa</label>
-            <input type="text" id="Empresa" wire:model="Empresa" disabled
-                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-gray-100">
+            <input type="text" id="Empresa" wire:model="Empresa" required
+                   class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+            @error('Empresa') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
         </div>
 
         <!-- Campo: Actividades -->
@@ -27,13 +28,17 @@
 
         <!-- Campo: Sucursal y Departamento -->
         <div>
-            <label for="sucursalDepartamentoId" class="block text-sm font-semibold text-gray-700">Sucursal y Departamento</label>
-            <select id="sucursalDepartamentoId" wire:model="sucursalDepartamentoId" disabled
-                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-gray-100">
-                <option value="{{ $sucursalDepartamentoId }}">
-                    {{ $sucursalDepartamento->sucursal_nombre }} - {{ $sucursalDepartamento->departamento_nombre }}
-                </option>
+            <label for="sucursalDepartamentId" class="block text-sm font-semibold text-gray-700">Sucursal y Departamento</label>
+            <select id="sucursalDepartamentId" wire:model="sucursalDepartamentId" required
+                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <option value="">Seleccione una sucursal y departamento</option>
+                @foreach($sucursalDepartamentos as $sucursalDepartamento)
+                    <option value="{{ $sucursalDepartamento->id }}">
+                        {{ $sucursalDepartamento->sucursal_nombre }} - {{ $sucursalDepartamento->departamento_nombre }}
+                    </option>
+                @endforeach
             </select>
+            @error('sucursalDepartamentId') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
         </div>
 
         <!-- Fechas -->
@@ -58,8 +63,10 @@
         <!-- Número de Encuestas -->
         <div>
             <label for="NumeroEncuestas" class="block text-sm font-semibold text-gray-700">Número de Encuestas</label>
-            <input type="number" id="NumeroEncuestas" wire:model="NumeroEncuestas" disabled
-                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-gray-100">
+            <input type="number" id="NumeroEncuestas" wire:model="NumeroEncuestas" required
+                   class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                   min="1">
+            @error('NumeroEncuestas') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
         </div>
 
         <!-- Cuestionarios -->
@@ -73,21 +80,30 @@
                                 type="checkbox"
                                 id="cuestionario{{ $cuestionario->id }}"
                                 wire:model="cuestionariosSeleccionados.{{ $cuestionario->id }}"
-                                disabled
-                                class="form-checkbox h-5 w-5 text-blue-600 rounded focus:ring-blue-500 bg-gray-100"
+                                class="form-checkbox h-5 w-5 text-blue-600 rounded focus:ring-blue-500"
                             >
                             <span class="ml-2 text-gray-700">{{ $cuestionario->Nombre }}</span>
                         </label>
                     </div>
                 @endforeach
             </div>
+            @error('cuestionariosSeleccionados') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
         </div>
 
         <!-- Logo de la Empresa -->
         <div>
             <label for="nuevoLogo" class="block text-sm font-semibold text-gray-700">Logo de la Empresa</label>
-            <input type="file" id="nuevoLogo" wire:model="nuevoLogo" disabled
-                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-gray-100">
+            <input type="file" id="nuevoLogo" wire:model="nuevoLogo"
+                   class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+            @error('nuevoLogo') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+
+            <!-- Vista previa del logo -->
+            @if ($logo)
+                <div class="mt-4">
+                    <img src="{{ asset('storage/' . $logo) }}" alt="Vista previa del logo"
+                         class="max-h-32 rounded border">
+                </div>
+            @endif
         </div>
 
         <!-- Botón de Guardar cambios -->

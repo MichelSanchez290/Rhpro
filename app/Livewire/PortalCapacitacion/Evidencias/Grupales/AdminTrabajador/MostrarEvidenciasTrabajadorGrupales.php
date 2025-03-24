@@ -12,13 +12,12 @@ use App\Models\PortalCapacitacion\Evidencia;
 class MostrarEvidenciasTrabajadorGrupales extends Component
 {
     public $caps_grupales_id;  
-    public $evidenciasPendientes;
-    public $evidenciasAprobadas;
-    public $evidenciasRechazadas;
+    public $evidencias_pendientes;
+    public $evidencias_aprobadas;
+    public $evidencias_rechazadas;
     public $documentos;
     public $tieneEvidenciasAprobadas = false;
     public $evidencias=[];
-
 
     protected $listeners = ['rechazarEvidencias'];
 
@@ -45,29 +44,25 @@ class MostrarEvidenciasTrabajadorGrupales extends Component
             ->get();
 
         // Clasificar evidencias según su estado
-        $this->evidenciasPendientes = $evidencias->where('status', 'pendiente');
-        $this->evidenciasAprobadas = $evidencias->where('status', 'aprobado');
-        $this->evidenciasRechazadas = $evidencias->where('status', 'rechazado');
+        $this->evidencias_pendientes = $evidencias->where('status', 'pendiente');
+        $this->evidencias_aprobadas = $evidencias->where('status', 'aprobado');
+        $this->evidencias_rechazadas = $evidencias->where('status', 'rechazado');
 
         // Verificar si hay alguna evidencia con status 'aprobado'
-        $this->tieneEvidenciasAprobadas = $this->evidenciasAprobadas->isNotEmpty();
+        $this->tieneEvidenciasAprobadas = $this->evidencias_aprobadas->isNotEmpty();
 
         // Obtener documentos escaneados
         $this->documentos = Escaneardc::where('grupocursos_capacitaciones_id', $this->caps_grupales_id)->get();
-
-        $this->grupoEvidencias = $evidencias; // Para tener todas las evidencias agrupadas
-
     }
 
     public function render()
     {
         return view('livewire.portal-capacitacion.evidencias.grupales.admin-trabajador.mostrar-evidencias-grupales', [
-            'evidenciasPendientes' => $this->evidenciasPendientes,
-            'evidenciasAprobadas' => $this->evidenciasAprobadas,
-            'evidenciasRechazadas' => $this->evidenciasRechazadas,
+            'evidencias_pendientes' => $this->evidencias_pendientes,
+            'evidencias_aprobadas' => $this->evidencias_aprobadas,
+            'evidencias_rechazadas' => $this->evidencias_rechazadas,
             'documentos' => $this->documentos,
-            'tieneEvidenciasAprobadas' => $this->tieneEvidenciasAprobadas,
-            'grupoEvidencias' => $this->grupoEvidencias,
+            'tieneEvidenciasAprobadas' => $this->tieneEvidenciasAprobadas
         ])->layout("layouts.portal_capacitacion");
     }
 }

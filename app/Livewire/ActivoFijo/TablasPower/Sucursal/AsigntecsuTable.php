@@ -171,7 +171,7 @@ final class AsigntecsuTable extends PowerGridComponent
     {
         return [
             Button::add('devolver')
-            ->icon('default-pdf')
+            ->icon('default-asign')
             ->class('btn btn-primary' . ($row->status == 0 ? ' disabled' : ''))
             ->dispatch('devolver', ['rowId' => $row->id]),
 

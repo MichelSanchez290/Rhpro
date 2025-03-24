@@ -61,6 +61,7 @@ final class RelacionExternaTable extends PowerGridComponent
     public function fields(): PowerGridFields
     {
         return PowerGrid::fields()
+            ->add('id')
             ->add('nombre')
             ->add('razon_motivo')
             ->add('frecuencia')
@@ -71,6 +72,9 @@ final class RelacionExternaTable extends PowerGridComponent
     public function columns(): array
     {
         return [
+            Column::make('Id', 'id')
+            ->sortable()
+            ->searchable(),
 
             Column::make('Nombre', 'nombre')
             ->sortable()

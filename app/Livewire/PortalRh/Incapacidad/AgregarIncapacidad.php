@@ -18,6 +18,7 @@ class AgregarIncapacidad extends Component
         'incapacidad.fecha_inicio' => 'required|date',
         'incapacidad.fecha_final' => 'required|date|after_or_equal:incapacidad.fecha_inicio',
         'documento' => 'required|file',
+        'incapacidad.status' => 'required', 
         'incapacidad.observaciones' => 'nullable',
     ];
 

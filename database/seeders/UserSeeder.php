@@ -58,77 +58,14 @@ class UserSeeder extends Seeder
             'sucursal_id' => 1,
             'tipo_user' => 'Practicante'
         ])->assignRole('Trabajador GLOBAL');
-        
-        $user=User::create([
-            'name'=>'Carmela Vazquez',
-            'email'=>'carme@gmail.com',
-            'password' => Hash::make('12345678'),
-            'empresa_id' => 1,
-            'sucursal_id' => 1,
-            'tipo_user' => 'Practicante'
-        ])->assignRole('GoldenAdmin','Trabajador ACTIVO FIJO');
-
-        $user=User::create([
-            'name'=>'Adan Leyva Rodrigez',
-            'email'=>'adan@gmail.com',
-            'password' => Hash::make('prodiangelo$$$'),
-            'empresa_id' => 1,
-            'sucursal_id' => 1,
-            'tipo_user' => 'Practicante'
-        ])->assignRole('Trabajador PORTAL CAPACITACION');
-
-        $user=User::create([
-            'name'=>'Elisa Refugio',
-            'email'=>'elisa@gmail.com',
-            'password' => Hash::make('123sucursal'),
-            'empresa_id' => 1,
-            'sucursal_id' => 1,
-            'tipo_user' => 'Trabajador'
-        ])->assignRole('Trabajador PORTAL CAPACITACION');
-
-        $user=User::create([
-            'name'=>'ADMIN Eli',
-            'email'=>'eli@gmail.com',
-            'password' => Hash::make('123456789'),
-            'empresa_id' => 1,
-            'sucursal_id' => 1,
-            'tipo_user' => 'Trabajador'
-        ])->assignRole('Trabajador PORTAL CAPACITACION');
         // $user=User::create([
-        //     'name'=>'ADMINISTRADOR',
-        //     'email'=> 'admin@gmail.com',
-        //     'password' => Hash::make('123456789'),
+        //     'name'=>'Trabajador PORTAL CAPACITACION',
+        //     'email'=>'portal@gmail.com',
+        //     'password' => Hash::make('12345678'),
         //     'empresa_id' => 1,
         //     'sucursal_id' => 1,
-        //     'tipo_user' => 'Trabajador'
-        // ])->assignRole('GoldenAdmin');
-
-        // $user=User::create([
-        //     'name'=>'ADMINISTRADOR EMPRESA',
-        //     'email'=>'empresaadmin@gmail.com',
-        //     'password' => Hash::make('123456789$$$'),
-        //     'empresa_id' => 1,
-        //     'sucursal_id' => 1,
-        //     'tipo_user' => 'Trabajador'
-        // ])->assignRole('EmpresaAdmin');
-
-        // $user=User::create([
-        //     'name'=>'ADMINISTRADOR SUCURSAL',
-        //     'email'=>'sucursal@gmail.com',
-        //     'password' => Hash::make('123sucursal$$$'),
-        //     'empresa_id' => 1,
-        //     'sucursal_id' => 1,
-        //     'tipo_user' => 'Trabajador'
-        // ])->assignRole('SusursalAdmin');
-
-        // $user=User::create([
-        //     'name'=>'Trabajador ENCUESTA 360',
-        //     'email'=>'becartio@gmail.com',
-        //     'password' => Hash::make('123encuesta360$$$'),
-        //     'empresa_id' => 1,
-        //     'sucursal_id' => 1,
-        //     'tipo_user' => 'Becario'
-        // ])->assignRole('Trabajador ENCUESTA 360');
+        //     'tipo_user' => 'Practicante'
+        // ])->assignRole('Trabajador PORTAL CAPACITACION');
 
         // $user=User::create([
         //     'name'=>'Trabajador Global',
@@ -140,77 +77,21 @@ class UserSeeder extends Seeder
         // ])->assignRole('Trabajador GLOBAL');
 
         // $user=User::create([
-        //     'name'=>'Adan Leyva Rodrigez',
-        //     'email'=>'adan@gmail.com',
-        //     'password' => Hash::make('prodiangelo$$$'),
-        //     'empresa_id' => 1,
-        //     'sucursal_id' => 1,
-        //     'tipo_user' => 'Practicante'
-        // ])->assignRole('Trabajador PORTAL CAPACITACION');
-
-        // $user=User::create([
         //     'name'=>'Elisa Refugio',
         //     'email'=>'elisa@gmail.com',
         //     'password' => Hash::make('123sucursal'),
-        //     'empresa_id' => 1,
-        //     'sucursal_id' => 1,
+        //     'empresa_id' => 2,
+        //     'sucursal_id' => 2,
         //     'tipo_user' => 'Trabajador'
-        // ])->assignRole('Trabajador PORTAL CAPACITACION');
+        // ])->assignRole('SusursalAdmin');
 
         // $user=User::create([
         //     'name'=>'ADMIN Eli',
         //     'email'=>'eli@gmail.com',
         //     'password' => Hash::make('123456789'),
-        //     'empresa_id' => 1,
-        //     'sucursal_id' => 1,
+        //     'empresa_id' => 2,
+        //     'sucursal_id' => 2,
         //     'tipo_user' => 'Trabajador'
-        // ])->assignRole('Trabajador PORTAL CAPACITACION');
-
-        // // USERS PARA ACTIVO FIJO 
-        // $user=User::create([
-        //     'name'=>'Carmela Vazquez',
-        //     'email'=>'carme@gmail.com',
-        //     'password' => Hash::make('12345678'),
-        //     'empresa_id' => 1,
-        //     'sucursal_id' => 1,
-        //     'tipo_user' => 'Practicante'
-        // ])->assignRole('GoldenAdmin','Trabajador ACTIVO FIJO');
-
-        // $user=User::create([
-        //     'name'=>'Jeremias Gonzalez',
-        //     'email'=>'jere@gmail.com',
-        //     'password' => Hash::make('12345678'),
-        //     'empresa_id' => 1,
-        //     'sucursal_id' => 1,
-        //     'tipo_user' => 'Practicante'
-        // ])->assignRole('GoldenAdmin');
-        
-        // $user=User::create([
-        //     'name'=>'Renato Carrasco',
-        //     'email'=>'rena@gmail.com',
-        //     'password' => Hash::make('12345678'),
-        //     'empresa_id' => 1,
-        //     'sucursal_id' => 1,
-        //     'tipo_user' => 'Practicante'
         // ])->assignRole('EmpresaAdmin');
-
-        // $user=User::create([
-        //     'name'=>'Gilberto Tellez',
-        //     'email'=>'gil@gmail.com',
-        //     'password' => Hash::make('12345678'),
-        //     'empresa_id' => 1,
-        //     'sucursal_id' => 1,
-        //     'tipo_user' => 'Practicante'
-        // ])->assignRole('SucursalAdmin');
-
-        $user=User::create([
-            'name'=>'Ramon Ruiz',
-            'email'=>'ramo@gmail.com',
-            'password' => Hash::make('12345678'),
-            'empresa_id' => 1,
-            'sucursal_id' => 1,
-            'tipo_user' => 'Practicante'
-        ])->assignRole('SusursalAdmin');
-
     }
 }

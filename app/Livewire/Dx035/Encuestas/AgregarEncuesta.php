@@ -89,20 +89,17 @@ class AgregarEncuesta extends Component
             $rutaLogo = $this->logo->store('logos', 'public');
         }
 
-        // Determinar el estado de la encuesta
-        $estado = (strtotime($this->FechaFinal) < strtotime(now())) ? 0 : 1; // 0 = Cerrado, 1 = Activo
-
         // Crear la encuesta
         $encuesta = Encuesta::create([
             'Clave' => $clave,
-            'Empresa' => Empresa::find($this->empresa)->nombre,
+            'Empresa' => Empresa::find($this->empresa)->nombre, // Guardar el nombre de la empresa
             'Actividades' => $this->Actividades,
-            'sucursal_departament_id' => $sucursalDepartamento->id,
+            'sucursal_departament_id' => $sucursalDepartamento->id, // Asignar el ID de la relación sucursal-departamento
             'FechaInicio' => $this->FechaInicio,
             'FechaFinal' => $this->FechaFinal,
             'NumeroEncuestas' => $this->numtrabajadores,
             'RutaLogo' => $rutaLogo,
-            'Estado' => $estado, // Estado se establece automáticamente
+            'Estado' => 1,
         ]);
 
         // Obtener los IDs de los cuestionarios seleccionados

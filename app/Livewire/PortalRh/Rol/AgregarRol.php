@@ -42,9 +42,12 @@ class AgregarRol extends Component
             $role->syncPermissions($this->selectedPermissions);
         }
 
+        // Mensaje de éxito
+        session()->flash('message', 'Rol creado y permisos asignados correctamente.');
+
         // Redirigir o limpiar los campos después de la inserción
         $this->reset(['name', 'selectedPermissions']);
-        session()->flash('message', 'Rol agregado.');
+        return redirect()->route('mostrarrol');
     }
 
     public function render()

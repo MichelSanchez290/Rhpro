@@ -72,7 +72,8 @@ class EditarIncapacidad extends Component
             'observaciones' => $this->observaciones,
         ]);
 
-        session()->flash('message', 'Incapacidad actualizada.');
+        session()->flash('message', 'Incapacidad actualizada correctamente.');
+        return redirect()->route('mostrarincapacidad');
     }
 
     public function render()

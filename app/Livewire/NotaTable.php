@@ -90,7 +90,7 @@ final class NotaTable extends PowerGridComponent
                 ->dispatch('openModal', [
                     'component' => 'borrar-activo',
                     'arguments' => [
-                        'vista' => 'mostrarnotassu', // Nombre de la vista actual
+                        'vista' => 'mostrarnotaem', // Nombre de la vista actual
                         'activo_id' => $row->id
                     ]
                 ]),

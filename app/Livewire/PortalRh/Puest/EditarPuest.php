@@ -45,7 +45,8 @@ class EditarPuest extends Component
             ],
         ]);
 
-        session()->flash('message', 'Puesto Actualizado.');
+        //$this->emit('editBann', 'Departamento editado correctamente');
+        return redirect()->route('mostrarpuesto');
     }
 
 

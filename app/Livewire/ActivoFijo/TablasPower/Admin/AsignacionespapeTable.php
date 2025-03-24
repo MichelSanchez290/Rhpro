@@ -18,7 +18,7 @@ use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
 final class AsignacionespapeTable extends PowerGridComponent
 {
     public string $tableName = 'asignacionespape-table-mbjmum-table';
-    protected $listeners = ['refreshPowerGrid' => '$refresh'];
+
     public function setUp(): array
     {
         $this->showCheckBox();

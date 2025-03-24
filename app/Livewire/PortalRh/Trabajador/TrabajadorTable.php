@@ -44,34 +44,21 @@ final class TrabajadorTable extends PowerGridComponent
         $user = Auth::user();
 
         $query = Trabajador::query()
-        ->leftJoin('users', 'trabajadores.user_id', '=', 'users.id')
-        ->leftJoin('empresas', 'users.empresa_id', '=', 'empresas.id')
-        ->leftJoin('sucursales', 'users.sucursal_id', '=', 'sucursales.id')
-        ->leftJoin('departamentos', 'users.departamento_id', '=', 'departamentos.id')
-        ->leftJoin('puestos', 'users.puesto_id', '=', 'puestos.id')
-        ->leftJoin('registros_patronales', 'trabajadores.registro_patronal_id', '=', 'registros_patronales.id')
-        ->select([
-            'trabajadores.*',
-            'users.name as nombre_usuario',
-            \DB::raw('COALESCE(empresas.nombre, "Sin Empresa") as empresa'),
-            \DB::raw('COALESCE(sucursales.nombre_sucursal, "Sin Sucursal") as sucursal'),
-            \DB::raw('COALESCE(departamentos.nombre_departamento, "Sin departamento") as departamento'),
-            \DB::raw('COALESCE(puestos.nombre_puesto, "Sin Puesto") as puesto'),
-            'registros_patronales.registro_patronal as regpatronal'
-        ]);
+            ->leftJoin('users', 'trabajadores.user_id', '=', 'users.id')
+            ->leftJoin('departamentos', 'users.departamento_id', '=', 'departamentos.id')
+            ->leftJoin('puestos', 'users.puesto_id', '=', 'puestos.id')
+            ->leftJoin('registros_patronales', 'trabajadores.registro_patronal_id', '=', 'registros_patronales.id')
+            ->select([
+                'trabajadores.*',
+                'users.name as nombre_usuario',
+                'departamentos.nombre_departamento as departamento',
+                'puestos.nombre_puesto as puesto',
+                'registros_patronales.registro_patronal as regpatronal'
+            ]);
 
-        // Aplicar filtros según el rol del usuario autenticado
-        if ($user->hasRole('GoldenAdmin')) {  // GoldenAdmin no tiene filtro y ve todos los registros
-            return $query;
-
-        } elseif ($user->hasRole('EmpresaAdmin')) { // EmpresaAdmin se limita a los usuarios de su empresa
-            $query->where('users.empresa_id', $user->empresa_id);
-
-        } elseif ($user->hasRole('SucursalAdmin')) { // SucursalAdmin se limita a los usuarios de su sucursal
-            $query->where('users.sucursal_id', $user->sucursal_id);
-
-        } elseif ($user->hasRole(['Trabajador PORTAL RH', 'Trabajador GLOBAL'])) { // Trabajador  verán únicamente su propio registro
-            $query->where('users.id', $user->id);
+        // 🔹 Filtrar por departamento si el usuario es Trabajador PORTAL RH, Trabajador GLOBAL o Practicante
+        if ($user->hasRole(['Trabajador PORTAL RH', 'Trabajador GLOBAL', 'Practicante'])) {
+            $query->where('trabajadores.departamento_id', $user->departamento_id);
         }
 
         return $query;
@@ -117,9 +104,9 @@ final class TrabajadorTable extends PowerGridComponent
             ->add('nombre_usuario')
             ->add('registro_patronal_id')
             ->add('regpatronal')
-            ->add('empresa')
-            ->add('sucursal')
+            ->add('departamento_id')
             ->add('departamento')
+            ->add('puesto_id')
             ->add('puesto')
             ->add('created_at');
     }
@@ -134,10 +121,6 @@ final class TrabajadorTable extends PowerGridComponent
                 ->searchable(),
 
             Column::make('Usuario', 'nombre_usuario'),
-
-            Column::make('Empresa', 'empresa'),
-
-            Column::make('Sucursal', 'sucursal'),
 
             Column::make('Departamento', 'departamento'),
 
@@ -244,7 +227,9 @@ final class TrabajadorTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Creado el', 'created_at')
+            
+
+            Column::make('Created at', 'created_at')
                 ->sortable()
                 ->searchable(),
 
@@ -255,8 +240,8 @@ final class TrabajadorTable extends PowerGridComponent
     public function filters(): array
     {
         return [
-            //Filter::datepicker('fecha_nacimiento'),
-            //Filter::datepicker('fecha_ingreso'),
+            Filter::datepicker('fecha_nacimiento'),
+            Filter::datepicker('fecha_ingreso'),
         ];
     }
 

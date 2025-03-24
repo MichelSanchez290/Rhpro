@@ -30,12 +30,13 @@ class MostarPuest extends Component
     {
         if ($this->puestoToDelete) {
             Puesto::find($this->puestoToDelete)->delete();
+            session()->flash('message', 'Departamento eliminado exitosamente.');
         }
 
         $this->puestoToDelete = null;
         $this->showModal = false;
 
-        session()->flash('message', 'Puesto Eliminado.');
+        return redirect()->route('mostrarpuesto');
     }
 
     public function render()

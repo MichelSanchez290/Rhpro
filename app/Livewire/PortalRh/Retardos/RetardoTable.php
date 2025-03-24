@@ -41,31 +41,30 @@ final class RetardoTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
+        // Obtener el usuario autenticado
         $user = Auth::user();
 
+        // Iniciar la consulta base
         $query = Retardo::query()
-            ->select([
-                'retardos.*',
-                'users.name as nombre_usuario'
-            ])
+            ->select('retardos.*', 
+            'users.name as nombre_usuario') // Seleccionamos los datos de Retardo y el nombre del usuario
             ->join('user_retardo', 'retardos.id', '=', 'user_retardo.retardo_id')
             ->join('users', 'user_retardo.user_id', '=', 'users.id');
 
+        // Aplicar filtros según el rol del usuario
         if ($user->hasRole('GoldenAdmin')) {
-            // GoldenAdmin: sin filtro, ve todos los registros.
+            // GoldenAdmin ve todos los registros (sin filtro)
             return $query;
         } elseif ($user->hasRole('EmpresaAdmin')) {
-            // EmpresaAdmin: se limita a los registros asociados a la misma empresa.
-            $query->where('users.empresa_id', $user->empresa_id);
+            // EmpresaAdmin solo ve los usuarios de su empresa
+            return $query->where('users.empresa_id', $user->empresa_id);
         } elseif ($user->hasRole('SucursalAdmin')) {
-            // SucursalAdmin: se limita a los registros vinculados a la misma sucursal.
-            $query->where('users.sucursal_id', $user->sucursal_id);
-        } elseif ($user->hasRole(['Trabajador PORTAL RH', 'Trabajador GLOBAL'])) {
-            // Trabajador PORTAL RH y Trabajador GLOBAL: verán únicamente su propio registro.
-            $query->where('users.id', $user->id);
+            // SucursalAdmin solo ve los usuarios de su sucursal
+            return $query->where('users.sucursal_id', $user->sucursal_id);
         }
 
-        return $query;
+        // Si no tiene un rol reconocido, no se le muestran registros
+        return $query->whereRaw('1 = 0'); // Devuelve una consulta vacía
     }
 
     public function relationSearch(): array

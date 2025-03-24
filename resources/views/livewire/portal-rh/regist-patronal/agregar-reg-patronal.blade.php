@@ -18,7 +18,7 @@
                     <div x-data="{ show: true }" x-init="setTimeout(() => {
                         show = false;
                         window.location.href = '{{ route('mostrarregpatronal') }}'
-                    }, 3000)" x-show="show"
+                    }, 5000)" x-show="show"
                         class="fixed top-4 left-4 max-w-xs w-full bg-green-500 text-white shadow-lg rounded-lg p-4 flex items-center space-x-3 transition-transform transform hover:scale-105 z-50">
                         <svg xmlns="http://www.w3.org/2000/svg" height="20" width="17.5"
                             viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
@@ -27,8 +27,8 @@
                         </svg>
                         <div class="flex-1">
                             <p class="font-bold">{{ session('message') }}</p>
-                            @if (session('message') == 'Registro Patronal Agregado.')
-                                <p class="text-sm">Registro Patronal ha sido agregado correctamente</p>
+                            @if (session('message') == 'Registro patronal agregado')
+                                <p class="text-sm">Registro patronal agregado exitosamente</p>
                             @endif
                         </div>
                         <button @click="show = false" class="text-white hover:text-gray-300 focus:outline-none">

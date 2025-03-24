@@ -76,7 +76,7 @@ class AgregarBaja extends Component
         $this->user_id = null;
         $this->pdfdocumento=NULL;
         
-        session()->flash('message', 'Baja Agregada.');
+        session()->flash('message', 'Baja agregada');
     }
 
     public function redirigirBaja()

@@ -31,13 +31,13 @@ class MostrarBaja extends Component
     {
         if ($this->bajaToDelete) {
             Baja::find($this->bajaToDelete)->delete();
-            
+            session()->flash('message', 'Baja eliminada exitosamente.');
         }
 
         $this->bajaToDelete = null;
         $this->showModal = false;
 
-        session()->flash('message', 'Baja Eliminada.');
+        return redirect()->route('mostrarbaja');
     }
 
     public function render()

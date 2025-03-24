@@ -3,140 +3,82 @@
 namespace App\Livewire\Portal360\Envaluaciones\EnvaluacionAdministrador;
 
 use App\Models\Encuestas360\Asignacion;
-use App\Models\PortalRH\EmpresaSucursal;
 use Livewire\Component;
 
 class VerResultadosGeneralesAdminis extends Component
 {
 
-    public $sucursalId;
+    public $asignacionId;
     public $empresaNombre;
     public $sucursalNombre;
     public $resultados = [];
 
-    public function mount($sucursalId)
+    public function mount($asignacionId)
     {
-        $this->sucursalId = $sucursalId;
-        
-        $empresaSucursal = EmpresaSucursal::with(['empresa', 'sucursal'])
-            ->where('id', $this->sucursalId)
-            ->firstOrFail();
-            
-        $this->empresaNombre = $empresaSucursal->empresa->nombre ?? 'No especificado';
-        $this->sucursalNombre = $empresaSucursal->sucursal->nombre_sucursal ?? 'No especificado';
-        
-        $asignaciones = Asignacion::with([
+        $this->asignacionId = $asignacionId;
+    
+        // Obtener la asignación con los datos de la empresa, sucursal y departamento
+        $asignacion = Asignacion::with([
             'calificador.empresa',
             'calificado.sucursal',
-            'calificado.departamento',
+            'calificado.departamento', // Cargar la relación departamento
             'respuestasUsuario.respuesta360.pregunta'
-        ])
-        ->whereHas('calificado', function($query) use ($empresaSucursal) {
-            $query->where('sucursal_id', $empresaSucursal->sucursal_id);
-        })
-        ->where('realizada', 1)
-        ->get();
-        
-        $this->resultados = $this->obtenerResultadosPorSucursal($asignaciones);
-    }
+        ])->findOrFail($this->asignacionId);
     
-    private function obtenerResultadosPorSucursal($asignaciones)
-    {
-        $resultadosPorPregunta = [];
-        
-        if ($asignaciones->isEmpty()) {
-            return [
-                'Sin datos' => [
-                    [
-                        'nombre' => 'N/A',
-                        'departamento' => 'N/A',
-                        'autoevaluacion' => 0,
-                        'promedio' => 0
-                    ]
-                ]
-            ];
-        }
-
-        // Group by question and employee
-        $preguntasAgrupadas = [];
-        foreach ($asignaciones as $asignacion) {
-            $esAutoevaluacion = $asignacion->calificador_id === $asignacion->calificado_id;
-            $calificadoId = $asignacion->calificado_id;
-            
-            if (!isset($preguntasAgrupadas[$calificadoId])) {
-                $preguntasAgrupadas[$calificadoId] = [
-                    'nombre' => $asignacion->calificado->name,
-                    'departamento' => $asignacion->calificado->departamento->nombre_departamento ?? 'No especificado',
-                    'preguntas' => []
-                ];
-            }
-
-            foreach ($asignacion->respuestasUsuario as $respuestaUsuario) {
-                $preguntaId = $respuestaUsuario->respuesta360->preguntas_id;
-                $preguntaTexto = $respuestaUsuario->respuesta360->pregunta->texto;
-                
-                if (!isset($preguntasAgrupadas[$calificadoId]['preguntas'][$preguntaId])) {
-                    $preguntasAgrupadas[$calificadoId]['preguntas'][$preguntaId] = [
-                        'texto' => $preguntaTexto,
-                        'autoevaluacion' => null,
-                        'sumaOtros' => 0,
-                        'conteoOtros' => 0
-                    ];
-                }
-
-                $puntuacion = $respuestaUsuario->respuesta360->puntuacion;
-                if ($esAutoevaluacion) {
-                    $preguntasAgrupadas[$calificadoId]['preguntas'][$preguntaId]['autoevaluacion'] = $puntuacion;
-                } else {
-                    $preguntasAgrupadas[$calificadoId]['preguntas'][$preguntaId]['sumaOtros'] += $puntuacion;
-                    $preguntasAgrupadas[$calificadoId]['preguntas'][$preguntaId]['conteoOtros']++;
-                }
-            }
-        }
-
-        // Group by question
-        $resultadosPorPreguntaTexto = [];
-        foreach ($preguntasAgrupadas as $calificadoId => $data) {
-            foreach ($data['preguntas'] as $preguntaId => $preguntaData) {
-                $preguntaTexto = $preguntaData['texto'];
-                $autoevaluacion = $preguntaData['autoevaluacion'] ?? 0;
-                $promedio = $preguntaData['conteoOtros'] > 0 ? 
-                    $preguntaData['sumaOtros'] / $preguntaData['conteoOtros'] : 0;
-
-                if (!isset($resultadosPorPreguntaTexto[$preguntaTexto])) {
-                    $resultadosPorPreguntaTexto[$preguntaTexto] = [];
-                }
-
-                $resultadosPorPreguntaTexto[$preguntaTexto][] = [
-                    'nombre' => $data['nombre'],
-                    'departamento' => $data['departamento'],
-                    'autoevaluacion' => round($autoevaluacion, 1),
-                    'promedio' => round($promedio, 1)
-                ];
-            }
-        }
-
-        // Add averages for each question
-        foreach ($resultadosPorPreguntaTexto as $preguntaTexto => $resultados) {
-            $sumaAutoevaluacion = 0;
-            $sumaPromedio = 0;
-            $conteo = count($resultados);
-
-            foreach ($resultados as $resultado) {
-                $sumaAutoevaluacion += $resultado['autoevaluacion'];
-                $sumaPromedio += $resultado['promedio'];
-            }
-
-            $resultadosPorPreguntaTexto[$preguntaTexto][] = [
-                'nombre' => 'Promedio final',
-                'departamento' => '',
-                'autoevaluacion' => $conteo > 0 ? round($sumaAutoevaluacion / $conteo, 1) : 0,
-                'promedio' => $conteo > 0 ? round($sumaPromedio / $conteo, 1) : 0
-            ];
-        }
-
-        return $resultadosPorPreguntaTexto;
+        $this->empresaNombre = $asignacion->calificador->empresa->nombre;
+        $this->sucursalNombre = $asignacion->calificado->sucursal->nombre_sucursal;
+    
+        // Obtener los resultados de las respuestas
+        $this->resultados = $this->obtenerResultados($asignacion);
     }
+    private function obtenerResultados($asignacion)
+{
+    $resultados = [];
+
+    // Verificar si hay respuestas
+    if ($asignacion->respuestasUsuario->isEmpty()) {
+        return [
+            [
+                'calificador' => $asignacion->calificador->name,
+                'calificado' => $asignacion->calificado->name,
+                'pregunta' => 'No hay respuestas disponibles',
+                'respuesta' => 'N/A',
+                'puntuacion' => 0,
+                'departamento' => $asignacion->calificado->departamento->nombre_departamento ?? 'No especificado',
+            ]
+        ];
+    }
+
+    // Si hay respuestas, procesarlas
+    foreach ($asignacion->respuestasUsuario as $respuestaUsuario) {
+        $resultados[] = [
+            'calificador' => $asignacion->calificador->name,
+            'calificado' => $asignacion->calificado->name,
+            'pregunta' => $respuestaUsuario->respuesta360->pregunta->texto,
+            'respuesta' => $respuestaUsuario->respuesta360->texto,
+            'puntuacion' => $respuestaUsuario->respuesta360->puntuacion,
+            'departamento' => $asignacion->calificado->departamento->nombre_departamento ?? 'No especificado',
+        ];
+    }
+
+    // Calcular el promedio final solo si hay respuestas
+    if (count($resultados) > 0) {
+        $totalPuntuacion = collect($resultados)->sum('puntuacion');
+        $promedioFinal = $totalPuntuacion / count($resultados);
+
+        $resultados[] = [
+            'calificador' => 'Promedio Final',
+            'calificado' => '',
+            'pregunta' => '',
+            'respuesta' => '',
+            'puntuacion' => $promedioFinal,
+            'departamento' => '',
+        ];
+    }
+
+    return $resultados;
+}
+
     public function render()
     {
         return view('livewire.portal360.envaluaciones.envaluacion-administrador.ver-resultados-generales-adminis', [

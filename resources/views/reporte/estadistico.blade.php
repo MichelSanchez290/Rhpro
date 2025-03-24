@@ -183,6 +183,10 @@
 
     <!-- Página 1: Introducción -->
     <div class="page-break">
+    <img src="{{ public_path('Imagenes/Logos/CESRH-logo.png') }}" alt="Logo del Software" style="width: 150px; float: right;">
+
+    <!-- Logo a la izquierda -->
+    <img src="{{ public_path('Imagenes/Dx035logo_envolvente.png') }}" alt="Logo del Software" style="width: 150px; float: left;">
     <br>
         <h2 class="titulo">Introducción</h2>
         <p class="subtitulo">Objetivo</p>
@@ -198,6 +202,10 @@
 
     <!-- Página 2: Datos de los participantes -->
     <div class="page-break">
+    <img src="{{ public_path('Imagenes/Logos/CESRH-logo.png') }}" alt="Logo del Software" style="width: 150px; float: right;">
+
+    <!-- Logo a la izquierda -->
+    <img src="{{ public_path('Imagenes/Dx035logo_envolvente.png') }}" alt="Logo del Software" style="width: 150px; float: left;">
     <br>
         <h2 class="titulo">Datos de los participantes</h2>
         <p class="texto">Conoce el índice de participación de tu encuesta y el perfil de los participantes.</p>
@@ -218,7 +226,10 @@
     <div class="paginacion">Página 3</div>
 
     <!-- Página 3: Perfil de los participantes -->
+    <img src="{{ public_path('Imagenes/Logos/CESRH-logo.png') }}" alt="Logo del Software" style="width: 150px; float: right;">
 
+    <!-- Logo a la izquierda -->
+    <img src="{{ public_path('Imagenes/Dx035logo_envolvente.png') }}" alt="Logo del Software" style="width: 150px; float: left;">
     <br>
     <div class="page-break perfil-participantes">
         <h2 class="titulo">Perfil de los participantes</h2>
@@ -257,6 +268,11 @@
     <div class="paginacion">Página 4</div>
 
     <!-- Página 4: Perfil laboral -->
+    <div class="page-break">
+    <img src="{{ public_path('Imagenes/Logos/CESRH-logo.png') }}" alt="Logo del Software" style="width: 150px; float: right;">
+
+    <!-- Logo a la izquierda -->
+    <img src="{{ public_path('Imagenes/Dx035logo_envolvente.png') }}" alt="Logo del Software" style="width: 150px; float: left;">
     <br>
         <h2 class="titulo">Perfil laboral</h2>
         <table class="tabla-graficas">
@@ -308,6 +324,10 @@
 
     <!-- Página 5: Jornada laboral y experiencia -->
     <div class="page-break">
+    <img src="{{ public_path('Imagenes/Logos/CESRH-logo.png') }}" alt="Logo del Software" style="width: 150px; float: right;">
+
+    <!-- Logo a la izquierda -->
+    <img src="{{ public_path('Imagenes/Dx035logo_envolvente.png') }}" alt="Logo del Software" style="width: 150px; float: left;">
     <br>
         <h2 class="titulo">Jornada laboral y experiencia</h2>
         <table class="tabla-graficas">
@@ -345,7 +365,10 @@
 
     <!-- Página 6: Cuestionario para identificar factores de riesgo -->
     <div class="page-break">
+    <img src="{{ public_path('Imagenes/Logos/CESRH-logo.png') }}" alt="Logo del Software" style="width: 150px; float: right;">
 
+    <!-- Logo a la izquierda -->
+    <img src="{{ public_path('Imagenes/Dx035logo_envolvente.png') }}" alt="Logo del Software" style="width: 150px; float: left;">
     <br>
         <div class="fondo-gris">
             <h2>CUESTIONARIO PARA IDENTIFICAR LOS FACTORES DE RIESGO PSICOSOCIAL Y EVALUAR EL ENTORNO ORGANIZACIONAL EN LOS CENTROS DE TRABAJO</h2>

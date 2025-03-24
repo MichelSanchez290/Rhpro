@@ -17,7 +17,7 @@ use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
 final class AsignacionessouTable extends PowerGridComponent
 {
     public string $tableName = 'asignacionessou-table-zmda5o-table';
-    protected $listeners = ['refreshPowerGrid' => '$refresh'];
+
     public function setUp(): array
     {
         $this->showCheckBox();

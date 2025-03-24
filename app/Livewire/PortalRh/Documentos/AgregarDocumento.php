@@ -16,7 +16,7 @@ class AgregarDocumento extends Component
         'archivo' => 'required|file',
         'documento.fecha_subida' => 'required|date',
         'documento.status' => 'required', 
-        'documento.numero' => 'required',
+        'documento.numero' => 'required|numeric',
         'documento.original' => 'required',
         'documento.comentarios' => 'required',
         'documento.tipo_documento' => 'required',
@@ -46,7 +46,7 @@ class AgregarDocumento extends Component
         // Asociar el usuario en la tabla pivote
         $nuevoDoc->users()->attach(Auth::id());
 
-        session()->flash('message', 'Documento Agregado.');
+        session()->flash('message', 'Documento agregado.');
     }
 
     public function redirigirDoc()

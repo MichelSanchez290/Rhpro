@@ -35,7 +35,7 @@ class MostrarDocumento extends Component
         $this->documentoToDelete = null;
         $this->showModal = false;
 
-        session()->flash('message', 'Documento Eliminado.');
+        return redirect()->route('mostrardoc');
     }
 
     public function render()
