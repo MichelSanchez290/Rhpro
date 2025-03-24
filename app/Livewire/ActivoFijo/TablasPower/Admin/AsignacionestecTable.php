@@ -8,26 +8,26 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
-//use PowerComponents\LivewirePowerGrid\Exportable;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
-use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
-
+use PowerComponents\LivewirePowerGrid\Traits\WithExport;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\AsignacionesTecExport;
 
 final class AsignacionestecTable extends PowerGridComponent
 {
+    use WithExport;
+
     public string $tableName = 'asignacionestec-table-43hdtt-table';
+    protected $listeners = ['refreshPowerGrid' => '$refresh'];
 
     public function setUp(): array
     {
         $this->showCheckBox();
 
         return [
-            PowerGrid::exportable('export')
-                ->striped()
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             PowerGrid::header()
                 ->showSearchInput(),
             PowerGrid::footer()
@@ -44,12 +44,20 @@ final class AsignacionestecTable extends PowerGridComponent
             ->join('sucursales', 'activos_tecnologias.sucursal_id', '=', 'sucursales.id')
             ->join('empresa_sucursal', 'sucursales.id', '=', 'empresa_sucursal.sucursal_id')
             ->join('empresas', 'empresa_sucursal.empresa_id', '=', 'empresas.id')
+            ->join('aniosestimados', 'activos_tecnologias.aniosestimado_id', '=', 'aniosestimados.id')
             ->select([
                 'activos_tecnologia_user.id',
                 'users.name as usuario',
                 'activos_tecnologias.nombre as activo',
-                'sucursales.nombre_sucursal as sucursal', // Nombre de la sucursal
-                'empresas.nombre as empresa',             // Nombre de la empresa
+                'activos_tecnologias.descripcion as descripcion',
+                'activos_tecnologias.num_serie',
+                'activos_tecnologias.num_activo',
+                'activos_tecnologias.ubicacion_fisica',
+                'activos_tecnologias.fecha_adquisicion',
+                'activos_tecnologias.precio_adquisicion',
+                'aniosestimados.vida_util_año as vida_util', // Corregido: aniosestimados.vida_util -> aniosestimados.vida_util_año
+                'sucursales.nombre_sucursal as sucursal',
+                'empresas.nombre as empresa',
                 'activos_tecnologia_user.fecha_asignacion',
                 'activos_tecnologia_user.fecha_devolucion',
                 'activos_tecnologia_user.observaciones',
@@ -90,19 +98,19 @@ final class AsignacionestecTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Usuario', 'usuario') // Corregido
+            Column::make('Usuario', 'usuario')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Activo', 'activo') // Corregido
+            Column::make('Activo', 'activo')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Sucursal', 'sucursal') // Añadido
+            Column::make('Sucursal', 'sucursal')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Empresa', 'empresa')   // Añadido
+            Column::make('Empresa', 'empresa')
                 ->sortable()
                 ->searchable(),
 
@@ -116,7 +124,9 @@ final class AsignacionestecTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Estado', 'status_formatted')->sortable()->searchable(), // Usar el campo formateado
+            Column::make('Estado', 'status_formatted')
+                ->sortable()
+                ->searchable(),
 
             Column::make('Creado', 'created_at_formatted', 'created_at')
                 ->sortable(),
@@ -126,6 +136,16 @@ final class AsignacionestecTable extends PowerGridComponent
 
             Column::action('Acciones')
         ];
+    }
+
+    public function exportCustom()
+    {
+        try {
+            $data = $this->datasource()->get();
+            return Excel::download(new AsignacionesTecExport($data), 'asignaciones-tec-' . now()->format('Y-m-d-H-i-s') . '.xlsx');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Error al generar el archivo: ' . $e->getMessage());
+        }
     }
 
     public function filters(): array
@@ -140,25 +160,23 @@ final class AsignacionestecTable extends PowerGridComponent
     public function devolver($rowId): void
     {
         $registro = DB::table('activos_tecnologia_user')->where('id', $rowId)->first();
-        if ($registro->status == 0) { // Comparar con entero
-            return; // No hacer nada si ya está devuelto
+        if ($registro->status == 0) {
+            return;
         }
 
         DB::transaction(function () use ($rowId, $registro) {
-            // Actualizar la asignación a 0 (Devuelto)
             DB::table('activos_tecnologia_user')
                 ->where('id', $rowId)
                 ->update([
-                    'status' => 0, // 0 = Devuelto (entero)
+                    'status' => 0,
                     'fecha_devolucion' => now(),
                     'updated_at' => now(),
                 ]);
 
-            // Actualizar el activo en activos_tecnologias a 'Activo'
             DB::table('activos_tecnologias')
                 ->where('id', $registro->activos_tecnologias_id)
                 ->update([
-                    'status' => 'Activo', // String para activos_tecnologias
+                    'status' => 'Activo',
                     'updated_at' => now(),
                 ]);
         });
@@ -184,7 +202,7 @@ final class AsignacionestecTable extends PowerGridComponent
             Button::add('devolver')
                 ->icon('default-asign')
                 ->id()
-                ->class('btn btn-primary' . ($row->status == 0 ? ' disabled' : '')) // Condición con entero
+                ->class('btn btn-primary' . ($row->status == 0 ? ' disabled' : ''))
                 ->dispatch('devolver', ['rowId' => $row->id]),
 
             Button::add('delete')
@@ -193,14 +211,20 @@ final class AsignacionestecTable extends PowerGridComponent
                 ->dispatch('openModal', [
                     'component' => 'borrar-activo',
                     'arguments' => [
-                        'vista' => 'asignaciones-tec', // Nombre único para esta vista
-                        'activo_id' => $row->id // ID de la asignación
+                        'vista' => 'asignaciones-tec',
+                        'activo_id' => $row->id
                     ]
                 ]),
-                Button::add('export-pdf')
+
+            Button::add('export-pdf')
                 ->icon('default-download')
                 ->class('btn btn-success')
                 ->route('export.asignacion.pdf', ['asignacionId' => $row->id]),
+
+            // Button::add('export-custom')
+            //     ->icon('default-download')
+            //     ->class('btn btn-info')
+            //     ->route('export.asignaciones-tec', []),
         ];
     }
 }

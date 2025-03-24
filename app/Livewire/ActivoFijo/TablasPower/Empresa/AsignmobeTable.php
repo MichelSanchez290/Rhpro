@@ -18,6 +18,7 @@ use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
 final class AsignmobeTable extends PowerGridComponent
 {
     public string $tableName = 'asignmobe-table-x3i9xs-table';
+    protected $listeners = ['refreshPowerGrid' => '$refresh'];
 
     public function setUp(): array
     {

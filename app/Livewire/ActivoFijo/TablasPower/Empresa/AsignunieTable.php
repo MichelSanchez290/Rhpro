@@ -18,6 +18,7 @@ use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
 final class AsignunieTable extends PowerGridComponent
 {
     public string $tableName = 'asignunie-table-uzhplq-table';
+    protected $listeners = ['refreshPowerGrid' => '$refresh'];
 
     public function setUp(): array
     {

@@ -90,6 +90,11 @@ class User extends Authenticatable
         return $this->hasMany(Becario::class);
     }
 
+
+
+
+
+    /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public function cambioSalario()
     {
         return $this->belongsToMany(CambioSalario::class, 'user_cambio_salario', 'user_id', 'cambio_salario_id')->withTimestamps();
@@ -300,4 +305,5 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(CapacitacionIndividual::class, 'cap_individual_user', 'users_id', 'caps_individuales_id');
     }
+
 }
