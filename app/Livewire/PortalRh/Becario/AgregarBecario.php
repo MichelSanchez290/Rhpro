@@ -50,7 +50,7 @@ class AgregarBecario extends Component
 
     protected $rules = [
         'becario.clave_becario' => 'required|unique:becarios,clave_becario',
-        'becario.numero_seguridad_social' => 'required|digits:11|unique:becarios,numero_seguridad_social',
+        'becario.numero_seguridad_social' => 'required|size:11|unique:becarios,numero_seguridad_social',
         'becario.fecha_nacimiento' => 'required',
         'becario.lugar_nacimiento' => 'required',
         'becario.estado' => 'required',
@@ -87,7 +87,7 @@ class AgregarBecario extends Component
         'becario.numero_celular.digits' => 'El número de celular debe tener 10 dígitos.',
         'becario.registro_patronal_id.exists' => 'El Reg Patronal seleccionado no existe.',
 
-        'becario.numero_seguridad_social.digits' => 'El NSS debe tener 11 dígitos.',
+        'becario.numero_seguridad_social.size' => 'El NSS debe tener 11 caracteres.',
         'becario.numero_seguridad_social.unique' => 'Este NSS ya esta asignada a otro becario.',
         'becario.rfc.unique' => 'Esta RFC ya esta asignada a otro becario.',
         'becario.curp.unique' => 'Esta CURP ya esta asignada a otro becario.',
@@ -123,8 +123,8 @@ class AgregarBecario extends Component
 
         Becario::create($this->becario);
         $this->becario = [];
-        //$this->emit('showAnimatedToast', 'Registro patronal guardado correctamente.');
-        return redirect()->route('mostrarbecario'); 
+        
+        session()->flash('message', 'Becario Agregado.');
     }
 
 

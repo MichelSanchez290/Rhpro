@@ -32,11 +32,8 @@
                             </svg>
                             <div class="flex-1">
                                 <p class="font-bold">{{ session('message') }}</p>
-                                @if (session('message') == 'Incapacidad enviada para aprobación.')
-                                    <p class="text-sm">La solicitud se ha enviado y está pendiente de revisión, revisa
-                                        en 3 días hábiles</p>
-                                @elseif(session('message') == 'Incidencia aprobada y registrada.')
-                                    <p class="text-sm">La solicitud se aprobó y ya está registrada.</p>
+                                @if (session('message') == 'Incapacidad actualizada.')
+                                    <p class="text-sm">La incapacidad ha sido actualizada correctamente.</p>
                                 @endif
                             </div>
                             <button @click="show = false" class="text-white hover:text-gray-300 focus:outline-none">

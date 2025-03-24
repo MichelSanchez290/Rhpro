@@ -15,7 +15,7 @@ class AgregarEmpres extends Component
     protected $rules = [
         'empresa.nombre' => 'required',
         'empresa.razon_social' => 'required',
-        'empresa.rfc' => 'required|unique:empresas,rfc',
+        'empresa.rfc' => 'required|size:13|unique:empresas,rfc',
         'empresa.nombre_comercial' => 'required',
         'empresa.pais_origen' => 'required',
         'empresa.representante_legal' => 'required',
@@ -26,6 +26,7 @@ class AgregarEmpres extends Component
         'empresa.nombre.required' => 'El nombre es obligatorio.',
         'empresa.razon_social.required' => 'La razón social es obligatoria.',
         'empresa.rfc.required' => 'El RFC es obligatorio.',
+        'empresa.rfc.size' => 'El RFC debe tener exactamente 13 caracteres.',
         'empresa.rfc.unique' => 'Este RFC ya esta asignada a otra empresa.',
         'empresa.nombre_comercial.required' => 'El nombre comercial es obligatorio.',
         'empresa.pais_origen.required' => 'El país de origen es obligatorio.',
@@ -47,8 +48,8 @@ class AgregarEmpres extends Component
 
         $this->empresa = [];
         $this->pdfConstancia=NULL;
-        //$this->emit('showAnimatedToast', 'Empresa guardada correctamente.');
-        session()->flash('message', 'Empresa agregada');
+
+        session()->flash('message', 'Empresa Agregada.');
     }
 
     public function redirigir()

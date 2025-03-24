@@ -69,7 +69,7 @@ class EditarCambioSalario extends Component
             'documento' => $this->documento,
         ]);
         
-        session()->flash('message', 'Cambio de salario actualizado.');
+        session()->flash('message', 'Cambio de Salario Actualizado.');
     }
     
     public function render()

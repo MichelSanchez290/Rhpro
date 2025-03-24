@@ -33,13 +33,12 @@ class MostrarRol extends Component
     {
         if ($this->userToDelete) {
             Role::find($this->userToDelete)->delete();
-            session()->flash('message', 'Role eliminado exitosamente.');
         }
 
         $this->userToDelete = null;
         $this->showModal = false;
 
-        return redirect()->route('mostrarrol');
+        session()->flash('message', 'Rol Eliminado.');
     }
 
 

@@ -32,13 +32,12 @@ class MostrarBecario extends Component
     {
         if ($this->becarioToDelete) {
             Becario::find($this->becarioToDelete)->delete();
-            session()->flash('message', 'Becario eliminado exitosamente.');
         }
 
         $this->becarioToDelete = null;
         $this->showModal = false;
 
-        return redirect()->route('mostrarbecario');
+        session()->flash('message', 'Becario Eliminado.');
     }
 
 

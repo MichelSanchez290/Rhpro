@@ -37,7 +37,7 @@ class MostrarRegPatronal extends Component
         $this->registroToDelete = null;
         $this->showModal = false;
 
-        return redirect()->route('mostrarregpatronal');
+        session()->flash('message', 'Registro Patronal Eliminado.');
     }
 
     public function render()

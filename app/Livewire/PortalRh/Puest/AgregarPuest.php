@@ -41,8 +41,8 @@ class AgregarPuest extends Component
         ]);
 
         $this->reset(['puest', 'departamento_id']);
-        //$this->emit('showAnimatedToast', 'Sucursal guardada correctamente');
-        return redirect()->route('mostrarpuesto');
+        
+        session()->flash('message', 'Puesto Agregado.');
     }
 
     public function redirigirPuest()

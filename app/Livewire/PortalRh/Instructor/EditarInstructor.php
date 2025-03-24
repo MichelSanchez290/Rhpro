@@ -127,11 +127,12 @@ class EditarInstructor extends Component
 
     public function actualizarInstructor()
     {
+        //dd();
         $this->validate([
             'telefono1' => 'required|digits:10',
             'telefono2' => 'required|digits:10',
             'registroStps' => 'required',
-            'rfc' => 'nullable|size:13',
+            'rfc' => 'required|size:13',
             'regimen' => 'required',
             'estado' => 'required',
             'municipio' => 'required',
@@ -144,7 +145,7 @@ class EditarInstructor extends Component
             'dc5' => 'required',
             'cuentabancaria' => 'required',
             'ine' => 'required',
-            'curp' => 'required|size:18', //|size:18
+            'curp' => 'required|size:18', 
             'sat' => 'required',
             'domicilio' => 'required',
             'tipoinstructor' => 'required',
@@ -188,7 +189,6 @@ class EditarInstructor extends Component
             'rfc' => $this->rfc,
             'regimen' => $this->regimen,
             'estado' => $this->estado,
-            'estado' => $this->estado,
             'municipio' => $this->municipio,
             'codigopostal' => $this->codigopostal,
             'colonia' => $this->colonia,
@@ -217,7 +217,7 @@ class EditarInstructor extends Component
             'registro_patronal_id' => $this->registro_patronal_id,
         ]);
 
-        return redirect()->route('mostrarinstructor')->with('message', 'Instructor actualizado correctamente.');
+        session()->flash('message', 'Instructor Editado.');
     }
 
 

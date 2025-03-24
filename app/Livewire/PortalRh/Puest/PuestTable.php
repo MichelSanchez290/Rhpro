@@ -43,13 +43,38 @@ final class PuestTable extends PowerGridComponent
     {
         $user = Auth::user();
 
-        // Si el usuario es administrador, devolver todos los departamentos
+        $query = Puesto::query()
+            ->leftJoin('departamento_puesto', 'puestos.id', '=', 'departamento_puesto.puesto_id')
+            ->leftJoin('departamentos', 'departamento_puesto.departamento_id', '=', 'departamentos.id')
+            ->leftJoin('departamento_sucursal', 'departamentos.id', '=', 'departamento_sucursal.departamento_id')
+            ->leftJoin('sucursales', 'departamento_sucursal.sucursal_id', '=', 'sucursales.id')
+            ->leftJoin('empresa_sucursal', 'sucursales.id', '=', 'empresa_sucursal.sucursal_id')
+            ->leftJoin('empresas', 'empresa_sucursal.empresa_id', '=', 'empresas.id')
+            ->select([
+                'puestos.*',
+                \DB::raw('COALESCE(empresas.nombre, "Sin Empresa") as empresa'),
+                \DB::raw('COALESCE(sucursales.nombre_sucursal, "Sin Sucursal") as sucursal'),
+                \DB::raw('COALESCE(departamentos.nombre_departamento, "Sin Departamento") as departamento')
+            ]);
+
         if ($user->hasRole('GoldenAdmin')) {
-            return Puesto::query();
+            // GoldenAdmin: obtiene todos los puestos sin filtro.
+            return $query;
+
+        } elseif ($user->hasRole('EmpresaAdmin')) {
+            // EmpresaAdmin: obtiene puestos asociados a los departamentos de las sucursales de su empresa.
+            $query->where('empresas.id', $user->empresa_id);
+
+        } elseif ($user->hasRole('SucursalAdmin')) {
+            // SucursalAdmin: obtiene puestos asociados a los departamentos de su sucursal.
+            $query->where('sucursales.id', $user->sucursal_id);
+
+        } elseif ($user->hasRole(['Trabajador PORTAL RH', 'Trabajador GLOBAL'])) {
+            // Trabajador PORTAL RH y Trabajador GLOBAL: obtienen únicamente el puesto asociado a su usuario.
+            $query->where('puestos.id', $user->puesto_id);
         }
 
-        // Si el usuario es trabajador o practicante, devolver solo su departamento
-        return Puesto::where('id', $user->puesto_id);
+        return $query;
     }
 
     public function relationSearch(): array
@@ -63,6 +88,9 @@ final class PuestTable extends PowerGridComponent
             ->add('id')
             ->add('id')
             ->add('nombre_puesto')
+            ->add('empresa')
+            ->add('sucursal')
+            ->add('departamento')
             ->add('created_at');
     }
 
@@ -73,6 +101,15 @@ final class PuestTable extends PowerGridComponent
             Column::make('Nombre puesto', 'nombre_puesto')
                 ->sortable()
                 ->searchable(),
+
+            Column::make('Empresa asociada', 'empresa')
+                ->sortable(),
+
+            Column::make('Sucursal asociada', 'sucursal')
+                ->sortable(),
+
+            Column::make('Departamento asociada', 'departamento')
+                ->sortable(),
 
             Column::make('Created at', 'created_at')
                 ->sortable()

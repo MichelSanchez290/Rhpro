@@ -146,9 +146,7 @@ class EditarPracticante extends Component
             'registro_patronal_id' => $this->registro_patronal_id,
         ]);
 
-        //$this->dispatch('toastr-success', message: 'Becario actualizado correctamente.');
-        //$this->emit('message', 'Becario actualizado correctamente.');
-        return redirect()->route('mostrarpracticante');
+        session()->flash('message', 'Practicante Actualizado.');
     }
 
     public function render()

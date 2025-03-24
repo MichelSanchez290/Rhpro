@@ -189,7 +189,6 @@ class UserRolDevSeeder extends Seeder
 
         Permission::create(['name' => 'Mostrar Rol'])->syncRoles([$role1, $role2]);
         Permission::create(['name' => 'Ver Permisos'])->syncRoles([$role1, $role2]);
-        Permission::create(['name' => 'Agregar Rol'])->syncRoles([$role1]);
         Permission::create(['name' => 'Editar Rol'])->syncRoles([$role1, $role2]);
         Permission::create(['name' => 'Eliminar Rol'])->syncRoles([$role1]);
 
@@ -203,7 +202,7 @@ class UserRolDevSeeder extends Seeder
         Permission::create(['name' => 'Editar Reg Patronal'])->syncRoles([$role1, $role2]);
         Permission::create(['name' => 'Eliminar Reg Patronal'])->syncRoles([$role1]);
         
-        Permission::create(['name' => 'Mostrar Empresas'])->syncRoles([$role1, $role8, $role10]);
+        Permission::create(['name' => 'Mostrar Empresas'])->syncRoles([$role1, $role2, $role3, $role8, $role10]);
         Permission::create(['name' => 'Agregar Empresa'])->syncRoles([$role1]);
         Permission::create(['name' => 'Editar Empresa'])->syncRoles([$role1, $role2]);
         Permission::create(['name' => 'Eliminar Empresa'])->syncRoles([$role1]);
@@ -304,7 +303,7 @@ class UserRolDevSeeder extends Seeder
         Permission::create(['name' => 'Eliminar Retardo'])->syncRoles([$role1, $role2, $role3]);
         Permission::create(['name' => 'Ver Retardos'])->syncRoles([$role1, $role2, $role3, $role8, $role10]);
 
-        Permission::create(['name' => 'Mostrar Cambio Salario'])->syncRoles([$role1, $role2, $role3]);
+        Permission::create(['name' => 'Mostrar Cambio Salario'])->syncRoles([$role1, $role2, $role3, $role8, $role10]);
         Permission::create(['name' => 'Agregar Cambio Salario'])->syncRoles([$role1, $role2, $role3]);
         Permission::create(['name' => 'Editar Cambio Salario'])->syncRoles([$role1, $role2, $role3]);
         Permission::create(['name' => 'Eliminar Cambio Salario'])->syncRoles([$role1, $role2, $role3]);
