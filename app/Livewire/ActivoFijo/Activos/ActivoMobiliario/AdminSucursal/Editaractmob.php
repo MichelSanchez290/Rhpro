@@ -12,7 +12,7 @@ use App\Models\ActivoFijo\Tipoactivo;
 class Editaractmob extends Component
 {
     use WithFileUploads;
-    public $activotec_id,$nombre,$descripcion,$numser,$numact,$ubicacion,$fechaad,$fechaba,$tipo,$precioad,$anio;
+    public $activotec_id,$nombre,$descripcion,$numser,$numact,$ubicacion,$fechaad,$fechaba,$tipo,$precioad,$anio,$status;
     public $tipos,$anios;
     public $foto1,$foto2,$foto3,$foto4;
     public $subirfoto1,$subirfoto2,$subirfoto3,$subirfoto4;
@@ -31,7 +31,8 @@ class Editaractmob extends Component
         'subirfoto1' =>'nullable|image',
         'subirfoto2' =>'nullable|image', 
         'subirfoto3' =>'nullable|image',
-        'subirfoto4' =>'nullable|image',   
+        'subirfoto4' =>'nullable|image',
+        'status'=>'required'   
     ];
 
     public function mount($id)
@@ -52,6 +53,7 @@ class Editaractmob extends Component
         $this->foto2=$item->foto2;
         $this->foto3=$item->foto3;
         $this->foto4=$item->foto4;
+        $this->status=$item->status;
 
         $this->tipos = Tipoactivo::all()->pluck('nombre_activo', 'id');
         $this->anios = Anioestimado::all()->pluck('vida_util_año', 'id');
@@ -121,6 +123,7 @@ class Editaractmob extends Component
             'foto2'=>$this->foto2,
             'foto3'=>$this->foto3,
             'foto4'=>$this->foto4,
+            'status'=>$this->status
         ]);
         
         return redirect()->route('mostraractmob');

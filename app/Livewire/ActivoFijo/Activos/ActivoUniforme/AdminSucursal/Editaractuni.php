@@ -7,15 +7,15 @@ use App\Models\ActivoFijo\Anioestimado;
 use App\Models\ActivoFijo\Tipoactivo;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Illuminate\Support\Facades\Storage; 
+use Illuminate\Support\Facades\Storage;
 
 class Editaractuni extends Component
 {
     use WithFileUploads;
-    public $activotec_id,$descripcion,$talla,$cantidad,$estado,$disponible,$fechaad,$obser,$tipo,$color;
-    public $tipos,$anios;
-    public $foto1,$foto2,$foto3;
-    public $subirfoto1,$subirfoto2,$subirfoto3;
+    public $activotec_id, $descripcion, $talla, $cantidad, $estado, $disponible, $fechaad, $obser, $tipo, $color, $status;
+    public $tipos, $anios;
+    public $foto1, $foto2, $foto3;
+    public $subirfoto1, $subirfoto2, $subirfoto3;
 
     protected $rules = [
         'descripcion' => 'required',
@@ -27,26 +27,28 @@ class Editaractuni extends Component
         'obser' => 'required',
         'tipo' => 'required|exists:tipo_activos,id',
         'color' => 'required',
-        'subirfoto1' =>'nullable|image',
-        'subirfoto2' =>'nullable|image', 
-        'subirfoto3' =>'nullable|image',  
+        'subirfoto1' => 'nullable|image',
+        'subirfoto2' => 'nullable|image',
+        'subirfoto3' => 'nullable|image',
+        'status' => 'required'
     ];
     public function mount($id)
     {
         $item = ActivoUniforme::findOrFail($id);
-        $this->activotec_id= $id;
-        $this->descripcion= $item->descripcion;
-        $this->talla=$item->talla;
-        $this->cantidad=$item->cantidad;
-        $this->estado=$item->estado;
-        $this->disponible=$item->disponible;
-        $this->fechaad=$item->fecha_adquisicion;
-        $this->obser=$item->observaciones;
-        $this->tipo=$item->tipo_activo_id;
-        $this->color=$item->color;
-        $this->foto1=$item->foto1;
-        $this->foto2=$item->foto2;
-        $this->foto3=$item->foto3;
+        $this->activotec_id = $id;
+        $this->descripcion = $item->descripcion;
+        $this->talla = $item->talla;
+        $this->cantidad = $item->cantidad;
+        $this->estado = $item->estado;
+        $this->disponible = $item->disponible;
+        $this->fechaad = $item->fecha_adquisicion;
+        $this->obser = $item->observaciones;
+        $this->tipo = $item->tipo_activo_id;
+        $this->color = $item->color;
+        $this->foto1 = $item->foto1;
+        $this->foto2 = $item->foto2;
+        $this->foto3 = $item->foto3;
+        $this->status=$item->status;
 
         $this->tipos = Tipoactivo::all()->pluck('nombre_activo', 'id');
         $this->anios = Anioestimado::all()->pluck('vida_util_año', 'id');
@@ -89,7 +91,7 @@ class Editaractuni extends Component
 
 
         // Actualizar la venta con los nuevos datos
-        $activotec = ActivoUniforme::findOrFail($this->activotec_id); 
+        $activotec = ActivoUniforme::findOrFail($this->activotec_id);
         $activotec->update([
             'descripcion' => $this->descripcion,
             'talla' => $this->talla,
@@ -100,11 +102,12 @@ class Editaractuni extends Component
             'observaciones' => $this->obser,
             'tipo_activo_id' => $this->tipo,
             'color' => $this->color,
-            'foto1'=>$this->foto1,
-            'foto2'=>$this->foto2,
-            'foto3'=>$this->foto3,
+            'foto1' => $this->foto1,
+            'foto2' => $this->foto2,
+            'foto3' => $this->foto3,
+            'status'=>$this->status
         ]);
-        
+
         return redirect()->route('mostraractuni');
     }
     public function render()

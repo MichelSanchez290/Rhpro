@@ -183,14 +183,9 @@
                                     <input type="file" class="hidden" wire:model="subirfoto1" />
                                     <br>
                                     @if ($subirfoto1)
-                                        @if(empty($foto1))
-
-                                        @else
-                                            <img src="{{ asset($foto1) }}" width="100" height="100" alt="Imagen 1" />
-                                        @endif
-                                    @else
                                         <img src="{{ $subirfoto1->temporaryUrl() }}" width="100" height="100" alt="Imagen 1" />
-                                        
+                                    @elseif ($foto1)
+                                        <img src="{{ asset('storage/' . $foto1) }}" width="100" height="100" alt="Imagen 1" />
                                     @endif
                                     <x-input-error for="subirfoto1" />
                                 </label>
@@ -209,7 +204,7 @@
                                     @if ($subirfoto2)
                                         <img src="{{ $subirfoto2->temporaryUrl() }}" width="100" height="100" alt="Imagen 2" />
                                     @elseif ($foto2)
-                                        <img src="{{ asset($foto2) }}" width="100" height="100" alt="Imagen 2" />
+                                        <img src="{{ asset('storage/' . $foto2) }}" width="100" height="100" alt="Imagen 2" />
                                     @endif
                                     <x-input-error for="subirfoto2" />
                                 </label>
@@ -228,7 +223,7 @@
                                     @if ($subirfoto3)
                                         <img src="{{ $subirfoto3->temporaryUrl() }}" width="100" height="100" alt="Imagen 3" />
                                     @elseif ($foto3)
-                                        <img src="{{ asset($foto3) }}" width="100" height="100" alt="Imagen 3" />
+                                        <img src="{{ asset('storage/' . $foto3) }}" width="100" height="100" alt="Imagen 3" />
                                     @endif
                                     <x-input-error for="subirfoto3" />
                                 </label>

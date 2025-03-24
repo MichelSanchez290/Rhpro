@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Storage;
 class Editaractofi extends Component
 {
     use WithFileUploads;
-    public $activotec_id,$nombre,$descripcion,$numact,$ubicacion,$fechaad,$fechaba,$tipo,$precioad,$anio;
+    public $activotec_id,$nombre,$descripcion,$numact,$ubicacion,$fechaad,$fechaba,$tipo,$precioad,$anio,$status;
     public $tipos,$anios;
     public $foto1,$foto2,$foto3;
     public $subirfoto1,$subirfoto2,$subirfoto3;
@@ -30,7 +30,9 @@ class Editaractofi extends Component
         'anio'=> 'required|exists:aniosestimados,id',
         'subirfoto1' =>'nullable|image',
         'subirfoto2' =>'nullable|image', 
-        'subirfoto3' =>'nullable|image',  
+        'subirfoto3' =>'nullable|image',
+        'status'=>'required'
+
     ];
     public function mount($id)
     {
@@ -48,6 +50,7 @@ class Editaractofi extends Component
         $this->foto1=$item->foto1;
         $this->foto2=$item->foto2;
         $this->foto3=$item->foto3;
+        $this->status=$item->status;
 
         $this->tipos = Tipoactivo::all()->pluck('nombre_activo', 'id');
         $this->anios = Anioestimado::all()->pluck('vida_util_año', 'id');
@@ -104,6 +107,7 @@ class Editaractofi extends Component
             'foto1'=>$this->foto1,
             'foto2'=>$this->foto2,
             'foto3'=>$this->foto3,
+            'status'=>$this->status
         ]);
         
         return redirect()->route('mostraractofi');

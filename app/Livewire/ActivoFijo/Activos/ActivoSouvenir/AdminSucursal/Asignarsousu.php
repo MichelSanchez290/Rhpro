@@ -1,18 +1,15 @@
 <?php
 
-namespace App\Livewire\ActivoFijo\Activos\ActivoTecnologias\AdminSucursal;
+namespace App\Livewire\ActivoFijo\Activos\ActivoSouvenir\AdminSucursal;
 
-use App\Models\ActivoFijo\Activos\ActivoTecnologia;
+use App\Models\ActivoFijo\Activos\ActivoSouvenir;
 use App\Models\PortalRH\Empresa;
 use App\Models\PortalRH\Sucursal;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Traits\HasRoles;
-
-class Asignartecsu extends Component
+class Asignarsousu extends Component
 {
     use WithFileUploads;
 
@@ -39,7 +36,7 @@ class Asignartecsu extends Component
         }
 
         // Filtrar activos por sucursal y status 'Activo'
-        $this->activosFiltrados = ActivoTecnologia::where('sucursal_id', $this->sucursal->id)
+        $this->activosFiltrados = ActivoSouvenir::where('sucursal_id', $this->sucursal->id)
             ->where('status', 'Activo')
             ->get();
 
@@ -137,9 +134,8 @@ class Asignartecsu extends Component
         session()->flash('message', 'Activo tecnológico asignado correctamente.');
         return redirect()->route('mostrarasigntecsu');
     }
-
     public function render()
     {
-        return view('livewire.activo-fijo.activos.activo-tecnologias.admin-sucursal.asignartecsu')->layout('layouts.navactivos');
+        return view('livewire.activo-fijo.activos.activo-souvenir.admin-sucursal.asignarsousu')->layout('layouts.navactivos');
     }
 }
