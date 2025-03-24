@@ -7,6 +7,8 @@ use App\Models\Encuestas360\RespuestaUsuario;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class ResultadosTrabajadorMostrar extends Component
 {
@@ -85,39 +87,146 @@ class ResultadosTrabajadorMostrar extends Component
     private function obtenerDatosGrafica(): array
     {
         $userId = auth()->id();
-
-        $asignaciones = DB::table('asignaciones')
-            ->where('calificado_id', $userId)
+        $asignaciones = Asignacion::where('calificado_id', $userId)
             ->where('realizada', 1)
-            ->pluck('id');
+            ->with('respuestasUsuario.respuesta360.pregunta')
+            ->get();
 
         if ($asignaciones->isEmpty()) {
             return [];
         }
 
-        $respuestas = RespuestaUsuario::whereIn('asignaciones_id', $asignaciones)
-            ->with('respuesta360.pregunta')
-            ->get();
+        $preguntasAgrupadas = [];
 
-        if ($respuestas->isEmpty()) {
-            return [];
+        foreach ($asignaciones as $asignacion) {
+            $esAutoevaluacion = $asignacion->calificador_id === $asignacion->calificado_id;
+
+            foreach ($asignacion->respuestasUsuario as $respuesta) {
+                $preguntaId = $respuesta->respuesta360->preguntas_id;
+                $puntuacion = $respuesta->respuesta360->puntuacion;
+                $preguntaTexto = $respuesta->respuesta360->pregunta->texto;
+
+                if (!isset($preguntasAgrupadas[$preguntaId])) {
+                    $preguntasAgrupadas[$preguntaId] = [
+                        'texto' => $preguntaTexto,
+                        'autoevaluacion' => null,
+                        'sumaOtros' => 0,
+                        'conteoOtros' => 0,
+                    ];
+                }
+
+                if ($esAutoevaluacion) {
+                    $preguntasAgrupadas[$preguntaId]['autoevaluacion'] = $puntuacion;
+                } else {
+                    $preguntasAgrupadas[$preguntaId]['sumaOtros'] += $puntuacion;
+                    $preguntasAgrupadas[$preguntaId]['conteoOtros']++;
+                }
+            }
         }
 
         $datosGrafica = [];
-        foreach ($respuestas->groupBy('respuesta360.preguntas_id') as $preguntaId => $respuestasPregunta) {
-            $pregunta = $respuestasPregunta->first()->respuesta360->pregunta;
-            $totalPuntuacion = $respuestasPregunta->sum(function ($respuestaUsuario) {
-                return $respuestaUsuario->respuesta360->puntuacion;
-            });
-            $promedioPuntuacion = $totalPuntuacion / $respuestasPregunta->count();
+        foreach ($preguntasAgrupadas as $preguntaId => $data) {
+            $autoevaluacion = $data['autoevaluacion'] ?? 0;
+            $promedioOtros = $data['conteoOtros'] > 0 ? $data['sumaOtros'] / $data['conteoOtros'] : 0;
 
             $datosGrafica[] = [
-                'pregunta' => $pregunta->texto,
-                'puntuacion' => round($promedioPuntuacion, 2),
+                'pregunta' => $data['texto'],
+                'puntuacion' => round($promedioOtros, 2),
+                'autoevaluacion' => round($autoevaluacion, 2),
             ];
         }
 
         return $datosGrafica;
+    }
+
+    private function generateChartBase64()
+    {
+        $totalPreguntas = count($this->datosGrafica);
+        if ($totalPreguntas === 0) {
+            return null;
+        }
+
+        $labels = array_column($this->datosGrafica, 'pregunta');
+        $dataPuntuacion = array_column($this->datosGrafica, 'puntuacion');
+        $dataAutoevaluacion = array_column($this->datosGrafica, 'autoevaluacion');
+
+        $chartConfig = [
+            'type' => 'horizontalBar',
+            'data' => [
+                'labels' => $labels,
+                'datasets' => [
+                    [
+                        'label' => 'Promedio',
+                        'data' => $dataPuntuacion,
+                        'backgroundColor' => 'gold',
+                        'barThickness' => 15,
+                    ],
+                    [
+                        'label' => 'Autoevaluación',
+                        'data' => $dataAutoevaluacion,
+                        'backgroundColor' => 'skyblue',
+                        'barThickness' => 15,
+                    ],
+                ],
+            ],
+            'options' => [
+                'responsive' => true,
+                'maintainAspectRatio' => false,
+                'scales' => [
+                    'xAxes' => [
+                        [
+                            'ticks' => [
+                                'beginAtZero' => true,
+                                'max' => 4,
+                                'fontColor' => 'black',
+                                'fontSize' => 10,
+                            ],
+                            'gridLines' => [
+                                'color' => 'rgba(0, 0, 0, 0.1)',
+                                'zeroLineWidth' => 1,
+                                'zeroLineColor' => 'black',
+                            ],
+                        ],
+                    ],
+                    'yAxes' => [
+                        [
+                            'ticks' => [
+                                'fontColor' => 'black',
+                                'fontSize' => 12,
+                            ],
+                            'gridLines' => [
+                                'display' => false,
+                            ],
+                        ],
+                    ],
+                ],
+                'legend' => [
+                    'display' => true,
+                    'position' => 'top',
+                    'labels' => [
+                        'fontColor' => 'black',
+                        'fontSize' => 12
+                    ]
+                ],
+            ],
+        ];
+
+        $jsonConfig = json_encode($chartConfig);
+        $response = Http::get('https://quickchart.io/chart', [
+            'c' => $jsonConfig,
+            'width' => 1000,
+            'height' => 400,
+        ]);
+
+        if ($response->successful()) {
+            return "data:image/png;base64," . base64_encode($response->body());
+        }
+
+        Log::error('Error al generar gráfico con QuickChart', [
+            'status' => $response->status(),
+            'body' => $response->body(),
+        ]);
+        return null;
     }
 
     public function exportarPDF()

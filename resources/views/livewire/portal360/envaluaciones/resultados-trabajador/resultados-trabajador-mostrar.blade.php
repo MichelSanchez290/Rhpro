@@ -98,7 +98,14 @@
                 @endif
             </div>
 
-            <!-- Botón para exportar -->
+
+            <div class="overflow-x-auto rounded-md mt-6">
+                <h3 class="text-lg font-semibold text-gray-800 text-center">Compromisos</h3>
+                <livewire:portal360.compromiso.compromisotrabajador.compromiso-trabajador-table class="table-borderless" />
+            </div>
+
+
+            <!-- Botones de exportación -->
             <div class="mt-6 text-center flex justify-center space-x-4">
                 <!-- Botón para exportar a PDF -->
                 <button

@@ -106,19 +106,17 @@ final class VerResultadosUsuarioTable extends PowerGridComponent
     public function filters(): array
     {
         return [
-            Filter::inputText('calificador_nombre', 'calificador.name')
-                ->operators(['contains']),
-            Filter::inputText('calificado_nombre', 'calificado.name')
-                ->operators(['contains']),
-            Filter::inputText('puesto_nombre', 'puestos.nombre_puesto')
-                ->operators(['contains']),
-            Filter::inputText('departamento_nombre', 'departamentos.nombre_departamento') // Ajustado a 'nombre_departamento'
-                ->operators(['contains']),
-            Filter::inputText('empresa_nombre', 'empresas.nombre')
-                ->operators(['contains']),
-            Filter::inputText('sucursal_nombre', 'sucursales.nombre_sucursal')
-                ->operators(['contains']),
-            Filter::datepicker('fecha'),
+            // Filter::inputText('calificado_nombre', 'calificado.name')
+            //     ->operators(['contains']),
+            // Filter::inputText('puesto_nombre', 'puestos.nombre_puesto')
+            //     ->operators(['contains']),
+            // Filter::inputText('departamento_nombre', 'departamentos.nombre_departamento')
+            //     ->operators(['contains']),
+            // Filter::inputText('empresa_nombre', 'empresas.nombre')
+            //     ->operators(['contains']),
+            // Filter::inputText('sucursal_nombre', 'sucursales.nombre_sucursal')
+            //     ->operators(['contains']),
+            // Filter::datepicker('fecha'),
         ];
     }
 

@@ -8,10 +8,12 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
+use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
+use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 
 final class ResultadosTrabajadorTable extends PowerGridComponent
 {
@@ -19,6 +21,7 @@ final class ResultadosTrabajadorTable extends PowerGridComponent
 
     public float $promedioFinal = 0;
     public string $resultadoFinal = '';
+    use WithExport;
 
     public function setUp(): array
     {
@@ -28,6 +31,8 @@ final class ResultadosTrabajadorTable extends PowerGridComponent
         $this->calcularPromedioFinal();
 
         return [
+            PowerGrid::exportable('Resultados_Trabajador_' . now()->format('Ymd_His'))
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             PowerGrid::header()
                 ->showSearchInput(),
             PowerGrid::footer()
@@ -48,7 +53,25 @@ final class ResultadosTrabajadorTable extends PowerGridComponent
 
     public function relationSearch(): array
     {
-        return [];
+        {
+            return [
+                'respuesta360' => [
+                    'texto',
+                ],
+                'respuesta360.pregunta' => [
+                    'texto',
+                ],
+                'asignacion' => [
+                    'id',
+                ],
+                'asignacion.calificado' => [
+                    'name', // Asumiendo que el usuario tiene un campo 'name'
+                ],
+                'asignacion.encuesta' => [
+                    'nombre', // Asumiendo que la encuesta tiene un campo 'nombre'
+                ],
+            ];
+        }
     }
 
     public function fields(): PowerGridFields
@@ -63,10 +86,10 @@ final class ResultadosTrabajadorTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('Competencias Evaluadas', 'competencia')->sortable()->searchable(),
-            Column::make('Respuestas', 'respuestas')->sortable()->searchable(),  
-            Column::make('Puntuación', 'puntuacion')->sortable(), 
-            Column::make('Resultado', 'resultado')->sortable(),  
+            Column::make('Competencias Evaluadas', 'competencia')->searchable(),
+            Column::make('Respuestas', 'respuestas')->searchable(),  
+            Column::make('Puntuación', 'puntuacion'), 
+            Column::make('Resultado', 'resultado'),  
         ];
     }
 

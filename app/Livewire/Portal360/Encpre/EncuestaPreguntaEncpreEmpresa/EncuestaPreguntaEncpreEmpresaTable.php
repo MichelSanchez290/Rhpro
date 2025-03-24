@@ -9,15 +9,17 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
+use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
+use PowerComponents\LivewirePowerGrid\Traits\WithExport; // Agregado para exportación
 
 final class EncuestaPreguntaEncpreEmpresaTable extends PowerGridComponent
 {
     public string $tableName = 'encuesta-pregunta-encpre-empresa-table-nslktc-table';
-
+    use WithExport; // Agrega el trait para habilitar la exportación
     public function setUp(): array
     {
         $this->showCheckBox();
@@ -28,6 +30,8 @@ final class EncuestaPreguntaEncpreEmpresaTable extends PowerGridComponent
             PowerGrid::footer()
                 ->showPerPage()
                 ->showRecordCount(),
+                PowerGrid::exportable('encuesta_preguntas_empresa') // Agrega exportación con nombre de archivo
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV), // Formatos Excel y CSV
         ];
     }
 
@@ -43,10 +47,17 @@ final class EncuestaPreguntaEncpreEmpresaTable extends PowerGridComponent
             ])
             ->where('360_encuestas.empresa_id', Auth::user()->empresa_id);
     }
-
+    
     public function relationSearch(): array
     {
-        return [];
+        return [
+            'encuesta' => [
+                'nombre',
+            ],
+            'pregunta' => [
+                'texto',
+            ],
+        ];
     }
 
     public function fields(): PowerGridFields

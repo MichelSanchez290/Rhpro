@@ -46,9 +46,9 @@ class EditarEncuestaPreguntaEncpreEmpresa extends Component
 
     public function mount($id)
     {
-        $this->encpreId = Crypt::decrypt($id); // Descifrar el ID recibido
+        $this->encpreId = Crypt::decrypt($id);
 
-        // Cargar sucursales a través de la relación con Empresa usando Auth
+        // Cargar sucursales
         $empresa = Empresa::find(Auth::user()->empresa_id);
         $this->sucursales = $empresa->sucursales()
             ->select('sucursales.id', 'sucursales.nombre_sucursal')
@@ -58,25 +58,30 @@ class EditarEncuestaPreguntaEncpreEmpresa extends Component
         $encpre = Encpre::findOrFail($this->encpreId);
         $encuesta = Encuesta360::findOrFail($encpre->encuestas_id);
 
+        // Obtener todas las preguntas asociadas a esta encuesta
+        $preguntasAsociadas = Encpre::where('encuestas_id', $encpre->encuestas_id)
+            ->pluck('preguntas_id')
+            ->toArray();
+
         $this->formData = [
             'sucursal_id' => $encuesta->sucursal_id,
             'encuestas_id' => $encpre->encuestas_id,
-            'preguntas_id' => [$encpre->preguntas_id], // Initialize as array with existing pregunta
+            'preguntas_id' => $preguntasAsociadas, // Cargar todas las preguntas asociadas
         ];
 
-        // Cargar encuestas y preguntas iniciales filtradas por empresa del usuario
+        // Cargar encuestas
         $this->encuestas = Encuesta360::where('sucursal_id', $this->formData['sucursal_id'])
             ->where('empresa_id', Auth::user()->empresa_id)
             ->select('id', 'nombre')
             ->get();
 
+        // Cargar todas las preguntas disponibles
         $this->preguntas = Pregunta::whereHas('respuestas', function ($query) {
             $query->where('empresa_id', Auth::user()->empresa_id);
         })
             ->select('id', 'texto')
             ->get();
     }
-
     public function updatedFormDataSucursalId($value)
     {
         $this->formData['encuestas_id'] = '';
@@ -121,28 +126,38 @@ class EditarEncuestaPreguntaEncpreEmpresa extends Component
         $this->validate();
 
         try {
-            $encpre = Encpre::findOrFail($this->encpreId);
+            // Obtener todas las preguntas actuales asociadas
+            $preguntasActuales = Encpre::where('encuestas_id', $this->formData['encuestas_id'])
+                ->pluck('preguntas_id')
+                ->toArray();
 
-            // Actualizar el registro existente con la primera pregunta seleccionada
-            $encpre->update([
-                'encuestas_id' => $this->formData['encuestas_id'],
-                'preguntas_id' => $this->formData['preguntas_id'][0], // Primera pregunta para el registro actual
-            ]);
+            // Encontrar preguntas a eliminar
+            $preguntasAEliminar = array_diff($preguntasActuales, $this->formData['preguntas_id']);
 
-            // Manejar preguntas adicionales si hay más de una seleccionada
-            if (count($this->formData['preguntas_id']) > 1) {
-                foreach (array_slice($this->formData['preguntas_id'], 1) as $preguntaId) {
-                    $existe = Encpre::where('encuestas_id', $this->formData['encuestas_id'])
-                        ->where('preguntas_id', $preguntaId)
-                        ->exists();
+            // Encontrar preguntas a agregar
+            $preguntasAAgregar = array_diff($this->formData['preguntas_id'], $preguntasActuales);
 
-                    if (!$existe) {
-                        Encpre::create([
-                            'encuestas_id' => $this->formData['encuestas_id'],
-                            'preguntas_id' => $preguntaId,
-                        ]);
-                    }
-                }
+            // Eliminar preguntas desmarcadas
+            if (!empty($preguntasAEliminar)) {
+                Encpre::where('encuestas_id', $this->formData['encuestas_id'])
+                    ->whereIn('preguntas_id', $preguntasAEliminar)
+                    ->delete();
+            }
+
+            // Agregar nuevas preguntas marcadas
+            foreach ($preguntasAAgregar as $preguntaId) {
+                Encpre::create([
+                    'encuestas_id' => $this->formData['encuestas_id'],
+                    'preguntas_id' => $preguntaId,
+                ]);
+            }
+
+            // Asegurarse de que al menos una relación permanezca
+            if (empty($preguntasActuales) && !empty($this->formData['preguntas_id'])) {
+                Encpre::create([
+                    'encuestas_id' => $this->formData['encuestas_id'],
+                    'preguntas_id' => $this->formData['preguntas_id'][0],
+                ]);
             }
 
             $this->dispatch('toastr-success', message: 'Relación actualizada correctamente.');
