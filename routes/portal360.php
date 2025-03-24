@@ -69,6 +69,8 @@ use App\Livewire\Portal360\Relaciones\RelacionesSucursal\AgregarRelacionesSucurs
 use App\Livewire\Portal360\Relaciones\RelacionesSucursal\EditarRelacionesSucursales;
 use App\Livewire\Portal360\Relaciones\RelacionesSucursal\EliminarRelacionesSucursales;
 use App\Livewire\Portal360\Relaciones\RelacionesSucursal\MostrarRelacionesSucursales;
+use App\Livewire\Portal360\Resultados\AdministradorResultados\MostrarEmpresaAdministradorResultadosvs;
+use App\Livewire\Portal360\Resultados\AdministradorResultados\MostrarSucursalesAdministradorResultadosvs;
 use App\Livewire\Portal360\Resultados\EmpresaResultados\MostrarEmpresaResultado;
 use App\Livewire\Portal360\Resultados\EmpresaResultados\MostrarResultadosEmpresasv;
 use Illuminate\Support\Facades\Route;
