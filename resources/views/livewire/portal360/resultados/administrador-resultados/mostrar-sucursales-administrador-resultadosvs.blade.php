@@ -1,6 +1,4 @@
 <div class="p-6 ml-4">
-    
-
     @if($empresaSucursal)
     <div class="bg-white p-6 rounded-lg shadow-lg">
     <h2 class="text-2xl font-bold mb-4">Detalles de la Sucursal</h2>
@@ -34,7 +32,7 @@
     <p class="text-red-500">No se encontraron datos para esta sucursal.</p>
     @endif
 
-    <!-- Añadir la tabla PowerGrid cuando mostrarTablaUsuarios sea true -->
+    <!-- Añadir la tabla PowerGrid cuando mostrarTablaUsuarios sea true gygyygytgytgygytgtgtgtgyf-->
     @if($mostrarTablaUsuarios)
     <div class="mt-6 bg-white p-6 rounded-lg shadow-lg ml-2 mr-4">
         <div class="flex justify-between items-center mb-4">
