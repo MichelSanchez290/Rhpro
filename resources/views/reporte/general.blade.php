@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>Reporte Estadístico</title>
+    <title>Reporte General</title>
     <style>
         /* Estilos generales */
         body {
@@ -183,7 +183,11 @@
 
     <!-- Página 1: Introducción -->
     <div class="page-break">
-    <br>
+        <img src="{{ public_path('Imagenes/Logos/CESRH-logo.png') }}" alt="Logo del Software" style="width: 150px; float: right;">
+
+        <!-- Logo a la izquierda -->
+        <img src="{{ public_path('Imagenes/Dx035logo_envolvente.png') }}" alt="Logo del Software" style="width: 150px; float: left;">
+        <br>
         <h2 class="titulo">Introducción</h2>
         <p class="subtitulo">Objetivo</p>
         <p class="texto">El objetivo del diagnóstico es apoyar en la identificación, el análisis y la prevención de los elementos que repercuten en los factores de riesgo psicosocial, así como para promover un entorno organizacional favorable en los centros de trabajo, cuidando en todo momento la integridad de los trabajadores.</p>
@@ -198,7 +202,11 @@
 
     <!-- Página 2: Datos de los participantes -->
     <div class="page-break">
-    <br>
+        <img src="{{ public_path('Imagenes/Logos/CESRH-logo.png') }}" alt="Logo del Software" style="width: 150px; float: right;">
+
+        <!-- Logo a la izquierda -->
+        <img src="{{ public_path('Imagenes/Dx035logo_envolvente.png') }}" alt="Logo del Software" style="width: 150px; float: left;">
+        <br>
         <h2 class="titulo">Datos de los participantes</h2>
         <p class="texto">Conoce el índice de participación de tu encuesta y el perfil de los participantes.</p>
         <h2 class="subtitulo">Índice de Participación</h2>
@@ -218,9 +226,12 @@
     <div class="paginacion">Página 3</div>
 
     <!-- Página 3: Perfil de los participantes -->
-
-    <br>
     <div class="page-break perfil-participantes">
+        <img src="{{ public_path('Imagenes/Logos/CESRH-logo.png') }}" alt="Logo del Software" style="width: 150px; float: right;">
+
+        <!-- Logo a la izquierda -->
+        <img src="{{ public_path('Imagenes/Dx035logo_envolvente.png') }}" alt="Logo del Software" style="width: 150px; float: left;">
+        <br>
         <h2 class="titulo">Perfil de los participantes</h2>
         <p class="texto">Tenga en cuenta que al tratarse de una encuesta de carácter confidencial, esta encuesta fue llenada libremente por cada uno de los participantes.</p>
         <table class="tabla-graficas">
@@ -257,7 +268,12 @@
     <div class="paginacion">Página 4</div>
 
     <!-- Página 4: Perfil laboral -->
-    <br>
+    <div class="page-break">
+        <img src="{{ public_path('Imagenes/Logos/CESRH-logo.png') }}" alt="Logo del Software" style="width: 150px; float: right;">
+
+        <!-- Logo a la izquierda -->
+        <img src="{{ public_path('Imagenes/Dx035logo_envolvente.png') }}" alt="Logo del Software" style="width: 150px; float: left;">
+        <br>
         <h2 class="titulo">Perfil laboral</h2>
         <table class="tabla-graficas">
             <tr>
@@ -308,7 +324,11 @@
 
     <!-- Página 5: Jornada laboral y experiencia -->
     <div class="page-break">
-    <br>
+        <img src="{{ public_path('Imagenes/Logos/CESRH-logo.png') }}" alt="Logo del Software" style="width: 150px; float: right;">
+
+        <!-- Logo a la izquierda -->
+        <img src="{{ public_path('Imagenes/Dx035logo_envolvente.png') }}" alt="Logo del Software" style="width: 150px; float: left;">
+        <br>
         <h2 class="titulo">Jornada laboral y experiencia</h2>
         <table class="tabla-graficas">
             <tr>
@@ -345,8 +365,11 @@
 
     <!-- Página 6: Cuestionario para identificar factores de riesgo -->
     <div class="page-break">
+        <img src="{{ public_path('Imagenes/Logos/CESRH-logo.png') }}" alt="Logo del Software" style="width: 150px; float: right;">
 
-    <br>
+        <!-- Logo a la izquierda -->
+        <img src="{{ public_path('Imagenes/Dx035logo_envolvente.png') }}" alt="Logo del Software" style="width: 150px; float: left;">
+        <br>
         <div class="fondo-gris">
             <h2>CUESTIONARIO PARA IDENTIFICAR LOS FACTORES DE RIESGO PSICOSOCIAL Y EVALUAR EL ENTORNO ORGANIZACIONAL EN LOS CENTROS DE TRABAJO</h2>
         </div>
@@ -401,7 +424,41 @@
     <div class="page-break">
         <h2 class="titulo">Resultados Generales</h2>
         <p class="texto">Los resultados se muestran por categoría de evaluación y por cada dominio, mostrando el promedio final de todas las encuestas contestadas.</p>
-        <!-- Aquí irían las gráficas de barras invertidas -->
+
+        <!-- Sección de Nivel de Riesgo -->
+        <h2 class="subtitulo">Nivel de Riesgo Psicosocial</h2>
+        <p class="texto">Calificación Final: {{ $calificacionFinal }}</p>
+        <p class="texto">Nivel de Riesgo: {{ $nivelRiesgo }}</p>
+
+        <!-- Gráfica Horizontal de Categorías -->
+        <h2 class="subtitulo">Gráfica de Categorías y Niveles de Riesgo</h2>
+        <div style="width: 100%; height: 300px; position: relative;">
+            @foreach($graficaCategorias as $item)
+                <div style="position: absolute; left: 0; top: {{ $loop->index * 30 }}px; width: {{ $item['nivel'] == 'Nulo' ? '10%' : ($item['nivel'] == 'Bajo' ? '30%' : ($item['nivel'] == 'Medio' ? '50%' : ($item['nivel'] == 'Alto' ? '70%' : '90%'))) }}; height: 20px; background-color: {{ $item['color'] }};"></div>
+                <div style="position: absolute; left: 0; top: {{ $loop->index * 30 + 20 }}px; width: 100%; text-align: left; font-size: 12px;">
+                    {{ $item['categoria'] }}: {{ $item['nivel'] }}
+                </div>
+            @endforeach
+        </div>
+
+        <!-- Tabla de Resultados por Categoría -->
+        <h2 class="subtitulo">Resultados por Categoría</h2>
+        <table class="tabla-escala">
+            <thead>
+                <tr>
+                    <th>Categoría</th>
+                    <th>Nivel de Riesgo</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($resultadosCategorias as $categoria => $nivel)
+                    <tr>
+                        <td>{{ $categoria }}</td>
+                        <td>{{ $nivel }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
     <div class="paginacion">Página 8</div>
 

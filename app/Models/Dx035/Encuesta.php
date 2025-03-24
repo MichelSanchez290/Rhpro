@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 use App\Models\PortalRH\SucursalDepartament;
+use App\Models\PortalRH\SucursalDepartamento;
+use App\Models\Dx035\Sucursal;
 
 class Encuesta extends Model
 {
@@ -30,6 +32,7 @@ class Encuesta extends Model
         'id',
         'Clave',
         'Empresa',
+        'sucursal_departament_id',
         'RutaLogo',
         'FechaInicio',
         'FechaFinal',
@@ -46,10 +49,10 @@ class Encuesta extends Model
     ];
 
     // Relación con SucursalDepartament
-    public function sucursalDepartament()
-    {
-        return $this->belongsTo(SucursalDepartament::class, 'sucursal_departament_id');
-    }
+    // public function sucursalDepartament()
+    // {
+    //     return $this->belongsTo(SucursalDepartament::class, 'sucursal_departament_id');
+    // }
 
     // Relación con Cuestionario
     public function cuestionarios()
@@ -85,9 +88,21 @@ class Encuesta extends Model
     }
 
     // Relación con la sucursal
+    public function sucursalDepartamento()
+    {
+        return $this->belongsTo(SucursalDepartamento::class, 'sucursal_departament_id');
+    }
+
     public function sucursal()
     {
-        return $this->belongsTo(Sucursal::class, 'sucursal_id');
+        return $this->hasOneThrough(
+            Sucursal::class,
+            SucursalDepartamento::class,
+            'id', // Foreign key on SucursalDepartamento table
+            'id', // Foreign key on Sucursal table
+            'sucursal_departament_id', // Local key on Encuesta table
+            'sucursal_id' // Local key on SucursalDepartamento table
+        );
     }
 
 }
