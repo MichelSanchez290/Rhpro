@@ -7,7 +7,7 @@ use Livewire\Component;
 
 class MostrarSucursalesAdministradorResultadosvs extends Component
 {
-
+//vgvytgygtftrftrffrfrfr
     public $SucursalId; // ID de la relación empresa-sucursal
     public $empresaSucursal; // Datos de la relación empresa-sucursal
     public $mostrarTablaUsuarios = false; // Nueva variable para controlar la visibilidad de la tabla

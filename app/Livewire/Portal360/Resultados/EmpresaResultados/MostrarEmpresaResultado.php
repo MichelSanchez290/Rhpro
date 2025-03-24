@@ -7,7 +7,7 @@ use Livewire\Component;
 
 class MostrarEmpresaResultado extends Component
 {
-
+//ftfrttrrffffrtf
     public function render()
     {
         return view('livewire.portal360.resultados.empresa-resultados.mostrar-empresa-resultado')->layout('layouts.portal360');
