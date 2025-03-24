@@ -1,18 +1,16 @@
 <?php
 
-namespace App\Livewire\ActivoFijo\Activos\ActivoTecnologias\AdminSucursal;
+namespace App\Livewire\ActivoFijo\Activos\ActivoMobiliario\AdminSucursal;
 
-use App\Models\ActivoFijo\Activos\ActivoTecnologia;
+use App\Models\ActivoFijo\Activos\ActivoMobiliario;
 use App\Models\PortalRH\Empresa;
 use App\Models\PortalRH\Sucursal;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Traits\HasRoles;
 
-class Asignartecsu extends Component
+class Asignarmobsu extends Component
 {
     use WithFileUploads;
 
@@ -20,7 +18,7 @@ class Asignartecsu extends Component
     public $sucursal;
     public $activosFiltrados = [];
     public $usuariosFiltrados = [];
-    public $subirfoto1, $subirfoto2, $subirfoto3;
+    public $subirfoto1;
     public $usuarioSeleccionado;
     public $activoSeleccionado;
     public $observaciones;
@@ -39,7 +37,7 @@ class Asignartecsu extends Component
         }
 
         // Filtrar activos por sucursal y status 'Activo'
-        $this->activosFiltrados = ActivoTecnologia::where('sucursal_id', $this->sucursal->id)
+        $this->activosFiltrados = ActivoMobiliario::where('sucursal_id', $this->sucursal->id)
             ->where('status', 'Activo')
             ->get();
 
@@ -48,7 +46,7 @@ class Asignartecsu extends Component
             ->whereHas('roles', function ($query) {
                 $query->where('name', 'Trabajador GLOBAL');
             })
-            ->get();   
+            ->get();
     }
 
     public function asignarActivo()
@@ -58,8 +56,6 @@ class Asignartecsu extends Component
             'activoSeleccionado' => 'required|exists:activos_tecnologias,id',
             'observaciones' => 'required|string',
             'subirfoto1' => 'nullable|image|max:1024',
-            'subirfoto2' => 'nullable|image|max:1024',
-            'subirfoto3' => 'nullable|image|max:1024',
         ], [
             'usuarioSeleccionado.required' => 'El usuario es obligatorio.',
             'activoSeleccionado.required' => 'El activo tecnológico es obligatorio.',
@@ -67,7 +63,7 @@ class Asignartecsu extends Component
         ]);
 
         $usuario = User::find($this->usuarioSeleccionado);
-        $activo = ActivoTecnologia::find($this->activoSeleccionado);
+        $activo = ActivoMobiliario::find($this->activoSeleccionado);
 
         if (!$usuario || !$activo) {
             session()->flash('error', 'Usuario o activo no encontrado.');
@@ -97,27 +93,19 @@ class Asignartecsu extends Component
             return;
         }
 
-        $rutaBase = 'ActivoFijo/Activos/ActivoTecnologia/Asignaciones/SusursalAdmin';
+        $rutaBase = 'ActivoFijo/Activos/ActivoMobiliario/Asignaciones/SusursalAdmin';
         $nombreActivo = $activo->nombre ?? 'activo_' . $activo->id;
 
         $foto1Path = $this->subirfoto1
             ? $this->subirfoto1->storeAs($rutaBase, "{$nombreActivo}-foto1.png", 'public')
             : null;
-        $foto2Path = $this->subirfoto2
-            ? $this->subirfoto2->storeAs($rutaBase, "{$nombreActivo}-foto2.png", 'public')
-            : null;
-        $foto3Path = $this->subirfoto3
-            ? $this->subirfoto3->storeAs($rutaBase, "{$nombreActivo}-foto3.png", 'public')
-            : null;
 
-        $usuario->activosTecnologia()->attach($activo->id, [
+        $usuario->activosMobiliario()->attach($activo->id, [
             'fecha_asignacion' => now(),
             'fecha_devolucion' => null,
             'observaciones' => $this->observaciones,
             'status' => 1,
-            'foto1' => $foto1Path,
-            'foto2' => $foto2Path,
-            'foto3' => $foto3Path,
+            'foto1' => $foto1Path
         ]);
 
         $activo->update([
@@ -129,17 +117,14 @@ class Asignartecsu extends Component
             'usuarioSeleccionado',
             'activoSeleccionado',
             'observaciones',
-            'subirfoto1',
-            'subirfoto2',
-            'subirfoto3'
+            'subirfoto1'
         ]);
 
-        session()->flash('message', 'Activo tecnológico asignado correctamente.');
-        return redirect()->route('mostrarasigntecsu');
+        session()->flash('message', 'Activo mobiliario asignado correctamente.');
+        return redirect()->route('mostrarasignmobsu');
     }
-
     public function render()
     {
-        return view('livewire.activo-fijo.activos.activo-tecnologias.admin-sucursal.asignartecsu')->layout('layouts.navactivos');
+        return view('livewire.activo-fijo.activos.activo-mobiliario.admin-sucursal.asignarmobsu')->layout('layouts.navactivos');
     }
 }

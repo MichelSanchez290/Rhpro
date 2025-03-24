@@ -8,27 +8,21 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
-//use PowerComponents\LivewirePowerGrid\Exportable;
+use PowerComponents\LivewirePowerGrid\Exportable;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
-use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
 
-final class AsigntecsuTable extends PowerGridComponent
+final class AsignunisuTable extends PowerGridComponent
 {
-    public string $tableName = 'asigntecsu-table-zp3p7w-table';
+    public string $tableName = 'asignunisu-table-bv8jxm-table';
     protected $listeners = ['refreshPowerGrid' => '$refresh'];
-
-
     public function setUp(): array
     {
         $this->showCheckBox();
 
         return [
-            PowerGrid::exportable('export')
-                ->striped()
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             PowerGrid::header()
                 ->showSearchInput(),
             PowerGrid::footer()
@@ -39,28 +33,26 @@ final class AsigntecsuTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return DB::table('activos_tecnologia_user')
-            ->join('users', 'activos_tecnologia_user.user_id', '=', 'users.id')
-            ->join('activos_tecnologias', 'activos_tecnologia_user.activos_tecnologias_id', '=', 'activos_tecnologias.id')
-            ->join('sucursales', 'activos_tecnologias.sucursal_id', '=', 'sucursales.id')
+        return DB::table('activos_uniforme_user')
+            ->join('users', 'activos_uniforme_user.user_id', '=', 'users.id')
+            ->join('activos_uniformes', 'activos_uniforme_user.activos_uniformes_id', '=', 'activos_uniformes.id')
+            ->join('sucursales', 'activos_uniformes.sucursal_id', '=', 'sucursales.id')
             ->join('empresa_sucursal', 'sucursales.id', '=', 'empresa_sucursal.sucursal_id')
             ->join('empresas', 'empresa_sucursal.empresa_id', '=', 'empresas.id')
             ->where('empresas.id', Auth::user()->empresa_id) // Filtrar por la empresa del usuario autenticado
             ->select([
-                'activos_tecnologia_user.id',
+                'activos_uniforme_user.id',
                 'users.name as usuario',
-                'activos_tecnologias.nombre as activo',
+                'activos_uniformes.nombre as activo',
                 'sucursales.nombre_sucursal as sucursal',
                 'empresas.nombre as empresa',
-                'activos_tecnologia_user.fecha_asignacion',
-                'activos_tecnologia_user.fecha_devolucion',
-                'activos_tecnologia_user.observaciones',
-                'activos_tecnologia_user.status',
-                'activos_tecnologia_user.foto1',
-                'activos_tecnologia_user.foto2',
-                'activos_tecnologia_user.foto3',
-                'activos_tecnologia_user.created_at',
-                'activos_tecnologia_user.updated_at',
+                'activos_uniforme_user.fecha_asignacion',
+                'activos_uniforme_user.fecha_devolucion',
+                'activos_uniforme_user.observaciones',
+                'activos_uniforme_user.status',
+                'activos_uniforme_user.foto',
+                'activos_uniforme_user.created_at',
+                'activos_uniforme_user.updated_at',
             ]);
     }
 
@@ -70,17 +62,14 @@ final class AsigntecsuTable extends PowerGridComponent
             ->add('id')
             ->add('usuario')
             ->add('activo')
-            ->add('fecha_asignacion')
             ->add('fecha_asignacion_formatted', fn($model) => Carbon::parse($model->fecha_asignacion)->format('d/m/Y'))
-            ->add('fecha_devolucion')
-            ->add('fecha_devolucion_formatted', fn($model) => $model->fecha_devolucion ? Carbon::parse($model->fecha_devolucion)->format('d/m/Y H:i') : 'No definida')
+            ->add('fecha_devolucion_formatted', fn($model) => Carbon::parse($model->fecha_devolucion)->format('d/m/Y'))
             ->add('observaciones')
             ->add('status_formatted', fn($model) => $model->status == 1
                 ? '<span class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600"><span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>Asignado</span>'
                 : '<span class="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-600"><span class="h-1.5 w-1.5 rounded-full text-blue-600"></span>Devuelto</span>')->add('created_at')
-            ->add('created_at_formatted', fn($model) => Carbon::parse($model->created_at)->format('d/m/Y H:i'))
-            ->add('updated_at')
-            ->add('updated_at_formatted', fn($model) => Carbon::parse($model->updated_at)->format('d/m/Y H:i'));
+            ->add('created_at')
+            ->add('updated_at');
     }
 
     public function columns(): array
@@ -94,11 +83,10 @@ final class AsigntecsuTable extends PowerGridComponent
             Column::make('Activo', 'activo')
                 ->sortable()
                 ->searchable(),
-
-            Column::make('Fecha Asignación', 'fecha_asignacion_formatted', 'fecha_asignacion')
+            Column::make('Fecha asignacion', 'fecha_asignacion_formatted', 'fecha_asignacion')
                 ->sortable(),
 
-            Column::make('Fecha Devolución', 'fecha_devolucion_formatted', 'fecha_devolucion')
+            Column::make('Fecha devolucion', 'fecha_devolucion_formatted', 'fecha_devolucion')
                 ->sortable(),
 
             Column::make('Observaciones', 'observaciones')
@@ -108,14 +96,7 @@ final class AsigntecsuTable extends PowerGridComponent
             Column::make('Estado', 'status_formatted')->sortable()->searchable(), // Usar el campo formateado
 
 
-            Column::make('Creado', 'created_at_formatted', 'created_at')
-                ->sortable(),
-
-            Column::make('Actualizado', 'updated_at_formatted', 'updated_at')
-                ->sortable(),
-
             Column::action('Acciones')
-
         ];
     }
 
@@ -130,14 +111,14 @@ final class AsigntecsuTable extends PowerGridComponent
     #[\Livewire\Attributes\On('devolver')]
     public function devolver($rowId): void
     {
-        $registro = DB::table('activos_tecnologia_user')->where('id', $rowId)->first();
+        $registro = DB::table('activos_uniforme_user')->where('id', $rowId)->first();
         if ($registro->status == 0) { // Comparar con entero
             return; // No hacer nada si ya está devuelto
         }
 
         DB::transaction(function () use ($rowId, $registro) {
             // Actualizar la asignación a 0 (Devuelto)
-            DB::table('activos_tecnologia_user')
+            DB::table('activos_uniforme_user')
                 ->where('id', $rowId)
                 ->update([
                     'status' => 0, // 0 = Devuelto (entero)
@@ -146,7 +127,7 @@ final class AsigntecsuTable extends PowerGridComponent
                 ]);
 
             // Actualizar el activo en activos_tecnologias a 'Activo'
-            DB::table('activos_tecnologias')
+            DB::table('activos_uniformes')
                 ->where('id', $registro->activos_tecnologias_id)
                 ->update([
                     'status' => 'Activo', // String para activos_tecnologias
@@ -161,7 +142,7 @@ final class AsigntecsuTable extends PowerGridComponent
     #[\Livewire\Attributes\On('deleteAsignacion')]
     public function deleteAsignacion($rowId): void
     {
-        DB::table('activos_tecnologia_user')
+        DB::table('activos_uniforme_user')
             ->where('id', $rowId)
             ->delete();
 
@@ -183,7 +164,7 @@ final class AsigntecsuTable extends PowerGridComponent
             ->dispatch('openModal', [
                 'component' => 'borrar-activo',
                 'arguments' => [
-                    'vista' => 'asignaciones-tec-sucursal', // Vista única para AdminEmpresa
+                    'vista' => 'asignaciones-uni-sucursal', // Vista única para AdminEmpresa
                     'activo_id' => $row->id
                 ]
             ]),

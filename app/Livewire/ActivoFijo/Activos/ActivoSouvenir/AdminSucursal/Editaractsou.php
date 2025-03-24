@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Storage;
 class Editaractsou extends Component
 {
     use WithFileUploads;
-    public $activosou_id, $codigo, $productos, $descripcion, $color, $medida, $marca, $precio, $estado, $disponible, $fechaad, $tipo, $anio;
+    public $activosou_id, $codigo, $productos, $descripcion, $color, $medida, $marca, $precio, $estado, $disponible, $fechaad, $tipo, $anio,$status;
     public $tipos, $anios;
     public $foto1, $foto2, $foto3;
     public $subirfoto1, $subirfoto2, $subirfoto3;
@@ -33,6 +33,7 @@ class Editaractsou extends Component
         'subirfoto1' => 'nullable|image',
         'subirfoto2' => 'nullable|image',
         'subirfoto3' => 'nullable|image',
+        'status'=>'required'
     ];
     public function mount($id)
     {
@@ -51,6 +52,9 @@ class Editaractsou extends Component
         $this->tipo = $item->tipo_activo_id;
         $this->anio = $item->aniosestimado_id;
         $this->foto1 = $item->foto1;
+        $this->foto2=$item->foto2;
+        $this->foto3=$item->foto3;
+        $this->status=$item->status;
         //dd($this->foto1);
         $this->tipos = Tipoactivo::all()->pluck('nombre_activo', 'id');
         $this->anios = Anioestimado::all()->pluck('vida_util_año', 'id');
@@ -109,7 +113,8 @@ class Editaractsou extends Component
             'aniosestimado_id' => $this->anio,
             'foto1' => $this->foto1,
             'foto2' => $this->foto2,
-            'foto3' => $this->foto3,  // agregar la imagen3 al modelo activosouvenir.php para que funcione con el storage
+            'foto3' => $this->foto3,
+            'status'=>$this->status  // agregar la imagen3 al modelo activosouvenir.php para que funcione con el storage
         ]);
 
         return redirect()->route('mostraractsou');
