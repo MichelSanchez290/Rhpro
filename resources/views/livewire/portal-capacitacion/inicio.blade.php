@@ -1,4 +1,15 @@
 <div>
+    <div>
+        Potencia las habilidades de tu equipo y cumple tus metas con nuestra plataforma de capacitación.
+
+    ✅ Reduce costos de formación hasta en un 40%
+    ⏳ Optimiza el tiempo de aprendizaje
+    📈 Incrementa la productividad en un 27%
+    🎯 Diseña experiencias de aprendizaje innovadoras
+    🚀 Agiliza el logro de objetivos estratégicos
+    👥 Mejora la retención del talento en un 25%
+    </div>
+        
    <!-- Hero Section -->
    <section class="relative bg-cover bg-center h-screen flex items-center justify-center text-center text-white" style="background-image: url('https://source.unsplash.com/1600x900/?education,learning');">
        <div class="bg-black bg-opacity-50 p-8 rounded-xl">
