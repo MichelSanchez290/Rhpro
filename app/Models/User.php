@@ -254,6 +254,21 @@ class User extends Authenticatable
         //un user peertence a un becario
         return $this->hasMany(Asignacion::class);
     }
+    // public function departamento()
+    // {
+    //     return $this->belongsTo(Departamento::class, 'departamento_id');
+    // }
+
+    // public function puesto()
+    // {
+    //     return $this->belongsTo(Puesto::class, 'puesto_id');
+    // }
+
+    // public function asignacion()
+    // {
+    //     //un user peertence a un becario
+    //     return $this->hasMany(Asignacion::class);
+    // }
 
     public function leadcliente()
     {
@@ -285,11 +300,15 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(PerfilPuesto::class, 'perfil_puesto_user', 'users_id', 'perfiles_puestos_id')->withPivot(['status', 'fecha_inicio', 'fecha_final', 'motivo_cambio']);
     }
+    // public function perfilesPuestos(): BelongsToMany
+    // {
+    //     return $this->belongsToMany(PerfilPuesto::class, 'perfil_puesto_user', 'users_id', 'perfiles_puestos_id')->withPivot(['status', 'fecha_inicio', 'fecha_final', 'motivo_cambio']);
+    // }
 
-    public function perfilActual()
-    {
-        return $this->perfilesPuestos()->latest()->first();
-    }
+    // public function perfilActual()
+    // {
+    //     return $this->perfilesPuestos()->latest()->first();
+    // }
 
     public function capacitacionesGrupales()
     {
@@ -306,4 +325,14 @@ class User extends Authenticatable
         return $this->belongsToMany(CapacitacionIndividual::class, 'cap_individual_user', 'users_id', 'caps_individuales_id');
     }
 
+    
+    public function departamento()
+    {
+        return $this->belongsTo(Departamento::class, 'departamento_id');
+    }
+
+    public function puesto()
+{
+    return $this->belongsTo(Puesto::class, 'puesto_id');
+}
 }

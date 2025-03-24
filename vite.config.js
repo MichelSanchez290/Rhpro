@@ -12,6 +12,7 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    
     // resolve: {
     //     alias: {
     //         // Configurar un alias para jQuery

@@ -14,17 +14,20 @@ use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
+use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 
 final class MostrarPreguntasAdministradorTable extends PowerGridComponent
 {
     public string $tableName = 'mostrar-preguntas-administrador-table-oilhoo-table';
+
+    use WithExport;
 
     public function setUp(): array
     {
         $this->showCheckBox();
 
         return [
-            PowerGrid::exportable(fileName: 'preguntas')
+            PowerGrid::exportable('Preguntas_Administrador_' . now()->format('Ymd_His'))
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             PowerGrid::header()
                 ->showSearchInput(),
@@ -54,8 +57,20 @@ final class MostrarPreguntasAdministradorTable extends PowerGridComponent
 
     public function relationSearch(): array
     {
-        return [];
+        return [
+            'pregunta' => [ // Relación con la tabla 'preguntas' (usando el nombre correcto de la relación)
+                'texto',       // Columna en la tabla 'preguntas'
+                'descripcion', // Columna en la tabla 'preguntas'
+            ],
+            'empresa' => [ // Relación con la tabla 'empresas'
+                'nombre',     // Columna en la tabla 'empresas'
+            ],
+            'sucursal' => [ // Relación con la tabla 'sucursales'
+                'nombre_sucursal', // Columna en la tabla 'sucursales'
+            ],
+        ];
     }
+
 
     public function fields(): PowerGridFields
     {
