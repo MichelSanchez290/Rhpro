@@ -125,96 +125,112 @@ class EditarInstructor extends Component
         $this->puestos = Departamento::with('puestos')->where('id', $this->departamento)->get();
     }
 
+    protected function rules()
+    {
+        $rules = [
+            'telefono1'           => 'required|digits:10',
+            'telefono2'           => 'required|digits:10',
+            'registroStps'        => 'required',
+            'rfc'                 => 'required|size:13',
+            'regimen'             => 'required',
+            'estado'              => 'required',
+            'municipio'           => 'required',
+            'codigopostal'        => 'required|digits:5',
+            'colonia'             => 'required',
+            'calle'               => 'required',
+            'numero'              => 'required',
+            'honorarios'          => 'required',
+            'status'              => 'required',
+            'dc5'                 => 'required',
+            'cuentabancaria'      => 'required',
+            'ine'                 => 'required',
+            'curp'                => 'required|size:18',
+            'sat'                 => 'required',
+            'domicilio'           => 'required',
+            'tipoinstructor'      => 'required',
+            'registro_patronal_id'=> 'required|exists:registros_patronales,id',
+            'user_id'             => 'required|exists:users,id',
+
+            // Datos del usuario:
+            'user.name'           => 'required',
+            'user.email'          => 'required',
+            'empresa'             => 'required',
+            'sucursal'            => 'required',
+            'departamento'        => 'required',
+            'user.puesto_id'      => 'required|exists:puestos,id',
+            'password'            => 'nullable',
+        ];
+
+        // Solo si el instructor es Moral, se agregan las reglas para persona moral.
+        if (($this->tipoinstructor ?? '') === 'Moral') {
+            $rules = array_merge($rules, [
+                'nombre_empresa'  => 'required',
+                'rfc_empre'       => 'required|size:13',
+                'calle_empre'     => 'required',
+                'numero_empre'    => 'required',
+                'colonia_empre'   => 'required',
+                'municipio_empre' => 'required',
+                'estado_empre'    => 'required',
+                'postal_empre'    => 'required|digits:5',
+                'regimen_empre'   => 'required',
+            ]);
+        }
+
+        return $rules;
+    }
+
     public function actualizarInstructor()
     {
-        //dd();
-        $this->validate([
-            'telefono1' => 'required|digits:10',
-            'telefono2' => 'required|digits:10',
-            'registroStps' => 'required',
-            'rfc' => 'required|size:13',
-            'regimen' => 'required',
-            'estado' => 'required',
-            'municipio' => 'required',
-            'codigopostal' => 'required|digits:5',
-            'colonia' => 'required',
-            'calle' => 'required',
-            'numero' => 'required',
-            'honorarios' => 'required',
-            'status' => 'required',
-            'dc5' => 'required',
-            'cuentabancaria' => 'required',
-            'ine' => 'required',
-            'curp' => 'required|size:18', 
-            'sat' => 'required',
-            'domicilio' => 'required',
-            'tipoinstructor' => 'required',
-            'nombre_empresa' => 'required',
-            'rfc_empre' => 'required|size:13',
-            'calle_empre' => 'required',
-            'numero_empre' => 'required',
-            'colonia_empre' => 'required',
-            'municipio_empre' => 'required',
-            'estado_empre' => 'required',
-            'postal_empre' => 'required|digits:5',
-            'regimen_empre' => 'required',
-            'registro_patronal_id' => 'required|exists:registros_patronales,id',
-            'user_id' => 'required|exists:users,id',
+        // Se validan los datos usando el método rules()
+        $this->validate();
 
-            'user.name' => 'required',
-            'user.email' => 'required',
-            'password' => 'nullable',
-            'empresa' => 'required',
-            'sucursal' => 'required',
-            'departamento' => 'required',
-            'user.puesto_id' => 'required|exists:puestos,id',
-        ]);
-
+        // Actualización de los datos del usuario
         $user = User::findOrFail($this->user['id']);
         $user->update([
-            'name' => $this->user['name'],
-            'email' => $this->user['email'],
-            'empresa_id' => $this->empresa,
+            'name'        => $this->user['name'],
+            'email'       => $this->user['email'],
+            'empresa_id'  => $this->empresa,
             'departamento_id' => $this->departamento,
             'sucursal_id' => $this->sucursal,
-            'puesto_id' => $this->user['puesto_id'],
-            'tipo_user' => 'Instructor',
-            'password' => $this->password ? Hash::make($this->password) : $user->password,
+            'puesto_id'   => $this->user['puesto_id'],
+            'tipo_user'   => 'Instructor',
+            'password'    => $this->password ? Hash::make($this->password) : $user->password,
         ]);
 
+        // Actualización del instructor
         Instructor::updateOrCreate(['id' => $this->instructor_id], [
-            'telefono1' => $this->telefono1,
-            'telefono2' => $this->telefono2,
-            'registroStps' => $this->registroStps,
-            'rfc' => $this->rfc,
-            'regimen' => $this->regimen,
-            'estado' => $this->estado,
-            'municipio' => $this->municipio,
-            'codigopostal' => $this->codigopostal,
-            'colonia' => $this->colonia,
-            'calle' => $this->calle,
-            'numero' => $this->numero,
-            'honorarios' => $this->honorarios,
-            'status' => $this->status,
-            'dc5' => $this->dc5,
-            'cuentabancaria' => $this->cuentabancaria,
-            'ine' => $this->ine,
-            'curp' => $this->curp,
-            'sat' => $this->sat,  
-            'domicilio' => $this->domicilio,
-            'tipoinstructor' => $this->tipoinstructor,
-            'nombre_empresa' => $this->nombre_empresa,
-            'rfc_empre' => $this->rfc_empre,
-            'calle_empre' => $this->calle_empre,
-            'numero_empre' => $this->numero_empre,
-            'colonia_empre' => $this->colonia_empre,
-            'municipio_empre' => $this->municipio_empre,
-            'estado_empre' => $this->estado_empre,
-            'postal_empre' => $this->postal_empre,
-            'regimen_empre' => $this->regimen_empre,
-            
-            'user_id' => $this->user_id,
-            'registro_patronal_id' => $this->registro_patronal_id,
+            'telefono1'        => $this->telefono1,
+            'telefono2'        => $this->telefono2,
+            'registroStps'     => $this->registroStps,
+            'rfc'              => $this->rfc,
+            'regimen'          => $this->regimen,
+            'estado'           => $this->estado,
+            'municipio'        => $this->municipio,
+            'codigopostal'     => $this->codigopostal,
+            'colonia'          => $this->colonia,
+            'calle'            => $this->calle,
+            'numero'           => $this->numero,
+            'honorarios'       => $this->honorarios,
+            'status'           => $this->status,
+            'dc5'              => $this->dc5,
+            'cuentabancaria'   => $this->cuentabancaria,
+            'ine'              => $this->ine,
+            'curp'             => $this->curp,
+            'sat'              => $this->sat,
+            'domicilio'        => $this->domicilio,
+            'tipoinstructor'   => $this->tipoinstructor,
+            'nombre_empresa'   => $this->nombre_empresa,
+            'rfc_empre'        => $this->rfc_empre,
+            'calle_empre'      => $this->calle_empre,
+            'numero_empre'     => $this->numero_empre,
+            'colonia_empre'    => $this->colonia_empre,
+            'municipio_empre'  => $this->municipio_empre,
+            'estado_empre'     => $this->estado_empre,
+            'postal_empre'     => $this->postal_empre,
+            'regimen_empre'    => $this->regimen_empre,
+
+            'user_id'          => $this->user_id,
+            'registro_patronal_id'=> $this->registro_patronal_id,
         ]);
 
         session()->flash('message', 'Instructor Editado.');

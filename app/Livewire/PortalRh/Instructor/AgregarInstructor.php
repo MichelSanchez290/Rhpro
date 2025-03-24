@@ -22,6 +22,8 @@ class AgregarInstructor extends Component
 
     public function mount()
     {
+        $this->instructor = ['tipoinstructor' => ''];
+
         $this->usuarios = User::all();
         $this->registros_patronales = RegistroPatronal::all();
         $this->empresas = Empresa::all();
@@ -44,48 +46,62 @@ class AgregarInstructor extends Component
         $this->puestos = Departamento::with('puestos')->where('id', $this->departamento)->get();
     }
 
-    protected $rules = [
-        'instructor.telefono1' => 'required|digits:10',
-        'instructor.telefono2' => 'required|digits:10',
-        'instructor.registroStps' => 'required',
-        'instructor.rfc' => 'required|size:13|unique:instructores,rfc',
-        'instructor.regimen' => 'required',
-        'instructor.estado' => 'required',
-        'instructor.municipio' => 'required',
-        'instructor.codigopostal' => 'required|digits:5',
-        'instructor.colonia' => 'required',
-        'instructor.calle' => 'required',
-        'instructor.numero' => 'required',
-        'instructor.honorarios' => 'required',
-        'instructor.status' => 'required',
-        'instructor.dc5' => 'required',
-        'instructor.cuentabancaria' => 'required|digits:16|unique:instructores,cuentabancaria',
-        'instructor.ine' => 'required',
-        'instructor.curp' => 'required|size:18|unique:instructores,curp', //|size:18
-        'instructor.sat' => 'required',
-        'instructor.domicilio' => 'required',
-        'instructor.tipoinstructor' => 'required',
-        'instructor.nombre_empresa' => 'required',
-        'instructor.rfc_empre' => 'required|size:13',
-        'instructor.calle_empre' => 'required',
-        'instructor.numero_empre' => 'required',
-        'instructor.colonia_empre' => 'required',
-        'instructor.municipio_empre' => 'required',
-        'instructor.estado_empre' => 'required',
-        'instructor.postal_empre' => 'required|digits:5',
-        'instructor.regimen_empre' => 'required',
-        'instructor.registro_patronal_id' => 'required|exists:registros_patronales,id',
-        
-        'nombre' => 'required',
-        'apellido_p' => 'required',
-        'apellido_m' => 'required',
-        'user.email' => 'required|unique:users,email',
-        'password' => 'required',
-        'empresa' => 'required',
-        'sucursal' => 'required',
-        'departamento' => 'required',
-        'user.puesto_id' => 'required|exists:puestos,id',
-    ];
+    protected function rules()
+    {
+        $rules = [
+            // Campos para persona física (siempre requeridos)
+            'instructor.tipoinstructor'   => 'required',
+            'instructor.telefono1'        => 'required|digits:10',
+            'instructor.telefono2'        => 'required|digits:10',
+            'instructor.registroStps'     => 'required',
+            'instructor.rfc'              => 'required|size:13|unique:instructores,rfc',
+            'instructor.regimen'          => 'required',
+            'instructor.estado'           => 'required',
+            'instructor.municipio'        => 'required',
+            'instructor.codigopostal'     => 'required|digits:5',
+            'instructor.colonia'          => 'required',
+            'instructor.calle'            => 'required',
+            'instructor.numero'           => 'required',
+            'instructor.honorarios'       => 'required',
+            'instructor.status'           => 'required',
+            'instructor.dc5'              => 'required',
+            'instructor.cuentabancaria'   => 'required|digits:16|unique:instructores,cuentabancaria',
+            'instructor.ine'              => 'required',
+            'instructor.curp'             => 'required|size:18|unique:instructores,curp',
+            'instructor.sat'              => 'required',
+            'instructor.domicilio'        => 'required',
+            'instructor.registro_patronal_id'=> 'required|exists:registros_patronales,id',
+
+            // Campos siempre requeridos para la tabla users
+            'nombre'                    => 'required',
+            'apellido_p'                => 'required',
+            'apellido_m'                => 'required',
+            'user.email'                => 'required|unique:users,email',
+            'password'                  => 'required',
+            'empresa'                   => 'required',
+            'sucursal'                  => 'required',
+            'departamento'              => 'required',
+            'user.puesto_id'            => 'required|exists:puestos,id',
+        ];
+
+        // Si el tipo de instructor es "Moral", se agregan las reglas para persona moral
+        if (($this->instructor['tipoinstructor'] ?? '') === 'Moral') {
+            $rules = array_merge($rules, [
+                'instructor.nombre_empresa'      => 'required',
+                'instructor.rfc_empre'           => 'required|size:13',
+                'instructor.calle_empre'         => 'required',
+                'instructor.numero_empre'        => 'required',
+                'instructor.colonia_empre'       => 'required',
+                'instructor.municipio_empre'     => 'required',
+                'instructor.estado_empre'        => 'required',
+                'instructor.postal_empre'        => 'required|digits:5',
+                'instructor.regimen_empre'       => 'required',
+                
+            ]);
+        }
+
+        return $rules;
+    }
 
     // MENSAJES DE VALIDACIÓN
     protected $messages = [

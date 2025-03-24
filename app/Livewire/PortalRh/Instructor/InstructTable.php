@@ -137,6 +137,10 @@ final class InstructTable extends PowerGridComponent
 
             Column::make('Usuario', 'nombre_usuario'),
 
+            Column::make('Tipoinstructor', 'tipoinstructor')
+                ->sortable()
+                ->searchable(),
+
             Column::make('Empresa', 'empresa'),
 
             Column::make('Sucursal', 'sucursal'),
@@ -221,10 +225,6 @@ final class InstructTable extends PowerGridComponent
                 ->searchable(),
 
             Column::make('Domicilio', 'domicilio')
-                ->sortable()
-                ->searchable(),
-
-            Column::make('Tipoinstructor', 'tipoinstructor')
                 ->sortable()
                 ->searchable(),
 

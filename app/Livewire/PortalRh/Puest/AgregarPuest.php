@@ -4,29 +4,49 @@ namespace App\Livewire\PortalRh\Puest;
 
 use Livewire\Component;
 use App\Models\PortalRH\Puesto;
+use App\Models\PortalRH\Empresa;
+use App\Models\PortalRH\Sucursal;
 use App\Models\PortalRH\Departamento;
 
 class AgregarPuest extends Component
 {
     public $puest = [];
-    public $departamentos, $departamento_id;
+    public $sucursales=[], $departamentos=[];
+
+    public $empresas, $empresa, $sucursal, $departamento;
 
     public function mount()
     {
-        $this->departamentos = Departamento::all();
+        $this->empresas = Empresa::all();
+    }
+
+    public function updatedEmpresa()
+    {
+        $this->sucursales = Empresa::with('sucursales')->where('id', $this->empresa)->get();
+    }
+
+    public function updatedSucursal()
+    {
+        $this->departamentos = Sucursal::with('departamentos')->where('id', $this->sucursal)->get();
     }
 
     // REGLAS DE VALIDACIÓN
     protected $rules = [
+        'empresa' => 'required',
+        'sucursal' => 'required',
+        'departamento' => 'required',
         'puest.nombre_puesto' => 'required',
-        'departamento_id' => 'required|exists:departamentos,id',
+        'departamento' => 'required|exists:departamentos,id',
     ];
 
     // MENSAJES DE VALIDACIÓN
     protected $messages = [
+        'empresa.required' => 'Seleccione una empresa para filtrar.',
+        'sucursal.required' => 'Seleccione una sucursal para filtrar.',
+        'departamento.required' => 'Seleccione un departamento para filtrar.',
         'puest.nombre_puesto.required' => 'El nombre del puesto es requerido',
-        'departamento_id.required' => 'Debe seleccionar un departamento.',
-        'departamento_id.exists' => 'El departamento seleccionado no es válida.',
+        'departamento.required' => 'Debe seleccionar un departamento.',
+        'departamento.exists' => 'El departamento seleccionado no es válida.',
     ];
 
     // Método para guardar sucursal
@@ -35,12 +55,12 @@ class AgregarPuest extends Component
         $this->validate();
 
         $nuevoPuesto = Puesto::create($this->puest);
-        $nuevoPuesto->departamentos()->attach($this->departamento_id, [
+        $nuevoPuesto->departamentos()->attach($this->departamento, [
             'created_at' => now(),
             'updated_at' => now(),
         ]);
 
-        $this->reset(['puest', 'departamento_id']);
+        $this->reset(['puest', 'departamento']);
         
         session()->flash('message', 'Puesto Agregado.');
     }

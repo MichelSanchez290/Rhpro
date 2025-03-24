@@ -98,9 +98,7 @@ final class PuestTable extends PowerGridComponent
     {
         return [
             Column::make('Id', 'id'),
-            Column::make('Nombre puesto', 'nombre_puesto')
-                ->sortable()
-                ->searchable(),
+            
 
             Column::make('Empresa asociada', 'empresa')
                 ->sortable(),
@@ -108,8 +106,12 @@ final class PuestTable extends PowerGridComponent
             Column::make('Sucursal asociada', 'sucursal')
                 ->sortable(),
 
-            Column::make('Departamento asociada', 'departamento')
+            Column::make('Departamento asociado', 'departamento')
                 ->sortable(),
+
+            Column::make('Nombre puesto', 'nombre_puesto')
+                ->sortable()
+                ->searchable(),
 
             Column::make('Created at', 'created_at')
                 ->sortable()

@@ -44,7 +44,7 @@ class Becario extends Model
     //'puesto_id',
 
     //alcanze con el modelo 
-    public function usuarios()
+    public function user()
     {
         //un becario pertenece a un user
         return $this->belongsTo(User::class, 'user_id');

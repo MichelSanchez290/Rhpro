@@ -18,7 +18,7 @@ class AgregarRegPatronal extends Component
         'registro.actividad_economica' => 'required',
         'registro.imss_calle_manzana' => 'required',
         'registro.imms_num_exterior' => 'required',
-        'registro.imms_num_int' => 'nullable',
+        'registro.imms_num_int' => 'required',
         'registro.imms_colonia' => 'required',
         'registro.imms_codigo_postal' => 'required|digits:5',
         'registro.imms_estado' => 'required',

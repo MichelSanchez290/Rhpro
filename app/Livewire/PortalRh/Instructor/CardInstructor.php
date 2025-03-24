@@ -17,7 +17,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 class CardInstructor extends Component
 {
     public $instructor, $usuario, $empresa, $sucursal, $departamento,
-    $puesto, $registro_patronal, $incapacidades, $incidencias;
+    $puesto, $registro_patronal, $incapacidades, $incidencias, $retardos, $cambio_salarios;
 
     public function mount($id)
     {
@@ -31,6 +31,8 @@ class CardInstructor extends Component
         $this->registro_patronal = RegistroPatronal::find($this->instructor->registro_patronal_id);
         $this->incapacidades = $this->usuario->incapacidades()->with('users')->get();
         $this->incidencias = $this->usuario->incidencias()->with('users')->get();
+        $this->retardos = $this->usuario->retardos()->with('users')->get();
+        $this->cambio_salarios = $this->usuario->cambioSalario()->with('users')->get();
     } 
 
     public function generatePDF($id)
@@ -47,6 +49,8 @@ class CardInstructor extends Component
         $registro_patronal = RegistroPatronal::find($instructor->registro_patronal_id);
         $incapacidades = $this->usuario->incapacidades()->with('users')->get();
         $incidencias = $this->usuario->incidencias()->with('users')->get();
+        $retardos = $this->usuario->retardos()->with('users')->get();
+        $cambio_salarios = $this->usuario->cambioSalario()->with('users')->get();
 
         // Generar el PDF con todos los datos
         $pdf = Pdf::setPaper('letter')
@@ -63,7 +67,9 @@ class CardInstructor extends Component
                 'puesto' => $puesto,
                 'registro_patronal' => $registro_patronal,
                 'incapacidades' => $incapacidades,
-                'incidencias' => $incidencias
+                'incidencias' => $incidencias,
+                'retardos' => $retardos,
+                'cambio_salarios' => $cambio_salarios,
             ]);
 
         return Response::stream(

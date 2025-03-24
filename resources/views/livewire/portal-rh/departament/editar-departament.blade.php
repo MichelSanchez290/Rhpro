@@ -47,18 +47,6 @@
             </div>
 
             <form class="mt-5 mx-7">
-                <!-- Nombre del Departamento -->
-                <div class="grid grid-cols-1">
-                    <label for="nombre_departamento"
-                        class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Nombre del
-                        Departamento</label>
-                    <input wire:model.defer="nombre_departamento" type="text" id="nombre_departamento"
-                        placeholder="Nombre del departamento"
-                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
-                
-                    <x-input-error for="nombre_departamento" /> 
-                </div>
-
                 <div class="grid grid-cols-1 mt-5">
 
                     <label for="sucursal_id"
@@ -73,6 +61,20 @@
 
                     <x-input-error for="sucursal_id" />
                 </div>
+
+                <!-- Nombre del Departamento -->
+                <div class="grid grid-cols-1 mt-5">
+                    <label for="nombre_departamento"
+                        class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Nombre del
+                        Departamento</label>
+                    <input wire:model.defer="nombre_departamento" type="text" id="nombre_departamento"
+                        placeholder="Nombre del departamento"
+                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                
+                    <x-input-error for="nombre_departamento" /> 
+                </div>
+
+                
 
                 <!-- Botones -->
                 <div class='flex items-center justify-center md:gap-8 gap-4 pt-5 pb-5'>
