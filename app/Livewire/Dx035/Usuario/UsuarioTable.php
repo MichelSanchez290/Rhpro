@@ -121,13 +121,21 @@ final class UsuarioTable extends PowerGridComponent
     {
         $actions = [];
 
-        // Botón para asignar roles
-        if (Auth::user()->hasRole('GoldenAdmin') || Auth::user()->hasRole('EmpresaAdmin')) {
-            $actions[] = Button::add('asignar-roles')
+        return [
+            Button::add('asignar-roles')
                 ->slot('Asignar Rol')
-                ->class('bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded')
-                ->route('asignarroluser', ['id' => Crypt::encrypt($row->id)]);
-        }
+               ->class('bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded')
+               ->route('asignarroluser', ['id' => Crypt::encrypt($row->id)])
+        ];
+
+        // Botón para asignar roles
+        // if (Auth::user()->hasRole('GoldenAdmin') || Auth::user()->hasRole('EmpresaAdmin')) {
+        //     $actions[] = Button::add('asignar-roles')
+        //         ->slot('Asignar Rol')
+        //         ->class('bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded')
+        //         ->route('asignarroluser', ['id' => Crypt::encrypt($row->id)]);
+        // }
+
 
         // Botón para eliminar
         if (Auth::user()->hasRole('GoldenAdmin')) {
@@ -137,6 +145,6 @@ final class UsuarioTable extends PowerGridComponent
                 ->dispatch('confirmDelete', ['id' => $row->id]);
         }
 
-        return $actions;
+        // return $actions;
     }
 }

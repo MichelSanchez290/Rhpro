@@ -1,5 +1,4 @@
 <div>
-
     <div class="bg-white shadow-lg rounded-lg p-8 max-w-5xl mx-auto">
         <!-- Paso 0: Datos personales -->
         @if ($currentStep == 0)

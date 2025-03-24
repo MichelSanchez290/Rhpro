@@ -29,5 +29,12 @@ class DatabaseSeeder extends Seeder
 
         $this->call([UserRolDevSeeder::class]);
         $this->call([UserSeeder::class]);
+
+        
+        $this->call([GiasReferenciasSeeder::class]);
+        $this->call([CuestionariosSeeder::class]);
+        $this->call([CuestionarioUnoSeeder::class]);
+        $this->call([CuestionarioDosSeeder::class]);
+        $this->call([CuestionarioTresSeeder::class]);
     }
 }
