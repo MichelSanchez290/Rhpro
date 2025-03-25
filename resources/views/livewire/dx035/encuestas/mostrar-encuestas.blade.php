@@ -126,9 +126,9 @@
                                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                                 @if(Auth::user()->hasRole('GoldenAdmin') || Auth::user()->hasRole('EmpresaAdmin'))
                                                     <!-- Ícono de gráficas de barras -->
-                                                    <a href="{{ route('encuesta.estadisticas', $encuesta->id) }}" class="text-green-600 hover:text-green-900">
+                                                    {{-- <a href="{{ route('encuesta.estadisticas', $encuesta->id) }}" class="text-green-600 hover:text-green-900">
                                                         <i class="fas fa-chart-bar"></i> <!-- Ícono de gráficas de barras -->
-                                                    </a>
+                                                    </a> --}}
                                                     <a href="{{ route('encuestas.edit', $encuesta->id) }}" class="text-blue-600 hover:text-blue-900">
                                                         <i class="fas fa-edit"></i> Editar
                                                     </a>
