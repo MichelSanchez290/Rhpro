@@ -60,7 +60,7 @@ class AgregarPuest extends Component
             'updated_at' => now(),
         ]);
 
-        $this->reset(['puest', 'departamento']);
+        $this->reset(['puest', 'departamento', 'empresa', 'sucursal']);
         
         session()->flash('message', 'Puesto Agregado.');
     }

@@ -4,54 +4,66 @@ namespace App\Livewire\PortalRh\Departament;
 
 use Livewire\Component;
 use App\Models\PortalRH\Departamento;
-use Illuminate\Support\Facades\Crypt;
+use App\Models\PortalRH\Empresa;
 use App\Models\PortalRH\Sucursal;
+use Illuminate\Support\Facades\Crypt;
 
 class EditarDepartament extends Component
 {
-    public $departament_id, $nombre_departamento, $sucursales, $sucursal_id;
+    public $sucursales = [];
+    public $departamento_id, $nombre_departamento;
+    public $empresas, $empresa, $sucursal;
 
     public function mount($id)
     {
         $id = Crypt::decrypt($id);
-        $departament = Departamento::findOrFail($id);
+        $departamento = Departamento::findOrFail($id);
+        $this->empresas = Empresa::all();
 
-        $this->departament_id = $id;
-        $this->nombre_departamento = $departament->nombre_departamento;
+        $this->departamento_id = $id;
+        $this->nombre_departamento = $departamento->nombre_departamento;
 
-        $this->sucursales = Sucursal::all();
+        // Obtener la sucursal asociada (vía la relación pivote de Departamento y Sucursal)
+        $suc = $departamento->sucursales()->first();
+        $this->sucursal = $suc->id ?? null;
 
-        // Cargar empresa asociada desde la tabla pivote
-        $this->sucursal_id = $departament->sucursales()->first()->id ?? null;
+        // Si existe la sucursal, obtener la empresa asociada a esa sucursal
+        if ($suc) {
+            $empresaAsociada = $suc->empresas()->first();
+            $this->empresa = $empresaAsociada->id ?? null;
+        }
+
+        // Cargar las sucursales y empresas filtradas según la selección
+        $this->updatedEmpresa();
     }
 
-    public function actualizarDepartament()
+    public function updatedEmpresa()
+    {
+        $this->sucursales = Empresa::with('sucursales')->where('id', $this->empresa)->get();
+    }
+
+    public function actualizarDepartamento()
     {
         $this->validate([
-            'nombre_departamento' => 'required',
-            'sucursal_id' => 'required|exists:sucursales,id',
+            'empresa' => 'required',
+            'sucursal' => 'required',
+            'nombre_departamento' => 'required|string|max:255',
         ]);
 
-        $departament = Departamento::findOrFail($this->departament_id);
-
-        $departament->update([
+        $departamento = Departamento::findOrFail($this->departamento_id);
+        $departamento->update([
             'nombre_departamento' => $this->nombre_departamento,
         ]);
 
         // Actualizar relación en la tabla pivote 
-        $departament->sucursales()->sync([
-            $this->sucursal_id => [
+        $departamento->sucursales()->sync([
+            $this->sucursal => [
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
         ]);
-        
-        session()->flash('message', 'Departamento Actualizado.');
-    }
 
-    public function redirigir()
-    {
-        return redirect()->route('mostrardepa');
+        session()->flash('message', 'Departamento Actualizado.');
     }
 
     public function render()

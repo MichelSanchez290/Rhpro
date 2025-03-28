@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\PortalRH\Documento;
 use Illuminate\Support\Facades\Auth;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Str;
 
 class AgregarDocumento extends Component
 {
@@ -33,8 +34,13 @@ class AgregarDocumento extends Component
     {
         //dd();
         $this->validate();
-        $this->archivo->storeAs('PortalRH/Documentos', $this->documento['numero'].".pdf", 'subirDocs');
-        $this->documento['archivo'] = "PortalRH/Documentos/" . $this->documento['numero'] .".pdf";
+        
+        // Generar nombre único para el archivo
+        $nombreArchivo = Auth::id() . '_' . time() . '_' . $this->documento['tipo_documento'] . '.pdf';
+        
+        // Guardar el documento
+        $this->archivo->storeAs('PortalRH/Documentos', $nombreArchivo, 'subirDocs');
+        $this->documento['archivo'] = "PortalRH/Documentos/" . $nombreArchivo;
 
         // Crear incidencia con status 'Pendiente'
         $nuevoDoc = new Documento($this->documento);

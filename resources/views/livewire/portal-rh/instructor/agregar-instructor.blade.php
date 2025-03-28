@@ -362,9 +362,10 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
                     <div class="grid grid-cols-1 mt-5">
                         <label for="honorarios"
-                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Honorarios</label>
+                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Honorarios
+                            (Sueldo)</label>
                         <input wire:model.defer="instructor.honorarios" type="text" id="honorarios"
-                            placeholder="Honorarios"
+                            placeholder="500.00"
                             class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
 
                         <x-input-error for="instructor.honorarios" />
@@ -412,9 +413,10 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
                     <div class="grid grid-cols-1 mt-5">
                         <label for="ine"
-                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">INE
+                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">INE IDMEX (CIC)
                         </label>
-                        <input wire:model.defer="instructor.ine" type="text" id="ine" placeholder="INE"
+                        <input wire:model.defer="instructor.ine" type="text" id="ine"
+                            placeholder="IDMEX1836173420"
                             class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
 
                         <x-input-error for="instructor.ine" />
@@ -465,6 +467,199 @@
                         class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
 
                     <x-input-error for="instructor.registroStps" /> <br> <br>
+                </div>
+
+                <!-- ******* DOCUMENTOS ********* -->
+                <div class="flex flex-col md:flex-row gap-5 mt-5">
+                    <!-- Comprobante DC5 -->
+                    <div class="flex flex-col items-center w-full md:w-1/2">
+                        <label for="dc5_doc" class="uppercase text-lg md:text-xl text-gray-600 font-semibold mb-4">
+                            Comprobante DC5
+                        </label>
+
+                        <div class="mx-auto cursor-pointer flex w-full flex-col items-center rounded-xl border-2 border-dashed border-blue-400 bg-white p-6 text-center"
+                            onclick="document.getElementById('dc5_file').click()" ondragover="event.preventDefault()"
+                            ondrop="handleDrop(event, 'dc5_file')">
+
+                            <!-- Icono y texto... -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-blue-500" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                            </svg>
+
+                            <h2 class="mt-4 text-xl font-medium text-gray-700 tracking-wide">Adjuntar archivo</h2>
+                            <p class="mt-2 text-gray-500 tracking-wide">Seleccione o arrastre su archivo aquí</p>
+
+                            <input type="file" id="dc5_file" class="hidden" wire:model.defer="dc5_doc"
+                                accept=".pdf" />
+
+                            @if ($dc5_doc)
+                                <img src="{{ asset('img/pdf_icon.jpeg') }}" alt="PDF Icon" width="100"
+                                    height="100">
+                            @endif
+                        </div>
+                        <x-input-error for="dc5_doc" />
+                    </div>
+
+                    <!-- Comprobante de Cuenta Bancaria -->
+                    <div class="flex flex-col items-center w-full md:w-1/2">
+                        <label for="cuenta_doc" class="uppercase text-lg md:text-xl text-gray-600 font-semibold mb-4">
+                            Comprobante de Cuenta Bancaria
+                        </label>
+
+                        <div class="mx-auto cursor-pointer flex w-full flex-col items-center rounded-xl border-2 border-dashed border-green-400 bg-white p-6 text-center"
+                            onclick="document.getElementById('cuenta_file').click()"
+                            ondragover="event.preventDefault()" ondrop="handleDrop(event, 'cuenta_file')">
+
+                            <!-- Icono y texto... -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-green-500" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                            </svg>
+
+                            <h2 class="mt-4 text-xl font-medium text-gray-700 tracking-wide">Adjuntar archivo</h2>
+                            <p class="mt-2 text-gray-500 tracking-wide">Seleccione o arrastre su archivo aquí</p>
+
+                            <input type="file" id="cuenta_file" class="hidden" wire:model.defer="cuenta_doc"
+                                accept=".pdf" />
+
+                            @if ($cuenta_doc)
+                                <img src="{{ asset('img/pdf_icon.jpeg') }}" alt="PDF Icon" width="100"
+                                    height="100">
+                            @endif
+                        </div>
+                        <x-input-error for="cuenta_doc" />
+                    </div>
+                </div> <br>
+
+                <div class="flex flex-col md:flex-row gap-5 mt-5">
+                    <!-- Comprobante INE -->
+                    <div class="flex flex-col items-center w-full md:w-1/2">
+                        <label for="ine_doc" class="uppercase text-lg md:text-xl text-gray-600 font-semibold mb-4">
+                            Comprobante de INE
+                        </label>
+
+                        <div class="mx-auto cursor-pointer flex w-full flex-col items-center rounded-xl border-2 border-dashed border-blue-400 bg-white p-6 text-center"
+                            onclick="document.getElementById('ine_file').click()" ondragover="event.preventDefault()"
+                            ondrop="handleDrop(event, 'ine_file')">
+
+                            <!-- Icono y texto... -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-blue-500" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                            </svg>
+
+                            <h2 class="mt-4 text-xl font-medium text-gray-700 tracking-wide">Adjuntar archivo</h2>
+                            <p class="mt-2 text-gray-500 tracking-wide">Seleccione o arrastre su archivo aquí</p>
+
+                            <input type="file" id="ine_file" class="hidden" wire:model.defer="ine_doc"
+                                accept=".pdf" />
+
+                            @if ($ine_doc)
+                                <img src="{{ asset('img/pdf_icon.jpeg') }}" alt="PDF Icon" width="100"
+                                    height="100">
+                            @endif
+                        </div>
+                        <x-input-error for="ine_doc" />
+                    </div>
+
+                    <!-- Comprobante de CURP -->
+                    <div class="flex flex-col items-center w-full md:w-1/2">
+                        <label for="curp_doc" class="uppercase text-lg md:text-xl text-gray-600 font-semibold mb-4">
+                            Comprobante de CURP
+                        </label>
+
+                        <div class="mx-auto cursor-pointer flex w-full flex-col items-center rounded-xl border-2 border-dashed border-green-400 bg-white p-6 text-center"
+                            onclick="document.getElementById('curp_file').click()" ondragover="event.preventDefault()"
+                            ondrop="handleDrop(event, 'curp_file')">
+
+                            <!-- Icono y texto... -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-green-500" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                            </svg>
+
+                            <h2 class="mt-4 text-xl font-medium text-gray-700 tracking-wide">Adjuntar archivo</h2>
+                            <p class="mt-2 text-gray-500 tracking-wide">Seleccione o arrastre su archivo aquí</p>
+
+                            <input type="file" id="curp_file" class="hidden" wire:model.defer="curp_doc"
+                                accept=".pdf" />
+
+                            @if ($curp_doc)
+                                <img src="{{ asset('img/pdf_icon.jpeg') }}" alt="PDF Icon" width="100"
+                                    height="100">
+                            @endif
+                        </div>
+                        <x-input-error for="curp_doc" />
+                    </div>
+                </div> <br>
+
+                <div class="flex flex-col md:flex-row gap-5 mt-5">
+                    <!-- Comprobante SAT -->
+                    <div class="flex flex-col items-center w-full md:w-1/2">
+                        <label for="sat_doc" class="uppercase text-lg md:text-xl text-gray-600 font-semibold mb-4">
+                            Comprobante de SAT
+                        </label>
+
+                        <div class="mx-auto cursor-pointer flex w-full flex-col items-center rounded-xl border-2 border-dashed border-blue-400 bg-white p-6 text-center"
+                            onclick="document.getElementById('sat_file').click()" ondragover="event.preventDefault()"
+                            ondrop="handleDrop(event, 'sat_file')">
+
+                            <!-- Icono y texto... -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-blue-500" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                            </svg>
+
+                            <h2 class="mt-4 text-xl font-medium text-gray-700 tracking-wide">Adjuntar archivo</h2>
+                            <p class="mt-2 text-gray-500 tracking-wide">Seleccione o arrastre su archivo aquí</p>
+
+                            <input type="file" id="sat_file" class="hidden" wire:model.defer="sat_doc"
+                                accept=".pdf" />
+
+                            @if ($sat_doc)
+                                <img src="{{ asset('img/pdf_icon.jpeg') }}" alt="PDF Icon" width="100"
+                                    height="100">
+                            @endif
+                        </div>
+                        <x-input-error for="sat_doc" />
+                    </div> 
+
+                    <!-- Comprobante de DOMICILIO -->
+                    <div class="flex flex-col items-center w-full md:w-1/2">
+                        <label for="domicilio_doc" class="uppercase text-lg md:text-xl text-gray-600 font-semibold mb-4">
+                            Comprobante de Domicilio
+                        </label>
+
+                        <div class="mx-auto cursor-pointer flex w-full flex-col items-center rounded-xl border-2 border-dashed border-green-400 bg-white p-6 text-center"
+                            onclick="document.getElementById('domicilio_file').click()" ondragover="event.preventDefault()" 
+                            ondrop="handleDrop(event, 'domicilio_file')">
+
+                            <!-- Icono y texto... -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-green-500" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                            </svg>
+
+                            <h2 class="mt-4 text-xl font-medium text-gray-700 tracking-wide">Adjuntar archivo</h2>
+                            <p class="mt-2 text-gray-500 tracking-wide">Seleccione o arrastre su archivo aquí</p>
+
+                            <input type="file" id="domicilio_file" class="hidden" wire:model.defer="domicilio_doc"
+                                accept=".pdf" />
+
+                            @if ($domicilio_doc)
+                                <img src="{{ asset('img/pdf_icon.jpeg') }}" alt="PDF Icon" width="100"
+                                    height="100">
+                            @endif
+                        </div>
+                        <x-input-error for="domicilio_doc" />
+                    </div>
                 </div>
 
                 <!-- **********************************************  -->
@@ -614,3 +809,47 @@
         </form>
     </div>
 </div>
+
+
+<script>
+    // Función modificada para manejar múltiples inputs
+    function handleDrop(event, inputId) {
+        event.preventDefault();
+        const fileInput = document.getElementById(inputId);
+        if (event.dataTransfer.files.length > 0) {
+            fileInput.files = event.dataTransfer.files;
+            
+            // Dispara el evento change para Livewire
+            const changeEvent = new Event('change', { bubbles: true });
+            fileInput.dispatchEvent(changeEvent);
+            
+            // Opcional: Mostrar nombre del archivo
+            const dropZone = event.currentTarget;
+            const fileNameElement = dropZone.querySelector('.file-name') || document.createElement('p');
+            fileNameElement.textContent = event.dataTransfer.files[0].name;
+            fileNameElement.className = 'file-name mt-2 text-blue-600';
+            if (!dropZone.querySelector('.file-name')) {
+                dropZone.appendChild(fileNameElement);
+            }
+        }
+    }
+
+    // Opcional: Función para mostrar el nombre del archivo al seleccionar
+    document.addEventListener('DOMContentLoaded', function() {
+        const fileInputs = document.querySelectorAll('input[type="file"]');
+        fileInputs.forEach(input => {
+            input.addEventListener('change', function(e) {
+                const dropZone = this.closest('.border-dashed');
+                const fileNameElement = dropZone.querySelector('.file-name') || document.createElement('p');
+                
+                if (this.files.length > 0) {
+                    fileNameElement.textContent = this.files[0].name;
+                    fileNameElement.className = 'file-name mt-2 text-blue-600';
+                    if (!dropZone.querySelector('.file-name')) {
+                        dropZone.appendChild(fileNameElement);
+                    }
+                }
+            });
+        });
+    });
+</script>

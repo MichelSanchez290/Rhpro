@@ -155,6 +155,10 @@
                         <span class="text-gray-700">{{ $trabajador->numero }}</span>
                     </li>
                     <li class="flex border-b py-2">
+                        <span class="font-bold w-44">Sueldo:</span>
+                        <span class="text-gray-700"> $ {{ $trabajador->sueldo }}</span>
+                    </li>
+                    <li class="flex border-b py-2">
                         <span class="font-bold w-44">Status:</span>
                         <span
                             class="{{ $trabajador->status === 'Activo' ? 'bg-green-500' : 'bg-red-500' }} py-1 px-2 rounded text-white text-sm">

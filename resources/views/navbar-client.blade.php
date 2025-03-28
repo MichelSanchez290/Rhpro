@@ -87,6 +87,7 @@
                                     <i class="mr-2 text-xs"></i> Mostrar Roles
                                 </a>
                             </li>
+
                             <li>
                                 <a href="{{ route('agregarrol') }}" class="p-2 hover:bg-gray-700 flex items-center">
                                     <i class="mr-2 text-xs"></i> Agregar Rol
@@ -108,6 +109,7 @@
                             <span class="flex-1">Usuarios</span>
                             <i class="fas fa-chevron-down text-xs"></i>
                         </div>
+                        
                         <ul class="desplegable ml-8 hidden">
                             <li>
                                 <a href="{{ route('mostraruser') }}" class="p-2 hover:bg-gray-700 flex items-center">
@@ -638,6 +640,14 @@
                                 <li>
                                     <a href="{{ route('agregardoc') }}" class="p-2 hover:bg-gray-700 flex items-center">
                                         <i class="mr-2 text-xs"></i> Agregar Documento
+                                    </a>
+                                </li>
+                            @endcan
+
+                            @can('Agregar Documento Admin')
+                                <li>
+                                    <a href="{{ route('agregardocadmin') }}" class="p-2 hover:bg-gray-700 flex items-center">
+                                        <i class="mr-2 text-xs"></i> Agregar Documento para un usuario
                                     </a>
                                 </li>
                             @endcan

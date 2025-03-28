@@ -44,6 +44,7 @@ final class PuestTable extends PowerGridComponent
         $user = Auth::user();
 
         $query = Puesto::query()
+        ->with(['departamentos.sucursales.empresas']) 
             ->leftJoin('departamento_puesto', 'puestos.id', '=', 'departamento_puesto.puesto_id')
             ->leftJoin('departamentos', 'departamento_puesto.departamento_id', '=', 'departamentos.id')
             ->leftJoin('departamento_sucursal', 'departamentos.id', '=', 'departamento_sucursal.departamento_id')
@@ -79,7 +80,11 @@ final class PuestTable extends PowerGridComponent
 
     public function relationSearch(): array
     {
-        return [];
+        return [
+            'departamentos' => ['nombre_departamento'],
+            'departamentos.sucursales' => ['nombre_sucursal'],
+            'departamentos.sucursales.empresas' => ['nombre'],
+        ];
     }
 
     public function fields(): PowerGridFields
@@ -101,13 +106,16 @@ final class PuestTable extends PowerGridComponent
             
 
             Column::make('Empresa asociada', 'empresa')
-                ->sortable(),
+            ->sortable()
+            ->searchable(), 
 
             Column::make('Sucursal asociada', 'sucursal')
-                ->sortable(),
+            ->sortable()
+            ->searchable(),
 
             Column::make('Departamento asociado', 'departamento')
-                ->sortable(),
+            ->sortable()
+                ->searchable(), 
 
             Column::make('Nombre puesto', 'nombre_puesto')
                 ->sortable()

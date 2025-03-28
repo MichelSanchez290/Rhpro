@@ -79,7 +79,7 @@ class VerCumpleanios extends Component
             'title' => "🎂 {$user->name}",
             'start' => date('Y') . '-' . date('m-d', strtotime($fecha_nacimiento)),
             'color' => '#FFD700',
-            'name' => $user->name
+            'name' => $user->name,
         ];
     }
 

@@ -42,9 +42,10 @@ final class CambioSalarioTable extends PowerGridComponent
         $user = Auth::user();
 
         $query = CambioSalario::query()
+            ->with(['users.cambioSalario'])
             ->select([
                 'cambio_salarios.*',
-                'users.name as nombre_usuario'
+                'users.name as nombre_usuario',
             ])
             ->join('user_cambio_salario', 'cambio_salarios.id', '=', 'user_cambio_salario.cambio_salario_id')
             ->join('users', 'user_cambio_salario.user_id', '=', 'users.id');
@@ -71,7 +72,9 @@ final class CambioSalarioTable extends PowerGridComponent
 
     public function relationSearch(): array
     {
-        return [];
+        return [
+            'users.cambioSalario' => ['name'],
+        ];
     }
 
     public function fields(): PowerGridFields

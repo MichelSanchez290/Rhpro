@@ -31,6 +31,7 @@ final class TrabajadorTable extends PowerGridComponent
         return [
             PowerGrid::header()
                 ->showSearchInput(),
+                
             PowerGrid::footer()
                 ->showPerPage()
                 ->showRecordCount(),
@@ -44,21 +45,29 @@ final class TrabajadorTable extends PowerGridComponent
         $user = Auth::user();
 
         $query = Trabajador::query()
-        ->leftJoin('users', 'trabajadores.user_id', '=', 'users.id')
-        ->leftJoin('empresas', 'users.empresa_id', '=', 'empresas.id')
-        ->leftJoin('sucursales', 'users.sucursal_id', '=', 'sucursales.id')
-        ->leftJoin('departamentos', 'users.departamento_id', '=', 'departamentos.id')
-        ->leftJoin('puestos', 'users.puesto_id', '=', 'puestos.id')
-        ->leftJoin('registros_patronales', 'trabajadores.registro_patronal_id', '=', 'registros_patronales.id')
-        ->select([
-            'trabajadores.*',
-            'users.name as nombre_usuario',
-            \DB::raw('COALESCE(empresas.nombre, "Sin Empresa") as empresa'),
-            \DB::raw('COALESCE(sucursales.nombre_sucursal, "Sin Sucursal") as sucursal'),
-            \DB::raw('COALESCE(departamentos.nombre_departamento, "Sin departamento") as departamento'),
-            \DB::raw('COALESCE(puestos.nombre_puesto, "Sin Puesto") as puesto'),
-            'registros_patronales.registro_patronal as regpatronal'
-        ]);
+            ->with([
+                'user', 
+                'user.empresa',    // Singular (como está definido en User)
+                'user.sucursal',
+                'user.departamento', 
+                'user.puesto',  
+                'registroPatronal'
+            ])
+            ->leftJoin('users', 'trabajadores.user_id', '=', 'users.id')
+            ->leftJoin('empresas', 'users.empresa_id', '=', 'empresas.id')
+            ->leftJoin('sucursales', 'users.sucursal_id', '=', 'sucursales.id')
+            ->leftJoin('departamentos', 'users.departamento_id', '=', 'departamentos.id')
+            ->leftJoin('puestos', 'users.puesto_id', '=', 'puestos.id')
+            ->leftJoin('registros_patronales', 'trabajadores.registro_patronal_id', '=', 'registros_patronales.id')
+            ->select([
+                'trabajadores.*',
+                'users.name as nombre_usuario',
+                \DB::raw('COALESCE(empresas.nombre, "Sin Empresa") as empresa'),
+                \DB::raw('COALESCE(sucursales.nombre_sucursal, "Sin Sucursal") as sucursal'),
+                \DB::raw('COALESCE(departamentos.nombre_departamento, "Sin departamento") as departamento'),
+                \DB::raw('COALESCE(puestos.nombre_puesto, "Sin Puesto") as puesto'),
+                'registros_patronales.registro_patronal as regpatronal'
+            ]);
 
         // Aplicar filtros según el rol del usuario autenticado
         if ($user->hasRole('GoldenAdmin')) {  // GoldenAdmin no tiene filtro y ve todos los registros
@@ -79,7 +88,16 @@ final class TrabajadorTable extends PowerGridComponent
 
     public function relationSearch(): array
     {
-        return [];
+        return [
+            'user' => ['name'],
+            'registroPatronal' => ['registro_patronal'],
+            
+            // Para los campos que están en relaciones a través de user
+            'user.empresa' => ['nombre'], 
+            'user.sucursal' => ['nombre_sucursal'],
+            'user.departamento' => ['nombre_departamento'],
+            'user.puesto' => ['nombre_puesto'],
+        ];
     }
 
     public function fields(): PowerGridFields
@@ -97,6 +115,7 @@ final class TrabajadorTable extends PowerGridComponent
             ->add('curp')
             ->add('rfc')
             ->add('numero_celular')
+            ->add('sueldo')
             ->add('fecha_ingreso_formatted', fn (Trabajador $model) => Carbon::parse($model->fecha_ingreso)->format('d/m/Y'))
             ->add('edad')
             ->add('estado_civil')
@@ -133,18 +152,29 @@ final class TrabajadorTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Usuario', 'nombre_usuario'),
+            Column::make('Usuario', 'nombre_usuario')
+                ->sortable()
+                ->searchable(),
 
-            Column::make('Empresa', 'empresa'),
+            Column::make('Empresa', 'empresa')
+                ->sortable()
+                ->searchable(),
 
-            Column::make('Sucursal', 'sucursal'),
+            Column::make('Sucursal', 'sucursal')
+                ->sortable()
+                ->searchable(),
 
-            Column::make('Departamento', 'departamento'),
+            Column::make('Departamento', 'departamento')
+                ->sortable()
+                ->searchable(),
 
-            Column::make('Puesto', 'puesto'),
+            Column::make('Puesto', 'puesto')
+                ->sortable()
+                ->searchable(),
 
-            Column::make('Reg patronal', 'regpatronal'),
-
+            Column::make('Reg patronal', 'regpatronal')
+                ->sortable()
+                ->searchable(),
 
             Column::make('NSS', 'numero_seguridad_social')
                 ->sortable()
@@ -241,6 +271,10 @@ final class TrabajadorTable extends PowerGridComponent
                 ->searchable(),
 
             Column::make('Status', 'status')
+                ->sortable()
+                ->searchable(),
+
+            Column::make('Sueldo', 'sueldo')
                 ->sortable()
                 ->searchable(),
 

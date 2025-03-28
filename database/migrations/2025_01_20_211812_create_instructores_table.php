@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('colonia', 45);
             $table->string('calle', 45);
             $table->string('numero', 45);
-            $table->string('honorarios', 45);
+            $table->decimal('honorarios', 10, 2);
             $table->string('status', 45);
             $table->string('dc5', 255);
             $table->string('cuentabancaria', 255);

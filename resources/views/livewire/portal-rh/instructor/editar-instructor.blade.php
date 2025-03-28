@@ -223,7 +223,7 @@
                             <x-input-error for="telefono1" />
                         </div>
 
-                        <div class="grid grid-cols-1">
+                        <div class="grid grid-cols-1 mt-5">
                             <label for="telefono2"
                                 class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Telefono 2
                             </label>
@@ -442,7 +442,7 @@
                             class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
 
                         <x-input-error for="registroStps" />
-                    </div>
+                    </div> <br> <br>
 
                     <!-- **********************************************  -->
                     <!-- TIPO DE PERSONA MORAL  -->
@@ -561,7 +561,7 @@
                                 <x-input-error for="postal_empre" />
                             </div>
 
-                            <div class="grid grid-cols-1 mt-5">
+                            <div class="grid grid-cols-1">
                                 <label for="regimen_empre"
                                     class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Regimen
                                     Empresa

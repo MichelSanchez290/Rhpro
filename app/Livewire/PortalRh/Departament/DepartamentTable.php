@@ -43,6 +43,7 @@ final class DepartamentTable extends PowerGridComponent
         $user = Auth::user();
 
         $query = Departamento::query()
+            ->with(['sucursales.empresas'])
             ->leftJoin('departamento_sucursal', 'departamentos.id', '=', 'departamento_sucursal.departamento_id')
             ->leftJoin('sucursales', 'departamento_sucursal.sucursal_id', '=', 'sucursales.id')
             ->leftJoin('empresa_sucursal', 'sucursales.id', '=', 'empresa_sucursal.sucursal_id')
@@ -74,7 +75,10 @@ final class DepartamentTable extends PowerGridComponent
 
     public function relationSearch(): array
     {
-        return [];
+        return [
+            'sucursales' => ['nombre_sucursal'], 
+            'sucursales.empresas' => ['nombre'], 
+        ];
     }
 
     public function fields(): PowerGridFields
@@ -93,10 +97,12 @@ final class DepartamentTable extends PowerGridComponent
         return [
             Column::make('Id', 'id'),
             Column::make('Empresa asociada', 'empresa')
-                ->sortable(),
+                ->sortable()
+                ->searchable(), 
 
             Column::make('Sucursal asociada', 'sucursal')
-                ->sortable(),
+                ->sortable()
+                ->searchable(), 
 
             Column::make('Nombre departamento', 'nombre_departamento')
                 ->sortable()

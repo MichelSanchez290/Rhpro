@@ -8,6 +8,7 @@ use App\Models\PortalRH\Empresa;
 use App\Models\PortalRH\Sucursal;
 use App\Models\PortalRH\Departamento;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Str;
 
 class AgregarBaja extends Component
 {
@@ -65,8 +66,13 @@ class AgregarBaja extends Component
     {
 
         $this->validate();
-        $this->pdfdocumento->storeAs('PortalRH/Bajas', $this->baja['motivo_baja'].".pdf", 'subirDocs');
-        $this->baja['documento'] = "PortalRH/Bajas/" . $this->baja['motivo_baja'] .".pdf";
+        
+        // Generar nombre único para el archivo
+        $nombreArchivo = $this->user_id . '_' . time() . '_' . Str::slug($this->baja['tipo_baja']) . '.pdf';
+        
+        // Guardar el documento
+        $this->pdfdocumento->storeAs('PortalRH/Bajas', $nombreArchivo, 'subirDocs');
+        $this->baja['documento'] = "PortalRH/Bajas/" . $nombreArchivo;
 
         $nuevaBaja = new Baja($this->baja);
         $nuevaBaja->user_id = $this->user_id;

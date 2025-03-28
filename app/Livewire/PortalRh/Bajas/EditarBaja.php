@@ -8,13 +8,14 @@ use App\Models\User;
 use Illuminate\Support\Facades\Crypt;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class EditarBaja extends Component
 {
     use WithFileUploads;
 
     public $baja_id, $fecha_baja, $motivo_baja, $tipo_baja, 
-    $documento, $pdfdocumento, $observaciones, $nombre_usuario;
+    $documento, $pdfdocumento, $observaciones, $nombre_usuario, $user_id;
     
 
     public function mount($id)
@@ -33,6 +34,7 @@ class EditarBaja extends Component
         // Obtener el usuario asignado 
         if (!is_null($baja->user)) {
             $this->nombre_usuario = $baja->user->name;
+            $this->user_id = $baja->user->id;
         } else {
             $this->nombre_usuario = 'No asignado';
         }        
@@ -55,9 +57,12 @@ class EditarBaja extends Component
                 Storage::disk('subirDocs')->delete($this->documento);
             }
 
-            // guardar el nuevo archivo PDF
-            $this->pdfdocumento->storeAs('PortalRH/Bajas', $this->motivo_baja .".pdf", 'subirDocs');
-            $this->documento = "PortalRH/Bajas/" . $this->motivo_baja .".pdf";
+            // Generar nombre único para el archivo
+            $nombreArchivo = $this->user_id . '_' . time() . '_' . Str::slug($this->motivo_baja) . '.pdf';
+            
+            // Guardar el nuevo archivo PDF
+            $this->pdfdocumento->storeAs('PortalRH/Bajas', $nombreArchivo, 'subirDocs');
+            $this->documento = "PortalRH/Bajas/" . $nombreArchivo;
         }
 
         Baja::updateOrCreate(['id' => $this->baja_id], [

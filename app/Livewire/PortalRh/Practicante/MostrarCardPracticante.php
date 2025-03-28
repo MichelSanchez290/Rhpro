@@ -11,59 +11,83 @@ use App\Models\PortalRH\Departamento;
 use App\Models\PortalRH\Puesto;
 use App\Models\User;
 use Illuminate\Support\Facades\Crypt;
+use Livewire\WithPagination;
 
 class MostrarCardPracticante extends Component
 {
+    use WithPagination;
+    
+    public $search = '';
+    public $noResults = false;
+
     //para obtener todos los usuarios y sus datos
-    public $practicantes, $usuarios, $registros_patronales, 
-    $emp, $suc, $depa, $puest;
+    public $usuarios, $registros_patronales, $emp, $suc, $depa, $puest;
 
     //para el filtrado
     public $sucursales=[], $departamentos=[], $puestos=[], $users=[];
     public $empresas, $empresa, $sucursal, $departamento, $puesto;
 
-    public $search = '';
-
     public function mount()
     {
         // Obtener todos los registros de las tablas relacionadas
-        $this->practicantes = Practicante::all();
-        $this->usuarios = User::all()->keyBy('id'); // Indexamos por ID para acceso rápido
+        $this->usuarios = User::all()->keyBy('id');
         $this->emp = Empresa::all()->keyBy('id');
         $this->suc = Sucursal::all()->keyBy('id');
         $this->depa = Departamento::all()->keyBy('id');
         $this->puest = Puesto::all()->keyBy('id');
         $this->registros_patronales = RegistroPatronal::all()->keyBy('id');
         
-
         $this->empresas = Empresa::all();
-        $this->filtrar();
     }
 
-    public function updatedEmpresa()
+    public function updated($property)
     {
-        $this->sucursales = Empresa::with('sucursales')->where('id', $this->empresa)->get();
+        if ($property === 'search') {
+            $this->resetPage();
+            $this->noResults = false;
+        }
+        
+        // Actualizar filtros cuando cambian las selecciones
+        if (in_array($property, ['empresa', 'sucursal', 'departamento', 'puesto'])) {
+            $this->updateFilters();
+        }
     }
 
-    public function updatedSucursal()
+    protected function updateFilters()
     {
-        $this->departamentos = Sucursal::with('departamentos')->where('id', $this->sucursal)->get();
-    }
+        if ($this->empresa) {
+            $this->sucursales = Empresa::with('sucursales')->where('id', $this->empresa)->get();
+        } else {
+            $this->sucursales = [];
+            $this->sucursal = null;
+        }
 
-    public function updatedDepartamento()
-    {
-        $this->puestos = Departamento::with('puestos')->where('id', $this->departamento)->get();
-    }
+        if ($this->sucursal) {
+            $this->departamentos = Sucursal::with('departamentos')->where('id', $this->sucursal)->get();
+        } else {
+            $this->departamentos = [];
+            $this->departamento = null;
+        }
 
-    public function updatedPuesto()
-    {
-        // Obtener los puestos del departamento seleccionado
-        $this->users = Departamento::with('users')->where('id', $this->puesto)->get();
+        if ($this->departamento) {
+            $this->puestos = Departamento::with('puestos')->where('id', $this->departamento)->get();
+        } else {
+            $this->puestos = [];
+            $this->puesto = null;
+        }
     }
 
     public function filtrar()
     {
-        $this->practicantes = Practicante::query()
+        $query = Practicante::query()
+            ->when($this->search, function ($query) {
+                $query->where(function($q) {
+                    $q->where('clave_practicante', 'LIKE', "%{$this->search}%")
+                      ->orWhereHas('user', function($userQuery) {
+                          $userQuery->where('name', 'LIKE', "%{$this->search}%");
+                      });
+                });
+            })
             ->when($this->empresa, function ($query) {
                 $query->whereHas('user', function ($q) {
                     $q->where('empresa_id', $this->empresa);
@@ -78,15 +102,14 @@ class MostrarCardPracticante extends Component
                 $query->whereHas('user', function ($q) {
                     $q->where('departamento_id', $this->departamento);
                 });
-
             })
-            ->when($this->search, function ($query) {
+            ->when($this->puesto, function ($query) {
                 $query->whereHas('user', function ($q) {
-                    $q->where('name', 'like', '%' . $this->search . '%');
-                })->orWhere('clave_practicante', 'like', '%' . $this->search . '%');
-            })
-            ->get();
-                
+                    $q->where('puesto_id', $this->puesto);
+                });
+            });
+
+        return $query->get();
     }
 
     public function redirigir($id)
@@ -95,10 +118,14 @@ class MostrarCardPracticante extends Component
         return redirect()->route('cardpracticante', ['id' => $id_encriptado]);
     }
 
-    
-
     public function render()
     {
-        return view('livewire.portal-rh.practicante.mostrar-card-practicante')->layout('layouts.client');
+        $practicantes = $this->filtrar();
+        $this->noResults = $practicantes->isEmpty() && !empty($this->search);
+        
+        return view('livewire.portal-rh.practicante.mostrar-card-practicante', [
+            'practicantes' => $practicantes,
+            'noResults' => $this->noResults,
+        ])->layout('layouts.client');
     }
 }

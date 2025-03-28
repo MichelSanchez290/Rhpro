@@ -53,7 +53,7 @@ class Becario extends Model
     public function registroPatronal()
     {
         //cada trabajador pertenece a 
-        return $this->belongsTo(RegistroPatronal::class);
+        return $this->belongsTo(RegistroPatronal::class, 'registro_patronal_id');
     }
 
     /* 

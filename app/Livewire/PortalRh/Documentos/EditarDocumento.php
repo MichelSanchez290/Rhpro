@@ -8,12 +8,13 @@ use App\Models\PortalRH\Documento;
 use Illuminate\Support\Facades\Crypt;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class EditarDocumento extends Component
 {
     use WithFileUploads;
     public $documento_id, $archivo, $fecha_subida, $status, $numero, 
-    $original, $comentarios, $tipo_documento, $nombre_usuario, $subirPdf;
+    $original, $comentarios, $tipo_documento, $nombre_usuario, $subirPdf, $user_id;
 
     public function mount($id)
     {
@@ -29,9 +30,11 @@ class EditarDocumento extends Component
         $this->comentarios = $documento->comentarios;
         $this->tipo_documento = $documento->tipo_documento;
         
-        // Obtener el primer usuario vinculado (si existe) y asignar su nombre
+        // Obtener el usuario vinculado y su ID
         if ($documento->users->isNotEmpty()) {
-            $this->nombre_usuario = $documento->users->first()->name;
+            $user = $documento->users->first();
+            $this->nombre_usuario = $user->name;
+            $this->user_id = $user->id; // Guardamos el ID para el nombre del archivo
         } else {
             $this->nombre_usuario = 'No asignado';
         }
@@ -56,9 +59,12 @@ class EditarDocumento extends Component
                 Storage::disk('subirDocs')->delete($this->archivo);
             }
 
-            // guardar el nuevo archivo PDF
-            $this->subirPdf->storeAs('PortalRH/Documentos', $this->numero . ".pdf", 'subirDocs');
-            $this->archivo = "PortalRH/Documentos/" . $this->numero . ".pdf";
+            // Generar nombre único para el archivo
+            $nombreArchivo = $this->user_id . '_' . time() . '_' . $this->tipo_documento . '.pdf';
+            
+            // Guardar el nuevo archivo PDF
+            $this->subirPdf->storeAs('PortalRH/Documentos', $nombreArchivo, 'subirDocs');
+            $this->archivo = "PortalRH/Documentos/" . $nombreArchivo;
         }
         
         Documento::updateOrCreate(['id' => $this->documento_id], [

@@ -44,10 +44,12 @@ final class BajaTable extends PowerGridComponent
         $user = Auth::user();
 
         $query = Baja::query()
+            ->with(['user.bajas'])
             ->join('users', 'bajas.user_id', '=', 'users.id')
             ->select([
                 'bajas.*',
-                'users.name as nombre_usuario'
+                'users.name as nombre_usuario',
+                'users.tipo_user as tipo'
             ]);
 
         if ($user->hasRole('GoldenAdmin')) {
@@ -72,7 +74,10 @@ final class BajaTable extends PowerGridComponent
 
     public function relationSearch(): array
     {
-        return [];
+        return [
+            'user.bajas' => ['name'],
+            'user.bajas' => ['tipo_user'],
+        ];
     }
 
     public function fields(): PowerGridFields
@@ -80,6 +85,8 @@ final class BajaTable extends PowerGridComponent
         return PowerGrid::fields()
             ->add('id')
             ->add('id')
+            ->add('nombre_usuario')
+            ->add('tipo')
             ->add('fecha_baja_formatted', fn (Baja $model) => Carbon::parse($model->fecha_baja)->format('d/m/Y'))
             ->add('motivo_baja')
             ->add('tipo_baja')
@@ -98,7 +105,11 @@ final class BajaTable extends PowerGridComponent
         return [
             Column::make('Id', 'id'),
 
-            Column::make('Usuario', 'user.name')
+            Column::make('Usuario', 'nombre_usuario')
+                ->sortable()
+                ->searchable(),
+
+            Column::make('Tipo Usuario', 'tipo')
                 ->sortable()
                 ->searchable(),
 
@@ -115,6 +126,7 @@ final class BajaTable extends PowerGridComponent
 
             Column::make('Documento', 'documento')
                 ->sortable()
+                ->visibleInExport(false)
                 ->searchable(),
 
             Column::make('Observaciones', 'observaciones')
@@ -122,10 +134,6 @@ final class BajaTable extends PowerGridComponent
                 ->searchable(),
 
             Column::make('Creado el', 'created_at')
-                ->sortable()
-                ->searchable(),
-
-            Column::make('Actualizado el', 'updated_at')
                 ->sortable()
                 ->searchable(),
 

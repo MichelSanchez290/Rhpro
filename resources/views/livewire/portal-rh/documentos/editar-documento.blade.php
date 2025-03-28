@@ -12,7 +12,7 @@
 
         <div class="flex justify-center">
             <div class="flex">
-                <h1 class="text-gray-600 font-bold md:text-2xl text-xl">Agregar documento</h1>
+                <h1 class="text-gray-600 font-bold md:text-2xl text-xl">Editar documento</h1>
             </div>
         </div>
 
@@ -56,6 +56,26 @@
                 </label>
                 <input type="text" id="nombre_usuario" value="{{ $nombre_usuario }}" disabled
                     class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none" />
+            </div>
+
+            <div class="grid grid-cols-1 mt-5">
+                <label for="tipo_documento" class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
+                    Tipo de documento
+                </label>
+                <select wire:model.defer="tipo_documento" id="tipo_documento"
+                    class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                    <option value="" selected>-- Selecciona una opción --</option>
+                    <option value="Acta de nacimiento">Acta de nacimiento</option>
+                    <option value="CURP">CURP</option>
+                    <option value="RFC">RFC</option>
+                    <option value="INE">INE</option>
+                    <option value="Comprobante de domicilio">Comprobante de domicilio</option>
+                    <option value="Comprobante de estudios">Comprobante de estudios</option>
+                    <option value="CV actualizado">CV actualizado</option>
+                    <option value="Constancia de capacitación">Constancia de capacitación</option>
+                </select>
+
+                <x-input-error for="tipo_documento" />
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
@@ -111,27 +131,7 @@
 
                     <x-input-error for="original" />
                 </div>
-            </div>
-
-            <div class="grid grid-cols-1 mt-5">
-                <label for="tipo_documento" class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
-                    Tipo de documento
-                </label>
-                <select wire:model.defer="tipo_documento" id="tipo_documento"
-                    class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-                    <option value="" selected>-- Selecciona una opción --</option>
-                    <option value="Acta de nacimiento">Acta de nacimiento</option>
-                    <option value="CURP">CURP</option>
-                    <option value="RFC">RFC</option>
-                    <option value="INE">INE</option>
-                    <option value="Comprobante de domicilio">Comprobante de domicilio</option>
-                    <option value="Comprobante de estudios">Comprobante de estudios</option>
-                    <option value="CV actualizado">CV actualizado</option>
-                    <option value="Constancia de capacitación">Constancia de capacitación</option>
-                </select>
-
-                <x-input-error for="tipo_documento" />
-            </div>
+            </div> 
 
             <div class="grid grid-cols-1 mt-5">
                 <label for="comentarios" class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">

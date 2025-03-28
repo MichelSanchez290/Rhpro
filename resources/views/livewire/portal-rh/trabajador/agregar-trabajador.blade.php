@@ -528,7 +528,14 @@
                 </div>
             </div>
 
-            
+            <div class="grid grid-cols-1 mt-5">
+                <label for="sueldo"
+                    class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Sueldo</label>
+                <input wire:model.defer="trabajador.sueldo" type="text" id="sueldo" placeholder="2500.50"
+                    class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                    
+                <x-input-error for="trabajador.sueldo" />
+            </div>
 
             <!-- Botones -->
             <div class='flex items-center justify-center md:gap-8 gap-4 pt-5 pb-5'>

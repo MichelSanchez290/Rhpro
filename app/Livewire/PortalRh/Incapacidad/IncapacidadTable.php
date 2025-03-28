@@ -44,10 +44,12 @@ final class IncapacidadTable extends PowerGridComponent
         $user = Auth::user();
 
         $query = Incapacidad::query()
+            ->with(['users.incapacidades'])
             ->select([
                 'incapacidades.*',
                 'incapacidades.status as status',
-                'users.name as nombre_usuario'
+                'users.name as nombre_usuario',
+                'users.tipo_user as tipo'
             ])
             ->join('user_incapacidad', 'incapacidades.id', '=', 'user_incapacidad.incapacidad_id')
             ->join('users', 'user_incapacidad.user_id', '=', 'users.id');
@@ -71,7 +73,10 @@ final class IncapacidadTable extends PowerGridComponent
 
     public function relationSearch(): array
     {
-        return [];
+        return [
+            'users.incapacidades' => ['name'],
+            'users.incapacidades' => ['tipo_user'],
+        ];
     }
 
     public function fields(): PowerGridFields
@@ -80,6 +85,7 @@ final class IncapacidadTable extends PowerGridComponent
             ->add('id')
             ->add('id')
             ->add('nombre_usuario')
+            ->add('tipo')
             ->add('fecha_inicio_formatted', fn (Incapacidad $model) => Carbon::parse($model->fecha_inicio)->format('d/m/Y'))
             ->add('fecha_final_formatted', fn (Incapacidad $model) => Carbon::parse($model->fecha_final)->format('d/m/Y'))
             ->add('motivo')
@@ -97,6 +103,10 @@ final class IncapacidadTable extends PowerGridComponent
             Column::make('Id', 'id'),
 
             Column::make('Usuario', 'nombre_usuario')
+                ->sortable()
+                ->searchable(),
+
+            Column::make('Tipo Usuario', 'tipo')
                 ->sortable()
                 ->searchable(),
 
@@ -119,10 +129,8 @@ final class IncapacidadTable extends PowerGridComponent
                 ->searchable(),
 
             Column::make('Documento', 'documento')
-                ->sortable()
-                ->searchable(),
-
-            
+                ->visibleInExport(false)
+                ->sortable(),
 
             Column::make('Observaciones', 'observaciones')
                 ->sortable()

@@ -60,7 +60,9 @@ final class RolTable extends PowerGridComponent
     {
         return [
             Column::make('Id', 'id'),
-            Column::make('Rol', 'name'),
+            Column::make('Rol', 'name')
+                ->sortable()
+                ->searchable(),
 
             Column::make('Creado el', 'created_at')
                 ->sortable()

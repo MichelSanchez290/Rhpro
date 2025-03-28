@@ -8,13 +8,14 @@ use App\Models\User;
 use Illuminate\Support\Facades\Crypt;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class EditarIncapacidad extends Component
 {
     use WithFileUploads;
 
     public $incapacidad_id, $tipo, $motivo, $fecha_inicio, $fecha_final, 
-    $status, $documento, $observaciones, $nombre_usuario, $subirPdf;
+    $status, $documento, $observaciones, $nombre_usuario, $subirPdf, $user_id;
 
     public function mount($id)
     {
@@ -33,6 +34,14 @@ class EditarIncapacidad extends Component
         // Obtener el primer usuario vinculado (si existe) y asignar su nombre
         if ($incapacidad->users->isNotEmpty()) {
             $this->nombre_usuario = $incapacidad->users->first()->name;
+        } else {
+            $this->nombre_usuario = 'No asignado';
+        }
+
+        if ($incapacidad->users->isNotEmpty()) {
+            $user = $incapacidad->users->first();
+            $this->nombre_usuario = $user->name;
+            $this->user_id = $user->id; // Guardamos el ID del usuario para el nombre del archivo
         } else {
             $this->nombre_usuario = 'No asignado';
         }
@@ -57,9 +66,12 @@ class EditarIncapacidad extends Component
                 Storage::disk('subirDocs')->delete($this->documento);
             }
 
-            // guardar el nuevo archivo PDF
-            $this->subirPdf->storeAs('PortalRH/Incapacidades', $this->motivo . ".pdf", 'subirDocs');
-            $this->documento = "PortalRH/Incapacidades/" . $this->motivo . ".pdf";
+            // Generar nombre único para el archivo
+            $nombreArchivo = $this->user_id . '_' . time() . '_' . Str::slug($this->tipo) . '.pdf';
+            
+            // Guardar el nuevo archivo PDF
+            $this->subirPdf->storeAs('PortalRH/Incapacidades', $nombreArchivo, 'subirDocs');
+            $this->documento = "PortalRH/Incapacidades/" . $nombreArchivo;
         }
         
         Incapacidad::updateOrCreate(['id' => $this->incapacidad_id], [

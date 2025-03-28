@@ -40,12 +40,15 @@ final class DocumentoTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        $user = auth()->user();
+        $user = Auth::user();
+
         $query = Documento::query()
+        ->with(['users.documentos'])
             ->select('documentos.*')
             ->join('user_documento', 'documentos.id', '=', 'user_documento.documento_id')
             ->join('users', 'user_documento.user_id', '=', 'users.id')
-            ->addSelect('users.name as user_name'); // Traer el nombre del usuario relacionado
+            ->addSelect('users.name as user_name')
+            ->addSelect('users.tipo_user as tipo'); // Traer el nombre del usuario relacionado
 
         if ($user->hasRole('GoldenAdmin')) { // GoldenAdmin ve todos los registros (no hay filtro adicional)
             return $query;
@@ -66,7 +69,10 @@ final class DocumentoTable extends PowerGridComponent
 
     public function relationSearch(): array
     {
-        return [];
+        return [
+            'users.documentos' => ['name'],
+            'users.documentos' => ['tipo_user'],
+        ];
     }
 
     public function fields(): PowerGridFields
@@ -74,6 +80,7 @@ final class DocumentoTable extends PowerGridComponent
         return PowerGrid::fields()
             ->add('id')
             ->add('user_name')
+            ->add('tipo')
             ->add('archivo', function (Documento $model) {
                 return '<a href="' . asset('PortalRH/Documentos/' . basename($model->archivo)) . '" target="_blank" class="text-blue-600 hover:underline">Ver Archivo</a>';
             })
@@ -91,15 +98,21 @@ final class DocumentoTable extends PowerGridComponent
         return [
             Column::make('Id', 'id'),
 
-            Column::make('Usuario', 'user_name'),
+            Column::make('Usuario', 'user_name')
+                ->sortable()
+                ->searchable(),
+
+            Column::make('Tipo Usuario', 'tipo')
+                ->sortable()
+                ->searchable(),
 
             Column::make('Tipo de documento', 'tipo_documento')
                 ->sortable()
                 ->searchable(),
             
             Column::make('Archivo', 'archivo')
-                ->sortable()
-                ->searchable(),
+                ->visibleInExport(false)
+                ->sortable(),
 
             Column::make('Fecha subida', 'fecha_subida_formatted', 'fecha_subida')
                 ->sortable(),

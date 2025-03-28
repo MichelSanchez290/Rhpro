@@ -10,6 +10,15 @@
         
     </div>
 
+    <div class="flex justify-end items-center mb-6">
+        @can('Agregar Documento Admin')
+            <button wire:click="redirigirAdmin" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded">
+                Agregar Documento para un Usuario
+            </button>
+        @endcan
+        
+    </div>
+
     <div class="relative mb-4">
         <div class="flex items-center justify-between">
             @if (session()->has('message'))

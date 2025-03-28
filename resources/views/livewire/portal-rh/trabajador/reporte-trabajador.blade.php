@@ -132,6 +132,7 @@
         </tr>
         <tr>
             <th>Contratación</th><td>{{ $trabajador->contratacion }}</td>
+            <th>Sueldo</th><td>$ {{ $trabajador->sueldo }}</td>
         </tr>
     </table>
 

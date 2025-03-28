@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('cambio_salarios', function (Blueprint $table) {
             $table->id();
             $table->date('fecha_cambio');
-            $table->string('salario_anterior', 45);
-            $table->string('salario_nuevo', 45);
+            $table->decimal('salario_anterior', 10, 2);
+            $table->decimal('salario_nuevo', 10, 2);
             $table->string('motivo', 255);
             $table->string('documento', 255);
             $table->string('observaciones', 255);

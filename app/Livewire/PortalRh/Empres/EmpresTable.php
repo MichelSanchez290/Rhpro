@@ -107,8 +107,8 @@ final class EmpresTable extends PowerGridComponent
                 ->searchable(),
 
             Column::make('Url constancia situacion fiscal', 'url_constancia_situacion_fiscal')
-                ->sortable()
-                ->searchable(),
+                ->visibleInExport(false)
+                ->sortable(),
 
 
 
