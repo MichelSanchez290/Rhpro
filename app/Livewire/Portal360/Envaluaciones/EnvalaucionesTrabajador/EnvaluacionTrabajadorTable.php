@@ -96,65 +96,7 @@ final class EnvaluacionTrabajadorTable extends PowerGridComponent
         $this->js('alert(' . $rowId . ')');
     }
 
-    // public function actions(Asignacion $row): array
-    // {
-    //     return [
-    //         Button::add('comenzar')
-    //         ->slot('Comenzar')
-    //         ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-    //         ->route('encuesta-envaluacion-pregunta', ['asignacionId' => $row->id]),
-    //     ];
-    // }
-
-    // public function actions(Asignacion $row): array
-    // {
-    //     $fechaExpirada = Carbon::parse($row->fecha)->isPast();
-
-    //     return [
-    //         Button::add('comenzar')
-    //             ->slot('Comenzar')
-    //             ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700' . ($fechaExpirada ? ' opacity-50 cursor-not-allowed' : ''))
-    //             ->route('encuesta-envaluacion-pregunta', ['asignacionId' => $row->id])
-    //             ->when(fn() => $fechaExpirada, fn($button) => $button->attributes(['disabled' => 'disabled'])),
-    //     ];
-    // }
-
-//     public function actions(Asignacion $row): array
-// {
-//     $fechaExpirada = Carbon::parse($row->fecha)->isPast(); // Verifica si la fecha ya pasó
-
-//     if ($fechaExpirada) {
-//         return []; // No muestra ningún botón si la fecha ha expirado
-//     }
-
-//     return [
-//         Button::add('comenzar')
-//             ->slot('Comenzar')
-//             ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-//             ->route('encuesta-envaluacion-pregunta', ['asignacionId' => $row->id]),
-//     ];
-// }
-
-// public function actions(Asignacion $row): array
-// {
-//     // Obtener la fecha actual y la fecha de la asignación
-//     $hoy = Carbon::today();
-//     $fechaAsignacion = Carbon::parse($row->fecha)->startOfDay();
     
-//     // Verificar si es el mismo día
-//     $esMismoDia = $hoy->equalTo($fechaAsignacion);
-
-//     if ($esMismoDia) {
-//         return [
-//             Button::add('comenzar')
-//                 ->slot('Comenzar')
-//                 ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-//                 ->route('encuesta-envaluacion-pregunta', ['asignacionId' => $row->id]),
-//         ];
-//     }
-
-//     return []; // No mostrar botón si no es el mismo día
-// }
 
 public function actions(Asignacion $row): array
 {
@@ -181,15 +123,5 @@ public function actions(Asignacion $row): array
     return [$button];
 }
 
-    /*
-    public function actionRules($row): array
-    {
-       return [
-            // Hide button edit for ID 1
-            Rule::button('edit')
-                ->when(fn($row) => $row->id === 1)
-                ->hide(),
-        ];
-    }
-    */
+    
 }

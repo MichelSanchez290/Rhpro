@@ -156,7 +156,7 @@ final class VerResultadosUsuarioTable extends PowerGridComponent
             Button::add('vizualizar')
                 ->slot('Vizualizar')
                 ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-                ->route('VizualizarResultadosGeneralesUsuario', ['asignacionId' => $row->id]),
+                ->route('portal360.envaluaciones.ver-resultados-por-usuario-admin.ver-resultados-por-usuario', ['asignacionId' => $row->id]),
         ];
     }
 

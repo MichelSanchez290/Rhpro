@@ -32,14 +32,13 @@ class AgregarPreguntasAdministrador extends Component
     }
 
     protected $rules = [
-        'pregunta.texto' => 'required|min:10',
-        'pregunta.descripcion' => 'required|max:500',
+        'pregunta.texto' => 'required|min:1',
+        'pregunta.descripcion' => 'required|max:2000',
         'respuestas.*.texto' => 'required|min:5',
-        'respuestas.*.puntuacion' => 'required|integer|min:0|max:4', // Cambiado min:1 a min:0
+        'respuestas.*.puntuacion' => 'required|integer|min:1|max:4', // Cambiado de min:0 a min:1
         'empresa_id' => 'required|exists:empresas,id',
         'sucursal_id' => 'required|exists:sucursales,id',
     ];
-
     protected $messages = [
         'pregunta.texto.required' => 'El texto de la pregunta es obligatorio.',
         'pregunta.texto.min' => 'El texto debe tener al menos 10 caracteres.',
@@ -55,6 +54,8 @@ class AgregarPreguntasAdministrador extends Component
         'empresa_id.exists' => 'La empresa seleccionada no es válida.',
         'sucursal_id.required' => 'Debe seleccionar una sucursal.',
         'sucursal_id.exists' => 'La sucursal seleccionada no es válida.',
+        'respuestas.*.puntuacion.min' => 'La puntuación debe ser al menos 1.', // Actualizado mensaje
+        'respuestas.*.puntuacion.max' => 'La puntuación no debe ser mayor a 4.',
     ];
 
     public function updatedEmpresaId($value)
@@ -84,6 +85,13 @@ class AgregarPreguntasAdministrador extends Component
     public function savePreguntaAdministrador()
     {
         $this->validate();
+
+        // Validar que no haya puntuaciones repetidas
+        $puntuaciones = array_column($this->respuestas, 'puntuacion');
+        if (count($puntuaciones) !== count(array_unique($puntuaciones))) {
+            $this->dispatch('toastr-error', message: 'Las puntuaciones no pueden repetirse.');
+            return;
+        }
 
         try {
             $nuevaPregunta = Pregunta::create([

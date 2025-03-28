@@ -14,8 +14,14 @@ use App\Livewire\Portal360\Bienvenido;
 use App\Livewire\Portal360\Compromiso\CompromisoAdministrador\AgregarCompromisoAdministrador;
 use App\Livewire\Portal360\Compromiso\CompromisoAdministrador\EditarCompromisoAdministrador;
 use App\Livewire\Portal360\Compromiso\CompromisoAdministrador\MostrarCompromisoAdministrador;
+use App\Livewire\Portal360\Compromiso\CompromisoEmpresa\AgregarCompromisoEmpresa;
+use App\Livewire\Portal360\Compromiso\CompromisoEmpresa\EditarCompromisoEmpresa;
+use App\Livewire\Portal360\Compromiso\CompromisoEmpresa\MostrarCompromisoEmpresa;
 use App\Livewire\Portal360\Compromiso\CompromisoTrabajador\AgregarCompromisoTrabajador;
 use App\Livewire\Portal360\Compromiso\CompromisoTrabajador\MostrarCompromisoTrabajador;
+use App\Livewire\Portal360\Datos\DatosAdministrador\AgregarDatosAdministrador;
+use App\Livewire\Portal360\Datos\DatosAdministrador\EditarDatosAdministrador;
+use App\Livewire\Portal360\Datos\DatosAdministrador\MostrarDatosAdministrador;
 use App\Livewire\Portal360\Empresa\EmpresaAdministrador\MostrarEmpresaAdministrador;
 use App\Livewire\Portal360\Empresa\EmpresaEmpresa\MostrarEmpresaEmpresa;
 use App\Livewire\Portal360\Empresa\EmpresaSucursal\MostrarEmpresaSucursal;
@@ -73,6 +79,7 @@ use App\Livewire\Portal360\Resultados\AdministradorResultados\MostrarEmpresaAdmi
 use App\Livewire\Portal360\Resultados\AdministradorResultados\MostrarSucursalesAdministradorResultadosvs;
 use App\Livewire\Portal360\Resultados\EmpresaResultados\MostrarEmpresaResultado;
 use App\Livewire\Portal360\Resultados\EmpresaResultados\MostrarResultadosEmpresasv;
+use App\Livewire\Portal360\Resultados\JefeResultados\MostrarResultadosjefe;
 use Illuminate\Support\Facades\Route;
 
 
@@ -171,8 +178,8 @@ Route::get('/eliminar-asignaciones-empresa', [MostrarAsignacionesEmpresa::class,
 
 //Mostrar Asignaciones Sucursal 
 Route::get('/mostrar-asignacion-sucursal', MostrarAsignacionSucursal::class)->middleware('can:Mostrar Asignaciones ADMIN SUCURSAL')->name('portal360.asignaciones.asignaciones-sucursal.mostrar-asignacion-sucursal');
-Route::get('/agregar-asignacion-sucursal', AgregarAsignacionSucursal::class)->middleware('can:Agregar Asignaciones ADMIN SUCURSA')->name('agregarAsignacionSucursal');
-Route::get('/editar-asignacion-sucursal/{id}', EditarAsignacionSucursal::class)->middleware('can:Editar Asignaciones ADMIN SUCURSAL')->name('editarAsignacionesSocursal');
+Route::get('/agregar-asignacion-sucursal', AgregarAsignacionSucursal::class)->name('agregarAsignacionSucursal');
+Route::get('/editar-asignacion-sucursal/{id}', EditarAsignacionSucursal::class)->name('editarAsignacionesSocursal');
 Route::get('/eliminar-asignacion-sucursal', [MostrarAsignacionSucursal::class, 'deleteAsignacionSucursal'])->middleware('can:Eliminar Asignaciones ADMIN SUCURSAL')->name('eliminarAsignacionSucursal');
 
 
@@ -220,7 +227,7 @@ Route::get('/encuesta-envaluacion-pregunta/{asignacionId}', EncuestaEnvaluacionP
 
 
 
-Route::get('/ver-resultados-por-usuario/{asignacionId}', VerResultadosPorUsuario::class)->name('VizualizarResultadosGeneralesUsuario');
+Route::get('/ver-resultados-por-usuario/{asignacionId}', VerResultadosPorUsuario::class)->name('portal360.envaluaciones.ver-resultados-por-usuario-admin.ver-resultados-por-usuario');
 Route::get('/mostrar-compromiso-administrador', MostrarCompromisoAdministrador::class)->name('portal360.compromiso.compromiso-administrador.mostrar-compromiso-administrador');
 Route::get('/agregar-compromiso-administrador', AgregarCompromisoAdministrador::class)->name('agregarCompromisoAdministrador');
 Route::get('/editar-compromiso-administrador/{id}', EditarCompromisoAdministrador::class)->name('editarCompromisoAdministrador');
@@ -235,3 +242,16 @@ Route::get('/mostrar-sucursales-administrador-resultadosvs/{SucursalId}', Mostra
 
 Route::get('/mostrar-empresa-resultado', MostrarEmpresaResultado::class)->name('portal360.resultados.empresa-resultados.mostrar-empresa-resultado');
 Route::get('/mostrar-resultados-empresasv/{SucursalId}', MostrarResultadosEmpresasv::class)->name('VizualizarResultadosGeneralesEmpresa');
+
+Route::get('/mostrar-compromiso-empresa', MostrarCompromisoEmpresa::class)->name('portal360.compromiso.compromiso-empresa.mostrar-compromiso-empresa');
+Route::get('/agregar-compromiso-empresa', AgregarCompromisoEmpresa::class)->name('agregarCompromisoEmpresa');
+Route::get('/editar-compromiso-empresa/{id}', EditarCompromisoEmpresa::class)->name('editarCompromisoEmpresa');
+Route::get('/eliminar-compromiso-empresa', [MostrarCompromisoEmpresa::class, 'deleteCompromisoEmpresa'])->name('eliminarCompromisoEmpresa');
+
+Route::get('/mostrar-resultadosjefe', MostrarResultadosjefe::class)->name('portal360.resultados.jefe-resultados.mostrar-resultadosjefe');
+Route::get('/ver-resultados-por-usuario/{asignacionId}', VerResultadosPorUsuario::class)->name('portal360.envaluaciones.ver-resultados-por-usuario-admin.ver-resultados-por-usuario');
+
+Route::get('/mostrar-datos-administrador', MostrarDatosAdministrador::class)->name('portal360.datos.datos-administrador.mostrar-datos-administrador');
+Route::get('/agregar-datos-administrador', AgregarDatosAdministrador::class)->name('agregarDatosAdministrador');
+Route::get('/editar-datos-administrador/{id}', EditarDatosAdministrador::class)->name('editarDatosAdministrador');
+Route::get('/eliminar-datos-administrador', [MostrarDatosAdministrador::class, 'deleteDatosAdministrador'])->name('eliminarDatosAdministrador');

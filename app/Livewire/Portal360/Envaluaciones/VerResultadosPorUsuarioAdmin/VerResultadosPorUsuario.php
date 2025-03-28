@@ -22,7 +22,7 @@ class VerResultadosPorUsuario extends Component
     public string $departamentoNombre = '';
     public string $puestoNombre = '';
     public bool $realizada = false;
-    public array $datosGrafica = [];
+    public array $datosGrafica = [];    
     public $chartBase64 = null;
     public array $datosTabla = [
         'items' => [],

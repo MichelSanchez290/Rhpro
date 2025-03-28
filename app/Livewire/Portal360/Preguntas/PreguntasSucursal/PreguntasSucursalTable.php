@@ -14,11 +14,13 @@ use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
+use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 
 
 final class PreguntasSucursalTable extends PowerGridComponent
 {
     public string $tableName = 'preguntas-sucursal-table-xkdgjg-table';
+    use WithExport;
 
     public function setUp(): array
     {

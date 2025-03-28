@@ -39,30 +39,30 @@ final class MostrarEmpresaAdministradorTable extends PowerGridComponent
     public function datasource(): Builder
     {
         return EmpresaSucursal::query()
-        ->join('empresas', 'empresa_sucursal.empresa_id', '=', 'empresas.id')
-        ->join('sucursales', 'empresa_sucursal.sucursal_id', '=', 'sucursales.id')
-        ->select('empresa_sucursal.*', 'empresas.nombre as empresa_nombre', 'sucursales.clave_sucursal');
+            ->join('empresas', 'empresa_sucursal.empresa_id', '=', 'empresas.id')
+            ->join('sucursales', 'empresa_sucursal.sucursal_id', '=', 'sucursales.id')
+            ->select('empresa_sucursal.*', 'empresas.nombre as empresa_nombre', 'sucursales.nombre_sucursal');
     }
 
     public function relationSearch(): array
     {
         return [
-            'empresa' => [ // Nombre de la relación en el modelo EmpresaSucursal
-                'nombre', // Columna en la tabla 'empresas' que se debe buscar
+            'empresa' => [
+                'nombre',
             ],
-            'sucursal' => [ // Nombre de la relación en el modelo EmpresaSucursal
-                'clave_sucursal', // Columna en la tabla 'sucursales' que se debe buscar
+            'sucursal' => [
+                'nombre_sucursal', // Cambiado de 'clave_sucursal' a 'nombre_sucursal'
             ],
         ];
     }
-    
+
 
     public function fields(): PowerGridFields
     {
         return PowerGrid::fields()
             ->add('id')
             ->add('empresa_nombre', fn(EmpresaSucursal $model) => $model->empresa->nombre)
-            ->add('sucursal_clave', fn(EmpresaSucursal $model) => $model->sucursal->clave_sucursal);
+            ->add('sucursal_nombre', fn(EmpresaSucursal $model) => $model->sucursal->nombre_sucursal);
     }
 
     public function columns(): array
@@ -71,13 +71,9 @@ final class MostrarEmpresaAdministradorTable extends PowerGridComponent
             Column::make('Id', 'id'),
             Column::make('Nombre Empresa', 'empresa_nombre')
                 ->sortable(),
-            // ->searchable(),
 
-            Column::make('Clave Sucursal', 'sucursal_clave')
+            Column::make('Nombre Sucursal', 'sucursal_nombre')
                 ->sortable(),
-            // ->searchable(),
-
-            // Column::action('Action')
         ];
     }
 
@@ -91,27 +87,4 @@ final class MostrarEmpresaAdministradorTable extends PowerGridComponent
     {
         $this->js('alert(' . $rowId . ')');
     }
-
-    // public function actions(EmpresaSucursal $row): array
-    // {
-    //     return [
-    //         Button::add('edit')
-    //             ->slot('Edit: ' . $row->id)
-    //             ->id()
-    //             ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-    //             ->dispatch('edit', ['rowId' => $row->id])
-    //     ];
-    // }
-
-    /*
-    public function actionRules($row): array
-    {
-       return [
-            // Hide button edit for ID 1
-            Rule::button('edit')
-                ->when(fn($row) => $row->id === 1)
-                ->hide(),
-        ];
-    }
-    */
 }

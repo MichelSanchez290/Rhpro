@@ -2,42 +2,63 @@
 
 namespace App\Livewire\Portal360\Resultados\AdministradorResultados;
 
+use App\Models\Encuestas360\Asignacion;
 use App\Models\PortalRH\EmpresaSucursal;
 use Livewire\Component;
 
 class MostrarSucursalesAdministradorResultadosvs extends Component
 {
-//vgvytgygtftrftrffrfrfr
-    public $SucursalId; // ID de la relación empresa-sucursal
-    public $empresaSucursal; // Datos de la relación empresa-sucursal
-    public $mostrarTablaUsuarios = false; // Nueva variable para controlar la visibilidad de la tabla
-    public $mostrarTablaGenerales = false; // Nueva variable para controlar la visibilidad de la tabla
-    public $asignacionId; // Agrega esta propiedad si aplica
+
+    public $SucursalId;
+    public $empresaSucursal;
+    public $mostrarTablaUsuarios = false;
+    public $mostrarTablaGenerales = false;
+    public $asignacionId;
+    public $calificados = [];
+    public $selectedCalificadoId;
 
     public function mount($SucursalId)
     {
         $this->SucursalId = $SucursalId;
         $this->loadData();
-        // $this->asignacionId = /* Aquí defines cómo obtener el valor de asignacionId */;
     }
-    
 
     public function loadData()
     {
         $this->empresaSucursal = EmpresaSucursal::with(['sucursal'])
             ->where('id', $this->SucursalId)
             ->firstOrFail();
+
+        $this->calificados = Asignacion::with('calificado')
+            ->whereHas('calificado', function ($query) {
+                $query->where('sucursal_id', $this->empresaSucursal->sucursal_id);
+            })
+            ->where('realizada', 1)
+            ->get()
+            ->pluck('calificado')
+            ->unique('id')
+            ->values();
+
+        $this->selectedCalificadoId = $this->calificados->first()->id ?? null;
+    }
+
+    // Método para reaccionar al cambio de selectedCalificadoId
+    public function updatedSelectedCalificadoId($value)
+    {
+        // Ensure the results table is shown when a new user is selected
+        $this->mostrarTablaGenerales = true;
+
+        // Dispatch an event to notify the child component
+        $this->dispatch('calificado-changed', $value);
     }
 
     public function resultadosGeneralesPorUsuario()
     {
-        // En lugar de redirigir, mostrar la tabla
         $this->mostrarTablaUsuarios = true;
     }
 
     public function resultadosGenerales()
     {
-        // Mantener la redirección para esta acción si es necesario
         $this->mostrarTablaGenerales = true;
     }
 
@@ -46,7 +67,7 @@ class MostrarSucursalesAdministradorResultadosvs extends Component
         $this->mostrarTablaUsuarios = false;
         $this->mostrarTablaGenerales = false;
     }
-
+    
     public function render()
     {
         return view('livewire.portal360.resultados.administrador-resultados.mostrar-sucursales-administrador-resultadosvs')->layout('layouts.portal360');

@@ -23,6 +23,7 @@ class AgregarEncuestaPreguntaEncpreAdministrador extends Component
     public $preguntas = [];
     public $empresas = [];
     public $sucursales = [];
+    public $busquedaPreguntas = '';
 
     protected $rules = [
         'formData.encuestas_id' => 'required|exists:360_encuestas,id',
@@ -104,6 +105,34 @@ class AgregarEncuestaPreguntaEncpreAdministrador extends Component
             $this->preguntas = collect();
         }
     }
+
+    public function seleccionarTodasPreguntas()
+{
+    if (!empty($this->preguntas) && !$this->preguntas->isEmpty()) {
+        $this->formData['preguntas_id'] = $this->preguntas->pluck('id')->toArray();
+    }
+}
+
+public function deseleccionarTodasPreguntas()
+{
+    $this->formData['preguntas_id'] = [];
+}
+
+public function updatedBusquedaPreguntas()
+{
+    if (!empty($this->formData['empresa_id']) && !empty($this->formData['sucursal_id']) && !empty($this->formData['encuestas_id'])) {
+        $this->preguntas = Pregunta::whereHas('respuestas', function ($query) {
+            $query->where('empresa_id', $this->formData['empresa_id'])
+                  ->where('sucursal_id', $this->formData['sucursal_id']);
+        })
+        ->where('texto', 'like', '%' . $this->busquedaPreguntas . '%')
+        ->select('id', 'texto')
+        ->distinct()
+        ->get();
+    } else {
+        $this->preguntas = collect();
+    }
+}
 
     public function guardarAdministracion()
     {
