@@ -8,7 +8,6 @@ use App\Models\PortalCapacitacion\Evidencia;
 use App\Models\PortalCapacitacion\Escaneardc;
 use App\Models\PortalCapacitacion\GrupocursoCapacitacion;
 use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class AgregarEvidenciasGrupalesAdmin extends Component
@@ -60,8 +59,8 @@ class AgregarEvidenciasGrupalesAdmin extends Component
     public function save()
     {
         $this->validate([
-            'evidencias' => 'required|array',
-            'evidencias.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'evidencias' => 'array|nullable',
+            'evidencias.*' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'documento' => 'nullable|file|mimes:pdf|max:5120',
             'participanteSeleccionado' => 'required', // Validar que se seleccionó un participante
         ]);

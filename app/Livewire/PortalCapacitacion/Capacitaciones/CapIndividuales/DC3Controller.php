@@ -30,6 +30,23 @@ class DC3Controller
           ->where('cap_individual_user.caps_individuales_id', $capsIndividualesId)
           ->select('users.id', 'users.name', 'users.puesto_id', 'users.empresa_id')
           ->first();
+
+      $nombreCompleto = explode(" ", trim($user->name));
+
+          // Si hay al menos 3 partes, asumir que el formato es correcto
+          if (count($nombreCompleto) >= 3) {
+              $apellidoPaterno = $nombreCompleto[count($nombreCompleto) - 2]; // Penúltima palabra
+              $apellidoMaterno = $nombreCompleto[count($nombreCompleto) - 1]; // Última palabra
+              $nombres = implode(" ", array_slice($nombreCompleto, 0, count($nombreCompleto) - 2)); // Resto del nombre
+          } else {
+              // Si hay menos de 3 partes, asumir que solo hay nombre y un apellido
+              $apellidoPaterno = $nombreCompleto[1] ?? ''; 
+              $apellidoMaterno = '';
+              $nombres = $nombreCompleto[0] ?? ''; 
+          }
+          
+          // Concatenar en el orden correcto
+     $nombreFormatoCD3 = strtoupper("$apellidoPaterno $apellidoMaterno $nombres");
   
       $puesto = DB::table('puestos')
         ->where('id', $user->puesto_id)
@@ -55,14 +72,15 @@ class DC3Controller
   
       $fechas = DB::table('caps_individuales')
           ->where('id', $capsIndividualesId)
-          ->select('fechaIni', 'fechaFin')
+          ->select('fechaIni', 'fechaFin', 'ocupacion_especifica')
           ->first();
   
       // Generar el PDF con los datos
       $pdf = Pdf::loadView('livewire.portal-capacitacion.capacitaciones.dc3', [
           'user' => $user,
-          'puesto' => $puesto,
-          'curp' => $curp,
+          'nombreFormatoCD3' => $nombreFormatoCD3,
+          'puesto' => strtoupper((string) $puesto),
+          'curp' => strtoupper((string) $curp), 
           'curso' => $curso,
           'tematica' => $tematica,
           'empresa' => $empresa,
@@ -70,6 +88,7 @@ class DC3Controller
           'instructor' => $instructor,
           'patron' => $patron,
           'representante' => $representante,
+          'ocupacion_especifica' => $fechas->ocupacion_especifica,
       ])->setPaper('a4', 'portrait');
   
       return $pdf->download('DC3.pdf');

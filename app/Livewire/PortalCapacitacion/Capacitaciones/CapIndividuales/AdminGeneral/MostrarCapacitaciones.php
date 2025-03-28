@@ -31,6 +31,8 @@ class MostrarCapacitaciones extends Component
         $becario,
         $practicante,
         $instructor;
+    public $loadingCapacitacionId = null;
+    public $capacitacionInd;
 
     public function mount($id)
     {
@@ -80,14 +82,18 @@ class MostrarCapacitaciones extends Component
 
     public function exportarPDF($id)
     {
-        $capacitacion = CapacitacionIndividual::with('curso')->find($id);
-
+        // Cargar la capacitación junto con su curso y evidencias
+        $capacitacion = CapacitacionIndividual::with(['curso', 'evidencias'])->find($id);
+        $this->loadingCapacitacionId = $id;
+    
+        // Obtener información del usuario
         $this->trabajador = Trabajador::where('user_id', $this->user->id)->first();
         $this->becario = Becario::where('user_id', $this->user->id)->first();
         $this->practicante = Practicante::where('user_id', $this->user->id)->first();
         $this->instructor = Instructor::where('user_id', $this->user->id)->first();
         $this->user = User::with(['empresa', 'sucursal'])->find($this->user->id);
-        
+    
+        // Generar PDF con las evidencias incluidas
         $pdf = Pdf::setOptions(['dpi' => 150, 'isRemoteEnabled' => true])
             ->loadView('livewire.portal-capacitacion.capacitaciones.pdf.capacitaciones', [
                 'capacitacion' => $capacitacion,
@@ -97,13 +103,14 @@ class MostrarCapacitaciones extends Component
                 'becario' => $this->becario,
                 'practicante' => $this->practicante,
                 'instructor' => $this->instructor,
+                'evidencias' => $capacitacion->evidencias, // Pasamos las evidencias a la vista
             ])->setPaper('A4', 'portrait');
-        
+    
         return response()->streamDownload(function () use ($pdf) {
             echo $pdf->stream();
-        }, "Capacitacion_Individual.pdf"
-        );
+        }, "Capacitacion_Individual.pdf");
     }
+    
 
     public function exportarTodasCapacitaciones()
     {

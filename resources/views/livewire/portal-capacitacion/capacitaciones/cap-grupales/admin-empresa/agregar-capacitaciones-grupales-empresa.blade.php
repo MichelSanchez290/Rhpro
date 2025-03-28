@@ -78,6 +78,14 @@
             @error('objetivo_capacitacion') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
         </div>
 
+        <div>
+            <label class="block text-sm font-medium text-gray-700">🗃️ Ocupación Específica:</label>
+            <input type="text" wire:model="ocupacion_especifica" 
+                class="w-full p-3 mt-2 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-300">
+            @error('ocupacion_especifica') <span class="text-danger">{{ $message }}</span> @enderror
+        </div>
+        
+
         @if (session()->has('message'))
             <div class="bg-green-100 text-green-700 p-3 rounded-md mb-4">
                 {{ session('message') }}

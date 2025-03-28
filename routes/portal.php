@@ -95,9 +95,21 @@ use App\Livewire\PortalCapacitacion\AsociarPuestoTrabajador\AdminSucursal\Asigna
 use App\Livewire\PortalCapacitacion\Cursos\Tematicas\AdminGeneral\MostrarTematica;
 use App\Livewire\PortalCapacitacion\Cursos\Tematicas\AdminGeneral\AgregarTematica;
 use App\Livewire\PortalCapacitacion\Cursos\Tematicas\AdminGeneral\EditarTematica;
+use App\Livewire\PortalCapacitacion\Cursos\Tematicas\AdminEmpresa\MostrarTematicaEmpresa;
+use App\Livewire\PortalCapacitacion\Cursos\Tematicas\AdminEmpresa\AgregarTematicaEmpresa;
+use App\Livewire\PortalCapacitacion\Cursos\Tematicas\AdminEmpresa\EditarTematicaEmpresa;
+use App\Livewire\PortalCapacitacion\Cursos\Tematicas\AdminSucursal\MostrarTematicaSucursal;
+use App\Livewire\PortalCapacitacion\Cursos\Tematicas\AdminSucursal\AgregarTematicaSucursal;
+use App\Livewire\PortalCapacitacion\Cursos\Tematicas\AdminSucursal\EditarTematicaSucursal;
 use App\Livewire\PortalCapacitacion\Cursos\Cursos\AdminGeneral\MostrarCurso;
 use App\Livewire\PortalCapacitacion\Cursos\Cursos\AdminGeneral\AgregarCurso;
 use App\Livewire\PortalCapacitacion\Cursos\Cursos\AdminGeneral\EditarCurso;
+use App\Livewire\PortalCapacitacion\Cursos\Cursos\AdminEmpresa\MostrarCursoEmpresa;
+use App\Livewire\PortalCapacitacion\Cursos\Cursos\AdminEmpresa\AgregarCursoEmpresa;
+use App\Livewire\PortalCapacitacion\Cursos\Cursos\AdminEmpresa\EditarCursoEmpresa;
+use App\Livewire\PortalCapacitacion\Cursos\Cursos\AdminSucursal\MostrarCursoSucursal;
+use App\Livewire\PortalCapacitacion\Cursos\Cursos\AdminSucursal\AgregarCursoSucursal;
+use App\Livewire\PortalCapacitacion\Cursos\Cursos\AdminSucursal\EditarCursoSucursal;
 use App\Livewire\PortalCapacitacion\Capacitaciones\CapIndividuales\AdminGeneral\MostrarCapacitaciones;
 use App\Livewire\PortalCapacitacion\Capacitaciones\CapIndividuales\AdminGeneral\AgregarCapacitaciones;
 use App\Livewire\PortalCapacitacion\Capacitaciones\CapIndividuales\AdminGeneral\EditarCapacitaciones;
@@ -114,9 +126,11 @@ use App\Livewire\PortalCapacitacion\Capacitaciones\CapGrupales\AdminGeneral\Most
 use App\Livewire\PortalCapacitacion\Capacitaciones\CapGrupales\AdminGeneral\AgregarCapacitacionesGrupales;
 use App\Livewire\PortalCapacitacion\Capacitaciones\CapGrupales\AdminGeneral\EditarCapacitacionesGrupales;
 use App\Livewire\PortalCapacitacion\Capacitaciones\CapGrupales\AdminEmpresa\MostrarCapacitacionesGrupalesEmpresa;
+use App\Livewire\PortalCapacitacion\Capacitaciones\CapGrupales\AdminEmpresa\MostrarCapacitacionesGrupalesAdminEmpresa;
 use App\Livewire\PortalCapacitacion\Capacitaciones\CapGrupales\AdminEmpresa\AgregarCapacitacionesGrupalesEmpresa;
 use App\Livewire\PortalCapacitacion\Capacitaciones\CapGrupales\AdminEmpresa\EditarCapacitacionesGrupalesEmpresa;
 use App\Livewire\PortalCapacitacion\Capacitaciones\CapGrupales\AdminSucursal\MostrarCapacitacionesGrupalesSucursal;
+use App\Livewire\PortalCapacitacion\Capacitaciones\CapGrupales\AdminSucursal\MostrarCapacitacionesGrupalesAdminSucursal;
 use App\Livewire\PortalCapacitacion\Capacitaciones\CapGrupales\AdminSucursal\AgregarCapacitacionesGrupalesSucursal;
 use App\Livewire\PortalCapacitacion\Capacitaciones\CapGrupales\AdminSucursal\EditarCapacitacionesGrupalesSucursal;
 use App\Livewire\PortalCapacitacion\Evidencias\Individuales\AdminGeneral\MostrarEvidenciasIndividualesGeneral;
@@ -139,6 +153,9 @@ use App\Livewire\PortalCapacitacion\Capacitaciones\CapGrupales\ReconocimientoCon
 use App\Livewire\PortalCapacitacion\Capacitaciones\CapIndividuales\ReconocimientoControllerInd;
 use App\Livewire\PortalCapacitacion\Capacitaciones\CapIndividuales\DC3Controller;
 use App\Livewire\PortalCapacitacion\Capacitaciones\CapGrupales\DC3GrupoController;
+use App\Livewire\PortalCapacitacion\Capacitaciones\CapGrupales\Dc3ReconocimientosAdmin\Dc3Reconocimientos;
+use App\Livewire\PortalCapacitacion\Capacitaciones\CapGrupales\Dc3ReconocimientosAdmin\VerArchivos;
+use App\Livewire\PortalCapacitacion\Capacitaciones\CapIndividuales\Dc3ReconocimientosAdmin\SubirDocumentos;
 
 Route::get('/inicio', Inicio::class)->name('inicio-capacitacion');
 
@@ -272,11 +289,27 @@ Route::get('/asignar-perfil-puesto-sucursal/{id}/{tipoUsuario}', AsignarPerfilPu
 Route::get('/tematicas', MostrarTematica::class)->middleware('can:Ver tematicas')->name('verTematicas');
 Route::get('/agregar-tematicas', AgregarTematica::class)->middleware('can:Agregar tematicas')->name('agregarTematicas');
 Route::get('/editar-tematicas/{id}', EditarTematica::class)->middleware('can:Editar tematicas')->name('editarTematicas');
+//---------------------------------------------------------------------------------------------------------------
+Route::get('/tematicas-empresa', MostrarTematicaEmpresa::class)->middleware('can:Ver tematicas Empresa')->name('verTematicasEmpresa');
+Route::get('/agregar-tematicas-empresa', AgregarTematicaEmpresa::class)->middleware('can:Agregar tematicas Empresa')->name('agregarTematicasEmpresa');
+Route::get('/editar-tematicas-empresa/{id}', EditarTematicaEmpresa::class)->middleware('can:Editar tematicas Empresa')->name('editarTematicasEmpresa');
+//---------------------------------------------------------------------------------------------------------------
+Route::get('/tematicas-sucursal', MostrarTematicaSucursal::class)->middleware('can:Ver tematicas Sucursal')->name('verTematicasSucursal');
+Route::get('/agregar-tematicas-sucursal', AgregarTematicaSucursal::class)->middleware('can:Agregar tematicas Sucursal')->name('agregarTematicasSucursal');
+Route::get('/editar-tematicas-sucursal/{id}', EditarTematicaSucursal::class)->middleware('can:Editar tematicas Sucursal')->name('editarTematicasSucursal');
 
 //Cursos
 Route::get('/curso', MostrarCurso::class)->middleware('can:Ver cursos')->name('verCursos');
 Route::get('/agregar-curso', AgregarCurso::class)->middleware('can:Agregar cursos')->name('agregarCursos');
 Route::get('/editar-curso/{id}', EditarCurso::class)->middleware('can:Editar cursos')->name('editarCursos');
+//----------------------------------------------------------------------------------------------------------
+Route::get('/curso-empresa', MostrarCursoEmpresa::class)->middleware('can:Ver cursos Empresa')->name('verCursosEmpresa');
+Route::get('/agregar-curso-empresa', AgregarCursoEmpresa::class)->middleware('can:Agregar cursos Empresa')->name('agregarCursosEmpresa');
+Route::get('/editar-curso-empresa/{id}', EditarCursoEmpresa::class)->middleware('can:Editar cursos Empresa')->name('editarCursosEmpresa');
+//----------------------------------------------------------------------------------------------------------
+Route::get('/curso-sucursal', MostrarCursoSucursal::class)->middleware('can:Ver cursos Sucursal')->name('verCursosSucursal');
+Route::get('/agregar-curso-sucursal', AgregarCursoSucursal::class)->middleware('can:Agregar cursos Sucursal')->name('agregarCursosSucursal');
+Route::get('/editar-curso-sucursal/{id}', EditarCursoSucursal::class)->middleware('can:Editar cursos Sucursal')->name('editarCursosSucursal');
 
 //Capacitaciones INDIVIDUALES
 Route::get('/ver-capacitaciones-ind/{id}', MostrarCapacitaciones::class)->middleware('can:Ver capacitaciones')->name('verCapacitacionesInd');
@@ -295,15 +328,17 @@ Route::get('/ver-capacitaciones-ind-trabajador/{id}', MostrarCapacitacionesTraba
 
 //Capacitaciones GRUPALES
 Route::get('/ver-capacitaciones-gru', MostrarCapacitacionesGrupales::class)->middleware('can:Ver capacitaciones')->name('verCapacitacionesGru');
-Route::get('/ver-capacitaciones-gru-general/{id}', MostrarCapacitacionesGrupalesGeneral::class)->middleware('can:Ver capacitaciones')->name('verCapacitacionesGruGeneral');
+Route::get('/ver-capacitaciones-gru-general/{id}', MostrarCapacitacionesGrupalesGeneral::class)->name('verCapacitacionesGruGeneral');
 Route::get('/agregar-capacitaciones-gru', AgregarCapacitacionesGrupales::class)->middleware('can:Agregar capacitaciones')->name('agregarCapacitacionesGru');
 Route::get('/editar-capacitaciones-gru/{id}', EditarCapacitacionesGrupales::class)->middleware('can:Editar capacitaciones')->name('editarCapacitacionesGru');
 //------------------------------------------------------------------------------------------------------------------------------------
 Route::get('/ver-capacitaciones-gru-empresa', MostrarCapacitacionesGrupalesEmpresa::class)->middleware('can:Ver capacitaciones Empresa')->name('verCapacitacionesGruEmpresa');
+Route::get('/ver-capacitaciones-gru-admin-empresa/{id}', MostrarCapacitacionesGrupalesAdminEmpresa::class)->name('verCapacitacionesGrupalesAdminEmpresa');
 Route::get('/agregar-capacitaciones-gru-empresa', AgregarCapacitacionesGrupalesEmpresa::class)->middleware('can:Agregar capacitaciones Empresa')->name('agregarCapacitacionesGruEmpresa');
 Route::get('/editar-capacitaciones-gru-empresa/{id}', EditarCapacitacionesGrupalesEmpresa::class)->middleware('can:Editar capacitaciones Empresa')->name('editarCapacitacionesGruEmpresa');
 //------------------------------------------------------------------------------------------------------------------------------------
 Route::get('/ver-capacitaciones-gru-sucursal', MostrarCapacitacionesGrupalesSucursal::class)->middleware('can:Ver capacitaciones Sucursal')->name('verCapacitacionesGruSucursal');
+Route::get('/ver-capacitaciones-gru-admin-sucursal/{id}', MostrarCapacitacionesGrupalesAdminSucursal::class)->name('verCapacitacionesGrupalesAdminSucursal');
 Route::get('/agregar-capacitaciones-gru-sucursal', AgregarCapacitacionesGrupalesSucursal::class)->middleware('can:Agregar capacitaciones Sucursal')->name('agregarCapacitacionesGruSucursal');
 Route::get('/editar-capacitaciones-gru-sucursal/{id}', EditarCapacitacionesGrupalesSucursal::class)->middleware('can:Editar capacitaciones Sucursal')->name('editarCapacitacionesGruSucursal');
 //------------------------------------------------------------------------------------------------------------------------------------
@@ -321,25 +356,33 @@ Route::get('/editar-trabajador-capacitacion-grupal-sucursal/{id}', EditarPartici
 
 
 //Evidencias individuales
-Route::get('/ver-evidencias-ind-general/{id}', MostrarEvidenciasIndividualesGeneral::class)->middleware('can:Ver evidencias')->name('verEvidenciasInd');
+Route::get('/ver-evidencias-ind-general/{id}', MostrarEvidenciasIndividualesGeneral::class)->name('verEvidenciasInd');
 //--------------------------------------------------------------------------------------------------------------------------------
 Route::get('/ver-evidencias-ind/{id}', MostrarEvidenciasIndividuales::class)->name('verEvidenciasIndTrabajador');
 Route::get('/agregar-evidencias-ind/{id}', AgregarEvidenciasIndividuales::class)->name('agregarEvidenciasIndTrabajador');
 
 //Evidencias Grupales
-Route::get('/ver-evidencias-gru-general/{id}', MostrarEvidenciasGeneralGrupales::class)->middleware('can:Ver evidencias')->name('verEvidenciasGruGeneral');
+Route::get('/ver-evidencias-gru-general/{id}', MostrarEvidenciasGeneralGrupales::class)->name('verEvidenciasGruGeneral');
 Route::get('/agregar-evidencias-gru-admin/{id}', AgregarEvidenciasGrupalesAdmin::class)->name('agregarEvidenciasGru');
 //--------------------------------------------------------------------------------------------------------------------------------
 Route::get('/ver-evidencias-gru/{id}', MostrarEvidenciasTrabajadorGrupales::class)->middleware('can:Ver evidencias Trabajador')->name('verEvidenciasGruTrabajador');
 Route::get('/agregar-evidencias-gru/{id}', AgregarEvidenciasTrabajadorGrupales::class)->middleware('can:Ver evidencias Trabajador')->name('agregarEvidenciasGruTrabajador');
 
-//Reconocimientos
+//Descargar Reconocimientos
 Route::get('/descargar-reconocimiento/{id}', [ReconocimientoController::class, 'descargar'])->name('descargar.reconocimiento');
 Route::get('/descargar-reconocimiento-ind/{id}', [ReconocimientoControllerInd::class, 'descargar'])->name('descargar.reconocimiento.ind');
-Route::get('/descargar-reconocimiento/{caps_grupales_id}/{participante_id}', [ReconocimientoControllerAdmin::class, 'descargar'])
-    ->name('descargar.reconocimiento.admin');
+Route::get('/descargar-reconocimiento/{caps_grupales_id}/{participante_id}', [ReconocimientoControllerAdmin::class, 'descargar'])->name('descargar.reconocimiento.admin');
 
-//DC3 
+//Descargar DC3 
 Route::get('/descargar/dc3/{id}', [DC3Controller::class, 'descargar'])->name('descargar.dc3');
 Route::get('/descargar/dc3/grupal/{id}', [DC3GrupoController::class, 'descargar'])->name('descargar.dc3.grupo');
+
+//Subir dc3 y reconocimiento
+Route::get('/subir-dc3-reconocimiento/{id}', Dc3Reconocimientos::class)->name('subir.dc3.reconocimiento');
+Route::get('/descargar-archivo/{tipo}/{id}', [VerArchivos::class, 'descargarArchivo'])
+    ->name('descargar.archivo');
+
+//subir dc3 y reconocimiento individual
+Route::get('/subir-documentos/{id}', SubirDocumentos::class)->name('subir.documentos');
+
 

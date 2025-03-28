@@ -16,26 +16,35 @@
     </div>
 
     <div class="flex justify-between items-center mb-4">
-        <select wire:model="selectedYear"
-            class="px-8 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200">
-            <option value="">Seleccionar año</option>
-            @foreach ($years as $year)
-                <option value="{{ $year }}">{{ $year }}</option>
-            @endforeach
-        </select>
+        <div class="flex items-center gap-0">
+            <select wire:model="selectedYear"
+                class="px-5 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200">
+                <option value="">Seleccionar año</option>
+                @foreach ($years as $year)
+                    <option value="{{ $year }}">{{ $year }}</option>
+                @endforeach
+            </select>
 
-        <button wire:click="exportarTodasCapacitaciones" wire:loading.attr="disabled"
-            wire:target="exportarTodasCapacitaciones"
-            class="bg-red-500 text-white px-2 py-1 rounded-lg shadow-md hover:bg-red-600 
-                flex items-center gap-2 transition-all duration-300 transform hover:scale-105">
-            <span wire:loading.remove wire:target="exportarTodasCapacitaciones" class="flex items-center gap-2">
-                <i class="fas fa-file-pdf"></i>
-                Exportar todo
-            </span>
-            <span wire:loading.flex wire:target="exportarTodasCapacitaciones" class="flex items-center gap-2">
-                <i class="fa-solid fa-spinner animate-spin text-lg text-white"></i>
-                Procesando...
-            </span>
+            <button wire:click="exportarTodasCapacitaciones" wire:loading.attr="disabled"
+                wire:target="exportarTodasCapacitaciones"
+                class="ml-2 bg-red-500 text-white px-2 py-1 rounded-lg shadow-md hover:bg-red-600 
+                    flex items-center gap-2 transition-all duration-300 transform hover:scale-105">
+                <span wire:loading.remove wire:target="exportarTodasCapacitaciones" class="flex items-center gap-2">
+                    <i class="fas fa-file-pdf"></i>
+                    Exportar todo
+                </span>
+                <span wire:loading.flex wire:target="exportarTodasCapacitaciones" class="flex items-center gap-2">
+                    <i class="fa-solid fa-spinner animate-spin text-lg text-white"></i>
+                    Procesando...
+                </span>
+            </button>
+        </div>
+
+        <button onclick="window.location.href='{{ route('agregarCapacitacionesIndSucursal', Crypt::encrypt($userSeleccionado)) }}'" 
+            class="bg-green-500 text-white px-2 py-1 rounded-lg shadow-md hover:bg-green-600 
+            flex items-center gap-2 transition-all duration-300 transform hover:scale-105">
+            <i class="fas fa-plus"></i>
+            Agregar Capacitación
         </button>
     </div>
     @if (session()->has('error'))
@@ -76,6 +85,7 @@
                     <h2 class="text-xl text-gray-700 font-bold">{{ $capacitacion->nombreCapacitacion }}</h2>
                     <p class="mt-2 text-gray-600">{{ $capacitacion->objetivoCapacitacion }}</p>
                     <a class="text-gray-700 text-gr"><strong>Curso: {{ $capacitacion->curso->nombre }}</strong></a>
+                    <p class="text-gray-700 font-semibold">Ocupación especifica: {{ $capacitacion->ocupacion_especifica }}</p>
                 </div>
                 <div class="flex justify-between items-center mt-4">
                     <button wire:click="exportarPDF({{ $capacitacion->id }})" wire:loading.attr="disabled"

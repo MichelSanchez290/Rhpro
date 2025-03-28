@@ -20,6 +20,7 @@ class MostrarEvidenciasGeneralGrupales extends Component
     public $evidencias=[];
     public $participantes=[];
     public $participanteSeleccionado;
+    public $grupoEvidencias;
 
     protected $listeners = ['rechazarEvidencias'];
 
@@ -56,6 +57,8 @@ class MostrarEvidenciasGeneralGrupales extends Component
 
         // Obtener documentos escaneados
         $this->documentos = Escaneardc::where('grupocursos_capacitaciones_id', $this->caps_grupales_id)->get();
+
+        $this->grupoEvidencias = $evidencias;
     }
 
     public function aprobarEvidencias()
@@ -100,7 +103,8 @@ class MostrarEvidenciasGeneralGrupales extends Component
             'evidencias_rechazadas' => $this->evidencias_rechazadas,
             'documentos' => $this->documentos,
             'tieneEvidenciasAprobadas' => $this->tieneEvidenciasAprobadas,
-            'participantes' => $this->participantes
+            'participantes' => $this->participantes,
+            'grupoEvidencias' => $this->grupoEvidencias,
         ])->layout("layouts.portal_capacitacion");
     }
 }

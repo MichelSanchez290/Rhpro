@@ -14,6 +14,7 @@ class EditarCapacitacionesGrupales extends Component
 {
     public $nombreGrupo, $nombreCapacitacion, $fechaIni, $fechaFin, $cursos_id, $objetivo_capacitacion = [];
     public $cursos = [];
+    public $ocupacion_especifica, $status;
     public $usuario_id, $capacitacion_id;
     public $capacitacion;
     public $empresa_id, $sucursal_id;
@@ -37,7 +38,8 @@ class EditarCapacitacionesGrupales extends Component
         $this->fechaFin = $this->capacitacion->fechaFin;
         $this->cursos_id = $this->capacitacion->curso ? [$this->capacitacion->curso->id] : [];
         $this->objetivo_capacitacion = $this->capacitacion->objetivo_capacitacion;
-
+        $this->ocupacion_especifica = $this->capacitacion->ocupacion_especifica;
+        $this->status = $this->capacitacion->status;
         $this->empresa_id = $this->capacitacion->empresa_id;
         $this->empresas = Empresa::all();
         $this->sucursales = Empresa::find($this->empresa_id)?->sucursales ?? [];
@@ -71,6 +73,8 @@ class EditarCapacitacionesGrupales extends Component
             'fechaIni' => 'required|date',
             'fechaFin' => 'required|date|after_or_equal:fechaIni',
             'objetivo_capacitacion' => 'required|string',
+            'ocupacion_especifica' => 'required',
+            'status' => 'required',
             'empresa_id' => 'required',
             'sucursal_id' => 'required',
         ]);
@@ -82,8 +86,10 @@ class EditarCapacitacionesGrupales extends Component
             'fechaIni' => $this->fechaIni,
             'fechaFin' => $this->fechaFin,
             'objetivo_capacitacion' => $this->objetivo_capacitacion,
+            'status' => $this->status,
             'empresa_id' => $this->empresa_id,
             'sucursal_id' => $this->sucursal_id,
+            'ocupacion_especifica' => $this->ocupacion_especifica,
         ]);
 
         if (method_exists($this->capacitacion, 'cursos')) {

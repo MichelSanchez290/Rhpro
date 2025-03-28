@@ -20,6 +20,7 @@ class Escaneardc extends Model
         'id',
         'urlEsca',
         'grupocursos_capacitaciones_id',
+        'capacitacion_individual_id',
         'evidencia_id', // Asegúrate de que esto esté en el $fillable
     ];
 
@@ -33,5 +34,11 @@ class Escaneardc extends Model
     public function grupocursos_capacitaciones()
     {
         return $this->hasMany(GrupocursoCapacitacion::class, 'grupocursos_capacitaciones_id');
+    }
+
+    // Relación con capacitaciones individuales
+    public function capacitacion_individual()
+    {
+        return $this->belongsTo(CapacitacionIndividual::class, 'capacitacion_individual_id');
     }
 }

@@ -39,5 +39,8 @@ class FuncionEspecifica extends Model
         return $this->belongsTo(Sucursal::class);
     }
 
+    
+
+
 }
 

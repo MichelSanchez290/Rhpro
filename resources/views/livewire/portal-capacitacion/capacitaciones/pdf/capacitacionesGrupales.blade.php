@@ -131,6 +131,215 @@
             width: 100%;
             object-fit: cover;
         }
+
+
+        .tarjetasdos {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            border: 1px solid #e5e7eb;
+            top: 3cm;
+            margin-top: 1cm;
+        }
+        .headerdos {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #3b82f6;
+        }
+        .headerdos h1 {
+            color: #1e40af;
+            font-size: 29px;
+            margin: 0 0 10px 0;
+            font-weight: 700;
+        }
+        .separadordos {
+            height: 4px;
+            background: linear-gradient(to right, #3b82f6, #10b981);
+            width: 100px;
+            margin: 0 auto;
+            border-radius: 2px;
+        }
+        .capacitaciondos {
+            margin-top: 20px;
+        }
+        .infodos {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 25px;
+            font-size: 18px;
+            color: #6b7280;
+            gap: 20px;
+        }
+        h2 {
+            color: #111827;
+            font-size: 25px;
+            margin: 0 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .otrap {
+            margin: 12px 0;
+            line-height: 1.5;
+            font-size: 20px;
+        }
+        .bold {
+            font-weight: bold;
+            color: #1e40af;
+        }
+        .status-container {
+            display: flex;
+            align-items: center;
+            margin-top: 15px;
+        }
+        .status {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 16px;
+            font-size: 20px;
+            font-weight: bold;
+            margin-left: 8px;
+        }
+        .status-pendiente {
+            background-color: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fcd34d;
+        }
+        .status-en-proceso {
+            background-color: #dbeafe;
+            color: #1e40af;
+            border: 1px solid #93c5fd;
+        }
+        .status-finalizado {
+            background-color: #d1fae5;
+            color: #065f46;
+            border: 1px solid #6ee7b7;
+        }
+        .status-cancelado {
+            background-color: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+        }
+        .evidence-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e5e7eb;
+        }
+        .evidence-status {
+            display: flex;
+            align-items: center;
+            margin-top: 15px;
+            font-size: 20px;
+        }
+        .evidence-badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        .evidence-complete {
+            background-color: #dcfce7;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+        .evidence-missing {
+            background-color: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+        .footer {
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 16px;
+            color: #9ca3af;
+            border-top: 1px solid #e5e7eb;
+            padding: 10px 0;
+        }
+
+           /* Estilos para la sección de participantes dentro de la tarjeta */
+           .participantes-container {
+            margin-top: 35px;
+            padding: 25px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .participantes-title {
+            text-align: center;
+            font-size: 20px;
+            font-weight: 600;
+            color: #1e40af;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .participantes-title:after {
+            content: "";
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(to right, #3b82f6, #10b981);
+            margin: 8px auto 0;
+            border-radius: 2px;
+        }
+        
+        .participantes-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 0 auto;
+            font-size: 14px;
+        }
+        
+        .participantes-table thead tr {
+            background-color: #1e40af;
+            color: white;
+        }
+        
+        .participantes-table th {
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 500;
+            border: none;
+        }
+        
+        .participantes-table tbody tr {
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .participantes-table tbody tr:nth-child(even) {
+            background-color: #f0f4f8;
+        }
+        
+        .participantes-table td {
+            padding: 10px 15px;
+            color: #374151;
+        }
+        
+        .participantes-table td:first-child {
+            font-weight: 500;
+            color: #1e40af;
+        }
+        
+        .no-participantes {
+            text-align: center;
+            padding: 15px;
+            color: #6b7280;
+            font-style: italic;
+            background-color: #f3f4f6;
+            border-radius: 6px;
+        }
     </style>
 </head>
 <body>
@@ -468,22 +677,89 @@
 
     <div class="page-break"></div>
 
-    <div class="tarjetas">
-        <div class="header">
+    <div class="tarjetasdos">
+        <div class="headerdos">
             <h1>Reporte de Capacitación Grupal</h1>
-            <div class="separador"></div>
+            <div class="separadordos"></div>
         </div>
 
-            <div class="capacitacion">
-                <div class="info">
-                    <span>Fecha inicio: {{ $capacitacion->fechaIni }}</span>
-                    <span>Fecha fin: {{ $capacitacion->fechaFin }}</span>
-                </div>
-                <h2>{{ $capacitacion->nombreCapacitacion }}</h2>
-                <p><span class="bold">Objetivo:</span> {{ $capacitacion->nombreGrupo }}</p>
-                <p><span class="bold">Objetivo:</span> {{ $capacitacion->objetivo_capacitacion }}</p>
-                <p><span class="bold">Curso:</span> {{ $capacitacion->curso->nombre }}</p>
+        <div class="capacitaciondos">
+            <div class="infodos">
+                <span><strong>Fecha inicio:</strong> {{ $capacitacion->fechaIni }}</span>
+                <span><strong>Fecha fin:</strong> {{ $capacitacion->fechaFin }}</span>
             </div>
+            <h2>{{ $capacitacion->nombreCapacitacion }}</h2>
+            <p class="otrap"><span class="bold">Grupo:</span> {{ $capacitacion->nombreGrupo }}</p>
+            <p class="otrap"><span class="bold">Objetivo:</span> {{ $capacitacion->objetivo_capacitacion }}</p>
+            <p class="otrap"><span class="bold">Curso:</span> {{ $capacitacion->curso->nombre }}</p>
+            <p class="otrap"><span class="bold">Ocupación:</span> {{ $capacitacion->ocupacion_especifica ?? 'N/A' }}</p>
+            
+            <div class="status-container">
+                <span class="bold">Status:</span>
+                <span class="status status-{{ str_replace(' ', '-', strtolower($capacitacion->status)) }}">
+                    {{ $capacitacion->status }}
+                </span>
+            </div>
+
+            <!-- Sección de evidencias integrada -->
+            <div class="evidence-section">
+                <p class="bold">Estado de Evidencias:</p>
+                <div class="evidence-status">
+                    @php
+                        $tieneEvidencias = false;
+                    @endphp
+            
+                    @foreach($participantes as $participante)
+                        @if($participante->evidencias->isNotEmpty())
+                            @php $tieneEvidencias = true; @endphp
+                            @break
+                        @endif
+                    @endforeach
+            
+                    @if($tieneEvidencias)
+                        <span class="evidence-badge evidence-complete">Evidencias Completas</span>
+                    @else
+                        <span class="evidence-badge evidence-missing">Sin Evidencias</span>
+                    @endif
+                </div>
+            </div>
+            
+
+            <div class="participantes-section">
+                <h2 class="section-title">Participantes de la Capacitación</h2>
+                
+                @if(count($capacitacion->participantes) > 0)
+                <table class="participantes-table">
+                    <thead>
+                        <tr>
+                            <th width="8%">#</th>
+                            <th width="46%">Nombre</th>
+                            <th width="46%">Correo Electrónico</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($capacitacion->participantes as $index => $participante)
+                            @foreach($participante->users as $user)
+                                <tr>
+                                    <td>{{ $index + 1 }}</td>
+                                    <td>{{ $user->name }}</td>
+                                    <td>{{ $user->email }}</td>
+                                </tr>
+                            @endforeach
+                        @endforeach
+                    </tbody>
+                </table>
+                @else
+                <div class="no-participantes">
+                    No hay participantes registrados en esta capacitación
+                </div>
+                @endif
+            </div>    
+    </div>
+
+    <div class="footer">
+        Generado el {{ now()->format('d/m/Y H:i') }} | © {{ date('Y') }} {{ $usuario->empresa->nombre }}
     </div>
 </body>
 </html>
+

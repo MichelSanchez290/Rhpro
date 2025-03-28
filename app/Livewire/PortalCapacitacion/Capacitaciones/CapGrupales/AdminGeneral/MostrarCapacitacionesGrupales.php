@@ -105,7 +105,6 @@ class MostrarCapacitacionesGrupales extends Component
         return view('livewire.portal-capacitacion.capacitaciones.cap-grupales.admin-general.mostrar-capacitaciones-grupales', [
             'capacitaciones' => GrupocursoCapacitacion::doesntHave('participantes') // O usa la relación que corresponda
                 ->with('curso') // Incluye los cursos
-                ->paginate(3),
         ])->layout("layouts.portal_capacitacion");
     }
   

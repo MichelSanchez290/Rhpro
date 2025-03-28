@@ -106,45 +106,23 @@
                                     onclick="mostrarImagen('{{ asset('storage/' . $evidencia->evidencias) }}')">
                             @endforeach
                         </div>
+
+                        @php
+                            $documentosAsociados = $documentos->whereIn('evidencia_id', $grupoEvidencias->pluck('id'));
+                        @endphp
+                        @if ($documentosAsociados->count() > 0)
+                            <h4 class="text-md font-semibold mt-3">📄 Documentos PDF</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-2">
+                                @foreach ($documentosAsociados as $doc)
+                                    <iframe src="{{ asset('storage/' . $doc->urlEsca) }}"
+                                        class="w-full h-48 border rounded-lg"></iframe>
+                                @endforeach
+                            </div>
+                        @endif
                     </div>
                 @endforeach
             </div>
         @endif
-
-        <!-- Lightbox Modal -->
-        <div id="lightbox"
-            class="hidden fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50">
-            <div class="relative max-w-3xl w-full">
-                <img id="lightbox-img" src="" class="w-full max-h-[80vh] object-contain rounded-lg shadow-lg">
-                <button onclick="cerrarLightbox()"
-                    class="absolute top-4 right-4 bg-red-600 text-white px-3 py-1 rounded-full hover:bg-red-700">
-                    ✖
-                </button>
-            </div>
-        </div>
-
-        <script>
-            function mostrarImagen(src) {
-                document.getElementById('lightbox-img').src = src;
-                document.getElementById('lightbox').classList.remove('hidden');
-            }
-
-            function cerrarLightbox() {
-                document.getElementById('lightbox').classList.add('hidden');
-            }
-
-            document.addEventListener('keydown', function(event) {
-                if (event.key === "Escape") {
-                    cerrarLightbox();
-                }
-            });
-
-            document.getElementById('lightbox').addEventListener('click', function(event) {
-                if (event.target === this) {
-                    cerrarLightbox();
-                }
-            });
-        </script>
 
 
         <!-- 📌 Evidencias Rechazadas Agrupadas -->
@@ -160,9 +138,23 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-3">
                             @foreach ($grupoEvidencias as $evidencia)
                                 <img src="{{ asset('storage/' . $evidencia->evidencias) }}"
-                                    class="w-full h-40 object-cover rounded-lg shadow">
+                                    class="w-full h-40 object-cover rounded-lg shadow cursor-pointer hover:scale-105 transition-all duration-300"
+                                    onclick="mostrarImagen('{{ asset('storage/' . $evidencia->evidencias) }}')">
                             @endforeach
                         </div>
+
+                        @php
+                            $documentosAsociados = $documentos->whereIn('evidencia_id', $grupoEvidencias->pluck('id'));
+                        @endphp
+                        @if ($documentosAsociados->count() > 0)
+                            <h4 class="text-md font-semibold mt-3">📄 Documentos PDF</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-2">
+                                @foreach ($documentosAsociados as $doc)
+                                    <iframe src="{{ asset('storage/' . $doc->urlEsca) }}"
+                                        class="w-full h-48 border rounded-lg"></iframe>
+                                @endforeach
+                            </div>
+                        @endif
                     </div>
                 @endforeach
             </div>
@@ -200,11 +192,60 @@
                     @foreach ($evidenciasPendientes as $evidencia)
                         <div class="bg-gray-100 p-4 rounded-lg shadow">
                             <img src="{{ asset('storage/' . $evidencia->evidencias) }}"
-                                class="w-full h-40 object-cover rounded-lg">
+                                class="w-full h-40 object-cover rounded-lg shadow cursor-pointer hover:scale-105 transition-all duration-300"
+                                onclick="mostrarImagen('{{ asset('storage/' . $evidencia->evidencias) }}')">
                         </div>
                     @endforeach
                 </div>
+                @php
+                    $documentosAsociados = $documentos->whereIn('evidencia_id', $evidencias_pendientes->pluck('id'));
+                @endphp
+                @if ($documentosAsociados->count() > 0)
+                    <h4 class="text-md font-semibold mt-3">📄 Documentos PDF</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-2">
+                        @foreach ($documentosAsociados as $doc)
+                            <iframe src="{{ asset('storage/' . $doc->urlEsca) }}"
+                                class="w-full h-48 border rounded-lg"></iframe>
+                        @endforeach
+                    </div>
+                @endif
             </div>
         @endif
+
+        <!-- Lightbox Modal -->
+        <div id="lightbox"
+            class="hidden fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50">
+            <div class="relative max-w-3xl w-full">
+                <img id="lightbox-img" src=""
+                    class="w-full max-h-[80vh] object-contain rounded-lg shadow-lg">
+                <button onclick="cerrarLightbox()"
+                    class="absolute top-4 right-4 bg-red-600 text-white px-3 py-1 rounded-full hover:bg-red-700">
+                    ✖
+                </button>
+            </div>
+        </div>
+
+        <script>
+            function mostrarImagen(src) {
+                document.getElementById('lightbox-img').src = src;
+                document.getElementById('lightbox').classList.remove('hidden');
+            }
+
+            function cerrarLightbox() {
+                document.getElementById('lightbox').classList.add('hidden');
+            }
+
+            document.addEventListener('keydown', function(event) {
+                if (event.key === "Escape") {
+                    cerrarLightbox();
+                }
+            });
+
+            document.getElementById('lightbox').addEventListener('click', function(event) {
+                if (event.target === this) {
+                    cerrarLightbox();
+                }
+            });
+        </script>
     </div>
 </div>

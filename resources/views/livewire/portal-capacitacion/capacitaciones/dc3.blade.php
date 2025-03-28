@@ -26,12 +26,17 @@
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <img src="https://via.placeholder.com/150" alt="Logo Izquierdo">
-            <img src="https://via.placeholder.com/150" alt="Logo Derecho">
+      <div style="width: 520pt; display: flex; justify-content: space-between; align-items: center;">
+        <img src="{{ public_path('img/images.png') }}" style="float:left; width: 170px; height:auto;">
+        <img src="{{ public_path('img/otraempresa.png') }}" style="float:right; width: 130px; height:auto;">
+      </div>
+    
+      <div style="clear:both; margin-top: 20px;">
+        <div class="title">
+            FORMATO DC-3<br>CONSTANCIA DE COMPETENCIAS O DE HABILIDADES LABORALES
         </div>
-        <div class="title">FORMATO DC-3<br>CONSTANCIA DE COMPETENCIAS O DE HABILIDADES LABORALES</div>
-
+      </div>
+    
         <table class="table">
             <tr>
               <td class="section-title" colspan="2">DATOS DEL TRABAJADOR</td>
@@ -39,15 +44,16 @@
 
             <tr>
                 <td colspan="2"><strong>Nombre (Anotar apellido paterno, apellido materno y nombre(s))</strong><br>
-                    {{ $user->name }}
+                  {{ $nombreFormatoCD3 }}
                 </td>
+
             </tr>
             <tr>
                 <td><strong>Clave Única de Registro de Población (CURP)*</strong><br>
                     {{ implode(' | ', str_split($curp ?? 'No registrado')) }}
                 </td>
-                <td><strong>Ocupación específica (Catálogo Nacional de Ocupaciones)</strong><br>
-                    09
+                <td><strong>Ocupación específica (Catálogo Nacional de Ocupaciones)1/</strong><br>
+                  {{ $ocupacion_especifica }}
                 </td>
             </tr>
             <tr>
@@ -63,12 +69,12 @@
           </tr>
             <tr>
                 <td><strong>Nombre o razón social</strong><br>
-                    {{ $empresa->razon_social ?? 'No registrada' }}
+                    {{ strtoupper($empresa->razon_social ?? 'No registrada') }}
                 </td>
             </tr>
             <tr>
                 <td><strong>Registro Federal de Contribuyentes con homoclave (SHCP)</strong><br>
-                    {{ implode(' | ', str_split($empresa->rfc ?? 'No registrado')) }}
+                    {{ strtoupper(implode(' | ', str_split($empresa->rfc ?? 'No registrado'))) }}
                 </td>
             </tr>
         </table>
@@ -80,7 +86,7 @@
 
           <tr>
             <td colspan="9"><strong>Nombre del curso</strong><br>
-              {{ $curso->nombre }}
+              {{ strtoupper($curso->nombre) }}
             </td>
           </tr>
       
@@ -129,15 +135,15 @@
           </tr>
                     
           <tr>
-            <td colspan="9"><strong>Área temática del curso</strong><br>
-                {{ $tematica ?? 'No registrada' }}
+            <td colspan="9"><strong>Área temática del curso2/</strong><br>
+                {{ strtoupper($tematica ?? 'No registrada') }}
             </td>
           </tr>
       
           <!-- Nombre del agente capacitador -->
           <tr>
               <td colspan="9"><strong>Nombre del agente capacitador o STPS 3/</strong><br>
-                  {{ $capacitador ?? 'No registrado' }}
+                {{ strtoupper($instructor) }}
               </td>
           </tr>
         </table>
@@ -160,8 +166,8 @@
 
           <tr>
             <td><strong>Instructor</strong></td>
-            <td><strong>Patrón o representante legal</strong></td>
-            <td><strong>Representante de los trabajadores</strong></td>
+            <td><strong>Patrón o representante legal<span style="font-size: 6pt; margin-left: 5px;">4/</span></strong></td>
+            <td><strong>Representante de los trabajadores<span style="font-size: 6pt; margin-left: 5px;">5/</span></strong></td>
           </tr>
           
           <tr>
@@ -171,13 +177,13 @@
           </tr>
       
           <tr>
-            <td><strong>{{ $instructor }} <br>
+            <td><strong>{{ strtoupper($instructor) }} <br>
               _____________________________</strong>
             </td>
-            <td><strong>{{ $patron }} <br>
+            <td><strong>{{ strtoupper($patron) }} <br>
               _____________________________</strong>
             </td>
-            <td><strong>{{ $representante }} <br>
+            <td><strong>{{ strtoupper($representante) }} <br>
               _____________________________</strong>
             </td>
           </tr>

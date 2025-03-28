@@ -65,7 +65,6 @@ class MostrarCapacitacionesGrupalesSucursal extends Component
                 ->where('sucursal_id', $this->sucursal_id)
                 ->doesntHave('participantes') // O usa la relación que corresponda
                 ->with('curso') // Incluye los cursos
-                ->paginate(3),
         ])->layout("layouts.portal_capacitacion");
     }
 }

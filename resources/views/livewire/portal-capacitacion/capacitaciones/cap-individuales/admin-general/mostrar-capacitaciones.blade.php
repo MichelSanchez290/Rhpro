@@ -9,16 +9,16 @@
                 Mejora tus habilidades con cada curso
             </span>
         </h1>
-        <a href="{{route('vermasUsuarios', Crypt::encrypt($userSeleccionado))}}"
-            class="absolute top-4 right-4 text-gray-700 hover:text-blue-500 focus:text-blue-500 
+        <a href="{{ route('vermasUsuarios', Crypt::encrypt($userSeleccionado)) }}"
+            class="absolute top-4 right-4 text-gray-700 hover:text-red-500 focus:text-red-500 
             p-6 rounded-full transition-all duration-300 transform hover:scale-110 focus:scale-110 z-50">
             <i class="fas fa-sign-out-alt text-3xl"></i>
-    </a>
+        </a>
     </div>
 
-        <!-- Tabs para seleccionar capacitaciones individuales o grupales -->
+    <!-- Tabs para seleccionar capacitaciones individuales o grupales -->
     @php
-    $rutaActual = request()->route()->getName();
+        $rutaActual = request()->route()->getName();
     @endphp
 
     <div class="flex space-x-4 border-b border-gray-300 mb-6">
@@ -60,7 +60,8 @@
             </button>
         </div>
 
-        <button onclick="window.location.href='{{ route('agregarCapacitacionesInd', Crypt::encrypt($userSeleccionado)) }}'" 
+        <button
+            onclick="window.location.href='{{ route('agregarCapacitacionesInd', Crypt::encrypt($userSeleccionado)) }}'"
             class="bg-green-500 text-white px-2 py-1 rounded-lg shadow-md hover:bg-green-600 
             flex items-center gap-2 transition-all duration-300 transform hover:scale-105">
             <i class="fas fa-plus"></i>
@@ -78,58 +79,155 @@
         <p class="mt-2 text-gray-600 text-center">Este usuario no tiene capacitaciones asignadas.</p>
     @else
         @foreach ($capacitaciones as $capacitacion)
-            <div class="mt-8 p-4 border border-gray-300 rounded-lg shadow-md hover:shadow-lg transition-all relative">
-                <div class="flex justify-between items-center">
-                    <span class="font-light text-gray-600"><strong>Fecha inicio:
-                        </strong>{{ $capacitacion->fechaIni }}</span>
-                    <span class="font-light text-gray-600"><strong>Fecha fin:
-                        </strong>{{ $capacitacion->fechaFin }}</span>
-
-                    <div class="flex items-center gap-0">
-                        <button wire:click="confirmDelete({{ $capacitacion->id }})"
-                            class="text-red-500 hover:text-red-700 focus:text-red-700 p-2 rounded-full transition-all duration-300 transform hover:scale-110 focus:scale-110">
-                            <i class="fas fa-trash-alt text-xl"></i>
-                        </button>
-                        <button
-                            onclick="window.location.href='{{ route('editarCapacitacionesInd', Crypt::encrypt($capacitacion->id)) }}'"
-                            class="text-blue-500 hover:blue-red-700 focus:text-blue-700 p-2 rounded-full transition-all duration-300 transform hover:scale-110 focus:scale-110">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="1.5" stroke="currentColor" class="size-6">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+            <div class="mt-8 p-6 border border-gray-200 rounded-xl shadow-lg hover:shadow-xl transition-all bg-white">
+                <!-- Encabezado con fechas y status -->
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-3">
+                    <div class="flex items-center space-x-4">
+                        <div class="flex items-center text-sm text-gray-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1 text-gray-400" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
-                        </button>
-
+                            <span><strong>Inicio:</strong> {{ $capacitacion->fechaIni }}</span>
+                        </div>
+                        <div class="flex items-center text-sm text-gray-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1 text-gray-400" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <span><strong>Fin:</strong> {{ $capacitacion->fechaFin }}</span>
+                        </div>
                     </div>
 
+                    <!-- Status integrado -->
+                    <div
+                        class="px-3 py-1 rounded-full text-sm font-semibold 
+                    {{ $capacitacion->status == 'Pendiente'
+                        ? 'bg-yellow-100 text-yellow-800'
+                        : ($capacitacion->status == 'En proceso'
+                            ? 'bg-blue-100 text-blue-800'
+                            : ($capacitacion->status == 'Finalizado'
+                                ? 'bg-green-100 text-green-800'
+                                : 'bg-red-100 text-red-800')) }}">
+                        {{ ucfirst($capacitacion->status) }}
+                    </div>
                 </div>
-                <div class="mt-2">
-                    <h2 class="text-xl text-gray-700 font-bold">{{ $capacitacion->nombreCapacitacion }}</h2>
-                    <p class="mt-2 text-gray-600"><strong>Objetivo: </strong>{{ $capacitacion->objetivoCapacitacion }}</p>
-                    <a class="text-gray-700 text-gr"><strong>Curso: {{ $capacitacion->curso->nombre }}</strong></a>
+
+                <!-- Título y grupo -->
+                <div class="mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-2">{{ $capacitacion->nombreCapacitacion }}</h2>
                 </div>
-                <div class="flex justify-between items-center mt-4">
-                    <button wire:click="exportarPDF({{ $capacitacion->id }})" wire:loading.attr="disabled"
-                        wire:target="exportarPDF"
-                        class="bg-blue-500 text-white px-2 py-1 rounded-lg shadow-md hover:bg-blue-600 
-                            flex items-center gap-2 transition-all duration-300 transform hover:scale-105">
-                        <span wire:loading.remove wire:target="exportarPDF" class="flex items-center gap-2">
-                            <i class="fas fa-file-pdf"></i>
-                            Exportar PDF
-                        </span>
-                        <span wire:loading.flex wire:target="exportarPDF" class="flex items-center gap-2">
-                            <i class="fa-solid fa-spinner animate-spin text-lg text-white"></i>
-                            Procesando...
-                        </span>
-                    </button>
-                    <a href="{{ route('verEvidenciasInd', Crypt::encrypt($capacitacion->id)) }}"
-                        class="bg-green-600 text-white px-2 py-1 rounded-lg hover:bg-green-700 transition-transform transform hover:scale-105 flex items-center gap-2 shadow-md">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                          </svg>
-                           Ver Evidencia
-                     </a>
+
+                <!-- Detalles -->
+                <div class="space-y-3 mb-6">
+                    <div class="flex items-start">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500 mr-2 mt-0.5 flex-shrink-0"
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <p class="text-gray-700"><strong>Objetivo:</strong> {{ $capacitacion->objetivoCapacitacion }}
+                        </p>
+                    </div>
+                    <div class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-500 mr-2 flex-shrink-0"
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                        </svg>
+                        <p class="text-gray-700"><strong>Curso:</strong> {{ $capacitacion->curso->nombre }}</p>
+                    </div>
+                    <div class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-500 mr-2 flex-shrink-0"
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                        <p class="text-gray-700"><strong>Ocupación:</strong> {{ $capacitacion->ocupacion_especifica }}
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Botones de acción -->
+                <div class="flex justify-between items-center pt-4 border-t border-gray-200">
+                    <div class="flex space-x-3">
+                        <!-- Eliminar -->
+                        <div x-data="{ show: false }" class="relative">
+                            <button wire:click="confirmDelete({{ $capacitacion->id }})" @mouseover="show = true"
+                                @mouseleave="show = false"
+                                class="p-3 rounded-xl bg-red-50 hover:bg-red-100 text-red-500 transition-all duration-300 shadow-sm hover:shadow-md">
+                                <i class="fas fa-trash-alt text-xl"></i> <!-- Icono más grande -->
+                            </button>
+                            <div x-show="show"
+                                class="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-sm rounded py-1.5 px-3 whitespace-nowrap">
+                                Eliminar Capacitación
+                            </div>
+                        </div>
+                        <!-- Editar -->
+                        <div x-data="{ show: false }" class="relative">
+                            <button
+                                onclick="window.location.href='{{ route('editarCapacitacionesInd', Crypt::encrypt($capacitacion->id)) }}'"
+                                @mouseover="show = true" @mouseleave="show = false"
+                                class="p-3 rounded-xl bg-green-50 hover:bg-green-100 text-green-500 transition-all duration-300 shadow-sm hover:shadow-md">
+                                <i class="fas fa-edit text-xl"></i> <!-- Icono más grande -->
+                            </button>
+                            <div x-show="show"
+                                class="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-sm rounded py-1.5 px-3 whitespace-nowrap">
+                                Editar Capacitación
+                            </div>
+                        </div>
+
+                        <!-- Ver evidencias -->
+                        <div x-data="{ show: false }" class="relative">
+                            <button
+                                onclick="window.location.href='{{ route('verEvidenciasInd', Crypt::encrypt($capacitacion->id)) }}'"
+                                @mouseover="show = true" @mouseleave="show = false"
+                                class="p-3 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-600 transition-all duration-300 shadow-sm hover:shadow-md">
+                                <i class="fa-solid fa-eye text-xl"></i> <!-- Icono más grande -->
+                            </button>
+                            <div x-show="show"
+                                class="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-sm rounded py-1.5 px-3 whitespace-nowrap">
+                                Ver evidencias
+                            </div>
+                        </div>
+                        <!-- Exportar PDF - Versión destacada -->
+                        <div x-data="{ show: false }" class="relative">
+                            <button wire:click="exportarPDF({{ $capacitacion->id }})" wire:loading.attr="disabled"
+                                @mouseover="show = true" @mouseleave="show = false"
+                                class="p-3 rounded-xl bg-orange-50 hover:bg-orange-100 text-orange-500 transition-all duration-300 shadow-sm hover:shadow-md">
+
+                                <!-- Mostrar ícono cuando no esté cargando -->
+                                <span wire:loading.remove wire:target="exportarPDF({{ $capacitacion->id }})">
+                                    <i class="fas fa-file-pdf text-xl"></i> <!-- Icono más grande -->
+                                </span>
+
+                                <!-- Mostrar spinner cuando esté cargando -->
+                                <span wire:loading wire:target="exportarPDF({{ $capacitacion->id }})">
+                                    <i class="fa-solid fa-spinner animate-spin text-xl"></i>
+                                    <!-- Spinner más grande -->
+                                </span>
+                            </button>
+                            <div x-show="show"
+                                class="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-sm rounded py-1.5 px-3 whitespace-nowrap">
+                                Exportar PDF
+                            </div>
+                        </div>
+
+                        <div x-data="{ show: false }" class="relative">
+                            <button
+                                onclick="window.location.href='{{ route('subir.documentos', Crypt::encrypt($capacitacion->id)) }}'"
+                                @mouseover="show = true" @mouseleave="show = false"
+                                class="p-3 rounded-xl bg-green-50 hover:bg-green-100 text-green-500 transition-all duration-300 shadow-sm hover:shadow-md">
+                                <i class="fas fa-edit text-xl"></i> <!-- Icono más grande -->
+                            </button>
+                            <div x-show="show"
+                                class="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-sm rounded py-1.5 px-3 whitespace-nowrap">
+                                Subir Archivos
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         @endforeach

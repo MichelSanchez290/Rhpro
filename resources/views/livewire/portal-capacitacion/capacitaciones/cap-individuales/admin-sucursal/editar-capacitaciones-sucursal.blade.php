@@ -46,6 +46,13 @@
                 @error('cursos_id') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
 
+            <div>
+                <label class="block text-sm font-medium text-gray-700">🗃️ Ocupación Específica:</label>
+                <input type="text" wire:model="ocupacion_especifica" 
+                    class="w-full p-3 mt-2 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-300">
+                @error('ocupacion_especifica') <span class="text-danger">{{ $message }}</span> @enderror
+            </div>
+
             <!-- Botón de submit -->
             <div class="form-group">
                 <button type="submit" class="w-full py-3 bg-blue-600 text-white rounded-lg shadow-lg hover:bg-blue-700 transition duration-300 ease-in-out transform hover:scale-105">

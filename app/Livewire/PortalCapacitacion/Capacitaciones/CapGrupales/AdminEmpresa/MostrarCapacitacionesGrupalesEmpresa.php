@@ -94,7 +94,6 @@ class MostrarCapacitacionesGrupalesEmpresa extends Component
             'capacitaciones' => GrupocursoCapacitacion::where('empresa_id', $this->empresa_id)
                 ->doesntHave('participantes') // O usa la relación que corresponda
                 ->with('curso') // Incluye los cursos
-                ->paginate(3),
         ])->layout("layouts.portal_capacitacion");
     }
   

@@ -28,11 +28,16 @@
   @foreach ($data as $dc3)
   <div class="page-break">
     <div class="container">
-        <div class="header">
-            <img src="https://via.placeholder.com/150" alt="Logo Izquierdo">
-            <img src="https://via.placeholder.com/150" alt="Logo Derecho">
+      <div style="width: 520pt; display: flex; justify-content: space-between; align-items: center;">
+        <img src="{{ public_path('img/images.png') }}" style="float:left; width: 170px; height:auto;">
+        <img src="{{ public_path('img/otraempresa.png') }}" style="float:right; width: 130px; height:auto;">
+      </div>
+
+      <div style="clear:both; margin-top: 20px;">
+        <div class="title">
+            FORMATO DC-3<br>CONSTANCIA DE COMPETENCIAS O DE HABILIDADES LABORALES
         </div>
-        <div class="title">FORMATO DC-3<br>CONSTANCIA DE COMPETENCIAS O DE HABILIDADES LABORALES</div>
+      </div>
 
         <table class="table">
             <tr>
@@ -41,7 +46,7 @@
 
             <tr>
                 <td colspan="2"><strong>Nombre (Anotar apellido paterno, apellido materno y nombre(s))</strong><br>
-                  {{ $dc3['user']->name }}
+                  {{ $dc3['nombreFormatoCD3']}}
                 </td>
             </tr>
             <tr>
@@ -49,7 +54,7 @@
                     {{ implode(' | ', str_split($dc3['curp'] ?? 'No registrado')) }}
                 </td>
                 <td><strong>Ocupación específica (Catálogo Nacional de Ocupaciones)</strong><br>
-                    09
+                  {{ $dc3['ocupacion_especifica'] }}
                 </td>
             </tr>
             <tr>
@@ -65,7 +70,7 @@
           </tr>
             <tr>
                 <td><strong>Nombre o razón social</strong><br>
-                    {{ $dc3['empresa']->razon_social ?? 'No registrada' }}
+                    {{ strtoupper($dc3['empresa']->razon_social ?? 'No registrada') }}
                 </td>
             </tr>
             <tr>
@@ -82,7 +87,7 @@
 
           <tr>
             <td colspan="9"><strong>Nombre del curso</strong><br>
-              {{ $dc3['curso']->nombre }}
+              {{ strtoupper($dc3['curso']->nombre) }}
             </td>
           </tr>
       
@@ -132,14 +137,14 @@
                     
           <tr>
             <td colspan="9"><strong>Área temática del curso</strong><br>
-                {{ $dc3['tematica'] ?? 'No registrada' }}
+                {{ strtoupper($dc3['tematica'] ?? 'No registrada') }}
             </td>
           </tr>
       
           <!-- Nombre del agente capacitador -->
           <tr>
               <td colspan="9"><strong>Nombre del agente capacitador o STPS 3/</strong><br>
-                  {{ $capacitador ?? 'No registrado' }}
+                {{ strtoupper($dc3['instructor']) }}
               </td>
           </tr>
         </table>
@@ -173,13 +178,13 @@
           </tr>
       
           <tr>
-            <td><strong>{{ $dc3['instructor'] }} <br>
+            <td><strong>{{ strtoupper($dc3['instructor']) }} <br>
               _____________________________</strong>
             </td>
-            <td><strong>{{ $dc3['patron'] }} <br>
+            <td><strong>{{ strtoupper($dc3['patron']) }} <br>
               _____________________________</strong>
             </td>
-            <td><strong>{{ $dc3['representante']}} <br>
+            <td><strong>{{ strtoupper($dc3['representante'])}} <br>
               _____________________________</strong>
             </td>
           </tr>

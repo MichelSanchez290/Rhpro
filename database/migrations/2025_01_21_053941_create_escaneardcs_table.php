@@ -20,6 +20,12 @@ return new class extends Migration
                 ->on( 'grupocursos_capacitaciones')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
+            $table->unsignedBigInteger('capacitacion_individual_id')->nullable();
+            $table->foreign('capacitacion_individual_id')
+                    ->references('id')
+                    ->on( 'capacitacion_individual')
+                    ->onUpdate('cascade')
+                    ->onDelete('cascade');
             // Agregar la columna evidencia_id con clave foránea
             $table->unsignedBigInteger('evidencia_id')->nullable();
             $table->foreign('evidencia_id')

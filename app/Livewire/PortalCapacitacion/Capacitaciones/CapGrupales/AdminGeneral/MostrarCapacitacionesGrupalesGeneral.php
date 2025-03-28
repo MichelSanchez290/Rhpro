@@ -15,6 +15,7 @@ use App\Models\PortalRH\Instructor;
 use App\Models\PortalRH\Empresa;
 use Illuminate\Support\Facades\DB;
 use App\Models\PortalCapacitacion\GrupocursoCapacitacion;
+use App\Models\PortalCapacitacion\Dc3Reconocimiento;
 
 class MostrarCapacitacionesGrupalesGeneral extends Component
 {
@@ -27,6 +28,36 @@ class MostrarCapacitacionesGrupalesGeneral extends Component
         $becario,
         $practicante,
         $instructor;
+    public $loadingCapacitacionId = null;
+    public $capacitacionInd;
+    public $showModal = false; // Control para ventana emergente
+    public $capacitacionToDelete;
+    
+
+    protected $listeners = [
+        'confirmDelete' => 'confirmDelete', // Captura el evento
+    ]; 
+    
+    public function confirmDelete($id)
+    {
+        $this->capacitacionToDelete = $id;
+        $this->showModal = true; // Mostrar modal
+    }
+
+    public function deleteCapacitacion()
+    {
+        if ($this->capacitacionToDelete) {
+            // Eliminar capacitación grupal
+            GrupocursoCapacitacion::find($this->capacitacionToDelete)->delete();
+            session()->flash('message', 'Capacitación grupal eliminada con éxito');
+        }
+
+        // Restablecer el estado
+        $this->capacitacionToDelete = null;
+        $this->showModal = false;
+
+        return redirect()->route('verCapacitacionesGru'); // Redirigir después de eliminar
+    }
 
     public function mount($id)
     {
@@ -52,56 +83,28 @@ class MostrarCapacitacionesGrupalesGeneral extends Component
     }
 
     public function exportarTodasCapacitaciones()
-{
-    // Verificar si el usuario seleccionó un año
-    if (!$this->selectedYear) {
-        session()->flash('error', 'Debes seleccionar un año antes de exportar.');
-        return;
-    }
-
-    // Obtener capacitaciones grupales del usuario filtradas por año seleccionado
-    $capacitaciones = GrupocursoCapacitacion::whereHas('participantes', function ($query) {
-            $query->whereHas('users', function ($subQuery) {
-                $subQuery->where('users.id', $this->userSeleccionado);
-            });
-        })
-        ->whereYear('fechaIni', $this->selectedYear) // Filtrar por año
-        ->with('curso') // Cargar relación con curso
-        ->get();
-
-    // Verificar si hay datos
-    if ($capacitaciones->isEmpty()) {
-        session()->flash('error', 'No hay capacitaciones disponibles para el año seleccionado.');
-        return;
-    }
-
-    $this->trabajador = Trabajador::where('user_id', $this->user->id)->first();
-    $this->becario = Becario::where('user_id', $this->user->id)->first();
-    $this->practicante = Practicante::where('user_id', $this->user->id)->first();
-    $this->instructor = Instructor::where('user_id', $this->user->id)->first();
-    $this->user = User::with(['empresa', 'sucursal'])->find($this->user->id);
-    
-    $pdf = Pdf::setOptions(['dpi' => 150, 'isRemoteEnabled' => true])
-        ->loadView('livewire.portal-capacitacion.capacitaciones.pdf.capacitaciones-todas-grupales', [
-            'capacitaciones' => $capacitaciones,
-            'selectedYear' => $this->selectedYear,
-            'usuario' => $this->user,
-            'trabajador' => $this->trabajador,
-            'becario' => $this->becario,
-            'practicante' => $this->practicante,
-            'instructor' => $this->instructor,
-        ])->setPaper('A4', 'portrait');
-
-    return response()->streamDownload(function () use ($pdf) {
-        echo $pdf->stream();
-    }, "Capacitaciones_Grupales_{$this->selectedYear}.pdf"
-    );
-}
-
-    
-    public function exportarPDF($id)
     {
-        $capacitacion = GrupocursoCapacitacion::with('curso')->find($id);
+        // Verificar si el usuario seleccionó un año
+        if (!$this->selectedYear) {
+            session()->flash('error', 'Debes seleccionar un año antes de exportar.');
+            return;
+        }
+
+        // Obtener capacitaciones grupales del usuario filtradas por año seleccionado
+        $capacitaciones = GrupocursoCapacitacion::whereHas('participantes', function ($query) {
+                $query->whereHas('users', function ($subQuery) {
+                    $subQuery->where('users.id', $this->userSeleccionado);
+                });
+            })
+            ->whereYear('fechaIni', $this->selectedYear) // Filtrar por año
+            ->with('curso', 'participantes.evidencias') // Cargar relación con curso
+            ->get();
+
+        // Verificar si hay datos
+        if ($capacitaciones->isEmpty()) {
+            session()->flash('error', 'No hay capacitaciones disponibles para el año seleccionado.');
+            return;
+        }
 
         $this->trabajador = Trabajador::where('user_id', $this->user->id)->first();
         $this->becario = Becario::where('user_id', $this->user->id)->first();
@@ -109,6 +112,37 @@ class MostrarCapacitacionesGrupalesGeneral extends Component
         $this->instructor = Instructor::where('user_id', $this->user->id)->first();
         $this->user = User::with(['empresa', 'sucursal'])->find($this->user->id);
         
+        $pdf = Pdf::setOptions(['dpi' => 150, 'isRemoteEnabled' => true])
+            ->loadView('livewire.portal-capacitacion.capacitaciones.pdf.capacitaciones-todas-grupales', [
+                'capacitaciones' => $capacitaciones,
+                'selectedYear' => $this->selectedYear,
+                'usuario' => $this->user,
+                'trabajador' => $this->trabajador,
+                'becario' => $this->becario,
+                'practicante' => $this->practicante,
+                'instructor' => $this->instructor,
+            ])->setPaper('A4', 'portrait');
+
+        return response()->streamDownload(function () use ($pdf) {
+            echo $pdf->stream();
+        }, "Capacitaciones_Grupales_{$this->selectedYear}.pdf"
+        );
+    }
+    
+    public function exportarPDF($id)
+    {
+        $this->loadingCapacitacionId = $id;
+
+        // Cargar la capacitación con el curso, participantes y sus evidencias
+        $capacitacion = GrupocursoCapacitacion::with(['curso', 'participantes.evidencias', 'participantes.users'])->find($id);
+
+        $this->trabajador = Trabajador::where('user_id', $this->user->id)->first();
+        $this->becario = Becario::where('user_id', $this->user->id)->first();
+        $this->practicante = Practicante::where('user_id', $this->user->id)->first();
+        $this->instructor = Instructor::where('user_id', $this->user->id)->first();
+        $this->user = User::with(['empresa', 'sucursal'])->find($this->user->id);
+
+        // Generar PDF con las evidencias de los participantes incluidas
         $pdf = Pdf::setOptions(['dpi' => 150, 'isRemoteEnabled' => true])
             ->loadView('livewire.portal-capacitacion.capacitaciones.pdf.capacitacionesGrupales', [
                 'capacitacion' => $capacitacion,
@@ -118,18 +152,23 @@ class MostrarCapacitacionesGrupalesGeneral extends Component
                 'becario' => $this->becario,
                 'practicante' => $this->practicante,
                 'instructor' => $this->instructor,
+                'participantes' => $capacitacion->participantes, // Pasamos los participantes con evidencias
             ])->setPaper('A4', 'portrait');
-        
+
         return response()->streamDownload(function () use ($pdf) {
             echo $pdf->stream();
-        }, "Capacitacion_Grupal.pdf"
-        );
+        }, "Capacitacion_Grupal.pdf");
     }
 
+
     public function render()
-    {
-        return view('livewire.portal-capacitacion.capacitaciones.cap-grupales.admin-general.mostrar-capacitaciones-grupales-general', [
-            'capacitaciones' => $this->capacitaciones
-        ])->layout("layouts.portal_capacitacion");
-    }
+{
+    $dc3Reconocimientos = Dc3Reconocimiento::whereIn('grupocursos_capacitaciones_id', $this->capacitaciones->pluck('id'))->get();
+
+    return view('livewire.portal-capacitacion.capacitaciones.cap-grupales.admin-general.mostrar-capacitaciones-grupales-general', [
+        'capacitaciones' => $this->capacitaciones,
+        'dc3Reconocimientos' => $dc3Reconocimientos ?? collect([])
+    ])->layout("layouts.portal_capacitacion");
+}
+
 }

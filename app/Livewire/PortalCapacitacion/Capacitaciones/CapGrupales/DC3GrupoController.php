@@ -36,7 +36,7 @@ class DC3GrupoController
         // Obtener información del curso
         $capacitacion = DB::table('grupocursos_capacitaciones')
             ->where('id', $grupoCursosCapacitacionesId)
-            ->select('cursos_id')
+            ->select('cursos_id', 'ocupacion_especifica')
             ->first();
 
         if (!$capacitacion) {
@@ -58,7 +58,25 @@ class DC3GrupoController
         // Obtener datos de cada participante
         $data = [];
 
-        foreach ($participantes as $user) {
+            foreach ($participantes as $user) {
+                // Dividir el nombre completo en partes
+                $nombreCompleto = explode(" ", trim($user->name));
+
+                // Si hay al menos 3 partes, asumimos que el formato es correcto
+                if (count($nombreCompleto) >= 3) {
+                    $apellidoPaterno = $nombreCompleto[count($nombreCompleto) - 2]; // Penúltima palabra
+                    $apellidoMaterno = $nombreCompleto[count($nombreCompleto) - 1]; // Última palabra
+                    $nombres = implode(" ", array_slice($nombreCompleto, 0, count($nombreCompleto) - 2)); // Resto del nombre
+                } else {
+                    // Si hay menos de 3 partes, asumimos que solo hay nombre y un apellido
+                    $apellidoPaterno = $nombreCompleto[1] ?? ''; 
+                    $apellidoMaterno = '';
+                    $nombres = $nombreCompleto[0] ?? ''; 
+                }
+
+                // Concatenar en el formato correcto para el DC3
+                $nombreFormatoCD3 = strtoupper("$apellidoPaterno $apellidoMaterno $nombres");
+
             $puesto = DB::table('puestos')->where('id', $user->puesto_id)->value('nombre_puesto');
             $curp = DB::table('trabajadores')->where('user_id', $user->id)->value('curp') ??
                     DB::table('becarios')->where('user_id', $user->id)->value('curp') ??
@@ -72,8 +90,9 @@ class DC3GrupoController
 
             $data[] = [
                 'user' => $user,
-                'puesto' => $puesto,
-                'curp' => $curp,
+                'nombreFormatoCD3' => $nombreFormatoCD3,
+                'puesto' => strtoupper((string) $puesto),
+                'curp' => strtoupper((string) $curp),
                 'empresa' => $empresa,
                 'curso' => $curso,
                 'tematica' => $tematica,
@@ -81,6 +100,7 @@ class DC3GrupoController
                 'instructor' => $instructor,
                 'patron' => $patron,
                 'representante' => $representante,
+                'ocupacion_especifica' => $capacitacion->ocupacion_especifica,
             ];
         }
 

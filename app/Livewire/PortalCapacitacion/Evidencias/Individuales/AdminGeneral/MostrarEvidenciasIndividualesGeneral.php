@@ -8,6 +8,7 @@ use App\Models\PortalCapacitacion\Evidencia;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use App\Models\PortalCapacitacion\Escaneardc;
 
 class MostrarEvidenciasIndividualesGeneral extends Component
 {
@@ -16,6 +17,8 @@ class MostrarEvidenciasIndividualesGeneral extends Component
     public $evidencias_aprobadas;
     public $evidencias_rechazadas;
     public $tieneEvidenciasAprobadas = false;
+    public $documentos;
+    public $evidencias=[];
 
     protected $listeners = ['rechazarEvidencias'];
 
@@ -46,6 +49,10 @@ class MostrarEvidenciasIndividualesGeneral extends Component
         $this->evidencias_rechazadas = $evidencias->where('status', 'rechazado');
 
         $this->tieneEvidenciasAprobadas = $this->evidencias_aprobadas->isNotEmpty();
+        // Obtener documentos escaneados
+        $this->documentos = Escaneardc::where('capacitacion_individual_id', $this->caps_individuales_id)->get();
+
+        $this->grupoEvidencias = $evidencias;
     }
 
     public function aprobarEvidencias()
@@ -79,6 +86,7 @@ class MostrarEvidenciasIndividualesGeneral extends Component
             'evidenciasPendientes' => $this->evidencias_pendientes,
             'evidenciasAprobadas' => $this->evidencias_aprobadas,
             'evidenciasRechazadas' => $this->evidencias_rechazadas,
+            'documentos' => $this->documentos,
             'tieneEvidenciasAprobadas' => $this->tieneEvidenciasAprobadas
         ])->layout("layouts.portal_capacitacion");
     }

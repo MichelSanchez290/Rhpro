@@ -1,63 +1,110 @@
-<div class="max-w-2xl mx-auto p-8 bg-gray-100 shadow-lg rounded-lg mt-10 transform transition-all duration-500 hover:scale-105">
-    <h1 class="text-3xl font-semibold text-gray-800 mb-6 text-center animate__animated animate__fadeInDown">Registrar Capacitación Individual</h1>
+<div
+    class="max-w-2xl mx-auto p-8 bg-white shadow-xl rounded-2xl mt-10 transform transition-all duration-500 hover:scale-105">
+    <!-- Encabezado con diseño mejorado -->
+    <div
+        class="py-6 px-14 bg-gradient-to-tr from-blue-500 to-blue-300 rounded-tl-2xl rounded-tr-2xl text-center space-y-2">
+        <h2 class="text-white text-2xl font-bold uppercase">📌 REGISTRAR CAPACITACIÓN INDIVIDUAL</h2>
+        <h4 class="text-white font-semibold">MEJORA TUS HABILIDADES CON CADA CURSO 😊</h4>
+    </div>
 
-    <form wire:submit.prevent="asignarCapacitacion" class="space-y-6">
-        <div class="space-y-6">
-            <!-- Fecha de Inicio y Fecha de Fin en la misma fila -->
-            <div class="flex space-x-6">
-                <!-- Fecha de Inicio -->
-                <div class="form-group flex-1">
-                    <label for="fechaIni" class="block text-sm font-medium text-gray-700">Fecha de Inicio</label>
-                    <input type="date" id="fechaIni" wire:model="fechaIni" class="w-full p-4 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-300 ease-in-out bg-gray-50">
-                    @error('fechaIni') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                </div>
-                
-                <!-- Fecha de Fin -->
-                <div class="form-group flex-1">
-                    <label for="fechaFin" class="block text-sm font-medium text-gray-700">Fecha de Fin</label>
-                    <input type="date" id="fechaFin" wire:model="fechaFin" class="w-full p-4 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-300 ease-in-out bg-gray-50">
-                    @error('fechaFin') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                </div>
+    <form wire:submit.prevent="asignarCapacitacion" class="space-y-6 mt-6">
+            <div>
+                <label class="block text-sm font-medium text-gray-700">📚 Nombre de la Capacitación</label>
+                <input type="text" wire:model="nombreCapacitacion"
+                    class="w-full p-3 mt-2 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-300">
+                @error('nombreCapacitacion')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
             </div>
 
-            <!-- Nombre de la Capacitación -->
-            <div class="form-group">
-                <label for="nombreCapacitacion" class="block text-sm font-medium text-gray-700">Nombre de la Capacitación</label>
-                <input type="text" id="nombreCapacitacion" wire:model="nombreCapacitacion" class="w-full p-4 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-300 ease-in-out bg-gray-50">
-                @error('nombreCapacitacion') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-            </div>
+            <!-- Fechas -->
+            <div class="flex space-x-4">
+                <div class="w-1/2">
+                    <label class="block text-sm font-medium text-gray-700">📅 Fecha de Inicio</label>
+                    <input type="date" wire:model="fechaIni"
+                        class="w-full p-3 mt-2 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-300">
+                    @error('fechaIni')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
+                </div>
 
-            <!-- Objetivo de la Capacitación -->
-            <div class="form-group">
-                <label for="objetivoCapacitacion" class="block text-sm font-medium text-gray-700">Objetivo de la Capacitación</label>
-                <textarea id="objetivoCapacitacion" wire:model="objetivoCapacitacion" class="w-full p-4 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-300 ease-in-out bg-gray-50"></textarea>
-                @error('objetivoCapacitacion') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                <div class="w-1/2">
+                    <label class="block text-sm font-medium text-gray-700">📅 Fecha de Fin</label>
+                    <input type="date" wire:model="fechaFin"
+                        class="w-full p-3 mt-2 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-300">
+                    @error('fechaFin')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
+                </div>
             </div>
 
             <!-- Curso -->
-            <div class="form-group">
-                <label for="cursos_id" class="block text-sm font-medium text-gray-700">Curso</label>
-                <select id="cursos_id" wire:model="cursos_id" class="w-full p-4 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-300 ease-in-out bg-gray-50">
-                    <option value="">Selecciona un curso</option> <!-- Opción por defecto -->
-                    @foreach($cursos as $curso)
+            <div>
+                <label class="block text-sm font-medium text-gray-700">🎓 Curso</label>
+                <select wire:model.live="cursos_id"
+                    class="w-full p-3 mt-2 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-300">
+                    <option value="">Selecciona un curso</option>
+                    @foreach ($cursos as $curso)
                         <option value="{{ $curso->id }}">{{ $curso->nombre }}</option>
                     @endforeach
                 </select>
-                @error('cursos_id') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                @error('cursos_id')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
             </div>
 
-            <!-- Botón de submit -->
-            <div class="form-group">
-                <button type="submit" class="w-full py-3 bg-blue-600 text-white rounded-lg shadow-lg hover:bg-blue-700 transition duration-300 ease-in-out transform hover:scale-105">
+            <!-- Objetivo de la Capacitación -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700">🎯 Objetivo de la Capacitación</label>
+                <textarea wire:model="objetivoCapacitacion"
+                    class="w-full p-3 mt-2 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-300"></textarea>
+                @error('objetivoCapacitacion')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700">🗃️ Ocupación Específica:</label>
+                <input type="text" wire:model="ocupacion_especifica"
+                    class="w-full p-3 mt-2 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-300">
+                @error('ocupacion_especifica')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700">❓ Status</label>
+                <select wire:model.live="status"
+                    class="w-full p-3 mt-2 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-300">
+                    <option value="">Selecciona un estado</option>
+                    <option value="Pendiente">Pendiente</option>
+                    <option value="En proceso">En proceso</option>
+                    <option value="Finalizado">Finalizado</option>
+                    <option value="Cancelado">Cancelado</option>
+                </select>
+                @error('status')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
+            </div>
+
+
+            @if (session()->has('message'))
+                <div class="bg-green-100 text-green-700 p-3 rounded-md mb-4">
+                    {{ session('message') }}
+                </div>
+            @endif
+
+            <div class="flex space-x-4">
+                <!-- Botón de registrar -->
+                <button type="submit"
+                    class="w-1/2 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-300 transform hover:scale-105">
                     Registrar Capacitación
                 </button>
+
+                <button onclick="window.location.href='{{ route('verCapacitacionesGru') }}'"
+                    class="w-1/2 py-3 bg-gray-400 text-white font-semibold rounded-lg shadow-md hover:bg-gray-500 transition duration-300 transform hover:scale-105">
+                    Cancelar
+                </button>
             </div>
-        </div>
     </form>
-
-    <!-- Mensaje de confirmación -->
-    <div x-data="{ show: @json(session()->has('message')) }" x-show="show" x-init="setTimeout(() => show = false, 3000)" class="fixed top-5 right-5 bg-green-600 text-white text-lg px-6 py-3 rounded-lg shadow-lg transition-opacity duration-500" style="z-index: 1000;">
-        ✅ {{ session('message') }}
-    </div>
 </div>
-

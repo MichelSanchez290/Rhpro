@@ -11,6 +11,7 @@ class EditarCapacitacionesSucursal extends Component
 {
     public $fechaIni, $fechaFin, $nombreCapacitacion, $objetivoCapacitacion, $cursos_id = [];
     public $cursos = [];
+    public $ocupacion_especifica;
     public $usuario_id, $capacitacion_id; // Agregado el id de la capacitación para editar
     public $capacitacion;
 
@@ -35,6 +36,7 @@ class EditarCapacitacionesSucursal extends Component
         $this->fechaFin = $this->capacitacion->fechaFin;
         $this->nombreCapacitacion = $this->capacitacion->nombreCapacitacion;
         $this->objetivoCapacitacion = $this->capacitacion->objetivoCapacitacion;
+        $this->ocupacion_especifica = $this->capacitacion->ocupacion_especifica;
 
         // Cargar el id del curso relacionado
         $this->cursos_id = $this->capacitacion->curso ? [$this->capacitacion->curso->id] : [];
@@ -46,7 +48,8 @@ class EditarCapacitacionesSucursal extends Component
             'fechaIni' => 'required|date',
             'fechaFin' => 'required|date|after_or_equal:fechaIni',
             'nombreCapacitacion' => 'required',
-            'objetivoCapacitacion' => 'required'
+            'objetivoCapacitacion' => 'required',
+            'ocupacion_especifica' => 'required',
         ]);
 
         // Actualizar la capacitación
@@ -55,6 +58,7 @@ class EditarCapacitacionesSucursal extends Component
             'fechaFin' => $this->fechaFin,
             'nombreCapacitacion' => $this->nombreCapacitacion,
             'objetivoCapacitacion' => $this->objetivoCapacitacion,
+            'ocupacion_especifica' => $this->ocupacion_especifica,
         ]);
 
         // Actualizar la relación de cursos (si es necesario)
