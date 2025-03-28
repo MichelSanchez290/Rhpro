@@ -91,6 +91,9 @@ class Editaracttec extends Component
             $this->foto3 = "ImagenTecnologia3/" . $this->nombre . "-imagen.png";
         }
 
+        if ($this->activo['status'] === 'Activo') {
+            $this->activo['fecha_baja'] = null;
+        }
 
         // Actualizar la venta con los nuevos datos
         $activotec = ActivoTecnologia::findOrFail($this->activotec_id); 
@@ -111,6 +114,8 @@ class Editaracttec extends Component
             'status'=>$this->status
         ]);
         
+        session()->flash('success', '¡El activo ha sido editado exitosamente!');
+
         return redirect()->route('mostraracttec');
     }
 

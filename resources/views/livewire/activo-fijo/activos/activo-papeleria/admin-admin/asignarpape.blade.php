@@ -89,7 +89,7 @@
                     <!-- Select de Activo de Tecnología -->
                     <div class="my-2">
                         <div class="py-2 my-2">
-                            <label for="activo" class="text-gray-700 font-bold text-xl">Activo Tecnología</label>
+                            <label for="activo" class="text-gray-700 font-bold text-xl">Activo Papeleria</label>
                         </div>
                         <select wire:model.live="activoSeleccionado" class="block w-full border-2 px-2 py-2 text-sm sm:text-md rounded-md my-2 text-black">
                             <option value="">Seleccione un activo</option>

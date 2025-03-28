@@ -24,9 +24,9 @@ final class OficinaadmTable extends PowerGridComponent
         $this->showCheckBox();
 
         return [
-            PowerGrid::exportable('export')
-                ->striped()
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+            // PowerGrid::exportable('export')
+            //     ->striped()
+            //     ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             PowerGrid::header()
                 ->showSearchInput(),
             PowerGrid::footer()
@@ -50,7 +50,14 @@ final class OficinaadmTable extends PowerGridComponent
 
     public function relationSearch(): array
     {
-        return [];
+        return [
+            'tipoActivo' => [
+                'nombre_activo', // Campo de la relación tipoActivo que quieres buscar
+            ],
+            'anioEstimado' => [
+                'vida_util_año', // Campo de la relación anioEstimado que quieres buscar
+            ],
+        ];
     }
 
     public function fields(): PowerGridFields
@@ -64,7 +71,7 @@ final class OficinaadmTable extends PowerGridComponent
             ->add('ubicacion_fisica')
             ->add('tipo_activo_nombre', fn(ActivoOficina $model) => $model->tipoActivo->nombre_activo ?? 'N/A')
             ->add('fecha_adquisicion_formatted', fn(ActivoOficina $model) => Carbon::parse($model->fecha_adquisicion)->format('d/m/Y'))
-            ->add('fecha_baja_formatted', fn(ActivoOficina $model) => Carbon::parse($model->fecha_baja)->format('d/m/Y'))
+            ->add('fecha_baja_formatted', fn(ActivoOficina $model) => $model->fecha_baja ? Carbon::parse($model->fecha_baja)->format('d/m/Y') : 'No definida')
             ->add('precio_adquisicion')
             ->add('anioEstimado', fn(ActivoOficina $model) => $model->anioEstimado->vida_util_año ?? 'No asignado')
             ->add('empresa_nombre') // Usa el campo obtenido con el join

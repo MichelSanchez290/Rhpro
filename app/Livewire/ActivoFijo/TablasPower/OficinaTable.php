@@ -26,9 +26,9 @@ final class OficinaTable extends PowerGridComponent
         $this->showCheckBox();
 
         return [
-            PowerGrid::exportable('export')
-                ->striped()
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+            // PowerGrid::exportable('export')
+            //     ->striped()
+            //     ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             PowerGrid::header()
                 ->showSearchInput(),
             PowerGrid::footer()
@@ -54,7 +54,14 @@ final class OficinaTable extends PowerGridComponent
 
     public function relationSearch(): array
     {
-        return [];
+        return [
+            'tipoActivo' => [
+                'nombre_activo', // Campo de la relación tipoActivo que quieres buscar
+            ],
+            'anioEstimado' => [
+                'vida_util_año', // Campo de la relación anioEstimado que quieres buscar
+            ],
+        ];
     }
 
     public function fields(): PowerGridFields

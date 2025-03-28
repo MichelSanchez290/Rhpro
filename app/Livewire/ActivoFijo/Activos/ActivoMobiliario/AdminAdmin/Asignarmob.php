@@ -107,7 +107,7 @@ class Asignarmob extends Component
         ]);
 
         // Redirigir con mensaje de éxito
-        session()->flash('message', 'Activo mobiliario asignado correctamente.');
+        session()->flash('success', 'Activo asignado correctamente.');
         return redirect()->route('mostrarasignmobad');
     }
 

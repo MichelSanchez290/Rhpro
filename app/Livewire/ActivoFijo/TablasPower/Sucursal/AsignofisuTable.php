@@ -130,7 +130,7 @@ final class AsignofisuTable extends PowerGridComponent
 
             // Actualizar el activo en activos_tecnologias a 'Activo'
             DB::table('activos_oficinas')
-                ->where('id', $registro->activos_tecnologias_id)
+                ->where('id', $registro->activos_oficinas_id)
                 ->update([
                     'status' => 'Activo', // String para activos_tecnologias
                     'updated_at' => now(),

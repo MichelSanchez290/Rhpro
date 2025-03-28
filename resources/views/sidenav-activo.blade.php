@@ -25,6 +25,15 @@
         <span class="text-gray-400 font-bold">ACTIVOS</span>
         <div class="max-h-[50vh] overflow-y-auto overflow-x-hidden">
             <li class="mb-1 group">
+                @can('Tipo activo')
+                    <a href="{{ route('todosactivos') }}"
+                        class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gradient-to-r from-[#1763A6] to-[#1EA4D9] hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+                        <i class='fab fa-creative-commons-share mr-3 text-lg'></i>
+                        <span class="text-sm">Todos los activos</span>
+                    </a>
+                @endcan
+            </li>
+            <li class="mb-1 group">
                 <a href=""
                     class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gradient-to-r from-[#1763A6] to-[#1EA4D9] hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gradient-to-r from-[#1763A6] to-[#1EA4D9] group-[.selected]:text-gray-100 sidebar-dropdown-toggle">
                     <i class='fab fa-creative-commons-share mr-3 text-lg'></i>
@@ -114,6 +123,12 @@
                                 class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Sucursal</a>
                         </li>
                     @endcan
+                    @can('Activo mobiliario Sucursal')
+                        <li class="mb-4">
+                            <a href="{{ route('mostrarasignmobsu') }}"
+                                class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Asignaciones</a>
+                        </li>
+                    @endcan
                     @can('Activo mobiliario Trabajador')
                         <li class="mb-4">
                             <a href="{{ route('mostrarasignmobusu') }}"
@@ -158,6 +173,12 @@
                         <li class="mb-4">
                             <a href="{{ route('mostraractofi') }}"
                                 class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Sucursal</a>
+                        </li>
+                    @endcan
+                    @can('Activo oficina Sucursal')
+                        <li class="mb-4">
+                            <a href="{{ route('mostrarasignofisu') }}"
+                                class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Asignaciones</a>
                         </li>
                     @endcan
                     @can('Activo oficina Trabajador')
@@ -206,6 +227,12 @@
                                 class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Sucursal</a>
                         </li>
                     @endcan
+                    @can('Activo uniforme Sucursal')
+                        <li class="mb-4">
+                            <a href="{{ route('mostrarasignunisu') }}"
+                                class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Asignaciones</a>
+                        </li>
+                    @endcan
                     @can('Activo uniforme Trabajador')
                         <li class="mb-4">
                             <a href="{{ route('mostrarasignuniusu') }}"
@@ -250,6 +277,12 @@
                         <li class="mb-4">
                             <a href="{{ route('mostraractpape') }}"
                                 class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Sucursal</a>
+                        </li>
+                    @endcan
+                    @can('Activo papeleria Sucursal')
+                        <li class="mb-4">
+                            <a href="{{ route('mostrarasignpapesu') }}"
+                                class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Asignaciones</a>
                         </li>
                     @endcan
                     @can('Activo papeleria Trabajador')
@@ -298,6 +331,12 @@
                                 class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Sucursal</a>
                         </li>
                     @endcan
+                    @can('Activo souvenir Sucursal')
+                        <li class="mb-4">
+                            <a href="{{ route('mostrarasignsousu') }}"
+                                class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Asignaciones</a>
+                        </li>
+                    @endcan
                     @can('Activo souvenir Trabajador')
                         <li class="mb-4">
                             <a href="{{ route('mostrarasignsouusu') }}"
@@ -331,3 +370,48 @@
     </ul>
 </div>
 <div class="fixed top-0 left-0 w-full h-full bg-black/50 z-40 md:hidden sidebar-overlay"></div>
+<!-- En layouts/navactivos.blade.php -->
+
+@section('css')
+    <style>
+        .tiny-sweetalert {
+            width: 400px !important; /* Ancho aumentado a 400px */
+            padding: 10px !important; /* Padding ajustado */
+        }
+        .tiny-sweetalert .swal2-icon {
+            width: 20px !important; /* Ícono pequeño */
+            height: 20px !important;
+            margin: 5px auto !important; /* Espaciado razonable */
+        }
+        .tiny-title {
+            font-size: 14px !important; /* Tamaño de fuente legible */
+            margin: 5px 0 !important; /* Espaciado adecuado */
+            line-height: 1.2 !important; /* Altura de línea */
+            word-wrap: break-word; /* Permitir que el texto largo se divida */
+        }
+    </style>
+@endsection
+
+@section('js')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            @if (session('success'))
+                Swal.fire({
+                    icon: "success",
+                    title: "{{ session('success') }}",
+                    showConfirmButton: false,
+                    timer: 1500,
+                    width: '400px', /* Ancho aumentado a 400px */
+                    padding: '0.5rem',
+                    backdrop: true,
+                    customClass: {
+                        popup: 'tiny-sweetalert',
+                        title: 'tiny-title'
+                    }
+                });
+            @endif
+        });
+    </script>
+    <!-- Otros scripts aquí -->
+@endsection

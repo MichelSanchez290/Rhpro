@@ -70,7 +70,7 @@ class Asignaruni extends Component
     {
         $this->validate([
             'usuarioSeleccionado' => 'required|exists:users,id',
-            'activoSeleccionado' => 'required|exists:activos_tecnologias,id',
+            'activoSeleccionado' => 'required|exists:activos_uniformes,id',
             'observaciones' => 'required|string',
             'subirfoto1' => 'nullable|image|max:1024', // 1MB max
         ]);
@@ -109,6 +109,8 @@ class Asignaruni extends Component
             'subirfoto1',
         ]);
     
+        session()->flash('success', '¡Activo asignado exitosamente!');
+
         // Redirigir con mensaje de éxito
         return redirect()->route('mostrarasignuniad');
     }

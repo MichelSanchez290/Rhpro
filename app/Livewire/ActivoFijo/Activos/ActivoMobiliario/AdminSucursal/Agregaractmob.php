@@ -85,6 +85,8 @@ class Agregaractmob extends Component
         $this->subirfoto3=NULL ;
         $this->subirfoto4=NULL ;
         
+        session()->flash('success', '¡El activo ha sido registrado exitosamente!');
+
         return redirect()->route('mostraractmob');
     }
     public function render()

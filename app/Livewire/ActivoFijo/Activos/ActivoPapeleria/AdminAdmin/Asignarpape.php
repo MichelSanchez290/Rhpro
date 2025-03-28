@@ -70,7 +70,7 @@ class Asignarpape extends Component
     {
         $this->validate([
             'usuarioSeleccionado' => 'required|exists:users,id',
-            'activoSeleccionado' => 'required|exists:activos_tecnologias,id',
+            'activoSeleccionado' => 'required|exists:activos_papelerias,id',
             'observaciones' => 'required|string',
         ]);
     
@@ -101,6 +101,8 @@ class Asignarpape extends Component
             'observaciones',
         ]);
     
+        session()->flash('success', '¡Activo asignado exitosamente!');
+
         // Redirigir con mensaje de éxito
         return redirect()->route('mostrarasignpapead');
     }

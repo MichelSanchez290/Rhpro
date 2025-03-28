@@ -26,9 +26,9 @@ final class AsignsoueTable extends PowerGridComponent
         $this->showCheckBox();
 
         return [
-            PowerGrid::exportable('export')
-                ->striped()
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+            // PowerGrid::exportable('export')
+            //     ->striped()
+            //     ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             PowerGrid::header()
                 ->showSearchInput(),
             PowerGrid::footer()

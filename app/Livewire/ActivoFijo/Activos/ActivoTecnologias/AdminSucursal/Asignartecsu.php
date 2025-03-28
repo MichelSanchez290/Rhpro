@@ -35,7 +35,7 @@ class Asignartecsu extends Component
 
         if (!$user->hasRole('SusursalAdmin')) {
             session()->flash('error', 'No tienes permiso para realizar esta acción.');
-            return redirect()->route('mostrarasigntecsuc');
+            return redirect()->route('mostrarasigntecsu');
         }
 
         // Filtrar activos por sucursal y status 'Activo'
@@ -134,7 +134,8 @@ class Asignartecsu extends Component
             'subirfoto3'
         ]);
 
-        session()->flash('message', 'Activo tecnológico asignado correctamente.');
+        session()->flash('success', 'Activo asignado correctamente.');
+
         return redirect()->route('mostrarasigntecsu');
     }
 

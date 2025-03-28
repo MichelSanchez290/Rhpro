@@ -33,7 +33,7 @@ class Asignarofisu extends Component
 
         if (!$user->hasRole('SusursalAdmin')) {
             session()->flash('error', 'No tienes permiso para realizar esta acción.');
-            return redirect()->route('mostrarasigntecsuc');
+            return redirect()->route('mostrarasignofisu');
         }
 
         // Filtrar activos por sucursal y status 'Activo'
@@ -53,7 +53,7 @@ class Asignarofisu extends Component
     {
         $this->validate([
             'usuarioSeleccionado' => 'required|exists:users,id',
-            'activoSeleccionado' => 'required|exists:activos_tecnologias,id',
+            'activoSeleccionado' => 'required|exists:activos_oficinas,id',
             'observaciones' => 'required|string',
             'subirfoto1' => 'nullable|image|max:1024',
         ], [
@@ -120,8 +120,8 @@ class Asignarofisu extends Component
             'subirfoto1',
         ]);
 
-        session()->flash('message', 'Activo oficina asignado correctamente.');
-        return redirect()->route('mostrarasigntecsu');
+        session()->flash('success', 'Activo asignado correctamente.');
+        return redirect()->route('mostrarasignofisu');
     }
     public function render()
     {

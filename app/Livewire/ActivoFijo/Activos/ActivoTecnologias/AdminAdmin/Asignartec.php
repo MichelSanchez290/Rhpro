@@ -139,7 +139,7 @@ class Asignartec extends Component
         ]);
 
         // Mensaje de éxito y redirección
-        session()->flash('message', 'Activo asignado correctamente.');
+        session()->flash('success', '¡Activo asignado exitosamente!');
         return redirect()->route('mostrarasignaad');
     }
 

@@ -28,9 +28,9 @@ final class TecnologiaTable extends PowerGridComponent
         $this->showCheckBox();
 
         return [
-            PowerGrid::exportable('export')
-                ->striped()
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+            // PowerGrid::exportable('export')
+            //     ->striped()
+            //     ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             PowerGrid::header()
                 ->showSearchInput(),
             PowerGrid::footer()
@@ -56,7 +56,14 @@ final class TecnologiaTable extends PowerGridComponent
 
     public function relationSearch(): array
     {
-        return [];
+        return [
+            'tipoActivo' => [
+                'nombre_activo', // Campo de la relación tipoActivo que quieres buscar
+            ],
+            'anioEstimado' => [
+                'vida_util_año', // Campo de la relación anioEstimado que quieres buscar
+            ],
+        ];
     }
 
     public function fields(): PowerGridFields
@@ -69,7 +76,7 @@ final class TecnologiaTable extends PowerGridComponent
             ->add('num_activo')
             ->add('ubicacion_fisica')
             ->add('fecha_adquisicion_formatted', fn(ActivoTecnologia $model) => Carbon::parse($model->fecha_adquisicion)->format('d/m/Y'))
-            ->add('fecha_baja_formatted', fn(ActivoTecnologia $model) => Carbon::parse($model->fecha_baja)->format('d/m/Y'))
+            ->add('fecha_baja_formatted', fn(ActivoTecnologia $model) => $model->fecha_baja ? Carbon::parse($model->fecha_baja)->format('d/m/Y') : 'No definida')
             ->add('tipo_activo_nombre', fn(ActivoTecnologia $model) => $model->tipoActivo->nombre_activo ?? 'N/A')
             ->add('precio_adquisicion')
             ->add('anioEstimado', fn(ActivoTecnologia $model) => $model->anioEstimado->vida_util_año ?? 'No asignado')

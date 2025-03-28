@@ -25,9 +25,9 @@ final class ActivoofTable extends PowerGridComponent
         $this->showCheckBox();
 
         return [
-            PowerGrid::exportable('export')
-                ->striped()
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+            // PowerGrid::exportable('export')
+            //     ->striped()
+            //     ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             PowerGrid::header()->showSearchInput(),
             PowerGrid::footer()->showPerPage()->showRecordCount(),
         ];
@@ -49,7 +49,14 @@ final class ActivoofTable extends PowerGridComponent
 
     public function relationSearch(): array
     {
-        return [];
+        return [
+            'tipoActivo' => [
+                'nombre_activo', // Campo de la relación tipoActivo que quieres buscar
+            ],
+            'anioEstimado' => [
+                'vida_util_año', // Campo de la relación anioEstimado que quieres buscar
+            ],
+        ];
     }
 
     public function fields(): PowerGridFields
@@ -62,7 +69,7 @@ final class ActivoofTable extends PowerGridComponent
             ->add('ubicacion_fisica')
             ->add('tipo_activo_nombre', fn(ActivoOficina $model) => $model->tipoActivo->nombre_activo ?? 'N/A')
             ->add('fecha_adquisicion_formatted', fn(ActivoOficina $model) => $model->fecha_adquisicion ? Carbon::parse($model->fecha_adquisicion)->format('d/m/Y') : null)
-            ->add('fecha_baja', fn(ActivoOficina $model) => $model->fecha_baja ? Carbon::parse($model->fecha_baja)->format('d/m/Y') : 'No disponible')
+            ->add('fecha_baja_formatted', fn(ActivoOficina $model) => $model->fecha_baja ? Carbon::parse($model->fecha_baja)->format('d/m/Y') : 'No definida')
             ->add('precio_adquisicion')
             ->add('anioEstimado', fn(ActivoOficina $model) => $model->anioEstimado->vida_util_año ?? 'No asignado')
             ->add('created_at_formatted', fn(ActivoOficina $model) => $model->created_at->format('d/m/Y H:i'))

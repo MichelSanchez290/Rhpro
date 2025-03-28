@@ -62,6 +62,9 @@ class Editaractsou extends Component
 
     public function editar()
     {
+        if ($this->activo['status'] === 'Activo') {
+            $this->activo['fecha_baja'] = null;
+        }
         if ($this->subirfoto1) {
             // eliminar la  anterior si existe
             if ($this->foto1 && Storage::disk('subirDocs')->exists($this->foto1)) {
@@ -116,6 +119,8 @@ class Editaractsou extends Component
             'foto3' => $this->foto3,
             'status'=>$this->status  // agregar la imagen3 al modelo activosouvenir.php para que funcione con el storage
         ]);
+
+        session()->flash('success', '¡El activo ha sido editado exitosamente!');
 
         return redirect()->route('mostraractsou');
     }

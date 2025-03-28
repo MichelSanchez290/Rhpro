@@ -52,7 +52,14 @@ final class ActivouniTable extends PowerGridComponent
 
     public function relationSearch(): array
     {
-        return [];
+        return [
+            'tipoActivo' => [
+                'nombre_activo', // Campo de la relación tipoActivo que quieres buscar
+            ],
+            'anioEstimado' => [
+                'vida_util_año', // Campo de la relación anioEstimado que quieres buscar
+            ],
+        ];
     }
 
     public function fields(): PowerGridFields

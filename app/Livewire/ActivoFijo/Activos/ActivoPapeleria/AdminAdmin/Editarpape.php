@@ -94,6 +94,10 @@ class Editarpape extends Component
 
         $this->activo['empresa_id'] = $this->empresaSeleccionada;
 
+        if ($this->activo['status'] === 'Activo') {
+            $this->activo['fecha_baja'] = null;
+        }
+
         if ($this->subirfoto1) {
             // Eliminar la imagen anterior si existe
             if ($this->foto1 && Storage::disk('subirDocs')->exists($this->foto1)) {
@@ -129,6 +133,8 @@ class Editarpape extends Component
         // Crear una nueva instancia de Sale y asignar los valores
         // Actualizar el activo mobiliario
         ActivoPapeleria::find($this->activo['id'])->update($this->activo);
+
+        session()->flash('success', '¡El activo ha sido editado exitosamente!');
 
         // Redirigir a la vista de mostrar
         return redirect()->route('mostrarpapead');

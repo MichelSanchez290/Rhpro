@@ -117,6 +117,9 @@ class Agregarmob extends Component
         // Limpiar los datos después de guardar
         $this->reset(['activo', 'subirfoto1', 'subirfoto2', 'subirfoto3', 'subirfoto4']);
 
+        session()->flash('success', '¡El activo ha sido registrado exitosamente!');
+
+
         return redirect()->route('mostrarmobad');
     }
 

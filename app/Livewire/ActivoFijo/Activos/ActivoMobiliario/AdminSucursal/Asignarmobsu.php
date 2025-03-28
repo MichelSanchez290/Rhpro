@@ -33,7 +33,7 @@ class Asignarmobsu extends Component
 
         if (!$user->hasRole('SusursalAdmin')) {
             session()->flash('error', 'No tienes permiso para realizar esta acción.');
-            return redirect()->route('mostrarasigntecsuc');
+            return redirect()->route('mostrarasignmobsu');
         }
 
         // Filtrar activos por sucursal y status 'Activo'
@@ -53,7 +53,7 @@ class Asignarmobsu extends Component
     {
         $this->validate([
             'usuarioSeleccionado' => 'required|exists:users,id',
-            'activoSeleccionado' => 'required|exists:activos_tecnologias,id',
+            'activoSeleccionado' => 'required|exists:activos_mobiliarios,id',
             'observaciones' => 'required|string',
             'subirfoto1' => 'nullable|image|max:1024',
         ], [
@@ -120,7 +120,7 @@ class Asignarmobsu extends Component
             'subirfoto1'
         ]);
 
-        session()->flash('message', 'Activo mobiliario asignado correctamente.');
+        session()->flash('success', 'Activo mobiliario asignado correctamente.');
         return redirect()->route('mostrarasignmobsu');
     }
     public function render()
