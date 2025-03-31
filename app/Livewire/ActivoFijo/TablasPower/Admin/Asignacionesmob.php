@@ -17,7 +17,7 @@ use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
 final class Asignacionesmob extends PowerGridComponent
 {
     public string $tableName = 'asignacionesmob-gp2yzn-table';
-
+    protected $listeners = ['refreshPowerGrid' => '$refresh'];
     public function setUp(): array
     {
         $this->showCheckBox();

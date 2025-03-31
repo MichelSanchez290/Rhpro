@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActivoFijo\NotificacionController;
 use App\Http\Controllers\ActivoFijo\Reportes\PdfExportController;
 use App\Livewire\ActivoFijo\Activos\ActivoMobiliario\AdminAdmin\Agregarmob;
 use App\Livewire\ActivoFijo\Activos\ActivoMobiliario\AdminAdmin\Asignarmob;
@@ -80,6 +81,7 @@ use App\Livewire\ActivoFijo\Activos\ActivoTecnologias\AdminSucursal\Asignartecsu
 use App\Livewire\ActivoFijo\Activos\ActivoTecnologias\AdminSucursal\Editaracttec;
 use App\Livewire\ActivoFijo\Activos\ActivoTecnologias\AdminSucursal\Mostraracttec;
 use App\Livewire\ActivoFijo\Activos\ActivoTecnologias\AdminSucursal\Mostrartecsu;
+use App\Livewire\ActivoFijo\Activos\ActivoTecnologias\Trabajador\Mostrarasigntecusu;
 use App\Livewire\ActivoFijo\Activos\ActivoUniforme\AdminAdmin\Agregaruni;
 use App\Livewire\ActivoFijo\Activos\ActivoUniforme\AdminAdmin\Asignaruni;
 use App\Livewire\ActivoFijo\Activos\ActivoUniforme\AdminAdmin\Editaruni;
@@ -98,6 +100,7 @@ use App\Livewire\ActivoFijo\Activos\ActivoUniforme\AdminSucursal\Mostrarunisu;
 use App\Livewire\ActivoFijo\Activos\ActivoUniforme\Trabajador\Mostrarasignuniusu;
 use App\Livewire\ActivoFijo\Activos\Mostraractivos;
 use App\Livewire\ActivoFijo\InicioActivo;
+use App\Livewire\ActivoFijo\Notas\Admin\Mostrarnotaad;
 use App\Livewire\ActivoFijo\TipoActivo\Agregartipoactivo;
 use App\Livewire\ActivoFijo\TipoActivo\Editartipoactivo;
 use App\Livewire\ActivoFijo\TipoActivo\Mostrartipoactivo;
@@ -107,6 +110,7 @@ use App\Livewire\ActivoFijo\Notas\Editarnotas;
 use App\Livewire\ActivoFijo\Notas\Mostrarnotaem;
 use App\Livewire\ActivoFijo\Notas\Mostrarnotas;
 use App\Livewire\ActivoFijo\Reportes\Admin\Reportepdfad;
+use App\Livewire\ActivoFijo\TablasPower\Admin\AsignacionestecTable;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/principal', function () {
@@ -119,13 +123,13 @@ Route::get('af/agregartipoactivo', Agregartipoactivo::class)->middleware('can:Ti
 Route::get('af/mostrartipoactivo', Mostrartipoactivo::class)->middleware('can:Tipo activo')->name('mostrartipoactivo');
 Route::get('af/editartipoactivo/{id}', Editartipoactivo::class)->middleware('can:Tipo activo')->name('editartipoactivo');
 
+//***********************************************ACTIVO TECNOLOGIA **************************************************/
 //Admin general Tecnologia
 Route::get('af/agregaractivoad', Agregartec::class)->middleware('can:Activo tecnologia Admin')->name('agregartecad');
 Route::get('af/mostraractivoad', Mostrartec::class)->middleware('can:Activo tecnologia Admin')->name('mostrartecad');
 Route::get('af/editaractivoad/{id}', Editartec::class)->middleware('can:Activo tecnologia Admin')->name('editartecad');
 Route::get('af/mostrarasigad', Mostrarasig::class)->middleware('can:Activo tecnologia Admin')->name('mostrarasignaad');
 Route::get('af/asignartecad', Asignartec::class)->middleware('can:Activo tecnologia Admin')->name('asignartecad');
-
 
 //Admin Empresa Tecnologia
 Route::get('af/agregaractivoae', AgregarTecnologia::class)->middleware('can:Activo tecnologia Empresa')->name('agregartec');
@@ -134,8 +138,6 @@ Route::get('af/editaractivoae/{id}', EditarTecnologia::class)->middleware('can:A
 Route::get('af/asignartecem', Asignartecem::class)->middleware('can:Activo tecnologia Empresa')->name('asignartecem');
 Route::get('af/mostrarasigntecem', Mostrarasigntec::class)->middleware('can:Activo tecnologia Empresa')->name('mostrarasigntecem');
 
-
-
 //Admin Sucursal Tecnologia
 Route::get('af/mostraractivotec', Mostraracttec::class)->middleware('can:Activo tecnologia Sucursal')->name('mostraracttec');
 Route::get('af/agregaractivotec', Agregaracttec::class)->middleware('can:Activo tecnologia Sucursal')->name('agregaracttec');
@@ -143,6 +145,10 @@ Route::get('af/editaractivotec/{id}', Editaracttec::class)->middleware('can:Acti
 Route::get('af/asignartecsu', Asignartecsu::class)->middleware('can:Activo tecnologia Sucursal')->name('asignartecsu');
 Route::get('af/mostrarasigntecsu', Mostrartecsu::class)->middleware('can:Activo tecnologia Sucursal')->name('mostrarasigntecsu');
 
+// Trabajador Tecnologia
+Route::get('af/mostrarasigntecusu', Mostrarasigntecusu::class)->middleware('can:Activo tecnologia Trabajador')->name('mostrarasigntecusu');
+
+//***********************************************ACTIVO OFICINA **************************************************/
 //Administrador general Oficina
 Route::get('af/mostraractivoofiad', Mostrarofi::class)->middleware('can:Activo oficina Admin')->name('mostrarofiad');
 Route::get('af/agregaractivoofiad', Agregarofi::class)->middleware('can:Activo oficina Admin')->name('agregarofiad');
@@ -165,6 +171,10 @@ Route::get('af/editaractivoofi/{id}', Editaractofi::class)->middleware('can:Acti
 Route::get('af/asignarofisu', Asignarofisu::class)->middleware('can:Activo oficina Sucursal')->name('asignarofisu');
 Route::get('af/mostrarasignofisu', Mostrarofisu::class)->middleware('can:Activo oficina Sucursal')->name('mostrarasignofisu');
 
+// Trabajador Oficina
+Route::get('af/mostrarasignofiusu', Mostrarasignofiusu::class)->middleware('can:Activo oficina Trabajador')->name('mostrarasignofiusu');
+
+//***********************************************ACTIVO MOBILIARIO **************************************************/
 //Administrador general Mobiliario
 Route::get('af/agregaractivomobad', Agregarmob::class)->middleware('can:Activo mobiliario Admin')->name('agregarmobad');
 Route::get('af/mostraractivomobad', Mostrarmob::class)->middleware('can:Activo mobiliario Admin')->name('mostrarmobad');
@@ -186,6 +196,10 @@ Route::get('af/editaractivomob/{id}', Editaractmob::class)->middleware('can:Acti
 Route::get('af/asignarmobsu', Asignarmobsu::class)->middleware('can:Activo mobiliario Sucursal')->name('asignarmobsu');
 Route::get('af/mostrarasignmobsu', Mostrarmobsu::class)->middleware('can:Activo mobiliario Sucursal')->name('mostrarasignmobsu');
 
+// Trabajador Mobiliario
+Route::get('af/mostrarasignmobusu', Mostrarasignmobusu::class)->middleware('can:Activo mobiliario Trabajador')->name('mostrarasignmobusu');
+
+//***********************************************ACTIVO PAPELERIA **************************************************/
 //Admin General Papeleria
 Route::get('af/mostraractivopapead', Mostrarpape::class)->middleware('can:Activo papeleria Admin')->name('mostrarpapead');
 Route::get('af/agregaractivopapead', Agregarpape::class)->middleware('can:Activo papeleria Admin')->name('agregarpapead');
@@ -207,6 +221,10 @@ Route::get('af/editaractivopape/{id}', Editaractpape::class)->middleware('can:Ac
 Route::get('af/asignarpapesu', Asignarpapesu::class)->middleware('can:Activo papeleria Sucursal')->name('asignarpapesu');
 Route::get('af/mostrarasignpapesu', Mostrarpapesu::class)->middleware('can:Activo papeleria Sucursal')->name('mostrarasignpapesu');
 
+// Trabajador Papeleria
+Route::get('af/mostrarasignpapeusu', Mostrarasignpapeusu::class)->middleware('can:Activo papeleria Trabajador')->name('mostrarasignpapeusu');
+
+//***********************************************ACTIVO UNIFORME **************************************************/
 //Admin general Uniforme
 Route::get('af/mostraractivouniad', Mostraruni::class)->middleware('can:Activo uniforme Admin')->name('mostraruniad');
 Route::get('af/agregaractivouniad', Agregaruni::class)->middleware('can:Activo uniforme Admin')->name('agregaruniad');
@@ -228,6 +246,10 @@ Route::get('af/editaractivouni/{id}', Editaractuni::class)->middleware('can:Acti
 Route::get('af/asignarunisu', Asignarunisu::class)->middleware('can:Activo uniforme Sucursal')->name('asignarunisu');
 Route::get('af/mostrarasignunisu', Mostrarunisu::class)->middleware('can:Activo uniforme Sucursal')->name('mostrarasignunisu');
 
+// Trabajador Uniforme
+Route::get('af/mostrarasignuniusu', Mostrarasignuniusu::class)->middleware('can:Activo uniforme Trabajador')->name('mostrarasignuniusu');
+
+//***********************************************ACTIVO SOUVENIR **************************************************/
 //Admin general Souvenir
 Route::get('af/mostraractivosouad', Mostrarsou::class)->middleware('can:Activo souvenir Admin')->name('mostrarsouad');
 Route::get('af/agregaractivosouad', Agregarsou::class)->middleware('can:Activo souvenir Admin')->name('agregarsouad');
@@ -248,10 +270,14 @@ Route::get('af/editaractivosou/{id}', Editaractsou::class)->middleware('can:Acti
 Route::get('af/asignarsousu', Asignarsousu::class)->middleware('can:Activo souvenir Sucursal')->name('asignarsousu');
 Route::get('af/mostrarasignsousu', Mostrarsousu::class)->middleware('can:Activo souvenir Sucursal')->name('mostrarasignsousu');
 
+// Trabajador Souvenir
+Route::get('af/mostrarasignsouusu', Mostrarasignsouusu::class)->middleware('can:Activo souvenir Trabajador')->name('mostrarasignsouusu');
+
+//***********************************************NOTAS TECNOLOGIA **************************************************/
 // Route::get('af/agregarnotatec', Agregarnotas::class)->name('agregarnotas');
 Route::get('af/mostrarnotatec', Mostrarnotas::class)->name('mostrarnotas');
 Route::get('af/mostrarnotatecem', Mostrarnotaem::class)->name('mostrarnotaem');
-Route::get('af/mostrarnotatecad', Mostrarnotaem::class)->name('mostrarnotaad');
+Route::get('af/mostrarnotatecad', Mostrarnotaad::class)->name('mostrarnotaad');
 Route::get('af/editarnotatec', Editarnotas::class)->name('editarnotas');
 
 //Reportes PDF

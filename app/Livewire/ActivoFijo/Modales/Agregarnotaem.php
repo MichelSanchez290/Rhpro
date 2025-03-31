@@ -15,6 +15,14 @@ class Agregarnotaem extends ModalComponent
 
     public function mount()
     {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        // Verificar si el usuario tiene el rol GoldenAdmin
+        if (!$user || !$user->hasRole('EmpresaAdmin')) {
+            $this->closeModal();
+            return;
+        }
         // Cargar los activos de tecnología de la sucursal del usuario
         $this->cargarActivosTecnologia();
     }

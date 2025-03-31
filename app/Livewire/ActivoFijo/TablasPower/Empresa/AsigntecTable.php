@@ -20,6 +20,7 @@ use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
 final class AsigntecTable extends PowerGridComponent
 {
     public string $tableName = 'asigntec-table-odu84e-table';
+    protected $listeners = ['refreshPowerGrid' => '$refresh'];
 
     public function setUp(): array
     {
