@@ -31,8 +31,8 @@
                         </svg>
                         <div class="flex-1">
                             <p class="font-bold">{{ session('message') }}</p>
-                            @if (session('message') == 'Retardo agregado')
-                                <p class="text-sm">El retardo fue agregado al historial del usuario exitosamente</p>
+                            @if (session('message') == 'Retardo Agregado.')
+                                <p class="text-sm">El retardo fue agregado al historial del usuario correctamente</p>
                             @endif
                         </div>
                         <button @click="show = false" class="text-white hover:text-gray-300 focus:outline-none">
@@ -200,7 +200,7 @@
                 <div class="grid grid-cols-1 mt-5">
                     <label for="motivo"
                         class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
-                        Motivo del  retardo (NA - si no aplica)
+                        Motivo del  retardo 
                     </label>
                     <input wire:model.defer="retardo.motivo" type="text" id="motivo"
                         placeholder="Tráfico"

@@ -46,13 +46,23 @@ final class SucursalTable extends PowerGridComponent
             ->with(['empresas']) 
 
             ->leftJoin('registros_patronales', 'sucursales.registro_patronal_id', '=', 'registros_patronales.id')
+            ->leftJoin('empresa_sucursal', 'empresa_sucursal.sucursal_id', '=', 'sucursales.id')
+            ->leftJoin('empresas', 'empresas.id', '=', 'empresa_sucursal.empresa_id')
             ->select([
                 'sucursales.*',
-                'registros_patronales.registro_patronal as nombre_registro_patronal'
-        ]);
+                'registros_patronales.registro_patronal as nombre_registro_patronal',
+                \DB::raw('COALESCE(empresas.nombre, "Sin Empresa") as empresa')
+            ]);
 
-        // 🔹 Filtrar por sucursal si el usuario es Trabajador o Practicante
-        if ($user->hasRole(['Trabajador PORTAL RH', 'Trabajador GLOBAL', 'Practicante'])) {
+        if ($user->hasRole('GoldenAdmin')) {
+            // GoldenAdmin: obtiene todas las sucursales sin filtro.
+        } elseif ($user->hasRole('EmpresaAdmin')) {
+            // EmpresaAdmin: obtiene solo las sucursales asociadas a su empresa, según la tabla pivote.
+            $query->where('empresa_sucursal.empresa_id', $user->empresa_id);
+        } elseif ($user->hasRole('SucursalAdmin') ||
+                $user->hasRole('Trabajador PORTAL RH') ||
+                $user->hasRole('Trabajador GLOBAL')) {
+            // SucursalAdmin, Trabajador PORTAL RH y Trabajador GLOBAL: obtienen únicamente la sucursal asociada a su usuario.
             $query->where('sucursales.id', $user->sucursal_id);
         }
 
@@ -82,6 +92,7 @@ final class SucursalTable extends PowerGridComponent
             ->add('status')
             ->add('registro_patronal_id')
             ->add('nombre_registro_patronal')
+            ->add('empresa')
             ->add('created_at');
     }
 
@@ -89,6 +100,10 @@ final class SucursalTable extends PowerGridComponent
     {
         return [
             Column::make('Id', 'id'),
+            Column::make('Empresa asociada', 'empresa')
+                ->sortable()
+                ->searchable(),
+                
             Column::make('Clave sucursal', 'clave_sucursal')
                 ->sortable()
                 ->searchable(),

@@ -74,7 +74,7 @@
                 </svg>
                 <h3 class="text-xl font-normal text-gray-500 mt-5 mb-6">¿Estás seguro de que deseas eliminar este
                     registro?</h3>
-                <button wire:click="deleteIncapacidad"
+                <button wire:click="deleteSucursal"
                     class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-base inline-flex items-center px-3 py-2.5 text-center mr-2">
                     Sí, estoy seguro
                 </button>

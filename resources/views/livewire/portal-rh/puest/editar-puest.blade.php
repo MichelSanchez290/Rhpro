@@ -1,4 +1,4 @@
- <div class="flex min-h-screen items-start justify-center pt-6">
+<div class="flex min-h-screen items-start justify-center pt-6">
     <div class="grid bg-white rounded-lg shadow-xl w-full">
         <div class="flex justify-center py-4">
             <div class="flex bg-blue-200 rounded-full md:p-4 p-2 border-2 border-blue-300">

@@ -59,11 +59,23 @@ final class PuestTable extends PowerGridComponent
             ]);
 
         if ($user->hasRole('GoldenAdmin')) {
-            return Puesto::query();
+            // GoldenAdmin: obtiene todos los puestos sin filtro.
+            return $query;
+
+        } elseif ($user->hasRole('EmpresaAdmin')) {
+            // EmpresaAdmin: obtiene puestos asociados a los departamentos de las sucursales de su empresa.
+            $query->where('empresas.id', $user->empresa_id);
+
+        } elseif ($user->hasRole('SucursalAdmin')) {
+            // SucursalAdmin: obtiene puestos asociados a los departamentos de su sucursal.
+            $query->where('sucursales.id', $user->sucursal_id);
+
+        } elseif ($user->hasRole(['Trabajador PORTAL RH', 'Trabajador GLOBAL'])) {
+            // Trabajador PORTAL RH y Trabajador GLOBAL: obtienen únicamente el puesto asociado a su usuario.
+            $query->where('puestos.id', $user->puesto_id);
         }
 
-        // Si el usuario es trabajador o practicante, devolver solo su departamento
-        return Puesto::where('id', $user->puesto_id);
+        return $query;
     }
 
     public function relationSearch(): array
@@ -81,6 +93,9 @@ final class PuestTable extends PowerGridComponent
             ->add('id')
             ->add('id')
             ->add('nombre_puesto')
+            ->add('empresa')
+            ->add('sucursal')
+            ->add('departamento')
             ->add('created_at');
     }
 

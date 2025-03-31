@@ -34,13 +34,11 @@ class MostrarEmpres extends Component
     {
         if ($this->empresToDelete) {
             Empresa::find($this->empresToDelete)->delete();
-            session()->flash('message', 'Empresa eliminada exitosamente.');
+            session()->flash('message', 'Empresa Eliminada.');
         }
 
         $this->empresToDelete = null;
         $this->showModal = false;
-
-        return redirect()->route('mostrarempresas');
     }
 
     public function render()

@@ -53,26 +53,23 @@ final class BajaTable extends PowerGridComponent
             ]);
 
         if ($user->hasRole('GoldenAdmin')) {
-            // GoldenAdmin ve todos los registros
+            // GoldenAdmin: sin filtro, ve todos los registros.
             return $query;
+
+        } elseif ($user->hasRole('EmpresaAdmin')) {
+            // EmpresaAdmin: se limita a los registros asociados a la misma empresa.
+            $query->where('users.empresa_id', $user->empresa_id);
+
+        } elseif ($user->hasRole('SucursalAdmin')) {
+            // SucursalAdmin: se limita a los registros vinculados a la misma sucursal.
+            $query->where('users.sucursal_id', $user->sucursal_id);
+
+        } elseif ($user->hasRole(['Trabajador PORTAL RH', 'Trabajador GLOBAL'])) {
+            // Trabajador PORTAL RH y Trabajador GLOBAL: verán únicamente su propio registro.
+            $query->where('users.id', $user->id);
         }
 
-        if ($user->hasRole('EmpresaAdmin')) {
-            // EmpresaAdmin ve solo los registros de su empresa
-            return $query->whereHas('user', function ($q) use ($user) {
-                $q->where('empresa_id', $user->empresa_id);
-            });
-        }
-
-        if ($user->hasRole('SucursalAdmin')) {
-            // SucursalAdmin ve solo los registros de su sucursal
-            return $query->whereHas('user', function ($q) use ($user) {
-                $q->where('sucursal_id', $user->sucursal_id);
-            });
-        }
-
-        // Si no tiene un rol válido, no devuelve registros
-        return $query->whereNull('id');
+        return $query;
     }
 
     public function relationSearch(): array
@@ -147,7 +144,7 @@ final class BajaTable extends PowerGridComponent
     public function filters(): array
     {
         return [
-            Filter::datepicker('fecha_baja'),
+            //Filter::datepicker('fecha_baja'),
         ];
     }
 

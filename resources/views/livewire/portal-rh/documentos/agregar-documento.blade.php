@@ -22,7 +22,7 @@
                     <div x-data="{ show: true }" x-init="setTimeout(() => {
                         show = false;
                         window.location.href = '{{ route('mostrardoc') }}'
-                    }, 5000)" x-show="show"
+                    }, 3000)" x-show="show"
                         class="fixed top-4 left-4 max-w-xs w-full bg-green-500 text-white shadow-lg rounded-lg p-4 flex items-center space-x-3 transition-transform transform hover:scale-105 z-50">
                         <svg xmlns="http://www.w3.org/2000/svg" height="20" width="17.5"
                             viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
@@ -31,8 +31,8 @@
                         </svg>
                         <div class="flex-1">
                             <p class="font-bold">{{ session('message') }}</p>
-                            @if (session('message') == 'Documento agregado.')
-                                <p class="text-sm">Documento agregado correctamente</p>
+                            @if (session('message') == 'Documento Agregado.')
+                                <p class="text-sm">El documento ha sido agregado correctamente</p>
                             @endif
                         </div>
                         <button @click="show = false" class="text-white hover:text-gray-300 focus:outline-none">
@@ -48,8 +48,6 @@
 
             </div>
         </div>
-
-
 
         <form class="mt-5 mx-7">
             <div class="grid grid-cols-1 mt-5">
@@ -87,7 +85,7 @@
 
                 <div class="grid grid-cols-1 mt-5">
                     <label for="numero" class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
-                        Número
+                        Número de CRIP o Referencia
                     </label>
                     <input wire:model.defer="documento.numero" type="text" id="numero" placeholder="Número"
                         class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
@@ -114,10 +112,15 @@
 
                 <div class="grid grid-cols-1 mt-5">
                     <label for="original" class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
-                        original
+                        ¿Cuentas con el documento original?
                     </label>
-                    <input wire:model.defer="documento.original" type="text" id="original" placeholder="Número"
-                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                    <select wire:model.defer="documento.original" id="original"
+                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                        <option value="" selected>-- Selecciona una opción --</option>
+                        <option value="SI">SI</option>
+                        <option value="NO">NO</option>
+                        <option value="No Aplica">No Aplica</option>
+                    </select>
 
                     <x-input-error for="documento.original" />
                 </div>

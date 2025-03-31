@@ -26,14 +26,13 @@ class MostrarUsuario extends Component
     public function deleteUsuario()
     {
         if ($this->userToDelete) {
-            User::find($this->userToDelete)->delete();
-            session()->flash('message', 'Usuaio eliminado exitosamente.');
+            User::find($this->userToDelete)->delete(); 
         }
 
         $this->userToDelete = null;
         $this->showModal = false;
 
-        return redirect()->route('mostraruser');
+        session()->flash('message', 'Usuario Eliminado.');
     }
 
 

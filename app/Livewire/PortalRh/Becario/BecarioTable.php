@@ -42,7 +42,7 @@ final class BecarioTable extends PowerGridComponent
     public function datasource(): Builder
     {
         $user = Auth::user();
-    
+
         $query = Becario::query()
             ->with([
                 'user', 
@@ -53,20 +53,36 @@ final class BecarioTable extends PowerGridComponent
                 'registroPatronal'
             ])
             ->leftJoin('users', 'becarios.user_id', '=', 'users.id')
+            ->leftJoin('empresas', 'users.empresa_id', '=', 'empresas.id')
+            ->leftJoin('sucursales', 'users.sucursal_id', '=', 'sucursales.id')
             ->leftJoin('registros_patronales', 'becarios.registro_patronal_id', '=', 'registros_patronales.id')
             ->leftJoin('departamentos', 'users.departamento_id', '=', 'departamentos.id')
             ->leftJoin('puestos', 'users.puesto_id', '=', 'puestos.id')
             ->select([
                 'becarios.*',
                 'users.name as nombre_usuario',
+                \DB::raw('COALESCE(empresas.nombre, "Sin Empresa") as empresa'),
+                \DB::raw('COALESCE(sucursales.nombre_sucursal, "Sin Sucursal") as sucursal'),
                 'registros_patronales.registro_patronal as regpatronal',
-                'departamentos.nombre_departamento as departamento',
-                'puestos.nombre_puesto as puesto',
+                \DB::raw('COALESCE(departamentos.nombre_departamento, "Sin departamento") as departamento'),
+                \DB::raw('COALESCE(puestos.nombre_puesto, "Sin Puesto") as puesto'),
             ]);
 
-        // 🔹 Filtrar por departamento si es Trabajador PORTAL RH, Trabajador GLOBAL o Practicante
-        if ($user->hasRole(['Trabajador PORTAL RH', 'Trabajador GLOBAL', 'Practicante'])) {
-            $query->where('becarios.departamento_id', $user->departamento_id);
+        // Aplicar filtros según el rol del usuario autenticado
+        if ($user->hasRole('GoldenAdmin')) {
+            // GoldenAdmin: sin filtro, ve todos los registros.
+            
+        } elseif ($user->hasRole('EmpresaAdmin')) {
+            // EmpresaAdmin: se limita a los usuarios de la misma empresa.
+            $query->where('users.empresa_id', $user->empresa_id);
+
+        } elseif ($user->hasRole('SucursalAdmin')) {
+            // SucursalAdmin: se limita a los usuarios de la misma sucursal.
+            $query->where('users.sucursal_id', $user->sucursal_id);
+
+        } elseif ($user->hasRole(['Trabajador PORTAL RH', 'Trabajador GLOBAL'])) {
+            // Trabajador PORTAL RH y Trabajador GLOBAL: verán únicamente su propio registro.
+            $query->where('users.id', $user->id);
         }
 
         return $query;
@@ -110,9 +126,9 @@ final class BecarioTable extends PowerGridComponent
             ->add('nombre_usuario')
             ->add('registro_patronal_id')
             ->add('regpatronal')
-            ->add('departamento_id')
+            ->add('empresa')
+            ->add('sucursal')
             ->add('departamento')
-            ->add('puesto_id')
             ->add('puesto')
             ->add('created_at');
     }
@@ -127,6 +143,10 @@ final class BecarioTable extends PowerGridComponent
                 ->searchable(),
             
             Column::make('Usuario', 'nombre_usuario'),
+
+            Column::make('Empresa', 'empresa'),
+
+            Column::make('Sucursal', 'sucursal'),
 
             Column::make('Departamento', 'departamento'),
 

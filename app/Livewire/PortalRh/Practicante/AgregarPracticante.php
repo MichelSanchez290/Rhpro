@@ -119,8 +119,8 @@ class AgregarPracticante extends Component
 
         Practicante::create($this->practicante);
         $this->practicante = [];
-        //$this->emit('showAnimatedToast', 'Registro patronal guardado correctamente.');
-        return redirect()->route('mostrarpracticante'); 
+        
+        session()->flash('message', 'Practicante Agregado.');
     }
 
     

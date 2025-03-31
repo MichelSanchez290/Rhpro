@@ -32,8 +32,8 @@
                             </svg>
                             <div class="flex-1">
                                 <p class="font-bold">{{ session('message') }}</p>
-                                @if (session('message') == 'Cambio de salario actualizado.')
-                                    <p class="text-sm">El cambio de salario fue actualizado correctamente</p>
+                                @if (session('message') == 'Cambio de Salario Actualizado.')
+                                    <p class="text-sm">El cambio de salario ha sido actualizado correctamente</p>
                                 @endif
                             </div>
                             <button @click="show = false" class="text-white hover:text-gray-300 focus:outline-none">

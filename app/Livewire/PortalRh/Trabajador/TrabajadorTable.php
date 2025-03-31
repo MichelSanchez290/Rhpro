@@ -69,9 +69,18 @@ final class TrabajadorTable extends PowerGridComponent
                 'registros_patronales.registro_patronal as regpatronal'
             ]);
 
-        // 🔹 Filtrar por departamento si el usuario es Trabajador PORTAL RH, Trabajador GLOBAL o Practicante
-        if ($user->hasRole(['Trabajador PORTAL RH', 'Trabajador GLOBAL', 'Practicante'])) {
-            $query->where('trabajadores.departamento_id', $user->departamento_id);
+        // Aplicar filtros según el rol del usuario autenticado
+        if ($user->hasRole('GoldenAdmin')) {  // GoldenAdmin no tiene filtro y ve todos los registros
+            return $query;
+
+        } elseif ($user->hasRole('EmpresaAdmin')) { // EmpresaAdmin se limita a los usuarios de su empresa
+            $query->where('users.empresa_id', $user->empresa_id);
+
+        } elseif ($user->hasRole('SucursalAdmin')) { // SucursalAdmin se limita a los usuarios de su sucursal
+            $query->where('users.sucursal_id', $user->sucursal_id);
+
+        } elseif ($user->hasRole(['Trabajador PORTAL RH', 'Trabajador GLOBAL'])) { // Trabajador  verán únicamente su propio registro
+            $query->where('users.id', $user->id);
         }
 
         return $query;
@@ -127,9 +136,9 @@ final class TrabajadorTable extends PowerGridComponent
             ->add('nombre_usuario')
             ->add('registro_patronal_id')
             ->add('regpatronal')
-            ->add('departamento_id')
+            ->add('empresa')
+            ->add('sucursal')
             ->add('departamento')
-            ->add('puesto_id')
             ->add('puesto')
             ->add('created_at');
     }
@@ -280,8 +289,8 @@ final class TrabajadorTable extends PowerGridComponent
     public function filters(): array
     {
         return [
-            Filter::datepicker('fecha_nacimiento'),
-            Filter::datepicker('fecha_ingreso'),
+            //Filter::datepicker('fecha_nacimiento'),
+            //Filter::datepicker('fecha_ingreso'),
         ];
     }
 

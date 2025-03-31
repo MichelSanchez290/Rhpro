@@ -122,7 +122,7 @@ class AgregarCambioSalario extends Component
         $this->salario = [];
         $this->documento=NULL;
 
-        session()->flash('message', 'Cambio de salario agregado');
+        session()->flash('message', 'Cambio de Salario Agregado.');
     }
 
     public function redirigirSalario()

@@ -108,10 +108,10 @@ final class IncidenciaTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Fecha inicio', 'fecha_inicio_formatted', 'fecha_inicio')
+            Column::make('Fecha inicio',  'fecha_inicio')
                 ->sortable(),
 
-            Column::make('Fecha final', 'fecha_final_formatted', 'fecha_final')
+            Column::make('Fecha final', 'fecha_final')
                 ->sortable(),
 
             Column::action('Action')

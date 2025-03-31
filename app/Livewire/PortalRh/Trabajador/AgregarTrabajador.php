@@ -141,8 +141,8 @@ class AgregarTrabajador extends Component
 
         Trabajador::create($this->trabajador);
         $this->trabajador = [];
-        //$this->emit('showAnimatedToast', 'Registro patronal guardado correctamente.');
-        return redirect()->route('mostrartrabajador');
+
+        session()->flash('message', 'Trabajador Agregado.');
     }
 
     public function redirigirTrabajador()

@@ -31,14 +31,13 @@ class MostrarPracticante extends Component
     public function deletePracticante()
     {
         if ($this->practicanteToDelete) {
-            Practicante::find($this->practicanteToDelete)->delete();
-            session()->flash('message', 'Becario eliminado exitosamente.');
+            Practicante::find($this->practicanteToDelete)->delete(); 
         }
 
         $this->practicanteToDelete = null;
         $this->showModal = false;
 
-        return redirect()->route('mostrarpracticante');
+        session()->flash('message', 'Practicante Eliminado.');
     }
 
     public function render()

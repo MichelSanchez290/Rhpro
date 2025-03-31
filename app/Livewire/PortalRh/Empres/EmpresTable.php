@@ -43,12 +43,12 @@ final class EmpresTable extends PowerGridComponent
     {
         $user = Auth::user();
 
-        // Si el usuario es administrador, devolver todos los departamentos
+        // Si el usuario es GoldenAdmin, devuelve todas las empresas
         if ($user->hasRole('GoldenAdmin')) {
             return Empresa::query();
         }
 
-        // Si el usuario es trabajador o practicante, devolver solo su departamento
+        // Para los demás roles, solo se devuelve la empresa a la que pertenece el usuario
         return Empresa::where('id', $user->empresa_id);
     }
 

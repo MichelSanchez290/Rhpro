@@ -31,8 +31,8 @@
                         </svg>
                         <div class="flex-1">
                             <p class="font-bold">{{ session('message') }}</p>
-                            @if (session('message') == 'Baja agregada')
-                                <p class="text-sm">Baja agregada exitosamente</p>
+                            @if (session('message') == 'Baja Agregada.')
+                                <p class="text-sm">La baja ha sido agregada exitosamente</p>
                             @endif
                         </div>
                         <button @click="show = false" class="text-white hover:text-gray-300 focus:outline-none">

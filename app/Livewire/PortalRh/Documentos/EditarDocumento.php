@@ -82,6 +82,6 @@ class EditarDocumento extends Component
 
     public function render()
     {
-        return view('livewire.portal-rh.documentos.editar-documento');
+        return view('livewire.portal-rh.documentos.editar-documento')->layout('layouts.client');
     }
 }

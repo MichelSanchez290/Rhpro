@@ -41,10 +41,8 @@ final class RetardoTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        // Obtener el usuario autenticado
         $user = Auth::user();
 
-        // Iniciar la consulta base
         $query = Retardo::query()
             ->with(['users.retardos'])
             ->select([
@@ -55,20 +53,21 @@ final class RetardoTable extends PowerGridComponent
             ->join('user_retardo', 'retardos.id', '=', 'user_retardo.retardo_id')
             ->join('users', 'user_retardo.user_id', '=', 'users.id');
 
-        // Aplicar filtros según el rol del usuario
         if ($user->hasRole('GoldenAdmin')) {
-            // GoldenAdmin ve todos los registros (sin filtro)
+            // GoldenAdmin: sin filtro, ve todos los registros.
             return $query;
         } elseif ($user->hasRole('EmpresaAdmin')) {
-            // EmpresaAdmin solo ve los usuarios de su empresa
-            return $query->where('users.empresa_id', $user->empresa_id);
+            // EmpresaAdmin: se limita a los registros asociados a la misma empresa.
+            $query->where('users.empresa_id', $user->empresa_id);
         } elseif ($user->hasRole('SucursalAdmin')) {
-            // SucursalAdmin solo ve los usuarios de su sucursal
-            return $query->where('users.sucursal_id', $user->sucursal_id);
+            // SucursalAdmin: se limita a los registros vinculados a la misma sucursal.
+            $query->where('users.sucursal_id', $user->sucursal_id);
+        } elseif ($user->hasRole(['Trabajador PORTAL RH', 'Trabajador GLOBAL'])) {
+            // Trabajador PORTAL RH y Trabajador GLOBAL: verán únicamente su propio registro.
+            $query->where('users.id', $user->id);
         }
 
-        // Si no tiene un rol reconocido, no se le muestran registros
-        return $query->whereRaw('1 = 0'); // Devuelve una consulta vacía
+        return $query;
     }
 
     public function relationSearch(): array

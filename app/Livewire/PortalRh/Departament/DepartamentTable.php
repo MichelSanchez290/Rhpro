@@ -17,7 +17,6 @@ use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable; 
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 final class DepartamentTable extends PowerGridComponent
 {
@@ -51,16 +50,27 @@ final class DepartamentTable extends PowerGridComponent
             ->leftJoin('empresas', 'empresa_sucursal.empresa_id', '=', 'empresas.id')
             ->select([
                 'departamentos.*',
-                DB::raw('COALESCE(empresas.nombre, "Sin Empresa") as empresa'),
-                DB::raw('COALESCE(sucursales.nombre_sucursal, "Sin Sucursal") as sucursal')
+                \DB::raw('COALESCE(empresas.nombre, "Sin Empresa") as empresa'),
+                \DB::raw('COALESCE(sucursales.nombre_sucursal, "Sin Sucursal") as sucursal')
             ]);
 
         if ($user->hasRole('GoldenAdmin')) {
-            return Departamento::query();
+            // GoldenAdmin: obtiene todos los departamentos sin filtro.
+            return $query;
+        } elseif ($user->hasRole('EmpresaAdmin')) {
+            // EmpresaAdmin: obtener departamentos asociados a las sucursales de su empresa.
+            $query->where('empresa_sucursal.empresa_id', $user->empresa_id);
+
+        } elseif ($user->hasRole('SucursalAdmin')) {
+            // SucursalAdmin: obtener departamentos asociados a su sucursal.
+            $query->where('sucursales.id', $user->sucursal_id);
+            
+        } elseif ($user->hasRole(['Trabajador PORTAL RH', 'Trabajador GLOBAL'])) {
+            // Trabajador PORTAL RH y Trabajador GLOBAL: obtener únicamente el departamento asociado a su usuario.
+            $query->where('departamentos.id', $user->departamento_id);
         }
 
-        // Si el usuario es trabajador o practicante, devolver solo su departamento
-        return Departamento::where('id', $user->departamento_id ?? 0);
+        return $query;
     }
 
     public function relationSearch(): array
@@ -77,6 +87,8 @@ final class DepartamentTable extends PowerGridComponent
             ->add('id')
             ->add('id')
             ->add('nombre_departamento')
+            ->add('empresa')
+            ->add('sucursal')
             ->add('created_at');
     }
 

@@ -15,7 +15,6 @@ class MostrarInstructor extends Component
     {
         return redirect()->route('agregarinstructor');
     }
-
     
     // Eliminacion
     protected $listeners = [
@@ -32,13 +31,12 @@ class MostrarInstructor extends Component
     {
         if ($this->instructorToDelete) {
             Instructor::find($this->instructorToDelete)->delete();
-            session()->flash('message', 'Instructor eliminado exitosamente.');
         }
 
         $this->instructorToDelete = null;
         $this->showModal = false;
 
-        return redirect()->route('mostrarinstructor');
+        session()->flash('message', 'Instructor Eliminado.');
     }
 
     public function render()

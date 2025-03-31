@@ -233,7 +233,7 @@ class EditarInstructor extends Component
             'registro_patronal_id'=> $this->registro_patronal_id,
         ]);
 
-        return redirect()->route('mostrarinstructor')->with('message', 'Instructor actualizado correctamente.');
+        session()->flash('message', 'Instructor Editado.');
     }
 
 

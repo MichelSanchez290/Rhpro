@@ -3,7 +3,7 @@
 
         <div class="flex justify-center">
             <div class="flex">
-                <h1 class="text-gray-600 font-bold md:text-2xl text-xl">Mis Incidencias</h1>
+                <h1 class="text-gray-600 font-bold md:text-2xl text-xl">Mis Retardos</h1>
             </div>
         </div>
 
@@ -29,6 +29,7 @@
                                 <p><strong>Hora de entrada programada:</strong> {{ $retardo->hora_entrada_programada }}</p>
                                 <p><strong>Hora de entrada real:</strong> {{ $retardo->hora_entrada_real }}</p>
                                 <p><strong>Minutos de retardo:</strong> {{ $retardo->minutos_retardo }}</p>
+                                <p><strong>Motivo:</strong> {{ $retardo->motivo }}</p>
                                 <p class="my-2">
                                     <strong>Status:</strong> 
                                     <span class="py-1 px-3 rounded text-white 

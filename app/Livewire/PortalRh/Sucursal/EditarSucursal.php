@@ -77,7 +77,7 @@ class EditarSucursal extends Component
             ],
         ]);
 
-        session()->flash('message', 'Sucursal actualizada.'); //mostrarsucursal
+        session()->flash('message', 'Sucursal Actualizada.');
     }
 
 
