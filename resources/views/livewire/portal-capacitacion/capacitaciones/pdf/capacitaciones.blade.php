@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -131,6 +131,140 @@
             width: 100%;
             object-fit: cover;
         }
+
+
+        .tarjetasdos {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            border: 1px solid #e5e7eb;
+            top: 3cm;
+            margin-top: 1cm;
+        }
+        .headerdos {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #3b82f6;
+        }
+        .headerdos h1 {
+            color: #1e40af;
+            font-size: 29px;
+            margin: 0 0 10px 0;
+            font-weight: 700;
+        }
+        .separadordos {
+            height: 4px;
+            background: linear-gradient(to right, #3b82f6, #10b981);
+            width: 100px;
+            margin: 0 auto;
+            border-radius: 2px;
+        }
+        .capacitaciondos {
+            margin-top: 20px;
+        }
+        .infodos {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 25px;
+            font-size: 18px;
+            color: #6b7280;
+            gap: 20px;
+        }
+        h2 {
+            color: #111827;
+            font-size: 25px;
+            margin: 0 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .otrap {
+            margin: 12px 0;
+            line-height: 1.5;
+            font-size: 20px;
+        }
+        .bold {
+            font-weight: bold;
+            color: #1e40af;
+        }
+        .status-container {
+            display: flex;
+            align-items: center;
+            margin-top: 15px;
+        }
+        .status {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 16px;
+            font-size: 20px;
+            font-weight: bold;
+            margin-left: 8px;
+        }
+        .status-pendiente {
+            background-color: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fcd34d;
+        }
+        .status-en-proceso {
+            background-color: #dbeafe;
+            color: #1e40af;
+            border: 1px solid #93c5fd;
+        }
+        .status-finalizado {
+            background-color: #d1fae5;
+            color: #065f46;
+            border: 1px solid #6ee7b7;
+        }
+        .status-cancelado {
+            background-color: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+        }
+        .evidence-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e5e7eb;
+        }
+        .evidence-status {
+            display: flex;
+            align-items: center;
+            margin-top: 15px;
+            font-size: 20px;
+        }
+        .evidence-badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        .evidence-complete {
+            background-color: #dcfce7;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+        .evidence-missing {
+            background-color: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+        .footer {
+            margin-top: 13cm;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 16px;
+            color: #9ca3af;
+            border-top: 1px solid #e5e7eb;
+            padding: 10px 0;
+        }
     </style>
 </head>
 <body>
@@ -146,7 +280,7 @@
                 Reporte de Capacitación
             </div>
         </div>
-        <div style="position: absolute; top: 19.5cm; left: 11cm;">
+        <div style="position: absolute; top: 20.5cm; left: 11cm;">
             <div style="color: rgb(7, 65, 107); font-size: 18pt; font-family: 'Nourd', sans-serif; font-weight: 700;">
                 Reporte de Capacitaciones Individuales
             </div>
@@ -468,21 +602,45 @@
 
     <div class="page-break"></div>
 
-    <div class="tarjetas">
-        <div class="header">
+    <div class="tarjetasdos">
+        <div class="headerdos">
             <h1>Reporte de Capacitación Individual</h1>
-            <div class="separador"></div>
+            <div class="separadordos"></div>
         </div>
 
-            <div class="capacitacion">
-                <div class="info">
-                    <span>Fecha inicio: {{ $capacitacion->fechaIni }}</span>
-                    <span>Fecha fin: {{ $capacitacion->fechaFin }}</span>
-                </div>
-                <h2>{{ $capacitacion->nombreCapacitacion }}</h2>
-                <p><span class="bold">Objetivo:</span> {{ $capacitacion->objetivoCapacitacion }}</p>
-                <p><span class="bold">Curso:</span> {{ $capacitacion->curso->nombre }}</p>
+        <div class="capacitaciondos">
+            <div class="infodos">
+                <span><strong>Fecha inicio:</strong> {{ $capacitacion->fechaIni }}</span>
+                <span><strong>Fecha fin:</strong> {{ $capacitacion->fechaFin }}</span>
             </div>
+            <h2>{{ $capacitacion->nombreCapacitacion }}</h2>
+            <p class="otrap"><span class="bold">Objetivo:</span> {{ $capacitacion->objetivoCapacitacion }}</p>
+            <p class="otrap"><span class="bold">Curso:</span> {{ $capacitacion->curso->nombre }}</p>
+            <p class="otrap"><span class="bold">Ocupación:</span> {{ $capacitacion->ocupacion_especifica ?? 'N/A' }}</p>
+            
+            <div class="status-container">
+                <span class="bold">Status:</span>
+                <span class="status status-{{ str_replace(' ', '-', strtolower($capacitacion->status)) }}">
+                    {{ $capacitacion->status }}
+                </span>
+            </div>
+
+            <!-- Sección de evidencias integrada -->
+            <div class="evidence-section">
+                <p class="bold">Estado de Evidencias:</p>
+                <div class="evidence-status">
+                    @if($capacitacion->evidencias->isNotEmpty())
+                        <span class="evidence-badge evidence-complete">Evidencias Completas</span>
+                    @else
+                        <span class="evidence-badge evidence-missing">Sin Evidencias</span>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        Generado el {{ now()->format('d/m/Y H:i') }} | © {{ date('Y') }} {{ $usuario->empresa->nombre }}
     </div>
 </body>
 </html>

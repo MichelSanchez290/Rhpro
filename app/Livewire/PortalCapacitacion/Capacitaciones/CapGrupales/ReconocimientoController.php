@@ -44,7 +44,7 @@ class ReconocimientoController
         $user = auth()->user();
     
         // Generar el PDF con los datos del curso, fechas y usuario
-        $pdf = Pdf::loadView('livewire.portal-capacitacion.capacitaciones.cap-grupales.reconocimiento', [
+        $pdf = Pdf::loadView('livewire.portal-capacitacion.capacitaciones.reconocimiento', [
             'id' => $capsGrupalesId,
             'curso' => $curso,
             'fechas' => $fechas,

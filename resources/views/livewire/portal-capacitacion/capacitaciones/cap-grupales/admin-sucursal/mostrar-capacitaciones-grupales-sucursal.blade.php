@@ -44,6 +44,7 @@
             
             <p class="mt-4 text-gray-600">Objetivo: {{ $capacitacion->objetivo_capacitacion }}</p>
             <p class="text-gray-700 font-semibold mt-2">Curso: {{ $capacitacion->curso->nombre }}</p>
+            <p class="text-gray-700 font-semibold mt-2">Ocupación especifica: {{ $capacitacion->ocupacion_especifica }}</p>
             
             <div class="flex justify-between items-center mt-6 border-t pt-4">
                 <div class="flex gap-3">

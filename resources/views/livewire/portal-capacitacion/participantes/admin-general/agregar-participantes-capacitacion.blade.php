@@ -49,7 +49,7 @@
                 class="bg-gradient-to-r bg-green-600 px-8 py-3 rounded-xl shadow-md hover:bg-green-700 transition text-lg font-semibold">
                 Guardar Participantes
             </button>
-            <button onclick="window.location.href='{{ route('verCapacitacionesGru')}}'"
+            <button onclick="window.history.back()"
                 class="px-8 py-3 bg-red-500 text-white font-semibold rounded-xl shadow-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 transition text-lg">
                 Cancelar
             </button>

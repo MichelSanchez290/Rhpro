@@ -15,6 +15,7 @@ class AgregarCapacitacionesGrupalesSucursal extends Component
 {
     public $nombreGrupo, $nombreCapacitacion, $fechaIni, $fechaFin, $cursos_id, $objetivo_capacitacion = [];
     public $cursos = [];
+    public $ocupacion_especifica;
     public $usuario_id;
     public $empresa_id;
     public $sucursal_id;
@@ -40,6 +41,7 @@ class AgregarCapacitacionesGrupalesSucursal extends Component
             'fechaFin' => 'required|date|after_or_equal:fechaIni',
             'cursos_id' => 'required|exists:cursos,id',
             'objetivo_capacitacion' => 'required|string',
+            'ocupacion_especifica' => 'required|string|max:255',
         ]);
 
         // Crear la capacitación
@@ -50,6 +52,7 @@ class AgregarCapacitacionesGrupalesSucursal extends Component
             'fechaFin' => $this->fechaFin,
             'cursos_id' => $this->cursos_id,
             'objetivo_capacitacion' => $this->objetivo_capacitacion,
+            'ocupacion_especifica' => $this->ocupacion_especifica,
             'empresa_id' => $this->empresa_id, // Usar el empresa_id del usuario autenticado
             'sucursal_id' => $this->sucursal_id, // Usar el sucursal_id del usuario autenticado
         ]);
@@ -60,7 +63,7 @@ class AgregarCapacitacionesGrupalesSucursal extends Component
         }
         
         // Limpiar los inputs
-        $this->reset(['nombreGrupo', 'nombreCapacitacion', 'fechaIni', 'fechaFin', 'cursos_id', 'objetivo_capacitacion']);
+        $this->reset(['nombreGrupo', 'nombreCapacitacion', 'fechaIni', 'fechaFin', 'cursos_id', 'objetivo_capacitacion', 'ocupacion_especifica']);
 
         Session::flash('message', 'Capacitación grupal creada correctamente.');
     }

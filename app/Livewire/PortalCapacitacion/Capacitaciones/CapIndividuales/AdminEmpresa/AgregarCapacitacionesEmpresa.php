@@ -11,6 +11,7 @@ class AgregarCapacitacionesEmpresa extends Component
 {
     public $fechaIni, $fechaFin, $nombreCapacitacion, $objetivoCapacitacion, $cursos_id = [];
     public $cursos = [];
+    public $ocupacion_especifica;
     public $usuario_id; 
 
     public function mount($id)
@@ -37,7 +38,8 @@ class AgregarCapacitacionesEmpresa extends Component
             'fechaFin' => 'required|date|after_or_equal:fechaIni',
             'nombreCapacitacion' => 'required|string|max:255',
             'objetivoCapacitacion' => 'required|string',
-            'cursos_id' => 'required|exists:cursos,id', // Verifica que el curso exista en la BD
+            'cursos_id' => 'required|exists:cursos,id', 
+            'ocupacion_especifica' => 'required|string|max:255',
         ]);
 
         // Crear la capacitación
@@ -46,7 +48,8 @@ class AgregarCapacitacionesEmpresa extends Component
             'fechaFin' => $this->fechaFin,
             'nombreCapacitacion' => $this->nombreCapacitacion,
             'objetivoCapacitacion' => $this->objetivoCapacitacion,
-            'cursos_id' => $this->cursos_id, // Asegúrate de que se envía
+            'cursos_id' => $this->cursos_id, 
+            'ocupacion_especifica' => $this->ocupacion_especifica,
         ]);
 
         // Asignar los cursos (si hay una relación muchos a muchos)
@@ -56,7 +59,7 @@ class AgregarCapacitacionesEmpresa extends Component
 
         $capacitacion->usuarios()->attach($this->usuario_id);
         // Limpiar los inputs
-        $this->reset(['fechaIni', 'fechaFin', 'nombreCapacitacion', 'objetivoCapacitacion', 'cursos_id']);
+        $this->reset(['fechaIni', 'fechaFin', 'nombreCapacitacion', 'objetivoCapacitacion', 'cursos_id', 'ocupacion_especifica']);
 
         session()->flash('message', 'Capacitación asignada correctamente.');
     }

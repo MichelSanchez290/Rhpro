@@ -21,7 +21,7 @@ class MostrarCapacitacionesSucursal extends Component
 {
     use WithPagination;
 
-    public $usuario_id;
+    public $userSeleccionado;
     public $user;
     public $showModal = false; // Control para ventana emergente
     public $funcionToDelete;
@@ -30,8 +30,8 @@ class MostrarCapacitacionesSucursal extends Component
 
     public function mount($id)
     {
-        $this->usuario_id = Crypt::decrypt($id);
-        $this->user = User::find($this->usuario_id);
+        $this->userSeleccionado = Crypt::decrypt($id);
+        $this->user = User::find($this->userSeleccionado);
 
         // Cargar años disponibles desde la BD
         $this->loadAvailableYears();
@@ -40,7 +40,7 @@ class MostrarCapacitacionesSucursal extends Component
     public function loadAvailableYears()
     {
         $this->years = CapacitacionIndividual::whereHas('usuarios', function ($query) {
-                $query->where('users.id', $this->usuario_id);
+                $query->where('users.id', $this->userSeleccionado);
             })
             ->selectRaw('YEAR(fechaIni) as year')
             ->distinct()
@@ -72,7 +72,7 @@ class MostrarCapacitacionesSucursal extends Component
         $this->funcionToDelete = null;
         $this->showModal = false;
 
-        return redirect()->route('verCapacitacionesInd', ['id' => $this->usuario_id]); // Redirigir después de eliminar
+        return redirect()->route('verCapacitacionesInd', ['id' => $this->userSeleccionado]); // Redirigir después de eliminar
     }
 
     public function exportarPDF($id)
@@ -102,7 +102,7 @@ class MostrarCapacitacionesSucursal extends Component
     
         // Obtener capacitaciones del usuario filtradas por año seleccionado
         $capacitaciones = CapacitacionIndividual::whereHas('usuarios', function ($query) {
-                $query->where('users.id', $this->usuario_id);
+                $query->where('users.id', $this->userSeleccionado);
             })
             ->whereYear('fechaIni', $this->selectedYear)
             ->with('curso')

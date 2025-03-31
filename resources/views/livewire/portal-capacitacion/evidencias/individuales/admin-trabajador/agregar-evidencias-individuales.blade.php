@@ -27,6 +27,22 @@
             </div>
         </div>
 
+        <!-- Input de Archivo (PDF) -->
+        <div class="space-y-3">
+            <label for="documento" class="block text-lg font-semibold text-gray-700">📄 Documento PDF</label>
+            <input type="file" wire:model="documento"
+                class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-300 hover:scale-105 bg-gray-50"
+                accept="application/pdf">
+            @error('documento') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+
+            @if ($documentoPreview)
+                <h3 class="text-lg font-bold">Vista previa del PDF:</h3>
+                <iframe src="{{ $documentoPreview }}" class="w-full h-64 border rounded"></iframe>
+            @endif
+
+        </div>
+
+
         <div class="flex justify-center gap-4">
             <!-- Botón Guardar -->
             <button type="submit"

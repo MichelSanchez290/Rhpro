@@ -14,6 +14,7 @@ class EditarCapacitacionesGrupalesEmpresa extends Component
 {
     public $nombreGrupo, $nombreCapacitacion, $fechaIni, $fechaFin, $cursos_id, $objetivo_capacitacion = [];
     public $cursos = [];
+    public $ocupacion_especifica;
     public $usuario_id, $capacitacion_id;
     public $capacitacion;
     public $empresa_id, $sucursal_id;
@@ -37,7 +38,7 @@ class EditarCapacitacionesGrupalesEmpresa extends Component
         $this->fechaFin = $this->capacitacion->fechaFin;
         $this->cursos_id = $this->capacitacion->curso ? [$this->capacitacion->curso->id] : [];
         $this->objetivo_capacitacion = $this->capacitacion->objetivo_capacitacion;
-
+        $this->ocupacion_especifica = $this->capacitacion->ocupacion_especifica;
         $this->empresa_id = $this->capacitacion->empresa_id;
         $this->empresas = Empresa::all();
         $this->sucursales = Empresa::find($this->empresa_id)?->sucursales ?? [];
@@ -71,6 +72,7 @@ class EditarCapacitacionesGrupalesEmpresa extends Component
             'fechaIni' => 'required|date',
             'fechaFin' => 'required|date|after_or_equal:fechaIni',
             'objetivo_capacitacion' => 'required|string',
+            'ocupacion_especifica' => 'required',
             'empresa_id' => 'required',
             'sucursal_id' => 'required',
         ]);
@@ -82,6 +84,7 @@ class EditarCapacitacionesGrupalesEmpresa extends Component
             'fechaIni' => $this->fechaIni,
             'fechaFin' => $this->fechaFin,
             'objetivo_capacitacion' => $this->objetivo_capacitacion,
+            'ocupacion_especifica' => $this->ocupacion_especifica,
             'empresa_id' => $this->empresa_id,
             'sucursal_id' => $this->sucursal_id,
         ]);

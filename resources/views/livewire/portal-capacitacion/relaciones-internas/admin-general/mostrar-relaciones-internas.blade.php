@@ -1,7 +1,7 @@
 <div class="p-6 z-10">
-    <!-- Botón Agregar -->
-    <div class="mt-4 flex justify-end">
-        <button wire:click="redirigir()" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors">
+    <div class="mt-4 flex items-center justify-between">
+        <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-400 md:text-5xl lg:text-6xl dark:text-gray">Gestión <span class="text-blue-600 dark:text-blue-500">Relaciones Internas</span></h1>
+        <button wire:click="redirigir()" class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg transition-colors">
             Agregar
         </button>
     </div>

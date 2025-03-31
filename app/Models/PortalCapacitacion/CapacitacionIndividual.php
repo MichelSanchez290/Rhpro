@@ -19,7 +19,7 @@ class CapacitacionIndividual extends Model
     protected $primaryKey = 'id';
 
     // Columnas asignables masivamente
-    protected $fillable = ['id','fechaIni', 'fechaFin', 'nombreCapacitacion', 'objetivoCapacitacion', 'cursos_id'];
+    protected $fillable = ['id','fechaIni', 'fechaFin', 'nombreCapacitacion', 'objetivoCapacitacion', 'cursos_id', 'ocupacion_especifica', 'status'];
 
     public function curso()
     {

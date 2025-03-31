@@ -392,7 +392,7 @@
                         <label class="font-semibold leading-none">Status</label>
                         <select wire:model="status" class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200">
                             <option value="">Seleccione un estado</option>
-                            <option value="Aprobado">Aprovado</option>
+                            <option value="Aprobado">Aprobado</option>
                             <option value="Corregir">Corregir</option>
                             <option value="Rechazado">Rechazado</option>
                         </select>

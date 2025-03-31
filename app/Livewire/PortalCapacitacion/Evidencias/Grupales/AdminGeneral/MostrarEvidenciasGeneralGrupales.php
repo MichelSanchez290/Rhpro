@@ -18,6 +18,9 @@ class MostrarEvidenciasGeneralGrupales extends Component
     public $documentos;
     public $tieneEvidenciasAprobadas = false;
     public $evidencias=[];
+    public $participantes=[];
+    public $participanteSeleccionado;
+    public $grupoEvidencias;
 
     protected $listeners = ['rechazarEvidencias'];
 
@@ -25,6 +28,7 @@ class MostrarEvidenciasGeneralGrupales extends Component
     {
         $this->caps_grupales_id = Crypt::decrypt($id);
         $this->cargarEvidencias();
+        $this->cargarParticipantes();
     }
 
     public function cargarEvidencias()
@@ -53,6 +57,8 @@ class MostrarEvidenciasGeneralGrupales extends Component
 
         // Obtener documentos escaneados
         $this->documentos = Escaneardc::where('grupocursos_capacitaciones_id', $this->caps_grupales_id)->get();
+
+        $this->grupoEvidencias = $evidencias;
     }
 
     public function aprobarEvidencias()
@@ -80,6 +86,15 @@ class MostrarEvidenciasGeneralGrupales extends Component
         $this->cargarEvidencias();
     }
 
+    public function cargarParticipantes()
+    {
+        $this->participantes = DB::table('participante_user')
+            ->join('users', 'participante_user.users_id', '=', 'users.id')
+            ->where('participante_user.grupocursos_capacitaciones_id', $this->caps_grupales_id) // <-- Corregido
+            ->select('users.id as user_id', 'users.name')
+            ->get();
+    }    
+
     public function render()
     {
         return view('livewire.portal-capacitacion.evidencias.grupales.admin-general.mostrar-evidencias-grupales-general', [
@@ -87,7 +102,9 @@ class MostrarEvidenciasGeneralGrupales extends Component
             'evidencias_aprobadas' => $this->evidencias_aprobadas,
             'evidencias_rechazadas' => $this->evidencias_rechazadas,
             'documentos' => $this->documentos,
-            'tieneEvidenciasAprobadas' => $this->tieneEvidenciasAprobadas
+            'tieneEvidenciasAprobadas' => $this->tieneEvidenciasAprobadas,
+            'participantes' => $this->participantes,
+            'grupoEvidencias' => $this->grupoEvidencias,
         ])->layout("layouts.portal_capacitacion");
     }
 }

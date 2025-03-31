@@ -36,6 +36,8 @@ return new class extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->string('objetivo_capacitacion', 255);
+            $table->string('ocupacion_especifica', 255);
+            $table->string('status', 255);
             $table->timestamps();
         });
     }

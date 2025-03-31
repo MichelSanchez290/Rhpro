@@ -85,7 +85,7 @@
                     <div class="flex gap-3">
                         <button wire:click="exportarPDF({{ $capacitacion->id }})" wire:loading.attr="disabled"
                             wire:target="exportarPDF"
-                            class="bg-blue-500 text-white px-3 py-1.5 rounded-lg shadow-md hover:bg-blue-600 flex items-center gap-2 transition-all duration-300 transform hover:scale-105">
+                            class="bg-blue-500 text-white px-2 py-1 rounded-lg shadow-md hover:bg-blue-600 flex items-center gap-2 transition-all duration-300 transform hover:scale-105">
                             <span wire:loading.remove wire:target="exportarPDF">
                                 <i class="fas fa-file-pdf"></i>
                                 Exportar PDF
@@ -97,9 +97,20 @@
                         </button>
                 
                         <a href="{{ route('verEvidenciasGruTrabajador', Crypt::encrypt($capacitacion->id)) }}"
-                            class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-transform transform hover:scale-105 flex items-center gap-2 shadow-md">
-                             <i class="fas fa-upload"></i> Ver Evidencia
+                            class="bg-green-600 text-white px-2 py-1 rounded-lg hover:bg-green-700 transition-transform transform hover:scale-105 flex items-center gap-2 shadow-md">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                            </svg>
+                              </i> Ver Evidencias
                          </a>
+
+                         <a href="{{ route('subir.dc3.reconocimiento', ['id' => $capacitacion->id]) }}"
+                            class="bg-pink-500 text-white px-2 py-1 rounded-lg shadow-md hover:bg-pink-600 flex items-center gap-2 transition-all duration-300 transform hover:scale-105">
+                            <i class="fas fa-upload"></i>
+                            Subir Archivos
+                        </a>
+                        
                     </div>
                 </div>
             </div>

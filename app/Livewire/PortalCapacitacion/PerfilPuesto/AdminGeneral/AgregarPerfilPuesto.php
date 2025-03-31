@@ -403,8 +403,7 @@ class AgregarPerfilPuesto extends Component
             ]);
         }
     }
-
-    $this->banner('Paquete guardado correctamente');
+    
     $this->pack = [];
     // Reiniciar los valores del formulario después de guardar
     $this->reset(['perfil', 'funciones', 'internas', 'externas', 'responsabilidades', 'humanas', 'tecnicas']);
