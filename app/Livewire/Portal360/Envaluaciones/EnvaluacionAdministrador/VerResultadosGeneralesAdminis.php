@@ -3,6 +3,7 @@
 namespace App\Livewire\Portal360\Envaluaciones\EnvaluacionAdministrador;
 
 use App\Models\Encuestas360\Asignacion;
+use App\Models\PortalRH\EmpresaSucursal;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -56,7 +57,7 @@ public function mount($sucursalId, $calificadoId)
         $asignaciones = Asignacion::with([
             'calificador.empresa',
             'calificado.sucursal',
-            'calificado.departamento', // Cargar la relación departamento
+            'calificado.departamento',
             'respuestasUsuario.respuesta360.pregunta'
         ])
         ->where('calificado_id', $this->calificadoId)

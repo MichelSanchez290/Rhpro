@@ -7,13 +7,18 @@ use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
+use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
+use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 
 final class MostrarEmpresaAdministradorTable extends PowerGridComponent
 {
+
+    use WithExport;
+
     public string $tableName = 'mostrar-empresa-administrador-table-nakte4-table';
 
     public function setUp(): array
@@ -26,6 +31,8 @@ final class MostrarEmpresaAdministradorTable extends PowerGridComponent
             PowerGrid::footer()
                 ->showPerPage()
                 ->showRecordCount(),
+            PowerGrid::exportable('empresas_sucursales') // Nombre del archivo como primer parámetro
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV) // Tipos de ex
         ];
     }
 
@@ -48,6 +55,7 @@ final class MostrarEmpresaAdministradorTable extends PowerGridComponent
             ],
         ];
     }
+
 
     public function fields(): PowerGridFields
     {

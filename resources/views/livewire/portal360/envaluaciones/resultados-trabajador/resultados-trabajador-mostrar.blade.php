@@ -1,14 +1,16 @@
 <div>
     <div class="p-6">
         <div class="bg-white shadow-lg rounded-lg p-6">
-            <div class="text-center border-b border-gray-300 pb-4">
-                <h2 class="text-2xl font-bold text-gray-900">REPORTE DE RESULTADOS EVALUACIÓN 360 GRADOS</h2>
-                <!-- Usar la variable sin $this-> -->
-                <p class="text-lg font-bold mt-2">{{ $calificadoNombre }}</p>
-                <p class="text-sm text-gray-600">{{ $empresaNombre }}</p>
-                <p class="text-sm text-gray-600">{{ $sucursalNombre }}</p>
-            </div>
 
+            <!-- Encabezado del reporte -->
+            <!-- Encabezado del reporte - Texto centrado -->
+            <div class="text-center border-b border-gray-300 pb-4">
+                <h2 class="text-3xl font-bold text-gray-900 text-center" style="font-family: Arial, sans-serif;">REPORTE DE RESULTADOS EVALUACIÓN 360 GRADOS</h2>
+                <p class="text-lg font-semibold mt-4 text-gray-800 text-center" style="font-family: Arial, sans-serif; line-height: 1.5;">{{ $calificadoNombre }}</p>
+                <p class="text-sm text-gray-600 text-center" style="font-family: Arial, sans-serif; line-height: 1.5;">{{ $empresaNombre }}</p>
+                <p class="text-sm text-gray-600 text-center" style="font-family: Arial, sans-serif; line-height: 1.5;">{{ $sucursalNombre }}</p>
+            </div>
+            <!-- Tabla de clasificación por niveles -->
             <div class="mt-6">
                 <h3 class="text-lg font-semibold text-gray-800 text-center">Clasificación de Evaluaciones 360° por Niveles</h3>
                 <div class="overflow-x-auto mt-4">
@@ -46,11 +48,52 @@
                 </div>
             </div>
 
+            <!-- Nueva tabla de Autoevaluación, Promedio y Diferencia -->
+            <div class="mt-6">
+                <h3 class="text-lg font-semibold text-gray-800 text-center">Resultados por Competencia</h3>
+                <div class="overflow-x-auto mt-4">
+                    <table class="min-w-full bg-white border border-gray-200 shadow-sm rounded-md">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-700">
+                                <th class="px-4 py-2 border">Competencias Evaluadas</th>
+                                <th class="px-4 py-2 border">Autoevaluación</th>
+                                <th class="px-4 py-2 border">Promedio</th>
+                                <th class="px-4 py-2 border">Diferencia</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($datosTabla['items'] as $dato)
+                            <tr class="text-center">
+                                <td class="px-4 py-2 border">{{ $dato['competencia'] }}</td>
+                                <td class="px-4 py-2 border">{{ $dato['autoevaluacion'] }}</td>
+                                <td class="px-4 py-2 border">{{ $dato['promedio'] }}</td>
+                                <td class="px-4 py-2 border {{ $dato['diferencia'] < 0 ? 'text-red-600' : 'text-green-600' }}">{{ $dato['diferencia'] }}</td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="4" class="px-4 py-2 border text-center">No hay datos disponibles</td>
+                            </tr>
+                            @endforelse
+                            <!-- Fila de promedios finales -->
+                            @if(!empty($datosTabla['items']))
+                            <tr class="text-center font-bold bg-gray-50">
+                                <td class="px-4 py-2 border">Promedio</td>
+                                <td class="px-4 py-2 border">{{ $datosTabla['promedioAutoevaluacion'] }}</td>
+                                <td class="px-4 py-2 border">{{ $datosTabla['promedioOtros'] }}</td>
+                                <td class="px-4 py-2 border {{ $datosTabla['promedioDiferencia'] < 0 ? 'text-red-600' : 'text-green-600' }}">{{ $datosTabla['promedioDiferencia'] }}</td>
+                            </tr>
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tabla de resultados (PowerGrid) -->
             <div class="overflow-x-auto rounded-md mt-6">
                 <livewire:portal360.envaluaciones.resultadostrabajador.resultados-trabajador-table class="table-borderless" />
             </div>
 
-            <!-- Sección para mostrar el promedio final -->
+            <!-- Sección de promedio final -->
             <div class="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200 shadow-md">
                 <div class="flex justify-between items-center">
                     <div class="text-xl font-bold text-gray-900">Promedio Final:</div>
@@ -59,31 +102,31 @@
                             {{ number_format($promedioFinal, 2) }}
                         </div>
                         <span class="px-5 py-2 text-lg font-semibold text-white rounded-full shadow-md
-                        @if($resultadoFinal == 'Bajo') bg-red-600
-                        @elseif($resultadoFinal == 'Regular') bg-yellow-500
-                        @elseif($resultadoFinal == 'Bueno') bg-blue-600
-                        @elseif($resultadoFinal == 'Sobresaliente') bg-green-600
-                        @else bg-gray-500
-                        @endif">
+                            @if($resultadoFinal == 'Bajo') bg-red-600
+                            @elseif($resultadoFinal == 'Regular') bg-yellow-500
+                            @elseif($resultadoFinal == 'Bueno') bg-blue-600
+                            @elseif($resultadoFinal == 'Sobresaliente') bg-green-600
+                            @else bg-gray-500
+                            @endif">
                             {{ $resultadoFinal }}
                         </span>
                     </div>
                 </div>
             </div>
-            <!-- En esta parte puedes poner la grafica de puntuacion final  -->
+
+            <!-- Sección de la gráfica de desempeño -->
             <div class="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200 shadow-md">
-                @if(!request()->is('livewire/message/*'))
-                <h3 class="text-lg font-semibold text-gray-800 text-center">Gráfica de Desempeño por Pregunta</h3>
-                <div class="w-full max-w-4xl mx-auto" style="height: 500px;">
-                    <canvas id="graficaDesempeno"></canvas>
-                </div>
-                @else
-                <h3 class="text-lg font-semibold text-gray-800 text-center">Datos de Desempeño por Pregunta</h3>
+                <h3 class="text-lg font-semibold text-gray-800 text-center">Puntuaciones y Respuestas por Pregunta</h3>
+
+                @if($chartBase64)
+                <img src="{{ $chartBase64 }}" alt="Gráfica de Desempeño" style="max-width: 100%; height: auto;" />
+                @elseif(!empty($datosGrafica))
                 <table class="min-w-full bg-white border border-gray-200 shadow-sm rounded-md mt-4">
                     <thead>
                         <tr class="bg-gray-100 text-gray-700">
                             <th class="px-4 py-2 border">Pregunta</th>
                             <th class="px-4 py-2 border">Puntuación</th>
+                            <th class="px-4 py-2 border">Respuestas</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -91,10 +134,13 @@
                         <tr class="text-center">
                             <td class="px-4 py-2 border">{{ $dato['pregunta'] }}</td>
                             <td class="px-4 py-2 border">{{ $dato['puntuacion'] }}</td>
+                            <td class="px-4 py-2 border">{{ $dato['respuestas'] }}</td>
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
+                @else
+                <p class="text-center mt-4">No hay datos disponibles para mostrar la gráfica.</p>
                 @endif
             </div>
 
@@ -107,132 +153,10 @@
 
             <!-- Botones de exportación -->
             <div class="mt-6 text-center flex justify-center space-x-4">
-                <!-- Botón para exportar a PDF -->
-                <button
-                    wire:click="exportarPDF"
-                    class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                <button wire:click="exportarPDF" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
                     Exportar a PDF
                 </button>
-                <!-- Botón para imprimir -->
-                <button
-                    onclick="imprimirReporte()"
-                    class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
-                    Imprimir
-                </button>
             </div>
-            @push('scripts')
-            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-            <script>
-                document.addEventListener('livewire:init', function() {
-                    const datosGrafica = @json($datosGrafica);
-
-                    const preguntas = datosGrafica.map(item => item.pregunta);
-                    const puntuaciones = datosGrafica.map(item => item.puntuacion);
-
-                    const ctx = document.getElementById('graficaDesempeno').getContext('2d');
-                    new Chart(ctx, {
-                        type: 'bar',
-                        data: {
-                            labels: preguntas,
-                            datasets: [{
-                                label: 'Puntuación Promedio',
-                                data: puntuaciones,
-                                backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                                borderColor: 'rgb(75, 192, 192)',
-                                borderWidth: 2,
-                                barPercentage: 0.6,
-                                categoryPercentage: 0.7
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            indexAxis: 'y', // Hace la gráfica horizontal
-                            scales: {
-                                x: {
-                                    beginAtZero: true,
-                                    max: 4,
-                                    title: {
-                                        display: true,
-                                        text: 'Puntuación',
-                                        font: {
-                                            size: 14
-                                        }
-                                    },
-                                    ticks: {
-                                        stepSize: 1,
-                                        font: {
-                                            size: 12
-                                        }
-                                    },
-                                    grid: {
-                                        color: "rgba(0, 0, 0, 0.1)"
-                                    }
-                                },
-                                y: {
-                                    title: {
-                                        display: true,
-                                        text: 'Preguntas',
-                                        font: {
-                                            size: 14
-                                        }
-                                    },
-                                    ticks: {
-                                        font: {
-                                            size: 12
-                                        }
-                                    }
-                                }
-                            },
-                            plugins: {
-                                legend: {
-                                    position: 'top',
-                                    labels: {
-                                        font: {
-                                            size: 14
-                                        }
-                                    }
-                                },
-                                tooltip: {
-                                    callbacks: {
-                                        label: function(context) {
-                                            return `Puntuación: ${context.parsed.x.toFixed(2)}`;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    });
-                });
-
-                function imprimirReporte() {
-                // Crear una copia del contenido para imprimir
-                const contenido = document.querySelector('.bg-white.shadow-lg.rounded-lg.p-6').outerHTML;
-                const ventanaImpresion = window.open('', '_blank');
-                ventanaImpresion.document.write(`
-                    <html>
-                        <head>
-                            <title>Resultados Evaluación 360 - {{ $calificadoNombre }}</title>
-                            <style>
-                                /* Estilos básicos para la impresión */
-                                body { font-family: Arial, sans-serif; margin: 20px; }
-                                table { width: 100%; border-collapse: collapse; }
-                                th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
-                                th { background-color: #f2f2f2; }
-                                .bg-red-600 { background-color: #dc2626; color: white; }
-                                .bg-yellow-500 { background-color: #f59e0b; color: white; }
-                                .bg-blue-600 { background-color: #2563eb; color: white; }
-                                .bg-green-600 { background-color: #16a34a; color: white; }
-                                .bg-gray-500 { background-color: #6b7280; color: white; }
-                            </style>
-                        </head>
-                        <body onload="window.print(); window.close();">
-                            ${contenido}
-                        </body>
-                    </html>
-                `);
-                ventanaImpresion.document.close();
-            }
-            </script>
-            @endpush
         </div>
+    </div>
+</div>

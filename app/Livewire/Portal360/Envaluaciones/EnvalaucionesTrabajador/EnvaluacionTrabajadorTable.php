@@ -30,22 +30,22 @@ final class EnvaluacionTrabajadorTable extends PowerGridComponent
     }
 
     public function datasource(): Builder
-{
-    return Asignacion::query()
-        ->leftJoin('users as calificador', 'asignaciones.calificador_id', '=', 'calificador.id')
-        ->leftJoin('users as calificado', 'asignaciones.calificado_id', '=', 'calificado.id')
-        ->leftJoin('relaciones', 'asignaciones.relaciones_id', '=', 'relaciones.id')
-        ->leftJoin('360_encuestas', 'asignaciones.360_encuestas_id', '=', '360_encuestas.id')
-        ->select([
-            'asignaciones.*',
-            'calificador.name as calificador_name',
-            'calificado.name as calificado_name',
-            'relaciones.nombre as relacion_nombre',
-            '360_encuestas.nombre as encuesta_nombre',
-        ])
-        ->where('asignaciones.calificador_id', auth()->id())
-        ->where('asignaciones.realizada', 0);
-}
+    {
+        return Asignacion::query()
+            ->leftJoin('users as calificador', 'asignaciones.calificador_id', '=', 'calificador.id')
+            ->leftJoin('users as calificado', 'asignaciones.calificado_id', '=', 'calificado.id')
+            ->leftJoin('relaciones', 'asignaciones.relaciones_id', '=', 'relaciones.id')
+            ->leftJoin('360_encuestas', 'asignaciones.360_encuestas_id', '=', '360_encuestas.id')
+            ->select([
+                'asignaciones.*',
+                'calificador.name as calificador_name',
+                'calificado.name as calificado_name',
+                'relaciones.nombre as relacion_nombre',
+                '360_encuestas.nombre as encuesta_nombre',
+            ])
+            ->where('asignaciones.calificador_id', auth()->id())
+            ->where('asignaciones.realizada', 0);
+    }
 
     public function relationSearch(): array
     {
@@ -60,10 +60,10 @@ final class EnvaluacionTrabajadorTable extends PowerGridComponent
             ->add('calificado_name')
             ->add('relacion_nombre')
             ->add('encuesta_nombre')
-            ->add('realizada_formatted', fn (Asignacion $model) => $model->realizada ? 'Completada' : 'Pendiente')
-            ->add('fecha_formatted', fn (Asignacion $model) => Carbon::parse($model->fecha)->format('d/m/Y'));
+            ->add('realizada_formatted', fn(Asignacion $model) => $model->realizada ? 'Completada' : 'Pendiente')
+            ->add('fecha_formatted', fn(Asignacion $model) => Carbon::parse($model->fecha)->format('d/m/Y'));
     }
-    
+
     public function columns(): array
     {
         return [
@@ -88,12 +88,12 @@ final class EnvaluacionTrabajadorTable extends PowerGridComponent
         ];
     }
 
-   
+
 
     #[\Livewire\Attributes\On('edit')]
     public function edit($rowId): void
     {
-        $this->js('alert('.$rowId.')');
+        $this->js('alert(' . $rowId . ')');
     }
 
     
@@ -119,6 +119,9 @@ public function actions(Asignacion $row): array
         $button->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700 opacity-50 cursor-not-allowed');
         $button->attributes(['disabled' => 'disabled']);
     }
+    
+    return [$button];
+}
 
     
 }

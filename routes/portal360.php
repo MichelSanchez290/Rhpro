@@ -238,7 +238,6 @@ Route::get('/agregar-compromiso-trabajador', AgregarCompromisoTrabajador::class)
 
 // Route::get('/mostrar-empresa-administrador', MostrarEmpresaAdministrador)
 Route::get('/mostrar-empresa-administrador-resultadosvs', MostrarEmpresaAdministradorResultadosvs::class)->name('portal360.resultados.administrador-resultados.mostrar-empresa-administrador-resultadosvs');
-
 Route::get('/mostrar-sucursales-administrador-resultadosvs/{SucursalId}', MostrarSucursalesAdministradorResultadosvs::class)->name('VizualizarResultadosGeneralesAdministrador');
 
 Route::get('/mostrar-empresa-resultado', MostrarEmpresaResultado::class)->name('portal360.resultados.empresa-resultados.mostrar-empresa-resultado');

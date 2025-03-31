@@ -338,18 +338,23 @@ class VerResultadosPorUsuario extends Component
             'puestoNombre' => $this->puestoNombre,
             'realizada' => $this->realizada,
             'datosGrafica' => $this->datosGrafica,
+            'chartBase64' => $this->chartBase64,
+            'datosTabla' => $this->datosTabla,
         ];
 
-        $pdf = Pdf::loadView('livewire.portal360.envaluaciones.ver-resultados-por-usuario-admin.ver-resultados-por-usuario', $data)
+        $pdf = Pdf::loadView('livewire.portal360.envaluaciones.ver-resultados-por-usuario-admin.ver-resultados-por-usuario-pdf', $data)
             ->setPaper('a4', 'portrait')
-            ->setWarnings(false);
+            ->setOptions([
+                'dpi' => 150,
+                'isRemoteEnabled' => true,
+                'isHtml5ParserEnabled' => true,
+            ]);
 
         return response()->streamDownload(
             fn() => print($pdf->output()),
             'resultados_evaluacion_360_' . $this->calificadoNombre . '.pdf'
         );
     }
-
     public function render()
     {
         return view('livewire.portal360.envaluaciones.ver-resultados-por-usuario-admin.ver-resultados-por-usuario')->layout('layouts.portal360');

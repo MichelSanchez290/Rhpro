@@ -22,12 +22,38 @@ class EncuestaEnvaluacionPregunta extends Component
     public $perPage = 5;
     public $perPageOptions = [5, 10, 15, 'all'];
 
+    // public function mount($asignacionId)
+    // {
+    //     $this->asignacionId = $asignacionId;
+    //     $this->loadEncuestaData();
+    //     $this->restoreResponses();
+    // }
+
     public function mount($asignacionId)
-    {
-        $this->asignacionId = $asignacionId;
-        $this->loadEncuestaData();
-        $this->restoreResponses();
+{
+    $this->asignacionId = $asignacionId;
+    
+    // Cargar la asignación primero
+    $asignacion = Asignacion::findOrFail($asignacionId);
+    
+    // Verificar si es el mismo día
+    $hoy = \Illuminate\Support\Carbon::today();
+    $fechaAsignacion = \Illuminate\Support\Carbon::parse($asignacion->fecha)->startOfDay();
+    $esMismoDia = $hoy->equalTo($fechaAsignacion);
+    
+    // Redirigir si no es la fecha correcta
+    if (!$esMismoDia) {
+        $this->dispatch('toastr-success', message: 'Esta encuesta solo puede ser contestada en la fecha programada.');
+        // session()->flash('error', 'Esta encuesta solo puede ser contestada en la fecha programada.');
+        return redirect()->route('portal360.envaluaciones.envalauciones-trabajador.asignaciones-pendientes'); // Ruta actualizada
+        return;
     }
+    
+    // Continuar con la carga normal si la fecha es correcta
+    $this->asignacion = $asignacion;
+    $this->loadEncuestaData();
+    $this->restoreResponses();
+}
 
     public function loadEncuestaData()
     {
