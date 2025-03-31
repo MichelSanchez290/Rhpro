@@ -43,6 +43,8 @@ final class SucursalTable extends PowerGridComponent
         $user = Auth::user();
 
         $query = Sucursal::query()
+            ->with(['empresas']) 
+
             ->leftJoin('registros_patronales', 'sucursales.registro_patronal_id', '=', 'registros_patronales.id')
             ->select([
                 'sucursales.*',
@@ -59,7 +61,9 @@ final class SucursalTable extends PowerGridComponent
 
     public function relationSearch(): array
     {
-        return [];
+        return [
+            'empresas' => ['nombre'], 
+        ];
     }
 
     public function fields(): PowerGridFields

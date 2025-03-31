@@ -43,6 +43,14 @@ final class PracticanteTable extends PowerGridComponent
         $user = Auth::user();
 
         $query = Practicante::query()
+        ->with([
+            'user', 
+            'user.empresa',    // Singular (como está definido en User)
+            'user.sucursal',
+            'user.departamento', 
+            'user.puesto',  
+            'registroPatronal'
+        ])
             ->leftJoin('users', 'practicantes.user_id', '=', 'users.id')
             ->leftJoin('departamentos', 'users.departamento_id', '=', 'departamentos.id')
             ->leftJoin('puestos', 'users.puesto_id', '=', 'puestos.id')
@@ -65,7 +73,16 @@ final class PracticanteTable extends PowerGridComponent
 
     public function relationSearch(): array
     {
-        return [];
+        return [
+            'user' => ['name'],
+            'registroPatronal' => ['registro_patronal'],
+            
+            // Para los campos que están en relaciones a través de user
+            'user.empresa' => ['nombre'], 
+            'user.sucursal' => ['nombre_sucursal'],
+            'user.departamento' => ['nombre_departamento'],
+            'user.puesto' => ['nombre_puesto'],
+        ];
     }
 
     public function fields(): PowerGridFields
@@ -86,12 +103,12 @@ final class PracticanteTable extends PowerGridComponent
             ->add('numero_celular')
             ->add('user_id')
             ->add('nombre_usuario')
-            ->add('departamento_id')
-            ->add('departamento')
-            ->add('puesto_id')
-            ->add('puesto')
             ->add('registro_patronal_id')
             ->add('regpatronal')
+            ->add('empresa')
+            ->add('sucursal')
+            ->add('departamento')
+            ->add('puesto')
             ->add('created_at');
     }
 
@@ -104,15 +121,27 @@ final class PracticanteTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('User', 'nombre_usuario'),
+            Column::make('Usuario', 'nombre_usuario')
+                ->sortable()
+                ->searchable(),
 
-            Column::make('Departamento', 'departamento'),
+            Column::make('Empresa', 'empresa')
+                ->sortable()
+                ->searchable(),
 
-            Column::make('Puesto', 'puesto'),
+            Column::make('Sucursal', 'sucursal')
+                ->sortable()
+                ->searchable(),
 
-            Column::make('Registro patronal', 'regpatronal'),
+            Column::make('Departamento', 'departamento')
+                ->sortable()
+                ->searchable(),
 
-            Column::make('Numero seguridad social', 'numero_seguridad_social')
+            Column::make('Puesto', 'puesto')
+                ->sortable()
+                ->searchable(),
+
+            Column::make('Reg patronal', 'regpatronal')
                 ->sortable()
                 ->searchable(),
 

@@ -17,6 +17,7 @@ use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable; 
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 final class DepartamentTable extends PowerGridComponent
 {
@@ -42,7 +43,18 @@ final class DepartamentTable extends PowerGridComponent
     {
         $user = Auth::user();
 
-        // Si el usuario es administrador, devolver todos los departamentos
+        $query = Departamento::query()
+            ->with(['sucursales.empresas'])
+            ->leftJoin('departamento_sucursal', 'departamentos.id', '=', 'departamento_sucursal.departamento_id')
+            ->leftJoin('sucursales', 'departamento_sucursal.sucursal_id', '=', 'sucursales.id')
+            ->leftJoin('empresa_sucursal', 'sucursales.id', '=', 'empresa_sucursal.sucursal_id')
+            ->leftJoin('empresas', 'empresa_sucursal.empresa_id', '=', 'empresas.id')
+            ->select([
+                'departamentos.*',
+                DB::raw('COALESCE(empresas.nombre, "Sin Empresa") as empresa'),
+                DB::raw('COALESCE(sucursales.nombre_sucursal, "Sin Sucursal") as sucursal')
+            ]);
+
         if ($user->hasRole('GoldenAdmin')) {
             return Departamento::query();
         }
@@ -53,7 +65,10 @@ final class DepartamentTable extends PowerGridComponent
 
     public function relationSearch(): array
     {
-        return [];
+        return [
+            'sucursales' => ['nombre_sucursal'], 
+            'sucursales.empresas' => ['nombre'], 
+        ];
     }
 
     public function fields(): PowerGridFields
@@ -69,6 +84,14 @@ final class DepartamentTable extends PowerGridComponent
     {
         return [
             Column::make('Id', 'id'),
+            Column::make('Empresa asociada', 'empresa')
+                ->sortable()
+                ->searchable(), 
+
+            Column::make('Sucursal asociada', 'sucursal')
+                ->sortable()
+                ->searchable(), 
+
             Column::make('Nombre departamento', 'nombre_departamento')
                 ->sortable()
                 ->searchable(),

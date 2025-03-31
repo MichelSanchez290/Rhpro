@@ -30,6 +30,7 @@ class Trabajador extends Model
         'curp',
         'rfc',
         'numero_celular',
+        'sueldo',
         'fecha_ingreso',
         'edad',
         'estado_civil',
@@ -63,10 +64,10 @@ class Trabajador extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function registrosPatronales()
+    public function registroPatronal()
     {
         //cada trabajador pertenece a 
-        return $this->belongsTo(RegistroPatronal::class);
+        return $this->belongsTo(RegistroPatronal::class, 'registro_patronal_id');
     }
 
     /*

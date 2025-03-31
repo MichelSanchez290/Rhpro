@@ -113,7 +113,7 @@ class User extends Authenticatable
 
     public function retardos()
     {
-        return $this->belongsToMany(Retardo::class, 'user_retardo', 'retardo_id', 'user_id')->withTimestamps();
+        return $this->belongsToMany(Retardo::class, 'user_retardo',  'user_id', 'retardo_id')->withTimestamps();
     }
 
     public function departamento()

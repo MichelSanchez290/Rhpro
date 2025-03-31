@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\PortalRH\Incapacidad;
 use Illuminate\Support\Facades\Auth;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Str; 
 
 class AgregarIncapacidad extends Component
 {
@@ -33,8 +34,12 @@ class AgregarIncapacidad extends Component
     {
         //dd();
         $this->validate();
-        $this->documento->storeAs('PortalRH/Incapacidades', $this->incapacidad['motivo'].".pdf", 'subirDocs');
-        $this->incapacidad['documento'] = "PortalRH/Incapacidades/" . $this->incapacidad['motivo'] .".pdf";
+        // Generar nombre único para el archivo
+        $nombreArchivo = Auth::id() . '_' . time() . '_' . Str::slug($this->incapacidad['tipo']) . '.pdf';
+        
+        // Guardar el documento
+        $this->documento->storeAs('PortalRH/Incapacidades', $nombreArchivo, 'subirDocs');
+        $this->incapacidad['documento'] = "PortalRH/Incapacidades/" . $nombreArchivo;
 
         // Crear incidencia con status 'Pendiente'
         $nuevaIncapacidad = new Incapacidad($this->incapacidad);

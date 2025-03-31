@@ -55,15 +55,21 @@
                         break;
                     } else {
                         let formattedDate = `${year}-${(month + 1).toString().padStart(2, "0")}-${date.toString().padStart(2, "0")}`;
-                        let cumple = cumpleanios.find(event => event.start === formattedDate);
-
+                        // Por esto:
+                        let cumples = cumpleanios.filter(event => event.start === formattedDate);
                         let cellClass = "border border-gray-300 py-2 text-center";
                         let bgColor = "";
                         let tooltip = "";
 
-                        if (cumple) {
-                            bgColor = `style="background-color: ${cumple.color}; color: black; font-weight: bold;"`;
-                            tooltip = `title="🎂 ${cumple.name}"`;
+                        if (cumples.length > 0) {
+                            bgColor = `style="background-color: #FFD700; color: black; font-weight: bold;"`;
+                            // Crear tooltip con todos los nombres
+                            let nombres = cumples.map(c => c.name).join(", ");
+                            tooltip = `title="🎂 ${nombres}"`;
+                            
+                            // También puedes mostrar los nombres directamente en la celda si prefieres
+                            // let nombresHtml = cumples.map(c => `🎂 ${c.name}`).join("<br>");
+                            // calendarHTML += `<td class="${cellClass}" ${bgColor} ${tooltip}>${date}<br>${nombresHtml}</td>`;
                         }
 
                         calendarHTML += `<td class="${cellClass}" ${bgColor} ${tooltip}>${date}</td>`;

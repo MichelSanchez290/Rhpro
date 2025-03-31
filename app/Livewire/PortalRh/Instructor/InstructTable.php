@@ -42,8 +42,18 @@ final class InstructTable extends PowerGridComponent
     public function datasource(): Builder
     {
         $user = Auth::user();
-    
+
+        $user = Auth::user();
+
         $query = Instructor::query()
+            ->with([
+                'user', 
+                'user.empresa',    // Singular (como está definido en User)
+                'user.sucursal',
+                'user.departamento', 
+                'user.puesto',  
+                'registroPatronal'
+            ])
             ->leftJoin('users', 'instructores.user_id', '=', 'users.id')
             ->leftJoin('registros_patronales', 'instructores.registro_patronal_id', '=', 'registros_patronales.id')
             ->leftJoin('departamentos', 'users.departamento_id', '=', 'departamentos.id')
@@ -66,7 +76,16 @@ final class InstructTable extends PowerGridComponent
 
     public function relationSearch(): array
     {
-        return [];
+        return [
+            'user' => ['name'],
+            'registroPatronal' => ['registro_patronal'],
+            
+            // Para los campos que están en relaciones a través de user
+            'user.empresa' => ['nombre'], 
+            'user.sucursal' => ['nombre_sucursal'],
+            'user.departamento' => ['nombre_departamento'],
+            'user.puesto' => ['nombre_puesto'],
+        ];
     }
 
     public function fields(): PowerGridFields
@@ -120,6 +139,14 @@ final class InstructTable extends PowerGridComponent
             Column::make('Id', 'id'),
 
             Column::make('Usuario', 'nombre_usuario'),
+
+            Column::make('Tipoinstructor', 'tipoinstructor')
+                ->sortable()
+                ->searchable(),
+
+            Column::make('Empresa', 'empresa'),
+
+            Column::make('Sucursal', 'sucursal'),
 
             Column::make('Departamento', 'departamento'),
 
@@ -201,10 +228,6 @@ final class InstructTable extends PowerGridComponent
                 ->searchable(),
 
             Column::make('Domicilio', 'domicilio')
-                ->sortable()
-                ->searchable(),
-
-            Column::make('Tipoinstructor', 'tipoinstructor')
                 ->sortable()
                 ->searchable(),
 

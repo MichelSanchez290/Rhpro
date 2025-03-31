@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('colonia', 45);
             $table->string('calle', 45);
             $table->string('numero', 45);
-            $table->string('honorarios', 45);
+            $table->decimal('honorarios', 10, 2);
             $table->string('status', 45);
             $table->string('dc5', 255);
             $table->string('cuentabancaria', 255);
@@ -33,15 +33,15 @@ return new class extends Migration
             $table->string('sat', 100);
             $table->string('domicilio', 150);
             $table->string('tipoinstructor', 45);
-            $table->string('nombre_empresa', 255);
-            $table->string('rfc_empre', 20);
-            $table->string('calle_empre', 45);
-            $table->string('numero_empre', 45);
-            $table->string('colonia_empre', 100);
-            $table->string('municipio_empre', 100);
-            $table->string('estado_empre', 45);
-            $table->string('postal_empre', 10);
-            $table->string('regimen_empre', 100);
+            $table->string('nombre_empresa', 255)->nullable();
+            $table->string('rfc_empre', 20)->nullable();
+            $table->string('calle_empre', 45)->nullable();
+            $table->string('numero_empre', 45)->nullable();
+            $table->string('colonia_empre', 100)->nullable();
+            $table->string('municipio_empre', 100)->nullable();
+            $table->string('estado_empre', 45)->nullable();
+            $table->string('postal_empre', 10)->nullable();
+            $table->string('regimen_empre', 100)->nullable();
 
             //donde almacenara el id de la relacion
             $table->unsignedBigInteger('user_id');

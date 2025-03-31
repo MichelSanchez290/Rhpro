@@ -21,7 +21,7 @@ class Empresa extends Model
 
     public function sucursales()
     {
-        return $this->belongsToMany(Sucursal::class)->withPivot('empresa_id', 'sucursal_id');
+        return $this->belongsToMany(Sucursal::class, 'empresa_sucursal');
     }
 
     public function RegistroPatronal()

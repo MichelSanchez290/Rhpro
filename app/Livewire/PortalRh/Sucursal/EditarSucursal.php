@@ -47,7 +47,7 @@ class EditarSucursal extends Component
             'zona_economica' => 'required',
             'estado' => 'required',
             'cuenta_contable' => 'required',
-            'rfc' => 'required',
+            'rfc' => 'required|size:13',
             'correo' => 'required|email',
             'telefono' => 'required|digits:10',
             'status' => 'required',

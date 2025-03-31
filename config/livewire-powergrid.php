@@ -13,6 +13,7 @@ return [
 
     'theme' => \PowerComponents\LivewirePowerGrid\Themes\Tailwind::class,
     //'theme' => \PowerComponents\LivewirePowerGrid\Themes\Bootstrap5::class,
+    //'theme' => \App\PowerGridThemes\BlueTheme::class, 
 
     'cache_ttl' => null,
 

@@ -48,7 +48,8 @@ class EditarTrabajador extends Component
         $calle, 
         $colonia, 
         $numero, 
-        $status, 
+        $status,
+        $sueldo, 
 
         $user_id,
         $registro_patronal_id
@@ -87,6 +88,7 @@ class EditarTrabajador extends Component
         $this->colonia = $trabajador->colonia;
         $this->numero = $trabajador->numero;
         $this->status = $trabajador->status;
+        $this->sueldo = $trabajador->sueldo;
         $this->registro_patronal_id = $trabajador->registro_patronal_id;
         $this->user_id = $trabajador->user_id;
 
@@ -149,6 +151,7 @@ class EditarTrabajador extends Component
             'colonia' => 'required',
             'numero' => 'required',
             'status' => 'required',
+            'sueldo' => 'required|numeric',
             'registro_patronal_id' => 'required|exists:registros_patronales,id',
             'user_id' => 'required|exists:users,id',
 
@@ -201,6 +204,7 @@ class EditarTrabajador extends Component
             'colonia' => $this->colonia,
             'numero' => $this->numero,
             'status' => $this->status,
+            'sueldo' => $this->sueldo,
 
             'user_id' => $this->user_id,
             'registro_patronal_id' => $this->registro_patronal_id,

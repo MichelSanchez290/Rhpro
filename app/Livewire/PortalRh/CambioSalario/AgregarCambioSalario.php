@@ -3,6 +3,9 @@
 namespace App\Livewire\PortalRh\CambioSalario;
 
 use Livewire\Component;
+use App\Models\User;
+use App\Models\PortalRH\Instructor;
+use App\Models\PortalRH\Trabajador;
 use App\Models\PortalRH\CambioSalario;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -10,6 +13,7 @@ use App\Models\PortalRH\Empresa;
 use App\Models\PortalRH\Sucursal;
 use App\Models\PortalRH\Departamento;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Str; 
 
 class AgregarCambioSalario extends Component
 {
@@ -38,6 +42,29 @@ class AgregarCambioSalario extends Component
         $this->users = Departamento::with('users')->where('id', $this->departamento)->get();
     }
 
+    public function updatedUserId($userId)
+    {
+        // Buscar el usuario
+        $user = User::find($userId);
+        
+        if ($user) {
+            // Verificar si es instructor
+            $instructor = Instructor::where('user_id', $userId)->first();
+            if ($instructor) {
+                $this->salario['salario_anterior'] = $instructor->honorarios;
+                return;
+            }
+            
+            // Si no es instructor, verificar si es trabajador
+            $trabajador = Trabajador::where('user_id', $userId)->first();
+            if ($trabajador) {
+                $this->salario['salario_anterior'] = $trabajador->sueldo;
+            }
+        }
+    }
+
+    
+
     protected $rules = [
         'salario.fecha_cambio' => 'required|date',
         'salario.salario_anterior' => 'required|numeric',
@@ -54,8 +81,9 @@ class AgregarCambioSalario extends Component
 
     protected $messages = [
         'salario.*.required' => 'Este campo es obligatorio.',
-        'salario.salario_anterior.decimal' => 'Ingrese solo números.',
-        'salario.salario_nuevo.decimal' => 'Ingrese solo números.',
+        'salario.salario_anterior.numeric' => 'Ingrese solo números.',
+        'salario.salario_nuevo.numeric' => 'Ingrese solo números.',
+        'documento.required' => 'Adjunta un archivo en formato PDF.',
         'documento.file' => 'Adjunta un archivo en formato PDF.',
 
         'empresa.required' => 'Por favor seleccione una empresa.',
@@ -68,14 +96,28 @@ class AgregarCambioSalario extends Component
     public function saveSalario()
     {
         $this->validate();
-        $this->documento->storeAs('PortalRH/CambioSalario', $this->salario['motivo'].".pdf", 'subirDocs');
-        $this->salario['documento'] = "PortalRH/CambioSalario/" . $this->salario['motivo'] .".pdf";
+
+        // Generar nombre único para el archivo unico
+        $nombreArchivo = $this->user_id . '_' . time() . '_' . Str::slug($this->salario['motivo']) . '.pdf';
+
+        $this->documento->storeAs('PortalRH/CambioSalario', $nombreArchivo, 'subirDocs');
+        $this->salario['documento'] = "PortalRH/CambioSalario/" . $nombreArchivo;
 
         $nuevoSalario = new CambioSalario($this->salario);
         $nuevoSalario->save();
 
         // Asociar el usuario seleccionado en la tabla pivote
         $nuevoSalario->users()->attach($this->user_id);
+
+        // Actualizar el salario en las tablas correspondientes
+        $instructor = Instructor::where('user_id', $this->user_id)->first();
+        $trabajador = Trabajador::where('user_id', $this->user_id)->first();
+
+        if ($instructor) {
+            $instructor->update(['honorarios' => $this->salario['salario_nuevo']]);
+        } elseif ($trabajador) {
+            $trabajador->update(['sueldo' => $this->salario['salario_nuevo']]);
+        }
 
         $this->salario = [];
         $this->documento=NULL;

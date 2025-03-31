@@ -189,7 +189,7 @@ class UserRolDevSeeder extends Seeder
 
         Permission::create(['name' => 'Mostrar Rol'])->syncRoles([$role1, $role2]);
         Permission::create(['name' => 'Ver Permisos'])->syncRoles([$role1, $role2]);
-        Permission::create(['name' => 'Agregar Rol'])->syncRoles([$role1]);
+        Permission::create(['name' => 'Agregar Rol'])->syncRoles([$role1, $role2]);
         Permission::create(['name' => 'Editar Rol'])->syncRoles([$role1, $role2]);
         Permission::create(['name' => 'Eliminar Rol'])->syncRoles([$role1]);
 
@@ -197,6 +197,8 @@ class UserRolDevSeeder extends Seeder
         Permission::create(['name' => 'Agregar Usuario'])->syncRoles([$role1]);
         Permission::create(['name' => 'Editar Usuario'])->syncRoles([$role1, $role2]);
         Permission::create(['name' => 'Eliminar Usuario'])->syncRoles([$role1]);
+
+        Permission::create(['name' => 'Ver Cumpleaños'])->syncRoles([$role1, $role2, $role3]);
 
         Permission::create(['name' => 'Mostrar Reg Patronal'])->syncRoles([$role1, $role2]);
         Permission::create(['name' => 'Agregar Reg Patronal'])->syncRoles([$role1]);
@@ -295,8 +297,6 @@ class UserRolDevSeeder extends Seeder
         Permission::create(['name' => 'Editar Baja'])->syncRoles([$role1, $role2, $role3]);
         Permission::create(['name' => 'Eliminar Baja'])->syncRoles([$role1, $role2, $role3]);
 
-        
-        Permission::create(['name' => 'Ver Cumpleaños'])->syncRoles([$role1, $role2, $role3]);
 
         Permission::create(['name' => 'Mostrar Retardos'])->syncRoles([$role1, $role2, $role3]);
         Permission::create(['name' => 'Agregar Retardo'])->syncRoles([$role1, $role2, $role3]);     
@@ -311,6 +311,7 @@ class UserRolDevSeeder extends Seeder
 
         Permission::create(['name' => 'Mostrar Documento'])->syncRoles([$role1, $role2, $role3, $role8, $role10]);
         Permission::create(['name' => 'Agregar Documento'])->syncRoles([$role1, $role2, $role3, $role8, $role10]);
+        Permission::create(['name' => 'Agregar Documento Admin'])->syncRoles([$role1, $role2, $role3]);
         Permission::create(['name' => 'Editar Documento'])->syncRoles([$role1, $role2, $role3]);
         Permission::create(['name' => 'Eliminar Documento'])->syncRoles([$role1, $role2, $role3]);
 

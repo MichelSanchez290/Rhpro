@@ -15,6 +15,11 @@ class MostrarDocumento extends Component
         return redirect()->route('agregardoc');
     }
 
+    public function redirigirAdmin()
+    {
+        return redirect()->route('agregardocadmin');
+    }
+
     //Eliminar
     protected $listeners = [
         'confirmDelete' => 'confirmDelete', // Captura el evento

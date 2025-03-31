@@ -44,8 +44,11 @@ final class CambioSalarioTable extends PowerGridComponent
 
         // Iniciar la consulta base
         $query = CambioSalario::query()
-            ->select('cambio_salarios.*', 
-            'users.name as nombre_usuario') // Seleccionamos los datos de Retardo y el nombre del usuario
+            ->with(['users.cambioSalario'])
+            ->select([
+                'cambio_salarios.*',
+                'users.name as nombre_usuario',
+            ])
             ->join('user_cambio_salario', 'cambio_salarios.id', '=', 'user_cambio_salario.cambio_salario_id')
             ->join('users', 'user_cambio_salario.user_id', '=', 'users.id');
 
@@ -67,7 +70,9 @@ final class CambioSalarioTable extends PowerGridComponent
 
     public function relationSearch(): array
     {
-        return [];
+        return [
+            'users.cambioSalario' => ['name'],
+        ];
     }
 
     public function fields(): PowerGridFields

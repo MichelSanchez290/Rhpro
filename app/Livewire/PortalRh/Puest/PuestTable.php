@@ -43,7 +43,21 @@ final class PuestTable extends PowerGridComponent
     {
         $user = Auth::user();
 
-        // Si el usuario es administrador, devolver todos los departamentos
+        $query = Puesto::query()
+        ->with(['departamentos.sucursales.empresas']) 
+            ->leftJoin('departamento_puesto', 'puestos.id', '=', 'departamento_puesto.puesto_id')
+            ->leftJoin('departamentos', 'departamento_puesto.departamento_id', '=', 'departamentos.id')
+            ->leftJoin('departamento_sucursal', 'departamentos.id', '=', 'departamento_sucursal.departamento_id')
+            ->leftJoin('sucursales', 'departamento_sucursal.sucursal_id', '=', 'sucursales.id')
+            ->leftJoin('empresa_sucursal', 'sucursales.id', '=', 'empresa_sucursal.sucursal_id')
+            ->leftJoin('empresas', 'empresa_sucursal.empresa_id', '=', 'empresas.id')
+            ->select([
+                'puestos.*',
+                \DB::raw('COALESCE(empresas.nombre, "Sin Empresa") as empresa'),
+                \DB::raw('COALESCE(sucursales.nombre_sucursal, "Sin Sucursal") as sucursal'),
+                \DB::raw('COALESCE(departamentos.nombre_departamento, "Sin Departamento") as departamento')
+            ]);
+
         if ($user->hasRole('GoldenAdmin')) {
             return Puesto::query();
         }
@@ -54,7 +68,11 @@ final class PuestTable extends PowerGridComponent
 
     public function relationSearch(): array
     {
-        return [];
+        return [
+            'departamentos' => ['nombre_departamento'],
+            'departamentos.sucursales' => ['nombre_sucursal'],
+            'departamentos.sucursales.empresas' => ['nombre'],
+        ];
     }
 
     public function fields(): PowerGridFields
@@ -70,6 +88,20 @@ final class PuestTable extends PowerGridComponent
     {
         return [
             Column::make('Id', 'id'),
+            
+
+            Column::make('Empresa asociada', 'empresa')
+            ->sortable()
+            ->searchable(), 
+
+            Column::make('Sucursal asociada', 'sucursal')
+            ->sortable()
+            ->searchable(),
+
+            Column::make('Departamento asociado', 'departamento')
+            ->sortable()
+                ->searchable(), 
+
             Column::make('Nombre puesto', 'nombre_puesto')
                 ->sortable()
                 ->searchable(),

@@ -12,7 +12,7 @@
 
         <div class="flex justify-center">
             <div class="flex">
-                <h1 class="text-gray-600 font-bold md:text-2xl text-xl">Agregar Baja</h1>
+                <h1 class="text-gray-600 font-bold md:text-2xl text-xl">Editar Baja</h1>
             </div>
         </div>
 

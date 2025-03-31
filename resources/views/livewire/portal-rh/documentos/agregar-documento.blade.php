@@ -52,6 +52,26 @@
 
 
         <form class="mt-5 mx-7">
+            <div class="grid grid-cols-1 mt-5">
+                <label for="tipo_documento" class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
+                    Tipo de documento
+                </label>
+                <select wire:model.defer="documento.tipo_documento" id="tipo_documento"
+                    class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                    <option value="" selected>-- Selecciona una opción --</option>
+                    <option value="Acta de nacimiento">Acta de nacimiento</option>
+                    <option value="CURP">CURP</option>
+                    <option value="RFC">RFC</option>
+                    <option value="INE">INE</option>
+                    <option value="Comprobante de domicilio">Comprobante de domicilio</option>
+                    <option value="Comprobante de estudios">Comprobante de estudios</option>
+                    <option value="CV actualizado">CV actualizado</option>
+                    <option value="Constancia de capacitación">Constancia de capacitación</option>
+                </select>
+
+                <x-input-error for="documento.tipo_documento" />
+            </div>
+            
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
                 <div class="grid grid-cols-1 mt-5">
                     <label for="fecha_subida"
@@ -75,6 +95,7 @@
                     <x-input-error for="documento.numero" />
                 </div>
             </div>
+
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
                 <div class="grid grid-cols-1 mt-5">
@@ -102,25 +123,7 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 mt-5">
-                <label for="tipo_documento" class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
-                    Tipo de documento
-                </label>
-                <select wire:model.defer="documento.tipo_documento" id="tipo_documento"
-                    class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-                    <option value="" selected>-- Selecciona una opción --</option>
-                    <option value="Acta de nacimiento">Acta de nacimiento</option>
-                    <option value="CURP">CURP</option>
-                    <option value="RFC">RFC</option>
-                    <option value="INE">INE</option>
-                    <option value="Comprobante de domicilio">Comprobante de domicilio</option>
-                    <option value="Comprobante de estudios">Comprobante de estudios</option>
-                    <option value="CV actualizado">CV actualizado</option>
-                    <option value="Constancia de capacitación">Constancia de capacitación</option>
-                </select>
-
-                <x-input-error for="documento.tipo_documento" />
-            </div>
+            
 
             <div class="grid grid-cols-1 mt-5">
                 <label for="comentarios" class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">

@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('curp', 18);
             $table->string('rfc', 14);
             $table->string('numero_celular', 10);
+            $table->decimal('sueldo', 10, 2); // 10 dígitos en total, 2 decimales
             $table->date('fecha_ingreso');
             $table->string('edad', 20);
             $table->string('estado_civil', 20);
@@ -57,23 +58,6 @@ return new class extends Migration
                     ->onDelete('cascade');
 
             $table->timestamps();
-
-            /*
-            //donde almacenara el id de la relacion
-            $table->unsignedBigInteger('departamento_id');
-            $table->foreign('departamento_id') //Declara que id es una clave foránea.
-                    ->references('id') //Indica que esta columna hace referencia a la columna id
-                    ->on( 'departamentos')  // Define que la relación es con la tabla xxx
-                    ->onUpdate('cascade')
-                    ->onDelete('cascade');
-
-            //donde almacenara el id de la relacion
-            $table->unsignedBigInteger('puesto_id');
-            $table->foreign('puesto_id') //Declara que id es una clave foránea.
-                    ->references('id') //Indica que esta columna hace referencia a la columna id
-                    ->on( 'puestos')  // Define que la relación es con la tabla xxx
-                    ->onUpdate('cascade')
-                    ->onDelete('cascade'); */
         });
     }
 

@@ -46,8 +46,12 @@ final class RetardoTable extends PowerGridComponent
 
         // Iniciar la consulta base
         $query = Retardo::query()
-            ->select('retardos.*', 
-            'users.name as nombre_usuario') // Seleccionamos los datos de Retardo y el nombre del usuario
+            ->with(['users.retardos'])
+            ->select([
+                'retardos.*',
+                'users.name as nombre_usuario',
+                'users.tipo_user as tipo'
+            ])
             ->join('user_retardo', 'retardos.id', '=', 'user_retardo.retardo_id')
             ->join('users', 'user_retardo.user_id', '=', 'users.id');
 
@@ -69,7 +73,10 @@ final class RetardoTable extends PowerGridComponent
 
     public function relationSearch(): array
     {
-        return [];
+        return [
+            'users.retardos' => ['name'],
+            'users.retardos' => ['tipo_user'],
+        ];
     }
 
     public function fields(): PowerGridFields
@@ -77,13 +84,14 @@ final class RetardoTable extends PowerGridComponent
         return PowerGrid::fields()
             ->add('id')
             ->add('id')
-            ->add('fecha_formatted', fn (Retardo $model) => Carbon::parse($model->fecha)->format('d/m/Y'))
+            ->add('fecha')
             ->add('hora_entrada_programada')
             ->add('hora_entrada_real')
             ->add('minutos_retardo')
             ->add('motivo')
-            ->add('status') //nombre_usuario
+            ->add('status')
             ->add('nombre_usuario')
+            ->add('tipo')
             ->add('created_at');
     }
 
@@ -91,8 +99,18 @@ final class RetardoTable extends PowerGridComponent
     {
         return [
             Column::make('Id', 'id'),
+
             Column::make('Usuario', 'nombre_usuario')
-                ->sortable(),
+                ->sortable()
+                ->searchable(),
+
+            Column::make('Tipo Usuario', 'tipo')
+                ->sortable()
+                ->searchable(),
+            
+            Column::make('Fecha', 'fecha')
+                ->sortable()
+                ->searchable(),
 
             Column::make('Hora entrada programada', 'hora_entrada_programada')
                 ->sortable()
@@ -125,7 +143,7 @@ final class RetardoTable extends PowerGridComponent
     public function filters(): array
     {
         return [
-            Filter::datepicker('fecha'),
+            //Filter::datepicker('fecha'),
         ];
     }
 

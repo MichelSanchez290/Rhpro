@@ -14,30 +14,87 @@
             </div>
 
             <form class="mt-5 mx-7">
-                <!-- Nombre del puesto -->
-                <div class="grid grid-cols-1">
-                    <label for="nombre_puesto"
-                        class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Nombre del
-                        Puesto</label>
-                    <input wire:model.defer="puest.nombre_puesto" type="text" id="nombre_puesto"
-                        placeholder="Nombre del puesto"
-                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
-                
-                        <x-input-error for="puest.nombre_puesto" />
+                <h1 class="uppercase md:text-sm text-xs text-gray-900 text-light font-semibold"> 
+                    Seleccione su Empresa, Sucursal y Departamento para asociarlo a un puesto
+                </h1>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
+                    <div class="grid grid-cols-1 mt-5">
+                        <label for="empresa"
+                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
+                            Empresa</label>
+                        <select wire:model.live="empresa" id="empresa"
+                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                            <option value=""> --- Seleccione una empresa --- </option>
+                            @foreach ($empresas as $empresa)
+                                <option value="{{ $empresa->id }}">{{ $empresa->nombre }}</option>
+                            @endforeach
+                        </select>
+    
+                        <x-input-error for="empresa" />
+                    </div>
+    
+                    <div class="grid grid-cols-1 mt-5">
+                        <label for="sucursal"
+                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
+                            Sucursal</label>
+                        <select wire:model.live="sucursal" id="sucursal"
+                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                            <option value=""> --- Seleccione una sucursal --- </option>
+                            @forelse ($sucursales as $sucursal)
+    
+                                @foreach($sucursal->sucursales as $mi_sucursal)
+    
+                                    <option value="{{ $mi_sucursal->id }}">{{ $mi_sucursal->nombre_sucursal }}
+                                    </option>
+                                @endforeach
+    
+                            @empty
+                                <option value=""> Esta empresa no tiene sucursales </option>
+                            @endforelse
+                        </select>
+    
+                        <x-input-error for="sucursal" />
+                    </div>
                 </div>
+                
+                <!-- ***********************  -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
+                    <!--  -->
+                    <div class="grid grid-cols-1 mt-5">
+                        <label for="departamento"
+                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
+                            Departamento</label>
+                        <select wire:model.live="departamento" id="departamento"
+                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                            <option value=""> --- Seleccione un departamento --- </option>
+                            @forelse ($departamentos as $departamento)
+    
+                                @foreach($departamento->departamentos as $mi_depa)
+    
+                                    <option value="{{ $mi_depa->id }}">{{ $mi_depa->nombre_departamento }}
+                                    </option>
+                                @endforeach
+    
+                            @empty
+                                <option value=""> Esta sucursal no tiene departamentos</option>
+                            @endforelse
+                        </select>
+    
+                        <x-input-error for="departamento" />
+                    </div>
 
-                <div class="grid grid-cols-1 mt-5">
-                    <label for="departamento_id"
-                        class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Asociar Departamento</label>
-                    <select wire:model.defer="departamento_id" id="departamento_id"
-                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-                        <option value="">Seleccione un Departamento</option>
-                        @foreach ($departamentos as $departamento)
-                            <option value="{{ $departamento->id }}">{{ $departamento->nombre_departamento }}</option>
-                        @endforeach
-                    </select>
-
-                    <x-input-error for="departamento_id" />
+                    <!-- Nombre del puesto -->
+                    <div class="grid grid-cols-1 mt-5">
+                        <label for="nombre_puesto"
+                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Nombre del
+                            Puesto</label>
+                        <input wire:model.defer="puest.nombre_puesto" type="text" id="nombre_puesto"
+                            placeholder="Nombre del puesto"
+                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                    
+                            <x-input-error for="puest.nombre_puesto" />
+                    </div>
                 </div>
 
                 <!-- Botones -->

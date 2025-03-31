@@ -3,17 +3,20 @@
 namespace App\Livewire\PortalRh\CambioSalario;
 
 use Livewire\Component;
-use App\Models\PortalRH\CambioSalario;
 use App\Models\User;
+use App\Models\PortalRH\Instructor;
+use App\Models\PortalRH\Trabajador;
+use App\Models\PortalRH\CambioSalario;
 use Illuminate\Support\Facades\Crypt;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str; 
 
 class EditarCambioSalario extends Component
 {
     use WithFileUploads;
     public $salario_id, $fecha_cambio, $salario_anterior, $salario_nuevo,
-        $motivo, $documento, $observaciones, $subirPdf, $nombre_usuario
+        $motivo, $documento, $observaciones, $subirPdf, $nombre_usuario, $user_id
     ;
 
     public function mount($id)
@@ -31,7 +34,9 @@ class EditarCambioSalario extends Component
 
         // Obtener el usuario asignado 
         if ($cambio_salario->users->isNotEmpty()) {
-            $this->nombre_usuario = $cambio_salario->users->first()->name;
+            $user = $cambio_salario->users->first();
+            $this->nombre_usuario = $user->name;
+            $this->user_id = $user->id; // Guardamos el user_id para usarlo después
         } else {
             $this->nombre_usuario = 'No asignado';
         }
@@ -55,9 +60,12 @@ class EditarCambioSalario extends Component
                 Storage::disk('subirDocs')->delete($this->documento);
             }
 
-            // guardar el nuevo archivo PDF
-            $this->subirPdf->storeAs('PortalRH/CambioSalario', $this->motivo . ".pdf", 'subirDocs');
-            $this->documento = "PortalRH/CambioSalario/" . $this->motivo . ".pdf";
+            // Generar nombre único para el archivo
+            $nombreArchivo = $this->user_id . '_' . time() . '_' . Str::slug($this->motivo) . '.pdf';
+            
+            // Guardar el nuevo archivo PDF
+            $this->subirPdf->storeAs('PortalRH/CambioSalario', $nombreArchivo, 'subirDocs');
+            $this->documento = "PortalRH/CambioSalario/" . $nombreArchivo;
         }
 
         CambioSalario::updateOrCreate(['id' => $this->salario_id], [
@@ -68,6 +76,19 @@ class EditarCambioSalario extends Component
             'observaciones' => $this->observaciones,
             'documento' => $this->documento,
         ]);
+
+        // Si hay un user_id, actualizar el salario en la tabla correspondiente
+        if ($this->user_id) {
+            $instructor = Instructor::where('user_id', $this->user_id)->first();
+            $trabajador = Trabajador::where('user_id', $this->user_id)->first();
+
+            if ($instructor) {
+                $instructor->update(['honorarios' => $this->salario_nuevo]);
+            } elseif ($trabajador) {
+                $trabajador->update(['sueldo' => $this->salario_nuevo]);
+            }
+        }
+        
         
         session()->flash('message', 'Cambio de salario actualizado.');
     }

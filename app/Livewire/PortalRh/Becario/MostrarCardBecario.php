@@ -16,82 +16,103 @@ use Livewire\WithPagination;
 class MostrarCardBecario extends Component
 {
     use WithPagination;
+    
+    public $search;
+    public $noResults = false;
 
     //para obtener todos los usuarios y sus datos
-    public $becarios, $usuarios, $registros_patronales, 
-    $emp, $suc, $depa, $puest;
+    public $usuarios, $registros_patronales, $emp, $suc, $depa, $puest;
 
-    public $search = '';
-
-    
     //para el filtrado
     public $sucursales=[], $departamentos=[], $puestos=[], $users=[];
     public $empresas, $empresa, $sucursal, $departamento, $puesto;
     
     public function mount()
     {
+        $this->search = "";
+
         // Obtener todos los registros de las tablas relacionadas
-        $this->becarios = Becario::all();
-        $this->usuarios = User::all()->keyBy('id'); // Indexamos por ID para acceso rápido
+        $this->usuarios = User::all()->keyBy('id');
         $this->emp = Empresa::all()->keyBy('id');
         $this->suc = Sucursal::all()->keyBy('id');
         $this->depa = Departamento::all()->keyBy('id');
         $this->puest = Puesto::all()->keyBy('id');
         $this->registros_patronales = RegistroPatronal::all()->keyBy('id');
         
-
         $this->empresas = Empresa::all();
-        $this->filtrar();
     }
 
-    public function updatedEmpresa()
+    // Método para búsqueda en tiempo real
+    public function updated($property)
     {
-        $this->sucursales = Empresa::with('sucursales')->where('id', $this->empresa)->get();
+        if ($property === 'search') {
+            $this->resetPage();
+            $this->noResults = false;
+        }
+        
+        // Actualizar filtros cuando cambian las selecciones
+        if (in_array($property, ['empresa', 'sucursal', 'departamento', 'puesto'])) {
+            $this->updateFilters();
+        }
     }
 
-    public function updatedSucursal()
+    protected function updateFilters()
     {
-        $this->departamentos = Sucursal::with('departamentos')->where('id', $this->sucursal)->get();
-    }
+        if ($this->empresa) {
+            $this->sucursales = Empresa::with('sucursales')->where('id', $this->empresa)->get();
+        } else {
+            $this->sucursales = [];
+            $this->sucursal = null;
+        }
 
-    public function updatedDepartamento()
-    {
-        $this->puestos = Departamento::with('puestos')->where('id', $this->departamento)->get();
-    }
+        if ($this->sucursal) {
+            $this->departamentos = Sucursal::with('departamentos')->where('id', $this->sucursal)->get();
+        } else {
+            $this->departamentos = [];
+            $this->departamento = null;
+        }
 
-    public function updatedPuesto()
-    {
-        // Obtener los puestos del departamento seleccionado
-        $this->users = Departamento::with('users')->where('id', $this->puesto)->get();
+        if ($this->departamento) {
+            $this->puestos = Departamento::with('puestos')->where('id', $this->departamento)->get();
+        } else {
+            $this->puestos = [];
+            $this->puesto = null;
+        }
     }
 
     public function filtrar()
     {
-        $this->becarios = Becario::query()
+        $query = Becario::query()
+            ->when($this->search, function ($query) {
+                $query->where(function($q) {
+                    $q->where('clave_becario', 'LIKE', "%{$this->search}%")
+                      ->orWhereHas('user', function($userQuery) {
+                          $userQuery->where('name', 'LIKE', "%{$this->search}%");
+                      });
+                });
+            })
             ->when($this->empresa, function ($query) {
-                $query->whereHas('usuario', function ($q) {
+                $query->whereHas('user', function ($q) {
                     $q->where('empresa_id', $this->empresa);
                 });
             })
             ->when($this->sucursal, function ($query) {
-                $query->whereHas('usuario', function ($q) {
+                $query->whereHas('user', function ($q) {
                     $q->where('sucursal_id', $this->sucursal);
                 });
             })
             ->when($this->departamento, function ($query) {
-                $query->whereHas('usuario', function ($q) {
+                $query->whereHas('user', function ($q) {
                     $q->where('departamento_id', $this->departamento);
                 });
+            })
+            ->when($this->puesto, function ($query) {
+                $query->whereHas('user', function ($q) {
+                    $q->where('puesto_id', $this->puesto);
+                });
+            });
 
-            })
-            ->when($this->search, function ($query) {
-                $query->whereHas('usuario', function ($q) {
-                    $q->where('name', 'like', '%' . $this->search . '%');
-                })->orWhere('clave_becario', 'like', '%' . $this->search . '%');
-            })
-            ->get();
-            
-        
+        return $query->get();
     }
 
     public function redirigir($id)
@@ -100,10 +121,14 @@ class MostrarCardBecario extends Component
         return redirect()->route('cardbecario', ['id' => $id_encriptado]);
     }
 
-
-
     public function render()
     {
-        return view('livewire.portal-rh.becario.mostrar-card-becario')->layout('layouts.client');
+        $becarios = $this->filtrar();
+        $this->noResults = $becarios->isEmpty() && !empty($this->search);
+        
+        return view('livewire.portal-rh.becario.mostrar-card-becario', [
+            'becarios' => $becarios,
+            'noResults' => $this->noResults,
+        ])->layout('layouts.client');
     }
 }

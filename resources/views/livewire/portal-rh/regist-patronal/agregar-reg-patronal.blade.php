@@ -163,7 +163,7 @@
                 <div class="grid grid-cols-1 mt-5">
                     <label for="imms_num_int"
                         class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
-                        Número interior de calle del IMMS (opcional)
+                        Número interior de calle del IMMS o NA (No Aplica)
                     </label>
                     <input wire:model.defer="registro.imms_num_int" type="text" id="imms_num_int"
                         placeholder="Número interior de calle del IMMS"

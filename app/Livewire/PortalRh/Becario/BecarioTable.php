@@ -44,6 +44,14 @@ final class BecarioTable extends PowerGridComponent
         $user = Auth::user();
     
         $query = Becario::query()
+            ->with([
+                'user', 
+                'user.empresa',    // Singular (como está definido en User)
+                'user.sucursal',
+                'user.departamento', 
+                'user.puesto',  
+                'registroPatronal'
+            ])
             ->leftJoin('users', 'becarios.user_id', '=', 'users.id')
             ->leftJoin('registros_patronales', 'becarios.registro_patronal_id', '=', 'registros_patronales.id')
             ->leftJoin('departamentos', 'users.departamento_id', '=', 'departamentos.id')
@@ -66,7 +74,16 @@ final class BecarioTable extends PowerGridComponent
 
     public function relationSearch(): array
     {
-        return [];
+        return [
+            'user' => ['name'],
+            'registroPatronal' => ['registro_patronal'],
+            
+            // Para los campos que están en relaciones a través de user
+            'user.empresa' => ['nombre'], 
+            'user.sucursal' => ['nombre_sucursal'],
+            'user.departamento' => ['nombre_departamento'],
+            'user.puesto' => ['nombre_puesto'],
+        ];
     }
 
     public function fields(): PowerGridFields

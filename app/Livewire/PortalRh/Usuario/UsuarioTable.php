@@ -12,21 +12,27 @@ use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 
-use Illuminate\Support\Facades\Crypt;
-use PowerComponents\LivewirePowerGrid\Traits\WithExport;
+//use PowerComponents\LivewirePowerGrid\Components\Exports\Exportable;
+//use PowerComponents\LivewirePowerGrid\Components\Exportable;
 use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
+use PowerComponents\LivewirePowerGrid\Traits\WithExport;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Auth;
 
 final class UsuarioTable extends PowerGridComponent
 {
+    use WithExport;
     public string $tableName = 'usuario-table-gb4tbl-table';
 
     public function setUp(): array
     {
         $this->showCheckBox();
-
+        
         return [
+            PowerGrid::exportable(fileName: 'usuarios') 
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+                
             PowerGrid::header()
                 ->showSearchInput(),
             PowerGrid::footer()
@@ -65,7 +71,9 @@ final class UsuarioTable extends PowerGridComponent
 
     public function relationSearch(): array
     {
-        return [];
+        return [
+            'roles' => ['name'], // Esto permite buscar en el nombre del rol
+        ];
     }
 
     public function fields(): PowerGridFields
@@ -79,7 +87,9 @@ final class UsuarioTable extends PowerGridComponent
             ->add('empresa')
             ->add('sucursal')
             ->add('tipo_user')
-            ->add('rol')
+            ->add('rol', function(User $model) {
+                return $model->rol; // Esto hace referencia al alias que definiste en tu consulta SQL
+            })
             ->add('created_at')
             ->add('updated_at');
     }
