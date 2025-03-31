@@ -70,7 +70,7 @@ class Asignarofi extends Component
     {
         $this->validate([
             'usuarioSeleccionado' => 'required|exists:users,id',
-            'activoSeleccionado' => 'required|exists:activos_tecnologias,id',
+            'activoSeleccionado' => 'required|exists:activos_oficinas,id',
             'observaciones' => 'required|string',
             'subirfoto1' => 'nullable|image|max:1024', // 1MB max
         ]);
@@ -108,7 +108,9 @@ class Asignarofi extends Component
             'observaciones',
             'subirfoto1',
         ]);
-    
+        
+        session()->flash('success', '¡Activo asignado exitosamente!');
+
         // Redirigir con mensaje de éxito
         return redirect()->route('mostrarasignofiad');
     }

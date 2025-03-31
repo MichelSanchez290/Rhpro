@@ -62,6 +62,9 @@ class EditarUniforme extends Component
 
     public function editar()
     {
+        if ($this->activo['status'] === 'Activo') {
+            $this->activo['fecha_baja'] = null;
+        }
         if ($this->subirfoto1) {
             // eliminar la  anterior si existe
             if ($this->foto1 && Storage::disk('subirDocs')->exists($this->descripcion)) {
@@ -115,6 +118,8 @@ class EditarUniforme extends Component
             'status' => $this->status,
         ]);
         $this->dispatch('sucursalUpdated');
+
+        session()->flash('success', '¡El activo ha sido editado exitosamente!');
 
         return redirect()->route('mostraruni');
     }

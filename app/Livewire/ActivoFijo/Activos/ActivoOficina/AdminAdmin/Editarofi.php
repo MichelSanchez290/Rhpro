@@ -88,6 +88,9 @@ class Editarofi extends Component
         ]);
 
         $this->activo['empresa_id'] = $this->empresaSeleccionada;
+        if ($this->activo['status'] === 'Activo') {
+            $this->activo['fecha_baja'] = null;
+        }
 
         if ($this->subirfoto1) {
             // Eliminar la imagen anterior si existe
@@ -125,6 +128,8 @@ class Editarofi extends Component
 
         // Actualizar el activo mobiliario
         ActivoOficina::find($this->activo['id'])->update($this->activo);
+
+        session()->flash('success', '¡El activo ha sido editado exitosamente!');
 
         // Redirigir a la vista de mostrar
         return redirect()->route('mostrarofiad');

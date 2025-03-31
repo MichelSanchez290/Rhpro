@@ -44,7 +44,7 @@ final class AsignsousuTable extends PowerGridComponent
             ->select([
                 'activos_souvenir_user.id',
                 'users.name as usuario',
-                'activos_souvenirs.nombre as activo',
+                'activos_souvenirs.productos as activo',
                 'sucursales.nombre_sucursal as sucursal',
                 'empresas.nombre as empresa',
                 'activos_souvenir_user.fecha_asignacion',
@@ -129,7 +129,7 @@ final class AsignsousuTable extends PowerGridComponent
 
             // Actualizar el activo en activos_tecnologias a 'Activo'
             DB::table('activos_souvenirs')
-                ->where('id', $registro->activos_tecnologias_id)
+                ->where('id', $registro->activos_souvenirs_id)
                 ->update([
                     'status' => 'Activo', // String para activos_tecnologias
                     'updated_at' => now(),

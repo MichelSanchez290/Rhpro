@@ -125,7 +125,7 @@ class Asignaruniem extends Component
             'subirfoto1',
         ]);
 
-        session()->flash('message', 'Activo tecnológico asignado correctamente.');
+        session()->flash('success', 'Activo asignado correctamente.');
         return redirect()->route('mostrarasignuniem');
     }
 

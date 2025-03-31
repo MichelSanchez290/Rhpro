@@ -6,7 +6,7 @@
     <title>Acta de Asignación de Activo Tecnológico</title>
     <style>
         @page {
-            margin: 10mm; /* Márgenes de la página para optimizar el espacio */
+            margin: 10mm;
         }
         body {
             font-family: 'Arial', sans-serif;
@@ -16,8 +16,8 @@
             background-color: #f4f4f4;
         }
         .container {
-            width: 100%; /* Usamos 100% para abarcar toda la hoja */
-            max-width: 800px; /* Límite máximo para mantener legibilidad */
+            width: 100%;
+            max-width: 800px;
             margin: 0 auto;
             background: #fff;
             padding: 10px;
@@ -25,21 +25,21 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
         .header {
-            background: #007bff; /* Fondo azul sólido */
+            background: #007bff;
             color: #fff;
             padding: 15px;
             border-radius: 10px 10px 0 0;
-            overflow: hidden; /* Limpiamos el float */
+            overflow: hidden;
         }
         .header .logo-container {
-            float: left; /* Posicionamos el logo a la izquierda */
-            background: #fff; /* Fondo blanco para contraste */
+            float: left;
+            background: #fff;
             padding: 5px;
             border-radius: 5px;
-            margin-right: 15px; /* Espacio entre logo y título */
+            margin-right: 15px;
         }
         .header img.logo {
-            max-height: 60px; /* Tamaño ajustado */
+            max-height: 60px;
             width: auto;
             vertical-align: middle;
         }
@@ -106,6 +106,21 @@
             color: #007bff;
             font-weight: bold;
         }
+        .signature {
+            margin-top: 40px;
+            text-align: center;
+        }
+        .signature p {
+            margin: 0;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .signature .line {
+            width: 300px;
+            height: 1px;
+            background: #000;
+            margin: 10px auto;
+        }
     </style>
 </head>
 <body>
@@ -121,6 +136,10 @@
         <div class="section">
             <h2>Datos del Activo</h2>
             <p><span class="strong">Nombre:</span> {{ $data->activo }}</p>
+            <p><span class="strong">Descripción:</span> {{ $data->descripcion ?? 'No disponible' }}</p>
+            <p><span class="strong">Número de Serie:</span> {{ $data->num_serie ?? 'No disponible' }}</p>
+            <p><span class="strong">Número de Activo:</span> {{ $data->num_activo ?? 'No disponible' }}</p>
+            <p><span class="strong">Ubicación Física:</span> {{ $data->ubicacion_fisica ?? 'No disponible' }}</p>
             <p><span class="strong">Sucursal:</span> {{ $data->sucursal }}</p>
             <p><span class="strong">Empresa:</span> {{ $data->empresa }}</p>
             <p><span class="strong">Estado:</span> {{ $data->status == 1 ? 'Asignado' : 'Devuelto' }}</p>
@@ -141,7 +160,7 @@
             <p><span class="strong">Observaciones:</span> {{ $data->observaciones }}</p>
         </div>
 
-        @if($data->foto1 || $data->foto2 || $data->foto3)
+        {{-- @if($data->foto1 || $data->foto2 || $data->foto3)
         <div class="section">
             <h2>Evidencia Fotográfica</h2>
             <div class="images">
@@ -156,7 +175,13 @@
                 @endif
             </div>
         </div>
-        @endif
+        @endif --}}
+
+        <div class="signature">
+            <p>Firma del Responsable</p>
+        </br>
+            <div class="line"></div>
+        </div>
 
         <div class="footer">
             <p>Documento generado el {{ now()->format('d/m/Y H:i') }}</p>

@@ -30,7 +30,7 @@ return new class extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->date('fecha_asignacion');
-            $table->date('fecha_devolucion')->nulleable();
+            $table->date('fecha_devolucion')->nullable();
             $table->string('observaciones');
             $table->tinyInteger('status');
             $table->timestamps();

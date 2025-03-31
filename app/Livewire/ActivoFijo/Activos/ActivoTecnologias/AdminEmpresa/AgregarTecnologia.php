@@ -85,6 +85,8 @@ class AgregarTecnologia extends Component
         $this->subirfoto1 = NULL;
         $this->subirfoto2 = NULL;
         $this->subirfoto3 = NULL;
+        
+        session()->flash('success', '¡El activo ha sido registrado exitosamente!');
 
         return redirect()->route('mostrartec');
     }

@@ -90,6 +90,8 @@ class Agregaracttec extends Component
         $this->subirfoto2 = null;
         $this->subirfoto3 = null;
 
+        session()->flash('success', '¡El activo ha sido registrado exitosamente!');
+
         return redirect()->route('mostraracttec');
     }
 

@@ -110,6 +110,8 @@ class Agregartec extends Component
         $this->subirfoto2 = NULL;
         $this->subirfoto3 = NULL;
 
+        session()->flash('success', '¡El activo ha sido registrado exitosamente!');
+
         return redirect()->route('mostrartecad');
     }
     public function render()

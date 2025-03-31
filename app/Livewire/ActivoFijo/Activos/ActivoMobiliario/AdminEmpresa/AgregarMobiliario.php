@@ -86,6 +86,8 @@ class AgregarMobiliario extends Component
         $this->subirfoto2=NULL ;
         $this->subirfoto3=NULL ;
         $this->subirfoto4=NULL ;
+
+        session()->flash('success', '¡El activo ha sido registrado exitosamente!');
         
         return redirect()->route('mostrarmob');
     }

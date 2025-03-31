@@ -95,6 +95,10 @@ class Editarsou extends Component
         ]);
         // Asignar la empresa seleccionada al activo
         $this->activo['empresa_id'] = $this->empresaSeleccionada;
+
+        if ($this->activo['status'] === 'Activo') {
+            $this->activo['fecha_baja'] = null;
+        }
         // Guardar imágenes si fueron subidas
         // Manejo de imágenes
         if ($this->subirfoto1) {
@@ -131,6 +135,8 @@ class Editarsou extends Component
         }
         // Crear una nueva instancia de Sale y asignar los valores
         ActivoSouvenir::find($this->activo['id'])->update($this->activo);
+
+        session()->flash('success', '¡El activo ha sido editado exitosamente!');
 
         // Redirigir a la vista de mostrar
         return redirect()->route('mostrarsouad');

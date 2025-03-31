@@ -21,8 +21,12 @@ class PdfExportController extends Controller
             ->select([
                 'activos_tecnologia_user.id',
                 'users.name as usuario',
-                'users.email as correo', // Agregamos el correo
+                'users.email as correo',
                 'activos_tecnologias.nombre as activo',
+                'activos_tecnologias.descripcion', // Nueva característica
+                'activos_tecnologias.num_serie',   // Nueva característica
+                'activos_tecnologias.num_activo',  // Nueva característica
+                'activos_tecnologias.ubicacion_fisica', // Nueva característica
                 'sucursales.nombre_sucursal as sucursal',
                 'empresas.nombre as empresa',
                 'activos_tecnologia_user.fecha_asignacion',

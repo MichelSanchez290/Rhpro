@@ -33,6 +33,7 @@ final class AsignacionestecTable extends PowerGridComponent
             PowerGrid::footer()
                 ->showPerPage()
                 ->showRecordCount(),
+            
         ];
     }
 

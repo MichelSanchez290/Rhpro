@@ -88,6 +88,9 @@ class Editaruni extends Component
 
         $this->activo['empresa_id'] = $this->empresaSeleccionada;
 
+        if ($this->activo['status'] === 'Activo') {
+            $this->activo['fecha_baja'] = null;
+        }
 
         if ($this->subirfoto1) {
             if ($this->foto1 && Storage::disk('subirDocs')->exists($this->foto1)) {
@@ -114,6 +117,8 @@ class Editaruni extends Component
         }
 
         ActivoUniforme::find($this->activo['id'])->update($this->activo);
+        session()->flash('success', '¡El activo ha sido editado exitosamente!');
+
         return redirect()->route('mostraruniad');
     }
     public function render()

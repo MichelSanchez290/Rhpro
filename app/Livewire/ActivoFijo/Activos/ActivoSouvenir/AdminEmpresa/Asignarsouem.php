@@ -116,7 +116,7 @@ class Asignarsouem extends Component
             'observaciones',
         ]);
 
-        session()->flash('message', 'Activo tecnológico asignado correctamente.');
+        session()->flash('success', 'Activo asignado correctamente.');
         return redirect()->route('mostrarasignsouem');
     }
     public function render()

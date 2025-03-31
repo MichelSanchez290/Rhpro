@@ -52,8 +52,6 @@ final class AsignmobsuTable extends PowerGridComponent
                 'activos_mobiliario_user.observaciones',
                 'activos_mobiliario_user.status',
                 'activos_mobiliario_user.foto1',
-                'activos_mobiliario_user.foto2',
-                'activos_mobiliario_user.foto3',
                 'activos_mobiliario_user.created_at',
                 'activos_mobiliario_user.updated_at',
             ]);
@@ -132,7 +130,7 @@ final class AsignmobsuTable extends PowerGridComponent
 
             // Actualizar el activo en activos_tecnologias a 'Activo'
             DB::table('activos_mobiliarios')
-                ->where('id', $registro->activos_tecnologias_id)
+                ->where('id', $registro->activos_mobiliarios_id)
                 ->update([
                     'status' => 'Activo', // String para activos_tecnologias
                     'updated_at' => now(),

@@ -12,8 +12,11 @@ use App\Livewire\ActivoFijo\Activos\ActivoMobiliario\AdminEmpresa\EditarMobiliar
 use App\Livewire\ActivoFijo\Activos\ActivoMobiliario\AdminEmpresa\Mostrarasignmobe;
 use App\Livewire\ActivoFijo\Activos\ActivoMobiliario\AdminEmpresa\MostrarMobiliario;
 use App\Livewire\ActivoFijo\Activos\ActivoMobiliario\AdminSucursal\Agregaractmob;
+use App\Livewire\ActivoFijo\Activos\ActivoMobiliario\AdminSucursal\Asignarmobsu;
 use App\Livewire\ActivoFijo\Activos\ActivoMobiliario\AdminSucursal\Editaractmob;
 use App\Livewire\ActivoFijo\Activos\ActivoMobiliario\AdminSucursal\Mostraractmob;
+use App\Livewire\ActivoFijo\Activos\ActivoMobiliario\AdminSucursal\Mostrarmobsu;
+use App\Livewire\ActivoFijo\Activos\ActivoMobiliario\Trabajador\Mostrarasignmobusu;
 use App\Livewire\ActivoFijo\Activos\ActivoOficina\AdminAdmin\Agregarofi;
 use App\Livewire\ActivoFijo\Activos\ActivoOficina\AdminAdmin\Asignarofi;
 use App\Livewire\ActivoFijo\Activos\ActivoOficina\AdminAdmin\Editarofi;
@@ -25,8 +28,11 @@ use App\Livewire\ActivoFijo\Activos\ActivoOficina\AdminEmpresa\EditarOficina;
 use App\Livewire\ActivoFijo\Activos\ActivoOficina\AdminEmpresa\Mostrarasignofie;
 use App\Livewire\ActivoFijo\Activos\ActivoOficina\AdminEmpresa\MostrarOficina;
 use App\Livewire\ActivoFijo\Activos\ActivoOficina\AdminSucursal\Agregaractofi;
+use App\Livewire\ActivoFijo\Activos\ActivoOficina\AdminSucursal\Asignarofisu;
 use App\Livewire\ActivoFijo\Activos\ActivoOficina\AdminSucursal\Editaractofi;
 use App\Livewire\ActivoFijo\Activos\ActivoOficina\AdminSucursal\Mostraractofi;
+use App\Livewire\ActivoFijo\Activos\ActivoOficina\AdminSucursal\Mostrarofisu;
+use App\Livewire\ActivoFijo\Activos\ActivoOficina\Trabajador\Mostrarasignofiusu;
 use App\Livewire\ActivoFijo\Activos\ActivoPapeleria\AdminAdmin\Agregarpape;
 use App\Livewire\ActivoFijo\Activos\ActivoPapeleria\AdminAdmin\Asignarpape;
 use App\Livewire\ActivoFijo\Activos\ActivoPapeleria\AdminAdmin\Editarpape;
@@ -38,8 +44,11 @@ use App\Livewire\ActivoFijo\Activos\ActivoPapeleria\AdminEmpresa\EditarPapeleria
 use App\Livewire\ActivoFijo\Activos\ActivoPapeleria\AdminEmpresa\Mostrarasignpapee;
 use App\Livewire\ActivoFijo\Activos\ActivoPapeleria\AdminEmpresa\MostrarPapeleria;
 use App\Livewire\ActivoFijo\Activos\ActivoPapeleria\AdminSucursal\Agregaractpape;
+use App\Livewire\ActivoFijo\Activos\ActivoPapeleria\AdminSucursal\Asignarpapesu;
 use App\Livewire\ActivoFijo\Activos\ActivoPapeleria\AdminSucursal\Editaractpape;
 use App\Livewire\ActivoFijo\Activos\ActivoPapeleria\AdminSucursal\Mostraractpape;
+use App\Livewire\ActivoFijo\Activos\ActivoPapeleria\AdminSucursal\Mostrarpapesu;
+use App\Livewire\ActivoFijo\Activos\ActivoPapeleria\Trabajador\Mostrarasignpapeusu;
 use App\Livewire\ActivoFijo\Activos\ActivoSouvenir\AdminAdmin\Agregarsou;
 use App\Livewire\ActivoFijo\Activos\ActivoSouvenir\AdminAdmin\Asignarsou;
 use App\Livewire\ActivoFijo\Activos\ActivoSouvenir\AdminAdmin\Editarsou;
@@ -51,8 +60,11 @@ use App\Livewire\ActivoFijo\Activos\ActivoSouvenir\AdminEmpresa\EditarSouvenir;
 use App\Livewire\ActivoFijo\Activos\ActivoSouvenir\AdminEmpresa\Mostrarasignsoue;
 use App\Livewire\ActivoFijo\Activos\ActivoSouvenir\AdminEmpresa\MostrarSouvenir;
 use App\Livewire\ActivoFijo\Activos\ActivoSouvenir\AdminSucursal\Agregaractsou;
+use App\Livewire\ActivoFijo\Activos\ActivoSouvenir\AdminSucursal\Asignarsousu;
 use App\Livewire\ActivoFijo\Activos\ActivoSouvenir\AdminSucursal\Editaractsou;
 use App\Livewire\ActivoFijo\Activos\ActivoSouvenir\AdminSucursal\Mostraractsou;
+use App\Livewire\ActivoFijo\Activos\ActivoSouvenir\AdminSucursal\Mostrarsousu;
+use App\Livewire\ActivoFijo\Activos\ActivoSouvenir\Trabajador\Mostrarasignsouusu;
 use App\Livewire\ActivoFijo\Activos\ActivoTecnologias\AdminAdmin\Agregartec;
 use App\Livewire\ActivoFijo\Activos\ActivoTecnologias\AdminAdmin\Asignartec;
 use App\Livewire\ActivoFijo\Activos\ActivoTecnologias\AdminAdmin\Editartec;
@@ -79,8 +91,12 @@ use App\Livewire\ActivoFijo\Activos\ActivoUniforme\AdminEmpresa\EditarUniforme;
 use App\Livewire\ActivoFijo\Activos\ActivoUniforme\AdminEmpresa\Mostrarasignunie;
 use App\Livewire\ActivoFijo\Activos\ActivoUniforme\AdminEmpresa\MostrarUniforme;
 use App\Livewire\ActivoFijo\Activos\ActivoUniforme\AdminSucursal\Agregaractuni;
+use App\Livewire\ActivoFijo\Activos\ActivoUniforme\AdminSucursal\Asignarunisu;
 use App\Livewire\ActivoFijo\Activos\ActivoUniforme\AdminSucursal\Editaractuni;
 use App\Livewire\ActivoFijo\Activos\ActivoUniforme\AdminSucursal\Mostraractuni;
+use App\Livewire\ActivoFijo\Activos\ActivoUniforme\AdminSucursal\Mostrarunisu;
+use App\Livewire\ActivoFijo\Activos\ActivoUniforme\Trabajador\Mostrarasignuniusu;
+use App\Livewire\ActivoFijo\Activos\Mostraractivos;
 use App\Livewire\ActivoFijo\InicioActivo;
 use App\Livewire\ActivoFijo\TipoActivo\Agregartipoactivo;
 use App\Livewire\ActivoFijo\TipoActivo\Editartipoactivo;
@@ -146,6 +162,8 @@ Route::get('af/mostrarasignofiem', Mostrarasignofie::class)->middleware('can:Act
 Route::get('af/mostraractivoofi', Mostraractofi::class)->middleware('can:Activo oficina Sucursal')->name('mostraractofi');
 Route::get('af/agregaractivoofi', Agregaractofi::class)->middleware('can:Activo oficina Sucursal')->name('agregaractofi');
 Route::get('af/editaractivoofi/{id}', Editaractofi::class)->middleware('can:Activo oficina Sucursal')->name('editaractofi');
+Route::get('af/asignarofisu', Asignarofisu::class)->middleware('can:Activo oficina Sucursal')->name('asignarofisu');
+Route::get('af/mostrarasignofisu', Mostrarofisu::class)->middleware('can:Activo oficina Sucursal')->name('mostrarasignofisu');
 
 //Administrador general Mobiliario
 Route::get('af/agregaractivomobad', Agregarmob::class)->middleware('can:Activo mobiliario Admin')->name('agregarmobad');
@@ -165,6 +183,8 @@ Route::get('af/mostrarasignmobem', Mostrarasignmobe::class)->middleware('can:Act
 Route::get('af/mostraractivomob', Mostraractmob::class)->middleware('can:Activo mobiliario Sucursal')->name('mostraractmob');
 Route::get('af/agregaractivomob', Agregaractmob::class)->middleware('can:Activo mobiliario Sucursal')->name('agregaractmob');
 Route::get('af/editaractivomob/{id}', Editaractmob::class)->middleware('can:Activo mobiliario Sucursal')->name('editaractmob');
+Route::get('af/asignarmobsu', Asignarmobsu::class)->middleware('can:Activo mobiliario Sucursal')->name('asignarmobsu');
+Route::get('af/mostrarasignmobsu', Mostrarmobsu::class)->middleware('can:Activo mobiliario Sucursal')->name('mostrarasignmobsu');
 
 //Admin General Papeleria
 Route::get('af/mostraractivopapead', Mostrarpape::class)->middleware('can:Activo papeleria Admin')->name('mostrarpapead');
@@ -184,6 +204,8 @@ Route::get('af/mostrarasignpapeem', Mostrarasignpapee::class)->middleware('can:A
 Route::get('af/mostraractivopape', Mostraractpape::class)->middleware('can:Activo papeleria Sucursal')->name('mostraractpape');
 Route::get('af/agregaractivopape', Agregaractpape::class)->middleware('can:Activo papeleria Sucursal')->name('agregaractpape');
 Route::get('af/editaractivopape/{id}', Editaractpape::class)->middleware('can:Activo papeleria Sucursal')->name('editaractpape');
+Route::get('af/asignarpapesu', Asignarpapesu::class)->middleware('can:Activo papeleria Sucursal')->name('asignarpapesu');
+Route::get('af/mostrarasignpapesu', Mostrarpapesu::class)->middleware('can:Activo papeleria Sucursal')->name('mostrarasignpapesu');
 
 //Admin general Uniforme
 Route::get('af/mostraractivouniad', Mostraruni::class)->middleware('can:Activo uniforme Admin')->name('mostraruniad');
@@ -203,6 +225,8 @@ Route::get('af/mostrarasignuniem', Mostrarasignunie::class)->middleware('can:Act
 Route::get('af/mostraractivouni', Mostraractuni::class)->middleware('can:Activo uniforme Sucursal')->name('mostraractuni');
 Route::get('af/agregaractivouni', Agregaractuni::class)->middleware('can:Activo uniforme Sucursal')->name('agregaractuni');
 Route::get('af/editaractivouni/{id}', Editaractuni::class)->middleware('can:Activo uniforme Sucursal')->name('editaractuni');
+Route::get('af/asignarunisu', Asignarunisu::class)->middleware('can:Activo uniforme Sucursal')->name('asignarunisu');
+Route::get('af/mostrarasignunisu', Mostrarunisu::class)->middleware('can:Activo uniforme Sucursal')->name('mostrarasignunisu');
 
 //Admin general Souvenir
 Route::get('af/mostraractivosouad', Mostrarsou::class)->middleware('can:Activo souvenir Admin')->name('mostrarsouad');
@@ -221,6 +245,8 @@ Route::get('af/mostrarasignsouem', Mostrarasignsoue::class)->middleware('can:Act
 Route::get('af/mostraractivosou', Mostraractsou::class)->middleware('can:Activo souvenir Sucursal')->name('mostraractsou');
 Route::get('af/agregaractivosou', Agregaractsou::class)->middleware('can:Activo souvenir Sucursal')->name('agregaractsou');
 Route::get('af/editaractivosou/{id}', Editaractsou::class)->middleware('can:Activo souvenir Sucursal')->name('editaractsou');
+Route::get('af/asignarsousu', Asignarsousu::class)->middleware('can:Activo souvenir Sucursal')->name('asignarsousu');
+Route::get('af/mostrarasignsousu', Mostrarsousu::class)->middleware('can:Activo souvenir Sucursal')->name('mostrarasignsousu');
 
 // Route::get('af/agregarnotatec', Agregarnotas::class)->name('agregarnotas');
 Route::get('af/mostrarnotatec', Mostrarnotas::class)->name('mostrarnotas');
@@ -231,3 +257,10 @@ Route::get('af/editarnotatec', Editarnotas::class)->name('editarnotas');
 //Reportes PDF
 Route::get('/export-asignacion-pdf/{asignacionId}', [PdfExportController::class, 'exportAsignacion'])
     ->name('export.asignacion.pdf');
+//Reporte EXCEL
+Route::get('/export-asignaciones-tec', [AsignacionestecTable::class, 'exportCustom'])->name('export.asignaciones-tec');
+
+//Notificaciones
+Route::post('/notificaciones/marcar-vista', [NotificacionController::class, 'marcarNotificacionVista'])->name('notificaciones.marcarVista');
+
+Route::get('af/todosactivos', Mostraractivos::class)->name('todosactivos');

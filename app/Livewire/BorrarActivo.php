@@ -83,7 +83,8 @@ class BorrarActivo extends ModalComponent
 
         // Emitir un evento para actualizar la tabla
         $this->dispatch('refreshPowerGrid');
-    
+
+        
     }
 
     public function render()

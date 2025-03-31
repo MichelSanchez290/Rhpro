@@ -7,3 +7,25 @@
         <button wire:click="delete()" class="px-4 py-2 bg-red-600 text-white rounded">Eliminar</button>
     </div>
 </div>
+@section('js')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('livewire:init', () => {
+            Livewire.on('activoEliminado', (event) => {
+                Swal.fire({
+                    icon: 'success',
+                    title: event.message,
+                    showConfirmButton: false,
+                    timer: 1500,
+                    width: '400px',
+                    padding: '0.5rem',
+                    backdrop: true,
+                    customClass: {
+                        popup: 'tiny-sweetalert',
+                        title: 'tiny-title'
+                    }
+                });
+            });
+        });
+    </script>
+@endsection

@@ -32,7 +32,7 @@ class Asignarpapesu extends Component
 
         if (!$user->hasRole('SusursalAdmin')) {
             session()->flash('error', 'No tienes permiso para realizar esta acción.');
-            return redirect()->route('mostrarasigntecsuc');
+            return redirect()->route('mostrarasignpapesu');
         }
 
         // Filtrar activos por sucursal y status 'Activo'
@@ -52,7 +52,7 @@ class Asignarpapesu extends Component
     {
         $this->validate([
             'usuarioSeleccionado' => 'required|exists:users,id',
-            'activoSeleccionado' => 'required|exists:activos_tecnologias,id',
+            'activoSeleccionado' => 'required|exists:activos_papelerias,id',
             'observaciones' => 'required|string',
         ], [
             'usuarioSeleccionado.required' => 'El usuario es obligatorio.',
@@ -114,7 +114,7 @@ class Asignarpapesu extends Component
         ]);
 
         session()->flash('message', 'Activo papeleria asignado correctamente.');
-        return redirect()->route('mostrarasigntecsu');
+        return redirect()->route('mostrarasignpapesu');
     }
     public function render()
     {

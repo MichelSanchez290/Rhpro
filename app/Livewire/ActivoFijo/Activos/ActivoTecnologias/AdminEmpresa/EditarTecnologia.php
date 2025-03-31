@@ -91,6 +91,9 @@ class EditarTecnologia extends Component
             $this->subirfoto3->storeAs('ImagenTecnologia3', $this->nombre . "-imagen.png", 'subirDocs');
             $this->foto3 = "ImagenTecnologia3/" . $this->nombre . "-imagen.png";
         }
+        if ($this->activo['status'] === 'Activo') {
+            $this->activo['fecha_baja'] = null;
+        }
 
         $activotec = ActivoTecnologia::findOrFail($this->activotec_id);
         $activotec->update([
@@ -112,6 +115,8 @@ class EditarTecnologia extends Component
         ]);
 
         $this->dispatch('sucursalUpdated');
+
+        session()->flash('success', '¡El activo ha sido editado exitosamente!');
 
         return redirect()->route('mostrartec');
     }

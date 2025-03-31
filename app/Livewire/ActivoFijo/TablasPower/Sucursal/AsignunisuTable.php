@@ -43,7 +43,7 @@ final class AsignunisuTable extends PowerGridComponent
             ->select([
                 'activos_uniforme_user.id',
                 'users.name as usuario',
-                'activos_uniformes.nombre as activo',
+                'activos_uniformes.descripcion as activo',
                 'sucursales.nombre_sucursal as sucursal',
                 'empresas.nombre as empresa',
                 'activos_uniforme_user.fecha_asignacion',
@@ -128,7 +128,7 @@ final class AsignunisuTable extends PowerGridComponent
 
             // Actualizar el activo en activos_tecnologias a 'Activo'
             DB::table('activos_uniformes')
-                ->where('id', $registro->activos_tecnologias_id)
+                ->where('id', $registro->activos_uniformes_id)
                 ->update([
                     'status' => 'Activo', // String para activos_tecnologias
                     'updated_at' => now(),
