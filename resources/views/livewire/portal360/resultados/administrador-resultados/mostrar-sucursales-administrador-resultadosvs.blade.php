@@ -1,7 +1,7 @@
 <div class="p-6 ml-4">
     @if($empresaSucursal)
     <div class="bg-white p-6 rounded-lg shadow-lg">
-    <h2 class="text-2xl font-bold mb-4">Detalles de la Sucursal</h2>
+        <h2 class="text-2xl font-bold mb-4">Detalles de la Sucursal</h2>
         <table class="w-full border-collapse">
             <thead>
                 <tr class="bg-blue-600 text-white">
@@ -32,7 +32,6 @@
     <p class="text-red-500">No se encontraron datos para esta sucursal.</p>
     @endif
 
-    <!-- Añadir la tabla PowerGrid cuando mostrarTablaUsuarios sea true gygyygytgytgygytgtgtgtgyf-->
     @if($mostrarTablaUsuarios)
     <div class="mt-6 bg-white p-6 rounded-lg shadow-lg ml-2 mr-4">
         <div class="flex justify-between items-center mb-4">
@@ -41,21 +40,32 @@
                 Cerrar
             </button>
         </div>
-
         <livewire:portal360.envaluaciones.ver-resultados-por-usuario-admin.ver-resultados-usuario-table :sucursalId="$SucursalId" />
     </div>
     @endif
 
+    <!-- ... (el resto del código sigue igual hasta el selector) -->
     @if($mostrarTablaGenerales)
     <div class="mt-6 bg-white p-6 rounded-lg shadow-lg ml-2 mr-4">
         <div class="flex justify-between items-center mb-4">
             <h3 class="text-xl font-bold">Resultados Generales</h3>
+            <!-- Optional: Keep the close button if you want -->
             <button wire:click="ocultarTabla" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg shadow">
                 Cerrar
             </button>
         </div>
-
-        <livewire:portal360.envaluaciones.envaluacion-administrador.ver-resultados-generales-adminis :sucursalId="$SucursalId" />
+        <div class="text-left mb-4">
+            <select wire:model.live="selectedCalificadoId" class="border-gray-300 rounded-md p-2">
+                @foreach($calificados as $calificado)
+                <option value="{{ $calificado->id }}">{{ $calificado->name }}</option>
+                @endforeach
+            </select>
+        </div>
+        <livewire:portal360.envaluaciones.envaluacion-administrador.ver-resultados-generales-adminis
+            :sucursalId="$SucursalId"
+            :calificadoId="$selectedCalificadoId"
+            key="{{ $selectedCalificadoId }}" />
     </div>
     @endif
+    <!-- ... -->
 </div>

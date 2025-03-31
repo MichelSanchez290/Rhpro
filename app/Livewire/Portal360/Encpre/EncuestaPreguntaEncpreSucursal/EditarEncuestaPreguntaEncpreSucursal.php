@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Log;
 
 class EditarEncuestaPreguntaEncpreSucursal extends Component
 {
-    
+
     public $encpreId;
     public $formData = [
         'encuestas_id' => '',
@@ -43,21 +43,25 @@ class EditarEncuestaPreguntaEncpreSucursal extends Component
             $this->encpreId = Crypt::decrypt($id);
             $encpre = Encpre::findOrFail($this->encpreId);
 
+            // Cargar todas las preguntas asociadas a esta encuesta
+            $preguntasExistentes = Encpre::where('encuestas_id', $encpre->encuestas_id)
+                ->pluck('preguntas_id')
+                ->toArray();
+
             $this->formData['encuestas_id'] = $encpre->encuestas_id;
-            $this->formData['preguntas_id'] = [$encpre->preguntas_id]; // Initialize as array with existing pregunta
+            $this->formData['preguntas_id'] = $preguntasExistentes; // Cargar todas las preguntas existentes
 
             // Cargar encuestas disponibles para la empresa del usuario
             $this->encuestas = Encuesta360::where('empresa_id', Auth::user()->empresa_id)
                 ->select('id', 'nombre')
                 ->get();
 
-            // Cargar preguntas disponibles
+            // Cargar todas las preguntas disponibles
             $this->preguntas = Pregunta::whereHas('respuestas', function ($query) {
                 $query->where('empresa_id', Auth::user()->empresa_id);
             })
-            ->select('id', 'texto')
-            ->get();
-
+                ->select('id', 'texto')
+                ->get();
         } catch (\Exception $e) {
             Log::error('Error al montar el componente: ' . $e->getMessage());
             $this->dispatch('toastr-error', message: 'Error al cargar los datos');
@@ -75,8 +79,8 @@ class EditarEncuestaPreguntaEncpreSucursal extends Component
                 $this->preguntas = Pregunta::whereHas('respuestas', function ($query) {
                     $query->where('empresa_id', Auth::user()->empresa_id);
                 })
-                ->select('id', 'texto')
-                ->get();
+                    ->select('id', 'texto')
+                    ->get();
             } catch (\Exception $e) {
                 Log::error('Error al cargar preguntas: ' . $e->getMessage());
                 $this->dispatch('toastr-error', message: 'Error al cargar preguntas');
@@ -87,35 +91,22 @@ class EditarEncuestaPreguntaEncpreSucursal extends Component
     public function editarEncuestaSucursal()
     {
         $this->validate();
-
+    
         try {
-            $encpre = Encpre::findOrFail($this->encpreId);
-
-            // Actualizar el registro existente con la primera pregunta seleccionada
-            $encpre->update([
-                'encuestas_id' => $this->formData['encuestas_id'],
-                'preguntas_id' => $this->formData['preguntas_id'][0], // Primera pregunta para el registro actual
-            ]);
-
-            // Manejar preguntas adicionales si hay más de una seleccionada
-            if (count($this->formData['preguntas_id']) > 1) {
-                foreach (array_slice($this->formData['preguntas_id'], 1) as $preguntaId) {
-                    $existe = Encpre::where('encuestas_id', $this->formData['encuestas_id'])
-                        ->where('preguntas_id', $preguntaId)
-                        ->exists();
-
-                    if (!$existe) {
-                        Encpre::create([
-                            'encuestas_id' => $this->formData['encuestas_id'],
-                            'preguntas_id' => $preguntaId,
-                        ]);
-                    }
-                }
+            // Primero eliminamos las relaciones existentes para esta encuesta
+            Encpre::where('encuestas_id', $this->formData['encuestas_id'])->delete();
+    
+            // Creamos nuevas relaciones para cada pregunta seleccionada
+            foreach ($this->formData['preguntas_id'] as $preguntaId) {
+                Encpre::create([
+                    'encuestas_id' => $this->formData['encuestas_id'],
+                    'preguntas_id' => $preguntaId,
+                ]);
             }
-
+    
             $this->dispatch('toastr-success', message: 'Relación actualizada correctamente.');
             return redirect()->route('portal360.encpre.encuesta-pregunta-encpre-sucursal.mostrar-encuesta-pregunta-encpre-sucursal');
-
+    
         } catch (\Exception $e) {
             Log::error('Error al actualizar: ' . $e->getMessage());
             $this->dispatch('toastr-error', message: 'Error al actualizar: ' . $e->getMessage());

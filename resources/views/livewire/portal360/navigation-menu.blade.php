@@ -202,6 +202,14 @@
                             <span class="text-sm">Encuesta Scu</span>
                         </a>
                         @endcan
+                        @can('Mostrar Encpre ADMIN')
+                        <a href="{{ route('portal360.encpre.encuesta-pregunta-encpre-administrador.mostrar-encuesta-pregunta-encpre-administrador') }}" class="flex items-center px-3 py-2.5 text-gray-600 hover:text-gray-800 rounded-lg group transition-all">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-3 text-gray-400 group-hover:text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184" />
+                            </svg>
+                            <span class="text-sm">Preguntas y Encuesta</span>
+                        </a>
+                        @endcan
                         @can('Mostrar Asignaciones ADMIN')
                         <a href="{{ route('portal360.asignaciones.asignaciones-administrador.mostrar-asignaciones-administrador') }}" class="flex items-center px-3 py-2.5 text-gray-600 hover:text-gray-800 rounded-lg group transition-all">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-3 text-gray-400 group-hover:text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -210,6 +218,18 @@
                             <span class="text-sm">Asignaciones Ad</span>
                         </a>
                         @endcan
+                        <a href="{{ route('portal360.resultados.administrador-resultados.mostrar-empresa-administrador-resultadosvs') }}" class="flex items-center px-3 py-2.5 text-gray-600 hover:text-gray-800 rounded-lg group transition-all">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-3 text-gray-400 group-hover:text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                            </svg>
+                            <span class="text-sm">Resultados Administrador</span>
+                        </a>
+                        <a href="{{ route('portal360.resultados.jefe-resultados.mostrar-resultadosjefe') }}" class="flex items-center px-3 py-2.5 text-gray-600 hover:text-gray-800 rounded-lg group transition-all">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-3 text-gray-400 group-hover:text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                            </svg>
+                            <span class="text-sm">Resultados jefes</span>
+                        </a>
                         @can('Mostrar Asignaciones ADMIN EMPRESA')
                         <a href="{{ route('portal360.asignaciones.asignaciones-empresa.mostrar-asignaciones-empresa') }}" class="flex items-center px-3 py-2.5 text-gray-600 hover:text-gray-800 rounded-lg group transition-all">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-3 text-gray-400 group-hover:text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -224,14 +244,6 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m8.9-4.414c.376.023.75.05 1.124.08 1.131.094 1.976 1.057 1.976 2.192V16.5A2.25 2.25 0 0 1 18 18.75h-2.25m-7.5-10.5H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V18.75m-7.5-10.5h6.375c.621 0 1.125.504 1.125 1.125v9.375m-8.25-3 1.5 1.5 3-3.75" />
                             </svg>
                             <span class="text-sm">Asignaciones Scu</span>
-                        </a>
-                        @endcan
-                        @can('Mostrar Encpre ADMIN')
-                        <a href="{{ route('portal360.encpre.encuesta-pregunta-encpre-administrador.mostrar-encuesta-pregunta-encpre-administrador') }}" class="flex items-center px-3 py-2.5 text-gray-600 hover:text-gray-800 rounded-lg group transition-all">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-3 text-gray-400 group-hover:text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184" />
-                            </svg>
-                            <span class="text-sm">Preguntas y Encuesta Ad</span>
                         </a>
                         @endcan
                         @can('Mostrar Encpre ADMIN EMPRESA')
@@ -262,17 +274,23 @@
                             </svg>
                             <span class="text-sm">Compromisos</span>
                         </a>
-                        <a href="{{ route('portal360.resultados.administrador-resultados.mostrar-empresa-administrador-resultadosvs') }}" class="flex items-center px-3 py-2.5 text-gray-600 hover:text-gray-800 rounded-lg group transition-all">
+                        <a href="{{ route('portal360.compromiso.compromiso-empresa.mostrar-compromiso-empresa') }}" class="flex items-center px-3 py-2.5 text-gray-600 hover:text-gray-800 rounded-lg group transition-all">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-3 text-gray-400 group-hover:text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
                             </svg>
-                            <span class="text-sm">Resultados Administrador</span>
+                            <span class="text-sm">Compromisos Empr</span>
                         </a>
                         <a href="{{ route('portal360.resultados.empresa-resultados.mostrar-empresa-resultado') }}" class="flex items-center px-3 py-2.5 text-gray-600 hover:text-gray-800 rounded-lg group transition-all">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-3 text-gray-400 group-hover:text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                             </svg>
                             <span class="text-sm">Resultados Empresa</span>
+                        </a>
+                        <a href="{{ route('portal360.datos.datos-administrador.mostrar-datos-administrador') }}" class="flex items-center px-3 py-2.5 text-gray-600 hover:text-gray-800 rounded-lg group transition-all">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-3 text-gray-400 group-hover:text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                            </svg>
+                            <span class="text-sm">Datos Admi</span>
                         </a>
                     </div>
                 </div>

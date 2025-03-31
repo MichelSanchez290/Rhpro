@@ -9,14 +9,17 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
+use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
-
+use PowerComponents\LivewirePowerGrid\Traits\WithExport; // Agregado para exportación
 final class EncuestaSucursalTable extends PowerGridComponent
 {
     public string $tableName = 'encuesta-sucursal-table-pmi1ve-table';
+    use WithExport; // Agrega el trait para habilitar la exportación
+
 
     public function setUp(): array
     {
@@ -28,6 +31,8 @@ final class EncuestaSucursalTable extends PowerGridComponent
             PowerGrid::footer()
                 ->showPerPage()
                 ->showRecordCount(),
+            PowerGrid::exportable('Encuestas_Sucursal') // Agrega exportación con nombre de archivo
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV), // Formatos Excel y CSV
         ];
     }
 

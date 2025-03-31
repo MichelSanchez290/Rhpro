@@ -8,29 +8,30 @@ use App\Models\Encuestas360\Relacion;
 use App\Models\PortalRH\Empresa;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Livewire\Component;
 
 class EditarAsignacionSucursal extends Component
 {
     public $asignacion;
-    public $empresa_id;
-    public $sucursal_id;
+    public $asignacionId;
     public $tipo_user_calificador;
     public $calificador_id;
     public $tipo_user_calificado;
     public $calificado_id;
     public $relacion_id;
     public $encuesta_id;
+    public $fecha;
     public $realizada;
+    public $resetRealizada = false;
 
+    // Colecciones para los selects
     public $usuarios;
     public $usuarios_calificador;
     public $usuarios_calificado;
     public $relaciones;
     public $encuestas;
-    public $empresas;
-    public $sucursales = [];
     public $tipos_usuario = [
         'Becario',
         'Trabajador',
@@ -39,101 +40,147 @@ class EditarAsignacionSucursal extends Component
     ];
 
     protected $rules = [
-        'empresa_id' => 'required|exists:empresas,id',
-        'sucursal_id' => 'required|exists:empresa_sucursal,id',
         'tipo_user_calificador' => 'required|in:Becario,Trabajador,Instructor,Practicante',
         'calificador_id' => 'required|exists:users,id',
         'tipo_user_calificado' => 'required|in:Becario,Trabajador,Instructor,Practicante',
-        'calificado_id' => 'required|exists:users,id',
+        'calificado_id' => 'required|exists:users,id|different:calificador_id',
         'relacion_id' => 'required|exists:relaciones,id',
         'encuesta_id' => 'required|exists:360_encuestas,id',
-        'realizada' => 'required|date'
+        'fecha' => 'required|date|after_or_equal:today',
+        'resetRealizada' => 'boolean'
+    ];
+
+    protected $messages = [
+        'tipo_user_calificador.required' => 'El tipo de usuario del calificador es obligatorio.',
+        'tipo_user_calificador.in' => 'El tipo de usuario del calificador no es válido.',
+        'calificador_id.required' => 'El calificador es obligatorio.',
+        'calificador_id.exists' => 'El calificador seleccionado no es válido.',
+        'tipo_user_calificado.required' => 'El tipo de usuario del calificado es obligatorio.',
+        'tipo_user_calificado.in' => 'El tipo de usuario del calificado no es válido.',
+        'calificado_id.required' => 'El calificado es obligatorio.',
+        'calificado_id.exists' => 'El calificado seleccionado no es válido.',
+        'calificado_id.different' => 'El calificado debe ser diferente del calificador.',
+        'relacion_id.required' => 'La relación es obligatoria.',
+        'relacion_id.exists' => 'La relación seleccionada no es válida.',
+        'encuesta_id.required' => 'La encuesta es obligatoria.',
+        'encuesta_id.exists' => 'La encuesta seleccionada no es válida.',
+        'fecha.required' => 'La fecha es obligatoria.',
+        'fecha.date' => 'La fecha debe ser una fecha válida.',
+        'fecha.after_or_equal' => 'La fecha debe ser hoy o una fecha futura.',
     ];
 
     public function mount($id)
     {
-        $this->asignacion = Asignacion::findOrFail(Crypt::decrypt($id));
+        $this->asignacionId = Crypt::decrypt($id);
+        $this->cargarDatosAsignacion();
+    }
 
-        // Cargar datos de la asignación
-        $this->empresa_id = $this->asignacion->empresa_id;
-        $this->sucursal_id = $this->asignacion->sucursal_id;
-        $this->tipo_user_calificador = $this->asignacion->calificador->tipo_user;
+    protected function cargarDatosAsignacion()
+    {
+        $this->asignacion = Asignacion::with(['calificador', 'calificado', 'relacion', 'encuesta'])
+            ->findOrFail($this->asignacionId);
+
         $this->calificador_id = $this->asignacion->calificador_id;
-        $this->tipo_user_calificado = $this->asignacion->calificado->tipo_user;
         $this->calificado_id = $this->asignacion->calificado_id;
         $this->relacion_id = $this->asignacion->relaciones_id;
-        $this->encuesta_id = $this->asignacion->encuesta_id;
-        $this->realizada = Carbon::parse($this->asignacion->fecha)->format('Y-m-d\TH:i');
+        $this->encuesta_id = $this->asignacion->{'360_encuestas_id'};
+        $this->fecha = Carbon::parse($this->asignacion->fecha)->format('Y-m-d');
+        $this->realizada = $this->asignacion->realizada;
+        $this->resetRealizada = false;
 
-        // Cargar empresas, relaciones y encuestas
-        $this->empresas = Empresa::all();
-        $this->relaciones = Relacion::all();
-        $this->encuestas = Encuesta360::all();
+        $calificador = $this->asignacion->calificador;
+        $this->tipo_user_calificador = $calificador ? $calificador->tipo_user : null;
+        $calificado = $this->asignacion->calificado;
+        $this->tipo_user_calificado = $calificado ? $calificado->tipo_user : null;
 
-        // Cargar usuarios y sucursales
-        if ($this->empresa_id) {
-            $empresa = Empresa::find($this->empresa_id);
-            if ($empresa) {
-                $this->sucursales = $empresa->sucursales;
-            } else {
-                $this->sucursales = collect(); // Si no se encuentra la empresa, establece sucursales como una colección vacía
-            }
+        // Cargar datos para los selects
+        $this->usuarios = User::where('sucursal_id', Auth::user()->sucursal_id)
+            ->where('empresa_id', Auth::user()->empresa_id)
+            ->get();
+        $this->relaciones = Relacion::orderBy('nombre')->get(['id', 'nombre']);
+        $this->encuestas = Encuesta360::where('empresa_id', Auth::user()->empresa_id)
+            ->orderBy('nombre')
+            ->get(['id', 'nombre']);
+
+        $this->filtrarUsuariosPorTipo();
+    }
+
+    protected function filtrarUsuariosPorTipo()
+    {
+        if (!empty($this->tipo_user_calificador)) {
+            $this->usuarios_calificador = $this->usuarios->where('tipo_user', $this->tipo_user_calificador);
         } else {
-            $this->sucursales = collect(); // Si no hay empresa_id, establece sucursales como una colección vacía
+            $this->usuarios_calificador = collect();
         }
 
-        $this->usuarios = User::where('sucursal_id', $this->sucursal_id)->get();
-        $this->usuarios_calificador = $this->usuarios->where('tipo_user', $this->tipo_user_calificador);
-        $this->usuarios_calificado = $this->usuarios->where('tipo_user', $this->tipo_user_calificado);
-    }
-    public function updatedEmpresaId($value)
-    {
-        $this->sucursales = Empresa::find($value)->sucursales;
-        $this->reset(['sucursal_id', 'tipo_user_calificador', 'calificador_id', 'tipo_user_calificado', 'calificado_id']);
-    }
-
-    public function updatedSucursalId($value)
-    {
-        $this->usuarios = User::where('sucursal_id', $value)->get();
-        $this->reset(['tipo_user_calificador', 'calificador_id', 'tipo_user_calificado', 'calificado_id']);
+        if (!empty($this->tipo_user_calificado)) {
+            $this->usuarios_calificado = $this->usuarios->where('tipo_user', $this->tipo_user_calificado);
+        } else {
+            $this->usuarios_calificado = collect();
+        }
     }
 
     public function updatedTipoUserCalificador($value)
     {
-        $this->usuarios_calificador = $this->usuarios->where('tipo_user', $value);
-        $this->reset('calificador_id');
+        if (!empty($value)) {
+            $this->usuarios_calificador = $this->usuarios->where('tipo_user', $value);
+            $currentCalificador = $this->usuarios->firstWhere('id', $this->calificador_id);
+            if (!$currentCalificador || $currentCalificador->tipo_user !== $value) {
+                $this->reset('calificador_id');
+            }
+        } else {
+            $this->usuarios_calificador = collect();
+            $this->reset('calificador_id');
+        }
     }
 
     public function updatedTipoUserCalificado($value)
     {
-        $this->usuarios_calificado = $this->usuarios->where('tipo_user', $value);
-        $this->reset('calificado_id');
+        if (!empty($value)) {
+            $this->usuarios_calificado = $this->usuarios->where('tipo_user', $value);
+            $currentCalificado = $this->usuarios->firstWhere('id', $this->calificado_id);
+            if (!$currentCalificado || $currentCalificado->tipo_user !== $value) {
+                $this->reset('calificado_id');
+            }
+        } else {
+            $this->usuarios_calificado = collect();
+            $this->reset('calificado_id');
+        }
     }
+
     public function saveAsignacionSucursal()
     {
         $this->validate();
+
         try {
+            $encuesta = Encuesta360::findOrFail($this->encuesta_id);
+            if ($encuesta->empresa_id !== Auth::user()->empresa_id) {
+                $this->dispatch('swal-error', message: 'La encuesta seleccionada no pertenece a tu empresa.');
+                return;
+            }
+
             $this->asignacion->update([
                 'calificador_id' => $this->calificador_id,
                 'calificado_id' => $this->calificado_id,
                 'relaciones_id' => $this->relacion_id,
                 '360_encuestas_id' => $this->encuesta_id,
-                'fecha' => Carbon::parse($this->realizada),
-                'empresa_id' => $this->empresa_id,
-                'sucursal_id' => $this->sucursal_id,
+                'fecha' => Carbon::parse($this->fecha),
+                'realizada' => $this->resetRealizada ? false : $this->asignacion->realizada,
+                'empresa_id' => Auth::user()->empresa_id,
+                'sucursal_id' => Auth::user()->sucursal_id,
             ]);
-    
-            // Despachar el evento toastr-success
-            $this->dispatch('toastr-success', message: 'Asignación actualizada correctamente');
-    
-            // Redirigir al usuario
+
+            $message = 'Asignación actualizada correctamente.';
+            if ($this->resetRealizada) {
+                $message .= ' El estado de la encuesta se ha restablecido para poder contestarla nuevamente.';
+            }
+            $this->dispatch('toastr-success', message: $message);
             return redirect()->route('portal360.asignaciones.asignaciones-sucursal.mostrar-asignacion-sucursal');
         } catch (\Exception $e) {
-            // En caso de error, despachar un evento toastr-error
-            $this->dispatch('toastr-error', message: 'Error al actualizar la asignación: ' . $e->getMessage());
+            $this->dispatch('swal-error', message: 'Error al actualizar la asignación: ' . $e->getMessage());
         }
     }
-
+    
     public function render()
     {
         return view('livewire.portal360.asignaciones.asignaciones-sucursal.editar-asignacion-sucursal')->layout('layouts.portal360');

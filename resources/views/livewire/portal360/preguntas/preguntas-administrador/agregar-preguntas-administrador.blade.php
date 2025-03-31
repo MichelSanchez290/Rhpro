@@ -53,16 +53,16 @@
 
         <div class="mb-6">
             <label for="puntuacion1" class="block text-sm font-medium text-gray-700 mb-2">
-                Puntuación (0-4)
+                Puntuación (1-4)
             </label>
             <input
                 type="number"
                 id="puntuacion1"
                 wire:model.live="respuestas.0.puntuacion"
-                min="0"
+                min="1"
                 max="4"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-150 ease-in-out"
-                placeholder="Ingrese la puntuación (0-4)...">
+                placeholder="Ingrese la puntuación (1-4)..."> <!-- Actualizado placeholder -->
             <x-input-error for="respuestas.0.puntuacion" />
         </div>
     </div>
@@ -87,16 +87,16 @@
 
         <div class="mb-6">
             <label for="puntuacion2" class="block text-sm font-medium text-gray-700 mb-2">
-                Puntuación (0-4)
+                Puntuación (1-4)
             </label>
             <input
                 type="number"
                 id="puntuacion2"
                 wire:model.live="respuestas.1.puntuacion"
-                min="0"
+                min="1"
                 max="4"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-150 ease-in-out"
-                placeholder="Ingrese la puntuación (0-4)...">
+                placeholder="Ingrese la puntuación (1-4)...">
             <x-input-error for="respuestas.1.puntuacion" />
         </div>
     </div>
@@ -121,16 +121,16 @@
 
         <div class="mb-6">
             <label for="puntuacion3" class="block text-sm font-medium text-gray-700 mb-2">
-                Puntuación (0-4)
+                Puntuación (1-4)
             </label>
             <input
                 type="number"
                 id="puntuacion3"
                 wire:model.live="respuestas.2.puntuacion"
-                min="0"
+                min="1"
                 max="4"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-150 ease-in-out"
-                placeholder="Ingrese la puntuación (0-4)...">
+                placeholder="Ingrese la puntuación (1-4)...">
             <x-input-error for="respuestas.2.puntuacion" />
         </div>
     </div>
@@ -145,7 +145,7 @@
                 Respuesta 4
             </label>
             <textarea
-                id="respuesta4" 
+                id="respuesta4"
                 wire:model.live="respuestas.3.texto"
                 rows="3"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-150 ease-in-out"
@@ -155,16 +155,16 @@
 
         <div class="mb-6">
             <label for="puntuacion4" class="block text-sm font-medium text-gray-700 mb-2">
-                Puntuación (0-4)
+                Puntuación (1-4)
             </label>
             <input
                 type="number"
                 id="puntuacion4"
                 wire:model.live="respuestas.3.puntuacion"
-                min="0"
+                min="1"
                 max="4"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-150 ease-in-out"
-                placeholder="Ingrese la puntuación (0-4)...">
+                placeholder="Ingrese la puntuación (1-4)...">
             <x-input-error for="respuestas.3.puntuacion" />
         </div>
     </div>
@@ -180,7 +180,7 @@
             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition duration-150 ease-in-out">
             <option value="">Seleccione una empresa</option>
             @foreach($empresas as $empresa)
-                <option value="{{ $empresa->id }}">{{ $empresa->nombre }}</option>
+            <option value="{{ $empresa->id }}">{{ $empresa->nombre }}</option>
             @endforeach
         </select>
         <x-input-error for="empresa_id" />
@@ -198,7 +198,7 @@
             @if(!$empresa_id) disabled @endif>
             <option value="">Seleccione una sucursal</option>
             @foreach($sucursales as $sucursal)
-                <option value="{{ $sucursal->id }}">{{ $sucursal->nombre_sucursal }}</option>
+            <option value="{{ $sucursal->id }}">{{ $sucursal->nombre_sucursal }}</option>
             @endforeach
         </select>
         <x-input-error for="sucursal_id" />

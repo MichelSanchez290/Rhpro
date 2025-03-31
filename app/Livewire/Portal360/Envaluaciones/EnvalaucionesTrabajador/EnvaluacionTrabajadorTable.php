@@ -96,25 +96,29 @@ final class EnvaluacionTrabajadorTable extends PowerGridComponent
         $this->js('alert('.$rowId.')');
     }
 
-    public function actions(Asignacion $row): array
-    {
-        return [
-            Button::add('comenzar')
-            ->slot('Comenzar')
-            ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-            ->route('encuesta-envaluacion-pregunta', ['asignacionId' => $row->id]),
-        ];
+    
+
+public function actions(Asignacion $row): array
+{
+    // Obtener la fecha actual y la fecha de la asignación
+    $hoy = Carbon::today();
+    $fechaAsignacion = Carbon::parse($row->fecha)->startOfDay();
+    
+    // Verificar si es el mismo día
+    $esMismoDia = $hoy->equalTo($fechaAsignacion);
+    
+    // Crear el botón con la clase base
+    $button = Button::add('comenzar')
+        ->slot('Comenzar')
+        ->route('encuesta-envaluacion-pregunta', ['asignacionId' => $row->id]);
+    
+    // Añadir las clases apropiadas según la condición
+    if ($esMismoDia) {
+        $button->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700');
+    } else {
+        $button->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700 opacity-50 cursor-not-allowed');
+        $button->attributes(['disabled' => 'disabled']);
     }
 
-    /*
-    public function actionRules($row): array
-    {
-       return [
-            // Hide button edit for ID 1
-            Rule::button('edit')
-                ->when(fn($row) => $row->id === 1)
-                ->hide(),
-        ];
-    }
-    */
+    
 }
