@@ -48,7 +48,7 @@ final class RetardoTable extends PowerGridComponent
             ->select([
                 'retardos.*',
                 'users.name as nombre_usuario',
-                'users.tipo_user as tipo'
+                //'users.tipo_user as tipo'
             ])
             ->join('user_retardo', 'retardos.id', '=', 'user_retardo.retardo_id')
             ->join('users', 'user_retardo.user_id', '=', 'users.id');
@@ -74,7 +74,7 @@ final class RetardoTable extends PowerGridComponent
     {
         return [
             'users.retardos' => ['name'],
-            'users.retardos' => ['tipo_user'],
+            //'users.retardos' => ['tipo_user'],
         ];
     }
 
@@ -90,7 +90,7 @@ final class RetardoTable extends PowerGridComponent
             ->add('motivo')
             ->add('status')
             ->add('nombre_usuario')
-            ->add('tipo')
+            //->add('tipo')
             ->add('created_at');
     }
 
@@ -100,10 +100,6 @@ final class RetardoTable extends PowerGridComponent
             Column::make('Id', 'id'),
 
             Column::make('Usuario', 'nombre_usuario')
-                ->sortable()
-                ->searchable(),
-
-            Column::make('Tipo Usuario', 'tipo')
                 ->sortable()
                 ->searchable(),
             

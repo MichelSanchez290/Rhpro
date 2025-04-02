@@ -50,7 +50,7 @@ class AgregarDepartament extends Component
         ]);
 
         // Limpiar los datos del formulario
-        $this->reset(['departamento', 'sucursal']);
+        $this->reset(['empresa', 'departamento', 'sucursal']);
         
         session()->flash('message', 'Departamento Agregado.');
     }

@@ -166,17 +166,30 @@ final class UsuarioTable extends PowerGridComponent
 
     public function actions(User $row): array
     {
-        return [
-            Button::add('edit')
-                ->slot('Editar Rol')
+        $actions = [];
+
+        if (Gate::allows('Asignar Rol a Usuario')) {
+            $actions[] = Button::add('edit')
+                ->slot('Asignar rol')
+                ->class('bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded')
+                ->route('agregarroluser', ['id' => Crypt::encrypt($row->id)]);
+        }
+
+        if (Gate::allows('Editar Usuario')) {
+            $actions[] = Button::add('edit')
+                ->slot('Editar Usuario')
                 ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
-                ->route('agregarroluser', ['id' => Crypt::encrypt($row->id)]),
-            
-            Button::add('delete')
+                ->route('editaruser', ['id' => Crypt::encrypt($row->id)]);
+        }
+
+        if (Gate::allows('Eliminar Usuario')) {
+            $actions[] = Button::add('delete')
                 ->slot('Eliminar')
                 ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
-                ->dispatch('confirmDelete', ['id' => $row->id]),
-        ];
+                ->dispatch('confirmDelete', ['id' => $row->id]); 
+        }
+
+        return $actions;
     }
 
     /*

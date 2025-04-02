@@ -11,6 +11,7 @@ use App\Models\PortalRH\Empresa;
 use App\Models\PortalRH\Sucursal;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class AgregarPracticante extends Component
 {
@@ -18,15 +19,16 @@ class AgregarPracticante extends Component
 
     public $usuarios, $registros_patronales, 
     $empresas, $empresa, $nombre, $apellido_p, $apellido_m, $password,
-    $sucursal, $departamento, $rol;
+    $sucursal, $departamento;
 
+    public $roles, $rol;
 
     public function mount()
     {
         $this->usuarios = User::all();
         $this->registros_patronales = RegistroPatronal::all();
         $this->empresas = Empresa::all();
-        
+        $this->roles = Role::all();
     }
 
     public function updatedEmpresa()
@@ -56,7 +58,7 @@ class AgregarPracticante extends Component
         'practicante.ocupacion' => 'required',
         'practicante.sexo' => 'required',
         'practicante.curp' => 'required|size:18|unique:practicantes,curp',
-        'practicante.rfc' => 'required|size:13|unique:practicantes,rfc',
+        'practicante.rfc' => 'required|min:12|max:13|unique:practicantes,rfc',
         'practicante.numero_celular' => 'required|digits:10',
         'practicante.registro_patronal_id' => 'required|exists:registros_patronales,id',
 
@@ -69,6 +71,8 @@ class AgregarPracticante extends Component
         'sucursal' => 'required',
         'departamento' => 'required',
         'user.puesto_id' => 'required|exists:puestos,id',
+
+        'rol' => 'required|exists:roles,id',
     ];
 
     // MENSAJES DE VALIDACIÓN
@@ -77,7 +81,8 @@ class AgregarPracticante extends Component
         'practicante.clave_practicante.unique' => 'Esta clave ya esta asignada a otro practicante.',
         'practicante.codigo_postal.digits' => 'El código postal debe tener 5 dígitos.',
         'practicante.curp.size' => 'La CURP debe tener exactamente 18 caracteres.',
-        'practicante.rfc.size' => 'El RFC debe tener exactamente 13 caracteres.',
+        'practicante.rfc.min' => 'El RFC debe tener al menos 12 caracteres.',
+        'practicante.rfc.max' => 'El RFC no debe exceder los 13 caracteres.',
         'practicante.numero_celular.digits' => 'El número de celular debe tener 10 dígitos.',
         'practicante.registro_patronal_id.exists' => 'El Reg Patronal seleccionado no existe.',
 
@@ -97,6 +102,9 @@ class AgregarPracticante extends Component
         'departamento.required' => 'Este campo es obligatorio.',
         'user.puesto_id.required' => 'Este campo es obligatorio.',
         'user.puesto_id.exists' => 'El puesto seleccionado no existe.',
+
+        'rol.required' => 'Debe seleccionar un rol para el becario.',
+        'rol.exists' => 'El rol seleccionado no existe en la base de datos.',
     ];
 
 
@@ -115,8 +123,11 @@ class AgregarPracticante extends Component
 
         $guardaUser = new User($this->user);
         $guardaUser -> save();
-        $this->practicante['user_id'] = $guardaUser->id;
 
+        $role = Role::findOrFail($this->rol);
+        $guardaUser->assignRole($role);
+        
+        $this->practicante['user_id'] = $guardaUser->id;
         Practicante::create($this->practicante);
         $this->practicante = [];
         

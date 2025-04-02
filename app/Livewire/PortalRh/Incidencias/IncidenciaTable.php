@@ -48,7 +48,7 @@ final class IncidenciaTable extends PowerGridComponent
             ->select([
                 'incidencias.*',
                 'users.name as nombre_usuario',
-                'users.tipo_user as tipo'
+                //'users.tipo_user as tipo'
             ])
             ->join('user_incidencia', 'incidencias.id', '=', 'user_incidencia.incidencia_id')
             ->join('users', 'user_incidencia.user_id', '=', 'users.id');
@@ -74,7 +74,7 @@ final class IncidenciaTable extends PowerGridComponent
     {
         return [
             'users.incidencias' => ['name'],
-            'users.incidencias' => ['tipo_user'],
+            //'users.incidencias' => ['tipo_user'],
         ];
     }
 
@@ -84,7 +84,7 @@ final class IncidenciaTable extends PowerGridComponent
             ->add('id')
             ->add('id')
             ->add('nombre_usuario')
-            ->add('tipo')
+            //->add('tipo')
             ->add('tipo_incidencia')
             ->add('status')
             ->add('fecha_inicio_formatted', fn (Incidencia $model) => Carbon::parse($model->fecha_inicio)->format('d/m/Y'))
@@ -97,10 +97,6 @@ final class IncidenciaTable extends PowerGridComponent
             Column::make('Id', 'id'),
 
             Column::make('Usuario', 'nombre_usuario')
-                ->sortable()
-                ->searchable(),
-                
-            Column::make('Tipo Usuario', 'tipo')
                 ->sortable()
                 ->searchable(),
             

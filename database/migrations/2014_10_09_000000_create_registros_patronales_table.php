@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('registros_patronales', function (Blueprint $table) {
             $table->id();
-            $table->string('registro_patronal', 255);
+            $table->text('registro_patronal');
             $table->string('rfc', 14);
-            $table->string('nombre_o_razon_social', 255);
-            $table->string('regimen_capital', 255);
-            $table->string('regimen_fiscal', 255);
+            $table->text('nombre_o_razon_social');
+            $table->text('regimen_capital');
+            $table->text('regimen_fiscal');
             $table->string('actividad_economica', 255);
             $table->string('imss_calle_manzana', 100);
             $table->string('imms_num_exterior', 45);
@@ -30,13 +30,13 @@ return new class extends Migration
             $table->string('imms_convenio_rembolso_subsidios', 255);
             $table->string('imms_tipo_contribucion', 255);
             $table->string('area_geografica', 255);
-            $table->string('delegacion_imms', 255);
-            $table->string('subdelegacion_imms', 255);
+            $table->text('delegacion_imms');
+            $table->text('subdelegacion_imms');
             $table->string('prima_año', 30);
             $table->string('prima_mes', 30);
             $table->string('porcentaje_prima_rt', 45);
             $table->string('clase_riesgo_trabajo', 255);
-            $table->string('acreditacion_stps', 255);
+            $table->text('acreditacion_stps');
             $table->string('representante_legal', 255);
             $table->string('puesto_representante', 255);
             $table->string('cuenta_contable', 255);

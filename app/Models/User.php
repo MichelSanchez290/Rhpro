@@ -33,6 +33,7 @@ use App\Models\PortalRH\Sucursal;
 use App\Models\PortalRH\Departamento;
 use App\Models\PortalRH\Puesto;
 use App\Models\PortalRH\Baja;
+use App\Models\PortalRH\InfonavitCredito;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -130,6 +131,11 @@ class User extends Authenticatable
     {
         //un user tiene una baja
         return $this->hasMany(Baja::class);
+    }
+
+    public function infonavit()
+    {
+        return $this->hasMany(InfonavitCredito::class);
     }
     
 

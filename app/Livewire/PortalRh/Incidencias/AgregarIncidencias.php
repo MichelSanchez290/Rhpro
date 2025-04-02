@@ -61,6 +61,7 @@ class AgregarIncidencias extends Component
     public function saveIncidencia()
     {
         $this->validate();
+        
         $nuevaIncidencia = new Incidencia($this->incidencia);
         $nuevaIncidencia->save();
 

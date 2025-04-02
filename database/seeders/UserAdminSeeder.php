@@ -17,12 +17,13 @@ class UserAdminSeeder extends Seeder
         $user=User::create([
             'name'=>'ADMINISTRADOR',
             'email'=> 'admin@gmail.com',
-            'password' => Hash::make('123456789'),
-            'empresa_id' => 1,
-            'sucursal_id' => 1,
-            'tipo_user' => 'Trabajador'
+            'password' => Hash::make('12345678'),
+            //'empresa_id' => 1,
+            //'sucursal_id' => 1,
+            //'tipo_user' => 'Trabajador'
         ])->assignRole('GoldenAdmin');
 
+        /*
         $user=User::create([
             'name'=>'ADMINISTRADOR EMPRESA',
             'email'=>'empresaadmin@gmail.com',
@@ -40,6 +41,6 @@ class UserAdminSeeder extends Seeder
             'sucursal_id' => 1,
             'tipo_user' => 'Trabajador'
         ])->assignRole('SusursalAdmin');
-
+        */
     }
 }

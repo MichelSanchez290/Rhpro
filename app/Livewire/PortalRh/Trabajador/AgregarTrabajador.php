@@ -20,14 +20,16 @@ class AgregarTrabajador extends Component
 
     public $usuarios, $registros_patronales, 
     $empresas, $empresa, $nombre, $apellido_p, $apellido_m, $password,
-    $sucursal, $departamento, $rol;
+    $sucursal, $departamento;
 
+    public $roles, $rol;
 
     public function mount()
     {
         $this->usuarios = User::all();
         $this->registros_patronales = RegistroPatronal::all();
         $this->empresas = Empresa::all();
+        $this->roles = Role::all();
     }
 
     public function updatedEmpresa()
@@ -38,7 +40,6 @@ class AgregarTrabajador extends Component
 
     public function updatedSucursal()
     {
-        // Obtener los puestos del departamento seleccionado
         //dd();
         $this->departamentos = Sucursal::with('departamentos')->where('id', $this->sucursal)->get();
     }
@@ -58,7 +59,7 @@ class AgregarTrabajador extends Component
         'trabajador.codigo_postal' => 'required|digits:5',
         'trabajador.sexo' => 'required',
         'trabajador.curp' => 'required|size:18|unique:trabajadores,curp',
-        'trabajador.rfc' => 'required|size:13|unique:trabajadores,rfc',
+        'trabajador.rfc' => 'required|min:12|max:13|unique:trabajadores,rfc',
         'trabajador.numero_celular' => 'required|digits:10',
         'trabajador.sueldo' => 'required|numeric',
         'trabajador.fecha_ingreso' => 'required',
@@ -88,7 +89,8 @@ class AgregarTrabajador extends Component
         'sucursal' => 'required',
         'departamento' => 'required',
         'user.puesto_id' => 'required|exists:puestos,id',
-        //'rol' => 'required',
+        
+        'rol' => 'required|exists:roles,id',
     ];
 
     // MENSAJES DE VALIDACIÓN
@@ -98,7 +100,8 @@ class AgregarTrabajador extends Component
         'trabajador.codigo_postal.digits' => 'El código postal debe tener 5 dígitos.',
         'trabajador.curp.size' => 'La CURP debe tener exactamente 18 caracteres.',
         'trabajador.curp.unique' => 'Esta CURP ya esta asignada a otro trabajador.',
-        'trabajador.rfc.size' => 'El RFC debe tener exactamente 13 caracteres.',
+        'trabajador.rfc.min' => 'El RFC debe tener al menos 12 caracteres.',
+        'trabajador.rfc.max' => 'El RFC no debe exceder los 13 caracteres.',
         'trabajador.rfc.unique' => 'Este RFC ya esta asignada a otro trabajador.',
         'trabajador.numero_celular.digits' => 'El número de celular debe tener 10 dígitos.',
         'trabajador.sueldo.numeric' => 'Ingrese solo números',
@@ -117,7 +120,9 @@ class AgregarTrabajador extends Component
         'departamento.required' => 'Este campo es obligatorio.',
         'user.puesto_id.required' => 'Este campo es obligatorio.',
         'user.puesto_id.exists' => 'El puesto seleccionado no existe.',
-        //'rol' => 'Este campo es obligatorio.',
+        
+        'rol.required' => 'Debe seleccionar un rol para el becario.',
+        'rol.exists' => 'El rol seleccionado no existe en la base de datos.',
     ];
 
 
@@ -132,13 +137,15 @@ class AgregarTrabajador extends Component
         $this->user['sucursal_id'] = $this->sucursal;
         $this->user['departamento_id'] = $this->departamento;
         $this->user['tipo_user'] = "Trabajador";
-        //$this->user['rol'] = $this->rol;
 
         $guardaUser = new User($this->user);
         $guardaUser -> save();
+
+        // Asignar el rol al usuario recién creado
+        $role = Role::findOrFail($this->rol);
+        $guardaUser->assignRole($role);
+
         $this->trabajador['user_id'] = $guardaUser->id;
-
-
         Trabajador::create($this->trabajador);
         $this->trabajador = [];
 

@@ -237,16 +237,21 @@
                     <x-input-error for="trabajador.registro_patronal_id" />
                 </div>
 
+                <!-- Selección de Rol -->
                 <div class="grid grid-cols-1 mt-5">
-                    <label for="status"
-                        class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Status</label>
-                    <select wire:model.defer="trabajador.status" id="status"
+                    <label for="rol"
+                        class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
+                        Rol
+                    </label>
+                    <select wire:model.defer="rol" id="rol"
                         class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-                        <option value="" selected>-- Selecciona una opción --</option>
-                        <option value="Activo">Activo</option>
-                        <option value="Inactivo">Inactivo</option>
+                        <option value="">--- Seleccione un rol --- </option>
+                        @foreach ($roles as $role)
+                            <option value="{{ $role->id }}">{{ $role->name }}</option>
+                        @endforeach
                     </select>
-                    <x-input-error for="trabajador.status" />
+                    <x-input-error for="rol" />
+                    
                 </div>
             </div>
 
@@ -528,14 +533,30 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 mt-5">
-                <label for="sueldo"
-                    class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Sueldo</label>
-                <input wire:model.defer="trabajador.sueldo" type="text" id="sueldo" placeholder="2500.50"
-                    class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
-                    
-                <x-input-error for="trabajador.sueldo" />
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
+                <div class="grid grid-cols-1 mt-5">
+                    <label for="status"
+                        class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Status</label>
+                    <select wire:model.defer="trabajador.status" id="status"
+                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                        <option value="" selected>-- Selecciona una opción --</option>
+                        <option value="Activo">Activo</option>
+                        <option value="Inactivo">Inactivo</option>
+                    </select>
+                    <x-input-error for="trabajador.status" />
+                </div>
+
+                <div class="grid grid-cols-1 mt-5">
+                    <label for="sueldo"
+                        class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Sueldo</label>
+                    <input wire:model.defer="trabajador.sueldo" type="text" id="sueldo" placeholder="2500.50"
+                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                        
+                    <x-input-error for="trabajador.sueldo" />
+                </div>
+
             </div>
+            
 
             <!-- Botones -->
             <div class='flex items-center justify-center md:gap-8 gap-4 pt-5 pb-5'>

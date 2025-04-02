@@ -218,26 +218,46 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 mt-7">
-                <label for="registro_patronal_id"
-                    class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
-                    Registros Patronales</label>
-                <select wire:model.defer="becario.registro_patronal_id" id="registro_patronal_id"
-                    class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-                    <option value=""> --- Seleccione un Registro Patronal --- </option>
-                    @foreach ($registros_patronales as $registro_patronal)
-                        <option value="{{ $registro_patronal->id }}">
-                            {{ $registro_patronal->registro_patronal }}</option>
-                    @endforeach
-                </select>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
+                <!-- Selección de Rol -->
+                <div class="grid grid-cols-1 mt-5">
+                    <label for="rol"
+                        class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
+                        Rol
+                    </label>
+                    <select wire:model.defer="rol" id="rol"
+                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                        <option value="">--- Seleccione un rol --- </option>
+                        @foreach ($roles as $role)
+                            <option value="{{ $role->id }}">{{ $role->name }}</option>
+                        @endforeach
+                    </select>
+                    <x-input-error for="rol" />
+                    
+                </div>
 
-                <x-input-error for="becario.registro_patronal_id" />
-                
+                <div class="grid grid-cols-1 mt-5">
+                    <label for="registro_patronal_id"
+                        class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
+                        Registros Patronales</label>
+                    <select wire:model.defer="becario.registro_patronal_id" id="registro_patronal_id"
+                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                        <option value=""> --- Seleccione un Registro Patronal --- </option>
+                        @foreach ($registros_patronales as $registro_patronal)
+                            <option value="{{ $registro_patronal->id }}">
+                                {{ $registro_patronal->registro_patronal }}</option>
+                        @endforeach
+                    </select>
+    
+                    <x-input-error for="becario.registro_patronal_id" />
+                    
+                </div>
             </div>
+            
 
             <!-- NNS y Fecha Nacimiento -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
-                <div class="grid grid-cols-1">
+                <div class="grid grid-cols-1 mt-5">
                     <label for="numero_seguridad_social"
                         class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Número de
                         Seguridad Social</label>
@@ -248,7 +268,7 @@
                     <x-input-error for="becario.numero_seguridad_social" />
                 </div>
 
-                <div class="grid grid-cols-1">
+                <div class="grid grid-cols-1 mt-5">
                     <label for="fecha_nacimiento"
                         class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
                         Fecha Nacimiento
@@ -263,8 +283,7 @@
 
             <!-- Lugar Nacimiento y Estado -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
-
-                <div class="grid grid-cols-1">
+                <div class="grid grid-cols-1 mt-5">
                     <label for="lugar_nacimiento"
                         class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
                         Lugar Nacimiento</label>
@@ -276,7 +295,7 @@
                     <x-input-error for="becario.lugar_nacimiento" />
                 </div>
 
-                <div class="grid grid-cols-1">
+                <div class="grid grid-cols-1 mt-5">
                     <label for="estado"
                         class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
                         Estado</label>
@@ -291,7 +310,7 @@
 
             <!-- Código Postal y Sexo -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
-                <div class="grid grid-cols-1">
+                <div class="grid grid-cols-1 mt-5">
                     <label for="codigo_postal"
                         class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
                         Código Postal</label>
@@ -303,7 +322,7 @@
                     
                 </div>
 
-                <div class="grid grid-cols-1">
+                <div class="grid grid-cols-1 mt-5">
                     <label for="ocupacion"
                         class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
                         Ocupación</label>
@@ -318,7 +337,7 @@
 
             <!-- CURP Y RFC -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
-                <div class="grid grid-cols-1">
+                <div class="grid grid-cols-1 mt-5">
                     <label for="sexo"
                         class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Sexo</label>
                     <select wire:model.defer="becario.sexo" id="sexo"
@@ -332,7 +351,7 @@
                     
                 </div>
 
-                <div class="grid grid-cols-1">
+                <div class="grid grid-cols-1 mt-5">
                     <label for="curp"
                         class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
                         CURP</label>
@@ -347,7 +366,7 @@
 
             <!-- ***********************  -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
-                <div class="grid grid-cols-1">
+                <div class="grid grid-cols-1 mt-5">
                     <label for="rfc"
                         class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">RFC</label>
                     <input wire:model.defer="becario.rfc" type="text" id="rfc"
@@ -357,7 +376,7 @@
                     <x-input-error for="becario.rfc" />
                 </div>
 
-                <div class="grid grid-cols-1">
+                <div class="grid grid-cols-1 mt-5">
                     <label for="numero_celular"
                         class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Número Celular
                     </label>
@@ -402,7 +421,7 @@
 
             <!-- ***********************  -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
-                <div class="grid grid-cols-1">
+                <div class="grid grid-cols-1 mt-5">
                     <label for="calle"
                         class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Calle</label>
                     <input wire:model.defer="becario.calle" type="text" id="calle"
@@ -413,7 +432,7 @@
                     
                 </div>
 
-                <div class="grid grid-cols-1">
+                <div class="grid grid-cols-1 mt-5">
                     <label for="colonia"
                         class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Colonia</label>
                     <input wire:model.defer="becario.colonia" type="text" id="colonia"

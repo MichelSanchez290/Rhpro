@@ -189,6 +189,60 @@
                     </li>
                 </ul> <br>
 
+
+                <h4 class="text-xl text-gray-900 font-bold">Documentos</h4>
+                <div class="mt-5 mx-7">
+                    @if ($documentos->isEmpty())
+                        <div class="p-6 text-center text-gray-600">
+                            <p>Sin documentos actualmente</p>
+                        </div>
+                    @else
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-6">
+                            @foreach ($documentos as $doc)
+                                <div class="w-full mx-auto bg-white shadow-xl rounded-lg text-gray-900 p-4">
+                                    <div class="rounded-t-lg h-32 overflow-hidden">
+                                        <img class="object-cover object-top w-full"
+                                            src="{{ asset('img/cesrh.jpeg') }}" alt="Background">
+                                    </div>
+
+                                    <div class="text-center mt-2">
+                                        <h2><strong>Usuario:</strong>
+                                            {{ $doc->users->first() ? $doc->users->first()->name : 'Sin asignar' }}
+                                        </h2>
+                                        <p><strong>Fecha:</strong> {{ $doc->fecha_subida }}</p>
+                                        <p><strong>Tipo documento:</strong> {{ $doc->tipo_documento }}</p>
+                                        <p><strong>Número:</strong> {{ $doc->numero }}</p>
+                                        <p><strong>Original:</strong> {{ $doc->original }}</p>
+                                        <p><strong>Comentarios:</strong> {{ $doc->comentarios }}</p>
+                                        <p class="my-2">
+                                            <strong>Status:</strong>
+                                            <span
+                                                class="py-1 px-3 rounded text-white 
+                                                    {{ $doc->status === 'Activo'
+                                                        ? 'bg-green-500' : 'bg-yellow-500'
+                                                    }}">
+                                                {{ $doc->status }}
+                                            </span>
+                                        </p>
+                                    </div>
+
+                                    <div class="flex gap-4 mt-4 justify-center items-center">
+                                        @if ($doc->archivo)
+                                            <a href="{{ asset('' . $doc->archivo) }}" target="_blank"
+                                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-block mt-2">
+                                                Ver archivo
+                                            </a>
+                                        @else
+                                            <p class="text-red-500 font-bold">No se adjuntó archivo.</p>
+                                        @endif
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
+                </div>
+
+
                 <h4 class="text-xl text-gray-900 font-bold">Incapacidades</h4>
                 <div class="mt-5 mx-7">
                     @if ($incapacidades->isEmpty())
@@ -327,6 +381,35 @@
                                         <p><strong>Fecha:</strong> {{ $cambio_salario->fecha_cambio }}</p>
                                         <p><strong>Salario anterior: </strong> {{ $cambio_salario->salario_anterior }}</p>
                                         <p><strong>Salario nuevo: </strong> {{ $cambio_salario->salario_nuevo }}</p>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
+                </div>
+
+                <h4 class="text-xl text-gray-900 font-bold">Créditos Infonavit</h4>
+                <div class="mt-5 mx-7">
+                    @if ($infonavit_creditos->isEmpty())
+                        <div class="p-6 text-center text-gray-600">
+                            <p>Sin créditos infonavit actualmente</p>
+                        </div>
+                    @else
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-6">
+                            @foreach ($infonavit_creditos as $credito)
+                                <div class="w-full mx-auto bg-white shadow-xl rounded-lg text-gray-900 p-4">
+                                    <div class="rounded-t-lg h-32 overflow-hidden">
+                                        <img class="object-cover object-top w-full"
+                                            src="{{ asset('img/cesrh.jpeg') }}" alt="Background">
+                                    </div>
+
+                                    <div class="text-center mt-2">
+                                        <h2><strong>Usuario:</strong> {{ $credito->user->name ?? 'Sin asignar' }}</h2>
+                                        <p><strong>Tipo de movimiento:</strong> {{ $credito->tipo_movimiento }}</p>
+                                        <p><strong>Número de crédito:</strong> {{ $credito->numero_credito }}</p>
+                                        <p><strong>Fecha: </strong> {{ $credito->fecha_movimiento }}</p>
+                                        <p><strong>Tipo de descuento: </strong> {{ $credito->tipo_descuento }}</p>
+                                        <p><strong>Valor de descuento: </strong> {{ $credito->valor_descuento }}</p>
                                     </div>
                                 </div>
                             @endforeach

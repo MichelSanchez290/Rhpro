@@ -65,16 +65,13 @@ class AgregarRetardos extends Component
         $this->validate();
 
         // Crear un nuevo retardo y guardarlo en la base de datos
-        $nuevoRetardo = Retardo::create($this->retardo);
+        $nuevoRetardo = new Retardo($this->retardo);
+        $nuevoRetardo->save();
 
-        // Asegurar que el retardo se guardó correctamente
-        if ($nuevoRetardo && $nuevoRetardo->id) {
-            // Asociar el usuario seleccionado en la tabla pivote
-            $nuevoRetardo->users()->attach($this->user_id);
-            session()->flash('message', 'Retardo Agregado.');
-        } else {
-            session()->flash('error', 'Hubo un problema al crear el retardo.');
-        }
+        // Asociar el usuario seleccionado en la tabla pivote
+        $nuevoRetardo->users()->attach($this->user_id);
+
+        session()->flash('message', 'Retardo Agregado.');
     }
 
     public function redirigirRetardo()

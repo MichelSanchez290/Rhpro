@@ -47,8 +47,7 @@ final class DocumentoTable extends PowerGridComponent
             ->select('documentos.*')
             ->join('user_documento', 'documentos.id', '=', 'user_documento.documento_id')
             ->join('users', 'user_documento.user_id', '=', 'users.id')
-            ->addSelect('users.name as user_name')
-            ->addSelect('users.tipo_user as tipo'); // Traer el nombre del usuario relacionado
+            ->addSelect('users.name as user_name');
 
         if ($user->hasRole('GoldenAdmin')) { // GoldenAdmin ve todos los registros (no hay filtro adicional)
             return $query;
@@ -70,8 +69,7 @@ final class DocumentoTable extends PowerGridComponent
     public function relationSearch(): array
     {
         return [
-            'users.documentos' => ['name'],
-            'users.documentos' => ['tipo_user'],
+            'users.documentos' => ['name']
         ];
     }
 
@@ -80,7 +78,6 @@ final class DocumentoTable extends PowerGridComponent
         return PowerGrid::fields()
             ->add('id')
             ->add('user_name')
-            ->add('tipo')
             ->add('archivo', function (Documento $model) {
                 return '<a href="' . asset('PortalRH/Documentos/' . basename($model->archivo)) . '" target="_blank" class="text-blue-600 hover:underline">Ver Archivo</a>';
             })
@@ -99,10 +96,6 @@ final class DocumentoTable extends PowerGridComponent
             Column::make('Id', 'id'),
 
             Column::make('Usuario', 'user_name')
-                ->sortable()
-                ->searchable(),
-
-            Column::make('Tipo Usuario', 'tipo')
                 ->sortable()
                 ->searchable(),
 

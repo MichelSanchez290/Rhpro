@@ -16,9 +16,9 @@ return new class extends Migration
             $table->date('fecha_cambio');
             $table->decimal('salario_anterior', 10, 2);
             $table->decimal('salario_nuevo', 10, 2);
-            $table->string('motivo', 255);
+            $table->text('motivo');
             $table->string('documento', 255);
-            $table->string('observaciones', 255);
+            $table->text('observaciones');
             $table->timestamps();
         });
     }

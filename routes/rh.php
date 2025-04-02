@@ -5,6 +5,7 @@ use App\Livewire\PortalRh\Inicio;
 
 use App\Livewire\PortalRh\Usuario\MostrarUsuario;
 use App\Livewire\PortalRh\Usuario\AsignarRolUsuario;
+use App\Livewire\PortalRh\Usuario\EditarUsuario;
 use App\Livewire\PortalRh\Cumpleanios\VerCumpleanios;
 
 use App\Livewire\PortalRh\Rol\MostrarRol;
@@ -104,6 +105,10 @@ use App\Livewire\PortalRh\Documentos\AgregarDocumento;
 use App\Livewire\PortalRh\Documentos\AgregarDocumentoAdmin;
 use App\Livewire\PortalRh\Documentos\EditarDocumento;
 
+use App\Livewire\PortalRh\InfonavitCreditos\MostrarInfonavitCredito;
+use App\Livewire\PortalRh\InfonavitCreditos\AgregarInfonavitCredito;
+use App\Livewire\PortalRh\InfonavitCreditos\EditarInfonavitCredito;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -152,7 +157,12 @@ Route::get(
     Route::get( 
         '/asig-rol-user/{id}',
             AsignarRolUsuario::class
-    )->middleware('can:Agregar Usuario')->name('agregarroluser');
+    )->middleware('can:Asignar Rol a Usuario')->name('agregarroluser');
+
+    Route::get( 
+        '/edit-user/{id}',
+            EditarUsuario::class
+    )->middleware('can:Editar Usuario')->name('editaruser');
 
     Route::get( 
         '/ver-cumpleaños',
@@ -516,6 +526,23 @@ Route::get(
         '/edit-documento/{id}',
             EditarDocumento::class
     )->middleware('can:Editar Documento')->name('editardoc');
+
+
+    // Infonavit Creditos  ---------------------------------------------------------------
+    Route::get( 
+        '/infonavit-creditos',
+            MostrarInfonavitCredito::class
+    )->middleware('can:Mostrar Infonavit Credito')->name('mostrarinfonavit');
+
+    Route::get( 
+        '/create-infonavit',
+            AgregarInfonavitCredito::class
+    )->middleware('can:Agregar Infonavit Credito')->name('agregarinfonavit');
+
+    Route::get( 
+        '/edit-infonavit/{id}',
+            EditarInfonavitCredito::class
+    )->middleware('can:Editar Infonavit Credito')->name('editarinfonavit');
 
 
     /*

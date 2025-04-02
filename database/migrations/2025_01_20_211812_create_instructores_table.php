@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('telefono1', 10);
             $table->string('telefono2', 10);
-            $table->string('registroStps', 45);
+            $table->text('registroStps');
             $table->string('rfc', 14);
-            $table->string('regimen', 45);
+            $table->text('regimen');
             $table->string('estado', 45);
             $table->string('municipio', 45);
             $table->string('codigopostal', 10);
@@ -31,9 +31,9 @@ return new class extends Migration
             $table->string('ine', 255);
             $table->string('curp', 18);
             $table->string('sat', 100);
-            $table->string('domicilio', 150);
+            $table->text('domicilio');
             $table->string('tipoinstructor', 45);
-            $table->string('nombre_empresa', 255)->nullable();
+            $table->text('nombre_empresa')->nullable();
             $table->string('rfc_empre', 20)->nullable();
             $table->string('calle_empre', 45)->nullable();
             $table->string('numero_empre', 45)->nullable();
@@ -41,7 +41,7 @@ return new class extends Migration
             $table->string('municipio_empre', 100)->nullable();
             $table->string('estado_empre', 45)->nullable();
             $table->string('postal_empre', 10)->nullable();
-            $table->string('regimen_empre', 100)->nullable();
+            $table->text('regimen_empre')->nullable();
 
             //donde almacenara el id de la relacion
             $table->unsignedBigInteger('user_id');

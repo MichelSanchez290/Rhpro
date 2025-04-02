@@ -19,13 +19,16 @@ class AgregarBecario extends Component
 
     public $usuarios, $registros_patronales, 
     $empresas, $empresa, $nombre, $apellido_p, $apellido_m, $password,
-    $sucursal, $departamento, $rol;
+    $sucursal, $departamento;
+
+    public $roles, $rol;
 
     public function mount()
     {
         $this->usuarios = User::all();
         $this->registros_patronales = RegistroPatronal::all();
         $this->empresas = Empresa::all();
+        $this->roles = Role::all();
     }
 
     public function updatedEmpresa()
@@ -36,7 +39,6 @@ class AgregarBecario extends Component
 
     public function updatedSucursal()
     {
-        // Obtener los puestos del departamento seleccionado
         //dd();
         $this->departamentos = Sucursal::with('departamentos')->where('id', $this->sucursal)->get();
     }
@@ -58,7 +60,7 @@ class AgregarBecario extends Component
         'becario.ocupacion' => 'required',
         'becario.sexo' => 'required',
         'becario.curp' => 'required|size:18|unique:becarios,curp',
-        'becario.rfc' => 'required|size:13|unique:becarios,rfc',
+        'becario.rfc' => 'required|min:12|max:13|unique:becarios,rfc',
         'becario.numero_celular' => 'required|digits:10',
         'becario.fecha_ingreso' => 'required',
         'becario.status' => 'required',
@@ -75,6 +77,8 @@ class AgregarBecario extends Component
         'sucursal' => 'required',
         'departamento' => 'required',
         'user.puesto_id' => 'required|exists:puestos,id',
+
+        'rol' => 'required|exists:roles,id',
     ];
 
     // MENSAJES DE VALIDACIÓN
@@ -83,7 +87,8 @@ class AgregarBecario extends Component
         'becario.clave_becario.unique' => 'Esta clave ya esta asignada a otro becario.',
         'becario.codigo_postal.digits' => 'El código postal debe tener 5 dígitos.',
         'becario.curp.size' => 'La CURP debe tener exactamente 18 caracteres.',
-        'becario.rfc.size' => 'El RFC debe tener exactamente 13 caracteres.',
+        'becario.rfc.min' => 'El RFC debe tener al menos 12 caracteres.',
+        'becario.rfc.max' => 'El RFC no debe exceder los 13 caracteres.',
         'becario.numero_celular.digits' => 'El número de celular debe tener 10 dígitos.',
         'becario.registro_patronal_id.exists' => 'El Reg Patronal seleccionado no existe.',
 
@@ -103,6 +108,9 @@ class AgregarBecario extends Component
         'departamento.required' => 'Este campo es obligatorio.',
         'user.puesto_id.required' => 'Este campo es obligatorio.',
         'user.puesto_id.exists' => 'El puesto seleccionado no existe.',
+
+        'rol.required' => 'Debe seleccionar un rol para el becario.',
+        'rol.exists' => 'El rol seleccionado no existe en la base de datos.',
     ];
     
     // Método para guardar el registro patronal
@@ -118,9 +126,12 @@ class AgregarBecario extends Component
 
         $guardaUser = new User($this->user);
         $guardaUser -> save();
+
+        // Asignar el rol al usuario recién creado
+        $role = Role::findOrFail($this->rol);
+        $guardaUser->assignRole($role);
+
         $this->becario['user_id'] = $guardaUser->id;
-
-
         Becario::create($this->becario);
         $this->becario = [];
         

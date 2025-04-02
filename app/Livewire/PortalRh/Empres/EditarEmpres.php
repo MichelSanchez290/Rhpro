@@ -34,7 +34,7 @@ class EditarEmpres extends Component
         $this->validate([
             'nombre' => 'required',
             'razon_social' => 'required',
-            'rfc' => 'required|size:13',
+            'rfc' => 'required|min:12|max:13',
             'nombre_comercial' => 'required',
             'pais_origen' => 'required',
             'representante_legal' => 'required',

@@ -210,7 +210,7 @@ final class PracticanteTable extends PowerGridComponent
     public function filters(): array
     {
         return [
-            Filter::datepicker('fecha_nacimiento'),
+            //Filter::datepicker('fecha_nacimiento'),
         ];
     }
 

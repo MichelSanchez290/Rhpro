@@ -219,8 +219,8 @@ final class BecarioTable extends PowerGridComponent
     public function filters(): array
     {
         return [
-            Filter::datepicker('fecha_nacimiento'),
-            Filter::datepicker('fecha_ingreso'),
+            //Filter::datepicker('fecha_nacimiento'),
+            //Filter::datepicker('fecha_ingreso'),
         ];
     }
 

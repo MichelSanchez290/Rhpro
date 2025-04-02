@@ -216,19 +216,39 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 mt-5">
-                    <label for="tipoinstructor"
-                        class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Tipo de
-                        instructor</label>
-                    <select wire:model.defer="instructor.tipoinstructor" id="tipoinstructor"
-                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-                        <option value="" selected>-- Selecciona una opción --</option>
-                        <option value="Física">Física</option>
-                        <option value="Moral">Moral</option>
-                    </select>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
+                    <div class="grid grid-cols-1 mt-5">
+                        <label for="rol"
+                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
+                            Rol
+                        </label>
+                        <select wire:model.defer="rol" id="rol"
+                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                            <option value="">--- Seleccione un rol --- </option>
+                            @foreach ($roles as $role)
+                                <option value="{{ $role->id }}">{{ $role->name }}</option>
+                            @endforeach
+                        </select>
+                        <x-input-error for="rol" />
+                        
+                    </div>
 
-                    <x-input-error for="instructor.tipoinstructor" />
+                    <div class="grid grid-cols-1 mt-5">
+                        <label for="tipoinstructor"
+                            class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Tipo de
+                            instructor</label>
+                        <select wire:model.defer="instructor.tipoinstructor" id="tipoinstructor"
+                            class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                            <option value="" selected>-- Selecciona una opción --</option>
+                            <option value="Física">Física</option>
+                            <option value="Moral">Moral</option>
+                        </select>
+    
+                        <x-input-error for="instructor.tipoinstructor" />
+                    </div>
                 </div>
+
+                
 
                 <!-- *********** -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
@@ -267,7 +287,7 @@
                             RFC
                         </label>
                         <input wire:model.defer="instructor.rfc" type="text" id="rfc"
-                            placeholder="RFC a 13 digitos"
+                            placeholder="RFC de 12 a 13 digitos"
                             class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
 
                         <x-input-error for="instructor.rfc" />
@@ -660,7 +680,7 @@
                         </div>
                         <x-input-error for="domicilio_doc" />
                     </div>
-                </div>
+                </div> <br>
 
                 <!-- **********************************************  -->
                 <!-- TIPO DE PERSONA MORAL  -->

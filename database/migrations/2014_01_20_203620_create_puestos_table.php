@@ -13,15 +13,7 @@ return new class extends Migration
     {
         Schema::create('puestos', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre_puesto', 255);
-
-            /* $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id') //Declara que id es una clave foránea.
-                    ->references('id') //Indica que esta columna hace referencia a la columna id
-                    ->on( 'users')  // Define que la relación es con la tabla xxx
-                    ->onUpdate('cascade')
-                    ->onDelete('cascade'); */
-
+            $table->text('nombre_puesto');
 
             $table->timestamps();
         });
@@ -32,12 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        // Eliminar las claves foráneas explícitamente
-        /* Schema::table('puestos', function (Blueprint $table) {
-            $table->dropForeign(['user_id']);
-        }); */
-
-
         Schema::dropIfExists('puestos');
     }
 };

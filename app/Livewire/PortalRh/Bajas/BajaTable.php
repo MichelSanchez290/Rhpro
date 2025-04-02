@@ -34,7 +34,7 @@ final class BajaTable extends PowerGridComponent
             PowerGrid::footer()
                 ->showPerPage()
                 ->showRecordCount(),
-            PowerGrid::exportable(fileName: 'bajas')
+            PowerGrid::exportable(fileName: 'Bajas')
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
         ];
     }
@@ -49,7 +49,6 @@ final class BajaTable extends PowerGridComponent
             ->select([
                 'bajas.*',
                 'users.name as nombre_usuario',
-                'users.tipo_user as tipo'
             ]);
 
         if ($user->hasRole('GoldenAdmin')) {
@@ -75,8 +74,7 @@ final class BajaTable extends PowerGridComponent
     public function relationSearch(): array
     {
         return [
-            'user.bajas' => ['name'],
-            'user.bajas' => ['tipo_user'],
+            'user.bajas' => ['name']
         ];
     }
 
@@ -86,12 +84,10 @@ final class BajaTable extends PowerGridComponent
             ->add('id')
             ->add('id')
             ->add('nombre_usuario')
-            ->add('tipo')
             ->add('fecha_baja_formatted', fn (Baja $model) => Carbon::parse($model->fecha_baja)->format('d/m/Y'))
             ->add('motivo_baja')
             ->add('tipo_baja')
             ->add('observaciones')
-            ->add('user.name')
             ->add('created_at')
             ->add('updated_at')
             ->add('documento', function (Baja $model) {

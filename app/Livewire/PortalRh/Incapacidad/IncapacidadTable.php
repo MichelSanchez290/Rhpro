@@ -48,8 +48,8 @@ final class IncapacidadTable extends PowerGridComponent
             ->select([
                 'incapacidades.*',
                 'incapacidades.status as status',
-                'users.name as nombre_usuario',
-                'users.tipo_user as tipo'
+                'users.name as nombre',
+                //'users.tipo_user as tipo'
             ])
             ->join('user_incapacidad', 'incapacidades.id', '=', 'user_incapacidad.incapacidad_id')
             ->join('users', 'user_incapacidad.user_id', '=', 'users.id');
@@ -75,7 +75,7 @@ final class IncapacidadTable extends PowerGridComponent
     {
         return [
             'users.incapacidades' => ['name'],
-            'users.incapacidades' => ['tipo_user'],
+            //'users.incapacidades' => ['tipo_user'],
         ];
     }
 
@@ -84,8 +84,8 @@ final class IncapacidadTable extends PowerGridComponent
         return PowerGrid::fields()
             ->add('id')
             ->add('id')
-            ->add('nombre_usuario')
-            ->add('tipo')
+            ->add('nombre')
+            //->add('tipo')
             ->add('fecha_inicio_formatted', fn (Incapacidad $model) => Carbon::parse($model->fecha_inicio)->format('d/m/Y'))
             ->add('fecha_final_formatted', fn (Incapacidad $model) => Carbon::parse($model->fecha_final)->format('d/m/Y'))
             ->add('motivo')
@@ -102,13 +102,11 @@ final class IncapacidadTable extends PowerGridComponent
         return [
             Column::make('Id', 'id'),
 
-            Column::make('Usuario', 'nombre_usuario')
+            Column::make('Usuario', 'nombre')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Tipo Usuario', 'tipo')
-                ->sortable()
-                ->searchable(),
+            
 
             Column::make('Status', 'status')
                 ->sortable()

@@ -56,7 +56,7 @@ class EditarRegPatronal extends Component
     {
         $this->validate([
             'registro_patronal' => 'required',
-            'rfc' => 'required|size:13',
+            'rfc' => 'required|min:12|max:13',
             'nombre_o_razon_social' => 'required',
             'regimen_capital' => 'required',
             'regimen_fiscal' => 'required',

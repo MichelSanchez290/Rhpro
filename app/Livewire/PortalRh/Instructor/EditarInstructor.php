@@ -12,6 +12,7 @@ use App\Models\PortalRH\Sucursal;
 use App\Models\User;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class EditarInstructor extends Component
 {
@@ -20,6 +21,8 @@ class EditarInstructor extends Component
     public $usuarios, $registros_patronales, 
     $empresas, $empresa, $sucursal,
     $departamento, $password;
+
+    public $roles, $rol;
 
     public $instructor_id, 
         $telefono1, 
@@ -101,6 +104,10 @@ class EditarInstructor extends Component
         $this->sucursal = $this->user['sucursal_id'] ?? null;
         $this->departamento = $this->user['departamento_id'] ?? null;
 
+        $user = User::findOrFail($this->user_id);
+        $this->rol = $user->roles->first()?->id ?? '';
+
+        $this->roles = Role::all();
         $this->usuarios = User::all();
         $this->registros_patronales = RegistroPatronal::all();
         $this->empresas = Empresa::all();
@@ -131,7 +138,7 @@ class EditarInstructor extends Component
             'telefono1'           => 'required|digits:10',
             'telefono2'           => 'required|digits:10',
             'registroStps'        => 'required',
-            'rfc'                 => 'required|size:13',
+            'rfc'                 => 'required|min:12|max:13',
             'regimen'             => 'required',
             'estado'              => 'required',
             'municipio'           => 'required',
@@ -159,13 +166,15 @@ class EditarInstructor extends Component
             'departamento'        => 'required',
             'user.puesto_id'      => 'required|exists:puestos,id',
             'password'            => 'nullable',
+
+            'rol' => 'required|exists:roles,id',
         ];
 
         // Solo si el instructor es Moral, se agregan las reglas para persona moral.
         if (($this->tipoinstructor ?? '') === 'Moral') {
             $rules = array_merge($rules, [
                 'nombre_empresa'  => 'required',
-                'rfc_empre'       => 'required|size:13',
+                'rfc_empre'       => 'required|min:12|max:13',
                 'calle_empre'     => 'required',
                 'numero_empre'    => 'required',
                 'colonia_empre'   => 'required',
@@ -196,6 +205,9 @@ class EditarInstructor extends Component
             'tipo_user'   => 'Instructor',
             'password'    => $this->password ? Hash::make($this->password) : $user->password,
         ]);
+
+        $role = Role::findOrFail($this->rol);
+        $user->syncRoles([$role]);
 
         // Actualización del instructor
         Instructor::updateOrCreate(['id' => $this->instructor_id], [

@@ -10,8 +10,9 @@ use App\Models\PortalRH\RegistroPatronal;
 use App\Models\PortalRH\Empresa;
 use App\Models\PortalRH\Sucursal;
 use App\Models\User;
-use App\Models\PortalRH\Documento;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
+use App\Models\PortalRH\Documento;
 use Livewire\WithFileUploads;
 
 class AgregarInstructor extends Component
@@ -24,6 +25,8 @@ class AgregarInstructor extends Component
     $empresas, $empresa, $nombre, $apellido_p, $apellido_m, $password,
     $sucursal, $departamento;
 
+    public $roles, $rol;
+
     //var para documentos
     public $dc5_doc, $cuenta_doc, $ine_doc, $curp_doc, $sat_doc, $domicilio_doc;
 
@@ -34,6 +37,7 @@ class AgregarInstructor extends Component
         $this->usuarios = User::all();
         $this->registros_patronales = RegistroPatronal::all();
         $this->empresas = Empresa::all();
+        $this->roles = Role::all();
     }
 
     public function updatedEmpresa()
@@ -61,7 +65,7 @@ class AgregarInstructor extends Component
             'instructor.telefono1'        => 'required|digits:10',
             'instructor.telefono2'        => 'required|digits:10',
             'instructor.registroStps'     => 'required',
-            'instructor.rfc'              => 'required|size:13|unique:instructores,rfc',
+            'instructor.rfc'              => 'required|min:12|max:13|unique:instructores,rfc',
             'instructor.regimen'          => 'required',
             'instructor.estado'           => 'required',
             'instructor.municipio'        => 'required',
@@ -97,13 +101,15 @@ class AgregarInstructor extends Component
             'curp_doc'                   => 'required|file',
             'sat_doc'                    => 'required|file',
             'domicilio_doc'              => 'required|file',
+
+            'rol' => 'required|exists:roles,id',
         ];
 
         // Si el tipo de instructor es "Moral", se agregan las reglas para persona moral
         if (($this->instructor['tipoinstructor'] ?? '') === 'Moral') {
             $rules = array_merge($rules, [
                 'instructor.nombre_empresa'      => 'required',
-                'instructor.rfc_empre'           => 'required|size:13',
+                'instructor.rfc_empre'           => 'required|min:12|max:13',
                 'instructor.calle_empre'         => 'required',
                 'instructor.numero_empre'        => 'required',
                 'instructor.colonia_empre'       => 'required',
@@ -125,8 +131,10 @@ class AgregarInstructor extends Component
         'instructor.postal_empre.digits' => 'El código postal debe tener 5 dígitos.',
         'instructor.ine.size' => 'El CIC debe tener exactamente 15 caracteres (ejem. IDMEX1836173420).',
         'instructor.curp.size' => 'La CURP debe tener exactamente 18 caracteres.',
-        'instructor.rfc.size' => 'El RFC debe tener exactamente 13 caracteres.',
-        'instructor.rfc_empre.size' => 'El RFC de la empresa debe tener exactamente 13 caracteres.',
+        'instructor.rfc.min' => 'El RFC debe tener al menos 12 caracteres.',
+        'instructor.rfc.max' => 'El RFC no debe exceder los 13 caracteres.',
+        'instructor.rfc_empre.min' => 'El RFC debe tener al menos 12 caracteres.',
+        'instructor.rfc_empre.max' => 'El RFC no debe exceder los 13 caracteres.',
         'instructor.telefono1.digits' => 'El número de celular debe tener 10 dígitos.',
         'instructor.telefono2.digits' => 'El número de celular debe tener 10 dígitos.',
         'instructor.registro_patronal_id.exists' => 'El Reg Patronal seleccionado no existe.',
@@ -163,6 +171,8 @@ class AgregarInstructor extends Component
         'domicilio_doc.required' => 'Este campo es obligatorio, solo formato PDF.',
         'domicilio_doc.file' => 'Adjunta un archivo en formato PDF.',
 
+        'rol.required' => 'Debe seleccionar un rol para el becario.',
+        'rol.exists' => 'El rol seleccionado no existe en la base de datos.',
     ];
 
 
@@ -189,8 +199,11 @@ class AgregarInstructor extends Component
 
         $guardaUser = new User($this->user);
         $guardaUser -> save();
-        $this->instructor['user_id'] = $guardaUser->id;
 
+        $role = Role::findOrFail($this->rol);
+        $guardaUser->assignRole($role);
+
+        $this->instructor['user_id'] = $guardaUser->id;
         Instructor::create($this->instructor);
 
         $documentos = [

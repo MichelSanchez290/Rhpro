@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->date('fecha_baja');
             $table->text('motivo_baja');
-            $table->string('tipo_baja', 45);
+            $table->string('tipo_baja', 255);
             $table->string('documento', 255);
             $table->text('observaciones')->nullable();
 

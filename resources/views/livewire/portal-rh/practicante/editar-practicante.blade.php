@@ -200,18 +200,36 @@
                 </div>
             </div>
 
-            <!-- Clave -->
-            <div class="grid grid-cols-1 mt-7">
-                <label for="clave_practicante"
-                    class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Clave
-                    Practicante</label>
-                <input wire:model.defer="clave_practicante" type="text" id="clave_practicante"
-                    placeholder="Clave del becario"
-                    class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"/>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
+                <div class="grid grid-cols-1 mt-5">
+                    <label for="rol"
+                        class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
+                        Rol
+                    </label>
+                    <select wire:model.defer="rol" id="rol"
+                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                        <option value="">--- Seleccione un rol --- </option>
+                        @foreach ($roles as $role)
+                            <option value="{{ $role->id }}">{{ $role->name }}</option>
+                        @endforeach
+                    </select>
+                    <x-input-error for="rol" />
+                    
+                </div>
 
-                <x-input-error for="clave_practicante" /> 
-                
+                <div class="grid grid-cols-1 mt-7">
+                    <label for="clave_practicante"
+                        class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Clave
+                        Practicante</label>
+                    <input wire:model.defer="clave_practicante" type="text" id="clave_practicante"
+                        placeholder="Clave del practicante"
+                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"/>
+    
+                    <x-input-error for="clave_practicante" /> 
+                    
+                </div>
             </div>
+            
 
             <!-- NNS y Fecha Nacimiento -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
