@@ -35,7 +35,17 @@ final class IncapacidadTable extends PowerGridComponent
                 ->showPerPage()
                 ->showRecordCount(),
             PowerGrid::exportable(fileName: 'Incapacidades') 
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV)
+                ->striped('CCEBFF')
+                ->columnWidth([
+                    2 => 30,
+                    3 => 20,
+                    4 => 20,
+                    5 => 20,
+                    6 => 40,
+                    7 => 40,
+                    8 => 40,
+                ]), 
         ];
     }
 

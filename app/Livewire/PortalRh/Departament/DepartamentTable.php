@@ -34,7 +34,14 @@ final class DepartamentTable extends PowerGridComponent
                 ->showPerPage()
                 ->showRecordCount(),
             PowerGrid::exportable(fileName: 'departamentos') 
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV), 
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV)
+                ->striped('CCEBFF')
+                ->columnWidth([
+                    2 => 50,
+                    3 => 50,
+                    4 => 50,
+                    5 => 30,
+                ]), 
         ];
     }
 

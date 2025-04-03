@@ -34,8 +34,31 @@ final class BecarioTable extends PowerGridComponent
             PowerGrid::footer()
                 ->showPerPage()
                 ->showRecordCount(),
-            PowerGrid::exportable(fileName: 'becarios') 
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+            PowerGrid::exportable(fileName: 'Becarios') 
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV)
+                ->striped('CCEBFF')
+                ->columnWidth([
+                    2 => 20,
+                    3 => 30,
+                    4 => 50,
+                    5 => 40,
+                    6 => 40,
+                    7 => 40,
+                    8 => 40,
+                    9 => 20,
+                    10 => 20,
+                    11 => 30,
+                    12 => 20,
+                    14 => 40,
+                    16 => 30,
+                    17 => 20,
+                    18 => 20,
+                    18 => 20,
+                    20 => 20,
+                    21 => 30,
+                    22 => 30,
+                    23 => 30,
+                ]),
         ];
     }
 

@@ -34,7 +34,21 @@ final class SucursalTable extends PowerGridComponent
                 ->showPerPage()
                 ->showRecordCount(),
             PowerGrid::exportable(fileName: 'Sucursales') 
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV)
+                ->striped('CCEBFF')
+                ->columnWidth([
+                    2 => 50,
+                    3 => 20,
+                    4 => 50,
+                    5 => 30,
+                    6 => 30,
+                    7 => 20,
+                    8 => 20,
+                    9 => 30,
+                    10 => 20,
+                    12 => 50,
+                    13 => 30,
+                ]),
         ];
     }
 

@@ -34,8 +34,18 @@ final class EmpresTable extends PowerGridComponent
             PowerGrid::footer()
                 ->showPerPage()
                 ->showRecordCount(),
-            PowerGrid::exportable(fileName: 'empresas')
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+            PowerGrid::exportable(fileName: 'Empresas')
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV)
+                ->striped('CCEBFF')
+                ->columnWidth([
+                    2 => 50,
+                    3 => 50,
+                    4 => 20,
+                    5 => 30,
+                    6 => 30,
+                    7 => 30,
+                    8 => 30,
+                ]),
         ];
     }
 

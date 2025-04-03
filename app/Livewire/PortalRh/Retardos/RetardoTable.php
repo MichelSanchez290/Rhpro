@@ -35,7 +35,17 @@ final class RetardoTable extends PowerGridComponent
                 ->showPerPage()
                 ->showRecordCount(),
             PowerGrid::exportable(fileName: 'Retardos') 
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV)
+                ->striped('CCEBFF')
+                ->columnWidth([
+                    2 => 30,
+                    3 => 20,
+                    4 => 30,
+                    5 => 30,
+                    6 => 30,
+                    7 => 40,
+                    9 => 30,
+                ]), 
         ];
     }
 
@@ -127,7 +137,7 @@ final class RetardoTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Created at', 'created_at')
+            Column::make('Creado el', 'created_at')
                 ->sortable()
                 ->searchable(),
 

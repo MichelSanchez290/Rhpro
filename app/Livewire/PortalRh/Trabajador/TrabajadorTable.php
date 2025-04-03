@@ -35,8 +35,37 @@ final class TrabajadorTable extends PowerGridComponent
             PowerGrid::footer()
                 ->showPerPage()
                 ->showRecordCount(),
-            PowerGrid::exportable(fileName: 'trabajadores') 
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+            PowerGrid::exportable(fileName: 'Trabajadores') 
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV)
+                ->striped('CCEBFF')
+                ->columnWidth([
+                    2 => 20,
+                    3 => 35,
+                    4 => 40,
+                    5 => 40,
+                    6 => 40,
+                    7 => 40,
+                    8 => 30,
+                    9 => 20,
+                    10 => 20,
+                    11 => 25,
+                    12 => 20,
+                    14 => 20,
+                    15 => 30,
+                    16 => 20,
+                    17 => 20,
+                    18 => 20,
+                    20 => 20,
+                    21 => 20,
+                    22 => 30,
+                    23 => 20,
+                    24 => 20,
+                    25 => 20,
+                    26 => 20,
+                    30 => 25,
+                    31 => 25,
+                    35 => 30,
+                ]),
         ];
     }
 

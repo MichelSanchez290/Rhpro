@@ -33,8 +33,27 @@ final class PracticanteTable extends PowerGridComponent
             PowerGrid::footer()
                 ->showPerPage()
                 ->showRecordCount(),
-            PowerGrid::exportable(fileName: 'practicantes') 
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+            PowerGrid::exportable(fileName: 'Practicantes') 
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV)
+                ->striped('CCEBFF')
+                ->columnWidth([
+                    2 => 20,
+                    3 => 30,
+                    4 => 50,
+                    5 => 40,
+                    6 => 40,
+                    7 => 40,
+                    8 => 40,
+                    9 => 20,
+                    10 => 20,
+                    11 => 20,
+                    12 => 20,
+                    13 => 40,
+                    15 => 30,
+                    16 => 20,
+                    17 => 20,
+                    18 => 30,
+                ]),
         ];
     }
 

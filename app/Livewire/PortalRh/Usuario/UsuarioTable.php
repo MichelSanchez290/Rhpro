@@ -31,10 +31,23 @@ final class UsuarioTable extends PowerGridComponent
         
         return [
             PowerGrid::exportable(fileName: 'usuarios') 
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV)
+                ->striped('CCEBFF')
+                ->columnWidth([
+                    2 => 40,
+                    3 => 40,
+                    4 => 20,
+                    5 => 30,
+                    6 => 80,
+                    7 => 80,
+                    8 => 80,
+                    9 => 70,
+                    10 => 30,
+                ]),
                 
             PowerGrid::header()
                 ->showSearchInput(),
+
             PowerGrid::footer()
                 ->showPerPage()
                 ->showRecordCount(),
@@ -112,11 +125,11 @@ final class UsuarioTable extends PowerGridComponent
         return [
             Column::make('Id', 'id'),
 
-            Column::make('Name', 'name')
+            Column::make('Nombre', 'name')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Email', 'email')
+            Column::make('Correo', 'email')
                 ->sortable()
                 ->searchable(),
 

@@ -35,7 +35,15 @@ final class BajaTable extends PowerGridComponent
                 ->showPerPage()
                 ->showRecordCount(),
             PowerGrid::exportable(fileName: 'Bajas')
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV)
+                ->striped('CCEBFF')
+                ->columnWidth([
+                    2 => 30,
+                    3 => 20,
+                    4 => 40,
+                    5 => 40,
+                    6 => 30,
+                ]), 
         ];
     }
 
@@ -105,10 +113,6 @@ final class BajaTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Tipo Usuario', 'tipo')
-                ->sortable()
-                ->searchable(),
-
             Column::make('Fecha baja', 'fecha_baja_formatted', 'fecha_baja')
                 ->sortable(),
 
@@ -126,10 +130,6 @@ final class BajaTable extends PowerGridComponent
                 ->searchable(),
 
             Column::make('Observaciones', 'observaciones')
-                ->sortable()
-                ->searchable(),
-
-            Column::make('Creado el', 'created_at')
                 ->sortable()
                 ->searchable(),
 

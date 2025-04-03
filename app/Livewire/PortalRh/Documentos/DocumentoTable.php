@@ -34,7 +34,15 @@ final class DocumentoTable extends PowerGridComponent
                 ->showPerPage()
                 ->showRecordCount(),
             PowerGrid::exportable(fileName: 'Documentos')
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV)
+                ->striped('CCEBFF')
+                ->columnWidth([
+                    2 => 30,
+                    3 => 30,
+                    4 => 20,
+                    6 => 30,
+                    8 => 50,
+                ]), 
         ];
     }
 
@@ -123,10 +131,6 @@ final class DocumentoTable extends PowerGridComponent
                 ->searchable(),
 
             Column::make('Comentarios', 'comentarios')
-                ->sortable()
-                ->searchable(),
-
-            Column::make('Created at', 'created_at')
                 ->sortable()
                 ->searchable(),
 

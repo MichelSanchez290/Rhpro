@@ -34,6 +34,18 @@ final class CambioSalarioTable extends PowerGridComponent
             PowerGrid::footer()
                 ->showPerPage()
                 ->showRecordCount(),
+
+            PowerGrid::exportable(fileName: 'Cambios de salario')
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV)
+                ->striped('CCEBFF')
+                ->columnWidth([
+                    2 => 30,
+                    3 => 20,
+                    4 => 20,
+                    5 => 20,
+                    6 => 30,
+                    7 => 30,
+                ]), 
         ];
     }
 
@@ -115,13 +127,10 @@ final class CambioSalarioTable extends PowerGridComponent
 
             Column::make('Documento', 'documento')
                 ->sortable()
+                ->visibleInExport(false)
                 ->searchable(),
 
             Column::make('Observaciones', 'observaciones')
-                ->sortable()
-                ->searchable(),
-
-            Column::make('Created at', 'created_at')
                 ->sortable()
                 ->searchable(),
 

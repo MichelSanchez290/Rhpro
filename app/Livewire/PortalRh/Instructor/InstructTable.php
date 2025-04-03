@@ -35,7 +35,43 @@ final class InstructTable extends PowerGridComponent
                 ->showPerPage()
                 ->showRecordCount(),
             PowerGrid::exportable(fileName: 'Instructores') 
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV)
+                ->striped('CCEBFF')
+                ->columnWidth([
+                    2 => 30,
+                    3 => 35,
+                    4 => 40,
+                    5 => 40,
+                    6 => 40,
+                    7 => 40,
+                    8 => 30,
+                    9 => 20,
+                    10 => 20,
+                    11 => 30,
+                    12 => 20,
+                    13 => 30,
+                    14 => 20,
+                    15 => 30,
+                    16 => 20,
+                    17 => 20,
+                    18 => 20,
+                    20 => 20,
+                    21 => 20,
+                    22 => 30,
+                    23 => 20,
+                    24 => 20,
+                    25 => 30,
+                    26 => 30,
+                    27 => 50,
+                    28 => 50,
+                    29 => 20,
+                    30 => 25,
+                    32 => 25,
+                    33 => 20,
+                    34 => 20,
+                    36 => 50,
+                    37 => 30,
+                ]),
         ];
     }
 

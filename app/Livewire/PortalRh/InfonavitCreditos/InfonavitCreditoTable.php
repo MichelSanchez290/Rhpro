@@ -35,7 +35,18 @@ final class InfonavitCreditoTable extends PowerGridComponent
                 ->showPerPage()
                 ->showRecordCount(),
             PowerGrid::exportable(fileName: 'Creditos infonavit')
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV)
+                ->striped('CCEBFF')
+                ->columnWidth([
+                    2 => 30,
+                    3 => 30,
+                    4 => 30,
+                    5 => 20,
+                    6 => 20,
+                    7 => 30,
+                    8 => 30,
+                    9 => 20,
+                ]), 
         ];
     }
 
