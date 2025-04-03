@@ -198,5 +198,25 @@
                 <p><strong>Salario nuevo: </strong> {{ $cambio_salario->salario_nuevo }}</p>
             </div> <br>
         @endforeach
-    </div>    
+    </div>
+
+    <h2 class="section-title">Créditos Infonavit</h2>
+    <div class="grid-container">
+        @if ($infonavit_creditos->isEmpty())
+            <div class="p-6 text-center text-gray-600">
+                <p>Sin créditos infonavit actualmente</p>
+            </div>
+        @else
+            @foreach ($infonavit_creditos as $credito)
+                <div class="card">
+                    <img src="{{ asset('img/cesrh.jpeg') }}" alt="Background">
+                    <p><strong>Tipo de movimiento:</strong> {{ $credito->tipo_movimiento }}</p>
+                    <p><strong>Número de crédito:</strong> {{ $credito->numero_credito }}</p>
+                    <p><strong>Fecha: </strong> {{ $credito->fecha_movimiento }}</p>
+                    <p><strong>Tipo de descuento: </strong> {{ $credito->tipo_descuento }}</p>
+                    <p><strong>Valor de descuento: </strong> {{ $credito->valor_descuento }}</p>
+                </div> <br>
+            @endforeach
+        @endif
+    </div>
 </div>

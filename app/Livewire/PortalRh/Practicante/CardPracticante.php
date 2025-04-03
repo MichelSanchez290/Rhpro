@@ -17,7 +17,8 @@ use Barryvdh\DomPDF\Facade\Pdf;
 class CardPracticante extends Component
 {
     public $practicante, $usuario, $empresa, $sucursal, $departamento,
-    $puesto, $registro_patronal, $incapacidades, $incidencias, $retardos, $cambio_salarios;
+    $puesto, $registro_patronal, $incapacidades, $incidencias, $retardos, 
+    $cambio_salarios, $infonavit_creditos;
 
     public function mount($id)
     {

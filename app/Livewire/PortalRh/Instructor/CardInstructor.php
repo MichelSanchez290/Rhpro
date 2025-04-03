@@ -34,7 +34,6 @@ class CardInstructor extends Component
         $this->incidencias = $this->usuario->incidencias()->with('users')->get();
         $this->retardos = $this->usuario->retardos()->with('users')->get();
         $this->cambio_salarios = $this->usuario->cambioSalario()->with('users')->get();
-        $this->documentos = $this->usuario->documentos()->with('users')->get();
         $this->infonavit_creditos = $this->usuario->infonavit()->with('user')->get();
     } 
 
@@ -54,7 +53,6 @@ class CardInstructor extends Component
         $incidencias = $this->usuario->incidencias()->with('users')->get();
         $retardos = $this->usuario->retardos()->with('users')->get();
         $cambio_salarios = $this->usuario->cambioSalario()->with('users')->get();
-        $documentos = $this->usuario->documentos()->with('users')->get();
         $infonavit_creditos = $this->usuario->infonavit()->with('user')->get();
 
         // Generar el PDF con todos los datos

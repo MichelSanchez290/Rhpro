@@ -35,7 +35,6 @@ class CardTrabajador extends Component
         $this->incidencias = $this->usuario->incidencias()->with('users')->get();
         $this->retardos = $this->usuario->retardos()->with('users')->get();
         $this->cambio_salarios = $this->usuario->cambioSalario()->with('users')->get();
-        $this->documentos = $this->usuario->documentos()->with('users')->get();
         $this->infonavit_creditos = $this->usuario->infonavit()->with('user')->get();
     } 
 

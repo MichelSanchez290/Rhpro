@@ -270,6 +270,8 @@
                         </div>
                     @endif
                 </div>
+
+                
                 <div class='flex items-center justify-center md:gap-8 gap-4 pt-5 pb-5'>
                     <button type="button" onclick="window.history.back()"
                         class='w-auto bg-blue-500 hover:bg-blue-700 rounded-lg shadow-xl font-medium text-white px-4 py-2'>
