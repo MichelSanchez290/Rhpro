@@ -393,19 +393,29 @@
                                                     <div class="relative inline-block text-left"
                                                         x-data="{ open: false }">
                                                         @if ($comparacion->capacitacion_asignada)
-                                                        <a href="{{ route('verCapacitacionEspecifica', ['user_id' => Crypt::encrypt($comparacion->users_id), 'competencia' => $comparacion->competencias_requeridas]) }}"
-                                                            class="px-3 py-2 rounded-md bg-emerald-500 hover:bg-emerald-600 text-white shadow-md flex items-center justify-center">
-                                                             ✔ Ver Capacitación
-                                                         </a>
-                                                                                                                
+                                                           <a href="{{ route('verCapacitacionRelacionada', ['id' => Crypt::encrypt($comparacion->users_id), 'competencia' => $comparacion->competencias_requeridas]) }}"
+                                                                class="px-2 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-600 focus:bg-emerald-600 text-white font-medium flex items-center justify-center shadow-md transition-all duration-200 transform hover:scale-[1.02] focus:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2 active:scale-95">
+                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                    class="h-5 w-5 mr-2" viewBox="0 0 20 20"
+                                                                    fill="currentColor" aria-hidden="true">
+                                                                    <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                                                                    <path fill-rule="evenodd"
+                                                                        d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
+                                                                        clip-rule="evenodd" />
+                                                                </svg>
+                                                                Ver Capacitación
+                                                            </a>
                                                         @else
                                                             <button @click="open = !open"
                                                                 @keydown.escape="open = false"
-                                                                class="px-3 py-2 rounded-md bg-indigo-600 hover:bg-indigo-700 text-white flex items-center mx-auto">
+                                                                class="px-3 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 focus-visible:bg-indigo-700 text-white font-medium flex items-center justify-center mx-auto transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
+                                                                aria-haspopup="true" :aria-expanded="open">
                                                                 Asignar
-                                                                <svg class="ml-1 h-4 w-4"
+                                                                <svg class="ml-2 h-5 w-5 transition-transform duration-200"
+                                                                    :class="{ 'transform rotate-180': open }"
                                                                     xmlns="http://www.w3.org/2000/svg"
-                                                                    viewBox="0 0 20 20" fill="currentColor">
+                                                                    viewBox="0 0 20 20" fill="currentColor"
+                                                                    aria-hidden="true">
                                                                     <path fill-rule="evenodd"
                                                                         d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
                                                                         clip-rule="evenodd" />
@@ -419,25 +429,45 @@
                                                                 x-transition:leave="transition ease-in duration-75"
                                                                 x-transition:leave-start="transform opacity-100 scale-100"
                                                                 x-transition:leave-end="transform opacity-0 scale-95"
-                                                                class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50"
+                                                                class="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-50"
                                                                 @click.away="open = false">
 
                                                                 <div class="py-1">
                                                                     <a href="{{ route('agregarCapacitacionesInd', [
                                                                         'id' => Crypt::encrypt($userSeleccionado->id),
                                                                         'competencia' => $comparacion->competencias_requeridas,
-                                                                    ]) }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900">
-                                                                        Individual
+                                                                    ]) }}"
+                                                                        class="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-700">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                            class="h-5 w-5 mr-3 text-indigo-500"
+                                                                            fill="none" viewBox="0 0 24 24"
+                                                                            stroke="currentColor">
+                                                                            <path stroke-linecap="round"
+                                                                                stroke-linejoin="round"
+                                                                                stroke-width="2"
+                                                                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                                                        </svg>
+                                                                        <span>Individual</span>
                                                                     </a>
-                                                                
+
                                                                     <a href="{{ route('agregarCapacitacionesGru', [
                                                                         'id' => Crypt::encrypt($userSeleccionado->id),
                                                                         'competencia' => $comparacion->competencias_requeridas,
-                                                                    ]) }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900">
-                                                                        Grupal
+                                                                    ]) }}"
+                                                                        class="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-700">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                            class="h-5 w-5 mr-3 text-green-500"
+                                                                            fill="none" viewBox="0 0 24 24"
+                                                                            stroke="currentColor">
+                                                                            <path stroke-linecap="round"
+                                                                                stroke-linejoin="round"
+                                                                                stroke-width="2"
+                                                                                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                                                                        </svg>
+                                                                        <span>Grupal</span>
                                                                     </a>
 
-                                                                </div>                                                                
+                                                                </div>
                                                             </div>
                                                         @endif
                                                     </div>

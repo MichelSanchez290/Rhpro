@@ -5,27 +5,34 @@ namespace App\Livewire\PortalCapacitacion\Capacitaciones\CapIndividuales\AdminGe
 use Livewire\Component;
 use App\Models\PortalCapacitacion\CapacitacionIndividual;
 use Illuminate\Support\Facades\Crypt;
+use App\Models\PortalCapacitacion\GrupocursoCapacitacion;
 
 class VerCapacitacionEspecifica extends Component
 {
     public $capacitacion;
-
+    public $capacitacionGrupal;
+    
     public function mount($user_id, $competencia)
     {
         $user_id = Crypt::decrypt($user_id);
-
-        $this->capacitacion = CapacitacionIndividual::where('nombreCapacitacion', $competencia)
-            ->whereHas('usuarios', function ($query) use ($user_id) {
-                $query->where('users_id', $user_id);
-            })->first();
-
-        if (!$this->capacitacion) {
-            session()->flash('error', 'No se encontró una capacitación para esta competencia.');
-        }
+    
+        // Capacitación Individual
+        $this->capacitacion = CapacitacionIndividual::whereHas('usuarios', function ($query) use ($user_id) {
+            $query->where('users_id', $user_id);
+        })->where('nombreCapacitacion', $competencia)->first();
+    
+        // Capacitación Grupal
+        $this->capacitacionGrupal = GrupocursoCapacitacion::whereHas('usuarios', function ($query) use ($user_id) {
+            $query->where('users.id', $user_id);
+        })->where('nombreCapacitacion', $competencia)->first();
+        
     }
+    
 
     public function render()
     {
-        return view('livewire.portal-capacitacion.capacitaciones.cap-individuales.admin-general.ver-capacitacion-especifica')->layout("layouts.portal_capacitacion");
-    }   
+        return view('livewire.portal-capacitacion.capacitaciones.cap-individuales.admin-general.ver-capacitacion-especifica', [
+            'capacitacion' => $this->capacitacion,
+        ])->layout("layouts.portal_capacitacion");
+    }
 }

@@ -111,7 +111,7 @@ use App\Livewire\PortalCapacitacion\Cursos\Cursos\AdminSucursal\MostrarCursoSucu
 use App\Livewire\PortalCapacitacion\Cursos\Cursos\AdminSucursal\AgregarCursoSucursal;
 use App\Livewire\PortalCapacitacion\Cursos\Cursos\AdminSucursal\EditarCursoSucursal;
 use App\Livewire\PortalCapacitacion\Capacitaciones\CapIndividuales\AdminGeneral\MostrarCapacitaciones;
-use App\Livewire\PortalCapacitacion\Capacitaciones\CapIndividuales\AdminGeneral\VerCapacitacionEspecifica;
+//use App\Livewire\PortalCapacitacion\Capacitaciones\CapIndividuales\AdminGeneral\VerCapacitacionEspecifica;
 use App\Livewire\PortalCapacitacion\Capacitaciones\CapIndividuales\AdminGeneral\AgregarCapacitaciones;
 use App\Livewire\PortalCapacitacion\Capacitaciones\CapIndividuales\AdminGeneral\EditarCapacitaciones;
 use App\Livewire\PortalCapacitacion\Capacitaciones\CapIndividuales\AdminEmpresa\MostrarCapacitacionesEmpresa;
@@ -158,6 +158,17 @@ use App\Livewire\PortalCapacitacion\Capacitaciones\CapGrupales\Dc3Reconocimiento
 use App\Livewire\PortalCapacitacion\Capacitaciones\CapGrupales\Dc3ReconocimientosAdmin\VerArchivos;
 use App\Livewire\PortalCapacitacion\Capacitaciones\CapIndividuales\Dc3ReconocimientosAdmin\SubirDocumentos;
 use App\Livewire\PortalCapacitacion\Capacitaciones\CapIndividuales\Dc3ReconocimientosAdmin\VerArchivosIndividuales;
+use App\Livewire\PortalCapacitacion\Capacitaciones\CapIndividuales\AdminGeneral\VerCapacitacionEspecifica;
+use App\Livewire\PortalCapacitacion\Capacitaciones\CapGrupales\AdminGeneral\VerCapacitacionGrupal;
+
+Route::get('/ver-capacitacion-relacionada/{id}/{competencia}', [VerMasUsuario::class, 'verCapacitacionRelacionada'])->name('verCapacitacionRelacionada');
+
+
+Route::get('/ver-capacitacion/{user_id}/{competencia}', VerCapacitacionEspecifica::class)
+    ->name('verCapacitacionEspecifica');
+
+Route::get('/ver-capacitacion-grupal/{user_id}/{competencia}', VerCapacitacionGrupal::class)->name('verCapacitacionGrupal');
+
 
 Route::get('/inicio', Inicio::class)->name('inicio-capacitacion');
 
@@ -315,8 +326,8 @@ Route::get('/editar-curso-sucursal/{id}', EditarCursoSucursal::class)->middlewar
 
 //Capacitaciones INDIVIDUALES
 Route::get('/ver-capacitaciones-ind/{id}', MostrarCapacitaciones::class)->middleware('can:Ver capacitaciones')->name('verCapacitacionesInd');
-Route::get('/ver-capacitacion/{user_id}/{competencia}', VerCapacitacionEspecifica::class)
-    ->name('verCapacitacionEspecifica');
+//Route::get('/ver-capacitacion/{user_id}/{competencia}', VerCapacitacionEspecifica::class)
+  //  ->name('verCapacitacionEspecifica');
 Route::get('/agregar-capacitaciones-ind/{id}/{competencia?}', AgregarCapacitaciones::class)->middleware('can:Agregar capacitaciones')->name('agregarCapacitacionesInd');
 Route::get('/editar-capacitaciones-ind/{id}', EditarCapacitaciones::class)->middleware('can:Editar capacitaciones')->name('editarCapacitacionesInd');
 //--------------------------------------------------------------------------------------------------------
@@ -392,5 +403,3 @@ Route::get('/descargar-todos/{id}', [VerArchivos::class, 'descargarTodos'])
 Route::get('/subir-documentos/{id}', SubirDocumentos::class)->name('subir.documentos');
 Route::get('/descargar-todos-ind/{id}', [VerArchivosIndividuales::class, 'descargarTodos'])
     ->name('descargar.todos.ind');
-
-
