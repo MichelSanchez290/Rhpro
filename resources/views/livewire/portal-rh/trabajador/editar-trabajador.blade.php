@@ -326,14 +326,29 @@
                 <div class="grid grid-cols-1">
                     <label for="edad"
                         class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Edad</label>
-                    <input wire:model.defer="edad" type="text" id="edad" placeholder="Edad"
-                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                    <select wire:model.defer="edad" id="edad"
+                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                        <option value="" selected>-- Selecciona una opción --</option>
+                        <option value="15-19">15-19</option>
+                        <option value="20-24">20-24</option>
+                        <option value="25-29">25-29</option>
+                        <option value="30-34">30-34</option>
+                        <option value="35-39">35-39</option>
+                        <option value="40-44">40-44</option>
+                        <option value="45-49">45-49</option>
+                        <option value="50-54">50-54</option>
+                        <option value="55-59">55-59</option>
+                        <option value="60-64">60-64</option>
+                        <option value="65-69">65-69</option>
+                        <option value="70 o más">70 o más</option>
+                    </select>
+
+                    <x-input-error for="edad" />
                 </div>
 
                 <div class="grid grid-cols-1">
                     <label for="estado_civil"
-                        class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Estado
-                        Civil</label>
+                        class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Estado Civil</label>
                     <select wire:model.defer="estado_civil" id="estado_civil"
                         class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
                         <option value="" selected>-- Selecciona una opción --</option>
@@ -341,7 +356,9 @@
                         <option value="Casado">Casado</option>
                         <option value="Viudo">Viudo</option>
                         <option value="Divorciado">Divorciado</option>
+                        <option value="Unión libre">Unión libre</option>
                     </select>
+                    <x-input-error for="estado_civil" />
                 </div>
             </div>
 
@@ -349,18 +366,22 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
                 <div class="grid grid-cols-1">
                     <label for="estudios"
-                        class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Nivel de
-                        Estudios</label>
+                        class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Nivel de Estudios</label>
                     <select wire:model.defer="estudios" id="estudios"
                         class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
                         <option value="" selected>-- Selecciona una opción --</option>
+                        <option value="Sin Formación">Sin Formación</option>
                         <option value="Preescolar">Preescolar</option>
                         <option value="Primaria">Primaria</option>
                         <option value="Secundaria">Secundaria</option>
-                        <option value="Medio Superior">Medio Superior</option>
-                        <option value="Superior Licenciatura">Superior Licenciatura</option>
-                        <option value="Superior Ingenieria">Superior Ingenieria</option>
+                        <option value="Preparatoria o Bachillerato">Preparatoria o Bachillerato</option>
+                        <option value="Técnico Superior">Técnico Superior</option>
+                        <option value="Licenciatura">Licenciatura</option>
+                        <option value="Maestría">Maestría</option>
+                        <option value="Doctorado">Doctorado</option>
                     </select>
+                    
+                    <x-input-error for="estudios" />
                 </div>
 
                 <div class="grid grid-cols-1">
@@ -375,17 +396,32 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
                 <div class="grid grid-cols-1">
                     <label for="tipo_puest"
-                        class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Tipo puesto</label>
-                    <input wire:model.defer="tipo_puest" type="text" id="tipo_puest" placeholder="Tipo de puesto"
-                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                        class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Tipo de puesto</label>
+                    <select wire:model.defer="tipo_puest" id="tipo_puest"
+                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                        <option value="" selected>-- Selecciona una opción --</option>
+                        <option value="Operativo">Operativo</option>
+                        <option value="Profesional o técnico">Profesional o técnico</option>
+                        <option value="Superior">Superior</option>
+                        <option value="Gerente">Gerente</option>
+                    </select>
+
+                    <x-input-error for="tipo_puest" />
                 </div>
 
                 <div class="grid grid-cols-1">
                     <label for="contratacion"
                         class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Contratación</label>
-                    <input wire:model.defer="contratacion" type="text" id="contratacion"
-                        placeholder="Contratación"
-                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                    <select wire:model.defer="contratacion" id="contratacion"
+                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                        <option value="" selected>-- Selecciona una opción --</option>
+                        <option value="Por obra o proyecto">Por obra o proyecto</option>
+                        <option value="Por tiempo determinado (temporal)">Por tiempo determinado (temporal)</option>
+                        <option value="Tiempo indeterminado">Tiempo indeterminado</option>
+                        <option value="Honorarios">Honorarios</option>
+                    </select>
+
+                    <x-input-error for="contratacion" />
                 </div>
             </div>
 
@@ -393,20 +429,30 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
                 <div class="grid grid-cols-1">
                     <label for="tipo_personal"
-                        class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Tipo
-                        personal</label>
-                    <input wire:model.defer="tipo_personal" type="text" id="tipo_personal"
-                        placeholder="Tipo de personal"
-                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                        class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Tipo de personal</label>
+                    <select wire:model.defer="tipo_personal" id="tipo_personal"
+                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                        <option value="" selected>-- Selecciona una opción --</option>
+                        <option value="Sindicalizado">Sindicalizado</option>
+                        <option value="Confianza">Confianza</option>
+                        <option value="Ninguno">Ninguno</option>
+                    </select>
+
+                    <x-input-error for="tipo_personal" />
                 </div>
 
                 <div class="grid grid-cols-1">
                     <label for="jornada_trabajo"
-                        class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Jornada
-                        Trabajo</label>
-                    <input wire:model.defer="jornada_trabajo" type="text" id="jornada_trabajo"
-                        placeholder="Jornada de trabajo"
-                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                        class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Jornada de trabajo</label>
+                    <select wire:model.defer="jornada_trabajo" id="jornada_trabajo"
+                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                        <option value="" selected>-- Selecciona una opción --</option>
+                        <option value="Fijo Nocturno (entre las 20:00 y 6:00 hrs)">Fijo Nocturno (entre las 20:00 y 6:00 hrs)</option>
+                        <option value="Fijo Diurno (entre las 6:00 y 20:00 hrs)">Fijo Diurno (entre las 6:00 y 20:00 hrs)</option>
+                        <option value="Fijo mixto (combinación de nocturno y diurno)">Fijo mixto (combinación de nocturno y diurno)</option>
+                    </select>
+
+                    <x-input-error for="jornada_trabajo" />
                 </div>
             </div>
 
@@ -414,17 +460,34 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
                 <div class="grid grid-cols-1">
                     <label for="rotacion"
-                        class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Rotación</label>
-                    <input wire:model.defer="rotacion" type="text" id="rotacion" placeholder="Rotación de turno"
-                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                        class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Rotación de turno</label>
+                    <select wire:model.defer="rotacion" id="rotacion"
+                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                        <option value="" selected>-- Selecciona una opción --</option>
+                        <option value="Sí">Sí</option>
+                        <option value="No">No</option>
+                    </select>
+
+                    <x-input-error for="rotacion" />
                 </div>
 
                 <div class="grid grid-cols-1">
                     <label for="experiencia"
                         class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Experiencia</label>
-                    <input wire:model.defer="experiencia" type="text" id="experiencia"
-                        placeholder="Experiencia laboral"
-                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                    <select wire:model.defer="experiencia" id="experiencia"
+                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                        <option value="" selected>-- Selecciona una opción --</option>
+                        <option value="Menos de 6 meses">Menos de 6 meses</option>
+                        <option value="Entre 6 meses y 1 año">Entre 6 meses y 1 año</option>
+                        <option value="Entre 1 y 4 años">Entre 1 y 4 años</option>
+                        <option value="Entre 5 y 9 años">Entre 5 y 9 años</option>
+                        <option value="Entre 10 y 14 años">Entre 10 y 14 años</option>
+                        <option value="Entre 15 y 19 años">Entre 15 y 19 años</option>
+                        <option value="Entre 20 y 24 años">Entre 20 y 24 años</option>
+                        <option value="25 años o más">25 años o más</option>
+                    </select>
+
+                    <x-input-error for="experiencia" />
                 </div>
             </div>
 
@@ -432,11 +495,21 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
                 <div class="grid grid-cols-1">
                     <label for="tiempo_puesto"
-                        class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Tiempo
-                        Puesto</label>
-                    <input wire:model.defer="tiempo_puesto" type="text" id="tiempo_puesto"
-                        placeholder="Tiempo ocupado en el puesto"
-                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
+                        class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Tiempo en el puesto</label>
+                    <select wire:model.defer="tiempo_puesto" id="tiempo_puesto"
+                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                        <option value="" selected>-- Selecciona una opción --</option>
+                        <option value="Menos de 6 meses">Menos de 6 meses</option>
+                        <option value="Entre 6 meses y 1 año">Entre 6 meses y 1 año</option>
+                        <option value="Entre 1 y 4 años">Entre 1 y 4 años</option>
+                        <option value="Entre 5 y 9 años">Entre 5 y 9 años</option>
+                        <option value="Entre 10 y 14 años">Entre 10 y 14 años</option>
+                        <option value="Entre 15 y 19 años">Entre 15 y 19 años</option>
+                        <option value="Entre 20 y 24 años">Entre 20 y 24 años</option>
+                        <option value="25 años o más">25 años o más</option>
+                    </select>
+
+                    <x-input-error for="tiempo_puesto" />
                 </div>
 
                 <div class="grid grid-cols-1">
