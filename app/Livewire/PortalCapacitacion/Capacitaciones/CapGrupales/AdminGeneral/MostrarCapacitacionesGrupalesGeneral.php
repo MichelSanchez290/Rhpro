@@ -21,7 +21,6 @@ class MostrarCapacitacionesGrupalesGeneral extends Component
 {
     public $userSeleccionado;
     public $user;
-    public $capacitaciones;
     public $years = [];
     public $selectedYear = null; 
     public $trabajador,
@@ -32,7 +31,7 @@ class MostrarCapacitacionesGrupalesGeneral extends Component
     public $capacitacionInd;
     public $showModal = false; // Control para ventana emergente
     public $capacitacionToDelete;
-    
+    public $capacitaciones = [];
 
     protected $listeners = [
         'confirmDelete' => 'confirmDelete', // Captura el evento
@@ -162,13 +161,13 @@ class MostrarCapacitacionesGrupalesGeneral extends Component
 
 
     public function render()
-{
-    $dc3Reconocimientos = Dc3Reconocimiento::whereIn('grupocursos_capacitaciones_id', $this->capacitaciones->pluck('id'))->get();
+    {
+        $dc3Reconocimientos = Dc3Reconocimiento::whereIn('grupocursos_capacitaciones_id', $this->capacitaciones->pluck('id'))->get();
 
-    return view('livewire.portal-capacitacion.capacitaciones.cap-grupales.admin-general.mostrar-capacitaciones-grupales-general', [
-        'capacitaciones' => $this->capacitaciones,
-        'dc3Reconocimientos' => $dc3Reconocimientos ?? collect([])
-    ])->layout("layouts.portal_capacitacion");
-}
+        return view('livewire.portal-capacitacion.capacitaciones.cap-grupales.admin-general.mostrar-capacitaciones-grupales-general', [
+            'capacitaciones' => $this->capacitaciones,
+            'dc3Reconocimientos' => $dc3Reconocimientos ?? collect([])
+        ])->layout("layouts.portal_capacitacion");
+    }
 
 }

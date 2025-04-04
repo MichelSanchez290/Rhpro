@@ -4,6 +4,7 @@ namespace App\Models\PortalCapacitacion;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 
 class ComparacionPuesto extends Model
 {
@@ -25,6 +26,8 @@ class ComparacionPuesto extends Model
         'diferencia',
         'puesto_nuevo',
         'perfiles_puestos_id',
+        'capacitacion_asignada',
+        'users_id',
     ];
 
     // Relación con la tabla perfiles_puestos (muchos a uno)
@@ -35,6 +38,17 @@ class ComparacionPuesto extends Model
 
     public function puestoNuevo()
     {
-        return $this->belongsTo(PerfilPuesto::class, 'puesto_nuevo');
+        return $this->belongsTo(PerfilPuesto::class, 'puesto_nuevo', 'id');
     }
+
+    public function asignarCapacitacion()
+    {
+        $this->update(['capacitacion_asignada' => true]);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'users_id');
+    }
+
 }

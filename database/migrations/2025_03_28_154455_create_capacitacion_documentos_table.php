@@ -19,8 +19,8 @@ return new class extends Migration
             ->on('caps_individuales_id')
             ->onUpdate('cascade')
             ->onDelete('cascade');
-            $table->enum('tipo', ['DC3', 'Reconocimiento']);
-            $table->string('archivo', 255);
+            $table->string('dc3')->nullable();
+            $table->string('reconocimiento')->nullable();
             $table->timestamps();
         });
     }

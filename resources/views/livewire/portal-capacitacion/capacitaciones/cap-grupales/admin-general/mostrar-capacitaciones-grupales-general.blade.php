@@ -266,18 +266,20 @@
                             </div>
                         </div>
 
-                        @if ($dc3Reconocimientos->isNotEmpty())
-                            @foreach ($dc3Reconocimientos as $dc3Reconocimiento)
-                                <a href="{{ route('descargar.archivo', ['tipo' => 'dc3', 'id' => Crypt::encrypt($dc3Reconocimiento->grupocursos_capacitaciones_id)]) }}"
-                                    class="btn btn-primary">Descargar DC3</a>
-                                <a href="{{ route('descargar.archivo', ['tipo' => 'reconocimiento', 'id' => Crypt::encrypt($dc3Reconocimiento->grupocursos_capacitaciones_id)]) }}"
-                                    class="btn btn-secondary">Descargar Reconocimiento</a>
-                            @endforeach
-                        @else
-                            <p>No hay archivos disponibles.</p>
+                        @if ($capacitacion->dc3Reconocimientos->count() > 0)
+                            <div x-data="{ show: false }" class="relative">
+                                <button
+                                    @click="window.location.href='{{ route('descargar.todos', Crypt::encrypt($capacitacion->id)) }}'"
+                                    @mouseover="show = true" @mouseleave="show = false"
+                                    class="p-3 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-600 transition-all duration-300 shadow-sm hover:shadow-md">
+                                    <i class="fas fa-file-archive text-xl"></i>
+                                </button>
+                                <div x-show="show"
+                                    class="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-sm rounded py-1.5 px-3 whitespace-nowrap">
+                                    Descargar todos los documentos (ZIP)
+                                </div>
+                            </div>
                         @endif
-
-
                     </div>
                 </div>
             </div>

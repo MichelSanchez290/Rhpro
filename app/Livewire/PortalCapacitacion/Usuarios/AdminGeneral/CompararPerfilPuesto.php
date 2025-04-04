@@ -20,7 +20,6 @@ class CompararPerfilPuesto extends Component
     public $puestos; // Lista de puestos disponibles
     public $detallePuesto; // Datos del puesto seleccionado
     public $perfil;
-
     public $userSeleccionado;
     public $users_id;
     public $perfilPuesto;
@@ -33,6 +32,28 @@ class CompararPerfilPuesto extends Component
             $perfilactual;
     public $habilidadesComparadas = [];
     public $mostrarTabla = false; // Inicialmente oculta la tabla
+    public $conclusionGuardada = false;
+
+    public $showOptions = false; // Controla la visibilidad de las opciones
+    
+    public function toggleOptions()
+    {
+        if (!$this->conclusionGuardada) {
+            session()->flash('error', 'Debes guardar la conclusión primero');
+            return;
+        }
+        
+        $this->showOptions = !$this->showOptions;
+    }
+    
+    public function redirectTo($type)
+    {
+        if ($type === 'individual') {
+            return redirect()->route('agregarCapacitacionesInd', Crypt::encrypt($this->userSeleccionado->id));
+        }
+        
+        return redirect()->route('verCapacitacionesGru');
+    }
 
     public function mount($id)
     {
@@ -65,6 +86,22 @@ class CompararPerfilPuesto extends Component
         $this->detallePuesto = null; // Inicialmente vacío
     }
 
+    
+    public function asignarCapacitacion($habilidadNombre)
+    {
+        $comparacion = ComparacionPuesto::where('competencias_requeridas', $habilidadNombre)
+            ->where('perfiles_puestos_id', $this->perfilactual->id)
+            ->where('puesto_nuevo', $this->detallePuesto->id)
+            ->first();
+
+        if ($comparacion && !$comparacion->capacitacion_asignada) {
+            $comparacion->asignarCapacitacion();
+            session()->flash('success', 'Capacitación asignada correctamente.');
+        } else {
+            session()->flash('error', 'No se pudo asignar la capacitación.');
+        }
+    }
+    
     public function generarConclusion()
     {
         if (!$this->perfilactual || !$this->detallePuesto) {
@@ -115,6 +152,7 @@ class CompararPerfilPuesto extends Component
         $this->mostrarTabla = true; // Ahora se muestra la tabla con todas las habilidades
     }
 
+
     public function guardarConclusion()
     {
         if (!$this->perfilactual || !$this->detallePuesto || empty($this->habilidadesComparadas)) {
@@ -132,12 +170,13 @@ class CompararPerfilPuesto extends Component
                 'diferencia' => $habilidad['diferencia'],
                 'puesto_nuevo' => $this->detallePuesto->id,
                 'perfiles_puestos_id' => $this->perfilactual->id,
+                'users_id' => $this->userSeleccionado->id,
             ]);
         }
 
+        $this->conclusionGuardada = true;
         session()->flash('success', 'Conclusión guardada exitosamente.');
     }
-
 
 
     public function updatedPerfil($puestoId)
@@ -154,7 +193,6 @@ class CompararPerfilPuesto extends Component
 
     public function render()
     {
-        return view('livewire.portal-capacitacion.usuarios.admin-general.comparar-perfil-puesto')
-            ->layout("layouts.portal_capacitacion");
+        return view('livewire.portal-capacitacion.usuarios.admin-general.comparar-perfil-puesto')->layout("layouts.portal_capacitacion");
     }
 }

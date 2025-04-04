@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Livewire\PortalCapacitacion\Capacitaciones\CapGrupales\Dc3ReconocimientosAdmin;
+namespace App\Livewire\PortalCapacitacion\Capacitaciones\CapIndividuales\Dc3ReconocimientosAdmin;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use App\Models\PortalCapacitacion\Dc3Reconocimiento;
+use App\Models\PortalCapacitacion\CapacitacionDocumento;
 use Illuminate\Support\Facades\Crypt;
 use ZipArchive;
 
-class VerArchivos extends Component
+class VerArchivosIndividuales extends Component
 {
     public $capacitaciones = [];
     use WithFileUploads;
@@ -18,18 +18,18 @@ class VerArchivos extends Component
     public function descargarArchivo($tipo, $id)
     {
         $capacitacionId = Crypt::decrypt($id);
-        $dc3Reconocimiento = Dc3Reconocimiento::where('grupocursos_capacitaciones_id', $capacitacionId)
+        $capacitacionDocumento = CapacitacionDocumento::where('caps_individuales_id', $capacitacionId)
             ->where(function($query) {
                 $query->whereNotNull('dc3')
                       ->orWhereNotNull('reconocimiento');
             })
             ->first();
 
-        if (!$dc3Reconocimiento) {
+        if (!$capacitacionDocumento) {
             abort(404, 'Archivo no encontrado');
         }
 
-        $archivoPath = $tipo === 'dc3' ? $dc3Reconocimiento->dc3 : $dc3Reconocimiento->reconocimiento;
+        $archivoPath = $tipo === 'dc3' ? $capacitacionDocumento->dc3 : $capacitacionDocumento->reconocimiento;
 
         if (!$archivoPath || !Storage::disk('public')->exists($archivoPath)) {
             abort(404, 'Archivo no disponible');
@@ -41,9 +41,8 @@ class VerArchivos extends Component
     public function descargarTodos($id)
     {
         $capacitacionId = Crypt::decrypt($id);
-        
-        // Obtener TODOS los registros, no solo el primero
-        $archivos = Dc3Reconocimiento::where('grupocursos_capacitaciones_id', $capacitacionId)
+
+        $archivos = CapacitacionDocumento::where('caps_individuales_id', $capacitacionId)
             ->where(function($query) {
                 $query->whereNotNull('dc3')
                       ->orWhereNotNull('reconocimiento');
@@ -99,10 +98,10 @@ class VerArchivos extends Component
 
     public function render()
     {
-        $dc3Reconocimientos = Dc3Reconocimiento::whereIn('grupocursos_capacitaciones_id', $this->capacitaciones->pluck('id'))->get();
+        $capacitacionDocumentos = CapacitacionDocumento::whereIn('caps_individuales_id', $this->capacitaciones->pluck('id'))->get();
 
-        return view('livewire.portal-capacitacion.capacitaciones.cap-grupales.dc3-reconocimientos-admins.ver-archivos', 
-            compact('dc3Reconocimientos'))
+        return view('livewire.portal-capacitacion.capacitaciones.cap-individuales.dc3-reconocimientos-admins.ver-archivos-ind', 
+            compact('capacitacionDocumentos'))
             ->layout("layouts.portal_capacitacion");
     }
 }

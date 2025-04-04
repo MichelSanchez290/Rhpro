@@ -8,14 +8,15 @@
     </div>
 
     <form wire:submit.prevent="asignarCapacitacion" class="space-y-6 mt-6">
-            <div>
-                <label class="block text-sm font-medium text-gray-700">📚 Nombre de la Capacitación</label>
-                <input type="text" wire:model="nombreCapacitacion"
-                    class="w-full p-3 mt-2 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-300">
-                @error('nombreCapacitacion')
-                    <span class="text-red-500 text-sm">{{ $message }}</span>
-                @enderror
-            </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700">📚 Nombre de la Capacitación</label>
+            <input type="text" wire:model="nombreCapacitacion"
+                class="w-full p-3 mt-2 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-300"
+                @if($competenciaRequerida) readonly @endif>
+            @error('nombreCapacitacion')
+                <span class="text-red-500 text-sm">{{ $message }}</span>
+            @enderror
+        </div>
 
             <!-- Fechas -->
             <div class="flex space-x-4">

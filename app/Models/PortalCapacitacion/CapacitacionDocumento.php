@@ -4,6 +4,7 @@ namespace App\Models\PortalCapacitacion;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\PortalCapacitacion\CapacitacionIndividual;
 
 class CapacitacionDocumento extends Model
 {
@@ -14,14 +15,14 @@ class CapacitacionDocumento extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'caps_individuales',
+        'caps_individuales_id',
         'tipo',
         'archivo'
     ];
 
     // Relación con la tabla de capacitaciones individuales
-    public function capacitacion()
+    public function capacitacionIndividual()
     {
-        return $this->belongsTo(CapacitacionIndividual::class, 'caps_individuales');
+        return $this->belongsTo(CapacitacionIndividual::class, 'caps_individuales_id');
     }
 }

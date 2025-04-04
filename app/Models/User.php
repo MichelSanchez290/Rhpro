@@ -21,6 +21,7 @@ use App\Models\PortalCapacitacion\PerfilPuesto;
 use App\Models\PortalCapacitacion\CapacitacionIndividual;
 use App\Models\PortalCapacitacion\GrupocursoCapacitacion;
 use App\Models\PortalCapacitacion\Participante;
+use App\Models\PortalCapacitacion\ComparacionPuesto;
 use App\Models\PortalRH\Becari;
 use App\Models\PortalRH\Becario;
 use App\Models\PortalRH\CambioSalario;
@@ -320,4 +321,10 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(CapacitacionIndividual::class, 'cap_individual_user', 'users_id', 'caps_individuales_id');
     }
+
+    public function comparacionesPuestos()
+    {
+        return $this->hasMany(ComparacionPuesto::class, 'users_id', 'puesto_nuevo');
+    }
+
 }

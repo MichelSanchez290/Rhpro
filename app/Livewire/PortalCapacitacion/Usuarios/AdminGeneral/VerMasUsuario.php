@@ -13,6 +13,8 @@ use App\Models\PortalCapacitacion\FormacionHabilidadTecnica;
 use App\Models\User;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use App\Models\PortalCapacitacion\ComparacionPuesto;
+use App\Models\PortalCapacitacion\GrupocursoCapacitacion;
 
 class VerMasUsuario extends Component
 {
@@ -26,14 +28,17 @@ class VerMasUsuario extends Component
             $habilidadesHumanas, 
             $habilidadesTecnicas,
             $perfilactual;
+    public $comparacionesPuesto;
+    public $competenciaSeleccionada;
+
+    protected $listeners = ['capacitacionRegistrada' => 'loadComparaciones'];
 
     public function mount($id)
     {
         $id = Crypt::decrypt($id);
-         $this->userSeleccionado = User::with('perfilesPuestos')->find($id);
-                
+        $this->userSeleccionado = User::with('perfilesPuestos')->find($id);       
         $this->perfilactual = null;
-            
+         
         foreach ($this->userSeleccionado->perfilesPuestos as $perfiles) {
             if ($perfiles->pivot->status === "1") {
                 $this->perfilactual = $perfiles;
@@ -57,23 +62,20 @@ class VerMasUsuario extends Component
             $this->habilidadesTecnicas = collect();
         }
             $this->users_id = $id;
-        }
-            
+    }
+
+    
+
+
 
     public function render()
     {
-        return view('livewire.portal-capacitacion.usuarios.admin-general.ver-mas-usuario')->layout("layouts.portal_capacitacion");
+        $comparacionesPuestos = ComparacionPuesto::where('users_id', $this->users_id)->get();
+    
+        return view('livewire.portal-capacitacion.usuarios.admin-general.ver-mas-usuario', [
+            'comparacionesPuestos' => $comparacionesPuestos,
+        ])->layout("layouts.portal_capacitacion");
     }
     
+    
 }
- 
-
-        
-        /*
-        $this->userSeleccionado=User::with(['perfilesPuestos' => function (Builder $query) {
-            $query->where('perfilesPuestos.pivot.status', 1);
-        }])->find($id);*/
-        
-        //$this->perfilPuesto = $this->userSeleccionado->perfilActual();
-        
-        

@@ -6,8 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\PortalCapacitacion\Curso;
 use App\Models\PortalCapacitacion\Evidencia;
-use App\Models\PortalCapacitacion\dc3Reconocimiento;
+use App\Models\PortalCapacitacion\Dc3Reconocimiento;
 use App\Models\User;
+use App\Models\PortalRH\Empresa;
+use App\Models\PortalRH\Sucursal;
 
 class GrupocursoCapacitacion extends Model
 {
@@ -33,6 +35,12 @@ class GrupocursoCapacitacion extends Model
         'ocupacion_especifica',
         'status'
     ];
+
+    public function dc3Reconocimientos()
+    {
+        return $this->hasMany(Dc3Reconocimiento::class, 'grupocursos_capacitaciones_id');
+    }
+    
 
     public function curso()
     {
@@ -72,11 +80,6 @@ class GrupocursoCapacitacion extends Model
             'participante_user',
             'users_id', 
             'grupocursos_capacitaciones_id');
-    }
-
-    public function dc3Reconocimientos()
-    {
-        return $this->hasOne(Dc3Reconocimiento::class, 'grupocursos_capacitaciones_id');
     }
 
 

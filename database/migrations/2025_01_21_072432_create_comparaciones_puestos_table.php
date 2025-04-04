@@ -18,17 +18,25 @@ return new class extends Migration
             $table->string('nivel_actual')->nullable();
             $table->string('nivel_nuevo')->nullable();
             $table->string('diferencia');
-            $table->integer('puesto_nuevo');
-
-            // Declarar la columna de la relación
+            $table->unsignedBigInteger('puesto_nuevo');
+            $table->foreign('puesto_nuevo')
+                ->references('id')
+                ->on('perfiles_puestos')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->unsignedBigInteger('perfiles_puestos_id');
-            
-            // Clave foránea correctamente definida
             $table->foreign('perfiles_puestos_id')
                 ->references('id')
                 ->on('perfiles_puestos')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
+            $table->boolean('capacitacion_asignada')->default(false);
+            $table->unsignedBigInteger('users_id');
+            $table->foreign('users_id')
+                    ->references('id')
+                    ->on( 'users')
+                    ->onUpdate('cascade')
+                    ->onDelete('cascade');
 
             $table->timestamps();
         });
@@ -41,6 +49,9 @@ return new class extends Migration
     {
         Schema::table('comparaciones_puestos', function (Blueprint $table) {
             $table->dropForeign(['perfiles_puestos_id']);
+        });
+        Schema::table('evaluciones', function (Blueprint $table){
+            $table->dropForeign(['users_id']);
         });
 
         Schema::dropIfExists('comparaciones_puestos');

@@ -13,64 +13,159 @@ class Dc3Reconocimientos extends Component
 {
     use WithFileUploads;
 
-    public $dc3;
-    public $reconocimiento;
     public $capacitacionId;
+    public $dc3 = [];
+    public $reconocimiento = [];
+    public $previewDc3 = [];
+    public $previewReconocimiento = [];
+    public $confirmingDeletion = false;
+    public $documentToDelete = null;
+    public $showSuccessAlert = false;
+
+    protected $rules = [
+        'dc3.*' => 'nullable|mimes:pdf',
+        'reconocimiento.*' => 'nullable|mimes:pdf',
+    ];
 
     public function mount($id)
     {
-        try {
-            $this->capacitacionId = Crypt::decrypt($id);
-        } catch (\Exception $e) {
-            abort(403, "ID de capacitación inválido.");
+        $this->capacitacionId = Crypt::decrypt($id);
+    }
+
+    public function updatedDc3()
+    {
+        $this->previewDc3 = [];
+        foreach ($this->dc3 as $file) {
+            $this->previewDc3[] = [
+                'name' => $file->getClientOriginalName(),
+                'size' => $this->formatBytes($file->getSize()),
+                'type' => $file->getClientMimeType()
+            ];
         }
+    }
+
+    public function updatedReconocimiento()
+    {
+        $this->previewReconocimiento = [];
+        foreach ($this->reconocimiento as $file) {
+            $this->previewReconocimiento[] = [
+                'name' => $file->getClientOriginalName(),
+                'size' => $this->formatBytes($file->getSize()),
+                'type' => $file->getClientMimeType()
+            ];
+        }
+    }
+
+    private function formatBytes($bytes, $precision = 2)
+    {
+        $units = ['B', 'KB', 'MB', 'GB'];
+        $bytes = max($bytes, 0);
+        $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
+        $pow = min($pow, count($units) - 1);
+        return round($bytes / pow(1024, $pow), $precision) . ' ' . $units[$pow];
+    }
+
+    public function removeDc3($index)
+    {
+        array_splice($this->dc3, $index, 1);
+        array_splice($this->previewDc3, $index, 1);
+    }
+
+    public function removeReconocimiento($index)
+    {
+        array_splice($this->reconocimiento, $index, 1);
+        array_splice($this->previewReconocimiento, $index, 1);
+    }
+
+    public function confirmDelete($id)
+    {
+        $this->confirmingDeletion = true;
+        $this->documentToDelete = $id;
+    }
+
+    public function deleteDocument()
+    {
+        $documento = Dc3Reconocimiento::find($this->documentToDelete);
+        
+        if ($documento->dc3 && Storage::disk('public')->exists($documento->dc3)) {
+            Storage::disk('public')->delete($documento->dc3);
+        }
+        
+        if ($documento->reconocimiento && Storage::disk('public')->exists($documento->reconocimiento)) {
+            Storage::disk('public')->delete($documento->reconocimiento);
+        }
+        
+        $documento->delete();
+        $this->confirmingDeletion = false;
+        $this->documentToDelete = null;
+        
+        $this->showSuccessAlert = true;
+        session()->flash('message', 'Documento eliminado correctamente.');
     }
 
     public function guardarArchivos()
     {
-        $this->validate([
-            'dc3' => 'nullable|mimes:pdf|max:2048',
-            'reconocimiento' => 'nullable|mimes:pdf|max:2048',
-        ]);
+        $this->validate();
 
-        $dc3Reconocimiento = Dc3Reconocimiento::create(
-            ['grupocursos_capacitaciones_id' => $this->capacitacionId]
-        );
+        $uploadCount = 0;
 
+        // Procesar DC3
         if ($this->dc3) {
-            if ($dc3Reconocimiento->dc3) {
-                Storage::disk('public')->delete($dc3Reconocimiento->dc3);
+            foreach ($this->dc3 as $dc3File) {
+                $documento = new Dc3Reconocimiento(['grupocursos_capacitaciones_id' => $this->capacitacionId]);
+                
+                $dc3Path = $dc3File->storeAs(
+                    'dc3', 
+                    $dc3File->getClientOriginalName(), 
+                    'public'
+                );
+                $documento->dc3 = $dc3Path;
+                $documento->save();
+                $uploadCount++;
             }
-            // Guardar con nombre original
-            $dc3Path = $this->dc3->storeAs(
-                'dc3', 
-                $this->dc3->getClientOriginalName(), 
-                'public'
-            );
-            $dc3Reconocimiento->dc3 = $dc3Path;
         }
 
+        // Procesar Reconocimientos
         if ($this->reconocimiento) {
-            if ($dc3Reconocimiento->reconocimiento) {
-                Storage::disk('public')->delete($dc3Reconocimiento->reconocimiento);
+            foreach ($this->reconocimiento as $reconocimientoFile) {
+                $documento = new Dc3Reconocimiento(['grupocursos_capacitaciones_id' => $this->capacitacionId]);
+                
+                $reconocimientoPath = $reconocimientoFile->storeAs(
+                    'reconocimientos', 
+                    $reconocimientoFile->getClientOriginalName(), 
+                    'public'
+                );
+                $documento->reconocimiento = $reconocimientoPath;
+                $documento->save();
+                $uploadCount++;
             }
-            // Guardar con nombre original
-            $reconocimientoPath = $this->reconocimiento->storeAs(
-                'reconocimientos', 
-                $this->reconocimiento->getClientOriginalName(), 
-                'public'
-            );
-            $dc3Reconocimiento->reconocimiento = $reconocimientoPath;
         }
 
-        $dc3Reconocimiento->save();
+        // Limpiar campos y mostrar alerta
+        $this->reset(['dc3', 'reconocimiento', 'previewDc3', 'previewReconocimiento']);
+        $this->showSuccessAlert = true;
+        
+        // Mensaje personalizado según cantidad de archivos subidos
+        if ($uploadCount === 1) {
+            session()->flash('message', '1 archivo subido correctamente.');
+        } else {
+            session()->flash('message', $uploadCount . ' archivos subidos correctamente.');
+        }
+    }
 
-        session()->flash('success', 'Archivos actualizados correctamente.');
+    public function closeAlert()
+    {
+        $this->showSuccessAlert = false;
     }
 
     public function render()
     {
-        return view('livewire.portal-capacitacion.capacitaciones.cap-grupales.dc3-reconocimiento-admins.dc3-reconocimientos')
-            ->layout("layouts.portal_capacitacion");
+        $documentos = Dc3Reconocimiento::where('grupocursos_capacitaciones_id', $this->capacitacionId)
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+        return view('livewire.portal-capacitacion.capacitaciones.cap-grupales.dc3-reconocimiento-admins.dc3-reconocimientos', [
+            'documentos' => $documentos
+        ])->layout("layouts.portal_capacitacion");
     }
 }

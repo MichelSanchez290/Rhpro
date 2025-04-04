@@ -19,12 +19,10 @@ class Dc3Reconocimiento extends Model
         'dc3',
         'reconocimiento',
     ];
-
-    /**
-     * Relación con `GrupoCursosCapacitaciones`
-     */
+    
     public function grupoCursoCapacitacion()
     {
-        return $this->hasMany(GrupocursoCapacitacion::class, 'grupocursos_capacitaciones_id');
+        return $this->belongsTo(GrupocursoCapacitacion::class, 'grupocursos_capacitaciones_id');
     }
+    
 }

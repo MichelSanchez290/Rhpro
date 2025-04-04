@@ -111,6 +111,7 @@ use App\Livewire\PortalCapacitacion\Cursos\Cursos\AdminSucursal\MostrarCursoSucu
 use App\Livewire\PortalCapacitacion\Cursos\Cursos\AdminSucursal\AgregarCursoSucursal;
 use App\Livewire\PortalCapacitacion\Cursos\Cursos\AdminSucursal\EditarCursoSucursal;
 use App\Livewire\PortalCapacitacion\Capacitaciones\CapIndividuales\AdminGeneral\MostrarCapacitaciones;
+use App\Livewire\PortalCapacitacion\Capacitaciones\CapIndividuales\AdminGeneral\VerCapacitacionEspecifica;
 use App\Livewire\PortalCapacitacion\Capacitaciones\CapIndividuales\AdminGeneral\AgregarCapacitaciones;
 use App\Livewire\PortalCapacitacion\Capacitaciones\CapIndividuales\AdminGeneral\EditarCapacitaciones;
 use App\Livewire\PortalCapacitacion\Capacitaciones\CapIndividuales\AdminEmpresa\MostrarCapacitacionesEmpresa;
@@ -156,6 +157,7 @@ use App\Livewire\PortalCapacitacion\Capacitaciones\CapGrupales\DC3GrupoControlle
 use App\Livewire\PortalCapacitacion\Capacitaciones\CapGrupales\Dc3ReconocimientosAdmin\Dc3Reconocimientos;
 use App\Livewire\PortalCapacitacion\Capacitaciones\CapGrupales\Dc3ReconocimientosAdmin\VerArchivos;
 use App\Livewire\PortalCapacitacion\Capacitaciones\CapIndividuales\Dc3ReconocimientosAdmin\SubirDocumentos;
+use App\Livewire\PortalCapacitacion\Capacitaciones\CapIndividuales\Dc3ReconocimientosAdmin\VerArchivosIndividuales;
 
 Route::get('/inicio', Inicio::class)->name('inicio-capacitacion');
 
@@ -313,7 +315,9 @@ Route::get('/editar-curso-sucursal/{id}', EditarCursoSucursal::class)->middlewar
 
 //Capacitaciones INDIVIDUALES
 Route::get('/ver-capacitaciones-ind/{id}', MostrarCapacitaciones::class)->middleware('can:Ver capacitaciones')->name('verCapacitacionesInd');
-Route::get('/agregar-capacitaciones-ind/{id}', AgregarCapacitaciones::class)->middleware('can:Agregar capacitaciones')->name('agregarCapacitacionesInd');
+Route::get('/ver-capacitacion/{user_id}/{competencia}', VerCapacitacionEspecifica::class)
+    ->name('verCapacitacionEspecifica');
+Route::get('/agregar-capacitaciones-ind/{id}/{competencia?}', AgregarCapacitaciones::class)->middleware('can:Agregar capacitaciones')->name('agregarCapacitacionesInd');
 Route::get('/editar-capacitaciones-ind/{id}', EditarCapacitaciones::class)->middleware('can:Editar capacitaciones')->name('editarCapacitacionesInd');
 //--------------------------------------------------------------------------------------------------------
 Route::get('/ver-capacitaciones-ind-empresa/{id}', MostrarCapacitacionesEmpresa::class)->middleware('can:Ver capacitaciones Empresa')->name('verCapacitacionesIndEmpresa');
@@ -329,7 +333,9 @@ Route::get('/ver-capacitaciones-ind-trabajador/{id}', MostrarCapacitacionesTraba
 //Capacitaciones GRUPALES
 Route::get('/ver-capacitaciones-gru', MostrarCapacitacionesGrupales::class)->middleware('can:Ver capacitaciones')->name('verCapacitacionesGru');
 Route::get('/ver-capacitaciones-gru-general/{id}', MostrarCapacitacionesGrupalesGeneral::class)->name('verCapacitacionesGruGeneral');
-Route::get('/agregar-capacitaciones-gru', AgregarCapacitacionesGrupales::class)->middleware('can:Agregar capacitaciones')->name('agregarCapacitacionesGru');
+Route::get('/agregar-capacitaciones-gru/{id?}/{competencia?}/{comparacionId?}', AgregarCapacitacionesGrupales::class)
+    ->middleware('can:Agregar capacitaciones')
+    ->name('agregarCapacitacionesGru');
 Route::get('/editar-capacitaciones-gru/{id}', EditarCapacitacionesGrupales::class)->middleware('can:Editar capacitaciones')->name('editarCapacitacionesGru');
 //------------------------------------------------------------------------------------------------------------------------------------
 Route::get('/ver-capacitaciones-gru-empresa', MostrarCapacitacionesGrupalesEmpresa::class)->middleware('can:Ver capacitaciones Empresa')->name('verCapacitacionesGruEmpresa');
@@ -379,10 +385,12 @@ Route::get('/descargar/dc3/grupal/{id}', [DC3GrupoController::class, 'descargar'
 
 //Subir dc3 y reconocimiento
 Route::get('/subir-dc3-reconocimiento/{id}', Dc3Reconocimientos::class)->name('subir.dc3.reconocimiento');
-Route::get('/descargar-archivo/{tipo}/{id}', [VerArchivos::class, 'descargarArchivo'])
-    ->name('descargar.archivo');
+Route::get('/descargar-todos/{id}', [VerArchivos::class, 'descargarTodos'])
+    ->name('descargar.todos');
 
 //subir dc3 y reconocimiento individual
 Route::get('/subir-documentos/{id}', SubirDocumentos::class)->name('subir.documentos');
+Route::get('/descargar-todos-ind/{id}', [VerArchivosIndividuales::class, 'descargarTodos'])
+    ->name('descargar.todos.ind');
 
 

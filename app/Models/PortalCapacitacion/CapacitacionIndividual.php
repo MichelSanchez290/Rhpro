@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\PortalCapacitacion\Curso;
 use App\Models\PortalCapacitacion\Evidencia;
+use App\Models\PortalCapacitacion\CapacitacionDocumento;
 use App\Models\User;
 
 class CapacitacionIndividual extends Model
@@ -37,5 +38,8 @@ class CapacitacionIndividual extends Model
         return $this->belongsToMany(User::class, 'cap_individual_user', 'caps_individuales_id', 'users_id');
     }
 
-
+    public function capacitacionDocumento()
+    {
+        return $this->hasMany(CapacitacionDocumento::class, 'caps_individuales_id');
+    }
 }
