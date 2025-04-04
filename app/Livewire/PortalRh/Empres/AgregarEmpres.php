@@ -9,7 +9,7 @@ use Livewire\WithFileUploads;
 class AgregarEmpres extends Component
 {
     use WithFileUploads;
-    public $empresa = [], $pdfConstancia; //almacenar 
+    public $empresa = [], $pdfConstancia, $subirLogo; //almacenar 
 
     // Reglas de validación
     protected $rules = [
@@ -19,7 +19,8 @@ class AgregarEmpres extends Component
         'empresa.nombre_comercial' => 'required',
         'empresa.pais_origen' => 'required',
         'empresa.representante_legal' => 'required',
-        'pdfConstancia' => 'required|file',
+        'subirLogo' => 'required|image|mimes:png,jpg,jpeg|max:2048', // 2MB máximo
+        'pdfConstancia' => 'required|file|mimes:pdf|max:5120', // 5MB máximo
     ];
 
     protected $messages = [
@@ -32,8 +33,14 @@ class AgregarEmpres extends Component
         'empresa.nombre_comercial.required' => 'El nombre comercial es obligatorio.',
         'empresa.pais_origen.required' => 'El país de origen es obligatorio.',
         'empresa.representante_legal.required' => 'El representante legal es obligatorio.',
+
         'pdfConstancia.required' => 'El archivo es requerido, solo formato PDF.',
-        'pdfConstancia.file' => 'Adjunta un archivo en formato PDF.',
+        'subirLogo.required' => 'El logo es requerido, por favor cargue una imagen',
+        'subirLogo.image' => 'El archivo debe ser una imagen válida',
+        'subirLogo.mimes' => 'El logo debe ser en formato PNG, JPG o JPEG',
+        'subirLogo.max' => 'La imagen del logo no debe pesar más de 2MB',
+        'pdfConstancia.mimes' => 'El archivo debe ser un PDF válido',
+        'pdfConstancia.max' => 'El PDF no debe pesar más de 5MB',
     ];
     
 
@@ -44,11 +51,15 @@ class AgregarEmpres extends Component
         $this->pdfConstancia->storeAs('PortalRH/Empresas', $this->empresa['nombre'].".pdf", 'subirDocs');
         $this->empresa['url_constancia_situacion_fiscal'] = "PortalRH/Empresas/" . $this->empresa['nombre'] .".pdf";
 
+        $this->subirLogo->storeAs('PortalRH/EmpresaLogos', $this->empresa['nombre']."-logo.png", 'subirDocs');
+        $this->empresa['logo'] = "PortalRH/EmpresaLogos/" . $this->empresa['nombre'] ."-logo.png";
+
         $nuevaEmpresa = new Empresa($this->empresa);
         $nuevaEmpresa->save();
 
         $this->empresa = [];
         $this->pdfConstancia=NULL;
+        $this->subirLogo=NULL;
 
         session()->flash('message', 'Empresa Agregada.');
     }

@@ -17,7 +17,7 @@ class Empresa extends Model
     protected $primaryKey = 'id';
 
     //especifica las columnas
-    protected $fillable = ['id', 'nombre', 'razon_social', 'rfc', 'nombre_comercial', 'pais_origen', 'representante_legal', 'url_constancia_situacion_fiscal'];
+    protected $fillable = ['id', 'nombre', 'razon_social', 'rfc', 'nombre_comercial', 'pais_origen', 'representante_legal', 'url_constancia_situacion_fiscal', 'logo'];
 
     public function sucursales()
     {

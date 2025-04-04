@@ -45,7 +45,7 @@
                         </button>
                     </div>
                 @endif
-    
+
             </div>
         </div>
 
@@ -121,41 +121,80 @@
                 <x-input-error for="empresa.representante_legal" />
             </div>
 
-            <!-- URL Constancia -->
-            <div class="flex flex-col items-center mt-5">
-                <label for="pdfConstancia" class="uppercase text-lg md:text-xl text-gray-600 font-semibold mb-4">
-                    Constancia Situación Fiscal
-                </label>
+            <div class="flex flex-col md:flex-row gap-5 mt-5">
+                <!-- URL Constancia -->
+                <div class="flex flex-col items-center w-full md:w-1/2">
+                    <label for="pdfConstancia" class="uppercase text-lg md:text-xl text-gray-600 font-semibold mb-4">
+                        Constancia Situación Fiscal
+                    </label>
 
-                <!-- Área de carga de archivos -->
-                <div class="mx-auto cursor-pointer flex w-full max-w-lg flex-col items-center rounded-xl border-2 border-dashed border-blue-400 bg-white p-6 text-center"
-                    onclick="document.getElementById('fileInput').click()" ondragover="event.preventDefault()"
-                    ondrop="handleDrop(event)">
+                    <!-- Área de carga de archivos -->
+                    <div class="mx-auto cursor-pointer flex w-full max-w-lg flex-col items-center rounded-xl border-2 border-dashed border-blue-400 bg-white p-6 text-center"
+                        onclick="document.getElementById('fileInput').click()" ondragover="event.preventDefault()"
+                        ondrop="handleDrop(event)">
 
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-blue-500" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                    </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-blue-500" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                        </svg>
 
-                    <h2 class="mt-4 text-xl font-medium text-gray-700 tracking-wide">Adjuntar archivo</h2>
-                    <p class="mt-2 text-gray-500 tracking-wide">Seleccione o arrastre su archivo aquí</p>
+                        <h2 class="mt-4 text-xl font-medium text-gray-700 tracking-wide">Adjuntar archivo</h2>
+                        <p class="mt-2 text-gray-500 tracking-wide">Seleccione o arrastre su archivo aquí</p>
 
-                    <!-- Input oculto, activado al hacer clic -->
-                    <input type="file" id="fileInput" class="hidden" wire:model.defer="pdfConstancia"
-                        accept=".pdf" />
+                        <!-- Input oculto, activado al hacer clic -->
+                        <input type="file" id="fileInput" class="hidden" wire:model.defer="pdfConstancia"
+                            accept=".pdf" />
 
-                    <br>
+                        <br>
 
-                    @if ($pdfConstancia)
-                        <img src="{{ asset('img/pdf_icon.jpeg') }}" alt="PDF Icon" width="100" height="100">
-                    @endif
+                        @if ($pdfConstancia)
+                            <img src="{{ asset('img/pdf_icon.jpeg') }}" alt="PDF Icon" width="100"
+                                height="100">
+                        @endif
+                    </div>
+
+                    <!-- Mensaje de error -->
+                    <x-input-error for="pdfConstancia" class="text-red-600 text-sm mt-2" />
                 </div>
 
-                <!-- Mensaje de error -->
-                <x-input-error for="pdfConstancia" class="text-red-600 text-sm mt-2" />
-            </div>
+                <!-- Logo de la empresa -->
+                <div class="flex flex-col items-center w-full md:w-1/2">
+                    <label for="subirLogo" class="uppercase text-lg md:text-xl text-gray-600 font-semibold mb-4">
+                        Logo de la empresa
+                    </label>
 
+                    <!-- Área de carga de archivos -->
+                    <div class="mx-auto cursor-pointer flex w-full max-w-lg flex-col items-center rounded-xl border-2 border-dashed border-green-400 bg-white p-6 text-center"
+                        onclick="document.getElementById('logoInput').click()" ondragover="event.preventDefault()"
+                        ondrop="handleDropTwo(event)">
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-green-500" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                        </svg>
+
+                        <h2 class="mt-4 text-xl font-medium text-gray-700 tracking-wide">Adjuntar archivo PNG o JPG
+                        </h2>
+                        <p class="mt-2 text-gray-500 tracking-wide">Seleccione o arrastre su archivo aquí</p>
+
+                        <!-- Input oculto, activado al hacer clic -->
+                        <input type="file" id="logoInput" class="hidden" wire:model="subirLogo"
+                            accept=".png,.jpg,.jpeg" />
+
+                        <br>
+
+                        @if ($subirLogo)
+                            <img src="{{ $subirLogo->temporaryUrl() }}" width="100" height="100"
+                                alt="Logo de la empresa" class="mt-2">
+                        @endif
+                    </div>
+
+                    <!-- Mensaje de error -->
+                    <x-input-error for="subirLogo" class="text-red-600 text-sm mt-2" />
+                </div>
+            </div>
 
             <!-- Botones -->
             <div class='flex items-center justify-center md:gap-8 gap-4 pt-5 pb-5'>
@@ -181,6 +220,15 @@
         if (event.dataTransfer.files.length > 0) {
             fileInput.files = event.dataTransfer.files;
             fileInput.dispatchEvent(new Event('change')); // Dispara el evento de cambio
+        }
+    }
+
+    function handleDropTwo(event) {
+        event.preventDefault();
+        const logoInput = document.getElementById('logoInput');
+        if (event.dataTransfer.files.length > 0) {
+            logoInput.files = event.dataTransfer.files;
+            logoInput.dispatchEvent(new Event('change')); // Dispara el evento de cambio
         }
     }
 </script>

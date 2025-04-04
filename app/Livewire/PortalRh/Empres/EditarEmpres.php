@@ -12,7 +12,7 @@ class EditarEmpres extends Component
 {
     use WithFileUploads;
     public $empres_id, $nombre, $razon_social, $rfc, $nombre_comercial, $pais_origen, $representante_legal, 
-    $url_constancia_situacion_fiscal, $subirPdf;
+    $url_constancia_situacion_fiscal, $logo, $subirPdf, $subirImg;
 
     public function mount($id)
     {
@@ -27,6 +27,7 @@ class EditarEmpres extends Component
         $this->pais_origen = $tem->pais_origen;
         $this->representante_legal = $tem->representante_legal;
         $this->url_constancia_situacion_fiscal = $tem->url_constancia_situacion_fiscal;
+        $this->logo = $tem->logo;
     }
 
     public function actualizarEmpresa()
@@ -39,6 +40,7 @@ class EditarEmpres extends Component
             'pais_origen' => 'required',
             'representante_legal' => 'required',
             'subirPdf' => 'nullable|file|mimes:pdf',
+            'subirImg' => 'nullable|file|mimes:png,jpg,jpeg',
         ]);
 
         // si se subio un nuevo archivo PDF
@@ -53,6 +55,17 @@ class EditarEmpres extends Component
             $this->url_constancia_situacion_fiscal = "PortalRH/Empresas/" . $this->nombre . ".pdf";
         }
 
+        if ($this->subirImg) {
+            // eliminar el archivo PDF anterior si existe
+            if ($this->logo && Storage::disk('subirDocs')->exists($this->logo)) {
+                Storage::disk('subirDocs')->delete($this->logo);
+            }
+
+            // guardar el nuevo archivo PDF
+            $this->subirImg->storeAs('PortalRH/EmpresaLogos', $this->nombre . "-logo.png", 'subirDocs');
+            $this->logo = "PortalRH/EmpresaLogos/" . $this->nombre . "-logo.png";
+        }
+
         Empresa::updateOrCreate(['id' => $this->empres_id], [
             'nombre' => $this->nombre,
             'razon_social' => $this->razon_social,
@@ -61,6 +74,7 @@ class EditarEmpres extends Component
             'pais_origen' => $this->pais_origen,
             'representante_legal' => $this->representante_legal,
             'url_constancia_situacion_fiscal' => $this->url_constancia_situacion_fiscal,
+            'logo' => $this->logo
         ]);
 
         session()->flash('message', 'Empresa Actualizada.');
