@@ -19,7 +19,7 @@ class AgregarEmpres extends Component
         'empresa.nombre_comercial' => 'required',
         'empresa.pais_origen' => 'required',
         'empresa.representante_legal' => 'required',
-        'subirLogo' => 'required|image|mimes:png,jpg,jpeg|max:2048', // 2MB máximo
+        'subirLogo' => 'required|image|mimes:png,jpg,jpeg|max:900', // 900KB máximo
         'pdfConstancia' => 'required|file|mimes:pdf|max:5120', // 5MB máximo
     ];
 
@@ -38,7 +38,7 @@ class AgregarEmpres extends Component
         'subirLogo.required' => 'El logo es requerido, por favor cargue una imagen',
         'subirLogo.image' => 'El archivo debe ser una imagen válida',
         'subirLogo.mimes' => 'El logo debe ser en formato PNG, JPG o JPEG',
-        'subirLogo.max' => 'La imagen del logo no debe pesar más de 2MB',
+        'subirLogo.max' => 'La imagen del logo no debe pesar más de 900KB',
         'pdfConstancia.mimes' => 'El archivo debe ser un PDF válido',
         'pdfConstancia.max' => 'El PDF no debe pesar más de 5MB',
     ];

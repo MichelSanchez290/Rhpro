@@ -39,8 +39,8 @@ class EditarEmpres extends Component
             'nombre_comercial' => 'required',
             'pais_origen' => 'required',
             'representante_legal' => 'required',
-            'subirPdf' => 'nullable|file|mimes:pdf',
-            'subirImg' => 'nullable|file|mimes:png,jpg,jpeg',
+            'subirPdf' => 'nullable|file|mimes:pdf|max:5120', //5MB
+            'subirImg' => 'nullable|file|mimes:png,jpg,jpeg|max:900', // 900KB máximo'
         ]);
 
         // si se subio un nuevo archivo PDF
