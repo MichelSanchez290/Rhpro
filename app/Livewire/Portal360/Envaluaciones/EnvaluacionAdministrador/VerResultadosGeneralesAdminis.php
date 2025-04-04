@@ -2,10 +2,13 @@
 
 namespace App\Livewire\Portal360\Envaluaciones\EnvaluacionAdministrador;
 
+use App\Exports\ResultadosGeneralesExport;
 use App\Models\Encuestas360\Asignacion;
 use App\Models\PortalRH\EmpresaSucursal;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
 
 class VerResultadosGeneralesAdminis extends Component
 {
@@ -16,12 +19,13 @@ class VerResultadosGeneralesAdminis extends Component
     public $empresaNombre;
     public $sucursalNombre;
     public $calificadoNombre;
+    public $encuestaNombre; // Nueva propiedad
     public $resultados = [];
     public $encuestaCompleta = false;
 
     protected $listeners = ['calificado-changed' => 'updateResults'];
 
-public function mount($sucursalId, $calificadoId)
+    public function mount($sucursalId, $calificadoId)
 {
     $this->sucursalId = $sucursalId;
     $this->calificadoId = $calificadoId;
@@ -29,10 +33,14 @@ public function mount($sucursalId, $calificadoId)
     $empresaSucursal = EmpresaSucursal::with(['empresa', 'sucursal'])
         ->where('id', $this->sucursalId)
         ->firstOrFail();
-        
+    
     $this->empresaNombre = $empresaSucursal->empresa->nombre ?? 'No especificado';
     $this->sucursalNombre = $empresaSucursal->sucursal->nombre_sucursal ?? 'No especificado';
-    
+
+    // Obtener el nombre de la encuesta desde la asignación
+    $asignacion = Asignacion::where('calificado_id', $this->calificadoId)->first();
+    $this->encuestaNombre = $asignacion->encuesta->nombre ?? 'Encuesta sin nombre'; // Cambiar a "encuesta"
+
     $this->updateResults();
 }
 
@@ -257,12 +265,42 @@ public function mount($sucursalId, $calificadoId)
         return $resultadosPorPreguntaTexto;
     }
 
+    public function exportarPDF()
+    {
+        $pdf = Pdf::loadView('livewire.portal360.envaluaciones.envaluacion-administrador.resultados-generales-admin-pdf', [
+            'resultados' => $this->resultados,
+            'calificadoNombre' => $this->calificadoNombre,
+            'empresaNombre' => $this->empresaNombre,
+            'sucursalNombre' => $this->sucursalNombre,
+           'encuestaNombre' => $this->encuestaNombre, // Ya está incluido
+        ]);
+
+        return response()->streamDownload(
+            fn() => print($pdf->output()),
+            'resultados_generales_' . $this->calificadoNombre . '.pdf'
+        );
+    }
+
+    public function exportarExcel()
+    {
+        $export = new ResultadosGeneralesExport(
+            $this->resultados,
+            $this->calificadoNombre,
+            $this->empresaNombre,
+            $this->sucursalNombre,
+            $this->encuestaNombre // Pasar el nombre de la encuesta
+        );
+
+        return Excel::download($export, 'resultados_generales_' . $this->calificadoNombre . '.xlsx');
+    }
+
     public function render()
     {
         return view('livewire.portal360.envaluaciones.envaluacion-administrador.ver-resultados-generales-adminis', [
             'resultados' => $this->resultados,
             'encuestaCompleta' => $this->encuestaCompleta,
             'calificadoNombre' => $this->calificadoNombre,
+            'encuestaNombre' => $this->encuestaNombre, // Pasar a la vista
         ])->layout('layouts.portal360');
     }
 }

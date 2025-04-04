@@ -42,24 +42,23 @@ class MostrarSucursalesAdministradorResultadosvs extends Component
         $this->selectedCalificadoId = $this->calificados->first()->id ?? null;
     }
 
-    // Método para reaccionar al cambio de selectedCalificadoId
     public function updatedSelectedCalificadoId($value)
     {
-        // Ensure the results table is shown when a new user is selected
         $this->mostrarTablaGenerales = true;
-
-        // Dispatch an event to notify the child component
+        $this->mostrarTablaUsuarios = false; // Cierra la otra tabla
         $this->dispatch('calificado-changed', $value);
     }
 
     public function resultadosGeneralesPorUsuario()
     {
         $this->mostrarTablaUsuarios = true;
+        $this->mostrarTablaGenerales = false; // Cierra la tabla de resultados generales
     }
 
     public function resultadosGenerales()
     {
         $this->mostrarTablaGenerales = true;
+        $this->mostrarTablaUsuarios = false; // Cierra la tabla de resultados por usuario
     }
 
     public function ocultarTabla()
@@ -67,7 +66,6 @@ class MostrarSucursalesAdministradorResultadosvs extends Component
         $this->mostrarTablaUsuarios = false;
         $this->mostrarTablaGenerales = false;
     }
-    
     public function render()
     {
         return view('livewire.portal360.resultados.administrador-resultados.mostrar-sucursales-administrador-resultadosvs')->layout('layouts.portal360');

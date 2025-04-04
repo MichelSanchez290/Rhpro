@@ -84,7 +84,8 @@
         <!-- Encabezado -->
         <div class="header">
             <h1 class="title">RESULTADOS EVALUACIÓN 360 - ADMINISTRADOR</h1>
-            <p class="subtitle">{{ $calificadoNombre }}</p>
+            <p class="subtitle">Envaluacion: {{ $calificadoNombre }}</p>
+            <p class="subtitle">{{ $encuestaNombre }}</p>
             <p class="subtitle">Evaluado por: {{ $calificadorNombre }}</p>
             <p class="subtitle">{{ $empresaNombre }} - {{ $sucursalNombre }}</p>
             <p class="subtitle">{{ $departamentoNombre }} - {{ $puestoNombre }}</p>

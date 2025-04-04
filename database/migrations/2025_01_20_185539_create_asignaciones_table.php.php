@@ -39,11 +39,6 @@ return new class extends Migration
                   ->on('360_encuestas')
                   ->onUpdate('cascade')
                   ->onDelete('cascade');
-            // $table->unsignedBigInteger('empresa_sucursal_id')
-            //         ->nullable()->after('360_encuestas_id'); // Agrega la columna
-            // $table->foreign('empresa_sucursal_id')
-            //         ->references('id')->on('empresa_sucursals')
-            //         ->onDelete('set null');
             $table->timestamps();
         });
     }

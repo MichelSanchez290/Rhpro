@@ -92,27 +92,21 @@ final class MostrarPreguntasAdministradorTable extends PowerGridComponent
             Column::make('Pregunta', 'texto')
                 ->sortable()
                 ->searchable(),
-
             Column::make('Descripción', 'descripcion')
                 ->sortable()
                 ->searchable(),
-
             Column::make('Respuesta', 'respuesta_texto')
                 ->sortable()
                 ->searchable(),
-
             Column::make('Puntuación', 'puntuacion')
                 ->sortable()
                 ->searchable(),
-
             Column::make('Empresa', 'empresa_nombre')
                 ->sortable()
                 ->searchable(),
-
             Column::make('Sucursal', 'sucursal_nombre')
                 ->sortable()
                 ->searchable(),
-
             Column::action('Action')
         ];
     }

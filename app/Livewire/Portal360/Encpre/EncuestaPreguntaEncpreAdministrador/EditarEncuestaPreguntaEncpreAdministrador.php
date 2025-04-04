@@ -26,6 +26,7 @@ class EditarEncuestaPreguntaEncpreAdministrador extends Component
     public $encuestas = [];
     public $preguntas = [];
     public $sucursales = [];
+    public $busquedaPreguntas = ''; // Added for search functionality
 
     protected $rules = [
         'formData.encuestas_id' => 'required|exists:360_encuestas,id',
@@ -79,12 +80,12 @@ class EditarEncuestaPreguntaEncpreAdministrador extends Component
 
             // Cargar todas las preguntas disponibles para la empresa
             $this->preguntas = Pregunta::whereHas('respuestas', function ($query) {
-                $query->where('empresa_id', $this->formData['empresa_id']);
+                $query->where('empresa_id', $this->formData['empresa_id'])
+                    ->where('sucursal_id', $this->formData['sucursal_id']);
             })
                 ->select('id', 'texto')
                 ->distinct()
                 ->get();
-
         } catch (\Exception $e) {
             Log::error('Error loading data: ' . $e->getMessage());
             session()->flash('error', 'Error al cargar los datos: ' . $e->getMessage());
@@ -94,66 +95,109 @@ class EditarEncuestaPreguntaEncpreAdministrador extends Component
 
     public function updatedFormDataEmpresaId($value)
     {
-        $this->formData['sucursal_id'] = '';
+        // Reemplazar reset() con asignaciones directas
         $this->formData['encuestas_id'] = '';
         $this->formData['preguntas_id'] = [];
-        
-        $this->sucursales = collect();
-        $this->encuestas = collect();
-        $this->preguntas = collect();
+        $this->formData['sucursal_id'] = '';
 
         if (!empty($value)) {
             try {
                 $empresa = Empresa::with('sucursales')->findOrFail($value);
                 $this->sucursales = $empresa->sucursales;
-                
-                $this->preguntas = Pregunta::whereHas('respuestas', function ($query) use ($value) {
-                    $query->where('empresa_id', $value);
-                })
-                    ->select('id', 'texto')
-                    ->distinct()
+                $this->encuestas = Encuesta360::where('empresa_id', $value)
+                    ->select('id', 'nombre')
                     ->get();
             } catch (\Exception $e) {
-                Log::error('Error loading sucursales: ' . $e->getMessage());
-                $this->dispatch('toastr-error', message: 'Error al cargar sucursales');
+                Log::error('Error loading sucursales/encuestas: ' . $e->getMessage());
+                $this->dispatch('toastr-error', message: 'Error al cargar datos: ' . $e->getMessage());
+                $this->sucursales = collect();
+                $this->encuestas = collect();
             }
+        } else {
+            $this->sucursales = collect();
+            $this->encuestas = collect();
         }
+        $this->preguntas = collect();
     }
 
-    public function updatedFormDataSucursalId($value)
+    public function updatedFormDataSucursalId()
     {
+        // Reemplazar reset() con asignaciones directas
         $this->formData['encuestas_id'] = '';
         $this->formData['preguntas_id'] = [];
-        $this->encuestas = collect();
 
-        if (!empty($value) && !empty($this->formData['empresa_id'])) {
+        if (!empty($this->formData['empresa_id']) && !empty($this->formData['sucursal_id'])) {
             try {
                 $this->encuestas = Encuesta360::where('empresa_id', $this->formData['empresa_id'])
-                    ->where('sucursal_id', $value)
+                    ->where('sucursal_id', $this->formData['sucursal_id'])
                     ->select('id', 'nombre')
                     ->get();
             } catch (\Exception $e) {
                 Log::error('Error loading encuestas: ' . $e->getMessage());
-                $this->dispatch('toastr-error', message: 'Error al cargar encuestas');
+                $this->dispatch('toastr-error', message: 'Error al cargar encuestas: ' . $e->getMessage());
+                $this->encuestas = collect();
             }
+        } else {
+            $this->encuestas = collect();
+        }
+        $this->preguntas = collect();
+    }
+
+    public function updatedFormDataEncuestasId()
+    {
+        $this->formData['preguntas_id'] = [];
+        if (!empty($this->formData['empresa_id']) && !empty($this->formData['sucursal_id']) && !empty($this->formData['encuestas_id'])) {
+            try {
+                // Cargar preguntas asociadas a esta encuesta
+                $this->preguntas = Pregunta::whereHas('respuestas', function ($query) {
+                    $query->where('empresa_id', $this->formData['empresa_id'])
+                        ->where('sucursal_id', $this->formData['sucursal_id']);
+                })
+                    ->select('id', 'texto')
+                    ->distinct()
+                    ->get();
+
+                // Cargar las preguntas ya asociadas
+                $this->formData['preguntas_id'] = Encpre::where('encuestas_id', $this->formData['encuestas_id'])
+                    ->pluck('preguntas_id')
+                    ->toArray();
+            } catch (\Exception $e) {
+                Log::error('Error loading preguntas: ' . $e->getMessage());
+                $this->dispatch('toastr-error', message: 'Error al cargar preguntas: ' . $e->getMessage());
+                $this->preguntas = collect();
+            }
+        } else {
+            $this->preguntas = collect();
         }
     }
 
-    public function updatedFormDataEncuestasId($value)
+    // Agregar métodos para seleccionar/deseleccionar todas las preguntas
+    public function seleccionarTodasPreguntas()
+    {
+        if (!empty($this->preguntas) && !$this->preguntas->isEmpty()) {
+            $this->formData['preguntas_id'] = $this->preguntas->pluck('id')->toArray();
+        }
+    }
+
+    public function deseleccionarTodasPreguntas()
     {
         $this->formData['preguntas_id'] = [];
+    }
 
-        if (!empty($value)) {
-            try {
-                // Cargar preguntas asociadas a esta encuesta
-                $existingPreguntas = Encpre::where('encuestas_id', $value)
-                    ->pluck('preguntas_id')
-                    ->toArray();
-                $this->formData['preguntas_id'] = $existingPreguntas;
-            } catch (\Exception $e) {
-                Log::error('Error loading preguntas: ' . $e->getMessage());
-                $this->dispatch('toastr-error', message: 'Error al cargar preguntas');
-            }
+    // Agregar método para la búsqueda de preguntas
+    public function updatedBusquedaPreguntas()
+    {
+        if (!empty($this->formData['empresa_id']) && !empty($this->formData['sucursal_id']) && !empty($this->formData['encuestas_id'])) {
+            $this->preguntas = Pregunta::whereHas('respuestas', function ($query) {
+                $query->where('empresa_id', $this->formData['empresa_id'])
+                    ->where('sucursal_id', $this->formData['sucursal_id']);
+            })
+                ->where('texto', 'like', '%' . $this->busquedaPreguntas . '%')
+                ->select('id', 'texto')
+                ->distinct()
+                ->get();
+        } else {
+            $this->preguntas = collect();
         }
     }
 
@@ -180,6 +224,7 @@ class EditarEncuestaPreguntaEncpreAdministrador extends Component
             $this->dispatch('toastr-error', message: 'Error al actualizar: ' . $e->getMessage());
         }
     }
+
     public function render()
     {
         return view('livewire.portal360.encpre.encuesta-pregunta-encpre-administrador.editar-encuesta-pregunta-encpre-administrador')->layout('layouts.portal360');

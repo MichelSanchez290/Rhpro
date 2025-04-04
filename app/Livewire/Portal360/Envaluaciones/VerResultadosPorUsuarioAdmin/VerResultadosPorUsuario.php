@@ -2,12 +2,14 @@
 
 namespace App\Livewire\Portal360\Envaluaciones\VerResultadosPorUsuarioAdmin;
 
+use App\Exports\ResultadosPorUsuarioExport;
 use App\Models\Encuestas360\Asignacion;
 use App\Models\Encuestas360\RespuestaUsuario;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
+use Maatwebsite\Excel\Facades\Excel;
 
 class VerResultadosPorUsuario extends Component
 {
@@ -21,6 +23,7 @@ class VerResultadosPorUsuario extends Component
     public string $sucursalNombre = '';
     public string $departamentoNombre = '';
     public string $puestoNombre = '';
+    public string $encuestaNombre = ''; // Nueva propiedad
     public bool $realizada = false;
     public array $datosGrafica = [];    
     public $chartBase64 = null;
@@ -46,7 +49,7 @@ class VerResultadosPorUsuario extends Component
     private function loadAsignacionData(): void
     {
         $asignacion = Asignacion::where('id', $this->asignacionId)
-            ->with(['calificador.empresa', 'calificado.sucursal', 'calificado.departamento', 'calificado.puesto'])
+            ->with(['calificador.empresa', 'calificado.sucursal', 'calificado.departamento', 'calificado.puesto', 'encuesta'])
             ->firstOrFail();
 
         $this->calificadorNombre = $asignacion->calificador->name;
@@ -55,9 +58,9 @@ class VerResultadosPorUsuario extends Component
         $this->sucursalNombre = $asignacion->calificado->sucursal->nombre_sucursal ?? 'No especificada';
         $this->departamentoNombre = $asignacion->calificado->departamento->nombre_departamento ?? 'No especificada';
         $this->puestoNombre = $asignacion->calificado->puesto->nombre_puesto ?? 'No especificado';
+        $this->encuestaNombre = $asignacion->encuesta->nombre ?? 'Encuesta sin nombre'; // Cargar el nombre de la encuesta
         $this->realizada = $asignacion->realizada;
     }
-
     private function calcularPromedioFinal(): void
     {
         $respuestas = RespuestaUsuario::where('asignaciones_id', $this->asignacionId)
@@ -336,6 +339,7 @@ class VerResultadosPorUsuario extends Component
             'sucursalNombre' => $this->sucursalNombre,
             'departamentoNombre' => $this->departamentoNombre,
             'puestoNombre' => $this->puestoNombre,
+            'encuestaNombre' => $this->encuestaNombre,
             'realizada' => $this->realizada,
             'datosGrafica' => $this->datosGrafica,
             'chartBase64' => $this->chartBase64,
@@ -355,6 +359,29 @@ class VerResultadosPorUsuario extends Component
             'resultados_evaluacion_360_' . $this->calificadoNombre . '.pdf'
         );
     }
+
+    public function exportarExcel()
+    {
+        $data = [
+            'promedioFinal' => $this->promedioFinal,
+            'resultadoFinal' => $this->resultadoFinal,
+            'calificadorNombre' => $this->calificadorNombre,
+            'calificadoNombre' => $this->calificadoNombre,
+            'empresaNombre' => $this->empresaNombre,
+            'sucursalNombre' => $this->sucursalNombre,
+            'departamentoNombre' => $this->departamentoNombre,
+            'puestoNombre' => $this->puestoNombre,
+            'encuestaNombre' => $this->encuestaNombre,
+            'realizada' => $this->realizada,
+            'datosTabla' => $this->datosTabla,
+        ];
+
+        return Excel::download(
+            new ResultadosPorUsuarioExport($data),
+            'resultados_evaluacion_360_' . $this->calificadoNombre . '.xlsx'
+        );
+    }
+
     public function render()
     {
         return view('livewire.portal360.envaluaciones.ver-resultados-por-usuario-admin.ver-resultados-por-usuario')->layout('layouts.portal360');

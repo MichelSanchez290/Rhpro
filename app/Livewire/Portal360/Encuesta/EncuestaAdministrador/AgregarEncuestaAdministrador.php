@@ -65,7 +65,6 @@ class AgregarEncuestaAdministrador extends Component
             $this->encuesta['sucursal_id'] = '';
         }
     }
-
     public function updatedEncuestaSucursalId($value)
     {
         if (!empty($value)) {

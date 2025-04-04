@@ -2,11 +2,8 @@
 
 namespace App\Models\Encuestas360;
 
-use App\Models\PortalRH\Empres;
 use App\Models\PortalRH\Empresa;
 use App\Models\PortalRH\EmpresaSucursal;
-use App\Models\PortalRH\EmpresSucursal;
-use App\Models\PortalRH\RegistPatronal;
 use App\Models\PortalRH\Sucursal;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -41,29 +38,22 @@ class Asignacion extends Model
     {
         return $this->belongsTo(User::class);
     }
-
     public function users()
     {
         return $this->belongsTo(User::class);
     }
-
     public function relacion()
     {
         return $this->belongsTo(Relacion::class, 'relaciones_id');
     }
-
     public function encuesta()
     {
         return $this->belongsTo(Encuesta360::class, '360_encuestas_id', 'id');
     }
-
-
     public function empresaSucursal()
     {
         return $this->belongsTo(EmpresaSucursal::class, 'empresa_sucursal_id');
     }
-
-    
 
     public function sucursal()
     {
@@ -71,19 +61,15 @@ class Asignacion extends Model
     }
 
     public function empresa()
-{
-    return $this->belongsTo(Empresa::class, 'empresa_id');
-}
-
+    {
+        return $this->belongsTo(Empresa::class, 'empresa_id');
+    }
     public function respuestasUsuario()
     {
         return $this->hasMany(RespuestaUsuario::class, 'asignaciones_id');
     }
-
     public function respuestas()
     {
         return $this->hasMany(RespuestaUsuario::class, 'asignaciones_id');
     }
 }
-
-

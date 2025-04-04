@@ -251,7 +251,7 @@ Route::get('/eliminar-compromiso-empresa', [MostrarCompromisoEmpresa::class, 'de
 Route::get('/mostrar-resultadosjefe', MostrarResultadosjefe::class)->name('portal360.resultados.jefe-resultados.mostrar-resultadosjefe');
 Route::get('/ver-resultados-por-usuario/{asignacionId}', VerResultadosPorUsuario::class)->name('portal360.envaluaciones.ver-resultados-por-usuario-admin.ver-resultados-por-usuario');
 
-Route::get('/mostrar-datos-administrador', MostrarDatosAdministrador::class)->name('portal360.datos.datos-administrador.mostrar-datos-administrador');
-Route::get('/agregar-datos-administrador', AgregarDatosAdministrador::class)->name('agregarDatosAdministrador');
-Route::get('/editar-datos-administrador/{id}', EditarDatosAdministrador::class)->name('editarDatosAdministrador');
-Route::get('/eliminar-datos-administrador', [MostrarDatosAdministrador::class, 'deleteDatosAdministrador'])->name('eliminarDatosAdministrador');
+// Route::get('/mostrar-datos-administrador', MostrarDatosAdministrador::class)->name('portal360.datos.datos-administrador.mostrar-datos-administrador');
+// Route::get('/agregar-datos-administrador', AgregarDatosAdministrador::class)->name('agregarDatosAdministrador');
+// Route::get('/editar-datos-administrador/{id}', EditarDatosAdministrador::class)->name('editarDatosAdministrador');
+// Route::get('/eliminar-datos-administrador', [MostrarDatosAdministrador::class, 'deleteDatosAdministrador'])->name('eliminarDatosAdministrador');

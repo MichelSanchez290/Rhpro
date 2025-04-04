@@ -89,7 +89,7 @@ final class CompromisoAdministradorTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Created at', 'created_at')
+            Column::make('Fecha', 'created_at')
                 ->sortable()
                 ->searchable(),
 

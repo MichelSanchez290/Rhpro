@@ -5,6 +5,7 @@
             <h2 class="text-3xl font-bold text-gray-900" style="font-family: Arial, sans-serif;">RESULTADOS EVALUACIÓN 360 - ADMINISTRADOR</h2>
             <p class="text-lg font-semibold mt-4 text-gray-800" style="font-family: Arial, sans-serif; line-height: 1.5;">{{ $calificadoNombre }}</p>
             <p class="text-sm text-gray-600" style="font-family: Arial, sans-serif; line-height: 1.5;">Evaluado por: {{ $calificadorNombre }}</p>
+            <p class="text-sm text-gray-600" style="font-family: Arial, sans-serif; line-height: 1.5;">Envaluacion: {{ $encuestaNombre }}</p>
             <p class="text-sm text-gray-600" style="font-family: Arial, sans-serif; line-height: 1.5;">{{ $empresaNombre }} - {{ $sucursalNombre }}</p>
             <p class="text-sm text-gray-600" style="font-family: Arial, sans-serif; line-height: 1.5;">{{ $departamentoNombre }} - {{ $puestoNombre }}</p>
         </div>
@@ -148,6 +149,10 @@
                 <button wire:click="exportarPDF" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
                     Exportar a PDF
                 </button>
+                <button wire:click="exportarExcel" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
+                    Exportar a Excel
+                </button>
+
             </div>
         @endif
     </div>
