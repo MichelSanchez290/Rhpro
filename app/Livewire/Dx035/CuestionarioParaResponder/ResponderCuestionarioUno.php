@@ -17,17 +17,21 @@ use App\Models\PortalRH\SucursalDepartamento;
 use App\Models\PortalRH\EmpresSucursal;
 use App\Models\PortalRH\Departamento;
 
+use App\Livewire\Dx035\Encuestas\MostrarEncuestas;
+
 class ResponderCuestionarioUno extends Component
 {
 
     public $currentStep = 0; // Nuevo paso 0 para datos personales
     public $nombre, $apellidoPaterno, $apellidoMaterno, $sexo, $edad, $estadoCivil, $estudios, $ocupacion, $departamento, $tipoPuesto, $contratacion, $tipoPersonal, $jornadaTrabajo, $rotacionTurnos, $experiencia, $tiempoPuesto;
 
-    public $sinFormacion;
     public $estudiosPrimaria;
     public $estudiosSecundaria;
 
+    public $sinFormacion = false;
+
     public $departamentos = [];
+    public $diagnostico;
 
     public $encuesta;
     public $preguntas;
@@ -63,7 +67,22 @@ class ResponderCuestionarioUno extends Component
     // Método para guardar los datos personales
     public function saveDatosPersonales()
     {
-        $this->validate();
+        $this->nombre = "Juan";
+        $this->apellidoPaterno = "Pérez";
+        $this->apellidoMaterno = "Gómez";
+        $this->sexo = "Masculino";
+        $this->edad = "30-34";
+        $this->estadoCivil = "Casado";
+        $this->estudios = "Licenciatura";
+        $this->ocupacion = "Ingeniero";
+        $this->departamento = "TI";
+        $this->tipoPuesto = "Profesional o técnico";
+        $this->contratacion = "Tiempo indeterminado";
+        $this->tipoPersonal = "Confianza";
+        $this->jornadaTrabajo = "Fijo Diurno (entre las 6:00 y 20:00 hrs)";
+        $this->rotacionTurnos = "No";
+        $this->experiencia = "Entre 5 y 9 años";
+        $this->tiempoPuesto = "Entre 5 y 9 años";
 
         // Crear un nuevo registro en la tabla dato_trabajadores
         $datoTrabajador = DatoTrabajador::create([
@@ -94,28 +113,46 @@ class ResponderCuestionarioUno extends Component
         $this->currentStep++;
     }
 
+    private function limpiarDatos($dato)
+    {
+        if (is_array($dato)) {
+            return array_map([$this, 'limpiarDatos'], $dato);
+        }
+
+        // Elimina caracteres no válidos
+        $dato = preg_replace('/[^\x20-\x7E]/', '', $dato);
+
+        // Convierte a UTF-8 si no lo está
+        if (!mb_check_encoding($dato, 'UTF-8')) {
+            $dato = mb_convert_encoding($dato, 'UTF-8', 'auto');
+        }
+
+        return $dato;
+    }
+
+
     private function calcularAvance()
     {
         // Obtener el número total de encuestas
         $totalEncuestas = $this->encuesta->NumeroEncuestas;
-    
+
         // Obtener el número de respuestas guardadas en la base de datos
         $respuestasGuardadas = Respuesta::whereHas('datoTrabajador', function ($query) {
             $query->where('encuestas_id', $this->encuesta->id);
         })->count();
-    
+
         // Obtener el número de respuestas en progreso
         $respuestasEnProgreso = count(array_filter($this->respuestas, function ($respuesta) {
             return !is_null($respuesta);
         }));
-    
+
         // Calcular el avance
         if ($totalEncuestas > 0) {
             $avance = (($respuestasGuardadas + $respuestasEnProgreso) / $totalEncuestas) * 100;
         } else {
             $avance = 0; // Evitar división por cero
         }
-    
+
         return round($avance, 2); // Redondear a 2 decimales
     }
 
@@ -123,21 +160,21 @@ class ResponderCuestionarioUno extends Component
     {
         // Cargar la encuesta
         $this->encuesta = Encuesta::where('Clave', $key)->firstOrFail();
-    
+
         // Obtener los IDs de los cuestionarios seleccionados
         $cuestionariosIds = $this->encuesta->cuestionarios->pluck('id')->toArray();
-    
+
         // Asignar el cuestionarioId (asumiendo que el primer cuestionario es el 1)
         $this->cuestionarioId = $cuestionariosIds[0] ?? null;
-    
+
         // Cargar las preguntas de los cuestionarios seleccionados
         $this->preguntas = PreguntaBase::whereIn('cuestionarios_id', $cuestionariosIds)->get();
-    
+
         // Recuperar respuestas de la sesión si existen
         $this->respuestas = Session::get('respuestas_' . $this->encuesta->id, []);
 
          // Obtener los departamentos desde la base de datos
-        $this->departamentos = Departamento::all(); 
+        $this->departamentos = Departamento::all();
 
         $this->calcularAvance();
     }
@@ -146,10 +183,10 @@ class ResponderCuestionarioUno extends Component
     {
         // Guardar las respuestas en la sesión
         Session::put('respuestas_' . $this->encuesta->id, $this->respuestas);
-    
+
         // Recalcular el avance
         $this->avance = $this->calcularAvance();
-    
+
         // Lógica adicional para mostrar/ocultar secciones (solo para cuestionario 1)
         if ($this->cuestionarioId == 1) {
             // Obtener las preguntas de la Sección I
@@ -157,13 +194,13 @@ class ResponderCuestionarioUno extends Component
                 ->where('Seccion', 'Acontecimiento traumático severo')
                 ->pluck('id')
                 ->toArray();
-    
+
             // Filtrar las respuestas de la Sección I
             $respuestasSeccionI = array_intersect_key($this->respuestas, array_flip($seccionI));
-    
+
             // Mostrar secciones adicionales si alguna respuesta en la Sección I es "Sí"
             $this->mostrarSeccionesAdicionales = in_array(1, $respuestasSeccionI);
-    
+
             // Determinar si el trabajador requiere atención clínica
             if ($this->mostrarSeccionesAdicionales) {
                 // Obtener las preguntas de las secciones II, III y IV
@@ -171,27 +208,27 @@ class ResponderCuestionarioUno extends Component
                     ->where('Seccion', 'Recuerdos persistentes sobre el acontecimiento')
                     ->pluck('id')
                     ->toArray();
-    
+
                 $seccionIII = $this->preguntas
                     ->where('Seccion', 'Esfuerzo por evitar circunstancias parecidas o asociadas al acontecimiento')
                     ->pluck('id')
                     ->toArray();
-    
+
                 $seccionIV = $this->preguntas
                     ->where('Seccion', 'Afectación')
                     ->pluck('id')
                     ->toArray();
-    
+
                 // Filtrar las respuestas de las secciones II, III y IV
                 $respuestasSeccionII = array_intersect_key($this->respuestas, array_flip($seccionII));
                 $respuestasSeccionIII = array_intersect_key($this->respuestas, array_flip($seccionIII));
                 $respuestasSeccionIV = array_intersect_key($this->respuestas, array_flip($seccionIV));
-    
+
                 // Determinar si el trabajador requiere atención clínica
                 $requiereAtencionClinica = in_array(1, $respuestasSeccionII) || // Al menos una respuesta "Sí" en Sección II
                     count(array_filter($respuestasSeccionIII, fn($respuesta) => $respuesta == 1)) >= 3 || // Tres o más respuestas "Sí" en Sección III
                     count(array_filter($respuestasSeccionIV, fn($respuesta) => $respuesta == 1)) >= 2; // Dos o más respuestas "Sí" en Sección IV
-    
+
                 // Guardar el resultado para usarlo en el envío
                 $this->requiereAtencionClinica = $requiereAtencionClinica;
             }
@@ -226,7 +263,7 @@ class ResponderCuestionarioUno extends Component
             'experiencia' => 'nullable|string|max:45',
             'tiempoPuesto' => 'nullable|string|max:45',
         ]);
-        
+
 
         // Calcular el avance
         $this->avance = $this->calcularAvance();
@@ -259,7 +296,7 @@ class ResponderCuestionarioUno extends Component
             if (!PreguntaBase::where('id', $preguntaId)->exists()) {
                 continue;
             }
-        
+
             Respuesta::create([
                 'ValorRespuesta' => $respuesta,
                 'preguntasbases_id' => $preguntaId,
@@ -332,18 +369,18 @@ class ResponderCuestionarioUno extends Component
                 ->where('Seccion', 'Acontecimiento traumático severo')
                 ->pluck('id')
                 ->toArray();
-    
+
             $respuestasSeccionI = array_intersect_key($this->respuestas, array_flip($seccionI));
-    
+
             $this->mostrarSeccionesAdicionales = in_array(1, $respuestasSeccionI);
-    
+
             if (!$this->mostrarSeccionesAdicionales) {
                 // Saltar directamente al siguiente paso si no se necesitan las secciones adicionales
                 $this->currentStep = 3; // Ajusta este valor según tu flujo de pasos
                 return;
             }
         }
-    
+
         $this->currentStep++;
     }
 

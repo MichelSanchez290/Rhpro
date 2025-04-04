@@ -39,7 +39,7 @@ class AgregarEncuesta extends Component
 
     public $mensajemostrar;
 
-    public $Actividades, $sucursalDepartamentoId;
+    public $Actividades, $sucursalDepartamentoId,$sucursalDepartamento;
     public $FechaInicio, $FechaFinal, $numtrabajadores;
     public $logo;
 
@@ -71,11 +71,12 @@ class AgregarEncuesta extends Component
         $this->validate();
 
         // Obtener la relación sucursal-departamento
-        $sucursalDepartamento = SucursalDepartamento::where('sucursal_id', $this->sucursal)
+        $this->sucursalDepartamento = SucursalDepartamento::where('sucursal_id', $this->sucursal)
             ->where('departamento_id', $this->departamento)
             ->first();
+            //d($sucursalDepartamento);
 
-        if (!$sucursalDepartamento) {
+        if (!$this->sucursalDepartamento) {
             session()->flash('error', 'No se encontró la relación sucursal-departamento.');
             return;
         }
@@ -89,17 +90,20 @@ class AgregarEncuesta extends Component
             $rutaLogo = $this->logo->store('logos', 'public');
         }
 
+        // Determinar el estado de la encuesta
+        $estado = (strtotime($this->FechaFinal) < strtotime(now())) ? 0 : 1; // 0 = Cerrado, 1 = Activo
+
         // Crear la encuesta
         $encuesta = Encuesta::create([
             'Clave' => $clave,
-            'Empresa' => Empresa::find($this->empresa)->nombre, // Guardar el nombre de la empresa
+            'Empresa' => Empresa::find($this->empresa)->nombre,
             'Actividades' => $this->Actividades,
-            'sucursal_departament_id' => $sucursalDepartamento->id, // Asignar el ID de la relación sucursal-departamento
+            'sucursal_departament_id' => $this->sucursalDepartamento->id,
             'FechaInicio' => $this->FechaInicio,
             'FechaFinal' => $this->FechaFinal,
             'NumeroEncuestas' => $this->numtrabajadores,
             'RutaLogo' => $rutaLogo,
-            'Estado' => 1,
+            'Estado' => $estado, // Estado se establece automáticamente
         ]);
 
         // Obtener los IDs de los cuestionarios seleccionados

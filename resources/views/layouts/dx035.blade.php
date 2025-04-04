@@ -9,11 +9,10 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <!-- FontAwesome CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js"></script>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Tailwind CSS -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -93,12 +92,23 @@
         .alert-button:hover {
             background-color: #2563eb;
         }
+
+        /* Sombreado personalizado para el sidebar derecho */
+        .sidebar-shadow {
+            box-shadow: 4px 0 6px -1px rgba(0, 0, 0, 0.1), 2px 0 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        /* Prevenir scroll horizontal */
+        html, body {
+            overflow-x: hidden;
+            width: 100%;
+        }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
 
-    <!-- Header -->
-    <header class="bg-white text-gray-900 shadow-xl mb-4">
+    <!-- Header con sombreado mejorado -->
+    <header class="bg-white shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-1px_rgba(0,0,0,0.06)]">
         <div class="container mx-auto flex justify-between items-center p-4">
             <div class="flex items-center">
                 <!-- Logo -->
@@ -112,6 +122,7 @@
                     {{ Auth::user()->name ?? 'Usuario' }}
                 </div>
                 <a href="{{ route('logout') }}" class="bg-blue-500 text-white px-6 py-2 rounded-full text-sm font-medium hover:bg-blue-600 transition-all transform hover:scale-105"
+                
                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     Cerrar sesión
                 </a>
@@ -123,9 +134,9 @@
     </header>
 
     <!-- Layout Principal -->
-    <div class="flex">
-        <!-- Sidebar -->
-        <nav class="bg-white w-80 min-h-screen shadow-lg border-r hover:bg-blue-50 transition-all -mt-4">
+    <div class="flex overflow-hidden">
+        <!-- Sidebar con sombreado derecho -->
+        <nav class="bg-white w-80 sidebar-shadow border-r hover:bg-blue-50 transition-all flex-shrink-0">
             <div class="p-6">
                 <h1 class="text-2xl font-bold text-blue-600 mb-6 whitespace-nowrap">Panel de Administración</h1>
                 <ul class="space-y-4">
@@ -138,114 +149,123 @@
                 </ul>
 
                 <!-- Sección de Encuestas -->
-                <h2 class="text-lg font-bold text-gray-700 mt-8">Encuestas</h2>
-                <ul class="space-y-4 mt-4">
-                    <!-- GoldenAdmin puede ver todo -->
-                    @can('Ver todas las encuestas')
-                    <li>
-                        <a href="{{ route('encuesta.create') }}" class="flex items-center text-gray-600 hover:text-blue-600 transition-all hover:scale-105">
-                            <span class="material-icons mr-3">add_circle</span>
-                            Crear Encuesta
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('encuesta.index') }}" class="flex items-center text-gray-600 hover:text-blue-600 transition-all hover:scale-105">
-                            <span class="material-icons mr-3">list</span>
-                            Listar Encuestas
-                        </a>
-                    </li>
-                    @endcan
+                @unless (Auth::user()->hasRole('Trabajador NOM035'))
+                    <h2 class="text-lg font-bold text-gray-700 mt-8">Encuestas</h2>
+                    <ul class="space-y-4 mt-4">
+                        <!-- GoldenAdmin puede ver todo -->
+                        @can('Ver todas las encuestas')
+                        <li>
+                            <a href="{{ route('encuesta.create') }}" class="flex items-center text-gray-600 hover:text-blue-600 transition-all hover:scale-105">
+                                <span class="material-icons mr-3">add_circle</span>
+                                Crear Encuesta
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('encuesta.index') }}" class="flex items-center text-gray-600 hover:text-blue-600 transition-all hover:scale-105">
+                                <span class="material-icons mr-3">list</span>
+                                Listar Encuestas
+                            </a>
+                        </li>
+                        @endcan
 
-                    @can('Ver encuestas de la empresa')
-                    <li>
-                        <a href="{{ route('encuesta.index') }}" class="flex items-center text-gray-600 hover:text-blue-600 transition-all hover:scale-105">
-                            <span class="material-icons mr-3">list</span>
-                            Encuestas de mi empresa
-                        </a>
-                    </li>
-                    @endcan
+                        @can('Ver encuestas de la empresa')
+                        <li>
+                            <a href="{{ route('encuesta.index') }}" class="flex items-center text-gray-600 hover:text-blue-600 transition-all hover:scale-105">
+                                <span class="material-icons mr-3">list</span>
+                                Encuestas de mi empresa
+                            </a>
+                        </li>
+                        @endcan
 
-                    <!-- SucursalAdmin solo puede ver encuestas de su sucursal -->
-                    @can('Ver encuestas de la sucursal')
-                    <li>
-                        <a href="{{ route('encuesta.sucursal') }}" class="flex items-center text-gray-600 hover:text-blue-600 transition-all hover:scale-105">
-                            <span class="material-icons mr-3">list</span>
-                            Encuestas de mi sucursal
-                        </a>
-                    </li>
-                    @endcan
-                </ul>
+                        <!-- SucursalAdmin solo puede ver encuestas de su sucursal -->
+                        @can('Ver encuestas de la sucursal')
+                        <li>
+                            <a href="{{ route('encuesta.sucursal') }}" class="flex items-center text-gray-600 hover:text-blue-600 transition-all hover:scale-105">
+                                <span class="material-icons mr-3">list</span>
+                                Encuestas de mi sucursal
+                            </a>
+                        </li>
+                        @endcan
+                    </ul>
+                @endunless
 
                 <!-- Sección de Usuarios -->
-                <h2 class="text-lg font-bold text-gray-700 mt-8">Usuarios</h2>
-                <ul class="space-y-4 mt-4">
-                    <li>
-                        <a href="{{ route('usuarios') }}" class="flex items-center text-gray-600 hover:text-blue-600 transition-all hover:scale-105">
-                            <span class="material-icons mr-3">group</span>
-                            Lista de Usuarios
-                        </a>
-                    </li>
-                </ul>
-
+                    <h2 class="text-lg font-bold text-gray-700 mt-8">Usuarios</h2>
+                    <ul class="space-y-4 mt-4">
+                        <li>
+                            <a href="{{ route('usuarios') }}" class="flex items-center text-gray-600 hover:text-blue-600 transition-all hover:scale-105">
+                                <span class="material-icons mr-3">group</span>
+                                Lista de Usuarios
+                            </a>
+                        </li>
+                    </ul>
 
                 <!-- Sección de Roles -->
-                <!-- @can('Ver todas las encuestas') -->
-                <h2 class="text-lg font-bold text-gray-700 mt-8">Roles</h2>
-                <ul class="space-y-4 mt-4">
-                    <li>
-                        <a href="{{ route('mostrarrol') }}" class="flex items-center text-gray-600 hover:text-blue-600 transition-all hover:scale-105">
-                            <span class="material-icons mr-3">manage_accounts</span>
-                            Gestión de Roles
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('asignarroluser', ['id' => Crypt::encrypt(auth()->id())]) }}" class="flex items-center text-gray-600 hover:text-blue-600 transition-all hover:scale-105">
-                            <span class="material-icons mr-3">assignment_ind</span>
-                            Asignar Roles
-                        </a>
-                    </li>
-                </ul>
-                <!-- @endcan -->
+                @unless (Auth::user()->hasRole('Trabajador NOM035'))
+                    @can('Ver todas las encuestas')
+                    <h2 class="text-lg font-bold text-gray-700 mt-8">Roles</h2>
+                    <ul class="space-y-4 mt-4">
+                        <li>
+                            <a href="{{ route('mostrarrol') }}" class="flex items-center text-gray-600 hover:text-blue-600 transition-all hover:scale-105">
+                                <span class="material-icons mr-3">manage_accounts</span>
+                                Gestión de Roles
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('asignarroluser', ['id' => Crypt::encrypt(auth()->id())]) }}" class="flex items-center text-gray-600 hover:text-blue-600 transition-all hover:scale-105">
+                                <span class="material-icons mr-3">assignment_ind</span>
+                                Asignar Roles
+                            </a>
+                        </li>
+                    </ul>
+                    @endcan
+                @endunless
 
-
-                <!-- Sección de Cuestionarios (Actualizada con las nuevas rutas) -->
-                <h2 class="text-lg font-bold text-gray-700 mt-8">Cuestionarios</h2>
-                <ul class="space-y-4 mt-4">
-                    <li>
-                        <a href="{{ route('preguntas.agregar') }}" class="flex items-center text-gray-600 hover:text-blue-600 transition-all hover:scale-105">
-                            <span class="material-icons mr-3">add_circle</span>
-                            Agregar Pregunta Base
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('preguntas.mostrar') }}" class="flex items-center text-gray-600 hover:text-blue-600 transition-all hover:scale-105">
-                            <span class="material-icons mr-3">list</span>
-                            Listar Preguntas Base
-                        </a>
-                    </li>
-                </ul>
+                <!-- Sección de Cuestionarios -->
+                @unless (Auth::user()->hasRole('Trabajador NOM035'))
+                @unless (Auth::user()->hasRole('EmpresaAdmin'))
+                @unless (Auth::user()->hasRole('SucursalAdmin'))
+                    <h2 class="text-lg font-bold text-gray-700 mt-8">Cuestionarios</h2>
+                    <ul class="space-y-4 mt-4">
+                        <li>
+                            <a href="{{ route('preguntas.agregar') }}" class="flex items-center text-gray-600 hover:text-blue-600 transition-all hover:scale-105">
+                                <span class="material-icons mr-3">add_circle</span>
+                                Agregar Pregunta Base
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('preguntas.mostrar') }}" class="flex items-center text-gray-600 hover:text-blue-600 transition-all hover:scale-105">
+                                <span class="material-icons mr-3">list</span>
+                                Listar Preguntas Base
+                            </a>
+                        </li>
+                    </ul>
+                @endunless
+                @endunless
+                @endunless
 
                 <!-- Sección de Encuestas -->
-                <h2 class="text-lg font-bold text-gray-700 mt-8">Encuestas</h2>
-                <ul class="space-y-4 mt-4">
-                    <li>
-                        <form action="{{ route('responder-cuestionario') }}" method="GET" class="flex items-center">
-                            <input type="text" name="encuesta_clave" placeholder="Ingresar clave" class="border rounded-lg p-2" required>
-                            <button type="submit" class="ml-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Ir</button>
-                        </form>
-                    </li>
-                </ul>
-
+                @unless (Auth::user()->hasRole('Trabajador NOM035'))
+                    <h2 class="text-lg font-bold text-gray-700 mt-8">Encuestas</h2>
+                    <ul class="space-y-4 mt-4">
+                        <li>
+                            <form action="{{ route('responder-cuestionario') }}" method="GET" class="flex items-center">
+                                <input type="text" name="encuesta_clave" placeholder="Ingresar clave" class="border rounded-lg p-2" required>
+                                <button type="submit" class="ml-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Ir</button>
+                            </form>
+                        </li>
+                    </ul>
+                @endunless
             </div>
 
-            <footer class="p-4 border-t mt-auto text-sm text-gray-500 bg-gray-200">
+            <footer class="p-4 border-t text-sm text-gray-500 bg-gray-200">
                 <p>Ingresaste como: {{ Auth::user()->name ?? 'Usuario' }}</p>
                 <p class="mt-2">© {{ date('Y') }} Dx035</p>
             </footer>
         </nav>
 
         <!-- Contenido Principal -->
-        <main class="flex-1 p-8 bg-gray-100">
+        <main class="flex-1 p-4 md:p-8 bg-gray-100 overflow-y-auto">
             {{ $slot }}
         </main>
     </div>

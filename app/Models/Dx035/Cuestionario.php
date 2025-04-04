@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Cuestionario extends Model
 {
     use HasFactory;
-
+    protected $table = 'cuestionarios';
     protected $fillable = ['Nombre', 'giasreferencias_id'];
 
     // Relación con PreguntaBase
