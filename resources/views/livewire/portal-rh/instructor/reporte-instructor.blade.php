@@ -173,5 +173,50 @@
         @endforeach
     </div>
 
-    
+    <h2 class="section-title">Retardos</h2>
+    <div class="grid-container">
+        @foreach ($retardos as $retardo)
+            <div class="card">
+                <img src="{{ asset('img/cesrh.jpeg') }}" alt="Background">
+                <p><strong>Motivo:</strong> {{ $retardo->motivo }}</p>
+                <p><strong>Fecha:</strong> {{ $retardo->fecha }}</p>
+                <p><strong>Hora programada: </strong> {{ $retardo->hora_entrada_programada }}</p>
+                <p><strong>Hora entrada real: </strong> {{ $retardo->hora_entrada_real }}</p>
+                <p><strong>Minutos de retardo: </strong> {{ $retardo->minutos_retardo }}</p>
+            </div> <br>
+        @endforeach
+    </div>
+
+    <h2 class="section-title">Cambios de salario</h2>
+    <div class="grid-container">
+        @foreach ($cambio_salarios as $cambio_salario)
+            <div class="card">
+                <img src="{{ asset('img/cesrh.jpeg') }}" alt="Background">
+                <p><strong>Motivo:</strong> {{ $cambio_salario->motivo }}</p>
+                <p><strong>Fecha:</strong> {{ $cambio_salario->fecha_cambio }}</p>
+                <p><strong>Salario anterior: </strong> {{ $cambio_salario->salario_anterior }}</p>
+                <p><strong>Salario nuevo: </strong> {{ $cambio_salario->salario_nuevo }}</p>
+            </div> <br>
+        @endforeach
+    </div>
+
+    <h2 class="section-title">Créditos Infonavit</h2>
+    <div class="grid-container">
+        @if ($infonavit_creditos->isEmpty())
+            <div class="p-6 text-center text-gray-600">
+                <p>Sin créditos infonavit actualmente</p>
+            </div>
+        @else
+            @foreach ($infonavit_creditos as $credito)
+                <div class="card">
+                    <img src="{{ asset('img/cesrh.jpeg') }}" alt="Background">
+                    <p><strong>Tipo de movimiento:</strong> {{ $credito->tipo_movimiento }}</p>
+                    <p><strong>Número de crédito:</strong> {{ $credito->numero_credito }}</p>
+                    <p><strong>Fecha: </strong> {{ $credito->fecha_movimiento }}</p>
+                    <p><strong>Tipo de descuento: </strong> {{ $credito->tipo_descuento }}</p>
+                    <p><strong>Valor de descuento: </strong> {{ $credito->valor_descuento }}</p>
+                </div> <br>
+            @endforeach
+        @endif
+    </div>
 </div>

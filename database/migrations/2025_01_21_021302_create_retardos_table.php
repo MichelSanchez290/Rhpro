@@ -19,8 +19,6 @@ return new class extends Migration
             $table->string('minutos_retardo', 45);
             $table->string('motivo', 255);
             $table->string('status', 45);
-
-            
             $table->timestamps();
         });
     }

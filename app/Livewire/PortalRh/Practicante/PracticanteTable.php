@@ -33,8 +33,27 @@ final class PracticanteTable extends PowerGridComponent
             PowerGrid::footer()
                 ->showPerPage()
                 ->showRecordCount(),
-            PowerGrid::exportable(fileName: 'practicantes') 
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+            PowerGrid::exportable(fileName: 'Practicantes') 
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV)
+                ->striped('CCEBFF')
+                ->columnWidth([
+                    2 => 20,
+                    3 => 30,
+                    4 => 50,
+                    5 => 40,
+                    6 => 40,
+                    7 => 40,
+                    8 => 40,
+                    9 => 20,
+                    10 => 20,
+                    11 => 20,
+                    12 => 20,
+                    13 => 40,
+                    15 => 30,
+                    16 => 20,
+                    17 => 20,
+                    18 => 30,
+                ]),
         ];
     }
 
@@ -43,29 +62,62 @@ final class PracticanteTable extends PowerGridComponent
         $user = Auth::user();
 
         $query = Practicante::query()
+        ->with([
+            'user', 
+            'user.empresa',    // Singular (como está definido en User)
+            'user.sucursal',
+            'user.departamento', 
+            'user.puesto',  
+            'registroPatronal'
+        ])
             ->leftJoin('users', 'practicantes.user_id', '=', 'users.id')
+            ->leftJoin('empresas', 'users.empresa_id', '=', 'empresas.id')
+            ->leftJoin('sucursales', 'users.sucursal_id', '=', 'sucursales.id')
             ->leftJoin('departamentos', 'users.departamento_id', '=', 'departamentos.id')
             ->leftJoin('puestos', 'users.puesto_id', '=', 'puestos.id')
             ->leftJoin('registros_patronales', 'practicantes.registro_patronal_id', '=', 'registros_patronales.id')
             ->select([
                 'practicantes.*',
                 'users.name as nombre_usuario',
-                'departamentos.nombre_departamento as departamento',
-                'puestos.nombre_puesto as puesto',
+                \DB::raw('COALESCE(empresas.nombre, "Sin Empresa") as empresa'),
+                \DB::raw('COALESCE(sucursales.nombre_sucursal, "Sin Sucursal") as sucursal'),
+                \DB::raw('COALESCE(departamentos.nombre_departamento, "Sin departamento") as departamento'),
+                \DB::raw('COALESCE(puestos.nombre_puesto, "Sin Puesto") as puesto'),
                 'registros_patronales.registro_patronal as regpatronal'
             ]);
 
-        // Filtrar por departamento si el usuario es Trabajador o Practicante
-        if ($user->hasRole(['Trabajador PORTAL RH', 'Trabajador GLOBAL', 'Practicante'])) {
-            $query->where('practicantes.departamento_id', $user->departamento_id);
+        // Aplicar filtros según el rol del usuario autenticado
+        if ($user->hasRole('GoldenAdmin')) { // GoldenAdmin: sin filtro, ve todos los registros.
+
+        } elseif ($user->hasRole('EmpresaAdmin')) { 
+            // EmpresaAdmin: se limita a los usuarios de la misma empresa.
+            $query->where('users.empresa_id', $user->empresa_id);
+
+        } elseif ($user->hasRole('SucursalAdmin')) {
+            // SucursalAdmin: se limita a los usuarios de la misma sucursal.
+            $query->where('users.sucursal_id', $user->sucursal_id);
+
+        } elseif ($user->hasRole(['Trabajador PORTAL RH', 'Trabajador GLOBAL'])) {
+            // Trabajador PORTAL RH y Trabajador GLOBAL: verán únicamente su propio registro.
+            $query->where('users.id', $user->id);
         }
 
         return $query;
     }
 
+
     public function relationSearch(): array
     {
-        return [];
+        return [
+            'user' => ['name'],
+            'registroPatronal' => ['registro_patronal'],
+            
+            // Para los campos que están en relaciones a través de user
+            'user.empresa' => ['nombre'], 
+            'user.sucursal' => ['nombre_sucursal'],
+            'user.departamento' => ['nombre_departamento'],
+            'user.puesto' => ['nombre_puesto'],
+        ];
     }
 
     public function fields(): PowerGridFields
@@ -86,12 +138,12 @@ final class PracticanteTable extends PowerGridComponent
             ->add('numero_celular')
             ->add('user_id')
             ->add('nombre_usuario')
-            ->add('departamento_id')
-            ->add('departamento')
-            ->add('puesto_id')
-            ->add('puesto')
             ->add('registro_patronal_id')
             ->add('regpatronal')
+            ->add('empresa')
+            ->add('sucursal')
+            ->add('departamento')
+            ->add('puesto')
             ->add('created_at');
     }
 
@@ -104,15 +156,27 @@ final class PracticanteTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('User', 'nombre_usuario'),
+            Column::make('Usuario', 'nombre_usuario')
+                ->sortable()
+                ->searchable(),
 
-            Column::make('Departamento', 'departamento'),
+            Column::make('Empresa', 'empresa')
+                ->sortable()
+                ->searchable(),
 
-            Column::make('Puesto', 'puesto'),
+            Column::make('Sucursal', 'sucursal')
+                ->sortable()
+                ->searchable(),
 
-            Column::make('Registro patronal', 'regpatronal'),
+            Column::make('Departamento', 'departamento')
+                ->sortable()
+                ->searchable(),
 
-            Column::make('Numero seguridad social', 'numero_seguridad_social')
+            Column::make('Puesto', 'puesto')
+                ->sortable()
+                ->searchable(),
+
+            Column::make('Reg patronal', 'regpatronal')
                 ->sortable()
                 ->searchable(),
 
@@ -165,7 +229,7 @@ final class PracticanteTable extends PowerGridComponent
     public function filters(): array
     {
         return [
-            Filter::datepicker('fecha_nacimiento'),
+            //Filter::datepicker('fecha_nacimiento'),
         ];
     }
 

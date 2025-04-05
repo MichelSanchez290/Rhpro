@@ -12,7 +12,7 @@
 
         <div class="flex justify-center">
             <div class="flex">
-                <h1 class="text-gray-600 font-bold md:text-2xl text-xl">Agregar Baja</h1>
+                <h1 class="text-gray-600 font-bold md:text-2xl text-xl">Editar Baja</h1>
             </div>
         </div>
 
@@ -35,8 +35,8 @@
                                 {{ session('message') }}
                             </p>
                             <!-- Mensaje extra, opcional -->
-                            @if (session('message') == 'Notificación')
-                                <p class="text-sm">Baja actualizada exitosamente</p>
+                            @if (session('message') == 'Baja Actualizada.')
+                                <p class="text-sm">La baja ha sido actualizada exitosamente</p>
                             @endif
                         </div>
                         <button @click="show = false" class="text-white hover:text-gray-300 focus:outline-none">
@@ -184,8 +184,6 @@
         </form>
     </div>
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 
 <script>
     function handleDrop(event) {

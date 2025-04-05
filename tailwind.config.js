@@ -16,6 +16,7 @@ export default {
         // './app/Livewire/**/*Table.php',
         // './vendor/power-componen0ts/livewire-powergrid/resources/views/**/*.php',
         // './vendor/power-components/livewire-powergrid/src/Themes/Tailwind.php'
+        //'./app/PowerGridThemes/BlueTheme.php'
     ],
 
     theme: {

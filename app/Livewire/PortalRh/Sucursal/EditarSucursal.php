@@ -47,7 +47,7 @@ class EditarSucursal extends Component
             'zona_economica' => 'required',
             'estado' => 'required',
             'cuenta_contable' => 'required',
-            'rfc' => 'required',
+            'rfc' => 'required|min:12|max:13',
             'correo' => 'required|email',
             'telefono' => 'required|digits:10',
             'status' => 'required',
@@ -77,7 +77,7 @@ class EditarSucursal extends Component
             ],
         ]);
 
-        session()->flash('message', 'Sucursal actualizada.'); //mostrarsucursal
+        session()->flash('message', 'Sucursal Actualizada.');
     }
 
 

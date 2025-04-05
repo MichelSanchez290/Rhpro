@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('sucursales', function (Blueprint $table) {
             $table->id();
             $table->string('clave_sucursal', 45);
-            $table->string('nombre_sucursal', 45);
+            $table->text('nombre_sucursal');
             $table->string('zona_economica', 255);
             $table->string('estado', 255);
-            $table->string('cuenta_contable', 255);
+            $table->text('cuenta_contable');
             $table->string('rfc', 20);
             $table->string('correo', 50);
             $table->string('telefono', 15);

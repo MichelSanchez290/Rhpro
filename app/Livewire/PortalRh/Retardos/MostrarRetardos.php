@@ -32,13 +32,12 @@ class MostrarRetardos extends Component
     {
         if ($this->retardoToDelete) {
             Retardo::find($this->retardoToDelete)->delete();
-            session()->flash('message', 'Retardo eliminado exitosamente.');
         }
 
         $this->retardoToDelete = null;
         $this->showModal = false;
 
-        return redirect()->route('mostrarretardo');
+        session()->flash('message', 'Retardo Eliminado.');
     }
 
     public function render()

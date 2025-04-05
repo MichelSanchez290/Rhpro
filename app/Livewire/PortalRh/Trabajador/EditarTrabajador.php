@@ -12,7 +12,7 @@ use App\Models\PortalRH\Empresa;
 use App\Models\User;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
-
+use Spatie\Permission\Models\Role;
 
 class EditarTrabajador extends Component
 {
@@ -21,6 +21,8 @@ class EditarTrabajador extends Component
     public $usuarios, $registros_patronales, 
     $empresas, $empresa, $sucursal,
     $departamento, $password;
+
+    public $roles, $rol;
 
     public $trabajador_id, 
         $clave_trabajador, 
@@ -48,7 +50,8 @@ class EditarTrabajador extends Component
         $calle, 
         $colonia, 
         $numero, 
-        $status, 
+        $status,
+        $sueldo, 
 
         $user_id,
         $registro_patronal_id
@@ -87,6 +90,7 @@ class EditarTrabajador extends Component
         $this->colonia = $trabajador->colonia;
         $this->numero = $trabajador->numero;
         $this->status = $trabajador->status;
+        $this->sueldo = $trabajador->sueldo;
         $this->registro_patronal_id = $trabajador->registro_patronal_id;
         $this->user_id = $trabajador->user_id;
 
@@ -96,6 +100,10 @@ class EditarTrabajador extends Component
         $this->sucursal = $this->user['sucursal_id'] ?? null;
         $this->departamento = $this->user['departamento_id'] ?? null;
 
+        $user = User::findOrFail($this->user_id);
+        $this->rol = $user->roles->first()?->id ?? '';
+
+        $this->roles = Role::all();
         $this->usuarios = User::all();
         $this->registros_patronales = RegistroPatronal::all();
         $this->empresas = Empresa::all();
@@ -131,7 +139,7 @@ class EditarTrabajador extends Component
             'codigo_postal' => 'required|digits:5',
             'sexo' => 'required',
             'curp' => 'required|size:18',
-            'rfc' => 'nullable|size:13',
+            'rfc' => 'required|min:12|max:13',
             'numero_celular' => 'required|digits:10',
             'fecha_ingreso' => 'required',
             'edad' => 'required',
@@ -149,6 +157,7 @@ class EditarTrabajador extends Component
             'colonia' => 'required',
             'numero' => 'required',
             'status' => 'required',
+            'sueldo' => 'required|numeric',
             'registro_patronal_id' => 'required|exists:registros_patronales,id',
             'user_id' => 'required|exists:users,id',
 
@@ -160,6 +169,7 @@ class EditarTrabajador extends Component
             'departamento' => 'required',
             'user.puesto_id' => 'required|exists:puestos,id',
             
+            'rol' => 'required|exists:roles,id',
         ]);
 
         $user = User::findOrFail($this->user['id']);
@@ -173,6 +183,9 @@ class EditarTrabajador extends Component
             'tipo_user' => 'Trabajador',
             'password' => $this->password ? Hash::make($this->password) : $user->password,
         ]);
+
+        $role = Role::findOrFail($this->rol);
+        $user->syncRoles([$role]);
 
         Trabajador::updateOrCreate(['id' => $this->trabajador_id], [
             'clave_trabajador' => $this->clave_trabajador,
@@ -201,12 +214,13 @@ class EditarTrabajador extends Component
             'colonia' => $this->colonia,
             'numero' => $this->numero,
             'status' => $this->status,
+            'sueldo' => $this->sueldo,
 
             'user_id' => $this->user_id,
             'registro_patronal_id' => $this->registro_patronal_id,
         ]);
 
-        return redirect()->route('mostrartrabajador')->with('message', 'Trabajador actualizado correctamente.');
+        session()->flash('message', 'Trabajador Actualizado.');
     }
 
     public function render()

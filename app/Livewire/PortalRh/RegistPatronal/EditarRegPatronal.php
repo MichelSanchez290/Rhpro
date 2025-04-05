@@ -56,7 +56,7 @@ class EditarRegPatronal extends Component
     {
         $this->validate([
             'registro_patronal' => 'required',
-            'rfc' => 'required|size:13',
+            'rfc' => 'required|min:12|max:13',
             'nombre_o_razon_social' => 'required',
             'regimen_capital' => 'required',
             'regimen_fiscal' => 'required',
@@ -115,7 +115,7 @@ class EditarRegPatronal extends Component
             'cuenta_contable' => $this->cuenta_contable,
         ]);
     
-        session()->flash('message', 'Registro Patronal actualizado');
+        session()->flash('message', 'Registro Patronal Actualizado.');
     }
 
     public function render()

@@ -12,6 +12,7 @@ use App\Models\PortalRH\Sucursal;
 use App\Models\User;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class EditarPracticante extends Component
 {
@@ -20,6 +21,8 @@ class EditarPracticante extends Component
     public $usuarios, $registros_patronales, 
     $empresas, $empresa, $sucursal,
     $departamento, $password;
+
+    public $roles, $rol;
 
     public $practicante_id, 
         $clave_practicante, 
@@ -37,8 +40,6 @@ class EditarPracticante extends Component
         $user_id,
         $registro_patronal_id
     ;
-    
-
 
     public function mount($id)
     {
@@ -66,6 +67,10 @@ class EditarPracticante extends Component
         $this->sucursal = $this->user['sucursal_id'] ?? null;
         $this->departamento = $this->user['departamento_id'] ?? null;
 
+        $user = User::findOrFail($this->user_id);
+        $this->rol = $user->roles->first()?->id ?? '';
+
+        $this->roles = Role::all();
         $this->usuarios = User::all();
         $this->registros_patronales = RegistroPatronal::all();
         $this->empresas = Empresa::all();
@@ -102,7 +107,7 @@ class EditarPracticante extends Component
             'ocupacion' => 'required',
             'sexo' => 'required',
             'curp' => 'required|size:18',
-            'rfc' => 'required|size:13',
+            'rfc' => 'required|min:12|max:13',
             'numero_celular' => 'required|digits:10',
             'registro_patronal_id' => 'required|exists:registros_patronales,id',
             'user_id' => 'required|exists:users,id',
@@ -115,6 +120,7 @@ class EditarPracticante extends Component
             'departamento' => 'required',
             'user.puesto_id' => 'required|exists:puestos,id',
             
+            'rol' => 'required|exists:roles,id',
         ]);
 
         $user = User::findOrFail($this->user['id']);
@@ -129,6 +135,9 @@ class EditarPracticante extends Component
             'password' => $this->password ? Hash::make($this->password) : $user->password,
         ]);
 
+        $role = Role::findOrFail($this->rol);
+        $user->syncRoles([$role]);
+        
         Practicante::updateOrCreate(['id' => $this->practicante_id], [
             'clave_practicante' => $this->clave_practicante,
             'numero_seguridad_social' => $this->numero_seguridad_social,
@@ -146,9 +155,7 @@ class EditarPracticante extends Component
             'registro_patronal_id' => $this->registro_patronal_id,
         ]);
 
-        //$this->dispatch('toastr-success', message: 'Becario actualizado correctamente.');
-        //$this->emit('message', 'Becario actualizado correctamente.');
-        return redirect()->route('mostrarpracticante');
+        session()->flash('message', 'Practicante Actualizado.');
     }
 
     public function render()

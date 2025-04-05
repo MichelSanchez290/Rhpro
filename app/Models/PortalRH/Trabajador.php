@@ -5,6 +5,7 @@ namespace App\Models\PortalRH;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User; // Importa el modelo User
+use App\Models\PortalRH\InfonavitCredito; 
 
 class Trabajador extends Model
 {
@@ -30,6 +31,7 @@ class Trabajador extends Model
         'curp',
         'rfc',
         'numero_celular',
+        'sueldo',
         'fecha_ingreso',
         'edad',
         'estado_civil',
@@ -63,11 +65,12 @@ class Trabajador extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function registrosPatronales()
+    public function registroPatronal()
     {
         //cada trabajador pertenece a 
-        return $this->belongsTo(RegistroPatronal::class);
+        return $this->belongsTo(RegistroPatronal::class, 'registro_patronal_id');
     }
+
 
     /*
     

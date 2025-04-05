@@ -12,6 +12,7 @@ use App\Models\PortalRH\Empresa;
 use App\Models\User;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class EditarBecario extends Component
 {
@@ -20,6 +21,8 @@ class EditarBecario extends Component
     public $usuarios, $registros_patronales, 
     $empresas, $empresa, $sucursal,
     $departamento, $password;
+
+    public $roles, $rol;
 
     public $becario_id, 
         $clave_becario, 
@@ -72,6 +75,10 @@ class EditarBecario extends Component
         $this->sucursal = $this->user['sucursal_id'] ?? null;
         $this->departamento = $this->user['departamento_id'] ?? null;
 
+        $user = User::findOrFail($this->user_id);
+        $this->rol = $user->roles->first()?->id ?? '';
+
+        $this->roles = Role::all();
         $this->usuarios = User::all();
         $this->registros_patronales = RegistroPatronal::all();
         $this->empresas = Empresa::all();
@@ -108,7 +115,7 @@ class EditarBecario extends Component
             'ocupacion' => 'required',
             'sexo' => 'required',
             'curp' => 'required|size:18',
-            'rfc' => 'required|size:13',
+            'rfc' => 'required|min:12|max:13',
             'numero_celular' => 'required|digits:10',
             'fecha_ingreso' => 'required|date',
             'status' => 'required',
@@ -124,6 +131,8 @@ class EditarBecario extends Component
             'sucursal' => 'required',
             'departamento' => 'required',
             'user.puesto_id' => 'required|exists:puestos,id',
+
+            'rol' => 'required|exists:roles,id',
         ]);
 
         $user = User::findOrFail($this->user['id']);
@@ -137,6 +146,9 @@ class EditarBecario extends Component
             'tipo_user' => 'Becario',
             'password' => $this->password ? Hash::make($this->password) : $user->password,
         ]);
+
+        $role = Role::findOrFail($this->rol);
+        $user->syncRoles([$role]);
 
         Becario::updateOrCreate(['id' => $this->becario_id], [
             'clave_becario' => $this->clave_becario,
@@ -159,8 +171,7 @@ class EditarBecario extends Component
             'registro_patronal_id' => $this->registro_patronal_id,
         ]);
 
-        //session()->flash('message', 'Becario actualizado correctamente.');
-        return redirect()->route('mostrarbecario');
+        session()->flash('message', 'Becario Actualizado.');
     }
 
     public function render()

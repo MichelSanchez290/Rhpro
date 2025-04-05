@@ -32,13 +32,11 @@ class MostrarIncidencias extends Component
     {
         if ($this->incidenciaToDelete) {
             Incidencia::find($this->incidenciaToDelete)->delete();
-            session()->flash('message', 'Incidencia eliminada exitosamente.');
+            session()->flash('message', 'Incidencia Eliminada.');
         }
 
         $this->incidenciaToDelete = null;
         $this->showModal = false;
-
-        return redirect()->route('mostrarincidencia');
     }
 
     public function render()

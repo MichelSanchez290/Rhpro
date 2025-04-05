@@ -32,13 +32,12 @@ class MostrarSucursal extends Component
     {
         if ($this->sucursalToDelete) {
             Sucursal::find($this->sucursalToDelete)->delete();
-            session()->flash('message', 'Sucursal eliminada exitosamente.');
         }
 
         $this->sucursalToDelete = null;
         $this->showModal = false;
 
-        return redirect()->route('mostrarsucursal');
+        session()->flash('message', 'Sucursal Eliminada.');
     }
 
     public function render()

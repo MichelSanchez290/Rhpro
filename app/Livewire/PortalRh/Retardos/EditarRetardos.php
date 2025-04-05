@@ -65,7 +65,7 @@ class EditarRetardos extends Component
         // Se usa sync para reemplazar cualquier usuario previamente asociado.
         //$retardo->users()->sync([$this->user_id]);
 
-        session()->flash('message', 'Retardo actualizado.');
+        session()->flash('message', 'Retardo Actualizado.');
     }
 
     public function render()

@@ -31,8 +31,8 @@
                         </svg>
                         <div class="flex-1">
                             <p class="font-bold">{{ session('message') }}</p>
-                            @if (session('message') == 'Baja agregada')
-                                <p class="text-sm">Baja agregada exitosamente</p>
+                            @if (session('message') == 'Baja Agregada.')
+                                <p class="text-sm">La baja ha sido agregada exitosamente</p>
                             @endif
                         </div>
                         <button @click="show = false" class="text-white hover:text-gray-300 focus:outline-none">
@@ -261,5 +261,13 @@
         </form>
     </div>
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+<script>
+    function handleDrop(event) {
+        event.preventDefault();
+        const fileInput = document.getElementById('fileInput');
+        if (event.dataTransfer.files.length > 0) {
+            fileInput.files = event.dataTransfer.files;
+            fileInput.dispatchEvent(new Event('change')); // Dispara el evento de cambio
+        }
+    }
+</script>

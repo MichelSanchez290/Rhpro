@@ -34,7 +34,12 @@ final class RolTable extends PowerGridComponent
                 ->showPerPage()
                 ->showRecordCount(),
             PowerGrid::exportable(fileName: 'Roles') 
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV)
+                ->striped('CCEBFF')
+                ->columnWidth([
+                    2 => 40,
+                    3 => 30,
+                ]),
         ];
     }
 
@@ -60,9 +65,11 @@ final class RolTable extends PowerGridComponent
     {
         return [
             Column::make('Id', 'id'),
-            Column::make('Rol', 'name'),
+            Column::make('Rol', 'name')
+                ->sortable()
+                ->searchable(),
 
-            Column::make('Created at', 'created_at')
+            Column::make('Creado el', 'created_at')
                 ->sortable()
                 ->searchable(),
 

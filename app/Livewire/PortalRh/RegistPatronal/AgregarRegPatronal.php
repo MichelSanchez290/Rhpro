@@ -11,14 +11,14 @@ class AgregarRegPatronal extends Component
 
     protected $rules = [
         'registro.registro_patronal' => 'required',
-        'registro.rfc' => 'required|size:13|unique:registros_patronales,rfc',
+        'registro.rfc' => 'required|min:12|max:13|unique:registros_patronales,rfc',
         'registro.nombre_o_razon_social' => 'required',
         'registro.regimen_capital' => 'required',
         'registro.regimen_fiscal' => 'required',
         'registro.actividad_economica' => 'required',
         'registro.imss_calle_manzana' => 'required',
         'registro.imms_num_exterior' => 'required',
-        'registro.imms_num_int' => 'nullable',
+        'registro.imms_num_int' => 'required',
         'registro.imms_colonia' => 'required',
         'registro.imms_codigo_postal' => 'required|digits:5',
         'registro.imms_estado' => 'required',
@@ -42,7 +42,8 @@ class AgregarRegPatronal extends Component
     // MENSAJES DE VALIDACIÓN
     protected $messages = [
         'registro.*.required' => 'Este campo es obligatorio.',
-        'registro.rfc.size' => 'El RFC debe tener exactamente 13 caracteres.',
+        'registro.rfc.min' => 'El RFC debe tener al menos 12 caracteres.',
+        'registro.rfc.max' => 'El RFC no debe exceder los 13 caracteres.',
         'registro.rfc.unique' => 'Este RFC ya esta asignada a otro registro patronal.',
         'registro.imms_codigo_postal.digits' => 'El código postal debe tener 5 dígitos.',
         'registro.imms_telefono.digits' => 'El teléfono debe tener 10 dígitos.',
@@ -58,7 +59,8 @@ class AgregarRegPatronal extends Component
         $this->validate();
         RegistroPatronal::create($this->registro);
         $this->registro = [];
-        session()->flash('message', 'Registro patronal agregado');
+        
+        session()->flash('message', 'Registro Patronal Agregado.');
     }
 
     public function redirigir()

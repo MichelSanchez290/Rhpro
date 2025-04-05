@@ -34,7 +34,14 @@ final class DepartamentTable extends PowerGridComponent
                 ->showPerPage()
                 ->showRecordCount(),
             PowerGrid::exportable(fileName: 'departamentos') 
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV), 
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV)
+                ->striped('CCEBFF')
+                ->columnWidth([
+                    2 => 50,
+                    3 => 50,
+                    4 => 50,
+                    5 => 30,
+                ]), 
         ];
     }
 
@@ -42,18 +49,43 @@ final class DepartamentTable extends PowerGridComponent
     {
         $user = Auth::user();
 
-        // Si el usuario es administrador, devolver todos los departamentos
+        $query = Departamento::query()
+            ->with(['sucursales.empresas'])
+            ->leftJoin('departamento_sucursal', 'departamentos.id', '=', 'departamento_sucursal.departamento_id')
+            ->leftJoin('sucursales', 'departamento_sucursal.sucursal_id', '=', 'sucursales.id')
+            ->leftJoin('empresa_sucursal', 'sucursales.id', '=', 'empresa_sucursal.sucursal_id')
+            ->leftJoin('empresas', 'empresa_sucursal.empresa_id', '=', 'empresas.id')
+            ->select([
+                'departamentos.*',
+                \DB::raw('COALESCE(empresas.nombre, "Sin Empresa") as empresa'),
+                \DB::raw('COALESCE(sucursales.nombre_sucursal, "Sin Sucursal") as sucursal')
+            ]);
+
         if ($user->hasRole('GoldenAdmin')) {
-            return Departamento::query();
+            // GoldenAdmin: obtiene todos los departamentos sin filtro.
+            return $query;
+        } elseif ($user->hasRole('EmpresaAdmin')) {
+            // EmpresaAdmin: obtener departamentos asociados a las sucursales de su empresa.
+            $query->where('empresa_sucursal.empresa_id', $user->empresa_id);
+
+        } elseif ($user->hasRole('SucursalAdmin')) {
+            // SucursalAdmin: obtener departamentos asociados a su sucursal.
+            $query->where('sucursales.id', $user->sucursal_id);
+            
+        } elseif ($user->hasRole(['Trabajador PORTAL RH', 'Trabajador GLOBAL'])) {
+            // Trabajador PORTAL RH y Trabajador GLOBAL: obtener únicamente el departamento asociado a su usuario.
+            $query->where('departamentos.id', $user->departamento_id);
         }
 
-        // Si el usuario es trabajador o practicante, devolver solo su departamento
-        return Departamento::where('id', $user->departamento_id ?? 0);
+        return $query;
     }
 
     public function relationSearch(): array
     {
-        return [];
+        return [
+            'sucursales' => ['nombre_sucursal'], 
+            'sucursales.empresas' => ['nombre'], 
+        ];
     }
 
     public function fields(): PowerGridFields
@@ -62,6 +94,8 @@ final class DepartamentTable extends PowerGridComponent
             ->add('id')
             ->add('id')
             ->add('nombre_departamento')
+            ->add('empresa')
+            ->add('sucursal')
             ->add('created_at');
     }
 
@@ -69,6 +103,14 @@ final class DepartamentTable extends PowerGridComponent
     {
         return [
             Column::make('Id', 'id'),
+            Column::make('Empresa asociada', 'empresa')
+                ->sortable()
+                ->searchable(), 
+
+            Column::make('Sucursal asociada', 'sucursal')
+                ->sortable()
+                ->searchable(), 
+
             Column::make('Nombre departamento', 'nombre_departamento')
                 ->sortable()
                 ->searchable(),

@@ -35,41 +35,57 @@ final class RetardoTable extends PowerGridComponent
                 ->showPerPage()
                 ->showRecordCount(),
             PowerGrid::exportable(fileName: 'Retardos') 
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV)
+                ->striped('CCEBFF')
+                ->columnWidth([
+                    2 => 30,
+                    3 => 20,
+                    4 => 30,
+                    5 => 30,
+                    6 => 30,
+                    7 => 40,
+                    9 => 30,
+                ]), 
         ];
     }
 
     public function datasource(): Builder
     {
-        // Obtener el usuario autenticado
         $user = Auth::user();
 
-        // Iniciar la consulta base
         $query = Retardo::query()
-            ->select('retardos.*', 
-            'users.name as nombre_usuario') // Seleccionamos los datos de Retardo y el nombre del usuario
+            ->with(['users.retardos'])
+            ->select([
+                'retardos.*',
+                'users.name as nombre_usuario',
+                //'users.tipo_user as tipo'
+            ])
             ->join('user_retardo', 'retardos.id', '=', 'user_retardo.retardo_id')
             ->join('users', 'user_retardo.user_id', '=', 'users.id');
 
-        // Aplicar filtros según el rol del usuario
         if ($user->hasRole('GoldenAdmin')) {
-            // GoldenAdmin ve todos los registros (sin filtro)
+            // GoldenAdmin: sin filtro, ve todos los registros.
             return $query;
         } elseif ($user->hasRole('EmpresaAdmin')) {
-            // EmpresaAdmin solo ve los usuarios de su empresa
-            return $query->where('users.empresa_id', $user->empresa_id);
+            // EmpresaAdmin: se limita a los registros asociados a la misma empresa.
+            $query->where('users.empresa_id', $user->empresa_id);
         } elseif ($user->hasRole('SucursalAdmin')) {
-            // SucursalAdmin solo ve los usuarios de su sucursal
-            return $query->where('users.sucursal_id', $user->sucursal_id);
+            // SucursalAdmin: se limita a los registros vinculados a la misma sucursal.
+            $query->where('users.sucursal_id', $user->sucursal_id);
+        } elseif ($user->hasRole(['Trabajador PORTAL RH', 'Trabajador GLOBAL'])) {
+            // Trabajador PORTAL RH y Trabajador GLOBAL: verán únicamente su propio registro.
+            $query->where('users.id', $user->id);
         }
 
-        // Si no tiene un rol reconocido, no se le muestran registros
-        return $query->whereRaw('1 = 0'); // Devuelve una consulta vacía
+        return $query;
     }
 
     public function relationSearch(): array
     {
-        return [];
+        return [
+            'users.retardos' => ['name'],
+            //'users.retardos' => ['tipo_user'],
+        ];
     }
 
     public function fields(): PowerGridFields
@@ -77,13 +93,14 @@ final class RetardoTable extends PowerGridComponent
         return PowerGrid::fields()
             ->add('id')
             ->add('id')
-            ->add('fecha_formatted', fn (Retardo $model) => Carbon::parse($model->fecha)->format('d/m/Y'))
+            ->add('fecha')
             ->add('hora_entrada_programada')
             ->add('hora_entrada_real')
             ->add('minutos_retardo')
             ->add('motivo')
-            ->add('status') //nombre_usuario
+            ->add('status')
             ->add('nombre_usuario')
+            //->add('tipo')
             ->add('created_at');
     }
 
@@ -91,8 +108,14 @@ final class RetardoTable extends PowerGridComponent
     {
         return [
             Column::make('Id', 'id'),
+
             Column::make('Usuario', 'nombre_usuario')
-                ->sortable(),
+                ->sortable()
+                ->searchable(),
+            
+            Column::make('Fecha', 'fecha')
+                ->sortable()
+                ->searchable(),
 
             Column::make('Hora entrada programada', 'hora_entrada_programada')
                 ->sortable()
@@ -114,7 +137,7 @@ final class RetardoTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Created at', 'created_at')
+            Column::make('Creado el', 'created_at')
                 ->sortable()
                 ->searchable(),
 
@@ -125,7 +148,7 @@ final class RetardoTable extends PowerGridComponent
     public function filters(): array
     {
         return [
-            Filter::datepicker('fecha'),
+            //Filter::datepicker('fecha'),
         ];
     }
 

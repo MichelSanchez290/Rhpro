@@ -5,6 +5,7 @@ use App\Livewire\PortalRh\Inicio;
 
 use App\Livewire\PortalRh\Usuario\MostrarUsuario;
 use App\Livewire\PortalRh\Usuario\AsignarRolUsuario;
+use App\Livewire\PortalRh\Usuario\EditarUsuario;
 use App\Livewire\PortalRh\Cumpleanios\VerCumpleanios;
 
 use App\Livewire\PortalRh\Rol\MostrarRol;
@@ -101,7 +102,12 @@ use App\Livewire\PortalRh\CambioSalario\EditarCambioSalario;
 
 use App\Livewire\PortalRh\Documentos\MostrarDocumento;
 use App\Livewire\PortalRh\Documentos\AgregarDocumento;
+use App\Livewire\PortalRh\Documentos\AgregarDocumentoAdmin;
 use App\Livewire\PortalRh\Documentos\EditarDocumento;
+
+use App\Livewire\PortalRh\InfonavitCreditos\MostrarInfonavitCredito;
+use App\Livewire\PortalRh\InfonavitCreditos\AgregarInfonavitCredito;
+use App\Livewire\PortalRh\InfonavitCreditos\EditarInfonavitCredito;
 
 /*
 |--------------------------------------------------------------------------
@@ -125,107 +131,112 @@ Route::get(
     Route::get( 
         '/roles',
             MostrarRol::class
-    )->name('mostrarrol');
+    )->middleware('can:Mostrar Rol')->name('mostrarrol');
 
     Route::get( 
         '/create-rol',
             AgregarRol::class
-    )->name('agregarrol');
+    )->middleware('can:Agregar Rol')->name('agregarrol');
 
     Route::get( 
         '/edit-rol/{id}',
             EditarRol::class
-    )->name('editarrol');
+    )->middleware('can:Editar Rol')->name('editarrol');
 
     Route::get( 
         '/permisos/{id}',
             VerPermisos::class
-    )->name('mostrarpermisos');
+    )->middleware('can:Ver Permisos')->name('mostrarpermisos');
 
     // USER  ---------------------------------------------------------------
     Route::get( 
         '/usuarios',
             MostrarUsuario::class
-    )->name('mostraruser');
+    )->middleware('can:Mostrar Usuario')->name('mostraruser');
 
     Route::get( 
         '/asig-rol-user/{id}',
             AsignarRolUsuario::class
-    )->name('agregarroluser');
+    )->middleware('can:Asignar Rol a Usuario')->name('agregarroluser');
+
+    Route::get( 
+        '/edit-user/{id}',
+            EditarUsuario::class
+    )->middleware('can:Editar Usuario')->name('editaruser');
 
     Route::get( 
         '/ver-cumpleaños',
             VerCumpleanios::class
-    )->name('vercumple');
+    )->middleware('can:Ver Cumpleaños')->name('vercumple');
 
 
     // EMPRESAS ---------------------------------------------------------------
     Route::get( 
         '/empresas',
             MostrarEmpres::class
-    )->name('mostrarempresas');
+    )->middleware('can:Mostrar Empresas')->name('mostrarempresas');
 
 
     Route::get( 
         '/create-empresa',
             AgregarEmpres::class
-    )->name('agregarempresa');
+    )->middleware('can:Agregar Empresa')->name('agregarempresa');
 
     Route::get( 
         '/edit-empresa/{id}',
             EditarEmpres::class
-    )->name('editarempresa');
+    )->middleware('can:Editar Empresa')->name('editarempresa');
 
 
     // Sucursales ---------------------------------------------------------------
     Route::get( 
         '/sucursales',
             MostrarSucursal::class
-    )->name('mostrarsucursal');
+    )->middleware('can:Mostrar Sucursales')->name('mostrarsucursal');
 
 
     Route::get( 
         '/create-sucursal',
             AgregarSucursal::class
-    )->name('agregarsucursal');
+    )->middleware('can:Agregar Sucursal')->name('agregarsucursal');
 
     Route::get( 
         '/edit-sucursal/{id}',
             EditarSucursal::class
-    )->name('editarsucursal');
+    )->middleware('can:Editar Sucursal')->name('editarsucursal');
 
 
     // Reg Patronal ---------------------------------------------------------------
     Route::get( 
         '/reg-patronal',
             MostrarRegPatronal::class
-    )->name('mostrarregpatronal');
+    )->middleware('can:Mostrar Reg Patronal')->name('mostrarregpatronal');
 
     Route::get( 
         '/create-regpatronal',
             AgregarRegPatronal::class
-    )->name('agregarregpatronal');
+    )->middleware('can:Agregar Reg Patronal')->name('agregarregpatronal');
 
     Route::get( 
         '/edit-regpatronal/{id}',
             EditarRegPatronal::class
-    )->name('editarregpatronal');
+    )->middleware('can:Editar Reg Patronal')->name('editarregpatronal');
 
     // DEPARTAMENTOS  ---------------------------------------------------------------
     Route::get( 
         '/departamentos',
             MostarDepartament::class
-    )->name('mostrardepa');
+    )->middleware('can:Mostrar Departamentos')->name('mostrardepa');
 
     Route::get( 
         '/create-departament',
             AgregarDepartament::class
-    )->name('agregardepa');
+    )->middleware('can:Agregar Departamento')->name('agregardepa');
 
     Route::get( 
         '/edit-departament/{id}',
             EditarDepartament::class
-    )->name('editardepa');
+    )->middleware('can:Editar Departamento')->name('editardepa');
 
     // Relacion Sucursal con Depa - PIVOTE *******************************
     Route::get( 
@@ -248,17 +259,17 @@ Route::get(
     Route::get( 
         '/puestos',
             MostarPuest::class
-    )->name('mostrarpuesto');
+    )->middleware('can:Mostrar Puestos')->name('mostrarpuesto');
 
     Route::get( 
         '/create-puest',
             AgregarPuest::class
-    )->name('agregarpuesto');
+    )->middleware('can:Agregar Puesto')->name('agregarpuesto');
 
     Route::get( 
         '/edit-puest/{id}',
             EditarPuest::class
-    )->name('editarpuesto');
+    )->middleware('can:Editar Puesto')->name('editarpuesto');
 
     // Relacion Depa con Puesto - PIVOTE *******************************
     Route::get( 
@@ -281,53 +292,53 @@ Route::get(
     Route::get( 
         '/trabajadores',
             MostrarTrabajador::class
-    )->name('mostrartrabajador');
+    )->middleware('can:Mostrar Trabajadores')->name('mostrartrabajador');
 
     Route::get( 
         '/create-trabajador',
             AgregarTrabajador::class
-    )->name('agregartrabajador');
+    )->middleware('can:Agregar Trabajador')->name('agregartrabajador');
 
     Route::get( 
         '/edit-trabajador/{id}',
             EditarTrabajador::class
-    )->name('editartrabajador');
+    )->middleware('can:Editar Trabajador')->name('editartrabajador');
 
     Route::get( 
         '/cards-trabajadores',
             MostrarCardTrabajador::class
-    )->name('mostrarcardtrabajador');
+    )->middleware('can:Mostrar Card Trabajador')->name('mostrarcardtrabajador');
 
     Route::get( 
         '/card-trabajador/{id}',
             CardTrabajador::class
-    )->name('cardtrabajador');
+    )->middleware('can:Mostrar Card Trabajador')->name('cardtrabajador');
 
     // INSTRUCTOR ---------------------------------------------------------------
     Route::get( 
         '/instructores',
             MostrarInstructor::class
-    )->name('mostrarinstructor');
+    )->middleware('can:Mostrar Instructores')->name('mostrarinstructor');
 
     Route::get( 
         '/create-instructor',
             AgregarInstructor::class
-    )->name('agregarinstructor');
+    )->middleware('can:Agregar Instructor')->name('agregarinstructor');
 
     Route::get( 
         '/edit-instructor/{id}',
             EditarInstructor::class
-    )->name('editarinstructor');
+    )->middleware('can:Editar Instructor')->name('editarinstructor');
 
     Route::get( 
         '/cards-instructores',
             MostrarCardInstructor::class
-    )->name('mostrarcardinstructor');
+    )->middleware('can:Mostrar Card Instructor')->name('mostrarcardinstructor');
 
     Route::get( 
         '/card-instructor/{id}',
             CardInstructor::class
-    )->name('cardinstructor');
+    )->middleware('can:Mostrar Card Instructor')->name('cardinstructor');
 
 
     // Relacion Empresa con Sucursal - PIVOTE *******************************
@@ -350,166 +361,188 @@ Route::get(
     Route::get( 
         '/becarios',
             MostrarBecario::class
-    )->name('mostrarbecario');
+    )->middleware('can:Mostrar Becarios')->name('mostrarbecario');
 
     Route::get( 
         '/create-becario',
             AgregarBecario::class
-    )->name('agregarbecario');
+    )->middleware('can:Agregar Becario')->name('agregarbecario');
 
     Route::get( 
         '/edit-becario/{id}',
             EditarBecario::class
-    )->name('editarbecario');
+    )->middleware('can:Editar Becario')->name('editarbecario');
 
     Route::get( 
         '/cards-becarios',
             MostrarCardBecario::class
-    )->name('mostrarcardbecario');
+    )->middleware('can:Mostrar Card Becario')->name('mostrarcardbecario');
 
     Route::get( 
         '/card-becario/{id}',
             CardBecario::class
-    )->name('cardbecario');
+    )->middleware('can:Mostrar Card Becario')->name('cardbecario');
 
     // Practicante ---------------------------------------------------------------
     Route::get( 
         '/practicantes',
             MostrarPracticante::class
-    )->name('mostrarpracticante');
+    )->middleware('can:Mostrar Practicantes')->name('mostrarpracticante');
 
     Route::get( 
         '/create-practicante',
             AgregarPracticante::class
-    )->name('agregarpracticante');
+    )->middleware('can:Agregar Practicante')->name('agregarpracticante');
 
     Route::get( 
         '/edit-practicante/{id}',
             EditarPracticante::class
-    )->name('editarpracticante');
+    )->middleware('can:Editar Practicante')->name('editarpracticante');
 
     Route::get( 
         '/cards-practicantes',
             MostrarCardPracticante::class
-    )->name('mostrarcardpracticante');
+    )->middleware('can:Mostrar Card Practicante')->name('mostrarcardpracticante');
 
     Route::get( 
         '/card-practicante/{id}',
             CardPracticante::class
-    )->name('cardpracticante');
+    )->middleware('can:Mostrar Card Practicante')->name('cardpracticante');
     
 
     // INCIDENCIAS ---------------------------------------------------------------
     Route::get( 
         '/incidencias',
             MostrarIncidencias::class
-    )->name('mostrarincidencia');
+    )->middleware('can:Mostrar Incidencias')->name('mostrarincidencia');
 
     Route::get( 
         '/create-incidencia',
             AgregarIncidencias::class
-    )->name('agregarincidencia');
+    )->middleware('can:Agregar Incidencia')->name('agregarincidencia');
 
     Route::get( 
         '/edit-incidencia/{id}',
             EditarIncidencias::class
-    )->name('editarincidencia');
+    )->middleware('can:Editar Incidencia')->name('editarincidencia');
 
     Route::get( 
         '/mis-incidencias',
             VerIncidencias::class
-    )->name('verincidencia');
+    )->middleware('can:Ver Incidencias')->name('verincidencia');
 
     // INCAPACIDAD ---------------------------------------------------------------
     Route::get( 
         '/incapacidad',
             MostrarIncapacidad::class
-    )->name('mostrarincapacidad');
+    )->middleware('can:Mostrar Incapacidad')->name('mostrarincapacidad');
 
     Route::get( 
         '/create-incapacidad',
             AgregarIncapacidad::class
-    )->name('agregarincapacidad');
+    )->middleware('can:Agregar Incapacidad')->name('agregarincapacidad');
 
     Route::get( 
         '/edit-incapacidad/{id}',
             EditarIncapacidad::class
-    )->name('editarincapacidad');
+    )->middleware('can:Editar Incapacidad')->name('editarincapacidad');
 
     Route::get( 
         '/aceptar-incapacidad',
             AceptarIncapacidad::class
-    )->name('aceptarincapacidad');
+    )->middleware('can:Aceptar Incapacidad')->name('aceptarincapacidad');
 
     // Bajas ---------------------------------------------------------------
     Route::get( 
         '/bajas',
             MostrarBaja::class
-    )->name('mostrarbaja');
+    )->middleware('can:Mostrar Baja')->name('mostrarbaja');
 
     Route::get( 
         '/create-baja',
             AgregarBaja::class
-    )->name('agregarbaja');
+    )->middleware('can:Agregar Baja')->name('agregarbaja');
 
     Route::get( 
         '/edit-baja/{id}',
             EditarBaja::class
-    )->name('editarbaja');
+    )->middleware('can:Editar Baja')->name('editarbaja');
 
     // RETARDOS ---------------------------------------------------------------
      Route::get( 
         '/retardos',
             MostrarRetardos::class
-    )->name('mostrarretardo');
+    )->middleware('can:Mostrar Retardos')->name('mostrarretardo');
 
     Route::get( 
         '/create-retardo',
             AgregarRetardos::class
-    )->name('agregarretardo');
+    )->middleware('can:Agregar Retardo')->name('agregarretardo');
 
     Route::get( 
         '/edit-retardo/{id}',
             EditarRetardos::class
-    )->name('editarretardo');
+    )->middleware('can:Editar Retardo')->name('editarretardo');
 
     Route::get( 
         '/mis-retardos',
             VerRetardos::class
-    )->name('verretardo');
+    )->middleware('can:Ver Retardos')->name('verretardo');
 
 
     // CAMBIO SALARIO ---------------------------------------------------------------
     Route::get( 
         '/cambio-salario',
             MostrarCambioSalario::class
-    )->name('mostrarcambiosal');
+    )->middleware('can:Mostrar Cambio Salario')->name('mostrarcambiosal');
 
     Route::get( 
         '/create-cambio-salario',
             AgregarCambioSalario::class
-    )->name('agregarcambiosal');
+    )->middleware('can:Agregar Cambio Salario')->name('agregarcambiosal');
 
     Route::get( 
         '/edit-cambio-salario/{id}',
             EditarCambioSalario::class
-    )->name('editarcambiosal');
+    )->middleware('can:Editar Cambio Salario')->name('editarcambiosal');
 
     // Documentos  ---------------------------------------------------------------
     Route::get( 
         '/documentos',
             MostrarDocumento::class
-    )->name('mostrardoc');
+    )->middleware('can:Mostrar Documento')->name('mostrardoc');
 
     Route::get( 
         '/create-documento',
             AgregarDocumento::class
-    )->name('agregardoc');
+    )->middleware('can:Agregar Documento')->name('agregardoc');
+
+    Route::get( 
+        '/create-documento-admin',
+            AgregarDocumentoAdmin::class
+    )->middleware('can:Agregar Documento Admin')->name('agregardocadmin');
 
     Route::get( 
         '/edit-documento/{id}',
             EditarDocumento::class
-    )->name('editardoc');
+    )->middleware('can:Editar Documento')->name('editardoc');
+
+
+    // Infonavit Creditos  ---------------------------------------------------------------
+    Route::get( 
+        '/infonavit-creditos',
+            MostrarInfonavitCredito::class
+    )->middleware('can:Mostrar Infonavit Credito')->name('mostrarinfonavit');
+
+    Route::get( 
+        '/create-infonavit',
+            AgregarInfonavitCredito::class
+    )->middleware('can:Agregar Infonavit Credito')->name('agregarinfonavit');
+
+    Route::get( 
+        '/edit-infonavit/{id}',
+            EditarInfonavitCredito::class
+    )->middleware('can:Editar Infonavit Credito')->name('editarinfonavit');
 
 
     /*

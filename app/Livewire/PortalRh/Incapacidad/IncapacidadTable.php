@@ -35,7 +35,17 @@ final class IncapacidadTable extends PowerGridComponent
                 ->showPerPage()
                 ->showRecordCount(),
             PowerGrid::exportable(fileName: 'Incapacidades') 
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV)
+                ->striped('CCEBFF')
+                ->columnWidth([
+                    2 => 30,
+                    3 => 20,
+                    4 => 20,
+                    5 => 20,
+                    6 => 40,
+                    7 => 40,
+                    8 => 40,
+                ]), 
         ];
     }
 
@@ -43,30 +53,29 @@ final class IncapacidadTable extends PowerGridComponent
     {
         $user = Auth::user();
 
+        $query = Incapacidad::query()
+            ->with(['users.incapacidades'])
+            ->select([
+                'incapacidades.*',
+                'incapacidades.status as status',
+                'users.name as nombre',
+                //'users.tipo_user as tipo'
+            ])
+            ->join('user_incapacidad', 'incapacidades.id', '=', 'user_incapacidad.incapacidad_id')
+            ->join('users', 'user_incapacidad.user_id', '=', 'users.id');
+
         if ($user->hasRole('GoldenAdmin')) {
-            // Si es un administrador, mostrar todas las incapacidades
-            $query = Incapacidad::query()
-                ->leftJoin('user_incapacidad', 'incapacidades.id', '=', 'user_incapacidad.incapacidad_id')
-                ->leftJoin('users', 'users.id', '=', 'user_incapacidad.user_id')
-                ->select([
-                    'incapacidades.*',
-                    'incapacidades.status as stat',
-                    DB::raw("COALESCE(users.name, 'PENDIENTE DE APROBACIÓN') as nombre_usuario"),
-                ]);
-        } elseif ($user->hasRole(['Trabajador PORTAL RH', 'Trabajador GLOBAL', 'Practicante'])) {
-            // Si es un trabajador, mostrar solo sus incapacidades
-            $query = Incapacidad::query()
-                ->join('user_incapacidad', 'incapacidades.id', '=', 'user_incapacidad.incapacidad_id')
-                ->join('users', 'users.id', '=', 'user_incapacidad.user_id')
-                ->select([
-                    'incapacidades.*',
-                    'incapacidades.status as stat',
-                    'users.name as nombre_usuario'
-                ])
-                ->where('user_incapacidad.user_id', $user->id);
-        } else {
-            // Si no tiene ninguno de estos roles, devolver solo las incapacidades sin relaciones
-            $query = Incapacidad::query()->select('incapacidades.*');
+            // GoldenAdmin: sin filtro, ve todos los registros.
+            return $query;
+        } elseif ($user->hasRole('EmpresaAdmin')) {
+            // EmpresaAdmin: se limita a los registros asociados a la misma empresa.
+            $query->where('users.empresa_id', $user->empresa_id);
+        } elseif ($user->hasRole('SucursalAdmin')) {
+            // SucursalAdmin: se limita a los registros vinculados a la misma sucursal.
+            $query->where('users.sucursal_id', $user->sucursal_id);
+        } elseif ($user->hasRole(['Trabajador PORTAL RH', 'Trabajador GLOBAL'])) {
+            // Trabajador PORTAL RH y Trabajador GLOBAL: verán únicamente su propio registro,
+            $query->where('users.id', $user->id);
         }
 
         return $query;
@@ -74,7 +83,10 @@ final class IncapacidadTable extends PowerGridComponent
 
     public function relationSearch(): array
     {
-        return [];
+        return [
+            'users.incapacidades' => ['name'],
+            //'users.incapacidades' => ['tipo_user'],
+        ];
     }
 
     public function fields(): PowerGridFields
@@ -82,7 +94,8 @@ final class IncapacidadTable extends PowerGridComponent
         return PowerGrid::fields()
             ->add('id')
             ->add('id')
-            ->add('nombre_usuario')
+            ->add('nombre')
+            //->add('tipo')
             ->add('fecha_inicio_formatted', fn (Incapacidad $model) => Carbon::parse($model->fecha_inicio)->format('d/m/Y'))
             ->add('fecha_final_formatted', fn (Incapacidad $model) => Carbon::parse($model->fecha_final)->format('d/m/Y'))
             ->add('motivo')
@@ -99,9 +112,11 @@ final class IncapacidadTable extends PowerGridComponent
         return [
             Column::make('Id', 'id'),
 
-            Column::make('Usuario', 'nombre_usuario')
+            Column::make('Usuario', 'nombre')
                 ->sortable()
                 ->searchable(),
+
+            
 
             Column::make('Status', 'status')
                 ->sortable()
@@ -122,10 +137,8 @@ final class IncapacidadTable extends PowerGridComponent
                 ->searchable(),
 
             Column::make('Documento', 'documento')
-                ->sortable()
-                ->searchable(),
-
-            
+                ->visibleInExport(false)
+                ->sortable(),
 
             Column::make('Observaciones', 'observaciones')
                 ->sortable()
@@ -138,8 +151,8 @@ final class IncapacidadTable extends PowerGridComponent
     public function filters(): array
     {
         return [
-            Filter::datepicker('fecha_inicio'),
-            Filter::datepicker('fecha_final'),
+            //Filter::datepicker('fecha_inicio'),
+            //Filter::datepicker('fecha_final'),
         ];
     }
 

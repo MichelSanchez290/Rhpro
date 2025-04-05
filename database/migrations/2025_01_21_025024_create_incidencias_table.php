@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('incidencias', function (Blueprint $table) {
             $table->id();
-            $table->string('tipo_incidencia', 255);
+            $table->text('tipo_incidencia');
             $table->date('fecha_inicio');
             $table->date('fecha_final');
             $table->timestamps();

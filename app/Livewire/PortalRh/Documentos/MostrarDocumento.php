@@ -15,6 +15,11 @@ class MostrarDocumento extends Component
         return redirect()->route('agregardoc');
     }
 
+    public function redirigirAdmin()
+    {
+        return redirect()->route('agregardocadmin');
+    }
+
     //Eliminar
     protected $listeners = [
         'confirmDelete' => 'confirmDelete', // Captura el evento
@@ -35,7 +40,7 @@ class MostrarDocumento extends Component
         $this->documentoToDelete = null;
         $this->showModal = false;
 
-        return redirect()->route('mostrardoc');
+        session()->flash('message', 'Documento Eliminado.');
     }
 
     public function render()

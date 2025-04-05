@@ -31,13 +31,13 @@ class MostrarCambioSalario extends Component
     {
         if ($this->salarioToDelete) {
             CambioSalario::find($this->salarioToDelete)->delete();
-            session()->flash('message', 'Cambio de Salario eliminado exitosamente.');
+            
         }
 
         $this->salarioToDelete = null;
         $this->showModal = false;
 
-        return redirect()->route('mostrarcambiosal');
+        session()->flash('message', 'Cambio de Salario Eliminado.');
     }
 
     public function render()

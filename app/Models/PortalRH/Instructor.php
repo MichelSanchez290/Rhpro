@@ -60,10 +60,10 @@ class Instructor extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function registrosPatronales()
+    public function registroPatronal()
     {
         //cada trabajador pertenece a 
-        return $this->belongsTo(RegistroPatronal::class);
+        return $this->belongsTo(RegistroPatronal::class, 'registro_patronal_id');
     }
 
     /*

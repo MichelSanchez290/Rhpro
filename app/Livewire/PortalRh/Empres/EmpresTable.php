@@ -34,8 +34,18 @@ final class EmpresTable extends PowerGridComponent
             PowerGrid::footer()
                 ->showPerPage()
                 ->showRecordCount(),
-            PowerGrid::exportable(fileName: 'empresas')
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+            PowerGrid::exportable(fileName: 'Empresas')
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV)
+                ->striped('CCEBFF')
+                ->columnWidth([
+                    2 => 50,
+                    3 => 50,
+                    4 => 20,
+                    5 => 30,
+                    6 => 30,
+                    7 => 30,
+                    8 => 30,
+                ]),
         ];
     }
 
@@ -43,12 +53,12 @@ final class EmpresTable extends PowerGridComponent
     {
         $user = Auth::user();
 
-        // Si el usuario es administrador, devolver todos los departamentos
+        // Si el usuario es GoldenAdmin, devuelve todas las empresas
         if ($user->hasRole('GoldenAdmin')) {
             return Empresa::query();
         }
 
-        // Si el usuario es trabajador o practicante, devolver solo su departamento
+        // Para los demás roles, solo se devuelve la empresa a la que pertenece el usuario
         return Empresa::where('id', $user->empresa_id);
     }
 
@@ -73,7 +83,11 @@ final class EmpresTable extends PowerGridComponent
                 return '<a href="' . asset('PortalRH/Empresas/' . basename($model->url_constancia_situacion_fiscal)) . '" target="_blank" class="text-blue-600 hover:underline">Ver PDF</a>';
             })
             
+            ->add('logo', function (Empresa $model) {
+                return '<a href="' . asset('PortalRH/EmpresaLogos/' . basename($model->logo)) . '" target="_blank" class="text-blue-600 hover:underline">Ver logo</a>';
+            })
             
+
             ->add('created_at');
     }
 
@@ -105,13 +119,15 @@ final class EmpresTable extends PowerGridComponent
             Column::make('Representante legal', 'representante_legal')
                 ->sortable()
                 ->searchable(),
+            
+            Column::make('Logo de la Empresa', 'logo')
+                ->visibleInExport(false)
+                ->sortable(),
 
             Column::make('Url constancia situacion fiscal', 'url_constancia_situacion_fiscal')
-                ->sortable()
-                ->searchable(),
-
-
-
+                ->visibleInExport(false)
+                ->sortable(),
+                
             Column::make('Created at', 'created_at')
                 ->sortable()
                 ->searchable(),

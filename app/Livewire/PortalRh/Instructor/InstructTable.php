@@ -35,30 +35,92 @@ final class InstructTable extends PowerGridComponent
                 ->showPerPage()
                 ->showRecordCount(),
             PowerGrid::exportable(fileName: 'Instructores') 
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV)
+                ->striped('CCEBFF')
+                ->columnWidth([
+                    2 => 30,
+                    3 => 35,
+                    4 => 40,
+                    5 => 40,
+                    6 => 40,
+                    7 => 40,
+                    8 => 30,
+                    9 => 20,
+                    10 => 20,
+                    11 => 30,
+                    12 => 20,
+                    13 => 30,
+                    14 => 20,
+                    15 => 30,
+                    16 => 20,
+                    17 => 20,
+                    18 => 20,
+                    20 => 20,
+                    21 => 20,
+                    22 => 30,
+                    23 => 20,
+                    24 => 20,
+                    25 => 30,
+                    26 => 30,
+                    27 => 50,
+                    28 => 50,
+                    29 => 20,
+                    30 => 25,
+                    32 => 25,
+                    33 => 20,
+                    34 => 20,
+                    36 => 50,
+                    37 => 30,
+                ]),
         ];
     }
 
     public function datasource(): Builder
     {
         $user = Auth::user();
-    
+
+        $user = Auth::user();
+
         $query = Instructor::query()
+            ->with([
+                'user', 
+                'user.empresa',    // Singular (como está definido en User)
+                'user.sucursal',
+                'user.departamento', 
+                'user.puesto',  
+                'registroPatronal'
+            ])
             ->leftJoin('users', 'instructores.user_id', '=', 'users.id')
+            ->leftJoin('empresas', 'users.empresa_id', '=', 'empresas.id')
+            ->leftJoin('sucursales', 'users.sucursal_id', '=', 'sucursales.id')
             ->leftJoin('registros_patronales', 'instructores.registro_patronal_id', '=', 'registros_patronales.id')
             ->leftJoin('departamentos', 'users.departamento_id', '=', 'departamentos.id')
             ->leftJoin('puestos', 'users.puesto_id', '=', 'puestos.id')
             ->select([
                 'instructores.*',
                 'users.name as nombre_usuario',
+                \DB::raw('COALESCE(empresas.nombre, "Sin Empresa") as empresa'),
+                \DB::raw('COALESCE(sucursales.nombre_sucursal, "Sin Sucursal") as sucursal'),
                 'registros_patronales.registro_patronal as regpatronal',
-                'departamentos.nombre_departamento as departamento',
-                'puestos.nombre_puesto as puesto',
+                \DB::raw('COALESCE(departamentos.nombre_departamento, "Sin departamento") as departamento'),
+                \DB::raw('COALESCE(puestos.nombre_puesto, "Sin Puesto") as puesto'),
             ]);
 
-        // 🔹 Filtrar por departamento si es Trabajador PORTAL RH, Trabajador GLOBAL o Practicante
-        if ($user->hasRole(['Trabajador PORTAL RH', 'Trabajador GLOBAL', 'Practicante'])) {
-            $query->where('instructores.departamento_id', $user->departamento_id);
+        // Aplicar filtros según el rol del usuario autenticado
+        if ($user->hasRole('GoldenAdmin')) {
+            // GoldenAdmin: sin filtro, ve todos los registros.
+
+        } elseif ($user->hasRole('EmpresaAdmin')) {
+            // EmpresaAdmin: solo ve los usuarios de su misma empresa.
+            $query->where('users.empresa_id', $user->empresa_id);
+
+        } elseif ($user->hasRole('SucursalAdmin')) {
+            // SucursalAdmin: solo ve los usuarios de su misma sucursal.
+            $query->where('users.sucursal_id', $user->sucursal_id);
+            
+        } elseif ($user->hasRole(['Trabajador PORTAL RH', 'Trabajador GLOBAL'])) {
+            // Trabajador PORTAL RH y Trabajador GLOBAL: verán únicamente su propio registro.
+            $query->where('users.id', $user->id);
         }
 
         return $query;
@@ -66,7 +128,16 @@ final class InstructTable extends PowerGridComponent
 
     public function relationSearch(): array
     {
-        return [];
+        return [
+            'user' => ['name'],
+            'registroPatronal' => ['registro_patronal'],
+            
+            // Para los campos que están en relaciones a través de user
+            'user.empresa' => ['nombre'], 
+            'user.sucursal' => ['nombre_sucursal'],
+            'user.departamento' => ['nombre_departamento'],
+            'user.puesto' => ['nombre_puesto'],
+        ];
     }
 
     public function fields(): PowerGridFields
@@ -107,9 +178,9 @@ final class InstructTable extends PowerGridComponent
             ->add('nombre_usuario')
             ->add('registro_patronal_id')
             ->add('regpatronal')
-            ->add('departamento_id')
+            ->add('empresa')
+            ->add('sucursal')
             ->add('departamento')
-            ->add('puesto_id')
             ->add('puesto')
             ->add('created_at');
     }
@@ -120,6 +191,14 @@ final class InstructTable extends PowerGridComponent
             Column::make('Id', 'id'),
 
             Column::make('Usuario', 'nombre_usuario'),
+
+            Column::make('Tipoinstructor', 'tipoinstructor')
+                ->sortable()
+                ->searchable(),
+
+            Column::make('Empresa', 'empresa'),
+
+            Column::make('Sucursal', 'sucursal'),
 
             Column::make('Departamento', 'departamento'),
 
@@ -201,10 +280,6 @@ final class InstructTable extends PowerGridComponent
                 ->searchable(),
 
             Column::make('Domicilio', 'domicilio')
-                ->sortable()
-                ->searchable(),
-
-            Column::make('Tipoinstructor', 'tipoinstructor')
                 ->sortable()
                 ->searchable(),
 

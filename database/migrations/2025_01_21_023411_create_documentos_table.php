@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('documentos', function (Blueprint $table) {
             $table->id();
-            $table->string('archivo', 255);
+            $table->text('archivo');
             $table->date('fecha_subida');
             $table->string('status', 255);
             $table->text('numero');

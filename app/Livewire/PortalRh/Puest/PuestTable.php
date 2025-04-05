@@ -35,7 +35,15 @@ final class PuestTable extends PowerGridComponent
                 ->showPerPage()
                 ->showRecordCount(),
             PowerGrid::exportable(fileName: 'puestos') 
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV), 
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV)
+                ->striped('CCEBFF')
+                ->columnWidth([
+                    2 => 50,
+                    3 => 50,
+                    4 => 50,
+                    5 => 50,
+                    6 => 30,
+                ]), 
         ];
     }
 
@@ -43,18 +51,48 @@ final class PuestTable extends PowerGridComponent
     {
         $user = Auth::user();
 
-        // Si el usuario es administrador, devolver todos los departamentos
+        $query = Puesto::query()
+        ->with(['departamentos.sucursales.empresas']) 
+            ->leftJoin('departamento_puesto', 'puestos.id', '=', 'departamento_puesto.puesto_id')
+            ->leftJoin('departamentos', 'departamento_puesto.departamento_id', '=', 'departamentos.id')
+            ->leftJoin('departamento_sucursal', 'departamentos.id', '=', 'departamento_sucursal.departamento_id')
+            ->leftJoin('sucursales', 'departamento_sucursal.sucursal_id', '=', 'sucursales.id')
+            ->leftJoin('empresa_sucursal', 'sucursales.id', '=', 'empresa_sucursal.sucursal_id')
+            ->leftJoin('empresas', 'empresa_sucursal.empresa_id', '=', 'empresas.id')
+            ->select([
+                'puestos.*',
+                \DB::raw('COALESCE(empresas.nombre, "Sin Empresa") as empresa'),
+                \DB::raw('COALESCE(sucursales.nombre_sucursal, "Sin Sucursal") as sucursal'),
+                \DB::raw('COALESCE(departamentos.nombre_departamento, "Sin Departamento") as departamento')
+            ]);
+
         if ($user->hasRole('GoldenAdmin')) {
-            return Puesto::query();
+            // GoldenAdmin: obtiene todos los puestos sin filtro.
+            return $query;
+
+        } elseif ($user->hasRole('EmpresaAdmin')) {
+            // EmpresaAdmin: obtiene puestos asociados a los departamentos de las sucursales de su empresa.
+            $query->where('empresas.id', $user->empresa_id);
+
+        } elseif ($user->hasRole('SucursalAdmin')) {
+            // SucursalAdmin: obtiene puestos asociados a los departamentos de su sucursal.
+            $query->where('sucursales.id', $user->sucursal_id);
+
+        } elseif ($user->hasRole(['Trabajador PORTAL RH', 'Trabajador GLOBAL'])) {
+            // Trabajador PORTAL RH y Trabajador GLOBAL: obtienen únicamente el puesto asociado a su usuario.
+            $query->where('puestos.id', $user->puesto_id);
         }
 
-        // Si el usuario es trabajador o practicante, devolver solo su departamento
-        return Puesto::where('id', $user->puesto_id);
+        return $query;
     }
 
     public function relationSearch(): array
     {
-        return [];
+        return [
+            'departamentos' => ['nombre_departamento'],
+            'departamentos.sucursales' => ['nombre_sucursal'],
+            'departamentos.sucursales.empresas' => ['nombre'],
+        ];
     }
 
     public function fields(): PowerGridFields
@@ -63,6 +101,9 @@ final class PuestTable extends PowerGridComponent
             ->add('id')
             ->add('id')
             ->add('nombre_puesto')
+            ->add('empresa')
+            ->add('sucursal')
+            ->add('departamento')
             ->add('created_at');
     }
 
@@ -70,6 +111,20 @@ final class PuestTable extends PowerGridComponent
     {
         return [
             Column::make('Id', 'id'),
+            
+
+            Column::make('Empresa asociada', 'empresa')
+            ->sortable()
+            ->searchable(), 
+
+            Column::make('Sucursal asociada', 'sucursal')
+            ->sortable()
+            ->searchable(),
+
+            Column::make('Departamento asociado', 'departamento')
+            ->sortable()
+                ->searchable(), 
+
             Column::make('Nombre puesto', 'nombre_puesto')
                 ->sortable()
                 ->searchable(),

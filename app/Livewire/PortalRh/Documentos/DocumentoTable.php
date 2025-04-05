@@ -34,30 +34,39 @@ final class DocumentoTable extends PowerGridComponent
                 ->showPerPage()
                 ->showRecordCount(),
             PowerGrid::exportable(fileName: 'Documentos')
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV)
+                ->striped('CCEBFF')
+                ->columnWidth([
+                    2 => 30,
+                    3 => 30,
+                    4 => 20,
+                    6 => 30,
+                    8 => 50,
+                ]), 
         ];
     }
 
     public function datasource(): Builder
     {
-        $user = auth()->user();
+        $user = Auth::user();
+
         $query = Documento::query()
+        ->with(['users.documentos'])
             ->select('documentos.*')
             ->join('user_documento', 'documentos.id', '=', 'user_documento.documento_id')
             ->join('users', 'user_documento.user_id', '=', 'users.id')
-            ->addSelect('users.name as user_name'); // Traer el nombre del usuario relacionado
+            ->addSelect('users.name as user_name');
 
-        if ($user->hasRole('GoldenAdmin')) {
-            // GoldenAdmin ve todos los registros (no hay filtro adicional)
+        if ($user->hasRole('GoldenAdmin')) { // GoldenAdmin ve todos los registros (no hay filtro adicional)
             return $query;
-        } elseif ($user->hasRole('EmpresaAdmin')) {
-            // EmpresaAdmin ve solo los documentos de su empresa
+
+        } elseif ($user->hasRole('EmpresaAdmin')) { // EmpresaAdmin ve solo los documentos de su empresa
             return $query->where('users.empresa_id', $user->empresa_id);
-        } elseif ($user->hasRole('SucursalAdmin')) {
-            // SucursalAdmin ve solo los documentos de su sucursal
+
+        } elseif ($user->hasRole('SucursalAdmin')) { // SucursalAdmin ve solo los documentos de su sucursal
             return $query->where('users.sucursal_id', $user->sucursal_id);
-        } elseif ($user->hasRole('Trabajador PORTAL RH')) {
-            // Trabajador solo ve sus propios documentos
+
+        } elseif ($user->hasRole('Trabajador PORTAL RH') || $user->hasRole('Trabajador GLOBAL'))  { // Trabajador solo ve sus propios documentos
             return $query->where('users.id', $user->id);
         }
 
@@ -67,13 +76,16 @@ final class DocumentoTable extends PowerGridComponent
 
     public function relationSearch(): array
     {
-        return [];
+        return [
+            'users.documentos' => ['name']
+        ];
     }
 
     public function fields(): PowerGridFields
     {
         return PowerGrid::fields()
             ->add('id')
+            ->add('user_name')
             ->add('archivo', function (Documento $model) {
                 return '<a href="' . asset('PortalRH/Documentos/' . basename($model->archivo)) . '" target="_blank" class="text-blue-600 hover:underline">Ver Archivo</a>';
             })
@@ -90,10 +102,18 @@ final class DocumentoTable extends PowerGridComponent
     {
         return [
             Column::make('Id', 'id'),
-            
-            Column::make('Archivo', 'archivo')
+
+            Column::make('Usuario', 'user_name')
                 ->sortable()
                 ->searchable(),
+
+            Column::make('Tipo de documento', 'tipo_documento')
+                ->sortable()
+                ->searchable(),
+            
+            Column::make('Archivo', 'archivo')
+                ->visibleInExport(false)
+                ->sortable(),
 
             Column::make('Fecha subida', 'fecha_subida_formatted', 'fecha_subida')
                 ->sortable(),
@@ -114,14 +134,6 @@ final class DocumentoTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Tipo de documento', 'tipo_documento')
-                ->sortable()
-                ->searchable(),
-
-            Column::make('Created at', 'created_at')
-                ->sortable()
-                ->searchable(),
-
             Column::action('Action')
         ];
     }
@@ -129,7 +141,7 @@ final class DocumentoTable extends PowerGridComponent
     public function filters(): array
     {
         return [
-            Filter::datepicker('fecha_subida'),
+            //Filter::datepicker('fecha_subida'),
         ];
     }
 
@@ -141,13 +153,23 @@ final class DocumentoTable extends PowerGridComponent
 
     public function actions(Documento $row): array
     {
-        return [
-            Button::add('edit')
-                ->slot('Edit: '.$row->id)
-                ->id()
-                ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-                ->dispatch('edit', ['rowId' => $row->id])
-        ];
+        $actions = [];
+
+        if (Gate::allows('Editar Documento')) {
+            $actions[] = Button::add('edit')
+                ->slot('Editar')
+                ->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded')
+                ->route('editardoc', ['id' => Crypt::encrypt($row->id)]);
+        }
+
+        if (Gate::allows('Eliminar Documento')) {
+            $actions[] = Button::add('delete')
+                ->slot('Eliminar')
+                ->class('bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded')
+                ->dispatch('confirmDelete', ['id' => $row->id]); 
+        }
+
+        return $actions;
     }
 
     /*

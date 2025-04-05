@@ -17,7 +17,8 @@ use Barryvdh\DomPDF\Facade\Pdf;
 class CardTrabajador extends Component
 {
     public $trabajador, $usuario, $empresa, $sucursal, $departamento,
-    $puesto, $registro_patronal, $incapacidades, $incidencias;
+    $puesto, $registro_patronal, $incapacidades, $incidencias, $retardos, 
+    $cambio_salarios, $documentos, $infonavit_creditos;
 
     public function mount($id)
     {
@@ -32,7 +33,9 @@ class CardTrabajador extends Component
         $this->registro_patronal = RegistroPatronal::find($this->trabajador->registro_patronal_id);
         $this->incapacidades = $this->usuario->incapacidades()->with('users')->get();
         $this->incidencias = $this->usuario->incidencias()->with('users')->get();
-
+        $this->retardos = $this->usuario->retardos()->with('users')->get();
+        $this->cambio_salarios = $this->usuario->cambioSalario()->with('users')->get();
+        $this->infonavit_creditos = $this->usuario->infonavit()->with('user')->get();
     } 
 
     public function generatePDF($id)
@@ -49,6 +52,9 @@ class CardTrabajador extends Component
         $registro_patronal = RegistroPatronal::find($trabajador->registro_patronal_id);
         $incapacidades = $this->usuario->incapacidades()->with('users')->get();
         $incidencias = $this->usuario->incidencias()->with('users')->get();
+        $retardos = $this->usuario->retardos()->with('users')->get();
+        $cambio_salarios = $this->usuario->cambioSalario()->with('users')->get();
+        $infonavit_creditos = $this->usuario->infonavit()->with('user')->get();
 
         // Generar el PDF con todos los datos
         $pdf = Pdf::setPaper('letter')
@@ -65,7 +71,10 @@ class CardTrabajador extends Component
                 'puesto' => $puesto,
                 'registro_patronal' => $registro_patronal,
                 'incapacidades' => $incapacidades,
-                'incidencias' => $incidencias
+                'incidencias' => $incidencias,
+                'retardos' => $retardos,
+                'cambio_salarios' => $cambio_salarios,
+                'infonavit_creditos' => $infonavit_creditos,
             ]);
 
         return Response::stream(

@@ -2,17 +2,17 @@
     <div class="grid bg-white rounded-lg shadow-xl w-full">
         <div class="flex justify-center py-4">
             <div class="flex bg-blue-200 rounded-full md:p-4 p-2 border-2 border-blue-300">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"
+                <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"
                     viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
                     <path fill="#ffffff"
-                        d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480L40 480c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24l0 112c0 13.3 10.7 24 24 24s24-10.7 24-24l0-112c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z" />
+                        d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z" />
                 </svg>
             </div>
         </div>
 
         <div class="flex justify-center">
             <div class="flex">
-                <h1 class="text-gray-600 font-bold md:text-2xl text-xl">Agregar Retardo</h1>
+                <h1 class="text-gray-600 font-bold md:text-2xl text-xl">Actualizar Retardo</h1>
             </div>
         </div>
 
@@ -31,8 +31,8 @@
                         </svg>
                         <div class="flex-1">
                             <p class="font-bold">{{ session('message') }}</p>
-                            @if (session('message') == 'Retardo actualizado.')
-                                <p class="text-sm">El retardo fue actualizado exitosamente</p>
+                            @if (session('message') == 'Retardo Actualizado.')
+                                <p class="text-sm">El retardo ha sido actualizado correctamente</p>
                             @endif
                         </div>
                         <button @click="show = false" class="text-white hover:text-gray-300 focus:outline-none">
@@ -48,7 +48,7 @@
 
             </div>
         </div>
-        
+
         <form class="mt-5 mx-7">
             <div class="grid grid-cols-1 mt-5">
                 <label for="nombre_usuario" class="uppercase md:text-sm text-xs text-gray-500 font-semibold">
@@ -60,8 +60,7 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
                 <div class="grid grid-cols-1 mt-5">
-                    <label for="fecha"
-                        class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
+                    <label for="fecha" class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
                         Fecha
                     </label>
                     <input wire:model.defer="fecha" type="date" id="fecha_inicio"
@@ -78,9 +77,9 @@
                     </label>
                     <input wire:model.defer="hora_entrada_programada" type="text" id="hora_entrada_programada"
                         placeholder="8:00 AM"
-                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"/>
+                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
 
-                    <x-input-error for="hora_entrada_programada" /> 
+                    <x-input-error for="hora_entrada_programada" />
                 </div>
             </div>
 
@@ -92,9 +91,9 @@
                     </label>
                     <input wire:model.defer="hora_entrada_real" type="text" id="hora_entrada_real"
                         placeholder="8:23 AM"
-                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"/>
+                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
 
-                    <x-input-error for="hora_entrada_real" /> 
+                    <x-input-error for="hora_entrada_real" />
                 </div>
 
                 <div class="grid grid-cols-1 mt-5">
@@ -104,23 +103,21 @@
                     </label>
                     <input wire:model.defer="minutos_retardo" type="text" id="minutos_retardo"
                         placeholder="23 minutos"
-                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"/>
+                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
 
-                    <x-input-error for="minutos_retardo" /> 
+                    <x-input-error for="minutos_retardo" />
                 </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5">
                 <div class="grid grid-cols-1 mt-5">
-                    <label for="motivo"
-                        class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
-                        Motivo del  retardo (NA - si no aplica)
+                    <label for="motivo" class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
+                        Motivo del retardo
                     </label>
-                    <input wire:model.defer="motivo" type="text" id="motivo"
-                        placeholder="Tráfico"
-                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"/>
+                    <input wire:model.defer="motivo" type="text" id="motivo" placeholder="Tráfico"
+                        class="py-2 px-3 rounded-lg border-2 border-blue-300 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" />
 
-                    <x-input-error for="motivo" /> 
+                    <x-input-error for="motivo" />
                 </div>
 
                 <div class="grid grid-cols-1">
@@ -134,7 +131,7 @@
                     </select>
 
                     <x-input-error for="status" />
-                    
+
                 </div>
             </div>
 

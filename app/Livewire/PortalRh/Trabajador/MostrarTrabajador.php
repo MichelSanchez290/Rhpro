@@ -32,13 +32,12 @@ class MostrarTrabajador extends Component
     {
         if ($this->trabajadorToDelete) {
             Trabajador::find($this->trabajadorToDelete)->delete();
-            session()->flash('message', 'Trabajador eliminado exitosamente.');
         }
 
         $this->trabajadorToDelete = null;
         $this->showModal = false;
 
-        return redirect()->route('mostrartrabajador');
+        session()->flash('message', 'Trabajador Eliminado.');
     }
 
     public function render()

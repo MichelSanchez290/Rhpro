@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('infonavit_creditos', function (Blueprint $table) {
             $table->id();
-            $table->string('tipo_movimiento', 255);
-            $table->string('numero_credito', 45);
+            $table->text('tipo_movimiento');
+            $table->string('numero_credito', 255);
             $table->date('fecha_movimiento');
             $table->string('tipo_descuento', 255);
-            $table->string('valor_descuento', 100);
+            $table->string('valor_descuento', 255);
 
             //donde almacenara el id de la relacion
             $table->unsignedBigInteger('user_id');

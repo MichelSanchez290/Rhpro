@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create('empresas', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre', 45);
-            $table->string('razon_social', 255);
+            $table->text('nombre');
+            $table->text('razon_social');
             $table->string('rfc', 14);
-            $table->string('nombre_comercial', 45);
+            $table->text('nombre_comercial');
             $table->string('pais_origen', 45);
             $table->string('representante_legal', 255);
-            $table->string('url_constancia_situacion_fiscal', 255);
+            $table->text('url_constancia_situacion_fiscal');
+            $table->string('logo', 255);
             $table->timestamps();
         });
     }

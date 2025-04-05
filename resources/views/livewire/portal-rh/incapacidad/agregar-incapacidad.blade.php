@@ -35,8 +35,6 @@
                                 @if (session('message') == 'Incapacidad enviada para aprobación.')
                                     <p class="text-sm">La solicitud se ha enviado y está pendiente de revisión, revisa
                                         en 3 días hábiles</p>
-                                @elseif(session('message') == 'Incidencia aprobada y registrada.')
-                                    <p class="text-sm">La solicitud se aprobó y ya está registrada.</p>
                                 @endif
                             </div>
                             <button @click="show = false" class="text-white hover:text-gray-300 focus:outline-none">
@@ -190,8 +188,6 @@
         </div>
     </div>
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 
 <script>
     function handleDrop(event) {

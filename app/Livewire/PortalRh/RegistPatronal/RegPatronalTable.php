@@ -33,8 +33,38 @@ final class RegPatronalTable extends PowerGridComponent
             PowerGrid::footer()
                 ->showPerPage()
                 ->showRecordCount(),
-            PowerGrid::exportable(fileName: 'registros-patronales')
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+            PowerGrid::exportable(fileName: 'Registros-Patronales')
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV)
+                ->striped('CCEBFF')
+                ->columnWidth([
+                    2 => 40,
+                    3 => 20,
+                    4 => 50,
+                    5 => 50,
+                    6 => 50,
+                    7 => 50,
+                    8 => 30,
+                    9 => 20,
+                    10 => 20,
+                    11 => 30,
+                    12 => 20,
+                    13 => 30,
+                    14 => 20,
+                    15 => 30,
+                    16 => 20,
+                    17 => 20,
+                    18 => 20,
+                    20 => 20,
+                    21 => 20,
+                    22 => 30,
+                    23 => 20,
+                    24 => 20,
+                    25 => 30,
+                    26 => 30,
+                    27 => 50,
+                    28 => 50,
+                    29 => 30,
+                ]),
         ];
     }
 
@@ -47,8 +77,13 @@ final class RegPatronalTable extends PowerGridComponent
             return RegistroPatronal::query();
         }
 
-        // Si es EmpresaAdmin, obtener solo su Registro Patronal
-        if ($user->hasRole('EmpresaAdmin')) {
+        // Si es EmpresaAdmin, SucursalAdmin, Trabajador PORTAL RH o Trabajador GLOBAL, obtener solo su Registro Patronal
+        if (
+            $user->hasRole('EmpresaAdmin') ||
+            $user->hasRole('SucursalAdmin') ||
+            $user->hasRole('Trabajador PORTAL RH') ||
+            $user->hasRole('Trabajador GLOBAL')
+        ) {
             return RegistroPatronal::whereHas('trabajadores', function ($query) use ($user) {
                     $query->where('user_id', $user->id);
                 })
@@ -57,11 +92,15 @@ final class RegPatronalTable extends PowerGridComponent
                 })
                 ->orWhereHas('practicantes', function ($query) use ($user) {
                     $query->where('user_id', $user->id);
+                })
+                ->orWhereHas('instructores', function ($query) use ($user) {
+                    $query->where('user_id', $user->id);
                 });
         }
 
         // Si no tiene permisos, no devolverá ningún dato
         return RegistroPatronal::whereRaw('1=0');
+
     }
 
     public function relationSearch(): array

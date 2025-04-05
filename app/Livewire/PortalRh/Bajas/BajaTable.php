@@ -34,42 +34,56 @@ final class BajaTable extends PowerGridComponent
             PowerGrid::footer()
                 ->showPerPage()
                 ->showRecordCount(),
-            PowerGrid::exportable(fileName: 'bajas')
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+            PowerGrid::exportable(fileName: 'Bajas')
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV)
+                ->striped('CCEBFF')
+                ->columnWidth([
+                    2 => 30,
+                    3 => 20,
+                    4 => 40,
+                    5 => 40,
+                    6 => 30,
+                ]), 
         ];
     }
 
     public function datasource(): Builder
     {
-        $user = Auth::user(); // Obtener el usuario autenticado
-        $query = Baja::query()->with('user'); // Cargar relación con User
+        $user = Auth::user();
+
+        $query = Baja::query()
+            ->with(['user.bajas'])
+            ->join('users', 'bajas.user_id', '=', 'users.id')
+            ->select([
+                'bajas.*',
+                'users.name as nombre_usuario',
+            ]);
 
         if ($user->hasRole('GoldenAdmin')) {
-            // GoldenAdmin ve todos los registros
+            // GoldenAdmin: sin filtro, ve todos los registros.
             return $query;
+
+        } elseif ($user->hasRole('EmpresaAdmin')) {
+            // EmpresaAdmin: se limita a los registros asociados a la misma empresa.
+            $query->where('users.empresa_id', $user->empresa_id);
+
+        } elseif ($user->hasRole('SucursalAdmin')) {
+            // SucursalAdmin: se limita a los registros vinculados a la misma sucursal.
+            $query->where('users.sucursal_id', $user->sucursal_id);
+
+        } elseif ($user->hasRole(['Trabajador PORTAL RH', 'Trabajador GLOBAL'])) {
+            // Trabajador PORTAL RH y Trabajador GLOBAL: verán únicamente su propio registro.
+            $query->where('users.id', $user->id);
         }
 
-        if ($user->hasRole('EmpresaAdmin')) {
-            // EmpresaAdmin ve solo los registros de su empresa
-            return $query->whereHas('user', function ($q) use ($user) {
-                $q->where('empresa_id', $user->empresa_id);
-            });
-        }
-
-        if ($user->hasRole('SucursalAdmin')) {
-            // SucursalAdmin ve solo los registros de su sucursal
-            return $query->whereHas('user', function ($q) use ($user) {
-                $q->where('sucursal_id', $user->sucursal_id);
-            });
-        }
-
-        // Si no tiene un rol válido, no devuelve registros
-        return $query->whereNull('id');
+        return $query;
     }
 
     public function relationSearch(): array
     {
-        return [];
+        return [
+            'user.bajas' => ['name']
+        ];
     }
 
     public function fields(): PowerGridFields
@@ -77,11 +91,11 @@ final class BajaTable extends PowerGridComponent
         return PowerGrid::fields()
             ->add('id')
             ->add('id')
+            ->add('nombre_usuario')
             ->add('fecha_baja_formatted', fn (Baja $model) => Carbon::parse($model->fecha_baja)->format('d/m/Y'))
             ->add('motivo_baja')
             ->add('tipo_baja')
             ->add('observaciones')
-            ->add('user.name')
             ->add('created_at')
             ->add('updated_at')
             ->add('documento', function (Baja $model) {
@@ -95,7 +109,7 @@ final class BajaTable extends PowerGridComponent
         return [
             Column::make('Id', 'id'),
 
-            Column::make('Usuario', 'user.name')
+            Column::make('Usuario', 'nombre_usuario')
                 ->sortable()
                 ->searchable(),
 
@@ -112,17 +126,10 @@ final class BajaTable extends PowerGridComponent
 
             Column::make('Documento', 'documento')
                 ->sortable()
+                ->visibleInExport(false)
                 ->searchable(),
 
             Column::make('Observaciones', 'observaciones')
-                ->sortable()
-                ->searchable(),
-
-            Column::make('Creado el', 'created_at')
-                ->sortable()
-                ->searchable(),
-
-            Column::make('Actualizado el', 'updated_at')
                 ->sortable()
                 ->searchable(),
 
@@ -133,7 +140,7 @@ final class BajaTable extends PowerGridComponent
     public function filters(): array
     {
         return [
-            Filter::datepicker('fecha_baja'),
+            //Filter::datepicker('fecha_baja'),
         ];
     }
 

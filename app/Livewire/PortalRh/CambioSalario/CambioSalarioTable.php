@@ -34,40 +34,59 @@ final class CambioSalarioTable extends PowerGridComponent
             PowerGrid::footer()
                 ->showPerPage()
                 ->showRecordCount(),
+
+            PowerGrid::exportable(fileName: 'Cambios de salario')
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV)
+                ->striped('CCEBFF')
+                ->columnWidth([
+                    2 => 30,
+                    3 => 20,
+                    4 => 20,
+                    5 => 20,
+                    6 => 30,
+                    7 => 30,
+                ]), 
         ];
     }
 
     public function datasource(): Builder
     {
-        // Obtener el usuario autenticado
         $user = Auth::user();
 
-        // Iniciar la consulta base
         $query = CambioSalario::query()
-            ->select('cambio_salarios.*', 
-            'users.name as nombre_usuario') // Seleccionamos los datos de Retardo y el nombre del usuario
+            ->with(['users.cambioSalario'])
+            ->select([
+                'cambio_salarios.*',
+                'users.name as nombre_usuario',
+            ])
             ->join('user_cambio_salario', 'cambio_salarios.id', '=', 'user_cambio_salario.cambio_salario_id')
             ->join('users', 'user_cambio_salario.user_id', '=', 'users.id');
 
-        // Aplicar filtros según el rol del usuario
         if ($user->hasRole('GoldenAdmin')) {
-            // GoldenAdmin ve todos los registros (sin filtro)
+            // GoldenAdmin: Sin filtro, ve todos los registros.
             return $query;
+
         } elseif ($user->hasRole('EmpresaAdmin')) {
-            // EmpresaAdmin solo ve los usuarios de su empresa
-            return $query->where('users.empresa_id', $user->empresa_id);
+            // EmpresaAdmin: Se limita a los registros asociados a la misma empresa.
+            $query->where('users.empresa_id', $user->empresa_id);
+
         } elseif ($user->hasRole('SucursalAdmin')) {
-            // SucursalAdmin solo ve los usuarios de su sucursal
-            return $query->where('users.sucursal_id', $user->sucursal_id);
+            // SucursalAdmin: Se limita a los registros vinculados a la misma sucursal.
+            $query->where('users.sucursal_id', $user->sucursal_id);
+
+        } elseif ($user->hasRole(['Trabajador PORTAL RH', 'Trabajador GLOBAL'])) {
+            // Trabajador PORTAL RH y Trabajador GLOBAL: Verán únicamente su propio registro.
+            $query->where('users.id', $user->id);
         }
 
-        // Si no tiene un rol reconocido, no se le muestran registros
-        return $query->whereRaw('1 = 0'); // Devuelve una consulta vacía
+        return $query;
     }
 
     public function relationSearch(): array
     {
-        return [];
+        return [
+            'users.cambioSalario' => ['name'],
+        ];
     }
 
     public function fields(): PowerGridFields
@@ -108,16 +127,10 @@ final class CambioSalarioTable extends PowerGridComponent
 
             Column::make('Documento', 'documento')
                 ->sortable()
+                ->visibleInExport(false)
                 ->searchable(),
 
             Column::make('Observaciones', 'observaciones')
-                ->sortable()
-                ->searchable(),
-
-            Column::make('Created at', 'created_at_formatted', 'created_at')
-                ->sortable(),
-
-            Column::make('Created at', 'created_at')
                 ->sortable()
                 ->searchable(),
 
@@ -128,7 +141,7 @@ final class CambioSalarioTable extends PowerGridComponent
     public function filters(): array
     {
         return [
-            Filter::datepicker('fecha_cambio'),
+            //Filter::datepicker('fecha_cambio'),
         ];
     }
 
